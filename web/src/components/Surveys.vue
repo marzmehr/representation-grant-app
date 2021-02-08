@@ -19,6 +19,9 @@
 
 <script lang="ts">
 import { Component, Vue} from 'vue-property-decorator';
+import { namespace } from "vuex-class";   
+import "@/store/modules/application";
+const applicationState = namespace("Application");
 import NavigationSidebar from "./NavigationSidebar.vue";
 import CommonInformationStep from "./steps/common-information/CommonInformationStep.vue";
 import ProtectionOrder from "./steps/protectionOrder/StepProtectionOrder.vue";
@@ -30,6 +33,7 @@ import ChildRelocationStep from "./steps/childReloc/ChildRelocationStep.vue";
 import EnforcementAgreeStep from "./steps/agreementEnfrc/EnforcementAgreeStep.vue";
 import GetStarted from "./steps/get-started/GetStartedStep.vue";
 import * as surveyEnv from "@/components/survey/survey-glossary.ts"
+import { stepInfoType } from '@/types/Application';
 @Component({
     components: {
         NavigationSidebar,
@@ -47,7 +51,16 @@ import * as surveyEnv from "@/components/survey/survey-glossary.ts"
 
 export default class Surveys extends Vue {
 
-    
+    @applicationState.State
+    public steps!: stepInfoType[];
+
+    @applicationState.State
+    public userType!: string;
+
+    @applicationState.Action
+    public UpdateApplicationId!: (newApplicationId) => void
+
+    error = "";
   
     beforeCreate() {    
         surveyEnv.loadGlossary();
@@ -55,6 +68,7 @@ export default class Surveys extends Vue {
     }
 
     mounted() {
+        this.initiateApplication();
 
     }
 
@@ -63,7 +77,7 @@ export default class Surveys extends Vue {
     }
 
     public getStep(stepIndex) {
-        const step = this.$store.state.Application.steps[stepIndex];
+        const step = this.steps[stepIndex];
         return step;
     }
 
@@ -71,9 +85,8 @@ export default class Surveys extends Vue {
         
 
         this.$store.commit("Application/init");
-        const userType = store.state.Application.userType;      
-        store.commit("Application/setUserType", userType);
-        const application = store.state.Application;
+        
+        const application = this.$store.state.Application;
         //console.log(store.state.Application)
         const url = "/app/"
         const header = {
@@ -84,10 +97,10 @@ export default class Surveys extends Vue {
         }
         this.$http.post(url, application, header)
         .then(res => {
-            this.applicationId = res.data.app_id;  
-            store.commit("Application/setApplicationId", this.applicationId);
+            this.UpdateApplicationId(res.data.app_id)  
+           
             this.error = "";
-            this.$router.push({name: "flapp-surveys" }) 
+            
         }, err => {
             console.error(err);
             this.error = err;

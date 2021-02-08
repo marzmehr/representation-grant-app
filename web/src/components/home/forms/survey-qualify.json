@@ -99,26 +99,6 @@
           "title": "This service can help you apply for a `Representation Grant` whether the `deceased` made a `Will` or not. \n<br><br>\nAt this point in time, this service has been developed for the most common situations.\n<br><br>\nIf your situation is unusual, this service may still be able to help you. You will be able to ask the developer of this service if they can include your specific situation.\n<br><br>\nThe next step is to create an account so that you can save your progress as you work through this service.",
           "isRequired": true,
           "titleLocation": "hidden"
-         },
-         {
-          "type": "infotext",
-          "name": "jiraRepgrant19",
-          "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-19\" target=\"_blank\">JIRA ticket REPGRANT-19: Qualifying Page - Change Qualifying Conditions</a>",
-          "titleLocation": "hidden"
-         }
-        ],
-        "visible": false,
-        "visibleIf": "(({needGrant} = \"y\" and {needGrantYesExplanation} > 0) or ({needGrant} = \"n\" and {stillNeedGrant} = \"y\")) and {diedAfterWESA} = \"y\""
-       },
-       {
-        "type": "panel",
-        "name": "qualifyingAnotherGrantPanel",
-        "elements": [
-         {
-          "type": "yesno",
-          "name": "anotherGrant",
-          "title": "[Select \"No\" to Qualify - Obsolete but Jack needs GitHub access to change qualifying conditions]",
-          "isRequired": true
          }
         ],
         "visible": false,

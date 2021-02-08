@@ -102,19 +102,19 @@ export default class LandingPage extends Vue {
     
     isLoggedIn= false
     pageReady = false
-    safetyInst = false
+   
       
     async mounted() {
-        this.pageReady = false;
-        this.safetyInst = false;
-        await SessionManager.getUserInfo(this.$store);
-        if(this.$store.state.Common.userId !== ""){
-            this.isLoggedIn = true
+        this.pageReady = true;
+       
+        // await SessionManager.getUserInfo(this.$store);
+        // if(this.$store.state.Common.userId !== ""){
+        //     this.isLoggedIn = true
             
-        }else{
-            this.isLoggedIn = false;
-            this.pageReady = true;
-        } 
+        // }else{
+        //     this.isLoggedIn = false;
+        //     this.pageReady = true;
+        // } 
     }
   
     public navigate(userType) {

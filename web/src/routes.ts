@@ -2,7 +2,7 @@ import LandingPage from "@/components/home/LandingPage.vue";
 import PreQualification from "@/components/home/PreQualification.vue";
 import Qualified from "@/components/home/Qualified.vue";
 import UnQualified from "@/components/home/UnQualified.vue";
-import ResultPage from "@/components/home/ResultPage.vue";
+// import ResultPage from "@/components/home/ResultPage.vue";
 import Surveys from "@/components/Surveys.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
 import TermsConditions from "@/components/status/TermsConditions.vue"
@@ -25,7 +25,7 @@ const routes = [
     component: LandingPage
   },
   {
-    path: "/apply-for-family-order",
+    path: "/apply-for-representation-grant",
     component: LandingPage
   },
   {
@@ -46,15 +46,15 @@ const routes = [
     // beforeEnter: authGuard,
     component: UnQualified,
   },
-  {
-    path: "/results/:result",
-    name: "result-page",
-    component: ResultPage,
-  },
+  // {
+  //   path: "/results/:result",
+  //   name: "result-page",
+  //   component: ResultPage,
+  // },
   { 
     path: "/survey",
     name: "surveys",
-    // beforeEnter: authGuard,
+    beforeEnter: authGuard,
     component: Surveys
   },
   {

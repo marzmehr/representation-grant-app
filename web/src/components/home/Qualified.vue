@@ -1,5 +1,5 @@
 <template>
-    <b-card v-if="pageReady" id="landing-page" class="container" border-variant="white">
+    <b-card class="container" border-variant="white">
        
             <b-row class="mt-3">
                 <b-card style="border-radius: 10px; width: 80rem;" class="text-white bg-success">
@@ -19,7 +19,7 @@
                         <p>You need a <strong>Basic BCeID</strong> to use this service. Once you have registered, you will be taken back to this website. 
                         </p>
                     </b-card>
-                    <b-card border-variant="white" v-if="!isLoggedIn">
+                    <b-card border-variant="white">
                         <b-row class="justify-content-center">
                             <b-button 
                                 variant="success" 
@@ -37,7 +37,7 @@
                     <b-card border-variant="white">
                         <p>If you already have a <strong>Basic BCeID</strong> or <strong>Personal BCeID</strong>, then you can login now.</p>
                     </b-card>
-                    <b-card border-variant="white" v-if="!isLoggedIn">
+                    <b-card border-variant="white">
                         <b-row class="justify-content-center">
                             <b-button 
                                 variant="success" 
@@ -61,23 +61,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import { SessionManager } from "@/components/utils/utils";
 
 @Component
-export default class LandingPage extends Vue {
+export default class LandingPage extends Vue {      
     
-    isLoggedIn= false;
-    pageReady = false;   
-      
-    async mounted() {
-        this.pageReady = false;
-       
-        await SessionManager.getUserInfo(this.$store);
-        if(this.$store.state.Common.userId !== ""){
-            this.isLoggedIn = true
-            
-        }else{
-            this.isLoggedIn = false;
-            this.pageReady = true;
-        } 
-    }
   
     public navigate(userType) {
 
