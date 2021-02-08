@@ -1,5 +1,5 @@
 <template>
-    <div class="fill-body" id="flapp-surveys">
+    <div class="fill-body" id="surveys">
         <main class="app-content">
             <navigation-sidebar />
             <get-started v-if="getCurrentStepIndex() == 0" v-bind:step="getStep(0)"></get-started>
@@ -45,10 +45,17 @@ import * as surveyEnv from "@/components/survey/survey-glossary.ts"
     }
 })
 
-export default class FlappSurveys extends Vue {
+export default class Surveys extends Vue {
+
+    
   
     beforeCreate() {    
         surveyEnv.loadGlossary();
+        console.log('here in survey')
+    }
+
+    mounted() {
+
     }
 
     public getCurrentStepIndex() {
@@ -58,6 +65,35 @@ export default class FlappSurveys extends Vue {
     public getStep(stepIndex) {
         const step = this.$store.state.Application.steps[stepIndex];
         return step;
+    }
+
+    public initiateApplication() {
+        
+
+        this.$store.commit("Application/init");
+        const userType = store.state.Application.userType;      
+        store.commit("Application/setUserType", userType);
+        const application = store.state.Application;
+        //console.log(store.state.Application)
+        const url = "/app/"
+        const header = {
+            responseType: "json",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+        this.$http.post(url, application, header)
+        .then(res => {
+            this.applicationId = res.data.app_id;  
+            store.commit("Application/setApplicationId", this.applicationId);
+            this.error = "";
+            this.$router.push({name: "flapp-surveys" }) 
+        }, err => {
+            console.error(err);
+            this.error = err;
+        });
+    
+
     }
 
 };

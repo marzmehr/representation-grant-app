@@ -1,7 +1,9 @@
 import LandingPage from "@/components/home/LandingPage.vue";
 import PreQualification from "@/components/home/PreQualification.vue";
+import Qualified from "@/components/home/Qualified.vue";
+import UnQualified from "@/components/home/UnQualified.vue";
 import ResultPage from "@/components/home/ResultPage.vue";
-import FlappSurveys from "@/components/FlappSurveys.vue";
+import Surveys from "@/components/Surveys.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
 import TermsConditions from "@/components/status/TermsConditions.vue"
 import { SessionManager } from "@/components/utils/utils";
@@ -44,15 +46,27 @@ const routes = [
     component: PreQualification,
   },
   {
+    path: "/qualified",
+    name: "qualified",
+    // beforeEnter: authGuard,
+    component: Qualified,
+  },
+  {
+    path: "/unqualified",
+    name: "unqualified",
+    // beforeEnter: authGuard,
+    component: UnQualified,
+  },
+  {
     path: "/results/:result",
     name: "result-page",
     component: ResultPage,
   },
   { 
-    path: "/getStarted",
-    name: "flapp-surveys",
-    beforeEnter: authGuard,
-    component: FlappSurveys
+    path: "/survey",
+    name: "surveys",
+    // beforeEnter: authGuard,
+    component: Surveys
   },
   { 
     path: "/status",

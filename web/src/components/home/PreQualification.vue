@@ -1,11 +1,8 @@
 <template>
     <b-container class="container home-content" >
         <survey v-bind:survey="survey"></survey>
-        <b-button
-            @click="onSubmit"
-            variant="primary"
-            class="locator-button"
-            >Next
+        <b-button v-if="displayButton" @click="onSubmit" variant="success">
+            <b-icon-check-circle-fill/> Complete
         </b-button>
        
     </b-container>
@@ -25,16 +22,20 @@ export default class PreQualification extends Vue {
 
     error = "";
     applicationId = 0;
+    displayButton = true;
     survey = new SurveyVue.Model(surveyJson);
   
 
     beforeCreate() {
         const Survey = SurveyVue;
-        surveyEnv.setCss(Survey);    
+        surveyEnv.setCss(Survey);
+        surveyEnv.loadGlossary();    
     }
 
-    mounted(){       
+    mounted(){
+        this.displayButton = true;       
         this.initializeSurvey();
+        // this.addSurveyListener();
     }
 
     public initializeSurvey(){
@@ -50,14 +51,23 @@ export default class PreQualification extends Vue {
 
         if(!this.survey.isCurrentPageHasErrors) 
         {
-            if (this.survey.data.isVictoriaLawCourt == 'y') 
+            if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation > 0) 
             {
-                this.saveUserLocation()
+                this.$router.push({ name: "qualified" });
             } else {
-                location.replace("https://family-protection-order-dev.pathfinder.gov.bc.ca/protection-order/");
+                this.$router.push({ name: "unqualified" });
             }
         }
     }
+
+    // public addSurveyListener(){
+    //     this.survey.onValueChanged.add((sender, options) => {            
+    //         if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation > 0) 
+    //         {
+    //             this.displayButton = true;
+    //         }          
+    //     })
+    // }
 
     public saveUserLocation(){
         const url = "/user-info/"
@@ -112,28 +122,19 @@ export default class PreQualification extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "src/styles/common";
-.home-content {
-  padding-bottom: 20px;
-  padding-top: 2rem;
-  max-width: 950px;
-  color: black;
-}
-.intro {
-  font-size: 24px;
-  line-height: 1.6;
-  margin: 4rem auto 0.5rem;
-  p {
-    margin-bottom: 0.5rem;
-  }
-}
-.custom-form {
-  margin-top: 1rem;
-}
-.locator-button {
-  margin-top: 2.5rem;
-  margin-left: 1rem;
-  float: left;
-  width: 8rem;
-}
+    @import "src/styles/common";
+    .home-content {
+    padding-bottom: 20px;
+    padding-top: 2rem;
+    max-width: 950px;
+    color: black;
+    }
+
+
+    .locator-button {
+    margin-top: 2.5rem;
+    margin-left: 1rem;
+    float: left;
+    width: 8rem;
+    }
 </style>
