@@ -10,19 +10,8 @@ import { SessionManager } from "@/components/utils/utils";
 import VueResource from 'vue-resource'
 import store from "@/store"
 
-//const store = GlobalStore.getInstance();
 
-// function userGuard(to: any, from: any, next: any) {
-//   const store = GlobalStore.getInstance();
-
-//   if (store.getters["application/getUserType"]) {
-//     next();
-//   } else {
-//     next({ path: "/" });
-//   }
-// }
-
-async function authGuard(to: any, from: any, next: any) { 
+async function authGuard(to: any, from: any, next: any) {
   var result = await SessionManager.getUserInfo(store);
   if (result.userId)
     next();
@@ -31,14 +20,14 @@ async function authGuard(to: any, from: any, next: any) {
 }
 
 const routes = [
-  { 
-    path: "/", 
-    component: LandingPage 
-  }, 
-  { 
-    path: "/apply-for-family-order", 
-    component: LandingPage 
-  }, 
+  {
+    path: "/",
+    component: LandingPage
+  },
+  {
+    path: "/apply-for-family-order",
+    component: LandingPage
+  },
   {
     path: "/qualify",
     name: "pre-qualification",
@@ -68,15 +57,15 @@ const routes = [
     // beforeEnter: authGuard,
     component: Surveys
   },
-  { 
+  {
     path: "/status",
     name: "applicant-status",
     beforeEnter: authGuard,
-    component: ApplicationStatus 
+    component: ApplicationStatus
   },
-  { 
-    path: "/terms", 
-    name: "terms", 
+  {
+    path: "/terms",
+    name: "terms",
     component: TermsConditions
   }
 ];
