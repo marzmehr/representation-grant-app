@@ -1,8 +1,8 @@
-# Family Law Act Web
+# Representation Grant Web
 
 ## Overview
 
-The Web implements the user interface for Family Law Act, calling the API to manage data. The interface is served from an instance of [NGINX](https://www.nginx.com/).
+The Web implements the user interface for Representation Grant, calling the API to manage data. The interface is served from an instance of [NGINX](https://www.nginx.com/).
 
 ## Development
 

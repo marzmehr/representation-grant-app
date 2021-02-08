@@ -1,5 +1,5 @@
 import LandingPage from "@/components/home/LandingPage.vue";
-import ServiceLocator from "@/components/home/ServiceLocator.vue";
+import PreQualification from "@/components/home/PreQualification.vue";
 import ResultPage from "@/components/home/ResultPage.vue";
 import FlappSurveys from "@/components/FlappSurveys.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
@@ -38,10 +38,10 @@ const routes = [
     component: LandingPage 
   }, 
   {
-    path: "/serviceLocator",
-    name: "service-locator",
-    beforeEnter: authGuard,
-    component: ServiceLocator,
+    path: "/qualify",
+    name: "pre-qualification",
+    // beforeEnter: authGuard,
+    component: PreQualification,
   },
   {
     path: "/results/:result",

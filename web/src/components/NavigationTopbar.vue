@@ -1,7 +1,7 @@
 <template>
     <header class="app-header">
         <nav class="navbar navbar-expand-lg navbar-dark">
-        <!-- Navbar content -->
+        
 
             <div class="container-fluid">
                 <a class="navbar-brand" href="https://www2.gov.bc.ca" style="max-width:200px">
@@ -22,7 +22,7 @@
                     />
                 </a>
                 <div class="navbar-brand navbar-text">
-                    Apply for a Family Law Act Protection Order
+                    Apply to Represent Somone Who Died (also know as Probate)
                     <span class="navbar-tag">BETA</span>
                 </div>
 
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="app-exit" class="app-exit">
+                <!-- <div id="app-exit" class="app-exit">
                     <a
                         @click="logout(true)"
                         target="_blank"
@@ -53,7 +53,7 @@
                         class="btn btn-primary text-warning"
                         ><span class="fa fa-sign-out"/> Quick Exit</a
                     >
-                </div>
+                </div> -->
 
                 <button
                 class="navbar-toggler"

@@ -31,5 +31,49 @@
     "relocation": "A change in the location of the residence of a child or child’s guardian that can reasonably be expected to have a significant impact on the child’s relationship with a guardian or another person who has a significant role in the child’s life. Relocation of a child occurs when a guardian has decision making responsibility about where a child resides as part of their parenting arrangements. If there is no order or agreement in place between the guardians about parenting arrangements for the child, an application may be made about parenting arrangements for changes to a child’s residence.",
     "spousal support": "Money that one spouse pays to another spouse for their financial support after separation.  A person is not entitled to spousal support in every case.",
     "Consensual dispute resolution": "Consensual dispute resolution may include:<ul><li>Mediation with a family law mediator</li><li>Participation in a collaborative law process</li><li>Facilitated negotiation of a child support or spousal support matter with a child support officer</li></ul>",
-    "swear or affirm": "To swear or affirm an affidavit, you must meet with a commissioner for taking oaths. The commissioner (often a lawyer, notary public or registry clerk) will check your photo id to make sure you are who you say you are, ask you if you understand the contents of your affidavit, then ask you to swear under oath or affirm (non-religious promise) that the contents are true. The commissioner will then watch you sign the document before signing it themselves. After you swear or affirm, the affidavit is evidence of the facts it sets out, just as if you took the stand in a courtroom."
+    "swear or affirm": "To swear or affirm an affidavit, you must meet with a commissioner for taking oaths. The commissioner (often a lawyer, notary public or registry clerk) will check your photo id to make sure you are who you say you are, ask you if you understand the contents of your affidavit, then ask you to swear under oath or affirm (non-religious promise) that the contents are true. The commissioner will then watch you sign the document before signing it themselves. After you swear or affirm, the affidavit is evidence of the facts it sets out, just as if you took the stand in a courtroom.",
+    
+    
+
+    "applicant": "An applicant is someone doing the work to get a Representation Grant.\n\n More than one applicant can work together to get a Representation Grant.\n\n A Representation Grant is a court document that confirms you are the appropriate person to manage the property, money and belongings that a person left behind after they died.",
+  
+    "applicants": "An applicant is someone doing the work to get a Representation Grant.\n\n More than one applicant can work together to get a Representation Grant.\n\n A Representation Grant is a court document that confirms you are the appropriate person to manage the property, money and belongings that a person left behind after they died.",
+  
+    "application": "An application is the package of all the documents that you will need to file with the court to get a Representation Grant.\n\n This service will help you figure out which documents you will need.",
+  
+    "asset": "An asset can be any kind of belonging that a person owned, including property and money. The whole collection of these assets is called an estate.",
+  
+    "assets": "An asset can be any kind of belonging that a person owned, including property and money. The whole collection of these assets is called an estate.",
+    
+    "deceased": "The Deceased means the person who died.",  
+    "deceased's": "The Deceased means the person who died.",  
+    "estate":  "An estate is the collection of property, money and belongings that a person left behind after they died.",  
+    "estate grant":  "An Estate Grant is another name for a Representation Grant.\n\n A Representation Grant is a court document that confirms you are the appropriate person to manage the property, money and belongings that a person left behind after they died.",
+  
+    
+    "family law protection order": "A Family Law Protection Order is a protection order from family court. It is a list of conditions set by a judge to protect one family member from another family member. This usually means no visits to your home or workplace, no phone calls, emails, or letters, and no messages through a friend or relative.\n\n  [Click here for more information](https://www2.gov.bc.ca/gov/content/life-events/divorce/family-justice/keeping-your-family-safe/protection-order)",
+  
+    
+    "other testamentary document": "An 'other testamentary document' is like a Will but is not complete under B.C. law. An 'other testamentary document' still explains how a person wants their property, money and belongings to be managed after they died; but it might be not be signed. For example:\n - unwitnessed Wills\n  - unfinished Wills (Google Docs notes)\n - email conversations\n - diary or journal entries\n - text messages\n  - notes on a napkin\n\n  Unwritten conversations (rumors or hearsay) do not count as 'other testamentary documents'.",
+  
+    "other testamentary documents": "An 'other testamentary document' is like a Will but is not complete under B.C. law. An 'other testamentary document' still explains how a person wants their property, money and belongings to be managed after they died; but it might be not be signed. For example:\n - unwitnessed Wills\n  - unfinished Wills (Google Docs notes)\n - email conversations\n - diary or journal entries\n - text messages\n  - notes on a napkin\n\n  Unwritten conversations (rumors or hearsay) do not count as 'other testamentary documents'.",
+  
+    
+    "personal representative": "A personal representative is someone who manages the property, money and belongings of a person who died.\n\n There can be more than one personal representative for a person who died.",
+  
+    "personal representatives": "A personal representative is someone who manages the property, money and belongings of a person who died.\n\n There can be more than one personal representative for a person who died.",
+  
+    "probate": "To Probate a Will means asking the Court to make sure that the Will is valid under B.C. law.\n\n A Grant of Probate is a type of Representation Grant specifically for executors named in the Will.\n\n A Representation Grant is a court document that confirms you are the appropriate person to manage the property, money and belongings that a person left behind after they died.",
+    "probate fees": "definition TBD", 
+    
+    "representation grant": "A Representation Grant is a court document that confirms you are the appropriate person to manage the property, money and belongings that a person left behind after they died.\n\n Representation Grant is an umbrella term that includes different types of grants.\n\n A Grant of Probate is a type of Representation Grant specifically for executors named in the Will.",
+  
+    "spouse": "A spouse is someone who was married to {deceasedName} and they did not get a divorce.\n\n A spouse is also someone who was living together, for at least two years, in a marriage-like relationship with {decreasedName} and that relationship still continued until {deceasedName} died. This type of relationship is also known as common-law marriage.",
+  
+    
+    "will": "Generally, a Will is a legal document that explains how a person wants their property, money and belongings to be managed after they died.\n\n Sometimes a Will may include extra documents, like codicils or memorandums, that also count as part of the Will under B.C. law.",
+  
+    "wills": "Generally, a Will is a legal document that explains how a person wants their property, money and belongings to be managed after they died.\n\n Sometimes a Will may include extra documents, like codicils or memorandums, that also count as part of the Will under B.C. law."
+  
+
 }
