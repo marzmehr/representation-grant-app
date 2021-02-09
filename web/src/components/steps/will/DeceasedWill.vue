@@ -9,7 +9,7 @@ import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
 
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/components/survey/survey-glossary.ts";
-import surveyJson from "./forms/survey-information.json";
+import surveyJson from "./forms/deceased-will.json";
 
 import PageBase from "../PageBase.vue";
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
@@ -24,10 +24,16 @@ const applicationState = namespace("Application");
     }
 })
 
-export default class Information extends Vue {
+export default class DeceasedWill extends Vue {
     
     @Prop({required: true})
     step!: stepInfoType;
+
+    @applicationState.State
+    public steps!: stepInfoType[];
+
+    @applicationState.State
+    public currentStep!: number;
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -38,8 +44,11 @@ export default class Information extends Vue {
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
 
-    survey = new SurveyVue.Model(surveyJson);
-    currentStep=0;
+    @applicationState.Action
+    public UpdateAllCompleted!: (newAllCompleted) => void
+
+
+    survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
    
     @Watch('pageIndex')
@@ -79,13 +88,13 @@ export default class Information extends Vue {
     
     public reloadPageInformation() {
         //console.log(this.step.result)
-        if (this.step.result && this.step.result['yourInformationSurvey']) {
-            this.survey.data = this.step.result['yourInformationSurvey'].data;
+        if (this.step.result && this.step.result['deceasedWillSurvey']) {
+            this.survey.data = this.step.result['deceasedWillSurvey'].data;
             Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
         }
 
-        this.currentStep = this.$store.state.Application.currentStep;
-        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
+      
+        this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     }
 
@@ -100,14 +109,14 @@ export default class Information extends Vue {
     }
 
     public onComplete() {
-        this.$store.commit("Application/setAllCompleted", true);
+        this.UpdateAllCompleted(true);
     }
   
     
     beforeDestroy() {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
         
-        this.UpdateStepResultData({step:this.step, data: {yourInformationSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}})
+        this.UpdateStepResultData({step:this.step, data: {deceasedWillSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}})
 
     }
 }

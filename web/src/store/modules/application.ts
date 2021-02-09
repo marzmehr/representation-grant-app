@@ -39,12 +39,12 @@ class Application extends VuexModule {
         this.packageNumber = "";
         this.eFilingHubLink = "";
         this.steps = new Array<stepInfoType>();
-        // Getting started START
+        // Deceased Info START
         let s = {} as stepInfoType;
     
         s.active = true;
         s.id = "0";
-        s.label = "Get Started";
+        s.label = "Deceased";
         s.icon = "fa-users";
         s.lastUpdate = null;    
         s.type = "getInformationStep";
@@ -53,47 +53,33 @@ class Application extends VuexModule {
     
         let p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Getting Started";
+        p.label = "Information About Deceased";
         p.active = true;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "1";
-        p.label = "Questionnaire";
-        p.active = false;
         p.progress = 0;
     
         s.pages.push(p);
     
         this.steps.push(s);
     
-        // Getting started STOP
-        // Common information START
+        // Deceased Info STOP
+        // Deceased Will START
+
         s = {} as stepInfoType;
-    
-        s.active = false;
+    //TODO: turn active to false
+        s.active = true;
         s.id = "1";
-        s.label = "Your Information";
+        s.label = "Deceased's Will";
         s.icon = "fa-users";
         s.lastUpdate = null;
-        s.type = "commonInformationStep";
+        s.type = "deceasedWillStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Your information";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "1";
-        p.label = "Other Party";
-        p.active = false;
+        p.label = "Deceased's Will";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);

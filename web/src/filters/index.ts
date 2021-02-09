@@ -143,22 +143,22 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 Vue.filter('extractRequiredDocuments', function(questions){
 	//console.log(questions)
 	const requiredDocuments = [];
-	if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "changePO"){
-		requiredDocuments.push("Copy of the existing protection order")
-	}else if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "terminatePO"){
-		requiredDocuments.push("Copy of the existing protection order")
-	}else if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "needPO"){
-		if(questions.protectionWhomSurvey && questions.protectionWhomSurvey.ExistingFamilyCase =="y"){
-			if(questions.protectionWhomSurvey.ExistingFileNumber && questions.protectionWhomSurvey.ExistingCourt) requiredDocuments.push("Copy of the Family Law file number:" + questions.protectionWhomSurvey.ExistingFileNumber + " submitted to the court at " + questions.protectionWhomSurvey.ExistingCourt);
-			else requiredDocuments.push("Copy of the Family Law file open between you and the other parties");
-		}
-		if(questions.backgroundSurvey && questions.backgroundSurvey.existingPOOrders=="y"){
-			requiredDocuments.push("Copy of the existing court orders protecting one of the parties or restraining contact between the parties");
-		}
-		if(questions.backgroundSurvey && questions.backgroundSurvey.ExistingOrders=="y"){
-			requiredDocuments.push("Copy of the existing written agreements or court order(s) about the child(ren) concerning parenting arrangements, child support, contact with a child or guardianship of a child");
-		}
-	}
+	// if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "changePO"){
+	// 	requiredDocuments.push("Copy of the existing protection order")
+	// }else if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "terminatePO"){
+	// 	requiredDocuments.push("Copy of the existing protection order")
+	// }else if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "needPO"){
+	// 	if(questions.protectionWhomSurvey && questions.protectionWhomSurvey.ExistingFamilyCase =="y"){
+	// 		if(questions.protectionWhomSurvey.ExistingFileNumber && questions.protectionWhomSurvey.ExistingCourt) requiredDocuments.push("Copy of the Family Law file number:" + questions.protectionWhomSurvey.ExistingFileNumber + " submitted to the court at " + questions.protectionWhomSurvey.ExistingCourt);
+	// 		else requiredDocuments.push("Copy of the Family Law file open between you and the other parties");
+	// 	}
+	// 	if(questions.backgroundSurvey && questions.backgroundSurvey.existingPOOrders=="y"){
+	// 		requiredDocuments.push("Copy of the existing court orders protecting one of the parties or restraining contact between the parties");
+	// 	}
+	// 	if(questions.backgroundSurvey && questions.backgroundSurvey.ExistingOrders=="y"){
+	// 		requiredDocuments.push("Copy of the existing written agreements or court order(s) about the child(ren) concerning parenting arrangements, child support, contact with a child or guardianship of a child");
+	// 	}
+	// }
 	//this.UpdateRequiredDocuments(requiredDocuments)
 	//console.log('required documents')
 	//console.log(requiredDocuments)

@@ -66,7 +66,7 @@ import { Question } from "survey-vue";
 import OtherPartySurvey from "./OtherPartySurvey.vue";
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
 import * as SurveyVue from "survey-vue";
-import surveyJson from "../forms/survey-information.json";
+// import surveyJson from "../forms/survey-information.json";
 import PageBase from "../../PageBase.vue";
 
 

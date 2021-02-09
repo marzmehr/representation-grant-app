@@ -1,0 +1,260 @@
+{
+ "pages": [
+   {
+      "name": "deceasedPage",
+      "elements": [
+      {
+         "type": "panel",
+         "name": "deceasedIntroPanel",
+         "elements": [
+            {
+            "type": "infotext",
+            "name": "deceasedIntroExplanation",
+            "title": "First, this service will ask about the person who died. Their specific life situation will affect later questions. That is why this service will ask about you, the `applicant(s)`, in a later step.",
+            "isRequired": true,
+            "titleLocation": "hidden"
+            }
+         ]
+      },
+      {
+      "type": "panel",
+      "name": "deceasedNamePanel",
+      "elements": [
+         {
+         "type": "personname",
+         "name": "deceasedName",
+         "title": "What is the name of the person who died?",
+         "description": "If {deceasedName} made a `Will`, you should use the exact spelling of their name on their Will.\n<br><br>\nIf {deceasedName} did not make a Will, you should use the exact spelling of their name on their government-issued photo ID.",
+         "defaultSubstitution": "(the person who died)",
+         "labelFirstName": "First Name (Given Name)",
+         "labelLastName": "Last Name (Family Name or Surname)"
+         },
+         {
+         "type": "helptext",
+         "name": "deceasedNameFAQ1",
+         "title": "What if the {deceasedName} used more than one spelling or version of their name?",
+         "titleLocation": "hidden",
+         "body": "This service will ask you for other spellings and versions of {deceasedName}'s name in a later step."
+         },
+         {
+         "type": "helptext",
+         "name": "deceasedNameFAQ2",
+         "title": "What if {deceasedName}'s name is originally in a different language?",
+         "titleLocation": "hidden",
+         "body": "You will need a version of {deceasedName}'s name that is written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet. "
+         },
+         {
+         "type": "infotext",
+         "name": "jiraRepgrant28",
+         "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-28\" target=\"_blank\">JIRA ticket REPGRANT-28 - Name Capitalization based on Input Device</a>",
+         "titleLocation": "hidden",
+         "messageStyle": "error"
+         }
+      ],
+      "visible": false,
+      "visibleIf": "{deceasedIntroExplanation} > 0"
+      },
+      {
+      "type": "panel",
+      "name": "nicknamePanel",
+      "elements": [
+         {
+         "type": "yesno",
+         "name": "deceasedNameReplace",
+         "title": "This service will ask a lot of questions using the full name of the person who died: \"{deceasedName}\".\n<br><br>\nWould you like this service to show you a more familiar name instead?",
+         "description": "This familiar name is only used to personalize your experience with this service. It will not appear on the actual `Representation Grant`."
+         },
+         {
+         "type": "text",
+         "name": "deceasedNickname",
+         "visible": false,
+         "visibleIf": "{deceasedNameReplace} = \"y\"",
+         "title": "What name would you like to see instead of \"{deceasedName}\"?",
+         "description": "You can choose any name you like. For example, \"your husband\" or \"Uncle Jesse\" or \"Cousin Stavros\". \n<br><br>\nYou can always come back to change this name at any time."
+         },
+         {
+         "type": "infotext",
+         "name": "jiraRepgrant29",
+         "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-29\" target=\"_blank\">JIRA ticket REPGRANT-29 - Deceased Nickname Substitution</a>",
+         "titleLocation": "hidden",
+         "messageStyle": "error"
+         }
+      ],
+      "visible": false,
+      "visibleIf": "{deceasedIntroExplanation} > 0"
+      },
+      {
+      "type": "panel",
+      "name": "deceasedDateOfDeathPanel",
+      "elements": [
+         {
+         "type": "text",
+         "name": "deceasedDateOfDeath",
+         "title": "When did {deceasedName} die?",
+         "description": "If you are unsure, this date can be found on {deceasedName}'s `Certificate of Death`.",
+         "inputType": "date",
+         "dateYearsBehind": 6
+         },
+         {
+         "type": "helptext",
+         "name": "deceasedDateOfDeathFAQ1",
+         "title": "How do I get a `Certificate of Death`",
+         "titleLocation": "hidden",
+         "body": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n"
+         },
+         {
+         "type": "infotext",
+         "name": "question412",
+         "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
+         "titleLocation": "hidden"
+         },
+         {
+         "type": "infotext",
+         "name": "jiraRepgrant30",
+         "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-30\" target=\"_blank\">JIRA ticket REPGRANT30 - Deceased Death Date Limit</a>",
+         "titleLocation": "hidden",
+         "messageStyle": "error"
+         },
+         {
+         "type": "infotext",
+         "name": "jiraRepgrant31",
+         "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-31\" target=\"_blank\">JIRA ticket REPGRANT31 - Deceased Death + 4 Days</a>",
+         "titleLocation": "hidden",
+         "messageStyle": "error"
+         },
+         {
+         "type": "infotext",
+         "name": "jiraRepgrant32",
+         "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-32\" target=\"_blank\">JIRA ticket REPGRANT32 - Deceased Death Data as Validation</a>",
+         "titleLocation": "hidden",
+         "messageStyle": "error"
+         }
+      ],
+      "visible": false,
+      "visibleIf": "{deceasedIntroExplanation} > 0"
+      },
+      {
+      "type": "panel",
+      "name": "deceasedAddressPanel",
+      "elements": [
+         {
+         "type": "address",
+         "name": "deceasedAddress",
+         "title": "What was {deceasedName} last known address?",
+         "description": "If {deceasedName} was homeless:\n<ul>\n<li>write \"no fixed address\" for the street address</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
+         },
+         {
+         "type": "helptext",
+         "name": "deceasedAddressFAQ1",
+         "visible": false,
+         "title": "[obsolete unless the description version is too cumbersom/bulky] What if {deceasedName} was homeless?",
+         "titleLocation": "hidden",
+         "body": "If {deceasedName} was homeless, write \"no fixed address\" for the street number and street name. \n\nWrite the city/town, province and country where they lived.\n\nWrite \"n/a\" for their postal code."
+         },
+         {
+         "type": "helptext",
+         "name": "deceasedAddressFAQ2",
+         "visible": false,
+         "title": "[Obsolete?] \nWhat if {deceasedName} spent equal time in more than one place? [Add lawyer info]",
+         "titleLocation": "hidden",
+         "body": "If {deceased} spent equal in more than one place, choose the place where they had most of their financial and social connections.\n<br><br>\nIf you're still not sure which address you should choose, you may want to talk to a lawyer.\n<br><br>\nClick here to get lawyer info if you need to find one."
+         },
+         {
+         "type": "infotext",
+         "name": "question438",
+         "title": "[Obsolete - Will questions determine which asset affidavit to use regardless of where the address is]\n<br><br>\nThis service can help you extend the powers of a `Representation Grant` from another place.\n<br><br>\nIt makes sense to first get a `Representation Grant` from where {deceasedName} spent most of their time. There may be benefits to getting grants in this order that a lawyer can explain to you. [link to lawyer info]\n<br><br>\nIf you don't already have a Representation Grant from the place where {deceasedName} spent most of their time, this service can still help you apply for a B.C. Representation Grant.  ",
+         "titleLocation": "hidden"
+         },
+         {
+         "type": "infotext",
+         "name": "question398",
+         "title": "[Obsolete?? Probably still useful if not for P10/P11 then service addresses] <a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Location Trigger</a>\n<br><br>TB Finished\nMay need location data to figure out which asset form to use: P10 or P11",
+         "titleLocation": "hidden",
+         "messageStyle": "error"
+         },
+         {
+         "type": "infotext",
+         "name": "question415",
+         "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - PO Box</a>\n<br><br>TB Finished\n(pick either “Street number and street name:” or “Post office box:” the other options can be deleted)\n<br><br>Maybe irrelevant if the person can just write in PO Box in street number/name? But change label??",
+         "titleLocation": "hidden",
+         "messageStyle": "error"
+         },
+         {
+         "type": "infotext",
+         "name": "question332",
+         "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Homeless postal code</a>\n<br><br>TB Finished\nIf the person had no fixed address, they don't have a postal code so validation needs to ignore that sometimes but validate most of the time.\n<br><br>\nInput mask? Probably not because we don't know postal codes around the world work.",
+         "titleLocation": "hidden",
+         "messageStyle": "error"
+         }
+      ],
+      "visible": false,
+      "visibleIf": "{deceasedIntroExplanation} > 0"
+      },
+      {
+      "type": "panel",
+      "name": "firstNationsPanel",
+      "elements": [
+         {
+         "type": "yesno",
+         "name": "deceasedFirstNations",
+         "title": "Was {deceasedName} a Nisga'a citizen or a member of a Treaty First Nation?",
+         "description": "If yes, the Nation needs to know that {deceasedName} has died."
+         },
+         {
+         "type": "radiogroup",
+         "name": "deceasedFirstNationsName",
+         "visible": false,
+         "visibleIf": "{deceasedFirstNations} = \"y\"",
+         "title": "Which Nation did {deceasedName} belong to? [was a member of? check with an Indigenous authority]",
+         "description": "This service will help you notify the appropriate Nation in a later step.",
+         "choices": [
+         "Nisga'a",
+         "Huu-ay-aht",
+         "Ka:'yu:'k't'h'/Chek'tles7et'h'",
+         "Tla'amin",
+         "Toquaht",
+         "Tsawwassen",
+         "Uchucklesaht",
+         "Ucluelet"
+         ]
+         },
+         {
+         "type": "infotext",
+         "name": "firstNationsNameTrello",
+         "title": "<a href=\"https://trello.com/c/cD8xmZY9\" target=\"_blank\">Trello - Radio Logic: notempty not working</a>\n<br><br>\nJIRA Ticket to be created; Copied from Trello:\n<br><br>\n{firstNationsName} is a radio button question.\n{deceasedExitPanel} has a visibleIf condition that includes {firstNationsName} notempty\n<br><br>\nThe problem is {deceasedExitPanel} shows even if {firstNationsName} has no selection",
+         "titleLocation": "hidden",
+         "messageStyle": "error"
+         },
+         {
+         "type": "infotext",
+         "name": "question460",
+         "visible": false,
+         "title": "This service will tell you how to notify the Nation in a later step.",
+         "isRequired": true,
+         "titleLocation": "hidden"
+         }
+      ],
+      "visible": false,
+      "visibleIf": "{deceasedIntroExplanation} > 0"
+      },
+      {
+      "type": "panel",
+      "name": "deceasedExitPanel",
+      "elements": [
+         {
+         "type": "infotext",
+         "name": "deceasedExitExplanation",
+         "title": "Next, this service will ask if {deceasedName} made any `Wills`\n",
+         "titleLocation": "hidden"
+         }
+      ],
+      "visible": false,
+      "visibleIf": "{deceasedName} notempty and ({deceasedNameReplace} = \"n\" or ({deceasedNameReplace} = \"y\" and {deceasedNickname} notempty)) and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and ({deceasedFirstNations} = \"n\" or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty}))"
+      }
+   ],
+      "title": "Information about {deceasedName}"
+   }
+ ],
+ "showQuestionNumbers": "off",
+ "requiredText": ""
+}

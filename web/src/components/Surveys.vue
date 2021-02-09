@@ -1,17 +1,12 @@
 <template>
-    <div class="fill-body" id="surveys">
+    <div v-if="surveyInitiated" class="fill-body" id="surveys">
         <main class="app-content">
             <navigation-sidebar />
-            <get-started v-if="getCurrentStepIndex() == 0" v-bind:step="getStep(0)"></get-started>
-            <common-information-step v-if="getCurrentStepIndex() == 1" v-bind:step="getStep(1)"></common-information-step>
+            <deceased-info-step v-if="getCurrentStepIndex() == 0" v-bind:step="getStep(0)"></deceased-info-step>
+            <deceased-will-step v-if="getCurrentStepIndex() == 1" v-bind:step="getStep(1)"></deceased-will-step>
             <protection-order v-if="getCurrentStepIndex() == 2" v-bind:step="getStep(2)"></protection-order>
-            <family-law-step v-if="getCurrentStepIndex() == 3" v-bind:step="getStep(3)"></family-law-step>
-            <case-management-step v-if="getCurrentStepIndex() == 4" v-bind:step="getStep(4)"></case-management-step>
-            <parenting-priority-step v-if="getCurrentStepIndex() == 5" v-bind:step="getStep(5)"></parenting-priority-step>
-            <child-relocation-step v-if="getCurrentStepIndex() == 6" v-bind:step="getStep(6)"></child-relocation-step>
-            <enforcement-agree-step v-if="getCurrentStepIndex() == 7" v-bind:step="getStep(7)"></enforcement-agree-step>
-        
-            <submit v-if="getCurrentStepIndex() == 8" v-bind:step="getStep(8)"></submit>
+           
+            <submit v-if="getCurrentStepIndex() == 3" v-bind:step="getStep(3)"></submit>
     
         </main>
     </div>
@@ -22,30 +17,24 @@ import { Component, Vue} from 'vue-property-decorator';
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
 const applicationState = namespace("Application");
+
 import NavigationSidebar from "./NavigationSidebar.vue";
-import CommonInformationStep from "./steps/common-information/CommonInformationStep.vue";
+import DeceasedWillStep from "./steps/will/DeceasedWillStep.vue";
 import ProtectionOrder from "./steps/protectionOrder/StepProtectionOrder.vue";
 import Submit from "./steps/submit/StepSubmit.vue";
-import FamilyLawStep from "./steps/familyLawMatter/FamilyLawStep.vue";
-import ParentingPriorityStep from "./steps/priotityParenting/ParentingPriorityStep.vue";
-import CaseManagementStep from "./steps/caseMgmt/CaseManagementStep.vue";
-import ChildRelocationStep from "./steps/childReloc/ChildRelocationStep.vue";
-import EnforcementAgreeStep from "./steps/agreementEnfrc/EnforcementAgreeStep.vue";
-import GetStarted from "./steps/get-started/GetStartedStep.vue";
+
+import DeceasedInfoStep from "./steps/deceased/DeceasedInfoStep.vue";
+
 import * as surveyEnv from "@/components/survey/survey-glossary.ts"
 import { stepInfoType } from '@/types/Application';
+
 @Component({
     components: {
         NavigationSidebar,
         ProtectionOrder,
-        CommonInformationStep,
+        DeceasedWillStep,
         Submit,
-        FamilyLawStep,
-        ParentingPriorityStep,
-        CaseManagementStep,
-        ChildRelocationStep,
-        EnforcementAgreeStep,
-        GetStarted
+        DeceasedInfoStep
     }
 })
 
@@ -57,10 +46,14 @@ export default class Surveys extends Vue {
     @applicationState.State
     public userType!: string;
 
+    @applicationState.State
+    public currentStep!: number;
+
     @applicationState.Action
     public UpdateApplicationId!: (newApplicationId) => void
 
     error = "";
+    surveyInitiated = false;
   
     beforeCreate() {    
         surveyEnv.loadGlossary();
@@ -68,26 +61,26 @@ export default class Surveys extends Vue {
     }
 
     mounted() {
+        this.surveyInitiated = false;
         this.initiateApplication();
-
     }
 
     public getCurrentStepIndex() {
-        return this.$store.state.Application.currentStep;
+        return this.currentStep;
     }
 
     public getStep(stepIndex) {
         const step = this.steps[stepIndex];
+        console.log(stepIndex);
+        console.log(step)
         return step;
     }
 
     public initiateApplication() {
-        
 
         this.$store.commit("Application/init");
         
         const application = this.$store.state.Application;
-        //console.log(store.state.Application)
         const url = "/app/"
         const header = {
             responseType: "json",
@@ -97,16 +90,14 @@ export default class Surveys extends Vue {
         }
         this.$http.post(url, application, header)
         .then(res => {
-            this.UpdateApplicationId(res.data.app_id)  
-           
+            this.UpdateApplicationId(res.data.app_id)
             this.error = "";
+            this.surveyInitiated = true;
             
         }, err => {
             console.error(err);
             this.error = err;
         });
-    
-
     }
 
 };

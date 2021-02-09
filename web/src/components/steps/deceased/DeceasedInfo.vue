@@ -1,5 +1,5 @@
 <template>
-    <page-base :disableNext="disableNextButton" v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()"> <!-- v-bind:disableNext="isDisableNext()" v-bind:disableNextText="getDisableNextText()"-->
+    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
         <survey v-bind:survey="survey"></survey>
     </page-base>
 </template>
@@ -8,7 +8,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';    
 
 import * as SurveyVue from "survey-vue";
-import surveyJson from "./forms/survey-qualify.json";
+import surveyJson from "./forms/deceased-info.json";
 import * as surveyEnv from "@/components/survey/survey-glossary.ts"
 
 import PageBase from "../PageBase.vue";
@@ -24,10 +24,16 @@ const applicationState = namespace("Application");
     }
 })
 
-export default class PoQuestionnaire extends Vue {
+export default class DeceasedInfo extends Vue {
         
     @Prop({required: true})
     step!: stepInfoType;
+
+    @applicationState.State
+    public steps!: stepInfoType[];
+
+    @applicationState.State
+    public currentStep!: number;
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -38,9 +44,19 @@ export default class PoQuestionnaire extends Vue {
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
 
+    @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
+
+    @applicationState.Action
+    public UpdatePageActive!: (newPageActive) => void
+
+    @applicationState.Action
+    public UpdateAllCompleted!: (newAllCompleted) => void
+
+
+
     survey = new SurveyVue.Model(surveyJson);
-    disableNextButton = false;
-    currentStep=0;
+    disableNextButton = false;   
     currentPage=0;
 
     @Watch('pageIndex')
@@ -52,11 +68,14 @@ export default class PoQuestionnaire extends Vue {
     beforeCreate() {
         const Survey = SurveyVue;
         surveyEnv.setCss(Survey);
+        surveyEnv.loadGlossary();
     }
 
     created() {
-        if (this.step.result && this.step.result['questionnaireSurvey']) {            
-            this.determinePeaceBondAndBlock();
+        this.disableNextButton = false
+        if (this.step.result && this.step.result['deceasedInfoSurvey']) { 
+            this.disableNextButton = false;           
+            // this.determinePeaceBondAndBlock();
         }
     }
 
@@ -79,47 +98,47 @@ export default class PoQuestionnaire extends Vue {
             //console.log(this.survey.data);
             // console.log(options)
             let pagesArr = [];
-            if (options.name == "orderType") {                
-                this.removePages();
-                //console.log('__removed')
-                const selectedOrder = options.value;
-                this.$store.commit("Application/setApplicationType",this.getApplicationType(selectedOrder));
+            // if (options.name == "orderType") {                
+            //     this.removePages();
+            //     //console.log('__removed')
+            //     const selectedOrder = options.value;
+            //     this.$store.commit("Application/setApplicationType",this.getApplicationType(selectedOrder));
                 
-                this.UpdateStepResultData({step:this.step, data: {selectedPOOrder: sender.data}});
+            //     this.UpdateStepResultData({step:this.step, data: {selectedPOOrder: sender.data}});
 
-                pagesArr = [7, 8];
-                if (selectedOrder !== "needPO" && selectedOrder !== "none") {
-                    this.togglePages(pagesArr, true);
-                    this.toggleOtherPartyPage(true); 
-                    this.$store.commit("Application/setCurrentStepPage", { currentStep:1, currentPage:0 })
-                    this.$store.commit("Application/setCurrentStepPage", { currentStep:2, currentPage:7 });
-                    this.$store.commit("Application/setPageProgress", { currentStep: 2, currentPage:7, progress:0 })
-                } else {
-                    this.togglePages(pagesArr, false);
-                    this.toggleOtherPartyPage(false);
-                    this.$store.commit("Application/setCurrentStepPage", { currentStep:1, currentPage:0 })
-                    this.$store.commit("Application/setCurrentStepPage", { currentStep:2, currentPage:0 })
-                }
-                if (selectedOrder == "needPO") {
-                    this.populatePagesForNeedPO(sender);
-                }
-                this.determinePeaceBondAndBlock();
-            }
-            if (options.name == "PORConfirmed") {
-                //console.log(this.survey.data)
-                this.determinePeaceBondAndBlock();
-                pagesArr = [0, 1, 2, 4, 5, 6, 8];
-                if (options.value.length !== 0) {
-                this.togglePages(pagesArr, true);
-                } else {
-                this.togglePages(pagesArr, false);
-                }
-            }
+            //     pagesArr = [7, 8];
+            //     if (selectedOrder !== "needPO" && selectedOrder !== "none") {
+            //         this.togglePages(pagesArr, true);
+            //         this.toggleOtherPartyPage(true); 
+            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:1, currentPage:0 })
+            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:2, currentPage:7 });
+            //         this.$store.commit("Application/setPageProgress", { currentStep: 2, currentPage:7, progress:0 })
+            //     } else {
+            //         this.togglePages(pagesArr, false);
+            //         this.toggleOtherPartyPage(false);
+            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:1, currentPage:0 })
+            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:2, currentPage:0 })
+            //     }
+            //     if (selectedOrder == "needPO") {
+            //         this.populatePagesForNeedPO(sender);
+            //     }
+            //     this.determinePeaceBondAndBlock();
+            // }
+            // if (options.name == "PORConfirmed") {
+            //     //console.log(this.survey.data)
+            //     this.determinePeaceBondAndBlock();
+            //     pagesArr = [0, 1, 2, 4, 5, 6, 8];
+            //     if (options.value.length !== 0) {
+            //     this.togglePages(pagesArr, true);
+            //     } else {
+            //     this.togglePages(pagesArr, false);
+            //     }
+            // }
 
-            if (options.name == "familyUnsafe" || options.name == "unsafe") {
-                //console.warn(options.value)
-                this.determinePeaceBondAndBlock();
-            }
+            // if (options.name == "familyUnsafe" || options.name == "unsafe") {
+            //     //console.warn(options.value)
+            //     this.determinePeaceBondAndBlock();
+            // }
             //console.log(this.survey.data)
             //console.log(options.name) 
         })   
@@ -127,19 +146,18 @@ export default class PoQuestionnaire extends Vue {
 
     public reloadPageInformation() {
         //console.log(this.step.result)
-        if (this.step.result && this.step.result["questionnaireSurvey"]){
-            this.survey.data = this.step.result["questionnaireSurvey"];
-        }
+        if (this.step.result && this.step.result["deceasedInfoSurvey"]){
+            this.survey.data = this.step.result["deceasedInfoSurvey"];
+        }        
         
-        this.currentStep = this.$store.state.Application.currentStep;
-        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
+        this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
-        this.determinePeaceBondAndBlock();
+        // this.determinePeaceBondAndBlock();
    }
 
     public activateStep(stepActive) {
-        this.$store.commit("Application/setStepActive", {
-            currentStep: 2,
+        this.UpdateStepActive( {
+            currentStep: 0,
             active: stepActive
         });
     }
@@ -148,8 +166,8 @@ export default class PoQuestionnaire extends Vue {
     public togglePages(pageArr, activeIndicator) {
         this.activateStep(activeIndicator);
         for (let i = 0; i < pageArr.length; i++) {
-            this.$store.commit("Application/setPageActive", {
-                currentStep: 2,
+            this.UpdatePageActive({
+                currentStep: 0,
                 currentPage: pageArr[i],
                 active: activeIndicator
             });
@@ -157,7 +175,7 @@ export default class PoQuestionnaire extends Vue {
     }
 
     public toggleOtherPartyPage(activeIndicator) {
-        this.$store.commit("Application/setPageActive", {
+        this.UpdatePageActive({
             currentStep: 1,
             currentPage: 1,
             active: activeIndicator
@@ -165,7 +183,7 @@ export default class PoQuestionnaire extends Vue {
     }
 
     public toggleStep(step, active) {
-        this.$store.commit("Application/setStepActive", {
+        this.UpdateStepActive({
             currentStep: step,
             active: active
         });
@@ -196,7 +214,7 @@ export default class PoQuestionnaire extends Vue {
     }
     
     public onComplete() {
-        this.$store.commit("Application/setAllCompleted", true);
+        this.UpdateAllCompleted(true);
     }
 
     public isDisableNext() {
@@ -240,7 +258,7 @@ export default class PoQuestionnaire extends Vue {
 
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
        
-        this.UpdateStepResultData({step:this.step, data: {questionnaireSurvey: this.survey.data}});
+        this.UpdateStepResultData({step:this.step, data: {deceasedInfoSurvey: this.survey.data}});
 
     }
 };
