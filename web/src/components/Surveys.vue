@@ -4,7 +4,7 @@
             <navigation-sidebar />
             <deceased-info-step v-if="getCurrentStepIndex() == 0" v-bind:step="getStep(0)"></deceased-info-step>
             <deceased-will-step v-if="getCurrentStepIndex() == 1" v-bind:step="getStep(1)"></deceased-will-step>
-            <protection-order v-if="getCurrentStepIndex() == 2" v-bind:step="getStep(2)"></protection-order>
+            <related-people-step v-if="getCurrentStepIndex() == 2" v-bind:step="getStep(2)"></related-people-step>
            
             <submit v-if="getCurrentStepIndex() == 3" v-bind:step="getStep(3)"></submit>
     
@@ -20,7 +20,7 @@ const applicationState = namespace("Application");
 
 import NavigationSidebar from "./NavigationSidebar.vue";
 import DeceasedWillStep from "./steps/will/DeceasedWillStep.vue";
-import ProtectionOrder from "./steps/protectionOrder/StepProtectionOrder.vue";
+import RelatedPeopleStep from "./steps/relatedPeople/RelatedPeopleStep.vue";
 import Submit from "./steps/submit/StepSubmit.vue";
 
 import DeceasedInfoStep from "./steps/deceased/DeceasedInfoStep.vue";
@@ -31,10 +31,10 @@ import { stepInfoType } from '@/types/Application';
 @Component({
     components: {
         NavigationSidebar,
-        ProtectionOrder,
+        DeceasedInfoStep,
         DeceasedWillStep,
-        Submit,
-        DeceasedInfoStep
+        RelatedPeopleStep,
+        Submit        
     }
 })
 

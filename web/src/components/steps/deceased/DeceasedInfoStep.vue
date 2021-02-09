@@ -23,7 +23,6 @@ export default class DeceasedInfoStep extends Vue {
     
     @Prop({required: true})
     step!: stepInfoType;
-
     
 };
 </script>

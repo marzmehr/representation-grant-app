@@ -65,7 +65,7 @@ class Application extends VuexModule {
         // Deceased Will START
 
         s = {} as stepInfoType;
-    //TODO: turn active to false
+        //TODO: turn active to false
         s.active = true;
         s.id = "1";
         s.label = "Deceased's Will";
@@ -86,55 +86,60 @@ class Application extends VuexModule {
     
         this.steps.push(s);
     
-        // Common Information STOP
-        // Protection Order START
+        // Deceased Will STOP
+        // Related People START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "2";
-        s.label = "Protection Order";
+        s.label = "Related People";
         s.icon = "fa-child";
         s.lastUpdate = null;
-        s.type = "stepPO";
+        s.type = "relatedPeopleStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Protection From Whom?";
-        p.active = false;
+        p.label = "Executors";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
     
         p = {} as pageInfoType;
         p.key = "1";
-        p.label = "Remove person or belongings";
-        p.active = false;
+        p.label = "Spouse";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
     
         p = {} as pageInfoType;
         p.key = "2";
-        p.label = "No Go";
-        p.active = false;
+        p.label = "Children";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
     
         p = {} as pageInfoType;
         p.key = "3";
-        p.label = "No Contact";
-        p.active = false;
+        p.label = "Grand Children";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
     
         p = {} as pageInfoType;
         p.key = "4";
-        p.label = "Weapons and Firearms";
-        p.active = false;
+        p.label = "Beneficiaries";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
@@ -149,135 +154,177 @@ class Application extends VuexModule {
     
         p = {} as pageInfoType;
         p.key = "6";
-        p.label = "Your Story";
-        p.active = false;
+        p.label = "Creditors";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "7";
-        p.label = "About Protection Order";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "8";
-        p.label = "Urgency";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
+        s.pages.push(p);    
+       
         this.steps.push(s);
     
-        //Protection Order STOP
-        //Family Law Matter START
+        //Related People STOP
+        //Applicant START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "3";
-        s.label = "Family Law Matter";
+        s.label = "Applicant";
         s.icon = "fa-child";
         s.lastUpdate = null;
-        s.type = "stepFlm";
+        s.type = "applicantStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Family Law Form";
+        p.label = "Information About Applicant";
+        //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
         this.steps.push(s);
-        //Family Law Matter STOP
-        // Case Mgmt START
+        //Applicant STOP
+
+        // Notify START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "4";
-        s.label = "Case Management";
+        s.label = "Notify";
         s.icon = "fa-child";
         s.lastUpdate = null;
-        s.type = "stepCm";
+        s.type = "notifyStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Case Management Form";
+        p.label = "Review and Print";
+        //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
         this.steps.push(s);
-        //Case Mgmt STOP
-        //Priority parenting matter START
+        //Notify STOP
+        //Deceased's Belongings START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "5";
-        s.label = "Priority parenting matter";
+        s.label = "Deceased's Belongings";
         s.icon = "fa-child";
         s.lastUpdate = null;
-        s.type = "stepPpm";
+        s.type = "belongingsStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Priority Parenting Matter Form";
+        p.label = "Land and Buildings";
+        //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
-        this.steps.push(s);
-        //Priority parenting matter STOP
-        //Relocation of a child START
-        s = {} as stepInfoType;
+
+        p = {} as pageInfoType;
+        p.key = "1";
+        p.label = "Vehicles";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
     
-        s.active = false;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "2";
+        p.label = "Bank Accounts";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "3";
+        p.label = "Pensions and Insurance";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "4";
+        p.label = "Personal Items";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+
+
+
+        this.steps.push(s);
+        //Belongings STOP
+        //No Will Notify START
+        s = {} as stepInfoType;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "6";
-        s.label = "Relocation of a child";
+        s.label = "No Will Notification";
         s.icon = "fa-child";
         s.lastUpdate = null;
-        s.type = "stepReloc";
+        s.type = "noWillNotifyStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Relocation of a child Form";
+        p.label = "No Will Notification";
+         //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
         this.steps.push(s);
-        //Relocation of a child STOP
-        //Enforcement START
+        //No Will Notify STOP
+        //Overview START
         s = {} as stepInfoType;
-    
+        //TODO: turn active to false
         s.active = false;
         s.id = "7";
-        s.label = "Enforcement of agreements and court orders";
+        s.label = "Overview";
         s.icon = "fa-child";
         s.lastUpdate = null;
-        s.type = "stepEnfrc";
+        s.type = "overviewStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Agreement and Court Orders Forms";
+        p.label = "Will Search Check";
+        //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "1";
+        p.label = "Finalize Asset Values";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+
+
         this.steps.push(s);
-        //Enforcement STOP
+        //Overview STOP
         //Submit START
         s = {} as stepInfoType;
     
