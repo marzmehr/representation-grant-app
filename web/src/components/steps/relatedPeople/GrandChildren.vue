@@ -115,8 +115,9 @@ export default class GrandChildren extends Vue {
     
     beforeDestroy() {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
+        //TODO: investigate issue with this page's json survey
         
-        this.UpdateStepResultData({step:this.step, data: {grandChildrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}})
+        // this.UpdateStepResultData({step:this.step, data: {grandChildrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}})
 
     }
 }

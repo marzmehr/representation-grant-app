@@ -10,7 +10,7 @@
                   {
                      "type": "infotext",
                      "name": "deceasedIntroExplanation",
-                     "title": "First, this service will ask about the person who died. Their specific life situation will affect later questions. That is why this service will ask about you, the `applicant(s)`, in a later step.",
+                     "title": "First, this service will ask about the person who died. Their specific life situation will affect later questions. That is why this service will ask about you, the `applicant`(s), in a later step.",
                      "isRequired": true,
                      "titleLocation": "hidden"
                   }

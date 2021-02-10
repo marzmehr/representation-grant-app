@@ -15,10 +15,14 @@
                 v-bind:class="{current: isCurrentStep(stepIndex)}"
                 v-on:click="onSelectStep($event)"
             >
-                <div v-if="isPrintStep(step)" class="step separate"></div>
                 <div class="step-header">
                     <div class="header-icon">
-                        <i v-bind:class="['fa', step.icon]"></i>
+                        <img v-if="step.icon=='tomb-stone'" 
+                            src="../assets/tomb-stone.svg"
+                            width="32"
+                            height="23"                        
+                        />
+                        <font-awesome-icon v-else :icon="step.icon"></font-awesome-icon>
                     </div>
                     <div class="header-text">
                         <div class="text-step">
@@ -64,6 +68,7 @@ import moment from 'moment-timezone';
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
+import { stepInfoType } from '@/types/Application';
 const applicationState = namespace("Application");
 
 @Component
@@ -72,79 +77,51 @@ export default class NavigationSidebar extends Vue {
     @applicationState.State
     public currentStep!: Number;
 
-    error = "";
-    updateSidebar = 0;
+    @applicationState.State
+    public id!: string;
 
-    // @Watch('currentStep')
-    // pageIndexChange(newVal) 
-    // {
-    //     console.log('step changed in sidebar')
-    //     console.log(newVal);  
-    //     this.updateSidebar++;      
-    // }
+    @applicationState.State
+    public steps!: stepInfoType[];
+    
+    @applicationState.State
+    public allCompleted!: Boolean;
+
+    @applicationState.Action
+    public UpdateCurrentStep!: (newCurrentStep) => void
+
+    @applicationState.Action
+    public UpdateCurrentStepPage!: (newCurrentStepPage) => void
+
+    @applicationState.Action
+    public UpdateLastUpdated!: (newLastUpdated) => void
+
+
+    error = "";
+    updateSidebar = 0;   
 
     public  onSelectStep(event) {
-        // const currIndex = this.$store.state.Application.currentStep;
-        // const curr = document.getElementById(this.getStepId(currIndex));
-        // const currChildGroup = document.getElementById(this.getStepGroupId(currIndex));
+      
         const next = event.currentTarget;
-        const nextIndex = parseInt(next.getAttribute("index"));
-        // const nextChildGroup = document.getElementById(this.getStepGroupId(nextIndex));
-
-        // if(!this.isStepTouched(nextIndex)) return
-
-        // if (curr == next) {
-        //     // same choice.
-        //     next.classList.add("current");
-        //     nextChildGroup.style.display = "block";
-        // } else {
-        //     next.classList.add("current");
-        //     nextChildGroup.style.display = "block";
-
-        //     curr.classList.remove("current");
-        //     currChildGroup.style.display = "none";
-        // }
+        const nextIndex = parseInt(next.getAttribute("index"));     
         
-        this.$store.commit("Application/setCurrentStep", nextIndex);
-        // const currPageIndex = this.getNavigation()[nextIndex].currentPage;
-        // const currPage = document.getElementById(this.getStepPageId(nextIndex, currPageIndex));
-        // //console.log("now step")
-        // currPage.className="current";
+        this.UpdateCurrentStep(nextIndex);      
         Vue.nextTick().then(()=>{this.saveChanges();});
     }
-
-
-    //TODO: This is where the step is selected
+   
     public onSelectPage(event) {
         const currStepIndex = this.$store.state.Application.currentStep;
-        //const currPageIndex = this.getNavigation()[currStepIndex].currentPage;
-        //const currPage = document.getElementById(this.getStepPageId(currStepIndex, currPageIndex));
+       
         const nextPage = event.currentTarget;
         const nextPageIndex = parseInt(nextPage.getAttribute("index"));
 
-        if(this.$store.state.Application.steps[currStepIndex].pages[nextPageIndex].progress == 0) return
+        if(this.steps[currStepIndex].pages[nextPageIndex].progress == 0) return
 
-
-        // if (currPage == nextPage) {
-        //     // same choice; do nothing
-        // } else {
-        //     Vue.nextTick().then(()=>{
-        //         //console.log("now page")
-        //         nextPage.classList.add("current");
-
-        //         if (currPage !== null) {
-        //         currPage.classList.remove("current");
-        //         }
-        //     })
-        // }
-
-        this.$store.commit("Application/setCurrentStepPage", {currentStep: currStepIndex, currentPage: nextPageIndex });
+        this.UpdateCurrentStepPage({currentStep: currStepIndex, currentPage: nextPageIndex });
         Vue.nextTick().then(()=>{this.saveChanges();});
     }
 
-    public getNavigation() {
-        const steps = this.$store.state.Application.steps;
-        return steps;
+    public getNavigation() {        
+        return this.steps;
     }
 
     public getStepDisplayNumber(stepIndex) {
@@ -162,11 +139,11 @@ export default class NavigationSidebar extends Vue {
     }
 
     public isCurrentStep(stepIndex) {
-        return this.$store.state.Application.currentStep == stepIndex;
+        return this.currentStep == stepIndex;
     }
 
     public isAllCompleted() {
-        return this.$store.state.Application.allCompleted;
+        return this.allCompleted;
     }
 
     public getStepId(stepIndex) {
@@ -181,15 +158,10 @@ export default class NavigationSidebar extends Vue {
         return this.getStepId(stepIndex) + "-page-" + pageIndex;
     }
 
-    public isPrintStep(step) {
-        return step.type=='print';
-    }
-
     public saveChanges() {
         const lastUpdated = moment().format();
-        this.$store.commit("Application/setLastUpdated", lastUpdated);
-        const application = this.$store.state.Application;      
-        const applicationId = application.id;      
+        this.UpdateLastUpdated(lastUpdated);
+        const application = this.$store.state.Application; 
         
         const header = {
             responseType: "json",
@@ -198,7 +170,7 @@ export default class NavigationSidebar extends Vue {
             }
         } 
 
-        this.$http.put("/app/"+ applicationId + "/", application, header)
+        this.$http.put("/app/"+ this.id + "/", application, header)
         .then(res => {
             //console.log(res.data); 
             this.error = "";
@@ -209,16 +181,16 @@ export default class NavigationSidebar extends Vue {
     }
     
     public isStepTouched(nextStepIndex){
-        const selectedStep = this.$store.state.Application.steps[nextStepIndex];
+        const selectedStep = this.steps[nextStepIndex];
         for(const page of selectedStep.pages){
-            //console.log(page.progress)
+            
             if(page.progress > 0) return true;
         }
         return false
     }
 
     public getPageProgress(stepIndex, pageIndex){
-        return this.$store.state.Application.steps[stepIndex].pages[pageIndex].progress
+        return this.steps[stepIndex].pages[pageIndex].progress
     }
 
 };
@@ -426,19 +398,6 @@ $step-header-hover-color: #efefef;
         }
         }
     }
-    &.separate {
-        margin-top: 2em;
-        margin-right: 3em;
-        &::before {
-        display: block;
-        content: " ";
-        margin: 0 1.5em;
-        position: relative;
-        top: -0.75em;
-        height: 1px;
-        background: #25b;
-        width: 100%;
-        }
-    }
+    
 }
 </style>

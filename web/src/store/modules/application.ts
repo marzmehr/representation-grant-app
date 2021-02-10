@@ -45,7 +45,7 @@ class Application extends VuexModule {
         s.active = true;
         s.id = "0";
         s.label = "Deceased";
-        s.icon = "fa-users";
+        s.icon = "tomb-stone";
         s.lastUpdate = null;    
         s.type = "getInformationStep";
         s.pages = new Array<pageInfoType>();
@@ -69,7 +69,7 @@ class Application extends VuexModule {
         s.active = true;
         s.id = "1";
         s.label = "Deceased's Will";
-        s.icon = "fa-users";
+        s.icon = "book";
         s.lastUpdate = null;
         s.type = "deceasedWillStep";
         s.pages = new Array<pageInfoType>();
@@ -93,7 +93,7 @@ class Application extends VuexModule {
         s.active = true;
         s.id = "2";
         s.label = "Related People";
-        s.icon = "fa-child";
+        s.icon = "users";
         s.lastUpdate = null;
         s.type = "relatedPeopleStep";
         s.pages = new Array<pageInfoType>();
@@ -163,7 +163,7 @@ class Application extends VuexModule {
         s.active = true;
         s.id = "3";
         s.label = "Applicant";
-        s.icon = "fa-child";
+        s.icon = "user-tie";
         s.lastUpdate = null;
         s.type = "applicantStep";
         s.pages = new Array<pageInfoType>();
@@ -186,7 +186,7 @@ class Application extends VuexModule {
         s.active = true;
         s.id = "4";
         s.label = "Notify";
-        s.icon = "fa-child";
+        s.icon = "envelope-open-text";
         s.lastUpdate = null;
         s.type = "notifyStep";
         s.pages = new Array<pageInfoType>();
@@ -208,7 +208,7 @@ class Application extends VuexModule {
         s.active = true;
         s.id = "5";
         s.label = "Deceased's Belongings";
-        s.icon = "fa-child";
+        s.icon = "coins";
         s.lastUpdate = null;
         s.type = "belongingsStep";
         s.pages = new Array<pageInfoType>();
@@ -269,7 +269,7 @@ class Application extends VuexModule {
         s.active = true;
         s.id = "6";
         s.label = "No Will Notification";
-        s.icon = "fa-child";
+        s.icon = "envelope-open-text";
         s.lastUpdate = null;
         s.type = "noWillNotifyStep";
         s.pages = new Array<pageInfoType>();
@@ -291,7 +291,7 @@ class Application extends VuexModule {
         s.active = true;
         s.id = "7";
         s.label = "Overview";
-        s.icon = "fa-child";
+        s.icon = "user-edit";
         s.lastUpdate = null;
         s.type = "overviewStep";
         s.pages = new Array<pageInfoType>();
@@ -324,7 +324,7 @@ class Application extends VuexModule {
         s.active = true;
         s.id = "8";
         s.label = "Review and File";
-        s.icon = "fa-paper-plane";
+        s.icon = "paper-plane";
         s.lastUpdate = null;
         s.type = "submit";
         s.pages = new Array<pageInfoType>();
