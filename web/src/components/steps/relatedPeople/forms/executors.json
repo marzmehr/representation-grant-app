@@ -1,0 +1,312 @@
+{
+    "title": "Representation Grant",
+    "pages": [
+        {
+            "name": "executorsPage",
+            "elements": [
+                {
+                    "type": "helptext",
+                    "name": "question451",
+                    "title": "[Moved here Nov 19 2020 from old Sidebar FAQ]\n<br>\nFAQ for multiple \"people\" pages? Are they alive? \"Don't know\" Or just P9?\n<br>\nMove to P9 area?? What if I don't know how to contact someone?\n\nIt is your responsibility to make sure that everyone who has a right to a part of the deceased's estate is notified. You may need to reach out to the deceased's relatives for help gathering this contact information. \n\nIf you tried all reasonable methods to notify someone and you cannot, there will be additional forms to complete. You will need to explain to the Supreme Court of British Columbia what methods you have tried and why you cannot notify this person.",
+                    "titleLocation": "hidden"
+                },
+                {
+                    "type": "panel",
+                    "name": "executorIntroPanel",
+                    "elements": [
+                        {
+                            "type": "infotext",
+                            "name": "executorIntroExplanation",
+                            "title": "In this section, we need to figure out what rights people have to apply to manage {deceasedName}'s estate. This usually involves executors. We need to figure who is the most eligible to apply.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "panel",
+                            "name": "panel5"
+                        }
+                    ]
+                },
+                {
+                    "type": "infotext",
+                    "name": "question235",
+                    "visible": false,
+                    "title": "for resealing/ancillary - list executors, name > alive > ex-spouse > ex-spouse after will date<br> don't need to go deep than this",
+                    "titleLocation": "hidden"
+                },
+                {
+                    "type": "infotext",
+                    "name": "question240",
+                    "visible": false,
+                    "title": "open up the language to allow for an organization to be an executor - ",
+                    "titleLocation": "hidden"
+                },
+                {
+                    "type": "panel",
+                    "name": "executorExistsPanel",
+                    "elements": [
+                        {
+                            "type": "yesno",
+                            "name": "executorExists",
+                            "title": "Does the will list any executors?",
+                            "description": "Define executor. Sometimes it is written as trustees, etc."
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorExistsYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{executorExists} = \"y\"",
+                            "title": "Start by adding information about one executor at a time (if there is more than 1) Then click the \"Add Executor\" button to fill in information the next executor.\n<br>\nAdd photo of button?",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorCodicil",
+                            "visible": false,
+                            "title": "(to be coded later) does the codicil modify who the executors are in the will?",
+                            "description": "only appear if there is a valid codicil "
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorCodicilYesExplanation",
+                            "visible": false,
+                            "title": "yes - Follow the directions of the codicil to determine who the executors now are.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorCodicilNoExplanation",
+                            "visible": false,
+                            "title": "no - follow the executors on the will",
+                            "titleLocation": "hidden"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{executorIntroExplanation} > 0"
+                },
+                {
+                    "type": "paneldynamic",
+                    "name": "executorInfoPanel",
+                    "visible": false,
+                    "visibleIf": "{executorExists} = \"y\" and {executorExistsYesExplanation} > 0",
+                    "templateElements": [
+                        {
+                            "type": "text",
+                            "name": "executorName",
+                            "title": "Name of the `executor` as it appears in the will. \n",
+                            "description": "Include the name even if some or all of the executors are not alive right now. \n\nEven if their name has changed since they have changed their name since that time. This service will address this later. \n\nCheck with DDRs (What happens if the way the name is written on the will differs from the person's ID card and the document would be meaningless in practice?)"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorIsAlive",
+                            "title": "Is {panel.executorName} alive?"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorIsAliveNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"n\"",
+                            "title": "That is all the information we need about {panel.executorName} for the moment. Continue adding more executors if there are more.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorIsCapable",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\"",
+                            "title": "Is {panel.executorName} capable of managing / co-managing {deceasedName}'s estate?",
+                            "description": "Capable is defined as what? Mentally capable? Has the time to do it?"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorIsCapableNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {executorIsCapable} = \"n\"",
+                            "title": "That is all the information we need about {panel.executorName} for the moment. Continue adding more executors if there are more.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorSpecialConditions",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\"",
+                            "title": "Are there any special conditions / requirements that {deceasedName} has specified in order for {panel.executorName} to be allowed to be an executor?",
+                            "description": "Example? Sometimes it might be that the executor has to wait 30 days after a primary executor dies?"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorSpecialConditionsMet",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and {panel.executorSpecialConditions} = \"y\"",
+                            "title": "Have those special conditions / requirements been met?"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorSpecialConditionsMetNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and {panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"n\"",
+                            "title": "no - this person will only be considered an executor if the special conditions in the will are met. this person can still apply right now under admin with will. \n<br><br>\nif you feel this special condition is discriminator (human rights violation) you can challenge this in court. court forms here.\n<br><br>\nThat is all the information we need about {panel.executorName} for the moment. Continue adding more executors if there are more.",
+                            "description": "no further questions for this executor. name to appear in possible-applicant list",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorIsExSpouse",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\"))\n",
+                            "title": "Is {panel.executorName} an ex-spouse of {deceasedName}?",
+                            "description": "Define what spouse means? Marriage like-relationship, married, etc.  Ex-spouses drop down in the hierarchy of rights if they were named as an executor if...  (Does being a primary executor AND a current spouse grant extra rights?)"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorExSpouseAfterWill",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\")) and {panel.executorIsExSpouse} = \"y\"",
+                            "title": "Was this Will (dated {willDate}) after the divorce/separation?",
+                            "description": "Want to see if {deceasedName} still intended for {panel.executorName} to be an executor despite not being their spouse anymore."
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorExSpouseAfterWillNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\")) and {panel.executorIsExSpouse} = \"y\" and {panel.executorExSpouseAfterWill} = \"n\"",
+                            "title": "no - under WESA 56, ex-spouses lose their entitlement to be an executor and lose their beneficiary status and also power of appointment (to pick an executor\n<br><br>\nThat is all the information we need about {panel.executorName} for the moment. Continue adding more executors if there are more.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorExSpouseAfterWillYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\")) and {panel.executorIsExSpouse} = \"y\" and {panel.executorExSpouseAfterWill} = \"y\"",
+                            "title": "yes - we will assume they were on good terms even though under WESA, ex-spouses lose their entitlement to be an executor and lose their beneficiary status.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorRenounced",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\")) and ({panel.executorIsExSpouse} = \"n\" or ({panel.executorIsExSpouse} = \"y\" and {panel.executorExSpouseAfterWill} = \"y\" and {panel.executorExSpouseAfterWillYesExplanation} > 0))",
+                            "title": "Has {panel.executorName} renounced their executorship?",
+                            "description": "Renouncing executorship means they are going give up all rights they have to become an executor of 's estate. They will have to sign an affidavit and they cannot reverse their decision.  The other option, if  does not wish to be an applicant on this application but they do not want to renounce their position, they can choose not to apply but reserve their right to execute 's estate in the future.  (Might have to ask if there any other reasons the executor is not applying.)"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorRenouncedFormally",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\")) and ({panel.executorIsExSpouse} = \"n\" or ({panel.executorIsExSpouse} = \"y\" and {panel.executorExSpouseAfterWill} = \"y\")) and {panel.executorRenounced} = \"y\"",
+                            "title": "Will {panel.executorName} complete a Notice of Renunciation to formally renounce their executorship?",
+                            "description": "This means filling out a Notice of Renunciation"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question23",
+                            "visible": false,
+                            "title": "memo - executors who renounce informally but not formally continue onto the applicant page. formal renunciations do not carry over",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorRenouncedFormallyNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\")) and ({panel.executorIsExSpouse} = \"n\" or ({panel.executorIsExSpouse} = \"y\" and {panel.executorExSpouseAfterWill} = \"y\")) and {panel.executorRenounced} = \"y\" and {panel.executorRenouncedFormally} = \"n\"",
+                            "title": "no - their name will still appear on the grant as rights reserved (if they are equal or higher priority than the people that get the grant)\n<br><br>\nContinue adding executors if there are more.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorRenouncedFormallyYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\")) and ({panel.executorIsExSpouse} = \"n\" or ({panel.executorIsExSpouse} = \"y\" and {panel.executorExSpouseAfterWill} = \"y\")) and {panel.executorRenounced} = \"y\" and {panel.executorRenouncedFormally} = \"y\"",
+                            "title": "yes - \n[JIRA] click here to generate a form for them to fill out with a witness (form info already captured)\nWe will generate a form for  to renounce their executorship. It is not required to be filled out by  but it will be prepared just in case they want to officially renounce their executorship. \n<br><br>\nIf {panel.executorName} does not complete this form, go back to the last question and say they will not formally renounce. \n<br><br>\nThat is all the information we need about {panel.executorName} for the moment. Continue adding more executors if there are more.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "text",
+                            "name": "executorRank",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\")) and ({panel.executorIsExSpouse} = \"n\" or ({panel.executorIsExSpouse} = \"y\" and {panel.executorExSpouseAfterWill} = \"y\")) and ({panel.executorRenounced} = \"n\" \nor ({panel.executorRenounced} = \"y\" and {panel.executorRenouncedFormally} = \"n\"))\n",
+                            "title": "Rank this executor ({panel.executorName}). 1 for highest and keep going.",
+                            "description": "if 2 or more executors have equal ranking, give them the same number.",
+                            "inputType": "number"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorRankedExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.executorIsAlive} = \"y\" and {panel.executorIsCapable} = \"y\" and ({panel.executorSpecialConditions} = \"n\" or ({panel.executorSpecialConditions} = \"y\" and {panel.executorSpecialConditionsMet} = \"y\")) and ({panel.executorIsExSpouse} = \"n\" or ({panel.executorIsExSpouse} = \"y\" and {panel.executorExSpouseAfterWill} = \"y\")) and ({panel.executorRenounced} = \"n\" \nor ({panel.executorRenounced} = \"y\" and {panel.executorRenouncedFormally} = \"n\")) and {panel.executorRank} notempty",
+                            "title": "That is all the information we need about {panel.executorName} for the moment. Continue adding more executors if there are more.",
+                            "titleLocation": "hidden"
+                        }
+                    ],
+                    "panelCount": 1
+                },
+                {
+                    "type": "panel",
+                    "name": "executorExitCheckPanel",
+                    "elements": [
+                        {
+                            "type": "yesno",
+                            "name": "executorIsYou",
+                            "title": "Are you an executor?"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorIsYouIncluded",
+                            "visible": false,
+                            "visibleIf": "{executorIsYou} = \"y\"",
+                            "title": "Have you included your info"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorIsYouIncludedNoError",
+                            "visible": false,
+                            "visibleIf": "{executorIsYou} = \"y\" and {executorIsYouIncluded} = \"n\"",
+                            "title": "Go back and make sure to include information about yourself. This service doesn't know who you are and who is applying. We will handle that in a future step.",
+                            "titleLocation": "hidden",
+                            "messageStyle": "error"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "executorCompleted",
+                            "visible": false,
+                            "visibleIf": "{executorIsYou} = \"n\" or ({executorIsYou} = \"y\" and {executorIsYouIncluded} = \"y\")",
+                            "title": "Have you included all the executors listed in the will? (codicil)"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "executorCompletedNoError",
+                            "visible": false,
+                            "visibleIf": "({executorIsYou} = \"n\" or ({executorIsYou} = \"y\" and {executorIsYouIncluded} = \"y\")) and {executorCompleted} = \"n\"",
+                            "title": "Go back and make sure to include information about all the executors. This service doesn't know who you are and who is applying. We will handle that in a future step.",
+                            "titleLocation": "hidden",
+                            "messageStyle": "error"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{executorExists} = \"n\"\nor\n{executorInfoPanel[0].executorIsAlive} = \"n\" \nor \n({executorInfoPanel[0].executorIsAlive} = \"y\" and {executorInfoPanel[0].executorIsCapable} = \"n\")\nor \n({executorInfoPanel[0].executorIsAlive} = \"y\" and {executorInfoPanel[0].executorIsCapable} = \"y\" and {executorInfoPanel[0].executorSpecialConditions} = \"y\" and {executorInfoPanel[0].executorSpecialConditionsMet} = \"n\")\nor \n({executorInfoPanel[0].executorIsAlive} = \"y\" and {executorInfoPanel[0].executorIsCapable} = \"y\" and {executorInfoPanel[0].executorSpecialConditions} = \"y\" and {executorInfoPanel[0].executorSpecialConditionsMet} = \"n\")\nor\n({executorInfoPanel[0].executorIsAlive} = \"y\" and {executorInfoPanel[0].executorIsCapable} = \"y\" and ({executorInfoPanel[0].executorSpecialConditions} = \"n\" or ({executorInfoPanel[0].executorSpecialConditions} = \"y\" and {executorInfoPanel[0].executorSpecialConditionsMet} = \"y\")) and {executorInfoPanel[0].executorIsExSpouse} = \"y\" and {executorInfoPanel[0].executorExSpouseAfterWill} = \"n\")\nor\n({executorInfoPanel[0].executorIsAlive} = \"y\" and {executorInfoPanel[0].executorIsCapable} = \"y\" and ({executorInfoPanel[0].executorSpecialConditions} = \"n\" or ({executorInfoPanel[0].executorSpecialConditions} = \"y\" and {executorInfoPanel[0].executorSpecialConditionsMet} = \"y\")) and ({executorInfoPanel[0].executorIsExSpouse} = \"n\" or ({executorInfoPanel[0].executorIsExSpouse} = \"y\" and {executorInfoPanel[0].executorExSpouseAfterWill} = \"y\")) and {executorInfoPanel[0].executorRenounced} = \"y\" and {executorInfoPanel[0].executorRenouncedFormally} = \"y\" and {executorInfoPanel[0].executorRenouncedFormallyYesExplanation} > 0)\nor\n({executorInfoPanel[0].executorIsAlive} = \"y\" and {executorInfoPanel[0].executorIsCapable} = \"y\" and ({executorInfoPanel[0].executorSpecialConditions} = \"n\" or ({executorInfoPanel[0].executorSpecialConditions} = \"y\" and {executorInfoPanel[0].executorSpecialConditionsMet} = \"y\")) and ({executorInfoPanel[0].executorIsExSpouse} = \"n\" or ({executorInfoPanel[0].executorIsExSpouse} = \"y\" and {executorInfoPanel[0].executorExSpouseAfterWill} = \"y\")) and ({executorInfoPanel[0].executorRenounced} = \"n\" \nor ({executorInfoPanel[0].executorRenounced} = \"y\" and {executorInfoPanel[0].executorRenouncedFormally} = \"n\")) and {executorInfoPanel[0].executorRank} notempty)"
+                },
+                {
+                    "type": "panel",
+                    "name": "executorExitPanel",
+                    "elements": [
+                        {
+                            "type": "infotext",
+                            "name": "executorExitExplanation",
+                            "title": "Based on the responses,  and  have the highest rights to apply to be (co-)executors to 's estate.\n\nNow that we have identified the people who have the highest right to apply, other people can also apply if the named executors consent. We will figure out this later. \n\nNext we will move on to identifying the successors.",
+                            "titleLocation": "hidden"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "({executorIsYou} = \"n\" and {executorCompleted} = \"y\") or ({executorIsYou} = \"y\" and {executorIsYouIncluded} = \"y\" and {executorCompleted} = \"y\")",
+                    "description": "Incomplete logic - does not detect if executor exists and first panel is filled out. can bypass by saying no executor exists, answering the complete question, then going back and saying yes to executor exists and this won't disappear."
+                }
+            ],
+            "title": "Executor Information"
+        }
+    ],
+    "showQuestionNumbers": "off",
+    "requiredText": ""
+}

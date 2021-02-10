@@ -142,18 +142,11 @@ class Application extends VuexModule {
         p.active = true;
         p.progress = 0;
     
-        s.pages.push(p);
+        s.pages.push(p);   
+       
     
         p = {} as pageInfoType;
         p.key = "5";
-        p.label = "Background";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "6";
         p.label = "Creditors";
         //TODO: turn active to false
         p.active = true;
@@ -295,7 +288,7 @@ class Application extends VuexModule {
         //Overview START
         s = {} as stepInfoType;
         //TODO: turn active to false
-        s.active = false;
+        s.active = true;
         s.id = "7";
         s.label = "Overview";
         s.icon = "fa-child";
@@ -327,8 +320,8 @@ class Application extends VuexModule {
         //Overview STOP
         //Submit START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "8";
         s.label = "Review and File";
         s.icon = "fa-paper-plane";
@@ -340,7 +333,8 @@ class Application extends VuexModule {
         p = {} as pageInfoType;
         p.key = "0";
         p.label = "Review Your Answers";
-        p.active = false;
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
@@ -348,7 +342,8 @@ class Application extends VuexModule {
         p = {} as pageInfoType;
         p.key = "1";
         p.label = "Filing Options";
-        p.active = false;
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
@@ -356,7 +351,8 @@ class Application extends VuexModule {
         p = {} as pageInfoType;
         p.key = "2";
         p.label = "Review and Print";
-        p.active = false;
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
@@ -364,7 +360,8 @@ class Application extends VuexModule {
         p = {} as pageInfoType;
         p.key = "3";
         p.label = "Review and Save";
-        p.active = false;
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
@@ -372,7 +369,8 @@ class Application extends VuexModule {
         p = {} as pageInfoType;
         p.key = "4";
         p.label = "Review and Submit";
-        p.active = false;
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
@@ -380,7 +378,8 @@ class Application extends VuexModule {
         p = {} as pageInfoType;
         p.key = "5";
         p.label = "Next Steps";
-        p.active = false;
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);

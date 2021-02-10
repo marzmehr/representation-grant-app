@@ -1,0 +1,552 @@
+{
+   "pages": [
+      {
+         "name": "applicantsPage",
+         "elements": [
+            {
+               "type": "infotext",
+               "name": "question264",
+               "title": "\nTo help us better understand the applicants and their relationship with the deceased, we advise that you fill out information about 's family first and returning here after.",
+               "titleLocation": "hidden",
+               "messageStyle": "error"
+            },
+            {
+               "type": "panel",
+               "name": "applicantsIntroPanel",
+               "elements": [
+                  {
+                     "type": "infotext",
+                     "name": "question309",
+                     "title": "Intro paragraph<br>\npick applicants<br>\nexplain what that means<br>\nhere's a list of everyone you've identified so far. time to figure who is actually applying (applicant can be someone you haven't yet identified)\n<br>\nNow we need to learn more about you as the applicant.\n<br>\nIf you are not the only applicant, we will also ask questions related to the other applicants.\n<br>\nNow we need to learn more about the people who are applying to represent the deceased. Applicants are commonly the people you've noted down in the previous step. They can also be someone different.\nYou will have to opportunity to identify all applicants in this step.\n<br>\nNow that we have asked about 's family members, we will ask for information about you to help the Supreme Court of BC decide whether they should make you 's personal representative(s).\n<br>\nApplicants (people applying) are usually family members who inherit 's assets. However, people who are not inheriting the assets can also apply.",
+                     "isRequired": true,
+                     "titleLocation": "hidden"
+                  }
+               ]
+            },
+            {
+               "type": "infotext",
+               "name": "question281",
+               "title": "[JIRA] Applicant picker/selector tool with an \"Add Applicant\" button\n<br>\nOf the family members you've provided information for, who is applying to represent {deceasedName}?\n<br>\nIs not applying\n<br>\nIs applying (None of the previously mentioned family members are applying.)",
+               "titleLocation": "hidden"
+            },
+            {
+               "type": "helptext",
+               "name": "question308",
+               "title": "I entered more family members than what is showing on this list. Why are they not showing up?",
+               "titleLocation": "hidden",
+               "body": "There are certain requirements to be an applicant. They must be 19 years of age or older and mentally competent."
+            },
+            {
+               "type": "yesno",
+               "name": "applicantTestWillExists",
+               "title": "Will Exists"
+            },
+            {
+               "type": "yesno",
+               "name": "applicantTestForeignGrant",
+               "title": "Foreign Grant"
+            },
+            {
+               "type": "yesno",
+               "name": "applicantTestExecutor",
+               "title": "Executor"
+            },
+            {
+               "type": "yesno",
+               "name": "applicantTestSpouse",
+               "title": "Spouse"
+            },
+            {
+               "type": "yesno",
+               "name": "applicantTestChild",
+               "title": "Child"
+            },
+            {
+               "type": "yesno",
+               "name": "applicantTestIntestate",
+               "title": "Intestate"
+            },
+            {
+               "type": "yesno",
+               "name": "applicantTestNewApplicant",
+               "title": "New Applicant"
+            },
+            {
+               "type": "yesno",
+               "name": "question310",
+               "title": "OXD - Are there others applying to represent {deceasedName}?"
+            },
+            {
+               "type": "text",
+               "name": "question311",
+               "title": "Please enter the name of the other applicants."
+            },
+            {
+               "type": "infotext",
+               "name": "question276",
+               "title": "[JIRA] Figure out how to combine people who are both executors and spouse/family/beneficiary",
+               "titleLocation": "hidden"
+            },
+            {
+               "type": "infotext",
+               "name": "question48",
+               "title": "Would allow executors across multiple ranks to apply together, no extra messaging required. Swear P3 together, single \"we\" paragraphs with multiple applicants listed\n<br><br>\nWith a mix of executors of different ranks and non-executors, check the admin with will box instead of grant of probate. only check grant of probate when executors of same rank applying.\n<br><br>\ncan co-mingle executors and non-executors. on the P3, if joint swearing, select admin with will instead of grant of probate. separate entries for Paragraph 4. otherwise, P3 + P8.\n<br><br>\nscenario 1: executor + admin apply together<br>\nscenario 2: executor does P3, admin does P8<br>\nscenario 3: admin does P3, executor does P8\n<br><br>\nadmin with will - can have multiple applicants with different 131 paragraphs on the same. groups will likely be all (a) and/or (a.1). or all (b) and/or (c), no need to validate these groupings too hard because they are self-reporting",
+               "titleLocation": "hidden"
+            },
+            {
+               "type": "panel",
+               "name": "applicantPanel",
+               "elements": [
+                  {
+                     "type": "checkbox",
+                     "name": "applicant",
+                     "title": "Who is applying to represent {deceasedName} in dealing with their stuff?",
+                     "hasOther": true,
+                     "choices": [
+                        {
+                           "value": "item1",
+                           "text": "Jillian Patricia Taylor"
+                        },
+                        {
+                           "value": "item2",
+                           "text": "Bradley Michael Taylor"
+                        },
+                        {
+                           "value": "item3",
+                           "text": "Austin Healy Taylor"
+                        },
+                        {
+                           "value": "item4",
+                           "text": "Marcus Jason Taylor"
+                        }
+                     ],
+                     "otherText": "Add a different applicant"
+                  },
+                  {
+                     "type": "helptext",
+                     "name": "applicantFAQ1",
+                     "title": "Can more than 1 person apply to represent {deceasedName}",
+                     "titleLocation": "hidden",
+                     "body": "Yes, you will share responsibilities for representing {deceasedName}."
+                  }
+               ]
+            },
+            {
+               "type": "paneldynamic",
+               "name": "applicantInfoPanel",
+               "templateElements": [
+                  {
+                     "type": "infotext",
+                     "name": "question238",
+                     "title": "[JIRA] Starts off panel with info we know so far: Name, relationship maybe? ie. executor",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question312",
+                     "title": "Can collapse/expand accordions<br>\nOrder of accordion items same as in previous question<br>\nRemove accordion according to who is removed in previous question<br>\nShow this question only if there is input from previous question",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question42",
+                     "visible": false,
+                     "title": "no need to ask if over 19 nor mentally competent - leave it up to notice of dispute to find that out. low likelihood that this would happen",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "radiogroup",
+                     "name": "applicantIndividual",
+                     "title": "individual or not <br>\n[JIRA] only ask this question for executors and beneficiaries",
+                     "choices": [
+                        {
+                           "value": "person",
+                           "text": "person"
+                        },
+                        {
+                           "value": "organization",
+                           "text": "organization"
+                        }
+                     ]
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantOrganizationPerson",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'organization'",
+                     "title": "not individual - name of person who works at organization"
+                  },
+                  {
+                     "type": "address",
+                     "name": "applicantOrganizationAddress",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'organization'",
+                     "title": "organization address"
+                  },
+                  {
+                     "type": "contactinfo",
+                     "name": "applicantOrganizationContact",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'organization'",
+                     "title": "organization contact info"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantOccupation",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person'",
+                     "title": "What is Jillian Patricia Taylor's job or profession?",
+                     "description": "For example: Nurse, Homemaker, Carpenter, Accountant, etc."
+                  },
+                  {
+                     "type": "address",
+                     "name": "applicantAddress",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person'",
+                     "title": "What is Jillian Patricia Taylor mailing address? (probably too hard to combine with ordinarily lives)",
+                     "description": "mail address (doesn't have to be in BC)"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "applicantOrdinaryAddress",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person'",
+                     "title": "ordinarily live at this address?"
+                  },
+                  {
+                     "type": "address",
+                     "name": "question242",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantOrdinaryAddress} = 'n'",
+                     "title": "if mailing address not where they ordinarily live; ordinary city and country"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "applicantCited",
+                     "visible": false,
+                     "visibleIf": "{applicantIndividual} notempty",
+                     "title": "Did {applicantName} receive a citation?",
+                     "description": "How to prevent notifying the same person more than once"
+                  },
+                  {
+                     "type": "text",
+                     "name": "question267",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} notempty and {panel.applicantCited} = 'y'",
+                     "title": "Please enter the name of the person from whom the applicants received a citation.",
+                     "description": "put the information as it appears on the citation"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question277",
+                     "visible": false,
+                     "visibleIf": "{applicant} = [\"item1\"]",
+                     "title": "Executors - temp bookmark",
+                     "titleLocation": "hidden",
+                     "messageStyle": "inline"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "applicantExecutorNameMatch",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'y' ",
+                     "title": "[Will only] - Does {thisApplicant} name's currently match {executorName}?",
+                     "description": "Alternate approach - Did they change their name?"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantExecutorAlias",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantExecutorNameMatch} = 'n' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'y' ",
+                     "title": "Enter name as it appears on their primary ID. "
+                  },
+                  {
+                     "type": "comment",
+                     "name": "applicantExecutorAliasEvidence",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantExecutorNameMatch} = 'n' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'y' ",
+                     "title": "Check with DDRs - Explain and give evidence to support that this is the same person. ",
+                     "description": "for example, got married, changed name. here is marriage certificate."
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question279",
+                     "visible": false,
+                     "visibleIf": "{applicant} = [\"item1\"]",
+                     "title": "AWW - temp bookmark",
+                     "titleLocation": "hidden",
+                     "messageStyle": "inline"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "applicantAWWBeneficiary",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantExecutorNameMatch} = 'n' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'n' ",
+                     "title": "is this person getting a gift (beneficiary) from the will?"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "applicantAWWMajorityConsent",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantAWWBeneficiary} = 'y' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'n' ",
+                     "title": "131 (a) if getting a gift, do you have support of the people, when combined with your own gift, who are getting the most stuff from the will (over 51%)",
+                     "description": "not the amount of beneficiaries, but the group of people who are getting the most.\nyes - 131 (a), no - 131 (b)"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "applicantAWWNominee",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantAWWBeneficiary} = 'n' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'n' ",
+                     "title": "not getting a gift, do you have majority-gift support?",
+                     "description": "yes, (a.1). no, (c)"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question278",
+                     "visible": false,
+                     "visibleIf": "{applicant} = [\"item1\"]",
+                     "title": "AWOW - temp bookmark",
+                     "titleLocation": "hidden",
+                     "messageStyle": "inline"
+                  }
+               ]
+            },
+            {
+               "type": "infotext",
+               "name": "applicantExplanationSpouseOnly",
+               "visible": false,
+               "visibleIf": "{applicant} = [\"item1\"]",
+               "title": "[no will - spouse explanation]<br>\nBecause Jillian Patricia Taylor is {deceasedName}'s spouse, we don't need to check if any other of {deceasedName}'s successors agree with your application.",
+               "titleLocation": "hidden"
+            },
+            {
+               "type": "yesno",
+               "name": "question286",
+               "title": "are you a nominee of spouse(s)? only ask if there is a living spouse (even if the applicant is a child)",
+               "description": "yes - 130a"
+            },
+            {
+               "type": "yesno",
+               "name": "question297",
+               "title": "select all other living children of deceased who support your application - ask everyone",
+               "description": ">50% & child - 130b; >50% & not child - 130c;  =<50% & child - 130d; =<50% & not child - continue to next question"
+            },
+            {
+               "type": "yesno",
+               "name": "question44",
+               "title": "select from all other living successors who support your application - ask intestate and new applicants",
+               "description": "calculate gift % per person - >50% gift & intestate - 130e; >50% gift & new applicant - 130e.1;  =<50% gift & intestate - 130f; =<50% gift & new applicant - 130g"
+            },
+            {
+               "type": "infotext",
+               "name": "question280",
+               "visible": false,
+               "visibleIf": "{applicant} = [\"item1\"]",
+               "title": "Foreign Grant - temp bookmark",
+               "titleLocation": "hidden",
+               "messageStyle": "inline"
+            },
+            {
+               "type": "yesno",
+               "name": "question306",
+               "title": "Is this applicant named in the foreign grant as an executor/admin/equivalent",
+               "description": "no - error go back and amend the foreign or start fresh and say no foreign grant"
+            },
+            {
+               "type": "infotext",
+               "name": "question266",
+               "visible": false,
+               "title": "Foreign Grant Applicant Confirmation",
+               "titleLocation": "hidden",
+               "messageStyle": "inline"
+            },
+            {
+               "type": "infotext",
+               "name": "question237",
+               "title": "can this section be invisible until all applicants say Yes to being on the foreign grant",
+               "titleLocation": "hidden"
+            },
+            {
+               "type": "yesno",
+               "name": "question305",
+               "title": "Is everyone who is on the foreign grant included as applicants here?",
+               "description": "Is everyone who is on the foreign grant applying here? Error if no. Go back and include them"
+            },
+            {
+               "type": "yesno",
+               "name": "question304",
+               "title": "Do you want to include anyone who is not on the foreign grant?",
+               "description": "Error if yes. Go back and get the old grant ammended or Start fresh and do a new application here. GO back to \"foreign grant question\" and say \"no\""
+            },
+            {
+               "type": "infotext",
+               "name": "question303",
+               "visible": false,
+               "title": "Multiple Applicants Selection",
+               "titleLocation": "hidden",
+               "messageStyle": "inline"
+            },
+            {
+               "type": "panel",
+               "name": "panel8",
+               "elements": [
+                  {
+                     "type": "infotext",
+                     "name": "question307",
+                     "title": "Who is swearing what?",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "question229",
+                     "title": "[if there is more than 1 applicant] - do you all plan to swear/affirm your affidavits together in the same room?",
+                     "description": "this can save you money if you do, but it's not necessary. it just determines how we need to set up the paper work."
+                  },
+                  {
+                     "type": "radiogroup",
+                     "name": "question22",
+                     "title": "select who is going to be main applicant vs supporting applicant",
+                     "description": "you'll have the same rights, but select the person(s) who are going to be doing the most work including filing and receiving documents",
+                     "choices": [
+                        "item1",
+                        "item2",
+                        "item3"
+                     ]
+                  }
+               ]
+            },
+            {
+               "type": "infotext",
+               "name": "question30",
+               "visible": false,
+               "title": "Service Address",
+               "titleLocation": "hidden",
+               "messageStyle": "inline"
+            },
+            {
+               "type": "panel",
+               "name": "panel13",
+               "elements": [
+                  {
+                     "type": "infotext",
+                     "name": "question262",
+                     "visible": false,
+                     "title": "service address",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "question253",
+                     "title": "do you have a lawyer?"
+                  },
+                  {
+                     "type": "text",
+                     "name": "question271",
+                     "title": "lawyer's name"
+                  },
+                  {
+                     "type": "text",
+                     "name": "question272",
+                     "title": "law firm name"
+                  },
+                  {
+                     "type": "address",
+                     "name": "question243",
+                     "title": "lawyer's address"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question287",
+                     "title": "[conditional messaging for 1 applicant vs multiple]<br>\nYou have multiple applicants and no lawyer. You need to pick one single service address that you all agree to",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "address",
+                     "name": "question258",
+                     "title": "service address"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question268",
+                     "title": "[JIRA] Determine closest courthouse based on service address.",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "question269",
+                     "title": "The closest courthouse to this service address is [courthouse location]. Do you want to file here?",
+                     "description": "This means the file including the Will lives here if you ever need to look at it."
+                  },
+                  {
+                     "type": "dropdown",
+                     "name": "question270",
+                     "visible": false,
+                     "title": "select the court location you want to file at",
+                     "description": "courthouse location",
+                     "choices": [
+                        "item1",
+                        "item2",
+                        "item3"
+                     ]
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question298",
+                     "title": "[further than 30km away from selected courthouse] You will need to provide one or more of the following: email, fax, PO box within 30km of {courthouseLocation}",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question275",
+                     "title": "Is it fine to secretly ignore the 30km rule?",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "contactinfo",
+                     "name": "jillContact",
+                     "title": "service contact (optional?) (one or more required if outside 30km of courthouse?)",
+                     "description": "If the address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
+                     "labelEmail": "Email (optional)",
+                     "labelFax": "Fax (optional)"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "question273",
+                     "title": "Do you want to enter a PO Box address that is within 30km of the courthouse?",
+                     "description": "figure out how this works?"
+                  }
+               ]
+            },
+            {
+               "type": "infotext",
+               "name": "question263",
+               "visible": false,
+               "title": "No Will Exit",
+               "titleLocation": "hidden",
+               "messageStyle": "inline"
+            },
+            {
+               "type": "panel",
+               "name": "applicantExitPanel",
+               "elements": [
+                  {
+                     "type": "infotext",
+                     "name": "applicantExitSpouseOnly",
+                     "title": "Now will we ask about the assets that you, Jillian Patricia Taylor, are applying to manage.",
+                     "titleLocation": "hidden"
+                  }
+               ]
+            },
+            {
+               "type": "helptext",
+               "name": "question450",
+               "title": "[Moved here Nov 19 2020]\n<br>\nMight need to appear in multiple pages' exit panels depending if will or not will? \n<br>\nOld Sidebar FAQ What if I don't know all the assets in the deceased's estate?\n\nIt is your responsibility to make sure you find and report all the deceased's assets that you know about. If you successfully become the deceased's personal representative and you find more assets to report afterwards, there will be additional forms to complete. Use either form P14 or P15 to tell the court.\nhttps://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms",
+               "titleLocation": "hidden"
+            }
+         ],
+         "title": "The Applicant(s)"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}
