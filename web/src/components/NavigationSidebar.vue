@@ -63,13 +63,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch} from 'vue-property-decorator';
+import { Component, Vue} from 'vue-property-decorator';
 import moment from 'moment-timezone';
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
-import { stepInfoType } from '@/types/Application';
 const applicationState = namespace("Application");
+
+import { stepInfoType } from '@/types/Application';
 
 @Component
 export default class NavigationSidebar extends Vue {

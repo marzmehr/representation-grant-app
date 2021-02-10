@@ -119,8 +119,27 @@ import store from "@/store";
 import moment from 'moment-timezone';
 import {applicationInfoType} from "@/types/Application"
 
+import { namespace } from "vuex-class";   
+import "@/store/modules/application";
+const applicationState = namespace("Application");
+
+import "@/store/modules/common";
+const commonState = namespace("Common");
+
 @Component
 export default class ApplicationStatus extends Vue {
+
+    @commonState.State
+    public userId!: string;
+
+    @applicationState.Action
+    public UpdateUserId!: (newUserId) => void
+
+    @applicationState.Action
+    public UpdateLastUpdated!: (newLastUpdated) => void
+
+    @applicationState.Action
+    public UpdateApplicationId!: (newApplicationId) => void
 
     previousApplications = []
     previousApplicationFields = [
@@ -172,14 +191,11 @@ export default class ApplicationStatus extends Vue {
     public beginApplication() {   
 
         this.$store.commit("Application/init");
-        const userId = store.state.Common.userId;
-        store.commit("Application/setUserId", userId);
+        
+        this.UpdateUserId(this.userId);
 
         const lastUpdated = moment().format();
-        this.$store.commit("Application/setLastUpdated", lastUpdated);
-
-        const userType = store.state.Application.userType;      
-        store.commit("Application/setUserType", userType);
+        this.UpdateLastUpdated(lastUpdated);        
 
         const application = store.state.Application;
         
@@ -195,9 +211,9 @@ export default class ApplicationStatus extends Vue {
         this.$http.post(url, application,header)
         .then(res => {
             this.applicationId = res.data.app_id;  
-            store.commit("Application/setApplicationId", this.applicationId);
+            this.UpdateApplicationId(this.applicationId);
             this.error = "";
-            this.$router.push({name: "flapp-surveys" }) 
+            this.$router.push({name: "surveys" }) 
         }, err => {
             console.error(err);
             this.error = err;
@@ -237,7 +253,7 @@ export default class ApplicationStatus extends Vue {
             this.$store.commit("Application/setCurrentApplication", this.currentApplication);
             this.$store.commit("Common/setExistingApplication", true);      
 
-            this.$router.push({name: "flapp-surveys" })        
+            this.$router.push({name: "surveys" })        
         }, err => {
             //console.log(err)
             this.error = err;        

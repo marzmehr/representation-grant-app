@@ -31,7 +31,7 @@ class Application extends VuexModule {
     public init(): void {
         this.allCompleted = false;
         this.currentStep = 0;
-        this.type = "default";
+        this.type = "probate";
         this.userName = "";
         this.lastPrinted = null;
         this.lastUpdate = null;
@@ -194,7 +194,7 @@ class Application extends VuexModule {
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Review and Print";
+        p.label = "Notify People";
         //TODO: turn active to false
         p.active = true;
         p.progress = 0;

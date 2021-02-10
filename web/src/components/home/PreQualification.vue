@@ -4,6 +4,35 @@
         <b-button v-if="displayButton" @click="onSubmit" variant="success">
             <b-icon-check-circle-fill/> Complete
         </b-button>
+
+        <b-modal size="xl" v-model="showDisclaimer" header-class="bg-white" no-close-on-backdrop hide-header-close>
+            <template v-slot:modal-title>
+                <h1 class="mb-0 text-primary">Terms and Conditions</h1> 
+            </template>
+
+            <p>"Apply to Represent Someone Who Died" is a service provided by the Government of British Columbia.</p>
+            <p>The Government of British Columbia has the right to change this service at any time.</p>
+            <ul>
+                <li>Learn more about the disclaimer and liability 
+                    <a target="_blank" href="https://www2.gov.bc.ca/gov/content/home/disclaimer">here
+                    </a>. (This link opens in a new tab)
+                </li>
+                <li>Learn more about privacy and security 
+                    <a target="_blank" href="https://www2.gov.bc.ca/gov/content/home/privacy">here
+                    </a>. (This link opens in a new tab)
+                </li>                
+            </ul>
+
+            
+            <p>The Supreme Court of British Columbia will review your <tooltip :index="0" title='application'/>. 
+                The Court will decide to give you a <tooltip :index="0" title='Representation Grant'/>or not.
+            </p>
+            
+            
+            <template v-slot:modal-footer>
+                <b-button variant="primary" style="font-size:22px;font-weight:bold;" size="lg" @click="showDisclaimer=false">Accept</b-button>
+            </template>
+        </b-modal>
        
     </b-container>
 </template>
@@ -11,20 +40,23 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import store from "@/store";
-
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/components/survey/survey-glossary.ts";
 import surveyJson from "./forms/survey-qualify.json";
+import Tooltip from "@/components/survey/Tooltip.vue";
 
-@Component
+@Component({
+    components:{
+        Tooltip
+    }
+})
 export default class PreQualification extends Vue {
 
     error = "";
     applicationId = 0;
-    displayButton = true;
-    survey = new SurveyVue.Model(surveyJson);
-  
+    displayButton = false;
+    showDisclaimer = true;
+    survey = new SurveyVue.Model(surveyJson);  
 
     beforeCreate() {
         const Survey = SurveyVue;
@@ -33,9 +65,10 @@ export default class PreQualification extends Vue {
     }
 
     mounted(){
-        this.displayButton = true;       
+        this.showDisclaimer = true;
+        this.displayButton = false;       
         this.initializeSurvey();
-        // this.addSurveyListener();
+        this.addSurveyListener();
     }
 
     public initializeSurvey(){
@@ -60,63 +93,19 @@ export default class PreQualification extends Vue {
         }
     }
 
-    // public addSurveyListener(){
-    //     this.survey.onValueChanged.add((sender, options) => {            
-    //         if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation > 0) 
-    //         {
-    //             this.displayButton = true;
-    //         }          
-    //     })
-    // }
+    public addSurveyListener(){
+        this.survey.onValueChanged.add((sender, options) => {         
+            if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation) 
+            {
+                this.displayButton = true;
+            } else {
+                this.displayButton = false;
+            }          
+        })
+    } 
 
-    public saveUserLocation(){
-        const url = "/user-info/"
-        const header = {
-            responseType: "json",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }
-        this.$http.put(url, {location:this.survey.data.ServiceLocation}, header)            
-        .then(() => {        
-            this.error = "";
-            this.saveApplication()
-        }, err => {
-            console.error(err);
-            this.error = err;
-        });
-    }
-
-    public saveApplication(){
-
-        this.$store.commit("Application/init");
-        const userType = store.state.Application.userType;      
-        store.commit("Application/setUserType", userType);
-        const application = store.state.Application;
-        //console.log(store.state.Application)
-        const url = "/app/"
-        const header = {
-            responseType: "json",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }
-        this.$http.post(url, application, header)
-        .then(res => {
-            this.applicationId = res.data.app_id;  
-            store.commit("Application/setApplicationId", this.applicationId);
-            this.error = "";
-            this.$router.push({name: "flapp-surveys" }) 
-        }, err => {
-            console.error(err);
-            this.error = err;
-        });
-    }
-
-    beforeDestroy() {
-        //console.log(this.step)
-        //console.log(this.survey.data)
-        this.$store.commit("Application/setApplicationLocation", this.survey.data.ServiceLocation);
+    beforeDestroy() {       
+        console.log(this.survey.data)        
     }
 };
 </script>
@@ -124,17 +113,10 @@ export default class PreQualification extends Vue {
 <style scoped lang="scss">
     @import "src/styles/common";
     .home-content {
-    padding-bottom: 20px;
-    padding-top: 2rem;
-    max-width: 950px;
-    color: black;
+        padding-bottom: 20px;
+        padding-top: 2rem;
+        max-width: 950px;
+        color: black;
     }
 
-
-    .locator-button {
-    margin-top: 2.5rem;
-    margin-left: 1rem;
-    float: left;
-    width: 8rem;
-    }
 </style>

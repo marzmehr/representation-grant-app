@@ -100,26 +100,25 @@ import Tooltip from "@/components/survey/Tooltip.vue"
 })
 export default class LandingPage extends Vue {
     
-    isLoggedIn= false
-    pageReady = false
-   
+    isLoggedIn= false;
+    pageReady = false;   
       
     async mounted() {
-        this.pageReady = true;
+        this.pageReady = false;
        
-        // await SessionManager.getUserInfo(this.$store);
-        // if(this.$store.state.Common.userId !== ""){
-        //     this.isLoggedIn = true
+        await SessionManager.getUserInfo(this.$store);
+        if(this.$store.state.Common.userId !== ""){
+            this.isLoggedIn = true;
+            this.determineUserType();
             
-        // }else{
-        //     this.isLoggedIn = false;
-        //     this.pageReady = true;
-        // } 
+        }else{
+            this.isLoggedIn = false;
+            this.pageReady = true;
+        } 
     }
   
     public navigate(userType) {
-
-        this.$store.commit("Application/setUserType", userType);          
+        
         if (userType === "new") {
               this.$router.push({ name: "pre-qualification" });
         } else if (userType === "returning") {
