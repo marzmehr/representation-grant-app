@@ -10,11 +10,11 @@
 					<ul>
 						<li>Learn more about the disclaimer and liability 
 							<a target="_blank" href="https://www2.gov.bc.ca/gov/content/home/disclaimer">here
-							</a>. (This link opens in a new tab)
+							</a>.
 						</li>
 						<li>Learn more about privacy and security 
 							<a target="_blank" href="https://www2.gov.bc.ca/gov/content/home/privacy">here
-							</a>. (This link opens in a new tab)
+							</a>.
 						</li>                
 					</ul>
 

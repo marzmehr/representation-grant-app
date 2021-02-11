@@ -15,11 +15,11 @@
             <ul>
                 <li>Learn more about the disclaimer and liability 
                     <a target="_blank" href="https://www2.gov.bc.ca/gov/content/home/disclaimer">here
-                    </a>. (This link opens in a new tab)
+                    </a>.
                 </li>
                 <li>Learn more about privacy and security 
                     <a target="_blank" href="https://www2.gov.bc.ca/gov/content/home/privacy">here
-                    </a>. (This link opens in a new tab)
+                    </a>.
                 </li>                
             </ul>
 
@@ -45,12 +45,19 @@ import * as surveyEnv from "@/components/survey/survey-glossary.ts";
 import surveyJson from "./forms/survey-qualify.json";
 import Tooltip from "@/components/survey/Tooltip.vue";
 
+import { namespace } from "vuex-class";   
+import "@/store/modules/common";
+const commonState = namespace("Common");
+
 @Component({
     components:{
         Tooltip
     }
 })
 export default class PreQualification extends Vue {
+
+    @commonState.State
+    public userId!: string;
 
     error = "";
     applicationId = 0;
@@ -86,7 +93,12 @@ export default class PreQualification extends Vue {
         {
             if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation > 0) 
             {
-                this.$router.push({ name: "qualified" });
+                if(this.userId !== ""){
+                    this.$router.push({ name: "surveys" });
+                } else {
+                    this.$router.push({ name: "qualified" });
+                }
+                
             } else {
                 this.$router.push({ name: "unqualified" });
             }

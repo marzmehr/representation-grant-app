@@ -6,6 +6,7 @@ import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
 class Common extends VuexModule {
     public existingApplication = false;
     public userId = '';
+    public userName = "";
     public userLocation = '';
 
     @Mutation
@@ -36,7 +37,16 @@ class Common extends VuexModule {
     @Action
     public UpdateUserLocation(newUserLocation: string): void {
         this.context.commit('setUserLocation', newUserLocation)
-    } 
+    }
+    
+    @Mutation
+    public  setUserName(userName): void {
+        this.userName = userName;
+    }
+    @Action
+    public UpdateUserName(newUserName) {
+        this.context.commit("setUserName", newUserName);
+    }
 
 }
 

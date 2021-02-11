@@ -11,7 +11,7 @@
                             <span class="text-muted ml-4 mb-5">No previous applications.</span>
                     </b-card>
 
-                    <b-card v-else no-body border-variant="light" bg-variant="white">
+                    <b-card v-else no-body border-variant="white" bg-variant="white">
                         <b-table  :items="previousApplications"
                             :fields="previousApplicationFields"
                             class="mx-4"
@@ -163,7 +163,7 @@ export default class ApplicationStatus extends Vue {
     }
 
     public openTerms() {
-    this.$router.push({name: "terms"})
+        this.$router.push({name: "terms"})
     }
 
     public loadApplications () {

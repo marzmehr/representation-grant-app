@@ -340,11 +340,11 @@
 
         public onDownload() {
             console.log('downloading')
-            if(this.checkErrorOnPages()){
-                const currentDate = moment().format();
-                this.UpdateLastPrinted(currentDate);
-                this.loadPdf();
-            }
+            // if(this.checkErrorOnPages()){
+            //     const currentDate = moment().format();
+            //     this.UpdateLastPrinted(currentDate);
+            //     this.loadPdf();
+            // }
         }
 
         public checkErrorOnPages(){
@@ -437,10 +437,11 @@
         }
 
         public onSubmit() {
+            console.log("submit")
 
-            if(this.checkErrorOnPages()){
-                this.eFile();
-            }            
+            // if(this.checkErrorOnPages()){
+            //     this.eFile();
+            // }            
         }
 
         public eFile() {

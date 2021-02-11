@@ -154,12 +154,13 @@ export default class ReviewAndPrint extends Vue {
     }
 
     public onDownload() {
+        console.log('downloading')
 
-        if(this.checkErrorOnPages()){
-            const currentDate = moment().format();
-            this.$store.commit("Application/setLastPrinted", currentDate);
-            this.loadPdf();
-        }
+        // if(this.checkErrorOnPages()){
+        //     const currentDate = moment().format();
+        //     this.$store.commit("Application/setLastPrinted", currentDate);
+        //     this.loadPdf();
+        // }
     }
 
     public checkErrorOnPages(){
