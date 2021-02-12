@@ -29,7 +29,7 @@ class EfilingView(generics.GenericAPIView):
         app = get_app_object(pk, uid)
 
         efiling_body = build_efiling_body(
-            location, documents, app.applicant_name, app.respondent_name, request
+            location, documents, app.applicant_name,'', request
             )
 
         submit_efiling(transaction_id, efiling_body)
