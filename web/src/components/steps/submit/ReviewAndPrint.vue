@@ -77,6 +77,21 @@
                 <b-button variant="outline-dark" class="closeButton" @click="showGetHelpForPDF=false">&times;</b-button>
             </template>
         </b-modal>
+
+        <b-modal size="xl" v-model="showPDFpreview" header-class="bg-white">
+            <template v-slot:modal-title>
+                <h1 class="mb-0 text-primary">Preview the PDF form</h1> 
+            </template>
+            <print-preview/> 
+            <template v-slot:modal-footer>
+                <b-button variant="primary" @click="showPDFpreview=false">Close</b-button>
+                <b-button variant="success" @click="onPrint();showPDFpreview=false">Save and Close</b-button>
+            </template>            
+            <template v-slot:modal-header-close>                 
+                <b-button variant="outline-dark" class="closeButton" @click="showPDFpreview=false">&times;</b-button>
+            </template>
+        </b-modal>
+
     </page-base>
 </template>
 
@@ -88,6 +103,7 @@ import PageBase from "../PageBase.vue";
 
 import moment from 'moment-timezone';
 import GetHelpForPdf from "./helpPages/GetHelpForPDF.vue"
+import PrintPreview from "./pdf/PrintPreview.vue"
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -96,7 +112,8 @@ const applicationState = namespace("Application");
 @Component({
     components:{
         PageBase,
-        GetHelpForPdf
+        GetHelpForPdf,
+        PrintPreview,
     }
 })
 
@@ -117,6 +134,8 @@ export default class ReviewAndPrint extends Vue {
     error= "";
     currentStep=0;
     currentPage=0;
+    
+    showPDFpreview = false;
 
     showGetHelpForPDF = false;
     applicationLocation = {name:'', address:'', cityStatePostcode:'', email:''}
@@ -154,12 +173,12 @@ export default class ReviewAndPrint extends Vue {
     }
 
     public onDownload() {
-
-        if(this.checkErrorOnPages()){
-            const currentDate = moment().format();
-            this.$store.commit("Application/setLastPrinted", currentDate);
-            this.loadPdf();
-        }
+        this.showPDFpreview = true
+        // if(this.checkErrorOnPages()){
+        //     const currentDate = moment().format();
+        //     this.$store.commit("Application/setLastPrinted", currentDate);
+        //     this.loadPdf();
+        // }
     }
 
     public checkErrorOnPages(){
@@ -231,6 +250,36 @@ export default class ReviewAndPrint extends Vue {
             this.error = "Sorry, we were unable to print your form at this time, please try again later.";
         });
 
+    }
+    
+    public onPrint() {
+        
+        const el= document.getElementById("print");
+        console.log(el)
+        const applicationId = this.$store.state.Application.id;
+        
+        const url = '/survey-print/'+applicationId+'/?name=application-about-a-protection-order'
+        const body = Vue.filter('printPdf')(el.innerHTML,`"SCCRPF  02/2021 \a         Form P1";`)
+        const options = {
+            responseType: "blob",
+            headers: {
+            "Content-Type": "application/json",
+            }
+        }  
+        console.log(body)
+        this.$http.post(url,body, options)
+        .then(res => {
+            const blob = res.data;
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            document.body.appendChild(link);
+            link.download = "fpo.pdf";
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(link.href), 1000);            
+        },err => {
+            console.error(err);
+        
+        });
     }
 
     public getFPOResultData() {  

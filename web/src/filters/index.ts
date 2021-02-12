@@ -2,7 +2,6 @@ import Vue from 'vue'
 import moment from 'moment-timezone';
 import store from '@/store';
 
-
 Vue.filter('beautify-date', function(date){
 	enum MonthList {'Jan' = 1, 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'}
 	if(date)
@@ -72,23 +71,12 @@ Vue.filter('getFullContactInfo',function(nameObject){
 Vue.filter('setSurveyProgress', function(survey, currentStep: number, currentPage: number, defaultProgress: number, beforeDestroy: boolean){
 
 	let progress =  defaultProgress;
-	//if(survey && Object.keys(survey.data).length)
+	
 	if(survey && store.state.Application.steps[currentStep].pages[currentPage].progress)
 		progress = survey.isCurrentPageHasErrors? 50 : 100;
 	//console.log(store.state.Application.steps[currentStep].pages[currentPage].progress)
 	store.commit("Application/setPageProgress", { currentStep: currentStep, currentPage:currentPage, progress:progress });
-	//const currPage = document.getElementById("step-" + currentStep+"-page-" + currentPage);
-	// if(currPage){
-	// 	if(progress != 100){
-	// 		currPage.style.color = beforeDestroy? "red":"";
-	// 		currPage.className =  beforeDestroy? "":"current";
-	// 	}
-	// 	else
-	// 	{
-	// 		currPage.style.color = "";
-	// 		currPage.className = beforeDestroy? "":"current";
-	// 	}  
-	// }  
+	
 	const reviewProgress = store.state.Application.steps[8].pages[0].progress
 	if(currentStep < 8 && reviewProgress){
 		console.log('review required')
@@ -164,4 +152,49 @@ Vue.filter('extractRequiredDocuments', function(questions){
 	//console.log(requiredDocuments)
 
 	return requiredDocuments;
+})
+
+Vue.filter('printPdf', function(html, pageFooter){
+
+	const body = [
+		`<!DOCTYPE html>
+		<html lang="en">
+		<head>
+		<link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" >
+		<meta charset="UTF-8">
+		<title>Application About a Protection Order</title>`+
+		`<style>`+
+			`@page {
+				size: 12.5in 16.17in;
+				margin: .7in 0.7in 0.9in 0.7in;
+				@bottom-left {
+					content:`+ pageFooter +
+					`white-space: pre;
+					font-size: 6pt;
+				}
+				@bottom-right {
+					content:"page " counter(page);
+					font-size: 8pt;
+				}
+			}`+
+			`@media print{
+				.new-page{
+					page-break-before: always;
+					position: relative; top: 8em;
+				}
+			}`+
+			`td.border-dark {border: 1px solid black;}`+
+			`th.border-dark {border: 1px solid black;}`+
+			`section{ counter-increment: question-counter; text-indent: -20px; text-align: justify; text-justify: inter-word; margin: 1.0rem 0.5rem 0.5rem 0rem;}`+ 
+			`section:before {font-weight: bolder; content:counter(question-counter) ".";}`+
+			`section.resetquestion{counter-reset: question-counter;}`+
+			`ol.resetcounter{list-style: none;counter-reset: bracket-counter;}`+
+			`ol li.bracketnumber{text-indent: -35px;text-align: justify;text-justify: inter-word;margin:1rem 0;counter-increment: bracket-counter;}`+
+			`ol li.bracketnumber:before {content:"(" counter(bracket-counter) ") ";font-weight: bold;}`+
+		`</style>
+		</head>
+		<body>`+html+
+		`</body>\n</html>`]		 
+	//console.log(body)		
+	return body
 })
