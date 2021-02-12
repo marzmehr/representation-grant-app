@@ -18,9 +18,13 @@
 
 <script lang="ts">
 import { Component, Vue} from 'vue-property-decorator';
-import { namespace } from "vuex-class";   
+import { namespace } from "vuex-class";
+import moment from 'moment-timezone';   
 import "@/store/modules/application";
 const applicationState = namespace("Application");
+
+import "@/store/modules/common";
+const commonState = namespace("Common");
 
 import NavigationSidebar from "./NavigationSidebar.vue";
 import DeceasedInfoStep from "./steps/deceased/DeceasedInfoStep.vue";
@@ -62,8 +66,14 @@ export default class Surveys extends Vue {
     @applicationState.State
     public currentStep!: number;
 
+    @commonState.State
+    public existingApplication!: Boolean;
+
     @applicationState.Action
     public UpdateApplicationId!: (newApplicationId) => void
+
+    @applicationState.Action
+    public UpdateLastUpdated!: (newLastUpdated) => void
 
     error = "";
     surveyInitiated = false;
@@ -75,7 +85,12 @@ export default class Surveys extends Vue {
 
     mounted() {
         this.surveyInitiated = false;
-        this.initiateApplication();
+        if (this.existingApplication){
+            this.surveyInitiated = true;
+        } else {
+            this.initiateApplication();
+        }
+        
     }
 
     public getCurrentStepIndex() {
@@ -92,6 +107,8 @@ export default class Surveys extends Vue {
     public initiateApplication() {
 
         this.$store.commit("Application/init");
+        const lastUpdated = moment().format();
+        this.UpdateLastUpdated(lastUpdated);
         
         const application = this.$store.state.Application;
         const url = "/app/"

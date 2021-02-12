@@ -115,7 +115,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 import * as SurveyVue from "survey-vue";  
 import * as surveyEnv from "@/components/survey/survey-glossary.ts";
-import store from "@/store";
 import moment from 'moment-timezone';
 import {applicationInfoType} from "@/types/Application"
 
@@ -132,8 +131,17 @@ export default class ApplicationStatus extends Vue {
     @commonState.State
     public userId!: string;
 
+    @commonState.State
+    public existingApplication!: Boolean;
+
+    @commonState.Action
+    public UpdateExistingApplication!: (newExistingApplication) => void
+
     @applicationState.Action
     public UpdateUserId!: (newUserId) => void
+
+    @applicationState.Action
+    public UpdateCurrentApplication!: (newCurrentApplication) => void
 
     @applicationState.Action
     public UpdateLastUpdated!: (newLastUpdated) => void
@@ -189,35 +197,10 @@ export default class ApplicationStatus extends Vue {
     }
 
     public beginApplication() {   
-
-        this.$store.commit("Application/init");
         
         this.UpdateUserId(this.userId);
-
-        const lastUpdated = moment().format();
-        this.UpdateLastUpdated(lastUpdated);        
-
-        const application = store.state.Application;
-        
-        //console.log(application)
-        const url = "/app/";
-        const header = {
-            responseType: "json",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }
-
-        this.$http.post(url, application,header)
-        .then(res => {
-            this.applicationId = res.data.app_id;  
-            this.UpdateApplicationId(this.applicationId);
-            this.error = "";
-            this.$router.push({name: "surveys" }) 
-        }, err => {
-            console.error(err);
-            this.error = err;
-        });
+        this.UpdateExistingApplication(false); 
+        this.$router.push({name: "surveys" });        
     }
 
     public navigateToEFilingHub(packageNumber) {
@@ -250,8 +233,8 @@ export default class ApplicationStatus extends Vue {
             this.currentApplication.userName = applicationData.userName;
             this.currentApplication.userType = applicationData.userType;        
             this.currentApplication.steps = applicationData.steps;
-            this.$store.commit("Application/setCurrentApplication", this.currentApplication);
-            this.$store.commit("Common/setExistingApplication", true);      
+            this.UpdateCurrentApplication(this.currentApplication);
+            this.UpdateExistingApplication(true);      
 
             this.$router.push({name: "surveys" })        
         }, err => {

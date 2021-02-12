@@ -21,9 +21,9 @@ class Application extends VuexModule {
     public userId = ""
     public applicantName = ""
     public deceasedName = ""
-    public deceasedDateOfDeath = ""
+    public deceasedDateOfDeath = null
     public deceasedDateOfDeathPlus4 = ""
-    public dateOfWill = ""
+    public dateOfWill = null
     public applicationLocation = ""
     public scrollToLocationName = ""
     public requiredDocuments: string[] = []
