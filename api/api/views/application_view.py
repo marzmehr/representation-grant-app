@@ -45,9 +45,9 @@ class ApplicationView(APIView):
                 "userName": application.user_name,
                 "userId": application.user_id,
                 "applicantName": application.applicant_name,
-                "respondentName": application.respondent_name,
-                "protectedPartyName": application.protected_party_name,
-                "protectedChildName": application.protected_child_name,
+                "deceasedName": application.deceased_name,
+                "deceasedDateOfDeath": application.deceased_date_of_death,
+                "dateOfWill": application.date_of_will,
                 "applicationLocation": application.application_location}
         return Response(data)
 
@@ -73,9 +73,9 @@ class ApplicationView(APIView):
             applicant_name=body.get("applicantName"),
             user_name=body.get("userName"),
             key_id=steps_key_id,
-            respondent_name=body.get("respondentName"),
-            protected_party_name=body.get("protectedPartyName"),
-            protected_child_name=body.get("protectedChildName"),
+            deceased_name=body.get("deceasedName"),
+            deceased_date_of_death=body.get("deceasedDateOfDeath"),
+            date_of_will=body.get("dateOfWill"),
             application_location=body.get("applicationLocation"),
             user_id=uid)
 
@@ -101,9 +101,9 @@ class ApplicationView(APIView):
         app.user_type = body.get("userType")
         app.applicant_name = body.get("applicantName")
         app.user_name = body.get("userName")
-        app.respondent_name = body.get("respondentName")
-        app.protected_party_name = body.get("protectedPartyName")
-        app.protected_child_name = body.get("protectedChildName")
+        app.deceased_name = body.get("deceasedName")
+        app.deceased_date_of_death = body.get("deceasedDateOfDeath")
+        app.date_of_will = body.get("dateOfWill")
         app.application_location = body.get("applicationLocation")
         app.save()
         return Response("success")
