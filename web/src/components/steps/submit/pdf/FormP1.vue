@@ -207,7 +207,7 @@ export default class FormP1 extends Vue {
         console.log(el)
         const applicationId = this.$store.state.Application.id;
         
-        const url = '/survey-print/'+applicationId+'/?name=application-about-a-protection-order'
+        const url = '/survey-print/'+applicationId+'/?name=representation-grant'
         const body = Vue.filter('printPdf')(el.innerHTML,`"SCCRPF  02/2021 \a         Form P1";`)
         const options = {
             responseType: "blob",
@@ -222,7 +222,7 @@ export default class FormP1 extends Vue {
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             document.body.appendChild(link);
-            link.download = "fpo.pdf";
+            link.download = "FormP1.pdf";
             link.click();
             setTimeout(() => URL.revokeObjectURL(link.href), 1000);            
         },err => {
