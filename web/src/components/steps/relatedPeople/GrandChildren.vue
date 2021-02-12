@@ -35,6 +35,12 @@ export default class GrandChildren extends Vue {
     @applicationState.State
     public currentStep!: number;
 
+    @applicationState.State
+    public deceasedName!: string;
+
+    @applicationState.State
+    public deceasedDateOfDeathPlus4!: string;
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -46,7 +52,6 @@ export default class GrandChildren extends Vue {
 
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
-
 
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
@@ -93,10 +98,13 @@ export default class GrandChildren extends Vue {
             this.survey.data = this.step.result['grandChildrenSurvey'].data;
             Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
         }
-
       
         this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
+    
+        this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+        this.survey.setVariable("deceasedDateOfDeathPlus4", Vue.filter('beautify-date')(this.deceasedDateOfDeathPlus4));     
+   
     }
 
     public onPrev() {

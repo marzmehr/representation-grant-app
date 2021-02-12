@@ -10,9 +10,10 @@ export interface applicationInfoType {
     userName: string;
     userId: string;
     applicantName: string;
-    respondentName: string;
-    protectedPartyName: string;
-    protectedChildName: string;
+    deceasedName: string;
+    deceasedDateOfDeath: string;
+    DeceasedDateOfDeathPlus4: string;
+    dateOfWill: string;
     applicationLocation: string;
 }
 

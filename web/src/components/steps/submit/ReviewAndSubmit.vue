@@ -223,7 +223,7 @@
         public applicationLocation!: string;
 
         @applicationState.State
-        public protectedPartyName!: string;
+        public deceasedDateOfDeath!: string;
 
         @applicationState.State
         public currentStep!: number;
@@ -426,8 +426,8 @@
                 }
             } 
             
-            var protectedPartyName = {protectedPartyName: this.protectedPartyName}
-            Object.assign(result, result, protectedPartyName);           
+            var deceasedDateOfDeath = {deceasedDateOfDeath: this.deceasedDateOfDeath}
+            Object.assign(result, result, deceasedDateOfDeath);           
            
             if(this.applicationLocation)
                 Object.assign(result, result,{applicationLocation: this.applicationLocation}); 

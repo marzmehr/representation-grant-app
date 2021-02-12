@@ -35,6 +35,9 @@ export default class Creditors extends Vue {
     @applicationState.State
     public currentStep!: number;
 
+    @applicationState.State
+    public deceasedName!: string;
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -96,6 +99,9 @@ export default class Creditors extends Vue {
       
         this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
+    
+        this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+  
     }
 
     public onPrev() {

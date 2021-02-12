@@ -240,9 +240,9 @@ export default class ApplicationStatus extends Vue {
             this.currentApplication.currentStep = applicationData.currentStep;
             this.currentApplication.lastUpdate = applicationData.lastUpdated;
             this.currentApplication.lastPrinted = applicationData.lastPrinted;
-            this.currentApplication.respondentName = applicationData.respondentName;
-            this.currentApplication.protectedPartyName = applicationData.protectedPartyName;
-            this.currentApplication.protectedChildName = applicationData.protectedChildName;
+            this.currentApplication.deceasedName = applicationData.deceasedName;
+            this.currentApplication.deceasedDateOfDeath = applicationData.deceasedDateOfDeath;
+            this.currentApplication.dateOfWill = applicationData.dateOfWill;
             this.currentApplication.applicationLocation = applicationData.applicationLocation;
             
             this.currentApplication.type = applicationData.type;

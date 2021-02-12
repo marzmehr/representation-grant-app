@@ -1,4 +1,6 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
+import { Vue } from 'vue-property-decorator';
+import moment from 'moment-timezone';
 import { stepInfoType, pageInfoType } from "@/types/Application";
 
 @Module({
@@ -18,9 +20,10 @@ class Application extends VuexModule {
     public userName = ""
     public userId = ""
     public applicantName = ""
-    public respondentName = ""
-    public protectedPartyName = ""
-    public protectedChildName = ""
+    public deceasedName = ""
+    public deceasedDateOfDeath = ""
+    public deceasedDateOfDeathPlus4 = ""
+    public dateOfWill = ""
     public applicationLocation = ""
     public scrollToLocationName = ""
     public requiredDocuments: string[] = []
@@ -566,30 +569,39 @@ class Application extends VuexModule {
     }
     
     @Mutation
-    public setRespondentName(respondentName): void {
-        this.respondentName = respondentName;
+    public setDeceasedName(deceasedName): void {
+        this.deceasedName = deceasedName;
     }
     @Action
-    public UpdateRespondentName(newRespondentName) {
-        this.context.commit("setRespondentName", newRespondentName);
+    public UpdateDeceasedName(newDeceasedName) {
+        this.context.commit("setDeceasedName", newDeceasedName);
     }
     
     @Mutation
-    public setProtectedPartyName(protectedPartyName): void {
-        this.protectedPartyName = protectedPartyName;
+    public setDeceasedDateOfDeath(deceasedDateOfDeath): void {
+        this.deceasedDateOfDeath = deceasedDateOfDeath;
     }
     @Action
-    public UpdateProtectedPartyName(newProtectedPartyName) {
-        this.context.commit("setProtectedPartyName", newProtectedPartyName);
-    }  
+    public UpdateDeceasedDateOfDeath(newDeceasedDateOfDeath) {
+        this.context.commit("setDeceasedDateOfDeath", newDeceasedDateOfDeath);
+    }
+
+    @Mutation
+    public setDeceasedDateOfDeathPlus4(deceasedDateOfDeathPlus4): void {
+        this.deceasedDateOfDeathPlus4 = deceasedDateOfDeathPlus4;
+    }
+    @Action
+    public UpdateDeceasedDateOfDeathPlus4(newDeceasedDateOfDeathPlus4) {
+        this.context.commit("setDeceasedDateOfDeathPlus4", newDeceasedDateOfDeathPlus4);
+    }
     
     @Mutation
-    public setProtectedChildName(protectedChildName): void {
-        this.protectedChildName = protectedChildName;
+    public setDateOfWill(dateOfWill): void {
+        this.dateOfWill = dateOfWill;
     }
     @Action
-    public UpdateProtectedChildName(newProtectedChildName) {
-        this.context.commit("setProtectedChildName", newProtectedChildName);
+    public UpdateDateOfWill(newDateOfWill) {
+        this.context.commit("setDateOfWill", newDateOfWill);
     }
 
     @Mutation
@@ -667,9 +679,12 @@ class Application extends VuexModule {
         this.userType = application.userType;
         this.userName = application.userName;
         this.applicantName = application.applicantName;
-        this.respondentName = application.respondentName; 
-        this.protectedPartyName = application.protectedPartyName;
-        this.protectedChildName = application.protectedChildName;
+        this.deceasedName = application.deceasedName; 
+        this.deceasedDateOfDeath = application.deceasedDateOfDeath;
+        if (this.deceasedDateOfDeath){
+            this.deceasedDateOfDeathPlus4 = Vue.filter('beautify-date')(moment(this.deceasedDateOfDeath, "YYYY-MM-DD").add(4, 'days').format());
+        }
+        this.dateOfWill = application.dateOfWill;
         this.applicationLocation = application.applicationLocation;  
     }
     @Action

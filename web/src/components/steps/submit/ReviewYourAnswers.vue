@@ -95,15 +95,15 @@ export default class ReviewYourAnswers extends Vue {
     public beautifyQuestion(question){
         let adjQuestion = question
         while(adjQuestion.includes('{ApplicantName}')||
-            adjQuestion.includes('{RespondentName}')||
-            adjQuestion.includes('{ProtectedPartyName}')||
+            adjQuestion.includes('{deceasedName}')||
+            adjQuestion.includes('{deceasedDateOfDeath}')||
             adjQuestion.includes('{anotherAdultName}')||
             adjQuestion.includes('<br/>')||
             adjQuestion.includes('<br>')){
                 adjQuestion = adjQuestion.replace('{ApplicantName}', Vue.filter('getFullName')(this.$store.state.Application.applicantName));
-                adjQuestion = adjQuestion.replace('{RespondentName}', Vue.filter('getFullName')(this.$store.state.Application.respondentName));
-                adjQuestion = adjQuestion.replace('{ProtectedPartyName}', Vue.filter('getFullName')(this.$store.state.Application.protectedPartyName));
-                adjQuestion = adjQuestion.replace('{anotherAdultName}', Vue.filter('getFullName')(this.$store.state.Application.protectedPartyName));
+                adjQuestion = adjQuestion.replace('{DeceasedName}', Vue.filter('getFullName')(this.$store.state.Application.deceasedName));
+                adjQuestion = adjQuestion.replace('{DeceasedDateOfDeath}', Vue.filter('getFullName')(this.$store.state.Application.deceasedDateOfDeath));
+                adjQuestion = adjQuestion.replace('{anotherAdultName}', Vue.filter('getFullName')(this.$store.state.Application.deceasedDateOfDeath));
                 adjQuestion = adjQuestion.replace('<br>','');
                 adjQuestion = adjQuestion.replace('<br/>','');
         }
@@ -234,8 +234,8 @@ export default class ReviewYourAnswers extends Vue {
     }
 
     public determineHiddenErrors(){        
-        this.errorQuestionNames.push(this.coOccurrence("Protection from whom?","childPO","y",  "Background","PartiesHasOtherChilderen","Are {ProtectedPartyName} and {RespondentName} a parent, step-parent or guardian to a child:", "PartiesHasOtherChilderen"));
-        this.errorQuestionNames.push(this.coOccurrence("Protection from whom?","childPO","n",  "Background","PartiesHasOtherChilderen","Are {ProtectedPartyName} and {RespondentName} a parent, step-parent or guardian to a child that is not already identified in the list", "PartiesHasOtherChilderen"));        
+        this.errorQuestionNames.push(this.coOccurrence("Protection from whom?","childPO","y",  "Background","PartiesHasOtherChilderen","Are {DeceasedDateOfDeath} and {DeceasedName} a parent, step-parent or guardian to a child:", "PartiesHasOtherChilderen"));
+        this.errorQuestionNames.push(this.coOccurrence("Protection from whom?","childPO","n",  "Background","PartiesHasOtherChilderen","Are {DeceasedDateOfDeath} and {DeceasedName} a parent, step-parent or guardian to a child that is not already identified in the list", "PartiesHasOtherChilderen"));        
     }
 
     // public getFPOResultData() {  

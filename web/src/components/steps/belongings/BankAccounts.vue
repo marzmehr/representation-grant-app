@@ -35,6 +35,9 @@ export default class BankAccounts extends Vue {
     @applicationState.State
     public currentStep!: number;
 
+    @applicationState.State
+    public deceasedName!: string;
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -92,10 +95,12 @@ export default class BankAccounts extends Vue {
             this.survey.data = this.step.result['bankAccountsSurvey'].data;
             Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
         }
-
       
         this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
+
+        this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+    
     }
 
     public onPrev() {

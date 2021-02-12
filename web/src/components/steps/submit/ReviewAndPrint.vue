@@ -250,8 +250,8 @@ export default class ReviewAndPrint extends Vue {
             
         //Object.assign(result, result,{yourInformationSurvey: this.$store.state.Application.steps[1].result.yourInformationSurvey.data}); 
         
-        var protectedPartyName = {protectedPartyName: this.$store.state.Application.protectedPartyName}
-        Object.assign(result, result, protectedPartyName);
+        var deceasedDateOfDeath = {deceasedDateOfDeath: this.$store.state.Application.deceasedDateOfDeath}
+        Object.assign(result, result, deceasedDateOfDeath);
         
         var applicationLocation = this.$store.state.Application.applicationLocation;
         var userLocation = this.$store.state.Common.userLocation;

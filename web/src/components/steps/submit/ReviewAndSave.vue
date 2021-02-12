@@ -272,8 +272,8 @@ export default class ReviewAndSave extends Vue {
         // for(var i=1;i<9; i++)
         //     Object.assign(result, result, this.$store.state.Application.steps[i].result); 
         
-        var protectedPartyName = {protectedPartyName: this.$store.state.Application.protectedPartyName}
-        Object.assign(result, result, protectedPartyName);
+        var deceasedDateOfDeath = {deceasedDateOfDeath: this.$store.state.Application.deceasedDateOfDeath}
+        Object.assign(result, result, deceasedDateOfDeath);
         
         var applicationLocation = this.$store.state.Application.applicationLocation
         var userLocation = this.$store.state.Common.userLocation
