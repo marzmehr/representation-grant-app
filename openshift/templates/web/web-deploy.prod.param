@@ -15,7 +15,7 @@
 # WEB_BASE_HREF=/representation-grant/
 # AdditionalRealIpFromRules=
 # IpFilterRules=
-APPLICATION_DOMAIN=representation-grant-prod.apps.silver.devops.gov.bc.ca
+APPLICATION_DOMAIN=representation-grant-prod.silver.devops.bcgov
 # ALLOW_LIST=
 TAG_NAME=prod
 # MIN_REPLICAS=3

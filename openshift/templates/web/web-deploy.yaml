@@ -270,7 +270,7 @@ parameters:
   - description: The endpoint used for routing access to the application.
     displayName: Application Domain
     name: APPLICATION_DOMAIN
-    value: representation-grant-dev.apps.silver.devops.gov.bc.ca
+    value: representation-grant-dev.silver.devops.bcgov
   - name: ALLOW_LIST
     displayName: Allow List
     description: The allow list containing all of the trusted source IPs.
