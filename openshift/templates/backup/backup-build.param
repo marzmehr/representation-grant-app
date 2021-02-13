@@ -6,7 +6,7 @@
 NAME=backup
 SUFFIX=
 APP_NAME=Backup
-APP_GROUP=fla
+APP_GROUP=representation-grant
 GIT_REPO_URL=https://github.com/BCDevOps/backup-container.git
 GIT_REF=2.3.1
 SOURCE_CONTEXT_DIR=/docker

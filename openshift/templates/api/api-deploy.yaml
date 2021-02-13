@@ -275,7 +275,7 @@ parameters:
     displayName: App Name
     description: App Name
     required: true
-    value: fla
+    value: representation-grant
   - name: ROLE
     displayName: Role
     description: Role
@@ -286,13 +286,13 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: 09e0c5
+    value: 583dbf
 
   - name: IMAGE_NAMESPACE
     displayName: Image Namespace
     required: true
     description: The namespace of the OpenShift project containing the imagestream for the application.
-    value: 09e0c5-tools
+    value: 583dbf-tools
   - name: DATABASE_SERVICE_NAME
     displayName: Database Service Name
     description: The name of the database server/service.
