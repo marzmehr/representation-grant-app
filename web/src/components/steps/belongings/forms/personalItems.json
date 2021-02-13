@@ -1,0 +1,292 @@
+{
+    "title": "Representation Grant",
+    "pages": [
+        {
+            "name": "cashPage",
+            "elements": [
+                {
+                    "type": "panel",
+                    "name": "panel16",
+                    "elements": [
+                        {
+                            "type": "yesno",
+                            "name": "question316",
+                            "title": "[only if there is a will] any other Specific Will gifts not already disclosed?",
+                            "description": "please list all gifts specifically mentioned in the will that haven't already been disclosed.\n[+ add secured debt question if there is a value]"
+                        },
+                        {
+                            "type": "matrixdynamic",
+                            "name": "question397",
+                            "titleLocation": "hidden",
+                            "columns": [
+                                {
+                                    "name": "Column 1",
+                                    "title": "Describe the gift",
+                                    "cellType": "text"
+                                },
+                                {
+                                    "name": "Column 2",
+                                    "title": "Value",
+                                    "cellType": "radiogroup",
+                                    "hasOther": true,
+                                    "choices": [
+                                        {
+                                            "value": "item1",
+                                            "text": "This gift is no longer in the estate at the time of death"
+                                        },
+                                        {
+                                            "value": "item2",
+                                            "text": "no commercial value"
+                                        }
+                                    ],
+                                    "choicesOrder": "desc",
+                                    "otherText": "Value"
+                                }
+                            ],
+                            "choices": [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5
+                            ],
+                            "rowCount": 1,
+                            "minRowCount": 1
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "question333",
+                            "title": "Are all the gifts that were specially mentioned in the will included in this service?"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question331",
+                            "title": "This page will also ask about a lot more personal items. If you include them as a specific gift, don't double count them in the categories below.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        }
+                    ]
+                },
+                {
+                    "type": "yesno",
+                    "name": "question301",
+                    "title": "Cash?",
+                    "description": "you are required to declare cash that will enter your possession when you manage {deceasedName}'s estate even if you don't need a rep grant get access to this cash."
+                },
+                {
+                    "type": "text",
+                    "name": "question328",
+                    "visible": false,
+                    "title": "value of cash",
+                    "description": "physical cash at home or buried somewhere",
+                    "inputType": "number"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question324",
+                    "title": "certificated stocks and bonds",
+                    "description": "this means physical copies of stocks/bonds that are not held in a digital online broker. company, amounts of shares, value at date of death, registered loan against this?"
+                },
+                {
+                    "type": "paneldynamic",
+                    "name": "question374",
+                    "templateElements": [
+                        {
+                            "type": "text",
+                            "name": "question369",
+                            "title": "Name of organization that issued the stock or bond?"
+                        },
+                        {
+                            "type": "text",
+                            "name": "question370",
+                            "title": "amount of shares"
+                        },
+                        {
+                            "type": "text",
+                            "name": "question371",
+                            "title": "value of date of death"
+                        }
+                    ]
+                },
+                {
+                    "type": "yesno",
+                    "name": "question375",
+                    "title": "Is this all the stocks/bonds?"
+                },
+                {
+                    "type": "infotext",
+                    "name": "question376",
+                    "title": "add more stocks/bonds",
+                    "titleLocation": "hidden",
+                    "messageStyle": "error"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question365",
+                    "title": "Does anyone or any organization owe {deceasedName} money?",
+                    "description": "direct loans to people or business, lease payments on property, etc"
+                },
+                {
+                    "type": "paneldynamic",
+                    "name": "question366",
+                    "templateElements": [
+                        {
+                            "type": "text",
+                            "name": "question378",
+                            "title": "name of person/organization who owed money to {deceasedName}"
+                        },
+                        {
+                            "type": "radiogroup",
+                            "name": "question377",
+                            "title": "value of money owed at the time of death + ask about secured debts against amount owed",
+                            "hasOther": true,
+                            "choices": [
+                                {
+                                    "value": "item1",
+                                    "text": "They don't tell me how much they owe"
+                                },
+                                {
+                                    "value": "item2",
+                                    "text": "I don't have the exact value right now but I know I will be able to get it"
+                                }
+                            ],
+                            "otherText": "Value"
+                        }
+                    ]
+                },
+                {
+                    "type": "yesno",
+                    "name": "question379",
+                    "title": "is this everyone who owes {deceasedName} money?"
+                },
+                {
+                    "type": "infotext",
+                    "name": "question380",
+                    "title": "add more private loans",
+                    "titleLocation": "hidden",
+                    "messageStyle": "error"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question315",
+                    "title": "Did {deceasedName} have any jewelry?"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "question318",
+                    "title": "What is the total value of all of their jewelry [ Add secured debt questions]",
+                    "hasOther": true,
+                    "choices": [
+                        {
+                            "value": "item1",
+                            "text": "no commercial value"
+                        }
+                    ],
+                    "otherText": "Value"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question314",
+                    "title": "Clothes"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "question329",
+                    "title": "Value options + [add secured debt questions]",
+                    "hasOther": true,
+                    "choices": [
+                        {
+                            "value": "item1",
+                            "text": "no commercial value"
+                        }
+                    ],
+                    "otherText": "Value"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question372",
+                    "title": "Did {deceasedName} own any furniture? [ask only if they don't have a house]",
+                    "description": "bed, couch"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "question396",
+                    "title": " What is the value of the furniture? [ask only if they don't have a house] + add secured debt questions only where there is a commercial value. no need to explain debt but warn you may need to provide proof.",
+                    "hasOther": true,
+                    "choices": [
+                        {
+                            "value": "item1",
+                            "text": "no resale value"
+                        }
+                    ],
+                    "otherText": "value"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question395",
+                    "title": "Did {deceasedName} own household items?",
+                    "description": "include computers, tvs, smart phones/tablets, kitchenware"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "question302",
+                    "title": "What is the value of the household items? [+ secured debts questions if there is a value. validation - debt can't be more than value. - include total secured debt on all applicable household items]",
+                    "hasOther": true,
+                    "choices": [
+                        {
+                            "value": "item1",
+                            "text": "no resale value"
+                        }
+                    ],
+                    "otherText": "value"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question327",
+                    "title": "any other assets (that will come into your possession as executors??) that {deceasedName} had of value?",
+                    "description": " small vehicles like bikes/small boats, leasehold interests, promissory notes, gold, silver, intellectual property, digital assets, manufactured homes, time share interests, interests in business, interests in estates and trusts."
+                },
+                {
+                    "type": "paneldynamic",
+                    "name": "question381",
+                    "templateElements": [
+                        {
+                            "type": "text",
+                            "name": "question367",
+                            "title": "Describe asset",
+                            "description": "add as much detail as you feel you need to justify the value so you don't get follow up questions"
+                        },
+                        {
+                            "type": "radiogroup",
+                            "name": "question368",
+                            "title": " What is the value of this asset? ({asset description}) [switch to \"single input\"?]",
+                            "hasOther": true,
+                            "otherText": "value"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question393",
+                            "title": "secured debt? yes/no with description of examples. Yes reveals all fields and must be answered NO for no applicable. ",
+                            "titleLocation": "hidden"
+                        }
+                    ]
+                },
+                {
+                    "type": "yesno",
+                    "name": "question382",
+                    "title": "is this every \"other asset\" of value?"
+                },
+                {
+                    "type": "infotext",
+                    "name": "question383",
+                    "title": "add more \"other assets\"",
+                    "titleLocation": "hidden",
+                    "messageStyle": "error"
+                }
+            ],
+            "title": "Personal Items"
+        }
+    ],
+    "showQuestionNumbers": "off",
+    "requiredText": ""
+}

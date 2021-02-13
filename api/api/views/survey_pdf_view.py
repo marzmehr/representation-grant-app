@@ -22,9 +22,9 @@ class SurveyPdfView(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def generate_pdf(self, name, data):
-        template = '{}.html'.format(name)
-        template = get_template(template)
-        html_content = template.render(data)
+        #template = '{}.html'.format(name)
+        #template = get_template(template)
+        html_content = data #template.render(data)
 
         pdf_content = render_pdf(html_content)
         return pdf_content
@@ -61,9 +61,10 @@ class SurveyPdfView(generics.GenericAPIView):
                 pdf_queryset.update(data=pdf_content_enc)
                 pdf_queryset.update(created_date=timezone.now())
             else:
-                pdf_content = settings.ENCRYPTOR.decrypt(
-                        pdf_result.key_id, pdf_result.data
-                    )
+                pdf_content = self.generate_pdf(name, data)
+                # pdf_content = settings.ENCRYPTOR.decrypt(
+                #         pdf_result.key_id, pdf_result.data
+                #     )
             app.last_printed = timezone.now()
             app.save()
         except Exception as ex:

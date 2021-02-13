@@ -5,7 +5,7 @@ module.exports = {
     proxy: {
       "/api": {
         target: "http://localhost:8081",
-        pathRewrite: { '^/apply-for-family-order': '' },
+        pathRewrite: { '^/apply-for-representation-grant': '' },
         secure: false,
         changeOrigin: true,
         headers: {
