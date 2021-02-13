@@ -34,7 +34,7 @@ const routes = [
     component: LandingPage 
   }, 
   { 
-    path: "/apply-for-family-order", 
+    path: "/representation-grant", 
     component: LandingPage 
   }, 
   {
