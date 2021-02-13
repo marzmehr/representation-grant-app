@@ -5,13 +5,13 @@
 #=========================================================
 NAME=web-artifacts
 OUTPUT_IMAGE_TAG=latest
-GIT_REPO_URL=https://github.com/bcgov/family-law-act-app.git
-GIT_REF=master
+GIT_REPO_URL=https://github.com/bcgov/representation-grant-app.git
+GIT_REF=main
 SOURCE_CONTEXT_DIR=web
 SOURCE_IMAGE_NAMESPACE=openshift
 SOURCE_IMAGE_NAME=nodejs
 SOURCE_IMAGE_TAG=10
-WEB_BASE_HREF=/apply-for-family-order/
+WEB_BASE_HREF=/representation-grant/
 CPU_LIMIT=1
 MEMORY_LIMIT=4Gi
 CPU_REQUEST=250m

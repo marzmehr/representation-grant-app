@@ -14,9 +14,9 @@ class Application(models.Model):
     user_type = models.CharField(max_length=100, default="", blank=True)
     user_name = models.CharField(max_length=100, default="", blank=True)
     applicant_name = models.JSONField(blank=True, null=True)
-    respondent_name = models.JSONField(blank=True, null=True)
-    protected_party_name = models.JSONField(blank=True, null=True)
-    protected_child_name = models.JSONField(blank=True, null=True)
+    date_of_will = models.DateTimeField(blank=True, null=True)
+    deceased_name = models.JSONField(blank=True, null=True)
+    deceased_date_of_death = models.DateTimeField(blank=True, null=True)
     application_location = models.JSONField(blank=True, null=True)
     # encryption key identifier
     key_id = models.CharField(max_length=32, blank=True, null=True)

@@ -33,6 +33,7 @@ export const SessionManager = {
                 store.commit("Application/setUserName", userName);
                 store.commit("Common/setUserId", userId);
                 store.commit("Common/setUserLocation",userLocation)
+                store.commit("Common/setUserName", userName);
             }
             return { userId, loginUrl };
         }
