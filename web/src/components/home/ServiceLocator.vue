@@ -68,7 +68,7 @@ export default class ServiceLocator extends Vue {
             {
                 this.saveUserLocation()
             } else {
-                location.replace("https://family-protection-order-dev.pathfinder.gov.bc.ca/protection-order/");
+                location.replace("https://family-protection-order-dev.apps.silver.devops.gov.bc.ca/protection-order/");
             }
         }
     }

@@ -5,7 +5,7 @@
 #=========================================================
 NAME=web-artifacts
 OUTPUT_IMAGE_TAG=latest
-GIT_REPO_URL=https://github.com/bcgov/family-law-act-app.git
+GIT_REPO_URL=https://github.com/bcgov/representation-grant-app.git
 GIT_REF=master
 SOURCE_CONTEXT_DIR=web
 SOURCE_IMAGE_NAMESPACE=openshift

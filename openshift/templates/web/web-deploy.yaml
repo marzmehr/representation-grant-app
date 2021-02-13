@@ -219,7 +219,7 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: 09e0c5
+    value: 583dbf
 
   - description: The namespace where to get the above image name
     displayName: Image Namespace

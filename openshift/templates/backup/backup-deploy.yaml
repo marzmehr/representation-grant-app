@@ -235,7 +235,7 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: 09e0c5
+    value: 583dbf
 
   - name: SOURCE_IMAGE_NAME
     displayName: Source Image Name
@@ -248,7 +248,7 @@ parameters:
       The namespace of the OpenShift project containing the imagestream for
       the application.
     required: true
-    value: 09e0c5-tools
+    value: 583dbf-tools
   - name: TAG_NAME
     displayName: Environment TAG name
     description: The TAG name for this environment, e.g., dev, test, prod
@@ -306,7 +306,7 @@ parameters:
       The name or Id of the environment.  This variable is used by the webhook
       integration to identify the environment in which the backup notifications originate.
     required: false
-    value: 09e0c5-dev
+    value: 583dbf-dev
   - name: BACKUP_DIR
     displayName: The root backup directory
     description:

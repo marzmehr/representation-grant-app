@@ -222,7 +222,7 @@ export default {
       //TODO: add the new api to call submit documents
       this.$http
         .post(
-          "http://fla-nginx-proxy-qzaydf-dev.pathfinder.gov.bc.ca/api/submission/documents",
+          "http://fla-nginx-proxy-qzaydf-dev.apps.silver.devops.gov.bc.ca/api/submission/documents",
           bodyFormData,
           {
             responseType: "json",

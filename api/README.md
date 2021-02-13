@@ -31,8 +31,8 @@ Make sure the port is open within the _docker-compose.yml_ file.
 
 To deploy Family Law Act on an instance of OpenShift, see [the instructions](../RunningLocal.md) in the file RunningLocal.md.
 
-- [Schema Spy](http://schema-spy-09e0c5.pathfinder.gov.bc.ca/)
-- [Open API (Swagger) API Explorer](http://django-09e0c5.pathfinder.gov.bc.ca/api/v1/)
+- [Schema Spy](http://schema-spy-583dbf.apps.silver.devops.gov.bc.ca/)
+- [Open API (Swagger) API Explorer](http://django-583dbf.apps.silver.devops.gov.bc.ca/api/v1/)
 
 ## Database Migrations
 
