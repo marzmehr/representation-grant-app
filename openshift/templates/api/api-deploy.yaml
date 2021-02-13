@@ -275,7 +275,7 @@ parameters:
     displayName: App Name
     description: App Name
     required: true
-    value: fla
+    value: representation-grant
   - name: ROLE
     displayName: Role
     description: Role

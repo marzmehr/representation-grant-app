@@ -4,12 +4,12 @@
 # Template File: ../openshift/templates/schema-spy/schema-spy-deploy.yaml
 #=========================================================
 # NAME=schema-spy
-# APP_NAME=fla
+# APP_NAME=representation-grant
 # ROLE=schema-spy
 # NAMESPACE_NAME=583dbf
 # IMAGE_NAMESPACE=583dbf-tools
 # MEMORY_LIMIT=512Mi
-APPLICATION_DOMAIN=fla-schema-test.apps.silver.devops.gov.bc.ca
+APPLICATION_DOMAIN=representation-grant-schema-test.apps.silver.devops.gov.bc.ca
 # DATABASE_SERVICE_NAME=db
 TAG_NAME=test
 # DATABASE_DEPLOYMENT_NAME=db
