@@ -56,11 +56,10 @@ export default class ApplicantInfo extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
-
-
     survey = new SurveyVue.Model(surveyJson);
     disableNextButton = false;   
     currentPage=0;
+    thisStep = 0;
 
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -76,7 +75,7 @@ export default class ApplicantInfo extends Vue {
 
     created() {
         this.disableNextButton = false
-        if (this.step.result && this.step.result['deceasedInfoSurvey']) { 
+        if (this.step.result && this.step.result['applicantInfoSurvey']) { 
             this.disableNextButton = false;           
             // this.determinePeaceBondAndBlock();
         }
@@ -149,9 +148,11 @@ export default class ApplicantInfo extends Vue {
 
     public reloadPageInformation() {
         //console.log(this.step.result)
-        if (this.step.result && this.step.result["deceasedInfoSurvey"]){
-            this.survey.data = this.step.result["deceasedInfoSurvey"];
-        }        
+        if (this.step.result && this.step.result["applicantInfoSurvey"]){
+            this.survey.data = this.step.result["applicantInfoSurvey"].data;
+        }
+        
+        this.thisStep = this.currentStep;
         
         this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
@@ -261,9 +262,9 @@ export default class ApplicantInfo extends Vue {
 
     beforeDestroy() {
 
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
+        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
        
-        this.UpdateStepResultData({step:this.step, data: {deceasedInfoSurvey: this.survey.data}});
+        this.UpdateStepResultData({step:this.step, data: {applicantInfoSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
 
     }
 };

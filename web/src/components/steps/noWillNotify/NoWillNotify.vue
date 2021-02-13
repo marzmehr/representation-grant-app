@@ -59,6 +59,7 @@ export default class NoWillNotify extends Vue {
     survey = new SurveyVue.Model(surveyJson);
     disableNextButton = false;   
     currentPage=0;
+    thisStep = 0;
 
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -105,8 +106,10 @@ export default class NoWillNotify extends Vue {
     public reloadPageInformation() {
         //console.log(this.step.result)
         if (this.step.result && this.step.result["noWillNotifySurvey"]){
-            this.survey.data = this.step.result["noWillNotifySurvey"];
-        }        
+            this.survey.data = this.step.result["noWillNotifySurvey"].data;
+        }
+        
+        this.thisStep = this.currentStep;
         
         this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
@@ -216,9 +219,9 @@ export default class NoWillNotify extends Vue {
 
     beforeDestroy() {
 
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
+        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
        
-        this.UpdateStepResultData({step:this.step, data: {noWillNotifySurvey: this.survey.data}});
+        this.UpdateStepResultData({step:this.step, data: {noWillNotifySurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
 
     }
 };

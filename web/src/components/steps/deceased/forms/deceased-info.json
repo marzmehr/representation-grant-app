@@ -93,7 +93,16 @@
                      "title": "When did {deceasedName} die?",
                      "description": "If you are unsure, this date can be found on {deceasedName}'s `Certificate of Death`.",
                      "inputType": "date",
-                     "dateYearsBehind": 6
+                     "dateYearsBehind": 7
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "invalidDateOfDeath",
+                     "title": "The Date of Death should be after March 30, 2014.",
+                     "titleLocation": "hidden",
+                     "messageStyle": "error",
+                     "visible": false,
+                     "visibleIf": "{invalidDateOfDeathError}"
                   },
                   {
                      "type": "helptext",
@@ -107,21 +116,7 @@
                      "name": "question412",
                      "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
                      "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "jiraRepgrant30",
-                     "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-30\" target=\"_blank\">JIRA ticket REPGRANT30 - Deceased Death Date Limit</a>",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "jiraRepgrant31",
-                     "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-31\" target=\"_blank\">JIRA ticket REPGRANT31 - Deceased Death + 4 Days</a>",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error"
-                  },
+                  },                  
                   {
                      "type": "infotext",
                      "name": "jiraRepgrant32",
