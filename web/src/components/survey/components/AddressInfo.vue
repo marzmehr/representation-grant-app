@@ -6,8 +6,8 @@
         <select class="form-control ml-2" ref="copyFrom">
           <option value="">(Select Address)</option>
           <option
-            v-for="opt in selOptions"
-            :key="opt.value"
+            v-for="(opt,inx) in selOptions"
+            :key="inx"
             :value="opt.value"
             >{{ opt.label }}</option
           >
@@ -18,7 +18,7 @@
       <div class="col-sm-12">
         <input
           class="form-control"
-          placeholder="Street address, for example: 800 Hornby St."
+          placeholder="Street address, for example: 800 Hornby St. or Post Office Box"
           :id="question.inputId"
           v-model="pendingValue['street']"
           @change="updateValue"

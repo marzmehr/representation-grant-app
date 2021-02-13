@@ -1,4 +1,6 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
+import { Vue } from 'vue-property-decorator';
+import moment from 'moment-timezone';
 import { stepInfoType, pageInfoType } from "@/types/Application";
 
 @Module({
@@ -11,33 +13,42 @@ class Application extends VuexModule {
     public steps = new Array<stepInfoType>()
     public lastUpdate = null
     public lastPrinted = null
+    public lastFiled = null
     public currentStep = 1
     public allCompleted = false
     public userType = ""
     public userName = ""
     public userId = ""
     public applicantName = ""
-    public respondentName = ""
-    public protectedPartyName = ""
-    public protectedChildName = ""
+    public deceasedName = ""
+    public deceasedDateOfDeath = null
+    public deceasedDateOfDeathPlus4 = ""
+    public dateOfWill = null
     public applicationLocation = ""
+    public scrollToLocationName = ""
+    public requiredDocuments: string[] = []
+    public packageNumber = ""
+    public eFilingHubLink = ""
 
     @Mutation
     public init(): void {
         this.allCompleted = false;
         this.currentStep = 0;
-        this.type = "default";
+        this.type = "probate";
         this.userName = "";
         this.lastPrinted = null;
         this.lastUpdate = null;
+        this.lastFiled = null;
+        this.packageNumber = "";
+        this.eFilingHubLink = "";
         this.steps = new Array<stepInfoType>();
-        // Getting started START
+        // Deceased Info START
         let s = {} as stepInfoType;
     
         s.active = true;
         s.id = "0";
-        s.label = "Get Started";
-        s.icon = "fa-users";
+        s.label = "Deceased";
+        s.icon = "tomb-stone";
         s.lastUpdate = null;    
         s.type = "getInformationStep";
         s.pages = new Array<pageInfoType>();
@@ -45,7 +56,56 @@ class Application extends VuexModule {
     
         let p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Getting Started";
+        p.label = "Information About Deceased";
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+    
+        this.steps.push(s);
+    
+        // Deceased Info STOP
+        // Deceased Will START
+
+        s = {} as stepInfoType;
+        //TODO: turn active to false
+        s.active = true;
+        s.id = "1";
+        s.label = "Deceased's Will";
+        s.icon = "book";
+        s.lastUpdate = null;
+        s.type = "deceasedWillStep";
+        s.pages = new Array<pageInfoType>();
+        s.currentPage = 0;
+    
+        p = {} as pageInfoType;
+        p.key = "0";
+        p.label = "Deceased's Will";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+    
+        this.steps.push(s);
+    
+        // Deceased Will STOP
+        // Related People START
+        s = {} as stepInfoType;
+        //TODO: turn active to false
+        s.active = true;
+        s.id = "2";
+        s.label = "Related People";
+        s.icon = "users";
+        s.lastUpdate = null;
+        s.type = "relatedPeopleStep";
+        s.pages = new Array<pageInfoType>();
+        s.currentPage = 0;
+    
+        p = {} as pageInfoType;
+        p.key = "0";
+        p.label = "Executors";
+        //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
@@ -53,244 +113,221 @@ class Application extends VuexModule {
     
         p = {} as pageInfoType;
         p.key = "1";
-        p.label = "Questionnaire";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        this.steps.push(s);
-    
-        // Getting started STOP
-        // Common information START
-        s = {} as stepInfoType;
-    
-        s.active = false;
-        s.id = "1";
-        s.label = "Your Information";
-        s.icon = "fa-users";
-        s.lastUpdate = null;
-        s.type = "commonInformationStep";
-        s.pages = new Array<pageInfoType>();
-        s.currentPage = 0;
-    
-        p = {} as pageInfoType;
-        p.key = "0";
-        p.label = "Your information";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "1";
-        p.label = "Other Party";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        this.steps.push(s);
-    
-        // Common Information STOP
-        // Protection Order START
-        s = {} as stepInfoType;
-    
-        s.active = false;
-        s.id = "2";
-        s.label = "Protection Order";
-        s.icon = "fa-child";
-        s.lastUpdate = null;
-        s.type = "stepPO";
-        s.pages = new Array<pageInfoType>();
-        s.currentPage = 0;
-    
-        p = {} as pageInfoType;
-        p.key = "0";
-        p.label = "Protection From Whom?";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "1";
-        p.label = "Remove person or belongings";
-        p.active = false;
+        p.label = "Spouse";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
     
         p = {} as pageInfoType;
         p.key = "2";
-        p.label = "No Go";
-        p.active = false;
+        p.label = "Children";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
     
         p = {} as pageInfoType;
         p.key = "3";
-        p.label = "No Contact";
-        p.active = false;
+        p.label = "Grand Children";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
     
         p = {} as pageInfoType;
         p.key = "4";
-        p.label = "Weapons and Firearms";
-        p.active = false;
+        p.label = "Beneficiaries";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
-        s.pages.push(p);
+        s.pages.push(p);   
+       
     
         p = {} as pageInfoType;
         p.key = "5";
-        p.label = "Background";
-        p.active = false;
+        p.label = "Creditors";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "6";
-        p.label = "Your Story";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "7";
-        p.label = "About Protection Order";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "8";
-        p.label = "Urgency";
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
+        s.pages.push(p);    
+       
         this.steps.push(s);
     
-        //Protection Order STOP
-        //Family Law Matter START
+        //Related People STOP
+        //Applicant START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "3";
-        s.label = "Family Law Matter";
-        s.icon = "fa-child";
+        s.label = "Applicant";
+        s.icon = "user-tie";
         s.lastUpdate = null;
-        s.type = "stepFlm";
+        s.type = "applicantStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Family Law Form";
+        p.label = "Information About Applicant";
+        //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
         this.steps.push(s);
-        //Family Law Matter STOP
-        // Case Mgmt START
+        //Applicant STOP
+
+        // Notify START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "4";
-        s.label = "Case Management";
-        s.icon = "fa-child";
+        s.label = "Notify";
+        s.icon = "envelope-open-text";
         s.lastUpdate = null;
-        s.type = "stepCm";
+        s.type = "notifyStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Case Management Form";
+        p.label = "Notify People";
+        //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
         this.steps.push(s);
-        //Case Mgmt STOP
-        //Priority parenting matter START
+        //Notify STOP
+        //Deceased's Belongings START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "5";
-        s.label = "Priority parenting matter";
-        s.icon = "fa-child";
+        s.label = "Deceased's Belongings";
+        s.icon = "coins";
         s.lastUpdate = null;
-        s.type = "stepPpm";
+        s.type = "belongingsStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Priority Parenting Matter Form";
+        p.label = "Land and Buildings";
+        //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
-        this.steps.push(s);
-        //Priority parenting matter STOP
-        //Relocation of a child START
-        s = {} as stepInfoType;
+
+        p = {} as pageInfoType;
+        p.key = "1";
+        p.label = "Vehicles";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
     
-        s.active = false;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "2";
+        p.label = "Bank Accounts";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "3";
+        p.label = "Pensions and Insurance";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "4";
+        p.label = "Personal Items";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+
+
+
+        this.steps.push(s);
+        //Belongings STOP
+        //No Will Notify START
+        s = {} as stepInfoType;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "6";
-        s.label = "Relocation of a child";
-        s.icon = "fa-child";
+        s.label = "No Will Notification";
+        s.icon = "envelope-open-text";
         s.lastUpdate = null;
-        s.type = "stepReloc";
+        s.type = "noWillNotifyStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Relocation of a child Form";
+        p.label = "No Will Notification";
+         //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
         this.steps.push(s);
-        //Relocation of a child STOP
-        //Enforcement START
+        //No Will Notify STOP
+        //Overview START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "7";
-        s.label = "Enforcement of agreements and court orders";
-        s.icon = "fa-child";
+        s.label = "Overview";
+        s.icon = "user-edit";
         s.lastUpdate = null;
-        s.type = "stepEnfrc";
+        s.type = "overviewStep";
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Agreement and Court Orders Forms";
+        p.label = "Will Search Check";
+        //TODO: turn active to false
         p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "1";
+        p.label = "Finalize Asset Values";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+
+
         this.steps.push(s);
-        //Enforcement STOP
+        //Overview STOP
         //Submit START
         s = {} as stepInfoType;
-    
-        s.active = false;
+        //TODO: turn active to false
+        s.active = true;
         s.id = "8";
         s.label = "Review and File";
-        s.icon = "fa-paper-plane";
+        s.icon = "paper-plane";
         s.lastUpdate = null;
         s.type = "submit";
         s.pages = new Array<pageInfoType>();
@@ -298,32 +335,54 @@ class Application extends VuexModule {
     
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Filing Options";
-        p.active = false;
+        p.label = "Review Your Answers";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
-    
+
         p = {} as pageInfoType;
         p.key = "1";
-        p.label = "Review and Print";
-        p.active = false;
+        p.label = "Filing Options";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
-    
+
         p = {} as pageInfoType;
         p.key = "2";
-        p.label = "Review and Save";
-        p.active = false;
+        p.label = "Review and Print";
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
     
         p = {} as pageInfoType;
         p.key = "3";
+        p.label = "Review and Save";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+        
+        p = {} as pageInfoType;
+        p.key = "4";
+        p.label = "Review and Submit";
+        //TODO: turn active to false
+        p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+    
+        p = {} as pageInfoType;
+        p.key = "5";
         p.label = "Next Steps";
-        p.active = false;
+        //TODO: turn active to false
+        p.active = true;
         p.progress = 0;
     
         s.pages.push(p);
@@ -383,6 +442,36 @@ class Application extends VuexModule {
     public UpdateUserId(newUserId) {
         this.context.commit("setUserId", newUserId);
     }
+
+    @Mutation
+    public setRequiredDocuments(requiredDocuments): void {
+        this.requiredDocuments = requiredDocuments;
+    }
+    
+    @Action
+    public UpdateRequiredDocuments(newRequiredDocuments) {
+        this.context.commit("setRequiredDocuments", newRequiredDocuments);
+    }
+
+    @Mutation
+    public setPackageNumber(packageNumber): void {
+        this.packageNumber = packageNumber;
+    }
+    
+    @Action
+    public UpdatePackageNumber(newPackageNumber) {
+        this.context.commit("setPackageNumber", newPackageNumber);
+    }
+
+    @Mutation
+    public setEFilingHubLink(eFilingHubLink): void {
+        this.eFilingHubLink = eFilingHubLink;
+    }
+    
+    @Action
+    public UpdateEFilingHubLink(newEFilingHubLink) {
+        this.context.commit("setEFilingHubLink", newEFilingHubLink);
+    }
     
     @Mutation
     public setStepActive({ currentStep, active }): void {
@@ -426,8 +515,6 @@ class Application extends VuexModule {
     }    
     @Action
     public UpdateGotoNextStepPage() {
-        this.context.commit("setPageProgress", { currentStep:this.currentStep, currentPage:this.steps[this.currentStep].currentPage, progress:100 })
-        
         const nextStepPage = this.context.getters["getNextStepPage"];
     
         if (nextStepPage != null) {
@@ -459,6 +546,7 @@ class Application extends VuexModule {
     }
     @Action
     public UpdateStepResultData({ step, data }) {
+        this.context.commit("setScrollToLocationName","");
         this.context.commit("setStepResultData", { step, data });
     } 
     
@@ -481,30 +569,39 @@ class Application extends VuexModule {
     }
     
     @Mutation
-    public setRespondentName(respondentName): void {
-        this.respondentName = respondentName;
+    public setDeceasedName(deceasedName): void {
+        this.deceasedName = deceasedName;
     }
     @Action
-    public UpdateRespondentName(newRespondentName) {
-        this.context.commit("setRespondentName", newRespondentName);
+    public UpdateDeceasedName(newDeceasedName) {
+        this.context.commit("setDeceasedName", newDeceasedName);
     }
     
     @Mutation
-    public setProtectedPartyName(protectedPartyName): void {
-        this.protectedPartyName = protectedPartyName;
+    public setDeceasedDateOfDeath(deceasedDateOfDeath): void {
+        this.deceasedDateOfDeath = deceasedDateOfDeath;
     }
     @Action
-    public UpdateProtectedPartyName(newProtectedPartyName) {
-        this.context.commit("setProtectedPartyName", newProtectedPartyName);
-    }  
+    public UpdateDeceasedDateOfDeath(newDeceasedDateOfDeath) {
+        this.context.commit("setDeceasedDateOfDeath", newDeceasedDateOfDeath);
+    }
+
+    @Mutation
+    public setDeceasedDateOfDeathPlus4(deceasedDateOfDeathPlus4): void {
+        this.deceasedDateOfDeathPlus4 = deceasedDateOfDeathPlus4;
+    }
+    @Action
+    public UpdateDeceasedDateOfDeathPlus4(newDeceasedDateOfDeathPlus4) {
+        this.context.commit("setDeceasedDateOfDeathPlus4", newDeceasedDateOfDeathPlus4);
+    }
     
     @Mutation
-    public setProtectedChildName(protectedChildName): void {
-        this.protectedChildName = protectedChildName;
+    public setDateOfWill(dateOfWill): void {
+        this.dateOfWill = dateOfWill;
     }
     @Action
-    public UpdateProtectedChildName(newProtectedChildName) {
-        this.context.commit("setProtectedChildName", newProtectedChildName);
+    public UpdateDateOfWill(newDateOfWill) {
+        this.context.commit("setDateOfWill", newDateOfWill);
     }
 
     @Mutation
@@ -553,6 +650,24 @@ class Application extends VuexModule {
     }
 
     @Mutation
+    public setLastFiled(lastFiled): void {
+        this.lastFiled = lastFiled;
+    }
+    @Action
+    public UpdateLastFiled(newLastFiled) {
+        this.context.commit("setLastFiled", newLastFiled);
+    }
+
+    @Mutation
+    public setScrollToLocationName(scrollToLocationName): void {
+        this.scrollToLocationName = scrollToLocationName;
+    }
+    @Action
+    public UpdateScrollToLocationName(newScrollToLocationName) {
+        this.context.commit("setScrollToLocationName", newScrollToLocationName);
+    }
+
+    @Mutation
     public setCurrentApplication(application): void {
         this.id = application.id;    
         this.type = application.type;    
@@ -564,9 +679,12 @@ class Application extends VuexModule {
         this.userType = application.userType;
         this.userName = application.userName;
         this.applicantName = application.applicantName;
-        this.respondentName = application.respondentName; 
-        this.protectedPartyName = application.protectedPartyName;
-        this.protectedChildName = application.protectedChildName;
+        this.deceasedName = application.deceasedName; 
+        this.deceasedDateOfDeath = application.deceasedDateOfDeath;
+        if (this.deceasedDateOfDeath){
+            this.deceasedDateOfDeathPlus4 = Vue.filter('beautify-date')(moment(this.deceasedDateOfDeath, "YYYY-MM-DD").add(4, 'days').format());
+        }
+        this.dateOfWill = application.dateOfWill;
         this.applicationLocation = application.applicationLocation;  
     }
     @Action

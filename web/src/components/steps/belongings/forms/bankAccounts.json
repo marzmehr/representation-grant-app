@@ -1,0 +1,196 @@
+{
+   "title": "Representation Grant",
+   "pages": [
+      {
+         "name": "bankPage",
+         "elements": [
+            {
+               "type": "yesno",
+               "name": "question337",
+               "title": "is this still part of {deceasedName}'s estate?",
+               "description": "yes - still include in P10 but say \"this asset is dealt with outside of their estate\";\nno - P10 text \"this asset was not in their estate at time of death\""
+            },
+            {
+               "type": "yesno",
+               "name": "question338",
+               "visible": false,
+               "title": "[If there was a will - maybe include this is the blue info box by duplicating info boxes for will vs no will] Was this {address} listed in {decasedName}'s Will as a gift?"
+            },
+            {
+               "type": "panel",
+               "name": "bankPanel",
+               "elements": [
+                  {
+                     "type": "yesno",
+                     "name": "bank",
+                     "title": "Did {deceasedName} have any bank accounts at the time of their death?"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question236",
+                     "title": "someone may have mulitple accounts at different banks. you will need go through each account at each bank. start with one bank account and each of the accounts at that bank. need better term than sub-account?\n<br><br>\nIf there are joint accounts and the joint-account holder(s) is/are alive, you can leave those out. If you're unsure, start putting in the info for that account and the questions will help you determine whether to include that account or not. ",
+                     "titleLocation": "hidden"
+                  }
+               ]
+            },
+            {
+               "type": "paneldynamic",
+               "name": "bankInfoPanel",
+               "visible": false,
+               "visibleIf": "{bank} = \"y\"",
+               "templateElements": [
+                  {
+                     "type": "text",
+                     "name": "bankName",
+                     "title": "Name of Financial Institution"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "question265",
+                     "title": "name match"
+                  },
+                  {
+                     "type": "text",
+                     "name": "question299",
+                     "title": "alias at financial institution"
+                  },
+                  {
+                     "type": "paneldynamic",
+                     "name": "accountPanel",
+                     "title": "Accounts at {panel.bankName}",
+                     "templateElements": [
+                        {
+                           "type": "text",
+                           "name": "accountNumber",
+                           "title": "Account Number"
+                        },
+                        {
+                           "type": "radiogroup",
+                           "name": "accountType",
+                           "title": "Type of Account",
+                           "description": "Best describes this account",
+                           "hasOther": true,
+                           "choices": [
+                              {
+                                 "value": "item1",
+                                 "text": "Savings"
+                              },
+                              {
+                                 "value": "item2",
+                                 "text": "Chequing"
+                              },
+                              {
+                                 "value": "item3",
+                                 "text": "GIC (can live inside registered accounts)"
+                              },
+                              {
+                                 "value": "item4",
+                                 "text": "TFSA"
+                              },
+                              {
+                                 "value": "item5",
+                                 "text": "RRSP"
+                              },
+                              {
+                                 "value": "item6",
+                                 "text": "RESP"
+                              },
+                              {
+                                 "value": "item7",
+                                 "text": "REIT??"
+                              },
+                              {
+                                 "value": "item8",
+                                 "text": "Investment Account"
+                              }
+                           ]
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "question261",
+                           "title": "Is this a joint account?"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "accountJointAlive",
+                           "visible": false,
+                           "visibleIf": "{panel.accountJoint} = \"y\"",
+                           "title": "Is the joint account holder for this account alive?"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "question239",
+                           "visible": false,
+                           "visibleIf": "{panel.accountJoint} = \"y\"",
+                           "title": "Did the joint account holder die 4 days after?"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "question260",
+                           "title": "is there a designated beneficiary for this account?"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "question322",
+                           "title": "beneficiary alive?"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "question323",
+                           "title": "beneficiary died after [date of death + 4 days]?"
+                        },
+                        {
+                           "type": "infotext",
+                           "name": "accountJointAliveYesExplanation",
+                           "visible": false,
+                           "visibleIf": "{panel.accountJointAlive} = \"y\"",
+                           "title": "Because the joint account holder of this account is still alive, this account will go to them automatically. You do not need to include this account as part of the estate. ",
+                           "titleLocation": "hidden"
+                        },
+                        {
+                           "type": "radiogroup",
+                           "name": "accountValue",
+                           "visible": false,
+                           "visibleIf": "{panel.accountJoint} = \"n\" or ({panel.accountJoint} = \"y\" and {panel.accountJointAlive} = \"n\")",
+                           "title": "Do you have the exact value of this account at the time of {deceasedName}'s death?",
+                           "description": "if you can, look up the price for stocks/bonds/etfs mutual funds on the date of death. If it an asset that for picky DDRs (CLE), pick last statement before death (of the one immediately after death?)",
+                           "hasOther": true,
+                           "choices": [
+                              {
+                                 "value": "item1",
+                                 "text": "No, the financial institution will not give it to me."
+                              },
+                              {
+                                 "value": "item2",
+                                 "text": "No, I but I can get it at a later time."
+                              }
+                           ],
+                           "otherText": "Yes, I know the exact value:"
+                        },
+                        {
+                           "type": "text",
+                           "name": "question241",
+                           "title": "interest accrued at date of death",
+                           "description": "ask the financial institution for value at date of death, app will subtract it from the last statement. could be zero if the asset is something you can find the exact value at the date of death "
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "question259",
+                           "title": "is there a registered loan to account # {accountNumber}?",
+                           "description": "name of lender, address of lender, registration number, registration date, name match, value"
+                        }
+                     ],
+                     "panelCount": 2,
+                     "minPanelCount": 1
+                  }
+               ],
+               "panelCount": 1,
+               "minPanelCount": 1
+            }
+         ],
+         "title": "about bank accounts"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}
