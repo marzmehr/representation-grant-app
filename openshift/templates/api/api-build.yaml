@@ -72,7 +72,7 @@ parameters:
   - name: NAMESPACE
     displayName: The target namespace for the resources.
     required: true
-    value: 09e0c5
+    value: 583dbf
   - name: ENV_NAME
     displayName: Environment Name
     description: Environment name.  For the build environment this will typically be 'tools'

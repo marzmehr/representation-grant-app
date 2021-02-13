@@ -68,7 +68,7 @@ parameters:
     displayName: Source Image Repository
     description: The Image Repository containing the images used for the build.
     required: true
-    value: image-registry.openshift-image-registry.svc:5000/09e0c5-tools/
+    value: image-registry.openshift-image-registry.svc:5000/583dbf-tools/
   - name: SOURCE_IMAGE
     displayName: Source Image
     description: The source image for the build.
@@ -79,7 +79,7 @@ parameters:
     displayName: Destination Image Repository
     description: The Image Repository containing the destination image used for the build.
     required: true
-    value: image-registry.openshift-image-registry.svc:5000/09e0c5-tools/
+    value: image-registry.openshift-image-registry.svc:5000/583dbf-tools/
   - name: DESTINATION_IMAGE
     displayName: Destination Image
     description: The destination image for the build.
