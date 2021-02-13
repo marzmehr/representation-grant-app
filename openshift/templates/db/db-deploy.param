@@ -4,7 +4,7 @@
 # Template File: ../openshift/templates/db/db-deploy.yaml
 #=========================================================
 NAME=db
-APP_NAME=fla
+APP_NAME=representation-grant
 ROLE=db
 IMAGE_NAMESPACE=583dbf-tools
 SOURCE_IMAGE_NAME=db

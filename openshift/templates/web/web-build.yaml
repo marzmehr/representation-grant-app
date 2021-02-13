@@ -62,7 +62,7 @@ parameters:
     displayName: App Name
     description: Used to group components together in the OpenShift console.
     required: true
-    value: fla
+    value: representation-grant
 
   - name: SOURCE_IMAGE_REPOSITORY
     displayName: Source Image Repository

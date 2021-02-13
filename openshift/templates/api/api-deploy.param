@@ -4,7 +4,7 @@
 # Template File: ../openshift/templates/api/api-deploy.yaml
 #=========================================================
 NAME=api
-APP_NAME=fla
+APP_NAME=representation-grant
 ROLE=api
 NAMESPACE_NAME=583dbf
 IMAGE_NAMESPACE=583dbf-tools

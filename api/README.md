@@ -36,7 +36,7 @@ To deploy Family Law Act on an instance of OpenShift, see [the instructions](../
 
 ## Database Migrations
 
-Migrations are triggered automatically when the Django/Python container is deployed.  The process it triggered by wrapper code injected as part of the s2i-python-container build; https://github.com/sclorg/s2i-python-container/blob/master/3.6/s2i/bin/run
+Migrations are triggered automatically when the Django/Python container is deployed.  The process it triggered by wrapper code injected as part of the s2i-python-container build; https://github.com/sclorg/s2i-python-container/blob/main/3.6/s2i/bin/run
 
 ## ToDo:
 - The auto-generated views are constructed using generics and a number of mixins.
