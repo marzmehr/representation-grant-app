@@ -81,8 +81,7 @@
        "messageStyle": "error"
       }
      ],
-     "visible": false,
-     "visibleIf": "{deceasedIntroExplanation} > 0"
+     "visible": false
     },
     {
      "type": "panel",
@@ -361,7 +360,7 @@
        "name": "willGrantExistsFAQ1",
        "visible": false,
        "visibleIf": "{willGrantExistsIntro} > 0",
-       "title": "What if I believe a `Representation Grant` for {deceasedName} already exists but I cannot find it?",
+       "title": "What if I believe a `Representation Grant` for {deceasedName} already exists but I/we cannot find it?",
        "titleLocation": "hidden",
        "body": "If you believe a `Representation Grant` for {deceasedName} already exists, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations. Select \"Yes\" for the question above to see the next steps that you can take. You will need to take these steps on your own without this service. "
       },
@@ -953,32 +952,46 @@
        "title": "Did {deceasedName} make a `Will`"
       },
       {
+       "type": "helptext",
+       "name": "willExistsFAQ1",
+       "title": "What if I believe {deceasedName} made a `Will` but I/we cannot find it?",
+       "titleLocation": "hidden",
+       "body": "If you cannot find {deceasedName}'s `Will`, you can keep looking for it or you can decide to apply for a `Representation Grant` as if {deceasedName} did not make a Will.\n<br><br>\nIf you decide to keep looking for {deceasedName}'s Will, only select \"Yes\" to this question when you find their Will.\n<br><br>\nIf you decide to apply for a `Representation Grant` as if {deceasedName} did not make a Will, Select \"No\" to this question. \n<ul>\n<li>If you find {deceasedName}'s Will before you finish applying for your Representation Grant, come back to this question and change the answer/selection to \"Yes\".</li>\n<li>If you find {deceasedName}'s Will after you already got your Representation Grant, you can apply for a new Representation Grant using their Will to replace the old one.</li>\n</ul>"
+      },
+      {
        "type": "infotext",
        "name": "question411",
-       "title": "Dec 10 2020 - figure out more conditions to jump here\n<br>\n{willGrantExists} = \"n\"\n",
+       "visible": false,
+       "title": "[Reference only - delete later]\n<br>\nIf you cannot find {deceasedName}'s `Will`, you can keep looking for it or you can decide to apply for a `Representation Grant` as if {deceasedName} did not make a Will.\n<br><br>\nIf you decide to keep looking for {deceasedName}'s Will, only select \"Yes\" to this question when you find their Will.\n<br><br>\nIf you decide to apply for a `Representation Grant` as if {deceasedName} did not make a Will, Select \"No\" to this question. \n<ul>\n<li>If you find {deceasedName}'s Will before you finish applying for your Representation Grant, come back to this question and change the answer/selection to \"Yes\".</li>\n<li>If you find {deceasedName}'s Will after you already got your Representation Grant, you can apply for a new Representation Grant using their Will to replace the old one.</li>\n</ul>\n[???consistent language]",
        "titleLocation": "hidden"
       },
       {
        "type": "helptext",
-       "name": "willExistsFAQ1",
-       "title": "What if I believe {deceasedName} made a will but I/we cannot find it?",
-       "titleLocation": "hidden",
-       "body": "If you cannot confirm that a Will exists, you have to decide how you want to proceed. \n\nThe first option is to continue searching for a Will. Do not select \"Yes\" to this question unless you can confirm a Will exists.\n\nThe other option is to select \"No\" to this question. If you discover a Will later, it can still be recognized. [???consistent language]"
-      },
-      {
-       "type": "helptext",
        "name": "willExistsFAQ2",
-       "title": "What if I/we don't know if the Will is valid or not?",
+       "title": "What if I don't know if {deceasedName}'s `Will` is valid or not?",
        "titleLocation": "hidden",
        "body": "If you don't know if {deceasedName}'s Will is valid or not, select \"Yes\". This service will ask questions to check if the Will is valid. \n<br><br>\nIf necessary, this service may ask if {deceasedName} made more than one Will."
+      },
+      {
+       "type": "infotext",
+       "name": "question413",
+       "visible": false,
+       "title": "[Reference only - delete later]\n<br>\nIf you don't know if {deceasedName}'s `Will` is valid or not, select \"Yes\". This service will ask questions to check if the Will is valid. \n<br><br>\nIf necessary, this service may ask if {deceasedName} made more than one Will.",
+       "titleLocation": "hidden"
       },
       {
        "type": "yesno",
        "name": "willOtherDocExists",
        "visible": false,
        "visibleIf": "{willExists} = \"n\"",
-       "title": "Did {deceasedName} make any `other testamentary documents` or recordings?",
+       "title": "Did {deceasedName} make any `other testamentary documents` or recordings? [that talk about how they want their belongings managed after they died?]",
        "description": "If {deceasedName} made an invalid Will, select \"Yes\" to this question."
+      },
+      {
+       "type": "infotext",
+       "name": "question465",
+       "title": "[Feb 21 2021 for Tyler] What do we need to ask for a P11 in this scope of only AWOW?",
+       "titleLocation": "hidden"
       },
       {
        "type": "yesno",
@@ -5281,6 +5294,13 @@
        "title": "In this section, we need to figure if {deceasedName} had a `spouse`. There might be multiple spouses\n\nWill version: copy their names as they appear on the will.\n<br><br>\nUnderstanding Deceased Name's relatives helps identify who needs to know about how you are applying for a representation grant.\n<br><br>\nYou will need to notify everyone who has a right to part of Deceased Name's estate that you are applying for a representation grant. If any of these people do not think you should manage Deceased Name's estate, they will have a fair chance tell to the court.\n<br><br>\nIf you are a spouse or descendant, remember to include yourself in this step. \n<br><br>\nIf you are not a relative, you'll be asked for your information later in this service.",
        "isRequired": true,
        "titleLocation": "hidden"
+      },
+      {
+       "type": "infotext",
+       "name": "question463",
+       "title": "Future, note about if you already entered yourself as executor, do so again here.",
+       "isRequired": true,
+       "titleLocation": "hidden"
       }
      ]
     },
@@ -6452,6 +6472,7 @@
        "type": "radiogroup",
        "name": "applicantIndividual",
        "title": "individual or not <br>\n[JIRA] only ask this question for executors and beneficiaries",
+       "defaultValue": "person",
        "choices": [
         {
          "value": "person",
@@ -6494,7 +6515,7 @@
       },
       {
        "type": "address",
-       "name": "applicantAddress",
+       "name": "applicantMailingAddress",
        "visible": false,
        "visibleIf": "{panel.applicantIndividual} = 'person'",
        "title": "What is Jillian Patricia Taylor mailing address? (probably too hard to combine with ordinarily lives)",
@@ -6502,14 +6523,14 @@
       },
       {
        "type": "yesno",
-       "name": "applicantOrdinaryAddress",
+       "name": "applicantMailingAddressIsOrdinary",
        "visible": false,
        "visibleIf": "{panel.applicantIndividual} = 'person'",
        "title": "ordinarily live at this address?"
       },
       {
        "type": "address",
-       "name": "question242",
+       "name": "applicantOrdinaryAddress",
        "visible": false,
        "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantOrdinaryAddress} = 'n'",
        "title": "if mailing address not where they ordinarily live; ordinary city and country"
@@ -6603,7 +6624,8 @@
        "titleLocation": "hidden",
        "messageStyle": "inline"
       }
-     ]
+     ],
+     "panelCount": 1
     },
     {
      "type": "infotext",
@@ -6730,22 +6752,22 @@
       },
       {
        "type": "yesno",
-       "name": "question253",
+       "name": "applicantLawyer",
        "title": "do you have a lawyer?"
       },
       {
        "type": "text",
-       "name": "question271",
+       "name": "applicantLawyerName",
        "title": "lawyer's name"
       },
       {
        "type": "text",
-       "name": "question272",
+       "name": "applicantLawyerFirmName",
        "title": "law firm name"
       },
       {
        "type": "address",
-       "name": "question243",
+       "name": "applicantLawyerFirmAddress",
        "title": "lawyer's address"
       },
       {
@@ -6756,7 +6778,7 @@
       },
       {
        "type": "address",
-       "name": "question258",
+       "name": "applicantServiceAddress",
        "title": "service address"
       },
       {
@@ -6766,14 +6788,20 @@
        "titleLocation": "hidden"
       },
       {
+       "type": "infotext",
+       "name": "question242",
+       "title": "do we need to allow for homeless applicants?",
+       "titleLocation": "hidden"
+      },
+      {
        "type": "yesno",
-       "name": "question269",
+       "name": "applicantCourthouseClosest",
        "title": "The closest courthouse to this service address is [courthouse location]. Do you want to file here?",
        "description": "This means the file including the Will lives here if you ever need to look at it."
       },
       {
        "type": "dropdown",
-       "name": "question270",
+       "name": "applicantCourthouseDifferent",
        "visible": false,
        "title": "select the court location you want to file at",
        "description": "courthouse location",
@@ -6786,28 +6814,60 @@
       {
        "type": "infotext",
        "name": "question298",
+       "visible": false,
        "title": "[further than 30km away from selected courthouse] You will need to provide one or more of the following: email, fax, PO box within 30km of {courthouseLocation}",
        "titleLocation": "hidden"
       },
       {
        "type": "infotext",
        "name": "question275",
+       "visible": false,
        "title": "Is it fine to secretly ignore the 30km rule?",
        "titleLocation": "hidden"
       },
       {
        "type": "contactinfo",
        "name": "jillContact",
-       "title": "service contact (optional?) (one or more required if outside 30km of courthouse?)",
+       "visible": false,
+       "title": "[obsolete Feb 15 2021 - service contact (optional?) (one or more required if outside 30km of courthouse?)",
        "description": "If the address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
        "labelEmail": "Email (optional)",
        "labelFax": "Fax (optional)"
       },
       {
+       "type": "text",
+       "name": "applicantServicePhone",
+       "title": "Service Phone Number",
+       "inputType": "tel"
+      },
+      {
+       "type": "text",
+       "name": "applicantServiceEmail",
+       "title": "Service Email Address",
+       "description": "usually optional but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
+       "inputType": "email"
+      },
+      {
+       "type": "text",
+       "name": "applicantServiceFax",
+       "title": "Service Fax Number",
+       "description": "usually optional but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
+       "inputType": "tel"
+      },
+      {
        "type": "yesno",
-       "name": "question273",
-       "title": "Do you want to enter a PO Box address that is within 30km of the courthouse?",
-       "description": "figure out how this works?"
+       "name": "applicantServicePOBox",
+       "visible": false,
+       "title": "Do you want to use a PO Box address that is within 30km of the courthouse?",
+       "description": "figure out how this works?\nusually invisible but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia."
+      },
+      {
+       "type": "address",
+       "name": "applicantServicePOBoxAddress",
+       "visible": false,
+       "visibleIf": "{applicantServicePOBox} = \"y\"",
+       "title": "PO Box address within 30km of [courthouse]",
+       "description": "usually invisible but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia."
       }
      ]
     },
