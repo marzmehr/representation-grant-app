@@ -212,14 +212,7 @@
                         "Uchucklesaht",
                         "Ucluelet"
                      ]
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "firstNationsNameTrello",
-                     "title": "<a href=\"https://trello.com/c/cD8xmZY9\" target=\"_blank\">Trello - Radio Logic: notempty not working</a>\n<br><br>\nJIRA Ticket to be created; Copied from Trello:\n<br><br>\n{firstNationsName} is a radio button question.\n{deceasedExitPanel} has a visibleIf condition that includes {firstNationsName} notempty\n<br><br>\nThe problem is {deceasedExitPanel} shows even if {firstNationsName} has no selection",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error"
-                  },
+                  },                  
                   {
                      "type": "infotext",
                      "name": "question460",
@@ -244,7 +237,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and ({deceasedFirstNations} = \"n\" or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty}))"
+               "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and (({deceasedFirstNations} = \"n\") or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty))"
             }
          ],
          "title": "Information about {deceasedName}"
