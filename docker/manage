@@ -11,7 +11,7 @@ if [ -z $(type -P "$S2I_EXE") ]; then
 fi
 
 SCRIPT_HOME="$( cd "$( dirname "$0" )" && pwd )"
-export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME-fla}"
+export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME-representation-grant}"
 
 # =================================================================================================================
 # Usage:
@@ -33,12 +33,12 @@ usage() {
           You can pass in a list of containers to start.  
           By default all containers will be started.
           
-          The API_URL used by fla-web can also be redirected.
+          The API_URL used by representation-grant-web can also be redirected.
 
           Examples:
           $0 start
-          $0 start fla-web
-          $0 start fla-web API_URL=http://docker.for.win.localhost:56325/api/v1
+          $0 start representation-grant-web
+          $0 start representation-grant-web API_URL=http://docker.for.win.localhost:56325/api/v1
 
   stop - Stops the services.  This is a non-destructive process.  The containers
          are not deleted so they will be reused the next time you run start.
@@ -66,9 +66,9 @@ build-web() {
   #
   # web
   #
-  # The fla-runtime image is used for the final runtime image.
-  # The fla-web-artifacts image is used to build the artifacts for the vue distribution.
-  # The fla-web image is copy of the fla-runtime image complete with a copy of the build artifacts.
+  # The representation-grant-runtime image is used for the final runtime image.
+  # The representation-grant-web-artifacts image is used to build the artifacts for the vue distribution.
+  # The representation-grant-web image is copy of the representation-grant-runtime image complete with a copy of the build artifacts.
   #
   echo -e "\n\n===================================================================================================="
   echo -e "Building the ${COMPOSE_PROJECT_NAME}-runtime image using Docker ..."
@@ -209,7 +209,7 @@ configureEnvironment () {
   # web
   export WEB_HTTP_PORT=${WEB_HTTP_PORT-8080}
   export API_URL=${API_URL-http://api:8080/api}
-  export WEB_BASE_HREF=${WEB_BASE_HREF:-/apply-for-representation-grant/}
+  export WEB_BASE_HREF=${WEB_BASE_HREF:-/representation-grant/}
   export IpFilterRules='#allow all; deny all;'
   export RealIpFrom='127.0.0.0/16'
 }
