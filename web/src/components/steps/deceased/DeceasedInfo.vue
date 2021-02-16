@@ -1,5 +1,5 @@
 <template>
-    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
+    <page-base :disableNext="disableNextButton" v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
         <survey v-bind:survey="survey"></survey>
     </page-base>
 </template>
@@ -65,6 +65,9 @@ export default class DeceasedInfo extends Vue {
     survey = new SurveyVue.Model(surveyJson);
     disableNextButton = false;   
     currentPage=0;
+    earliestDeathDate = "";
+    thisStep = 0;
+
 
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -108,6 +111,13 @@ export default class DeceasedInfo extends Vue {
             }
 
             if(options.name == "deceasedDateOfDeath") {
+                if (this.earliestDeathDate > options.value) {
+                    this.survey.setVariable("invalidDateOfDeathError", true);
+                    this.disableNextButton = true;
+                } else {
+                    this.disableNextButton = false;
+                    this.survey.setVariable("invalidDateOfDeathError", false);
+                }
                 this.UpdateDeceasedDateOfDeath(options.value);
                 const deceasedDateOfDeathPlus4 = moment(options.value, "YYYY-MM-DD").add(4, 'days').format();
                 console.log(deceasedDateOfDeathPlus4)
@@ -124,13 +134,17 @@ export default class DeceasedInfo extends Vue {
 
     public reloadPageInformation() {
         //console.log(this.step.result)
+        this.earliestDeathDate = moment("2014-03-30").format();
+
         if (this.step.result && this.step.result["deceasedInfoSurvey"]){
-            this.survey.data = this.step.result["deceasedInfoSurvey"];
-        }        
+            this.survey.data = this.step.result["deceasedInfoSurvey"].data;
+        }
+        
+        this.thisStep = this.currentStep;
         
         this.currentPage = this.steps[this.currentStep].currentPage;
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
-        // this.determinePeaceBondAndBlock();
+        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);        
+        
    }
 
     public activateStep(stepActive) {
@@ -215,14 +229,14 @@ export default class DeceasedInfo extends Vue {
     public determinePeaceBondAndBlock(){
         var pagesArr = [0, 1, 2, 4, 5, 6, 8];
         if((this.survey.data.familyUnsafe == 'n' && this.survey.data.orderType == 'needPO')||(this.survey.data.unsafe == 'n' && this.survey.data.orderType == 'needPO')){
-            this.disableNextButton = true;
+            //this.disableNextButton = true;
             this.togglePages(pagesArr, false);
             this.toggleStep(1, false);
             this.toggleStep(2, false);
             this.toggleStep(8, false);
             
         }else{
-            this.disableNextButton = false;
+            //this.disableNextButton = false;
             if (this.survey.data.PORConfirmed && this.survey.data.orderType == 'needPO') {            
             this.toggleStep(1, true);
             this.toggleStep(2, true);
@@ -234,9 +248,9 @@ export default class DeceasedInfo extends Vue {
 
     beforeDestroy() {
 
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
+        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
        
-        this.UpdateStepResultData({step:this.step, data: {deceasedInfoSurvey: this.survey.data}});
+        this.UpdateStepResultData({step:this.step, data: {deceasedInfoSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
 
     }
 };
