@@ -51,8 +51,8 @@
             <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
             <div v-else style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) THAT:</div>
         
-            <ol style="margin:0 0 0 -1.75rem;">
-                <li style="margin:1rem 0;text-indent: 5px;" class="text-justify ">
+            <ol style="margin:0rem 0 0 -1.5rem;">
+                <li class=" text-justify ">
                     <div v-if="applicantList.length>1" style="display:inline;">We are the applicants/some of the applicants referred to in the submission for estate grant in relation to the estate of </div>   
                     <div v-else style="display:inline;">I am the applicant/one of the applicants referred to in the submission for estate grant in relation to the estate of </div> 
                     
@@ -62,20 +62,20 @@
                     <div style="display:inline-block; text-indent: 10px;">without will annexed.</div>
                 </li>
 
-                <li style="margin:1rem 0;text-indent: 5px;" >
+                <li class="mt-4">
                     <check-box style="display:inline-block;" shift="0" shiftmark="0" :check="check" text="The applicant on whose behalf this affidavit is sworn is not an individual and I am authorized by the applicant to swear"/>
                     <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> this affidavit on the applicant's behalf.</div>
                     
                     <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
                         <check-box v-if="applicantList.length>1" shift="0" shiftmark="0" :check="check2" :text="'I am <b>'+ name.fullName +  '</b> and ordinarily live at the following location:'"/>
-                        <check-box v-else shift="0" shiftmark="-4" :check="check2" text="I am an individual and ordinarily live at the following location:"/>
+                        <check-box v-else shift="0" shiftmark="0" :check="check2" text="I am an individual and ordinarily live at the following location:"/>
                         <underline-form style="text-indent: 15px;" textwidth="15rem" beforetext="City/town:" hint="City/town" text="Vancouver"/> 
                         <underline-form style="text-indent: 15px;" textwidth="10rem" beforetext="Province/state:" hint="Province/state" text="BC"/>
                         <underline-form style="text-indent: 15px;" textwidth="10rem" beforetext="Country:" hint="Country" text="Canada"/>
                     </div>
                 </li>
 
-                <li style="margin:1rem 0;text-indent: 5px;">
+                <li class="mt-4">
                     <div style="display:inline-block; margin:0 0 1rem 0;" v-for="(name,i) in applicantList" :key="i+50">
                         <div v-if="applicantList.length>1" style="display:inline-block;"><b>{{name.fullName}}</b> is a person referred to in paragraph</div>   
                         <div v-else style="display:inline-block;">I am a person referred to in paragraph </div>                     
@@ -84,14 +84,14 @@
                     </div>
                 </li>
 
-                <li style="margin:1rem 0;text-indent: 5px;">
+                <li class="mt-4">
                     <check-box  shift="0" shiftmark="0" :check="check" :text="(applicantList.length>1?'We are':'I am') +' not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public'"/>
                     <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> Guardian and Trustee</div>
                     <check-box  shift="0" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We are':'I am') +' obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public Guardian'"/>
                     <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> and Trustee</div>
                 </li>
 
-                <li style="margin:1rem 0;text-indent: 5px;" class="text-justify">
+                <li class="mt-4 text-justify">
                     <div v-if="applicantList.length>1" style="display:inline;">We are satisfied that a diligent search for a testamentary document of the deceased has been made in each place that could reasonably be considered to be a place where a testamentary document may be found, including, without limitation, in all places where the deceased usually kept his or her documents and</div>   
                     <div v-else style="display:inline;">I am satisfied that a diligent search for a testamentary document of the deceased has been made in each place that could reasonably be considered to be a place where a testamentary document may be found, including, without limitation, in all places where the deceased usually kept his or her documents and</div> 
                     <check-box style="margin:0.7rem 0 0 0;" shift="0" shiftmark="0" :check="check" text="no testamentary document of the deceased has been found"/>
@@ -103,14 +103,14 @@
                     <underline-form style="margin:0 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="" text=""/>
                 </li>
 
-                <li class="mt-4 pl-3 text-justify">
+                <li class="mt-4 text-justify">
                     <div v-if="applicantList.length>1" style="display:inline;">We believe that there is no will of the deceased.</div>
                     <div v-else style="display:inline;">I believe that there is no will of the deceased.</div>
                 </li>
 
                 <div v-if="applicantList.length<2" class="new-page"> </div>
 
-                <li class="mt-4 pl-3">
+                <li class="mt-4">
                     <check-box  shift="0" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We are':'I am') +' not aware of any grant of probate or administration, or equivalent, having been issued in relation to the'"/>
                     <div  style="margin:0 0 .5rem 0; text-indent: 30px;"> deceased in British Columbia or in any other jurisdiction.</div>
                     <check-box  shift="0" shiftmark="0" :check="check2" text="The following grant(s) of probate or administration, or equivalent, has/have been issued in relation to the deceased"/>
@@ -123,8 +123,37 @@
                     <underline-form style="margin:0 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="" text=""/>
                 </li>
 
-
+                <li class="mt-4 text-justify">
+                    <div v-if="applicantList.length>1" style="display:inline;">We have read the submission for estate grant and the other documents referred to in that document and we believe that the information contained in that submission for estate grant and those documents is correct and complete.</div>   
+                    <div v-else style="display:inline;">I have read the submission for estate grant and the other documents referred to in that document and I believe that the information contained in that submission for estate grant and those documents is correct and complete.</div> 
+                </li>
+                
+                <li class="mt-4 text-justify">
+                    <div v-if="applicantList.length>1" style="display:inline;">We will administer according to law all of the deceased's estate, we will prepare an accounting as to how the estate was administered and we acknowledge that, in doing this, we will be subject to the legal responsibility of a personal representative.</div>   
+                    <div v-else style="display:inline;">I will administer according to law all of the deceased's estate, I will prepare an accounting as to how the estate was administered and I acknowledge that, in doing this, I will be subject to the legal responsibility of a personal representative.</div> 
+                </li>
             </ol>
+
+            <div class="mt-5 row">
+                <div class="col-6">  
+                    <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">SWORN (OR AFFIRMED) BEFORE ME</div>    
+                    <underline-form textwidth="16rem" beforetext="at" hint="Commissioner City" text="Victoria"/>
+                    <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">, British Columbia</div>
+
+                    <underline-form style="margin:0.75rem 0 ;" textwidth="24rem" beforetext="on" hint="Swear/Affirm Date" text="20 Apr 2020"/>
+                    <underline-form style="margin:0.5rem 0 ;" textwidth="25rem" beforetext="" hint="Commissioner Signature" text=""/>
+                    <div style="margin:0.5rem 0 ; ">A commissioner for taking affidavits for British Columbia</div>
+                    <underline-form style="margin:.5rem 0 ;" textwidth="25rem" beforetext="" hint="[print name or affix stamp of commissioner]" text=""/>
+
+                </div>
+                <div class="col-6 border-left">
+                    <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+250">
+                        
+                        <underline-form style="text-indent: 0px;" textwidth="29rem" beforetext="" :hint="name.fullName+' Signature'" text=""/> 
+                        
+                    </div>
+                </div>
+            </div>
 
 
 
