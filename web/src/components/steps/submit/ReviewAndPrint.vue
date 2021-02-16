@@ -83,10 +83,10 @@
                 <h1 class="mb-0 text-primary">Preview the PDF form</h1> 
             </template>
             <print-preview/> 
-            <template v-slot:modal-footer>
+            <!-- <template v-slot:modal-footer>
                 <b-button variant="primary" @click="showPDFpreview=false">Close</b-button>
                 <b-button variant="success" @click="onPrint();showPDFpreview=false">Save and Close</b-button>
-            </template>            
+            </template>             -->
             <template v-slot:modal-header-close>                 
                 <b-button variant="outline-dark" class="closeButton" @click="showPDFpreview=false">&times;</b-button>
             </template>

@@ -1,6 +1,5 @@
 <template>
 <div>
-
     <b-form-group >
         <label style="display:inline-block; margin: 0 1rem 0 0;">Example of filled Form for:</label>
         <b-form-radio-group    
@@ -11,17 +10,125 @@
         ></b-form-radio-group>            
     </b-form-group>
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
-
     <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem" bg-variant="white" class="mt-4 mb-3">
 
-        <div style="text-align:center;">
-            <div style="margin:5rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P1 (RULE 25-2 (3) )</div>
-            <div style="margin:1rem 0 0 -1.3rem;font-weight: 600;font-size:24px;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
-            <div style="margin:1rem 0 5rem -1.3rem;font-weight: 600;font-size:26px;">NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</div>            
-        </div>
 
-        <div style="margin:0 0 1rem 0rem;font-weight: 600;font-size:18px;"> TAKE NOTICE THAT:</div>
+            <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P5 (RULE 25-3 (2) )</div>
+            
+            <div class="mt-3 m-0 p-0 row">
+                <div class="col-7"/>
+                <div class="col-5 mr-0 ml-auto">
+                    <div>
+                        <underline-form  textwidth="12.6rem" beforetext="This is the" hint="1st/2nd/3rd..." text="1st"/>
+                        <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
+                    </div>
+                    <div class="mt-2">
+                        <underline-form  textwidth="14.8rem" beforetext="of" hint="Applicant Name" :text="getAllApplicants(25)"/>
+                        <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> in this case</div>
+                    </div>
+                    <div class="mt-2">
+                        <underline-form  textwidth="13rem" beforetext="and was made on" hint="Affidavit Date (dd mmm yyyy)" text="20 Apr 2020"/>
+                        
+                    </div>
+                </div>   
+            </div>
+
+            <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
+            <div style="display:inline-block; text-indent: 5px;"> <i>In the Matter of the Estate of</i></div>
+            <underline-form textwidth="42rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
+            <div style="display:inline-block; text-indent: 5px;"> <i>, deceased</i></div>   
+            <div style="text-align:center;margin:2rem 0 5rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT OF APPLICANT FOR GRANT OF ADMINISTRATION WITHOUT WILL ANNEXED</div>            
+
+            <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;"> We</div>
+            <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
+            <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
+                <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
+                <underline-form textwidth="20rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
+                <underline-form textwidth="25em" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
+                <underline-form textwidth="10em" beforetext=", " hint="Occupation" :text="name.occupation"/>
+                <div style="display:inline-block;"> ,</div>
+            </div>
+            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
+            <div v-else style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) THAT:</div>
         
+            <ol style="margin:0 0 0 -1.75rem;">
+                <li style="margin:1rem 0;text-indent: 5px;" class="text-justify ">
+                    <div v-if="applicantList.length>1" style="display:inline;">We are the applicants/some of the applicants referred to in the submission for estate grant in relation to the estate of </div>   
+                    <div v-else style="display:inline;">I am the applicant/one of the applicants referred to in the submission for estate grant in relation to the estate of </div> 
+                    
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
+                    <div v-if="applicantList.length>1" style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">(the "deceased") and are applying for a grant of administration</div>
+                    <div v-else style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">(the "deceased") and am applying for a grant of administration</div>
+                    <div style="display:inline-block; text-indent: 10px;">without will annexed.</div>
+                </li>
+
+                <li style="margin:1rem 0;text-indent: 5px;" >
+                    <check-box style="display:inline-block;" shift="0" shiftmark="0" :check="check" text="The applicant on whose behalf this affidavit is sworn is not an individual and I am authorized by the applicant to swear"/>
+                    <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> this affidavit on the applicant's behalf.</div>
+                    
+                    <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
+                        <check-box v-if="applicantList.length>1" shift="0" shiftmark="0" :check="check2" :text="'I am <b>'+ name.fullName +  '</b> and ordinarily live at the following location:'"/>
+                        <check-box v-else shift="0" shiftmark="-4" :check="check2" text="I am an individual and ordinarily live at the following location:"/>
+                        <underline-form style="text-indent: 15px;" textwidth="15rem" beforetext="City/town:" hint="City/town" text="Vancouver"/> 
+                        <underline-form style="text-indent: 15px;" textwidth="10rem" beforetext="Province/state:" hint="Province/state" text="BC"/>
+                        <underline-form style="text-indent: 15px;" textwidth="10rem" beforetext="Country:" hint="Country" text="Canada"/>
+                    </div>
+                </li>
+
+                <li style="margin:1rem 0;text-indent: 5px;">
+                    <div style="display:inline-block; margin:0 0 1rem 0;" v-for="(name,i) in applicantList" :key="i+50">
+                        <div v-if="applicantList.length>1" style="display:inline-block;"><b>{{name.fullName}}</b> is a person referred to in paragraph</div>   
+                        <div v-else style="display:inline-block;">I am a person referred to in paragraph </div>                     
+                        <underline-form style="text-indent:0px;" textwidth="2rem" beforetext="" hint="(a) ... (g)" text="(e)"/>
+                        <div style="display:inline-block; text-indent: 10px;">of section 130 of the Wills, Estates and Succession Act.</div>
+                    </div>
+                </li>
+
+                <li style="margin:1rem 0;text-indent: 5px;">
+                    <check-box  shift="0" shiftmark="0" :check="check" :text="(applicantList.length>1?'We are':'I am') +' not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public'"/>
+                    <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> Guardian and Trustee</div>
+                    <check-box  shift="0" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We are':'I am') +' obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public Guardian'"/>
+                    <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> and Trustee</div>
+                </li>
+
+                <li style="margin:1rem 0;text-indent: 5px;" class="text-justify">
+                    <div v-if="applicantList.length>1" style="display:inline;">We are satisfied that a diligent search for a testamentary document of the deceased has been made in each place that could reasonably be considered to be a place where a testamentary document may be found, including, without limitation, in all places where the deceased usually kept his or her documents and</div>   
+                    <div v-else style="display:inline;">I am satisfied that a diligent search for a testamentary document of the deceased has been made in each place that could reasonably be considered to be a place where a testamentary document may be found, including, without limitation, in all places where the deceased usually kept his or her documents and</div> 
+                    <check-box style="margin:0.7rem 0 0 0;" shift="0" shiftmark="0" :check="check" text="no testamentary document of the deceased has been found"/>
+                    <check-box style="display:inline;" shift="0" shiftmark="0" :check="check2" text=""/>
+                    <div v-if="applicantList.length>1" style="display:inline-block;text-indent:1.8rem;">one or more testamentary documents have been found. A copy of the testamentary document(s) is/are attached as an exhibit to the affidavit. We believe that the testamentary document(s) is/are invalid or otherwise not relevant to this application for the following reasons:</div>   
+                    <div v-else style="display:inline-block;text-indent:1.8rem;">one or more testamentary documents have been found. A copy of the testamentary document(s) is/are attached as an exhibit to the affidavit. I believe that the testamentary document(s) is/are invalid or otherwise not relevant to this application for the following reasons:</div> 
+                    
+                    <underline-form style="margin:1rem 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="Explain why Will is invalid/irrelevant" text=""/>
+                    <underline-form style="margin:0 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="" text=""/>
+                </li>
+
+                <li class="mt-4 pl-3 text-justify">
+                    <div v-if="applicantList.length>1" style="display:inline;">We believe that there is no will of the deceased.</div>
+                    <div v-else style="display:inline;">I believe that there is no will of the deceased.</div>
+                </li>
+
+                <div v-if="applicantList.length<2" class="new-page"> </div>
+
+                <li class="mt-4 pl-3">
+                    <check-box  shift="0" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We are':'I am') +' not aware of any grant of probate or administration, or equivalent, having been issued in relation to the'"/>
+                    <div  style="margin:0 0 .5rem 0; text-indent: 30px;"> deceased in British Columbia or in any other jurisdiction.</div>
+                    <check-box  shift="0" shiftmark="0" :check="check2" text="The following grant(s) of probate or administration, or equivalent, has/have been issued in relation to the deceased"/>
+                    <underline-form style="margin:0.35rem 0 1rem 0rem;" textwidth="36rem" beforetext=" in British Columbia or in another jurisdiction:" hint="Describe representation grant(s)" text=""/>
+                
+                    <div v-if="applicantList.length>1" style="">We believe that, that grant is/those grants are not relevant to this application for the following reasons:</div>
+                    <div v-else style="">I believe that, that grant is/those grants are not relevant to this application for the following reasons:</div>
+
+                    <underline-form style="margin:1rem 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="Explain why representation grant(s) is/are invalid/irrelevant" text=""/>
+                    <underline-form style="margin:0 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="" text=""/>
+                </li>
+
+
+            </ol>
+
+
+
+<!--         
         <underline-form textwidth="41rem" beforetext="The applicant(s)" hint="Full Name of Applicant(s)" :text="getAllApplicants"/>
         <div style="display:inline-block; text-indent: 5px;"> propose(s) to apply, in the</div>
         <underline-form class="mt-3" textwidth="20rem" beforetext="" hint="Court Location" text="Victoria court of appeal"/>
@@ -143,13 +250,13 @@
                     <underline-form  style="display:inline-block;margin-left:9rem;" textwidth="20rem" beforetext="lawyer for applicant" hint="lawyer's full name" :text="name.lawyer"/>
                 </div>
             </div>
-        </div>
+        </div> -->
     </b-card>
 </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 
 import { namespace } from "vuex-class";   
@@ -174,9 +281,6 @@ export default class FormP1 extends Vue {
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
 
-    
-    multipleApplicant=false;
-
     check = ""//"&#10003"
     check2= "&#10003"
 
@@ -198,43 +302,43 @@ export default class FormP1 extends Vue {
     //    {fullName:"his second son",first:"his", middle:"second",last:"son", address:"0000 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"his good lawyer" },
     //    {fullName:"his second daughter",first:"his", middle:"second",last:"daughter", address:"0000 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" } 
     ]
-    deceased={first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
+    deceased={fullName:"Rest In Peace", first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
     serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
-
+    
     mounted(){
         this.getFPOResultData()
         this.changeApplicantList()
     }
-
+    multipleApplicant=false
     public changeApplicantList(){
         this.applicantList=[]
         if(this.multipleApplicant){
             this.applicantList.push(
-                {fullName:"his first son",first:"its", middle:"first",last:"son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
-                {fullName:"his first daughter",first:"its", middle:"first",last:"daughter", address:"1-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" },
-                {fullName:"his second son",first:"its", middle:"second",last:"son", address:"0000 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"his good lawyer" },
-                {fullName:"his second daughter",first:"its", middle:"second",last:"daughter", address:"1111 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" }, 
-                {fullName:"his third son",first:"its", middle:"third",last:"son", address:"43-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
-                {fullName:"his third daughter",first:"its", middle:"third",last:"daughter", address:"100-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" },
-                {fullName:"his forth son",first:"its", middle:"forth",last:"son", address:"7777 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"his good lawyer" },
-                {fullName:"his forth daughter",first:"its", middle:"forth",last:"daughter", address:"9999 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" }, 
-                {fullName:"his fifth son",first:"its", middle:"fifth",last:"son", address:"80-123 st, Vancouver, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
-                {fullName:"his fifth daughter",first:"its", middle:"fifth",last:"daughter", address:"780-123 st, Vancouver, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" },
+                {fullName:"his first son",first:"its", middle:"first",last:"son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"worker" },
+                {fullName:"his first daughter",first:"its", middle:"first",last:"daughter", address:"1-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work" },
+                {fullName:"his second son",first:"its", middle:"second",last:"son", address:"0000 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"his good lawyer", occupation:"working" },
+                {fullName:"his second daughter",first:"its", middle:"second",last:"daughter", address:"1111 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"worker" }, 
+                {fullName:"his third son",first:"its", middle:"third",last:"son", address:"43-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work" },
+                {fullName:"his third daughter",first:"its", middle:"third",last:"daughter", address:"100-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"worker" },
+                {fullName:"his forth son",first:"its", middle:"forth",last:"son", address:"7777 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"his good lawyer", occupation:"work" },
+                {fullName:"his forth daughter",first:"its", middle:"forth",last:"daughter", address:"9999 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"working" }, 
+                {fullName:"his fifth son",first:"its", middle:"fifth",last:"son", address:"80-123 st, Vancouver, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"worker" },
+                {fullName:"his fifth daughter",first:"its", middle:"fifth",last:"daughter", address:"780-123 st, Vancouver, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work" },
             )
         }else{
             this.applicantList.push(
-                {fullName:"his first son",first:"its", middle:"first",last:"son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
+                {fullName:"his first son",first:"its", middle:"first",last:"son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work"  },
             )
         }
     }
 
-    get getAllApplicants(){
+    public getAllApplicants(len: number){
         let result="";
         for(const name of this.applicantList)
             result += name.fullName+', ';
         result = result.slice(0,-2);
-        if(result.length>70)
-            result = result.slice(0,70) +"..."
+        if(result.length>len)
+            result = result.slice(0,len) +"..."
         return result
     }
 
@@ -245,7 +349,7 @@ export default class FormP1 extends Vue {
         const applicationId = this.$store.state.Application.id;
         
         const url = '/survey-print/'+applicationId+'/?name=representation-grant'
-        const body = Vue.filter('printPdf')(el.innerHTML,`"SCCRPF  02/2021 \a         Form P1";`)
+        const body = Vue.filter('printPdf')(el.innerHTML,`"SCCRPF  02/2021 \a         Form P5";`)
         const options = {
             responseType: "blob",
             headers: {
@@ -259,7 +363,7 @@ export default class FormP1 extends Vue {
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             document.body.appendChild(link);
-            link.download = "FormP1.pdf";
+            link.download = "FormP5.pdf";
             link.click();
             setTimeout(() => URL.revokeObjectURL(link.href), 1000);            
         },err => {
@@ -315,16 +419,7 @@ export default class FormP1 extends Vue {
     
     section.resetquestion{counter-reset: question-counter;}
 
-    .new-page{
-        counter-increment: page;
-        margin: 1rem -3.1rem;
-        border-top: 3px dashed rgb(14, 13, 13)!important;
-        border-bottom: 3px dashed rgb(15, 15, 15)!important;
-        width: 1100px;
-    }
-    .new-page:before{        
-        content:"-------------------------------------------------------------------------------------------------- Next Page --------------------------------------------------------------------------------------------------";
-    }
+    
     ol.resetcounter{
         list-style: none;
         counter-reset: bracket-counter;
@@ -338,6 +433,22 @@ export default class FormP1 extends Vue {
     }
     ol li.bracketnumber:before {
         content:"(" counter(bracket-counter) ") ";
+        font-weight: bold;
+    }
+
+    ol.resetlist {
+        list-style: none;
+        counter-reset: list-counter;
+    }
+    ol li.listnumber{
+        text-indent: -25px;
+        text-align: justify; 
+        text-justify: inter-word;
+        margin:1rem 0;
+        counter-increment: list-counter;
+    }
+    ol li.listnumber:before {
+        content:counter(list-counter) ". ";
         font-weight: bold;
     }
 
