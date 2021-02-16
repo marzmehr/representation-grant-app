@@ -244,7 +244,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedName} notempty and ({deceasedNameReplace} = \"n\" or ({deceasedNameReplace} = \"y\" and {deceasedNickname} notempty)) and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and ({deceasedFirstNations} = \"n\" or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty}))"
+               "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and ({deceasedFirstNations} = \"n\" or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty}))"
             }
          ],
          "title": "Information about {deceasedName}"
