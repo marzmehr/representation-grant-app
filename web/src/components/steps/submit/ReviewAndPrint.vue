@@ -78,7 +78,7 @@
             </template>
         </b-modal>
 
-        <b-modal size="xl" v-model="showPDFpreview" header-class="bg-white">
+        <b-modal size="xl" v-model="showPDFpreview" header-class="bg-white" hide-footer>
             <template v-slot:modal-title>
                 <h1 class="mb-0 text-primary">Preview the PDF form</h1> 
             </template>
@@ -88,7 +88,7 @@
                 <b-button variant="success" @click="onPrint();showPDFpreview=false">Save and Close</b-button>
             </template>             -->
             <template v-slot:modal-header-close>                 
-                <b-button variant="outline-dark" class="closeButton" @click="showPDFpreview=false">&times;</b-button>
+                <b-button variant="outline-dark" class="closeButton" @click="showPDFpreview=false">&times;Close</b-button>
             </template>
         </b-modal>
 
