@@ -106,7 +106,7 @@ class Application extends VuexModule {
         p.key = "0";
         p.label = "Executors";
         //TODO: turn active to false
-        p.active = true;
+        p.active = false;
         p.progress = 0;
     
         s.pages.push(p);
@@ -142,7 +142,7 @@ class Application extends VuexModule {
         p.key = "4";
         p.label = "Beneficiaries";
         //TODO: turn active to false
-        p.active = true;
+        p.active = false;
         p.progress = 0;
     
         s.pages.push(p);   
