@@ -80,8 +80,7 @@
                      "messageStyle": "error"
                   }
                ],
-               "visible": false,
-               "visibleIf": "{deceasedIntroExplanation} > 0"
+               "visible": false
             },
             {
                "type": "panel",
@@ -115,7 +114,8 @@
                      "type": "infotext",
                      "name": "question412",
                      "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
-                     "titleLocation": "hidden"
+                     "titleLocation": "hidden",
+                     "visible": false
                   },                  
                   {
                      "type": "infotext",
@@ -183,7 +183,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedIntroExplanation} > 0"
+               "visibleIf": "(!{invalidDateOfDeathError}) and {deceasedIntroExplanation} > 0"
             },
             {
                "type": "panel",
@@ -212,14 +212,7 @@
                         "Uchucklesaht",
                         "Ucluelet"
                      ]
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "firstNationsNameTrello",
-                     "title": "<a href=\"https://trello.com/c/cD8xmZY9\" target=\"_blank\">Trello - Radio Logic: notempty not working</a>\n<br><br>\nJIRA Ticket to be created; Copied from Trello:\n<br><br>\n{firstNationsName} is a radio button question.\n{deceasedExitPanel} has a visibleIf condition that includes {firstNationsName} notempty\n<br><br>\nThe problem is {deceasedExitPanel} shows even if {firstNationsName} has no selection",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error"
-                  },
+                  },                  
                   {
                      "type": "infotext",
                      "name": "question460",
@@ -230,7 +223,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedIntroExplanation} > 0"
+               "visibleIf": "(!{invalidDateOfDeathError}) and {deceasedIntroExplanation} > 0"
             },
             {
                "type": "panel",
@@ -244,7 +237,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedName} notempty and ({deceasedNameReplace} = \"n\" or ({deceasedNameReplace} = \"y\" and {deceasedNickname} notempty)) and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and ({deceasedFirstNations} = \"n\" or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty}))"
+               "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and (({deceasedFirstNations} = \"n\") or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty))"
             }
          ],
          "title": "Information about {deceasedName}"

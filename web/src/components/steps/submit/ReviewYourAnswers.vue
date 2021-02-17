@@ -1,7 +1,7 @@
 <template>
     <page-base  v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
         <h2 class="mt-4">Review Your Answers</h2>
-        <b-card
+        <!-- <b-card
             v-for="section in questionResults"
             v-bind:key="section.name"
             :header="section.pageName"
@@ -33,7 +33,7 @@
                         </template>
 
                 </b-table>
-        </b-card>
+        </b-card> -->
     </page-base>
 </template>
 
