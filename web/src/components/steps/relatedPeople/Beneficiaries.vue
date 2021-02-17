@@ -106,7 +106,7 @@ export default class Beneficiaries extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
-        this.survey.setVariable("deceasedDateOfDeathPlus4", Vue.filter('beautify-date')(this.deceasedDateOfDeathPlus4));
+        this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);
  
     }
 

@@ -13,7 +13,7 @@
     
     <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem" bg-variant="white" class="mt-4 mb-3">
 
-            <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P5 (RULE 25-3 (2) )</div>
+            <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P8 (RULE 25-3 (2) )</div>
             
             <div class="mt-3 m-0 p-0 row">
                 <div class="col-7"/>
@@ -43,7 +43,7 @@
             <div style="display:inline-block; text-indent: 5px;"> <i>In the Matter of the Estate of</i></div>
             <underline-form textwidth="42rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
             <div style="display:inline-block; text-indent: 5px;"> <i>, deceased</i></div>   
-            <div style="text-align:center;margin:2rem 0 5rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT OF APPLICANT FOR GRANT OF ADMINISTRATION WITHOUT WILL ANNEXED</div>            
+            <div style="text-align:center;margin:2rem 0 5rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT IN SUPPORT OF APPLICATION FOR ESTATE GRANT</div>            
 
             <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;"> We</div>
             <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
@@ -63,80 +63,36 @@
                     <div v-else style="display:inline;">I am the applicant/one of the applicants referred to in the submission for estate grant in relation to the estate of </div> 
                     
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
-                    <div v-if="applicantList.length>1" style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">(the "deceased") and are applying for a grant of administration</div>
-                    <div v-else style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">(the "deceased") and am applying for a grant of administration</div>
-                    <div style="display:inline-block; text-indent: 10px;">without will annexed.</div>
+                    <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">(the "deceased").</div>                   
                 </li>
 
-                <li class="mt-4">
-                    <check-box style="display:inline-block;" shift="0" shiftmark="0" :check="check" text="The applicant on whose behalf this affidavit is sworn is not an individual and I am authorized by the applicant to swear"/>
-                    <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> this affidavit on the applicant's behalf.</div>
-                    
-                    <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
-                        <check-box v-if="applicantList.length>1" shift="0" shiftmark="0" :check="check2" :text="'I am <b>'+ name.fullName +  '</b> and ordinarily live at the following location:'"/>
-                        <check-box v-else shift="0" shiftmark="0" :check="check2" text="I am an individual and ordinarily live at the following location:"/>
-                        <underline-form style="text-indent: 15px;" textwidth="15rem" beforetext="City/town:" hint="City/town" :text="name.city"/> 
-                        <underline-form style="text-indent: 15px;" textwidth="10rem" beforetext="Province/state:" hint="Province/state" :text="name.state"/>
-                        <underline-form style="text-indent: 15px;" textwidth="10rem" beforetext="Country:" hint="Country" :text="name.country"/>
+                <li class="mt-4 text-justify">                   
+                    <div  style="margin:0 0 .25rem 0; display:inline-block;"> I have read the affidavit in Form </div>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" text="P5"/>
+                    <div  style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> sworn </div>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" :text="form5Info.date"/>
+                    <div  style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> by </div>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" :text="form5Info.applicantFullName"/>
+                    <div  style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that I know to be inaccurate.</div>                    
+                </li>                
+
+                <li class="mt-4 text-justify">
+                    <div v-if="applicantList.length>1" style="display:inline;"> We have read the submission for estate grant and the other documents referred to in that document and we believe
+                        that the information contained in that submission for estate grant and those documents is correct and complete.
                     </div>
-                </li>
-
-                <li class="mt-4">
-                    <div style="display:inline-block; margin:0 0 1rem 0;" v-for="(name,i) in applicantList" :key="i+50">
-                        <div v-if="applicantList.length>1" style="display:inline-block;"><b>{{name.fullName}}</b> is a person referred to in paragraph</div>   
-                        <div v-else style="display:inline-block;">I am a person referred to in paragraph </div>                     
-                        <underline-form style="text-indent:0px;" textwidth="2rem" beforetext="" hint="(a) ... (g)" :text="name.section130"/>
-                        <div style="display:inline-block; text-indent: 10px;">of section 130 of the Wills, Estates and Succession Act.</div>
-                    </div>
-                </li>
-
-                <li class="mt-4">
-                    <check-box  shift="0" shiftmark="0" :check="check" :text="(applicantList.length>1?'We are':'I am') +' not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public'"/>
-                    <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> Guardian and Trustee</div>
-                    <check-box  shift="0" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We are':'I am') +' obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public Guardian'"/>
-                    <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> and Trustee</div>
-                </li>
-
-                <li class="mt-4 text-justify">
-                    <div v-if="applicantList.length>1" style="display:inline;">We are satisfied that a diligent search for a testamentary document of the deceased has been made in each place that could reasonably be considered to be a place where a testamentary document may be found, including, without limitation, in all places where the deceased usually kept his or her documents and</div>   
-                    <div v-else style="display:inline;">I am satisfied that a diligent search for a testamentary document of the deceased has been made in each place that could reasonably be considered to be a place where a testamentary document may be found, including, without limitation, in all places where the deceased usually kept his or her documents and</div> 
-                    <check-box style="margin:0.7rem 0 0 0;" shift="0" shiftmark="0" :check="check" text="no testamentary document of the deceased has been found"/>
-                    <check-box style="display:inline;" shift="0" shiftmark="0" :check="check2" text=""/>
-                    <div v-if="applicantList.length>1" style="display:inline-block;text-indent:1.8rem;">one or more testamentary documents have been found. A copy of the testamentary document(s) is/are attached as an exhibit to the affidavit. We believe that the testamentary document(s) is/are invalid or otherwise not relevant to this application for the following reasons:</div>   
-                    <div v-else style="display:inline-block;text-indent:1.8rem;">one or more testamentary documents have been found. A copy of the testamentary document(s) is/are attached as an exhibit to the affidavit. I believe that the testamentary document(s) is/are invalid or otherwise not relevant to this application for the following reasons:</div> 
-                    
-                    <underline-form style="margin:1rem 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="Explain why Will is invalid/irrelevant" text=""/>
-                    <underline-form style="margin:0 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="" text=""/>
-                </li>
-
-                <li class="mt-4 text-justify">
-                    <div v-if="applicantList.length>1" style="display:inline;">We believe that there is no will of the deceased.</div>
-                    <div v-else style="display:inline;">I believe that there is no will of the deceased.</div>
-                </li>
-
-                <div v-if="applicantList.length<2" class="new-page"> </div>
-
-                <li class="mt-4">
-                    <check-box  shift="0" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We are':'I am') +' not aware of any grant of probate or administration, or equivalent, having been issued in relation to the'"/>
-                    <div  style="margin:0 0 .5rem 0; text-indent: 30px;"> deceased in British Columbia or in any other jurisdiction.</div>
-                    <check-box  shift="0" shiftmark="0" :check="check2" text="The following grant(s) of probate or administration, or equivalent, has/have been issued in relation to the deceased"/>
-                    <underline-form style="margin:0.35rem 0 1rem 0rem;" textwidth="36rem" beforetext=" in British Columbia or in another jurisdiction:" hint="Describe representation grant(s)" text=""/>
-                
-                    <div v-if="applicantList.length>1" style="">We believe that, that grant is/those grants are not relevant to this application for the following reasons:</div>
-                    <div v-else style="">I believe that, that grant is/those grants are not relevant to this application for the following reasons:</div>
-
-                    <underline-form style="margin:1rem 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="Explain why representation grant(s) is/are invalid/irrelevant" text=""/>
-                    <underline-form style="margin:0 0 1rem 0rem;" textwidth="60rem" beforetext="" hint="" text=""/>
-                </li>
-
-                <li class="mt-4 text-justify">
-                    <div v-if="applicantList.length>1" style="display:inline;">We have read the submission for estate grant and the other documents referred to in that document and we believe that the information contained in that submission for estate grant and those documents is correct and complete.</div>   
-                    <div v-else style="display:inline;">I have read the submission for estate grant and the other documents referred to in that document and I believe that the information contained in that submission for estate grant and those documents is correct and complete.</div> 
+                        
+                    <div v-else style="display:inline;">I have read the submission for estate grant and the other documents referred to in that document and I believe
+                        that the information contained in that submission for estate grant and those documents is correct and complete.
+                    </div> 
                 </li>
                 
                 <li class="mt-4 text-justify">
-                    <div v-if="applicantList.length>1" style="display:inline;">We will administer according to law all of the deceased's estate, we will prepare an accounting as to how the estate was administered and we acknowledge that, in doing this, we will be subject to the legal responsibility of a personal representative.</div>   
-                    <div v-else style="display:inline;">I will administer according to law all of the deceased's estate, I will prepare an accounting as to how the estate was administered and I acknowledge that, in doing this, I will be subject to the legal responsibility of a personal representative.</div> 
+                    <div v-if="applicantList.length>1" style="display:inline;">We will administer according to law the deceased's estate to which the submission for estate grant relates and we
+                        acknowledge that, in doing this, we will be subject to the legal responsibility of a personal representative.                         
+                    </div>   
+                    <div v-else style="display:inline;">I will administer according to law the deceased's estate to which the submission for estate grant relates and I
+                        acknowledge that, in doing this, I will be subject to the legal responsibility of a personal representative.
+                    </div> 
                 </li>
             </ol>
 
@@ -180,7 +136,7 @@ import CheckBox from "./components/CheckBox.vue"
     }
 })
 
-export default class FormP1 extends Vue {    
+export default class FormP8 extends Vue {    
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -194,6 +150,7 @@ export default class FormP1 extends Vue {
     applicantList = []
     deceased={fullName:"Rest In Peace", first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
     serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
+    form5Info={applicantFullName:"Its first daughter", first:"Its", middle:"first",last:"Daughter", date:"20 March 2020"}
     
     mounted(){
         this.getRepGrantResultData()
@@ -239,7 +196,7 @@ export default class FormP1 extends Vue {
         const applicationId = this.$store.state.Application.id;
         
         const url = '/survey-print/'+applicationId+'/?name=representation-grant'
-        const body = Vue.filter('printPdf')(el.innerHTML,`"SCCRPF  02/2021 \a         Form P5";`)
+        const body = Vue.filter('printPdf')(el.innerHTML,`"SCCRPF  02/2021 \a         Form P8";`)
         const options = {
             responseType: "blob",
             headers: {
@@ -253,7 +210,7 @@ export default class FormP1 extends Vue {
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             document.body.appendChild(link);
-            link.download = "FormP5.pdf";
+            link.download = "FormP8.pdf";
             link.click();
             setTimeout(() => URL.revokeObjectURL(link.href), 1000);            
         },err => {

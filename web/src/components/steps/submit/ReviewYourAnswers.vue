@@ -238,7 +238,7 @@ export default class ReviewYourAnswers extends Vue {
         this.errorQuestionNames.push(this.coOccurrence("Protection from whom?","childPO","n",  "Background","PartiesHasOtherChilderen","Are {DeceasedDateOfDeath} and {DeceasedName} a parent, step-parent or guardian to a child that is not already identified in the list", "PartiesHasOtherChilderen"));        
     }
 
-    // public getFPOResultData() {  
+    // public getRepGrantResultData() {  
         
     //     var result = this.$store.state.Application.steps[0].result; 
     //     for(var i=1;i<9; i++){

@@ -165,7 +165,7 @@
                      "name": "spouseDied5DaysAfter",
                      "visible": false,
                      "visibleIf": "{panel.spouseIsAlive} = \"n\"",
-                     "title": "Did  die after (Deceased Date of Death + 4 days)?"
+                     "title": "Did  die after {deceasedDateOfDeathPlus4}?"
                   },
                   {
                      "type": "helptext",
