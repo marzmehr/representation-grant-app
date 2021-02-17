@@ -66,8 +66,8 @@
                     <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">(the "deceased").</div>                   
                 </li>
 
-                <li class="mt-4 text-justify">                   
-                    <div  style="margin:0 0 .25rem 0; display:inline-block;"> I have read the affidavit in Form </div>
+                <li class="mt-4">                   
+                    <div  style="display:inline-block;"> I have read the affidavit in Form </div>
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" text="P5"/>
                     <div  style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> sworn </div>
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" :text="form5Info.date"/>
