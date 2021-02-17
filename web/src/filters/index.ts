@@ -166,14 +166,14 @@ Vue.filter('printPdf', function(html, pageFooter){
 		`<style>`+
 			`@page {
 				size: 12.5in 16.17in;
-				margin: .7in 0.7in 0.9in 0.7in;
+				margin: .7in .7in 0.9in 0.7in;
 				@bottom-left {
 					content:`+ pageFooter +
 					`white-space: pre;
 					font-size: 6pt;
 				}
 				@bottom-right {
-					content:"page " counter(page);
+					content:"Page " counter(page) " of " counter(pages);
 					font-size: 8pt;
 				}
 			}`+
@@ -191,6 +191,9 @@ Vue.filter('printPdf', function(html, pageFooter){
 			`ol.resetcounter{list-style: none;counter-reset: bracket-counter;}`+
 			`ol li.bracketnumber{text-indent: -35px;text-align: justify;text-justify: inter-word;margin:1rem 0;counter-increment: bracket-counter;}`+
 			`ol li.bracketnumber:before {content:"(" counter(bracket-counter) ") ";font-weight: bold;}`+
+			`ol.resetlist {list-style: none;counter-reset: list-counter;margin-left:-3.5rem;}`+
+			`ol li.listnumber{counter-increment: list-counter;}`+
+			`ol li.listnumber:before {content:counter(list-counter) ". ";font-weight: bold;}`+
 		`</style>
 		</head>
 		<body>`+html+

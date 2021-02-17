@@ -9,7 +9,7 @@
             fontSize: '1.0em'}">
             <div :style="{transform:'translate('+shiftmark+'px,-6px)'}" v-html="getCheck()"/>
         </span> 
-        <div :style="{display:'inline-block', textIndent: getShift() }">{{text}}</div>
+        <div :style="{display:'inline-block', textIndent: getShift() }" v-html="text">{{text}}</div>
     </div>
 
 </template>
