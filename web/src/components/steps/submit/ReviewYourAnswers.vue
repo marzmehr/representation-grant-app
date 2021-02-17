@@ -1,6 +1,8 @@
 <template>
     <page-base  v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
         <h2 class="mt-4">Review Your Answers</h2>
+        
+        <div id="surveyCreatorContainer"></div>
         <!-- <b-card
             v-for="section in questionResults"
             v-bind:key="section.name"
@@ -39,6 +41,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import * as SurveyCreator from "survey-creator";
+import "survey-creator/survey-creator.css";
 
 import * as _ from 'underscore';
 
@@ -85,7 +89,13 @@ export default class ReviewYourAnswers extends Vue {
 
     errorQuestionNames = [];
 
-    mounted(){       
+    mounted(){  
+       
+        SurveyCreator.StylesManager.applyTheme("darkblue");
+        var options = {showEmbededSurveyTab: true}; //see examples below
+        var surveyCreator = new SurveyCreator.SurveyCreator("surveyCreatorContainer", options);
+        //set function on save callback
+        //surveyCreator.saveSurveyFunc = saveMySurvey;
         
         this.reloadPageInformation();
         this.determineHiddenErrors();
@@ -329,3 +339,7 @@ export default class ReviewYourAnswers extends Vue {
     }
 }
 </script>
+
+<style scoped>
+
+</style>
