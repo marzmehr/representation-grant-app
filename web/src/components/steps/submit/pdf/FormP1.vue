@@ -1,6 +1,17 @@
 <template>
 <div>
+
+    <b-form-group >
+        <label style="display:inline-block; margin: 0 1rem 0 0;">Example of filled Form for:</label>
+        <b-form-radio-group    
+            style="display:inline-block"            
+            v-model="multipleApplicant"
+            :options="[{value:false, text:'Single Applicant'},{value:true, text:'10 (Multiple) Applicants'}]"
+            @change="changeApplicantList()"                
+        ></b-form-radio-group>            
+    </b-form-group>
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
+
     <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem" bg-variant="white" class="mt-4 mb-3">
 
         <div style="text-align:center;">
@@ -14,7 +25,7 @@
         <underline-form textwidth="41rem" beforetext="The applicant(s)" hint="Full Name of Applicant(s)" :text="getAllApplicants"/>
         <div style="display:inline-block; text-indent: 5px;"> propose(s) to apply, in the</div>
         <underline-form class="mt-3" textwidth="20rem" beforetext="" hint="Court Location" text="Victoria court of appeal"/>
-        <underline-form style="text-indent: 5px;" class="mt-3" textwidth="32rem" beforetext="court registry, for" hint="Application Type" text="Victoria court of appeal"/>
+        <underline-form style="text-indent: 5px;" class="mt-3" textwidth="32rem" beforetext="court registry, for" hint="Application Type" text="AWOW"/>
         <underline-form style="text-indent: 5px;" class="mt-3" textwidth="26rem" beforetext="in relation to the estate of the deceased described below who died on" hint="Deceased’s Date of Death (dd mmm yyyy)" text="20 Apr 2020"/>
           
         <div style="margin:2rem 0 1rem 0rem;"> Full legal name of deceased:</div>
@@ -138,7 +149,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 
 import { namespace } from "vuex-class";   
@@ -163,11 +174,14 @@ export default class FormP1 extends Vue {
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
 
+    
+    multipleApplicant=false;
+
     check = ""//"&#10003"
     check2= "&#10003"
 
     applicantList = [
-       {fullName:"his first son",first:"his", middle:"first",last:"son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
+    //    {fullName:"his first son",first:"his", middle:"first",last:"son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
     //    {fullName:"his first daughter",first:"his", middle:"first",last:"daughter", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" },
     //    {fullName:"his second son",first:"his", middle:"second",last:"son", address:"0000 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"his good lawyer" },
     //    {fullName:"his second daughter",first:"his", middle:"second",last:"daughter", address:"0000 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" }, 
@@ -188,7 +202,30 @@ export default class FormP1 extends Vue {
     serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
 
     mounted(){
+        this.getFPOResultData()
+        this.changeApplicantList()
+    }
 
+    public changeApplicantList(){
+        this.applicantList=[]
+        if(this.multipleApplicant){
+            this.applicantList.push(
+                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
+                {fullName:"Its first Daughter",first:"Its", middle:"first",last:"Daughter", address:"1-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" },
+                {fullName:"Its second Son",first:"Its", middle:"second",last:"Son", address:"0000 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"Its good lawyer" },
+                {fullName:"Its second Daughter",first:"Its", middle:"second",last:"Daughter", address:"1111 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" }, 
+                {fullName:"Its third Son",first:"Its", middle:"third",last:"Son", address:"43-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
+                {fullName:"Its third Daughter",first:"Its", middle:"third",last:"Daughter", address:"100-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" },
+                {fullName:"Its fourth Son",first:"Its", middle:"fourth",last:"Son", address:"7777 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"Its good lawyer" },
+                {fullName:"Its fourth Daughter",first:"Its", middle:"fourth",last:"Daughter", address:"9999 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" }, 
+                {fullName:"Its fifth Son",first:"Its", middle:"fifth",last:"Son", address:"80-123 st, Vancouver, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
+                {fullName:"Its fifth Daughter",first:"Its", middle:"fifth",last:"Daughter", address:"780-123 st, Vancouver, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"" },
+            )
+        }else{
+            this.applicantList.push(
+                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA" },
+            )
+        }
     }
 
     get getAllApplicants(){
@@ -278,16 +315,6 @@ export default class FormP1 extends Vue {
     
     section.resetquestion{counter-reset: question-counter;}
 
-    .new-page{
-        counter-increment: page;
-        margin: 1rem -3.1rem;
-        border-top: 3px dashed rgb(14, 13, 13)!important;
-        border-bottom: 3px dashed rgb(15, 15, 15)!important;
-        width: 1100px;
-    }
-    .new-page:before{        
-        content:"-------------------------------------------------------------------------------------------------- Next Page --------------------------------------------------------------------------------------------------";
-    }
     ol.resetcounter{
         list-style: none;
         counter-reset: bracket-counter;

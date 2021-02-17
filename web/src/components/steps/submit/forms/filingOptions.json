@@ -25,14 +25,6 @@
                     {
                     "value": "inperson",
                     "text": "In Person"
-                    },
-                    {
-                    "value": "byemail",
-                    "text": "By Email"
-                    },
-                    {
-                    "value": "byefiling",
-                    "text": "By Electronic Filing"
                     }
                 ]
             }]

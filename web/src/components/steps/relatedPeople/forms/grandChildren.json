@@ -163,8 +163,8 @@
                     "visibleIf": "{grandchildIsYou} = 'n' or ({grandchildIsYou} = 'y' and {grandchildIsYouIncluded} = 'y')"
                 }
             ],
-            "visible": false,
-            "visibleIf": "{childPanel[1].childIsAlive} = \"n\"",
+            "visible": true,
+            
             "title": "{deceasedName}'s Grandchildren"
         }
     ],

@@ -1,10 +1,23 @@
 <template>
-   <form-p1/>  
+    <div>
+        <b-form-group >
+            <b-form-radio-group                
+                v-model="selected"
+                :options="[{value:'P1', text:'Form P1'},{value:'P5', text:'Form P5'}]"
+                button-variant="outline-primary"
+                buttons
+            ></b-form-radio-group>            
+        </b-form-group>
+
+        <form-p1 v-if="selected=='P1'" />
+        <form-p5 v-if="selected=='P5'" /> 
+    </div> 
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import FormP1 from "./FormP1.vue"
+import FormP5 from "./FormP5.vue"
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -12,7 +25,8 @@ const applicationState = namespace("Application");
 
 @Component({
     components:{
-        FormP1
+        FormP1,
+        FormP5
     }
 })
 export default class PrintPreview extends Vue {
@@ -24,7 +38,7 @@ export default class PrintPreview extends Vue {
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
 
-  
+    selected=""
 
     mounted(){
 
