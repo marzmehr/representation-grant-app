@@ -6,6 +6,7 @@ import UnQualified from "@/components/home/UnQualified.vue";
 import Surveys from "@/components/Surveys.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
 import TermsConditions from "@/components/status/TermsConditions.vue"
+import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue"
 import { SessionManager } from "@/components/utils/utils";
 import VueResource from 'vue-resource'
 import store from "@/store"
@@ -67,6 +68,11 @@ const routes = [
     path: "/terms",
     name: "terms",
     component: TermsConditions
+  },
+  {
+    path: "/surveycreator",
+    name: "surveycreator",
+    component: SurveyCreatorForm
   }
 ];
 
