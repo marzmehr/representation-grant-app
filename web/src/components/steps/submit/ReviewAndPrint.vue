@@ -160,7 +160,7 @@ export default class ReviewAndPrint extends Vue {
         }  
         
         this.requiredDocuments = [];
-        this.requiredDocuments = Vue.filter('extractRequiredDocuments')(this.getFPOResultData())
+        this.requiredDocuments = Vue.filter('extractRequiredDocuments')(this.getRepGrantResultData())
 
     }
 
@@ -228,7 +228,7 @@ export default class ReviewAndPrint extends Vue {
     public loadPdf() {
         const applicationId = this.$store.state.Application.id;
         const url = '/survey-print/'+applicationId+'/?name=application-about-a-protection-order'
-        const body = this.getFPOResultData()
+        const body = this.getRepGrantResultData()
         const options = {
             responseType: "blob",
             headers: {
@@ -284,7 +284,7 @@ export default class ReviewAndPrint extends Vue {
         });
     }
 
-    public getFPOResultData() {  
+    public getRepGrantResultData() {  
         
         var result = this.$store.state.Application.steps[0].result; 
         for(var i=1;i<9; i++){

@@ -127,7 +127,7 @@
                             "name": "landJointDiedAfter",
                             "visible": false,
                             "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n'",
-                            "title": "Did any other registered owners of {panel.address} die after [Date of Death + 4 days]?"
+                            "title": "Did any other registered owners of {panel.address} die after {deceasedDateOfDeathPlus4}?"
                         },
                         {
                             "type": "helptext",

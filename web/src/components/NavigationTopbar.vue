@@ -38,6 +38,7 @@
                                 <template #button-content style="background-color: #003366">
                                     <span class="fa fa-user"></span> {{ userName }}
                                 </template>
+                                <b-dropdown-item @click="runsurvey()">SurveyJS Editor</b-dropdown-item>
                                 <b-dropdown-item @click="logout(false)">Logout</b-dropdown-item>
                             </b-dropdown>
                         </div>
@@ -58,9 +59,13 @@ import { namespace } from "vuex-class";
 import "@/store/modules/common";
 const commonState = namespace("Common");
 
+
 @Component
 export default class NavigationTopbar extends Vue {
     
+    @commonState.Action
+    public UpdateHideHeaderFooter!: (newHideHeaderFooter) => void
+
     error = "";
 
     @commonState.State
@@ -99,6 +104,11 @@ export default class NavigationTopbar extends Vue {
             }else 
                 SessionManager.logout(this.$store);
         });
+    }
+
+    public runsurvey(){
+        this.UpdateHideHeaderFooter(true)
+        this.$router.push({name: "surveyeditor"})
     }
 
 };
