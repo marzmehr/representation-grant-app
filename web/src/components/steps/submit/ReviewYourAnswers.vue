@@ -1,6 +1,8 @@
 <template>
     <page-base  v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
         <h2 class="mt-4">Review Your Answers</h2>
+        
+        
         <!-- <b-card
             v-for="section in questionResults"
             v-bind:key="section.name"
@@ -85,8 +87,8 @@ export default class ReviewYourAnswers extends Vue {
 
     errorQuestionNames = [];
 
-    mounted(){       
-        
+    mounted(){  
+
         this.reloadPageInformation();
         this.determineHiddenErrors();
         //console.log(this.step)
@@ -329,3 +331,7 @@ export default class ReviewYourAnswers extends Vue {
     }
 }
 </script>
+
+<style scoped>
+
+</style>

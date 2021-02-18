@@ -38,6 +38,7 @@
                                 <template #button-content style="background-color: #003366">
                                     <span class="fa fa-user"></span> {{ userName }}
                                 </template>
+                                <b-dropdown-item @click="runsurvey()">SurveyCreator</b-dropdown-item>
                                 <b-dropdown-item @click="logout(false)">Logout</b-dropdown-item>
                             </b-dropdown>
                         </div>
@@ -99,6 +100,10 @@ export default class NavigationTopbar extends Vue {
             }else 
                 SessionManager.logout(this.$store);
         });
+    }
+
+    public runsurvey(){
+        this.$router.push({name: "surveycreator"})
     }
 
 };
