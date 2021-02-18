@@ -62,18 +62,18 @@
                     <div v-if="applicantList.length>1" style="display:inline;">We are the applicants/some of the applicants referred to in the submission for estate grant in relation to the estate of </div>   
                     <div v-else style="display:inline;">I am the applicant/one of the applicants referred to in the submission for estate grant in relation to the estate of </div> 
                     
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
-                    <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">(the "deceased").</div>                   
+                    <underline-form style="margin:0.5rem 0 0 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
+                    <div style="margin:0.5rem  0 0 0 ; display:inline; text-indent: 5px;"> (the "deceased").</div>                   
                 </li>
 
-                <li class="mt-4">                   
-                    <div  style="display:inline-block;"> I have read the affidavit in Form </div>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" text="P5"/>
-                    <div  style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> sworn </div>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" :text="form5Info.date"/>
-                    <div  style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> by </div>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" :text="form5Info.applicantFullName"/>
-                    <div  style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that I know to be inaccurate.</div>                    
+                <li class="mt-4">
+                    <underline-form style="display:inline-block;" textwidth="44.25rem" :beforetext="(applicantList.length>1?'We':'I') +' have read the affidavit in Form '" hint="" text="P5"/>                    
+                    <div  style="display:inline-block; text-indent: 5px;"> sworn </div>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="12rem" beforetext="" hint="Affidavit Date (dd mmm yyyy)" :text="form5Info.date"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="43rem" beforetext="by" hint="Applicant(s) Name(s)" :text="form5Info.applicantFullName"/>
+                    <div v-if="applicantList.length>1" style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that we know to be inaccurate.</div>
+                    <div v-else style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that I know to be inaccurate.</div> 
+                    
                 </li>                
 
                 <li class="mt-4 text-justify">

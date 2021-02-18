@@ -64,12 +64,12 @@
                     
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
                     <div v-if="applicantList.length>1" style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">(the "deceased") and are applying for a grant of administration</div>
-                    <div v-else style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">(the "deceased") and am applying for a grant of administration</div>
+                    <div v-else style="margin:0.5rem 0 ; display:inline; text-indent: 5px;"> (the "deceased") and am applying for a grant of administration</div>
                     <div style="display:inline-block; text-indent: 10px;">without will annexed.</div>
                 </li>
 
                 <li class="mt-4">
-                    <check-box style="display:inline-block;" shift="0" shiftmark="0" :check="check" text="The applicant on whose behalf this affidavit is sworn is not an individual and I am authorized by the applicant to swear"/>
+                    <check-box style="display:inline-block;" shift="0" shiftmark="0" :check="check2" text="The applicant on whose behalf this affidavit is sworn is not an individual and I am authorized by the applicant to swear"/>
                     <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> this affidavit on the applicant's behalf.</div>
                     
                     <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
