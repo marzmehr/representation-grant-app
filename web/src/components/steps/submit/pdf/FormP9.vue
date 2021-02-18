@@ -43,7 +43,7 @@
             <div style="display:inline-block; text-indent: 5px;"> <i>In the Matter of the Estate of</i></div>
             <underline-form textwidth="42rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
             <div style="display:inline-block; text-indent: 5px;"> <i>, deceased</i></div>   
-            <div style="text-align:center;margin:2rem 0 5rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT OF DELIVERY</div>            
+            <div style="text-align:center;margin:2rem 0 2rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT OF DELIVERY</div>            
 
             <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;"> We</div>
             <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
@@ -67,27 +67,47 @@
                 </li>
 
                 <li class=" text-justify ">
-                    <div v-if="applicantList.length>1" style="display:inline;">We delivered a copy of the notice, along with </div>   
-                    <div v-else style="display:inline;">I delivered a copy of the notice, along with </div> 
+                    <div v-if="applicantList.length>1">We delivered a copy of the notice, along with </div>   
+                    <div v-else >I delivered a copy of the notice, along with </div> 
                     
-                    <underline-form style="margin:0.5rem 0 0 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" text=""/>
+                    <underline-form style="margin:0.5rem 0 0 0 ;display:inline-block;" textwidth="44rem" beforetext="" hint="" text=""/>
                     <div style="margin:0.5rem  0 0 0 ; display:inline; text-indent: 5px;"> to the following persons as follows:</div>
 
-                    <check-box shift="0" shiftmark="0" :check="check2" text="by mailing it/them to the following persons by ordinary mail:"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="43rem" beforetext="" hint="" text="lawyers"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="" text="January 3, 2021"/>
+                    <check-box style="margin-top:1rem;" shift="0" shiftmark="0" :check="check2" text="by mailing it/them to the following persons by ordinary mail:"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="43rem" beforetext="" hint="" text="lawyer1"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Mailed Date" text="January 3, 2021"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="43rem" beforetext="" hint="" text="lawyer2"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Mailed Date" text="January 3, 2021"/>
                     
+                    <check-box style="margin-top:1rem;" shift="0" shiftmark="0" :check="check2" text="by handing it/them to and leaving it/them with the following persons as follows:"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="43rem" beforetext="" hint="" text="lawyer1"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Served Date" text="January 3, 2021"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="43rem" beforetext="" hint="" text="lawyer2"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Served Date" text="January 3, 2021"/>
                     
+                    <check-box style="margin-top:1rem;" shift="0" shiftmark="0" :check="check2" text="by sending it/them to the following persons by e-mail, fax or other electronic means to that person"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="43rem" beforetext="" hint="" text="lawyer1"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Served Date" text="January 3, 2021"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="43rem" beforetext="" hint="" text="lawyer2"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Served Date" text="January 3, 2021"/>
+                    
+                    <check-box style="margin-top:1rem;" shift="40" shiftmark="0" :check="check2" text="Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing, acknowledged "/>
+                    <div style=" text-indent: 70px;"> receipt of the document(s) referred to in this section.</div>
 
+                    <check-box style="margin-top:1rem;" shift="40" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We':'I') +' will retain a copy of those acknowledgements until the personal representative of the deceased is discharged'"/>
+                    <div style=" text-indent: 70px;">and will produce those acknowledgements promptly after being requested to do so by the registrar.</div>
                 </li>
 
                 <li class="mt-4">
-                    <underline-form style="display:inline-block;" textwidth="20rem" :beforetext="(applicantList.length>1?'We':'I') +' delivered the document(s) referred to in section 2 to '" hint="" text="Person"/>                    
-                    <div  style="display:inline-block; text-indent: 5px;"> in his/her capacity as the </div>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="12rem" beforetext="" hint="" text="lawyer"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="43rem" beforetext="of" hint="" text="person's client"/>
-                    
-                </li>                
+                    <div v-for="(successor,i) in successorsRep" :key="i+200">
+                        <underline-form style="display:inline-block;" textwidth="33.5rem" :beforetext="(applicantList.length>1?'We':'I') +' delivered the document(s) referred to in section 2 to '" hint="Name of Personal Rep/Parent/Committee/etc" :text="successor.repName"/>                    
+                        <div  style="display:inline-block; text-indent: 5px;"> in his/her capacity as the </div>
+                        <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="20rem" beforetext="" hint="(Personal Rep/Parent/Committee/etc)" :text="successor.repType"/>
+                        <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="26rem" beforetext="of" hint="Successor Name" :text="successor.successorName"/>
+                    </div>
+                </li>               
+
+                <div v-if="applicantList.length<2" class="new-page"> </div>
 
                 <li class="mt-4 text-justify">
                     <div v-if="applicantList.length>1" style="display:inline;">In accordance with Rule 25-2, we delivered a copy of the document(s) 
@@ -158,6 +178,10 @@ export default class FormP9 extends Vue {
     check2= "&#10003"
 
     applicantList = []
+    successorsRep = [
+        {repName:"RIP mother", repType:"Parent", successorName:"RIP child"},
+        {repName:"RIP layer", repType:"Lawyer", successorName:"RIP second child"}
+    ]
     deceased={fullName:"Rest In Peace", first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
     serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
     form5Info={applicantFullName:"Its first daughter", first:"Its", middle:"first",last:"Daughter", date:"20 March 2020"}
