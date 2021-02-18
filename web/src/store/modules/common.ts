@@ -9,6 +9,9 @@ class Common extends VuexModule {
     public userName = "";
     public userLocation = '';
 
+    public hideHeaderFooter = false;
+
+
     @Mutation
     public setExistingApplication(existingApplication: boolean): void {   
         this.existingApplication = existingApplication
@@ -46,6 +49,15 @@ class Common extends VuexModule {
     @Action
     public UpdateUserName(newUserName) {
         this.context.commit("setUserName", newUserName);
+    }
+
+    @Mutation
+    public  setHideHeaderFooter(hideHeaderFooter: boolean): void {
+        this.hideHeaderFooter = hideHeaderFooter;
+    }
+    @Action
+    public UpdateHideHeaderFooter(newHideHeaderFooter: boolean) {
+        this.context.commit("setHideHeaderFooter", newHideHeaderFooter);
     }
 
 }

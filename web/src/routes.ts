@@ -70,8 +70,8 @@ const routes = [
     component: TermsConditions
   },
   {
-    path: "/surveycreator",
-    name: "surveycreator",
+    path: "/surveyeditor",
+    name: "surveyeditor",
     component: SurveyCreatorForm
   }
 ];
