@@ -329,7 +329,7 @@ export default class FormP1 extends Vue {
     serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
     
     mounted(){
-        this.getFPOResultData()
+        this.getRepGrantResultData()
         this.changeApplicantList()
     }
     multipleApplicant=false
@@ -396,7 +396,7 @@ export default class FormP1 extends Vue {
     }
 
  
-    public getFPOResultData() {  
+    public getRepGrantResultData() {  
         
         let result = this.$store.state.Application.steps[0].result; 
         for(let i=1;i<9; i++){

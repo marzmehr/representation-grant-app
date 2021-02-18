@@ -246,7 +246,7 @@ export default class PrintPreview extends Vue {
     }
 
  
-    public getFPOResultData() {  
+    public getRepGrantResultData() {  
         
         let result = this.$store.state.Application.steps[0].result; 
         for(let i=1;i<9; i++){

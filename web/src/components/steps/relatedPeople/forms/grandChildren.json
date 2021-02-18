@@ -90,7 +90,7 @@
                             "name": "grandchildDied5DaysAfter",
                             "visible": false,
                             "visibleIf": "{panel.grandchildIsAlive} = \"n\"",
-                            "title": "Did {panel.grandchildName} die after <Deceased Date of Death + 4 days>?"
+                            "title": "Did {panel.grandchildName} die after {deceasedDateOfDeathPlus4}?"
                         },
                         {
                             "type": "helptext",
