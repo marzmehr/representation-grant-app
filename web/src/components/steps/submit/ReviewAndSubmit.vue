@@ -289,7 +289,7 @@
             //TODO: use get api for document-types
             const documentTypesJson = require("./forms/documentTypes.json");
             this.fileTypes = documentTypesJson;
-            this.requiredDocuments = Vue.filter('extractRequiredDocuments')(this.getFPOResultData())
+            this.requiredDocuments = Vue.filter('extractRequiredDocuments')(this.getRepGrantResultData())
 
             const dropArea = document.getElementById('drop-area');
             dropArea.addEventListener('drop', this.handleFileDrop, false);
@@ -392,7 +392,7 @@
         public loadPdf() {
             
             const url = '/survey-print/'+this.id+'/?name=application-about-a-protection-order'
-            const body = this.getFPOResultData()
+            const body = this.getRepGrantResultData()
             const options = {
                 responseType: "blob",
                 headers: {
@@ -417,7 +417,7 @@
 
         }
 
-        public getFPOResultData() {      
+        public getRepGrantResultData() {      
             var result = this.steps[0].result; 
             for(var i=1;i<9; i++){
                 const stepResults = this.steps[i].result
