@@ -12,35 +12,35 @@
     </b-form-group>
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
 
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;padding:3rem 4rem 2rem 4rem;" bg-variant="white" class="printcard mt-4 mb-3">
 
         <div style="text-align:center;">
             <div style="margin:5rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P1 (RULE 25-2 (3) )</div>
             <div style="margin:1rem 0 0 -1.3rem;font-weight: 600;font-size:24px;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
-            <div style="margin:1rem 0 5rem -1.3rem;font-weight: 600;font-size:26px;">NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</div>            
+            <div style="margin:1rem 0 5rem -1.3rem;font-weight: 600;font-size:24px;">NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</div>            
         </div>
 
         <div style="margin:0 0 1rem 0rem;font-weight: 600;font-size:18px;"> TAKE NOTICE THAT:</div>
         
-        <underline-form textwidth="41rem" beforetext="The applicant(s)" hint="Full Name of Applicant(s)" :text="getAllApplicants"/>
+        <underline-form textwidth="36rem" beforetext="The applicant(s)" hint="Full Name of Applicant(s)" :text="getAllApplicants"/>
         <div style="display:inline-block; text-indent: 5px;"> propose(s) to apply, in the</div>
         <underline-form class="mt-3" textwidth="20rem" beforetext="" hint="Court Location" text="Victoria court of appeal"/>
-        <underline-form style="text-indent: 5px;" class="mt-3" textwidth="32rem" beforetext="court registry, for" hint="Application Type" text="AWOW"/>
-        <underline-form style="text-indent: 5px;" class="mt-3" textwidth="26rem" beforetext="in relation to the estate of the deceased described below who died on" hint="Deceased’s Date of Death (dd mmm yyyy)" text="20 Apr 2020"/>
+        <underline-form style="text-indent: 5px;" class="mt-3" textwidth="28rem" beforetext="court registry, for" hint="Application Type" text="AWOW"/>
+        <underline-form style="text-indent: 5px;" class="mt-3" textwidth="22rem" beforetext="in relation to the estate of the deceased described below who died on" hint="Deceased’s Date of Death (dd mmm yyyy)" text="20 Apr 2020"/>
           
         <div style="margin:2rem 0 1rem 0rem;"> Full legal name of deceased:</div>
-        <underline-form class="mt-0" textwidth="20rem" beforetext="" hint="First" :text="deceased.first"/>
-        <underline-form class="mt-0" textwidth="20rem" beforetext="" hint="Middle" :text="deceased.middle"/>
-        <underline-form class="mt-0" textwidth="20rem" beforetext="" hint="Last" :text="deceased.last"/>
+        <underline-form class="mt-0" textwidth="19rem" beforetext="" hint="First" :text="deceased.first"/>
+        <underline-form class="mt-0" textwidth="19rem" beforetext="" hint="Middle" :text="deceased.middle"/>
+        <underline-form class="mt-0" textwidth="19rem" beforetext="" hint="Last" :text="deceased.last"/>
 
         <div style="margin:2rem 0 1rem 0rem;"> Last residential address of the deceased:</div>
-        <underline-form class="mt-0" textwidth="61rem" beforetext="" hint="Street Number or Post Office Box, City/Town, Province, Country and Postal Code" :text="deceased.address"/>
+        <underline-form class="mt-0" textwidth="58rem" beforetext="" hint="Street Number or Post Office Box, City/Town, Province, Country and Postal Code" :text="deceased.address"/>
         
         <div class="mt-5"><i>[Check whichever one of the immediately following 2 boxes is correct and provide any required information.]</i></div>
 
         <div class="mt-2">              
             <check-box style="display:inline-block;" :check="check2" text=""/> 
-            <underline-form style="text-indent: 15px;" class="mt-0" textwidth="20rem" beforetext="This application relates to the will of the deceased dated" hint="Will Date (dd mmm yyyy)" text="20 Apr 2010"/>
+            <underline-form style="text-indent: 15px;" class="mt-0" textwidth="17rem" beforetext="This application relates to the will of the deceased dated" hint="Will Date (dd mmm yyyy)" text="20 Apr 2010"/>
             <div style="display:inline-block; text-indent: 5px;"> , a copy of which will</div>
             <div style="text-indent: 30px;"> is provided with this notice.</div>
         </div>
@@ -108,11 +108,11 @@
         <div style="margin:2rem 0 0rem 0rem;font-weight: 600;font-size:18px;">INFORMATION ABOUT EACH APPLICANT</div>
       
         <div v-for="(name,i) in applicantList" :key="i+100">
-            <underline-form class="mt-5" textwidth="19rem" beforetext="Name:" hint="First" :text="name.first"/>
-            <underline-form class="mt-0" textwidth="19rem" beforetext="" hint="Middle" :text="name.middle"/>
-            <underline-form class="mt-0" textwidth="19rem" beforetext="" hint="Last" :text="name.last"/>
+            <underline-form class="mt-5" textwidth="17.5rem" beforetext="Name:" hint="First" :text="name.first"/>
+            <underline-form class="mt-0" textwidth="17.5rem" beforetext="" hint="Middle" :text="name.middle"/>
+            <underline-form class="mt-0" textwidth="17.5rem" beforetext="" hint="Last" :text="name.last"/>
             
-            <underline-form class="my-3" textwidth="53rem" beforetext="Mailing address:" hint="Street Number or Post Office Box, City/Town, Province, Country and Postal Code" :text="name.address"/>
+            <underline-form class="my-3" textwidth="48.75rem" beforetext="Mailing address:" hint="Street Number or Post Office Box, City/Town, Province, Country and Postal Code" :text="name.address"/>
             
             <check-box :check="name.notIndividual" text="This applicant is not an individual"/>
             <check-box :check="name.individual" text="This applicant is an individual and ordinarily lives"/>
@@ -124,10 +124,10 @@
         </div>
 
         <div style="margin:2rem 0 0rem 0rem;font-weight: 600;font-size:18px;">ADDRESS FOR SERVICE OF APPLICANT(S)</div>
-        <underline-form class="mt-4" textwidth="47rem" beforetext="Street address for service" hint="Street Number, City/Town, Province, Country and Postal Code" :text="serviceContact.address"/>
-        <underline-form class="mt-3" textwidth="44.5rem" beforetext="Fax number for service (if any)" hint="Fax Number (+1 AreaCode XXX-XXXX )" :text="serviceContact.fax"/>
-        <underline-form class="mt-3" textwidth="43rem" beforetext="E-mail address for service (if any)" hint="E-mail" :text="serviceContact.email"/>
-        <underline-form class="mt-3 mb-5" textwidth="50.5rem" beforetext="Telephone number" hint="Phone Number (+1 AreaCode XXX-XXXX )" :text="serviceContact.phone"/>
+        <underline-form class="mt-4" textwidth="45rem" beforetext="Street address for service" hint="Street Number, City/Town, Province, Country and Postal Code" :text="serviceContact.address"/>
+        <underline-form class="mt-3" textwidth="42.5rem" beforetext="Fax number for service (if any)" hint="Fax Number (+1 AreaCode XXX-XXXX )" :text="serviceContact.fax"/>
+        <underline-form class="mt-3" textwidth="41rem" beforetext="E-mail address for service (if any)" hint="E-mail" :text="serviceContact.email"/>
+        <underline-form class="mt-3 mb-5" textwidth="48.5rem" beforetext="Telephone number" hint="Phone Number (+1 AreaCode XXX-XXXX )" :text="serviceContact.phone"/>
 
         <div class="mt-5 row" v-for="(name,i) in applicantList" :key="i">
             <div class="col-4">                
@@ -137,10 +137,10 @@
                 <underline-form textwidth="39rem" beforetext="" hint="" text=""/>
                 <div style="display:inline-block;text-indent:10px;">Signature of</div>
                 <check-box style="display:inline-block;" shift="10" :check="name.lawyer?'':'yes'" text=""/> 
-                <underline-form  style="display:inline-block;margin-left:2.5rem;" textwidth="20rem" beforetext="applicant" hint="full name" :text="name.lawyer? '':name.fullName"/>
+                <underline-form  style="display:inline-block;margin-left:2.5rem;" textwidth="24.5rem" beforetext="applicant" hint="full name" :text="name.lawyer? '':name.fullName"/>
                 <div>
                     <check-box style="display:inline-block;" shift="118" :check="name.lawyer?'yes':''" text=""/> 
-                    <underline-form  style="display:inline-block;margin-left:9rem;" textwidth="20rem" beforetext="lawyer for applicant" hint="lawyer's full name" :text="name.lawyer"/>
+                    <underline-form  style="display:inline-block;margin-left:9rem;" textwidth="19.55rem" beforetext="lawyer for applicant" hint="lawyer's full name" :text="name.lawyer"/>
                 </div>
             </div>
         </div>
