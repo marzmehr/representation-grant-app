@@ -184,7 +184,10 @@ Vue.filter('printPdf', function(html, pageFooter){
 					position: relative; top: 8em;
 				}
 			}`+ customCss+
-			`td.border-dark {border: 1px solid black;}`+
+			`td.border-dark {height: 4.5rem;border: 1px solid black;}`+
+			`td.c1{width: 36rem;}
+			 td.c2{width: 11rem;}		
+			 td.c3{width: 11rem;}`+
 			`th.border-dark {border: 1px solid black;}`+
 			`section{ counter-increment: question-counter; text-indent: -20px; text-align: justify; text-justify: inter-word; margin: 1.0rem 0.5rem 0.5rem 0rem;}`+ 
 			`section:before {font-weight: bolder; content:counter(question-counter) ".";}`+

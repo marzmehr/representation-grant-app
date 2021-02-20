@@ -3,7 +3,7 @@
         <b-form-group >
             <b-form-radio-group                
                 v-model="selected"
-                :options="[{value:'P1', text:'Form P1'},{value:'P5', text:'Form P5'},{value:'P8', text:'Form P8'},{value:'P9', text:'Form P9'}]"
+                :options="[{value:'P1', text:'Form P1'},{value:'P5', text:'Form P5'},{value:'P8', text:'Form P8'},{value:'P9', text:'Form P9'},{value:'P10', text:'Form P10'}]"
                 button-variant="outline-primary"
                 buttons
             ></b-form-radio-group>            
@@ -13,6 +13,7 @@
         <form-p5 v-if="selected=='P5'" />
         <form-p8 v-if="selected=='P8'" />
         <form-p9 v-if="selected=='P9'" />  
+        <form-p10 v-if="selected=='P10'" />  
     </div> 
 </template>
 
@@ -22,6 +23,7 @@ import FormP1 from "./FormP1.vue"
 import FormP5 from "./FormP5.vue"
 import FormP8 from "./FormP8.vue"
 import FormP9 from "./FormP9.vue"
+import FormP10 from "./FormP10.vue"
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -32,7 +34,8 @@ const applicationState = namespace("Application");
         FormP1,
         FormP5,
         FormP8,
-        FormP9
+        FormP9,
+        FormP10
     }
 })
 export default class PrintPreview extends Vue {
