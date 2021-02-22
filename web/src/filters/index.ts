@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import moment from 'moment-timezone';
 import store from '@/store';
+import {customCss} from './bootstrapCSS'
 
 Vue.filter('beautify-date', function(date){
 	enum MonthList {'Jan' = 1, 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'}
@@ -149,20 +150,20 @@ Vue.filter('extractRequiredDocuments', function(questions){
 	// }
 	//this.UpdateRequiredDocuments(requiredDocuments)
 	//console.log('required documents')
-	//console.log(requiredDocuments)
+	//console.log(requiredDocuments)<link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" >
 
 	return requiredDocuments;
 })
 
 Vue.filter('printPdf', function(html, pageFooter){
 
+	//console.log(customCss)
 	const body = [
 		`<!DOCTYPE html>
 		<html lang="en">
-		<head>
-		<link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" >
+		<head>		
 		<meta charset="UTF-8">
-		<title>Application About a Protection Order</title>`+
+		<title>Representation Grant</title>`+
 		`<style>`+
 			`@page {
 				size: 12.5in 16.17in;
@@ -182,7 +183,7 @@ Vue.filter('printPdf', function(html, pageFooter){
 					page-break-before: always;
 					position: relative; top: 8em;
 				}
-			}`+
+			}`+ customCss+
 			`td.border-dark {border: 1px solid black;}`+
 			`th.border-dark {border: 1px solid black;}`+
 			`section{ counter-increment: question-counter; text-indent: -20px; text-align: justify; text-justify: inter-word; margin: 1.0rem 0.5rem 0.5rem 0rem;}`+ 
