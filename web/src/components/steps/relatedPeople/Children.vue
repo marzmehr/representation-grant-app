@@ -53,6 +53,9 @@ export default class Children extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdatePageActive!: (newPageActive) => void
+
 
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
@@ -84,13 +87,71 @@ export default class Children extends Vue {
     }
     
     public addSurveyListener(){
-        this.survey.onValueChanged.add((sender, options) => {
-            //console.log(this.survey.data);
-            // console.log(options)
-            if(options.name == "ApplicantName") {
-                this.$store.commit("Application/setApplicantName", options.value);
-            }
+        this.survey.onValueChanged.add((sender, options) => {            
+           
+            if(options.name == "child"){
+                if (options.value == "n") {
+                    this.survey.setVariable("noChildren", true);
+                    this.togglePages([2], true);
+                    
+                } else {
+                    this.survey.setVariable("noChildren", false);
+                    this.togglePages([2], false) 
+                }
+            }            
+               
+            const childrenInfo = this.survey.data.childInfoPanel
+            const deceasedName = Vue.filter('getFullName')(this.deceasedName);
+            const deceasedChildren = [];
+            let deceasedChildrenExitMessage = "";
+            const deceasedChildrenNames = [];
+            console.log(childrenInfo)
+
+            if ( childrenInfo && childrenInfo.length > 0) {
+
+                for (let i = 0; i < childrenInfo.length; i++) {
+                    if (childrenInfo[i].childIsAlive == "n" && 
+                        childrenInfo[i].childHasPersonalRep == "n" && childrenInfo[i].childInformalPersonalRepName) {
+                            deceasedChildren.push(childrenInfo[i]);
+                            deceasedChildrenNames.push(childrenInfo[i].childName);
+                    }                       
+                }
+
+                if (deceasedChildren.length > 0) {
+
+                    if (deceasedChildrenNames.length == 1){
+                        deceasedChildrenExitMessage = "Because " + Vue.filter('getFullName')(deceasedChildrenNames[0]) + 
+                        " has died, doesn't have a personal representative but has children who are alive," +
+                        " lets move on to information about " + Vue.filter('getFullName')(deceasedChildrenNames[0]) + "'s children.";
+
+                    } else {
+                        deceasedChildrenExitMessage = "Because some of " + deceasedName + "'s children have died, don't have personal" + 
+                        " representatives but have children who are alive, lets move on to information about their children.";
+                    }
+                    
+                    this.survey.setVariable("needGrandChildrenInfo", true);
+                    this.survey.setVariable("deceasedChildrenExitMessage", deceasedChildrenExitMessage);
+                    this.togglePages([3], true);
+
+                } else {
+                    this.survey.setVariable("needGrandChildrenInfo", false);
+                    this.togglePages([3], false);
+                }
+            }  
+            
         })
+            
+    }
+
+    public togglePages(pageArr, activeIndicator) {
+        
+        for (let i = 0; i < pageArr.length; i++) {
+            this.UpdatePageActive( {
+                currentStep: this.currentStep,
+                currentPage: pageArr[i],
+                active: activeIndicator
+            });
+        }
     }
     
     public reloadPageInformation() {
