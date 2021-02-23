@@ -1,8 +1,9 @@
 <template>
   <step-base v-bind:step="step">
-    <executors v-bind:step="step" v-if="step.currentPage == 0"></executors>
-    <spouse v-bind:step="step" v-if="step.currentPage == 1"></spouse>
-    <children v-bind:step="step" v-if="step.currentPage == 2"></children>
+    <!-- <executors v-bind:step="step" v-if="step.currentPage == 0"></executors> -->
+    <spouse v-bind:step="step" v-if="step.currentPage == 0"></spouse>
+    <children v-bind:step="step" v-if="step.currentPage == 1"></children>
+    <parents v-bind:step="step" v-if="step.currentPage == 2"></parents>
     <grand-children v-bind:step="step" v-if="step.currentPage == 3"></grand-children>
     <beneficiaries v-bind:step="step" v-if="step.currentPage == 4"></beneficiaries>
     <creditors v-bind:step="step" v-if="step.currentPage == 5"></creditors>
@@ -17,6 +18,7 @@ import { stepInfoType } from "@/types/Application";
 import Executors from "./Executors.vue";
 import Spouse from "./Spouse.vue";
 import Children from "./Children.vue";
+import Parents from "./Parents.vue";
 import GrandChildren from "./GrandChildren.vue";
 import Beneficiaries from "./Beneficiaries.vue";
 import Creditors from "./Creditors.vue";
@@ -28,6 +30,7 @@ import Creditors from "./Creditors.vue";
         Executors,
         Spouse,
         Children,
+        Parents,
         GrandChildren,
         Beneficiaries,
         Creditors
