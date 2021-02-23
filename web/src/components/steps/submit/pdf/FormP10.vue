@@ -11,13 +11,13 @@
     </b-form-group>
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
     
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem 4rem 2rem 4rem;" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;" bg-variant="white" class="mt-4 mb-3">
 
             <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P10 (RULE 25-3 (2) )</div>
             
             <div class="mt-3 m-0 p-0 row">
-                <div class="col-7"/>
-                <div class="col-5 mr-0 ml-auto">
+               
+                <div style="margin:0 0 0 40rem;">
                     <div>
                         <underline-form  textwidth="10.6rem" beforetext="This is the" hint="1st/2nd/3rd..." text="1st"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
@@ -49,9 +49,9 @@
             <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
             <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
                 <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
-                <underline-form textwidth="19rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
-                <underline-form textwidth="25em" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
-                <underline-form textwidth="9em" beforetext=", " hint="Occupation" :text="name.occupation"/>
+                <underline-form textwidth="20rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
+                <underline-form textwidth="25rem" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
+                <underline-form textwidth="10.5rem" beforetext=", " hint="Occupation" :text="name.occupation"/>
                 <div style="display:inline-block;"> ,</div>
             </div>
             <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
@@ -60,8 +60,9 @@
             <ol style="margin:0rem 0 0 -1.5rem;">
                 <!-- <1> -->
                 <li class=" text-justify ">                    
-                    <underline-form style="display:inline-block;" textwidth="44rem" :beforetext="(applicantList.length>1?'We are the applicants':'I am an applicant') +' for'" hint="a grant of probate/administration WWA/administration WOWA or an ancillary grant of probate/administration WWA/administration WOWA" text="a grant of probate"/>
-                    
+                    <underline-form v-if="applicantList.length>1" style="display:inline-block;" textwidth="47rem" beforetext="We are the applicants for" hint="a grant of probate/administration WWA/administration WOWA or an ancillary grant of probate/administration WWA/administration WOWA" text="a grant of probate"/>
+                    <underline-form v-else style="display:inline-block;" textwidth="48rem" beforetext="I am an applicant for" hint="a grant of probate/administration WWA/administration WOWA or an ancillary grant of probate/administration WWA/administration WOWA" text="a grant of probate"/>
+                   
                     <underline-form style="margin:1rem 0 0 0 ;display:inline-block;" textwidth="34rem" beforetext="in relation to the estate of" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
                     <div style="margin:1rem  0 0 0 ; display:inline; text-indent: 5px;"> (the "deceased").</div>                   
                 </li>
@@ -121,16 +122,17 @@
                 </div>
                 <div class="col-6 border-left">
                     <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form style="margin: 1rem 0 0 0;height:2rem;" textwidth="29rem" beforetext="" :hint="name.fullName+' Signature'" text=""/>                         
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="29rem" beforetext="" :hint="name.fullName+' Signature'" text=""/>                         
                     </div>
                 </div>
             </div>
 
+            <!-- <TABLE PAGE> -->
             <div class="new-page"> </div>
 
             <div class="mt-3 m-0 p-0 row">
-                <div class="col-7"/>
-                <div class="col-5 mr-0 ml-auto">
+                
+                <div style="margin:0 0 0 auto;">
                     <div>                        
                         <div style="display:inline-block;">This is Exhibit A referred to in the affidavit of</div>
                     </div>
@@ -143,7 +145,7 @@
                     </div>                   
                     <div class="mt-3">
                         <underline-form  textwidth="21.25rem" beforetext="" hint="(leave blank for Commissioner’s Stamp and Signature)" text=""/>
-                        <div style="margin:0.5rem 0; font-size:12px;">A commissioner for taking affidavits for British Columbia</div>                    
+                        <div style="margin:0.5rem 0; text-align:center; font-size:12px;">A commissioner for taking affidavits for British Columbia</div>                    
                     </div>
                 </div>   
             </div>
@@ -171,10 +173,10 @@
                         <div v-else>{{data.value}}</div>                        
                     </template>
                 </b-table>
-
+          
                 <div style="margin:0.5rem 7rem 0.5rem 21.5rem;display:inline-block;"><b>GROSS VALUE OF ESTATE</b></div>
                 <underline-form style="float:right; border:1px solid;height:2.75rem; margin:0rem 0 0.5rem 1.5rem;padding:1rem 0.5rem 0 0.5rem;" textwidth="14rem" beforetext="$" hint="" text=""/>
-
+          
                 <b-table :fields="fieldsIII" :items="itemsIII"  small>
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part III <br/> </div>
@@ -288,6 +290,13 @@ export default class FormP10 extends Vue {
         }
     }
 
+    public getSignatureMargin(){
+
+        let margin = Number(10/this.applicantList.length);
+        if(margin<1.0) margin = 1;
+        return margin+'rem'
+    }
+
     public getAllApplicants(len: number){
         let result="";
         for(const name of this.applicantList)
@@ -366,7 +375,7 @@ export default class FormP10 extends Vue {
     }
 
     .table >>> td.c1{
-        width: 36rem;
+        width: 40rem;
     }
 
     .table >>> td.c2{

@@ -11,13 +11,13 @@
     </b-form-group>
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
     
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem 4rem 2rem 4rem;" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;" bg-variant="white" class="mt-4 mb-3">
 
             <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P9 (RULE 25-3 (2) )</div>
             
             <div class="mt-3 m-0 p-0 row">
-                <div class="col-7"/>
-                <div class="col-5 mr-0 ml-auto">
+                
+                <div style="margin:0 0 0 40rem;">
                     <div>
                         <underline-form  textwidth="10.6rem" beforetext="This is the" hint="1st/2nd/3rd..." text="1st"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
@@ -49,9 +49,9 @@
             <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
             <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
                 <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
-                <underline-form textwidth="19rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
-                <underline-form textwidth="25em" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
-                <underline-form textwidth="9em" beforetext=", " hint="Occupation" :text="name.occupation"/>
+                <underline-form textwidth="20rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
+                <underline-form textwidth="25rem" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
+                <underline-form textwidth="10.5rem" beforetext=", " hint="Occupation" :text="name.occupation"/>
                 <div style="display:inline-block;"> ,</div>
             </div>
             <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
@@ -74,38 +74,40 @@
                     <div style="margin:0.5rem  0 0 0 ; display:inline; text-indent: 5px;"> to the following persons as follows:</div>
 
                     <check-box style="margin-top:1rem;" shift="0" shiftmark="0" :check="check2" text="by mailing it/them to the following persons by ordinary mail:"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="39rem" beforetext="" hint="" text="lawyer1"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="41.5rem" beforetext="" hint="" text="lawyer1"/>
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Mailed Date" text="January 3, 2021"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="39rem" beforetext="" hint="" text="lawyer2"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="41.5rem" beforetext="" hint="" text="lawyer2"/>
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Mailed Date" text="January 3, 2021"/>
                     
                     <check-box style="margin-top:1rem;" shift="0" shiftmark="0" :check="check2" text="by handing it/them to and leaving it/them with the following persons as follows:"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="39rem" beforetext="" hint="" text="lawyer1"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="41.5rem" beforetext="" hint="" text="lawyer1"/>
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Served Date" text="January 3, 2021"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="39rem" beforetext="" hint="" text="lawyer2"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="41.5rem" beforetext="" hint="" text="lawyer2"/>
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Served Date" text="January 3, 2021"/>
                     
                     <check-box style="margin-top:1rem;" shift="0" shiftmark="0" :check="check2" text="by sending it/them to the following persons by e-mail, fax or other electronic means to that person"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="39rem" beforetext="" hint="" text="lawyer1"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="41.5rem" beforetext="" hint="" text="lawyer1"/>
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Served Date" text="January 3, 2021"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="39rem" beforetext="" hint="" text="lawyer2"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="41.5rem" beforetext="" hint="" text="lawyer2"/>
                     <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="15rem" beforetext="on" hint="Served Date" text="January 3, 2021"/>
                     
-                    <check-box style="margin-top:1rem;" shift="40" shiftmark="0" :check="check2" text="Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing, "/>
+                    <check-box style="margin-top:1rem;word-spacing:6.5px;text-align-last:justify;" shift="40" shiftmark="0" :check="check2" text="Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing,"/>
                     <div style=" text-indent: 70px;">acknowledged receipt of the document(s) referred to in this section.</div>
 
-                    <check-box style="margin-top:1rem;" shift="40" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We':'I') +' will retain a copy of those acknowledgements until the personal representative of the deceased is '"/>
-                    <div style=" text-indent: 70px;">discharged and will produce those acknowledgements promptly after being requested to do so by</div>
-                    <div style=" text-indent: 70px;">the registrar.</div>
+                    <check-box v-if="applicantList.length>1" style="margin-top:1rem; word-spacing:5.5px;" shift="40" shiftmark="0" :check="check2" text="We will retain a copy of those acknowledgements until the personal representative of the deceased is"/>
+                    <check-box v-else style="margin-top:1rem; word-spacing:6.5px;" shift="40" shiftmark="0" :check="check2" text="I will retain a copy of those acknowledgements until the personal representative of the deceased is"/>
+                    <div style="margin:0 0rem 0 4.5rem;">discharged and will produce those acknowledgements promptly after being requested to do so by the registrar.</div>
+                    
                 </li>
 
                 <!-- <3> -->
                 <li class="mt-4">
-                    <div class="mt-2" v-for="(successor,i) in successorsRep" :key="i+200">
-                        <underline-form style="display:inline-block;" textwidth="29rem" :beforetext="(applicantList.length>1?'We':'I') +' delivered the document(s) referred to in section 2 to '" hint="Name of Personal Rep/Parent/Committee/etc" :text="successor.repName"/>                    
+                    <div class="mt-3" v-for="(successor,i) in successorsRep" :key="i+200">
+                        <underline-form v-if="applicantList.length>1" style="display:inline-block;" textwidth="31rem" beforetext="We delivered the document(s) referred to in section 2 to " hint="Name of Personal Rep/Parent/Committee/etc" :text="successor.repName"/> 
+                        <underline-form v-else style="display:inline-block;" textwidth="32.2rem" beforetext="I delivered the document(s) referred to in section 2 to " hint="Name of Personal Rep/Parent/Committee/etc" :text="successor.repName"/>                      
                         <div  style="display:inline-block; text-indent: 5px;"> in his/her capacity as the </div>
                         <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="18rem" beforetext="" hint="(Personal Rep/Parent/Committee/etc)" :text="successor.repType"/>
-                        <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="23rem" beforetext="of" hint="Successor Name" :text="successor.successorName"/>
+                        <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="25.85rem" beforetext="of" hint="Successor Name" :text="successor.successorName"/>
                     </div>
                 </li>               
 
@@ -143,7 +145,7 @@
                 </div>
                 <div class="col-6 border-left">
                     <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form style="margin: 1rem 0 0 0;height:2rem;" textwidth="29rem" beforetext="" :hint="name.fullName+' Signature'" text=""/>                         
+                        <underline-form :style="{marginTop: getSignatureMargin()}" textwidth="29rem" beforetext="" :hint="'Signature of '+name.fullName" text=""/>                         
                     </div>
                 </div>
             </div>
@@ -193,6 +195,7 @@ export default class FormP9 extends Vue {
         this.getRepGrantResultData()
         this.changeApplicantList()
     }
+
     multipleApplicant=false
     public changeApplicantList(){
         this.applicantList=[]
@@ -214,6 +217,15 @@ export default class FormP9 extends Vue {
                 {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"    },
             )
         }
+    }
+
+    public getSignatureMargin(){
+
+        let margin = Number(10/this.applicantList.length);
+       // console.log(margin)
+        if(margin<1.0) margin = 1;
+       // console.log(margin)
+        return margin+'rem'
     }
 
     public getAllApplicants(len: number){

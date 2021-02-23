@@ -11,14 +11,14 @@
     </b-form-group>
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
     
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:3rem 3.9rem 2rem 3.9rem;" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;padding:3rem 3.9rem 2rem 2.0rem;" bg-variant="white" class="mt-4 mb-3">
 
             <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P5 (RULE 25-3 (2) )</div>
             
-            <div class="mt-3 m-0 p-0 row">
-                <div class="col-7"/>
-                <div class="col-5 mr-0 ml-auto">
-                    <div>
+            <div class="mt-0 m-0 p-0 row">
+                <!-- <div class="col-8"/> -->
+                <div style="margin:0 0 0 40rem;">
+                    <div >
                         <underline-form  textwidth="10.6rem" beforetext="This is the" hint="1st/2nd/3rd..." text="1st"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
                     </div>
@@ -27,14 +27,14 @@
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> in this case</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="11rem" beforetext="and was made on" hint="Affidavit Date (dd mmm yyyy)" text="20 Apr 2020"/>
+                        <underline-form  textwidth="11.35rem" beforetext="and was made on" hint="Affidavit Date (dd mmm yyyy)" text="20 Apr 2020"/>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="15rem" beforetext="" hint="Court Location (leave blank for Commissioner)" text="Victoria"/>
+                        <underline-form  textwidth="15.5rem" beforetext="" hint="Court Location (leave blank for Commissioner)" text="Victoria"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> Registry</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="18rem" beforetext="No." hint="File Number (leave blank for Registry)" text="2020REP_abc"/>
+                        <underline-form  textwidth="18.5rem" beforetext="No." hint="File Number (leave blank for Registry)" text="2020REP_abc"/>
                     </div>
                 </div>   
             </div>
@@ -49,9 +49,9 @@
             <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
             <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
                 <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
-                <underline-form textwidth="19rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
+                <underline-form textwidth="20rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
                 <underline-form textwidth="25em" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
-                <underline-form textwidth="9rem" beforetext=", " hint="Occupation" :text="name.occupation"/>
+                <underline-form textwidth="10.05rem" beforetext=", " hint="Occupation" :text="name.occupation"/>
                 <div style="display:inline-block;"> ,</div>
             </div>
             <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
@@ -70,15 +70,15 @@
                 </li>
                 <!-- <2> -->
                 <li class="mt-4">
-                    <check-box style="display:inline-block;" shift="0" shiftmark="0" :check="check2" text="The applicant on whose behalf this affidavit is sworn is not an individual and I am authorized by the applicant to "/>
-                    <div  style="margin:0 0 .25rem 0; text-indent: 30px;">swear this affidavit on the applicant's behalf.</div>
+                    <check-box style="float:left;" shift="0" shiftmark="0" :check="check2" text=""/>
+                    <div  style="margin:0 0 .25rem 1.85rem;text-align:justify;">The applicant on whose behalf this affidavit is sworn is not an individual and I am authorized by the applicant to swear this affidavit on the applicant's behalf.</div>
                     
                     <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
                         <check-box v-if="applicantList.length>1" shift="0" shiftmark="0" :check="check2" :text="'I am <b>'+ name.fullName +  '</b> and ordinarily live at the following location:'"/>
                         <check-box v-else shift="0" shiftmark="0" :check="check2" text="I am an individual and ordinarily live at the following location:"/>
                         <underline-form style="text-indent: 15px;" textwidth="15rem" beforetext="City/town:" hint="City/town" :text="name.city"/> 
                         <underline-form style="text-indent: 15px;" textwidth="9.5rem" beforetext="Province/state:" hint="Province/state" :text="name.state"/>
-                        <underline-form style="text-indent: 15px;" textwidth="9.5rem" beforetext="Country:" hint="Country" :text="name.country"/>
+                        <underline-form style="text-indent: 15px;" textwidth="11.5rem" beforetext="Country:" hint="Country" :text="name.country"/>
                     </div>
                 </li>
                 <!-- <3> -->
@@ -91,25 +91,31 @@
                     </div>
                 </li>
                 <!-- <4> -->
-                <li class="mt-4">
-                    <check-box  shift="0" shiftmark="0" :check="check" :text="(applicantList.length>1?'We are':'I am') +' not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public'"/>
-                    <div  style="margin:0 0 .25rem 0; text-indent: 30px;"> Guardian and Trustee</div>
-                    <check-box  shift="0" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We are':'I am') +' obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public'"/>
-                    <div  style="margin:0 0 .25rem 0; text-indent: 30px;">Guardian and Trustee</div>
+                <li class="mt-4"> 
+
+                    <check-box style="float:left;" shift="0" shiftmark="0" :check="check" text=""/> 
+                    <div v-if="applicantList.length>1" style="margin-left:1.85rem;text-align:justify;">We not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public Guardian and Trustee</div> 
+                    <div v-else style="margin-left:1.85rem;text-align:justify;">I not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public Guardian and Trustee</div>
+                   
+                    <check-box style="float:left;" shift="0" shiftmark="0" :check="check2" text=""/>
+                    <div v-if="applicantList.length>1" style="margin-left:1.85rem;text-align:justify;">We obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public Guardian and Trustee</div>
+                    <div v-else style="margin-left:1.85rem;text-align:justify;">I obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the Public Guardian and Trustee</div>
+
                 </li>
                 <!-- <5> -->
-                <li class="mt-4 text-justify">
+                <li class="mt-4 text-justify" >
                     <div v-if="applicantList.length>1" style="display:inline;">We are satisfied that a diligent search for a testamentary document of the deceased has been made in each place that could reasonably be considered to be a place where a testamentary document may be found, including, without limitation, in all places where the deceased usually kept his or her documents and</div>   
                     <div v-else style="display:inline;">I am satisfied that a diligent search for a testamentary document of the deceased has been made in each place that could reasonably be considered to be a place where a testamentary document may be found, including, without limitation, in all places where the deceased usually kept his or her documents and</div> 
                     <check-box style="margin:0.7rem 0 0 0;" shift="0" shiftmark="0" :check="check" text="no testamentary document of the deceased has been found"/>
-                    <check-box style="display:inline;" shift="0" shiftmark="0" :check="check2" text=""/>
-                    <div style="display:inline-block;text-indent:1.8rem;"> one or more testamentary documents have been found. A copy of the testamentary document(s) is/are attached</div>
-                    <div v-if="applicantList.length>1" style="display:inline-block;text-indent:1.8rem;"> as an exhibit to the affidavit. We believe that the testamentary document(s) is/are invalid or otherwise not </div>   
-                    <div v-else style="display:inline-block;text-indent:1.8rem;"> as an exhibit to the affidavit. I believe that the testamentary document(s) is/are invalid or otherwise not </div> 
-                    <div style="display:inline-block;text-indent:1.8rem;"> relevant to this application for the following reasons:</div>
+                    <check-box style="float:left;" shift="0" shiftmark="0" :check="check2" text=""/>
                     
-                    <underline-form style="margin:1rem 0 1rem 0rem;" textwidth="58rem" beforetext="" hint="Explain why Will is invalid/irrelevant" text=""/>
-                    <underline-form style="margin:0 0 1rem 0rem;" textwidth="58rem" beforetext="" hint="" text=""/>
+                    <div style="text-indent:1.8rem;word-spacing:2px;text-align-last:justify;" > one or more testamentary documents have been found. A copy of the testamentary document(s) is/are attached</div>
+                    <div v-if="applicantList.length>1" style="text-indent:1.8rem;word-spacing:0.5px;text-align-last:justify;"> as an exhibit to the affidavit. We believe that the testamentary document(s) is/are invalid or otherwise not relevant</div>   
+                    <div class="test" v-else style="text-indent:1.8rem;word-spacing:2px;text-align-last:justify; "> as an exhibit to the affidavit. I believe that the testamentary document(s) is/are invalid or otherwise not relevant</div> 
+                    <div style="text-indent:1.8rem;">  to this application for the following reasons:</div>
+                
+                    <underline-form style="margin:1rem 0 1rem 0rem;" textwidth="59.5rem" beforetext="" hint="Explain why Will is invalid/irrelevant" text=""/>
+                    <underline-form style="margin:0 0 1rem 0rem;" textwidth="59.5rem" beforetext="" hint="" text=""/>
                 </li>
 
                 <div v-if="applicantList.length<2" class="new-page"> </div>
@@ -123,16 +129,21 @@
                 
                 <!-- <7> -->
                 <li class="mt-4">
-                    <check-box  shift="0" shiftmark="0" :check="check2" :text="(applicantList.length>1?'We are':'I am') +' not aware of any grant of probate or administration, or equivalent, having been issued in relation to the'"/>
-                    <div  style="margin:0 0 .5rem 0; text-indent: 30px;"> deceased in British Columbia or in any other jurisdiction.</div>
-                    <check-box  shift="0" shiftmark="0" :check="check2" text="The following grant(s) of probate or administration, or equivalent, has/have been issued in relation to the "/>
-                    <underline-form style="margin:0.35rem 0 1rem 0rem;text-indent:1rem;" textwidth="25.5rem" beforetext="deceased in British Columbia or in another jurisdiction:" hint="Describe representation grant(s)" text=""/>
+
+                    <check-box style="float:left;" shift="0" shiftmark="0" :check="check2" text=""/> 
+                    <div v-if="applicantList.length>1" style="margin-left:1.85rem;text-align:justify;">We are not aware of any grant of probate or administration, or equivalent, having been issued in relation to the deceased in British Columbia or in any other jurisdiction.</div> 
+                    <div v-else style="margin-left:1.85rem;text-align:justify;">I am not aware of any grant of probate or administration, or equivalent, having been issued in relation to the deceased in British Columbia or in any other jurisdiction.</div>
+                   
+                    <div class="my-3" />
+
+                    <check-box style="word-spacing:0.5px; text-align-last:justify;" shift="0" shiftmark="0" :check="check2" text="The following grant(s) of probate or administration, or equivalent, has/have been issued in relation to the deceased"/>
+                    <underline-form style="margin:0.35rem 0 1rem 0rem;text-indent:1rem;" textwidth="33.5rem" beforetext=" in British Columbia or in another jurisdiction:" hint="Describe representation grant(s)" text=""/>
                 
                     <div v-if="applicantList.length>1" style="">We believe that, that grant is/those grants are not relevant to this application for the following reasons:</div>
                     <div v-else style="">I believe that, that grant is/those grants are not relevant to this application for the following reasons:</div>
 
-                    <underline-form style="margin:1rem 0 1rem 0rem;" textwidth="58rem" beforetext="" hint="Explain why representation grant(s) is/are invalid/irrelevant" text=""/>
-                    <underline-form style="margin:0 0 1rem 0rem;" textwidth="58rem" beforetext="" hint="" text=""/>
+                    <underline-form style="margin:1rem 0 1rem 0rem;" textwidth="59.5rem" beforetext="" hint="Explain why representation grant(s) is/are invalid/irrelevant" text=""/>
+                    <underline-form style="margin:0 0 1rem 0rem;" textwidth="59.5rem" beforetext="" hint="" text=""/>
                 </li>
                 
                 <!-- <8> -->
@@ -162,7 +173,7 @@
                 </div>
                 <div class="col-6 border-left">
                     <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form style="margin: 1rem 0 0 0;height:2rem;" textwidth="29rem" beforetext="" :hint="name.fullName+' Signature'" text=""/>                         
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="29rem" beforetext="" :hint="name.fullName+' Signature'" text=""/>                         
                     </div>
                 </div>
             </div>
@@ -228,6 +239,13 @@ export default class FormP1 extends Vue {
                 {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"    },
             )
         }
+    }
+
+    public getSignatureMargin(){
+
+        let margin = Number(10/this.applicantList.length);
+        if(margin<1.0) margin = 1;
+        return margin+'rem'
     }
 
     public getAllApplicants(len: number){
@@ -348,6 +366,9 @@ export default class FormP1 extends Vue {
     ol li.listnumber:before {
         content:counter(list-counter) ". ";
         font-weight: bold;
-    }
+    }  
+        
+
+    
 
 </style>

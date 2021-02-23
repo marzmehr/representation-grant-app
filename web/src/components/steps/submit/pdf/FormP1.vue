@@ -133,7 +133,7 @@
             <div class="col-4">                
                 <underline-form textwidth="16rem" beforetext="Date" hint="Date (dd mmm yyyy)" text="20 Apr 2020"/>
             </div>
-            <div class="col-8">
+            <div class="col-8" >
                 <underline-form textwidth="39rem" beforetext="" hint="" text=""/>
                 <div style="display:inline-block;text-indent:10px;">Signature of</div>
                 <check-box style="display:inline-block;" shift="10" :check="name.lawyer?'':'yes'" text=""/> 

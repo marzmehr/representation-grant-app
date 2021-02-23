@@ -11,13 +11,12 @@
     </b-form-group>
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
     
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem 4rem 2rem 4rem;" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;" bg-variant="white" class="mt-4 mb-3">
 
             <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P8 (RULE 25-3 (2) )</div>
             
-            <div class="mt-3 m-0 p-0 row">
-                <div class="col-7"/>
-                <div class="col-5 mr-0 ml-auto">
+            <div class="mt-3 m-0 p-0 row">               
+                <div style="margin: 0 0 0 40rem;" >
                     <div>
                         <underline-form  textwidth="10.6rem" beforetext="This is the" hint="1st/2nd/3rd..." text="1st"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
@@ -49,9 +48,9 @@
             <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
             <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
                 <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
-                <underline-form textwidth="19rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
-                <underline-form textwidth="25em" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
-                <underline-form textwidth="9em" beforetext=", " hint="Occupation" :text="name.occupation"/>
+                <underline-form textwidth="20rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
+                <underline-form textwidth="25rem" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
+                <underline-form textwidth="10rem" beforetext=", " hint="Occupation" :text="name.occupation"/>
                 <div style="display:inline-block;"> ,</div>
             </div>
             <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
@@ -68,11 +67,13 @@
                 </li>
                 
                 <!-- <2> -->
-                <li class="mt-4">
-                    <underline-form style="display:inline-block;" textwidth="40rem" :beforetext="(applicantList.length>1?'We':'I') +' have read the affidavit in Form '" hint="" text="P5"/>                    
-                    <div  style="display:inline-block; text-indent: 5px;"> sworn </div>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="12rem" beforetext="" hint="Affidavit Date (dd mmm yyyy)" :text="form5Info.date"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="39rem" beforetext="by" hint="Applicant(s) Name(s)" :text="form5Info.applicantFullName"/>
+                <li class="mt-4 text-justify">
+                    <underline-form v-if="applicantList.length>1" style="" textwidth="42.5rem" beforetext="We have read the affidavit in Form " hint="" text="P5"/>                    
+                    <underline-form v-else style="" textwidth="43.75rem" beforetext="I have read the affidavit in Form " hint="" text="P5"/>                    
+                    
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; " textwidth="12.5rem" beforetext="sworn" hint="Affidavit Date (dd mmm yyyy)" :text="form5Info.date"/>
+                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="42rem" beforetext="by" hint="Applicant(s) Name(s)" :text="form5Info.applicantFullName"/>
+                    
                     <div v-if="applicantList.length>1" style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that we know to be inaccurate.</div>
                     <div v-else style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that I know to be inaccurate.</div> 
                     
@@ -112,7 +113,7 @@
                 </div>
                 <div class="col-6 border-left">
                     <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form style="margin: 1rem 0 0 0;height:2rem;" textwidth="29rem" beforetext="" :hint="name.fullName+' Signature'" text=""/>                         
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="29rem" beforetext="" :hint="name.fullName+' Signature'" text=""/>                         
                     </div>
                 </div>
             </div>
@@ -181,6 +182,13 @@ export default class FormP8 extends Vue {
         }
     }
 
+    public getSignatureMargin(){
+
+        let margin = Number(10/this.applicantList.length);
+        if(margin<1.0) margin = 1;
+        return margin+'rem'
+    }
+    
     public getAllApplicants(len: number){
         let result="";
         for(const name of this.applicantList)
