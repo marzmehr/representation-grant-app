@@ -102,17 +102,17 @@ class Application extends VuexModule {
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
     
+        // p = {} as pageInfoType;
+        // p.key = "0";
+        // p.label = "Executors";
+        // //TODO: turn active to false
+        // p.active = false;
+        // p.progress = 0;
+    
+        // s.pages.push(p);
+    
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Executors";
-        //TODO: turn active to false
-        p.active = false;
-        p.progress = 0;
-    
-        s.pages.push(p);
-    
-        p = {} as pageInfoType;
-        p.key = "1";
         p.label = "Spouse";
         //TODO: turn active to false
         p.active = true;
@@ -121,10 +121,19 @@ class Application extends VuexModule {
         s.pages.push(p);
     
         p = {} as pageInfoType;
-        p.key = "2";
+        p.key = "1";
         p.label = "Children";
         //TODO: turn active to false
         p.active = true;
+        p.progress = 0;
+    
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "2";
+        p.label = "Parents";
+        //TODO: turn active to false
+        p.active = false;
         p.progress = 0;
     
         s.pages.push(p);
@@ -133,7 +142,7 @@ class Application extends VuexModule {
         p.key = "3";
         p.label = "Grand Children";
         //TODO: turn active to false
-        p.active = true;
+        p.active = false;
         p.progress = 0;
     
         s.pages.push(p);
