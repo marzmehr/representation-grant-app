@@ -193,6 +193,22 @@
                "rowCount": 1
             },
             {
+               "type": "text",
+               "name": "p1EarlyServerName",
+               "title": "Server Name"
+            },
+            {
+               "type": "text",
+               "name": "p1EarlyDelivererOccupation",
+               "title": "Server Occupation"
+            },
+            {
+               "type": "address",
+               "name": "p1EarlyDelievererOrdinaryAddress",
+               "title": "Server Ordinary Address",
+               "description": "city, prov, country only"
+            },
+            {
                "type": "infotext",
                "name": "question409",
                "title": "Taylor Johnson sent a response acknowledging the receipt of the notice\n<br><br>\nWhen delivering a notice electronically, you must receive a response from the recipient before it is considered delivered.\n<br><br>\nIf you haven't received a response, do a follow up first and fill in the date after you receive a confirmation of your electronic delivery.\n<br><br>\nYou will retain a copy of the response and provide them when requested by the registrar\n<br>\n[JIRA] How best to warn applicant waiting for electronic confirmation? \nShould applicants move to the next page, this page would be incomplete. How are we checking for completeness?",

@@ -56,6 +56,8 @@ export default class Children extends Vue {
     @applicationState.Action
     public UpdatePageActive!: (newPageActive) => void
 
+    @applicationState.Action
+    public UpdateDeceasedChildrenInfo!: (newDeceasedChildrenInfo) => void
 
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
@@ -112,6 +114,7 @@ export default class Children extends Vue {
                 for (let i = 0; i < childrenInfo.length; i++) {
                     if (childrenInfo[i].childIsAlive == "n" && 
                         childrenInfo[i].childHasPersonalRep == "n" && childrenInfo[i].childInformalPersonalRepName) {
+                            childrenInfo[i].fullName = Vue.filter('getFullName')(childrenInfo[i].childName);
                             deceasedChildren.push(childrenInfo[i]);
                             deceasedChildrenNames.push(childrenInfo[i].childName);
                     }                       
@@ -131,10 +134,12 @@ export default class Children extends Vue {
                     
                     this.survey.setVariable("needGrandChildrenInfo", true);
                     this.survey.setVariable("deceasedChildrenExitMessage", deceasedChildrenExitMessage);
+                    this.UpdateDeceasedChildrenInfo(deceasedChildren);
                     this.togglePages([3], true);
 
                 } else {
                     this.survey.setVariable("needGrandChildrenInfo", false);
+                    this.UpdateDeceasedChildrenInfo([]);
                     this.togglePages([3], false);
                 }
             }  
@@ -187,10 +192,8 @@ export default class Children extends Vue {
   
     
     beforeDestroy() {
-        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
-        
-        this.UpdateStepResultData({step:this.step, data: {childrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
-
+        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);        
+        this.UpdateStepResultData({step:this.step, data: {childrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
     }
 }
 </script>

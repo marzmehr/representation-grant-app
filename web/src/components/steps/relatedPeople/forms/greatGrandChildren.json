@@ -7,14 +7,12 @@
                 {
                     "type": "paneldynamic",
                     "name": "grandchildPanel",
+                    "titleLocation": "hidden",
                     "templateElements": [
                         {
-                            "type": "personname",
+                            "type": "text",
                             "name": "grandchildName",
-                            "title": "Please enter the full name of {deceasedChildrenInfo[0].fullName}'s child.",
-                            "defaultSubstitution": "(the deceased's grandchild)",
-                            "labelFirstName": "First Name (Given Name)",
-                            "labelLastName": "Last Name (Family Name or Surname)"
+                            "title": "Please enter the full name of {deceasedChildrenInfo[0].fullName}'s child."
                         },
                         {
                             "type": "yesno",
@@ -31,7 +29,6 @@
                         {
                             "type": "yesno",
                             "name": "grandchildIsAdult",
-                            "visible": false,
                             "visibleIf": "{panel.grandchildIsAlive} = \"y\"",
                             "title": "Is {panel.grandchildName} 19 years of age or older?"
                         },
@@ -52,35 +49,18 @@
                             "title": "Does {panel.grandchildName} have a living parent or legal guardian?"
                         },
                         {
-                            "type": "personname",
+                            "type": "text",
                             "name": "grandchildGuardianName",
                             "visible": false,
                             "visibleIf": "{panel.grandchildIsAlive} = \"y\" and {panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"y\"",
-                            "title": "Full name of living parent/guardian",
-                            "defaultSubstitution": "(the deceased's grandchild's parent/guardian)",
-                            "labelFirstName": "First Name (Given Name)",
-                            "labelLastName": "Last Name (Family Name or Surname)"
-                        },
-                        {
-                            "type": "address",
-                            "name": "question424",
-                            "title": "Address of living parent/guardian",
-                            "visibleIf": "{panel.grandchildIsAlive} = \"y\" and {panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"y\"",
-                            "description": "Why do you need the address? This is optional. If you fill it out, this service will help you generate a letter to the PGT which requires address. "
-                        },
-                        {
-                            "type": "address",
-                            "name": "question426",
-                            "title": "Address of {panel.grandchildName}.",
-                            "visibleIf": "{panel.grandchildIsAlive} = \"y\"",
-                            "description": "Why do you need the address? This is optional. If you fill it out, this service will help you generate a letter to the PGT which requires address. "
+                            "title": "Full name of living parent/guardian"
                         },
                         {
                             "type": "yesno",
                             "name": "grandchildIsCompetent",
                             "visible": false,
                             "visibleIf": "{panel.grandchildIsAlive} = \"y\" and ({panel.grandchildIsAdult} = \"y\" or ({panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"n\"))",
-                            "title": "Is {panel.grandchildName} `mentally competent` ?"
+                            "title": "Is {panel.grandchildName} `mentally competent`?"
                         },
                         {
                             "type": "infotext",
@@ -100,14 +80,11 @@
                             "description": "If someone has been declared mentally incompetent by a court, a committee (or equivalent), will have been appointed to take care of the mentally incompetent person's finances. "
                         },
                         {
-                            "type": "personname",
+                            "type": "text",
                             "name": "grandchildCommitteeName",
                             "visible": false,
                             "visibleIf": "{panel.grandchildIsAlive} = \"y\" and ({panel.grandchildIsAdult} = \"y\" or ({panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"n\")) and {panel.grandchildIsCompetent} = \"n\" and {panel.grandchildIsCompetentNoExplanation} > 0 and {panel.grandchildHasCommittee} = \"y\"",
-                            "title": "Full name of {panel.grandchildName}'s committee",
-                            "defaultSubstitution": "(the deceased's grandchild's committee)",
-                            "labelFirstName": "First Name (Given Name)",
-                            "labelLastName": "Last Name (Family Name or Surname)"
+                            "title": "Full name of {panel.grandchildName}'s committee"
                         },
                         {
                             "type": "yesno",
@@ -133,32 +110,11 @@
                             "title": "Does {panel.grandchildName} have a `personal representative`?"
                         },
                         {
-                            "type": "personname",
+                            "type": "text",
                             "name": "grandchildPersonalRepName",
                             "visible": false,
                             "visibleIf": "{panel.grandchildIsAlive} = 'n' and {panel.grandchildDied5DaysAfter} = 'y' and {panel.grandchildHasPersonalRep} = 'y'",
-                            "title": "Full name of {panel.grandchildName}'s personal representative",
-                            "defaultSubstitution": "(the deceased's grandchild's informal committee)",
-                            "labelFirstName": "First Name (Given Name)",
-                            "labelLastName": "Last Name (Family Name or Surname)"
-                        },
-                        {
-                            "type": "personname",
-                            "name": "grandchildInformalPersonalRepName",
-                            "visible": false,
-                            "visibleIf": "{panel.grandchildIsAlive} = 'n' and {panel.grandchildDied5DaysAfter} = 'y' and {panel.grandchildHasPersonalRep} = 'n'",
-                            "title": "Full name of the person who is most likely going to manage {panel.grandchildName}'s money and belongings.",
-                            "description": "Update Logic",
-                            "defaultSubstitution": "(the deceased's grandchild's informal representative)",
-                            "labelFirstName": "First Name (Given Name)",
-                            "labelLastName": "Last Name (Family Name or Surname)"
-                        },
-                        {
-                            "type": "yesno",
-                            "name": "grandchildHasChildren",
-                            "visible": false,
-                            "visibleIf": "{panel.grandchildIsAlive} = \"n\" and {panel.grandchildDied5DaysAfter} = \"n\"",
-                            "title": "Did {panel.grandchildName} have any children?"
+                            "title": "Full name of {panel.grandchildName}'s personal representative"
                         }
                     ],
                     "panelCount": 1,
@@ -210,21 +166,22 @@
                             "titleLocation": "hidden",
                             "visible": false,
                             "visibleIf": "({needGreatGrandChildrenInfo}"
-                        },
-                        {
+                         },
+                         {
                             "type": "infotext",
                             "name": "childExitParentsExplanation",
                             "title": "Because {deceasedName} has no children, lets move on to information about {deceasedName}'s parents.",
                             "titleLocation": "hidden",
                             "visible": false,
                             "visibleIf": "{noChildren}"
-                        }
+                         }
                     ],
                     "visible": false,
                     "visibleIf": "{grandchildIsYou} = 'n' or ({grandchildIsYou} = 'y' and {grandchildIsYouIncluded} = 'y')"
                 }
             ],
             "visible": true,
+            
             "title": "{deceasedName}'s Grandchildren"
         }
     ],

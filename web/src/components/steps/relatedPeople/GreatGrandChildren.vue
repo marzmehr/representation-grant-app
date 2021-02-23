@@ -13,7 +13,7 @@ import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
 
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/components/survey/survey-glossary.ts";
-import surveyJson from "./forms/grandChildren.json";
+import surveyJson from "./forms/greatGrandChildren.json";
 
 import PageBase from "../PageBase.vue";
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
@@ -28,7 +28,7 @@ const applicationState = namespace("Application");
     }
 })
 
-export default class GrandChildren extends Vue {
+export default class GreatGrandChildren extends Vue {
     
     @Prop({required: true})
     step!: stepInfoType;
@@ -43,7 +43,7 @@ export default class GrandChildren extends Vue {
     public deceasedName!: string;
 
     @applicationState.State
-    public deceasedChildrenInfo!: [];
+    public deceasedGrandChildrenInfo!: [];
 
     @applicationState.State
     public deceasedDateOfDeathPlus4!: string;
@@ -99,53 +99,7 @@ export default class GrandChildren extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
-            // console.log(options)
-
-
-            const grandChildrenInfo = this.survey.data.grandChildPanel
-            const deceasedName = Vue.filter('getFullName')(this.deceasedName);
-            
-            const deceasedGrandChildren = [];
-            let deceasedGrandChildrenExitMessage = "";
-            const deceasedGrandChildrenNames = [];
-            console.log(grandChildrenInfo);
-
-            if ( grandChildrenInfo && grandChildrenInfo.length > 0) {
-
-                for (let i = 0; i < grandChildrenInfo.length; i++) {
-                    if (grandChildrenInfo[i].childIsAlive == "n" && 
-                        grandChildrenInfo[i].childHasPersonalRep == "n" && grandChildrenInfo[i].childInformalPersonalRepName) {
-                            grandChildrenInfo[i].fullName = Vue.filter('getFullName')(grandChildrenInfo[i].childName);
-                            deceasedGrandChildren.push(grandChildrenInfo[i]);
-                            deceasedGrandChildrenNames.push(grandChildrenInfo[i].childName);
-                    }                       
-                }
-
-                if (deceasedGrandChildren.length > 0) {
-
-                    if (deceasedGrandChildrenNames.length == 1){
-                        deceasedGrandChildrenExitMessage = "Because " + Vue.filter('getFullName')(deceasedGrandChildrenNames[0]) + 
-                        " has died, doesn't have a personal representative but has children who are alive," +
-                        " lets move on to information about " + Vue.filter('getFullName')(deceasedGrandChildrenNames[0]) + "'s children.";
-
-                    } else {
-                        deceasedGrandChildrenExitMessage = "Because some of " + deceasedName + "'s grand children have died, don't have personal" + 
-                        " representatives but have children who are alive, lets move on to information about their children.";
-                    }
-                    
-                    this.survey.setVariable("needGreatGrandChildrenInfo", true);
-                    this.survey.setVariable("deceasedGrandChildrenExitMessage", deceasedGrandChildrenExitMessage);
-                    this.UpdateDeceasedGrandChildrenInfo(deceasedGrandChildren);
-                    this.togglePages([4], true);
-
-                } else {
-                    this.survey.setVariable("needGreatGrandChildrenInfo", false);
-                    this.UpdateDeceasedGrandChildrenInfo([]);
-                    this.togglePages([4], false);
-                }
-            }
-
-
+            console.log(options)
             
         })
     }
@@ -163,8 +117,8 @@ export default class GrandChildren extends Vue {
     
     public reloadPageInformation() {
         //console.log(this.step.result)
-        if (this.step.result && this.step.result['grandChildrenSurvey']) {
-            this.survey.data = this.step.result['grandChildrenSurvey'].data;
+        if (this.step.result && this.step.result['greatGrandChildrenSurvey']) {
+            this.survey.data = this.step.result['greatGrandChildrenSurvey'].data;
             Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
         }
 
@@ -175,7 +129,7 @@ export default class GrandChildren extends Vue {
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);
-        this.survey.setVariable("deceasedChildrenInfo", this.deceasedChildrenInfo);      
+        this.survey.setVariable("deceasedGrandChildrenInfo", this.deceasedGrandChildrenInfo);      
    
     }
 
@@ -196,8 +150,7 @@ export default class GrandChildren extends Vue {
     
     beforeDestroy() {
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);        
-        this.UpdateStepResultData({step:this.step, data: {grandChildrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
-
+        this.UpdateStepResultData({step:this.step, data: {greatGrandChildrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
     }
 }
 </script>

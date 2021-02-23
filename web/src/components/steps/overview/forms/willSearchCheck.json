@@ -323,8 +323,8 @@
                 },
                 {
                     "type": "checkbox",
-                    "name": "question461",
-                    "title": "[Diligent Search Confirmation] Are you ({name of applicants}) satisfied that there was a diligent search for {deceasedName}'s Will and other testamentary documents? ",
+                    "name": "willSearchApplicantDiligentSearchConfirmed",
+                    "title": "[Diligent Search Confirmation] Are you ({name of applicants}) satisfied that there was a diligent search for {deceasedName}'s Will and other testamentary documents? \n[Doesn't seem like P8 people need to swear this]",
                     "choices": [
                         {
                             "value": "item1",

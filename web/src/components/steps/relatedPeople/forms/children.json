@@ -87,7 +87,7 @@
                      "name": "childIsCompetent",
                      "visible": false,
                      "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\"))",
-                     "title": "Is {panel.childName} `mentally competent`?",
+                     "title": "Is {panel.childName} `mentally competent` ?",
                      "description": "Update logic to show even if this child is not an adult"
                   },
                   {

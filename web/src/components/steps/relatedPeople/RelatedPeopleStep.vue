@@ -5,8 +5,9 @@
     <children v-bind:step="step" v-if="step.currentPage == 1"></children>
     <parents v-bind:step="step" v-if="step.currentPage == 2"></parents>
     <grand-children v-bind:step="step" v-if="step.currentPage == 3"></grand-children>
-    <beneficiaries v-bind:step="step" v-if="step.currentPage == 4"></beneficiaries>
-    <creditors v-bind:step="step" v-if="step.currentPage == 5"></creditors>
+    <great-grand-children v-bind:step="step" v-if="step.currentPage == 4"></great-grand-children>
+    <beneficiaries v-bind:step="step" v-if="step.currentPage == 5"></beneficiaries>
+    <creditors v-bind:step="step" v-if="step.currentPage == 6"></creditors>
   </step-base>
 </template>
 
@@ -20,6 +21,7 @@ import Spouse from "./Spouse.vue";
 import Children from "./Children.vue";
 import Parents from "./Parents.vue";
 import GrandChildren from "./GrandChildren.vue";
+import GreatGrandChildren from "./GreatGrandChildren.vue";
 import Beneficiaries from "./Beneficiaries.vue";
 import Creditors from "./Creditors.vue";
 
@@ -32,6 +34,7 @@ import Creditors from "./Creditors.vue";
         Children,
         Parents,
         GrandChildren,
+        GreatGrandChildren,
         Beneficiaries,
         Creditors
     }

@@ -18,6 +18,21 @@
                "name": "question432",
                "title": "How do I know which address to use? [use Local branch]",
                "titleLocation": "hidden"
+            },
+            {
+               "type": "text",
+               "name": "p1NoWillServerName",
+               "title": "Server Name"
+            },
+            {
+               "type": "text",
+               "name": "p1NoWillServerOccupation",
+               "title": "Server Occupation"
+            },
+            {
+               "type": "address",
+               "name": "p1NoWillServerOrdinaryAddress",
+               "title": "Server Address (City, Prov, Country only)"
             }
          ]
       }
