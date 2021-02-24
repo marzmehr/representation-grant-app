@@ -13,10 +13,11 @@
     
     <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;" bg-variant="white" class="mt-4 mb-3">
 
-            <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P8 (RULE 25-3 (2) )</div>
+            <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P10 (RULE 25-3 (2) )</div>
             
-            <div class="mt-3 m-0 p-0 row">               
-                <div style="margin: 0 0 0 40rem;" >
+            <div class="mt-3 m-0 p-0 row">
+               
+                <div style="margin:0 0 0 40rem;">
                     <div>
                         <underline-form  textwidth="10.6rem" beforetext="This is the" hint="1st/2nd/3rd..." text="1st"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
@@ -42,7 +43,7 @@
             <div style="display:inline-block; text-indent: 5px;"> <i>In the Matter of the Estate of</i></div>
             <underline-form textwidth="37rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
             <div style="display:inline-block; text-indent: 5px;"> <i>, deceased</i></div>   
-            <div style="text-align:center;margin:2rem 0 5rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT IN SUPPORT OF APPLICATION FOR ESTATE GRANT</div>            
+            <div style="text-align:center;margin:2rem 0 5rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT OF ASSETS AND LIABILITIES FOR DOMICILED ESTATE GRANT </div>            
 
             <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;"> We</div>
             <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
@@ -50,7 +51,7 @@
                 <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
                 <underline-form textwidth="20rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
                 <underline-form textwidth="25rem" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
-                <underline-form textwidth="10rem" beforetext=", " hint="Occupation" :text="name.occupation"/>
+                <underline-form textwidth="10.5rem" beforetext=", " hint="Occupation" :text="name.occupation"/>
                 <div style="display:inline-block;"> ,</div>
             </div>
             <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
@@ -58,45 +59,53 @@
         
             <ol style="margin:0rem 0 0 -1.5rem;">
                 <!-- <1> -->
-                <li class=" text-justify ">
-                    <div v-if="applicantList.length>1" style="display:inline;">We are the applicants/some of the applicants referred to in the submission for estate grant in relation to the estate of </div>   
-                    <div v-else style="display:inline;">I am the applicant/one of the applicants referred to in the submission for estate grant in relation to the estate of </div> 
-                    
-                    <underline-form style="margin:0.5rem 0 0 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
-                    <div style="margin:0.5rem  0 0 0 ; display:inline; text-indent: 5px;"> (the "deceased").</div>                   
+                <li class=" text-justify ">                    
+                    <underline-form v-if="applicantList.length>1" style="display:inline-block;" textwidth="47rem" beforetext="We are the applicants for" hint="a grant of probate/administration WWA/administration WOWA or an ancillary grant of probate/administration WWA/administration WOWA" text="a grant of probate"/>
+                    <underline-form v-else style="display:inline-block;" textwidth="48rem" beforetext="I am an applicant for" hint="a grant of probate/administration WWA/administration WOWA or an ancillary grant of probate/administration WWA/administration WOWA" text="a grant of probate"/>
+                   
+                    <underline-form style="margin:1rem 0 0 0 ;display:inline-block;" textwidth="34rem" beforetext="in relation to the estate of" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
+                    <div style="margin:1rem  0 0 0 ; display:inline; text-indent: 5px;"> (the "deceased").</div>                   
                 </li>
                 
                 <!-- <2> -->
-                <li class="mt-4 text-justify">
-                    <underline-form v-if="applicantList.length>1" style="" textwidth="42.5rem" beforetext="We have read the affidavit in Form " hint="" text="P5"/>                    
-                    <underline-form v-else style="" textwidth="43.75rem" beforetext="I have read the affidavit in Form " hint="" text="P5"/>                    
+                <li class="mt-4">
                     
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; " textwidth="12.5rem" beforetext="sworn" hint="Affidavit Date (dd mmm yyyy)" :text="form5Info.date"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="42rem" beforetext="by" hint="Applicant(s) Name(s)" :text="form5Info.applicantFullName"/>
-                    
-                    <div v-if="applicantList.length>1" style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that we know to be inaccurate.</div>
-                    <div v-else style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that I know to be inaccurate.</div> 
+                    <div v-if="applicantList.length>1" style="margin:0 0 .25rem 0; display:inline-block;">We have made a diligent search and inquiry to find the property and liabilities of the deceased.</div>
+                    <div v-else style="margin:0 0 .25rem 0; display:inline-block;">I have made a diligent search and inquiry to find the property and liabilities of the deceased.</div> 
                     
                 </li>                
                 <!-- <3> -->
                 <li class="mt-4 text-justify">
-                    <div v-if="applicantList.length>1" style="display:inline;"> We have read the submission for estate grant and the other documents referred to in that document and we believe
-                        that the information contained in that submission for estate grant and those documents is correct and complete.
+                    <div style="display:inline;"> Attached to this affidavit as Exhibit A is a Statement of Assets, Liabilities and Distribution that discloses
+                        <ol style="list-style-type: lower-alpha;" >
+                            <li class="mt-3">all of the property of the deceased, irrespective of its location, nature or value, that passes to the applicant in the applicant's capacity as the deceased's personal representative,</li>
+                            <li class="mt-3">the value of that property, and</li>
+                            <li class="mt-3">the liabilities that charge or encumber that property.</li>
+                        </ol>
                     </div>
                         
-                    <div v-else style="display:inline;">I have read the submission for estate grant and the other documents referred to in that document and I believe
-                        that the information contained in that submission for estate grant and those documents is correct and complete.
-                    </div> 
+                  
                 </li>
                 <!-- <4> -->
                 <li class="mt-4 text-justify">
-                    <div v-if="applicantList.length>1" style="display:inline;">We will administer according to law the deceased's estate to which the submission for estate grant relates and we
-                        acknowledge that, in doing this, we will be subject to the legal responsibility of a personal representative.                         
+                    <div v-if="applicantList.length>1" style="display:inline;">
+                        If we determine that there is any property or liability that has not been disclosed in Exhibit A, or that information contained in this affidavit is incorrect or incomplete, we will promptly after learning of the same file an affidavit of assets and liabilities in Form P14 to disclose the correct and complete information.
                     </div>   
-                    <div v-else style="display:inline;">I will administer according to law the deceased's estate to which the submission for estate grant relates and I
-                        acknowledge that, in doing this, I will be subject to the legal responsibility of a personal representative.
+                    <div v-else style="display:inline;">
+                        If I determine that there is any property or liability that has not been disclosed in Exhibit A, or that information contained in this affidavit is incorrect or incomplete, I will promptly after learning of the same file an affidavit of assets and liabilities in Form P14 to disclose the correct and complete information.
                     </div> 
                 </li>
+
+                <!-- <4> -->
+                <li class="mt-4 text-justify">
+                    <div v-if="applicantList.length>1" style="display:inline;">
+                        In addition to the probate fees payable in relation to any property disclosed in Exhibit A, we promise to pay the Minister of Finance the probate fees payable with respect to the value of any property that passes to us as the deceased's personal representative, and that is not disclosed in Exhibit A, on a determination being made as to the value of that asset.
+                    </div>   
+                    <div v-else style="display:inline;">
+                        In addition to the probate fees payable in relation to any property disclosed in Exhibit A, I promise to pay the Minister of Finance the probate fees payable with respect to the value of any property that passes to me as the deceased's personal representative, and that is not disclosed in Exhibit A, on a determination being made as to the value of that asset.
+                    </div> 
+                </li>
+
             </ol>
 
             <div class="mt-5 row">
@@ -117,6 +126,69 @@
                     </div>
                 </div>
             </div>
+
+            <!-- <TABLE PAGE> -->
+            <div class="new-page"> </div>
+
+            <div class="mt-3 m-0 p-0 row">
+                
+                <div style="margin:0 0 0 auto;">
+                    <div>                        
+                        <div style="display:inline-block;">This is Exhibit A referred to in the affidavit of</div>
+                    </div>
+                    <div class="mt-3">
+                        <underline-form  textwidth="11.5rem" beforetext="" hint="Applicant Name" :text="getAllApplicants(25)"/>
+                        <div style="display:inline-block; ">, sworn (or affirmed)</div>
+                    </div>
+                    <div class="mt-3">
+                        <underline-form style="margin:0 0 0 .5rem;" textwidth="14rem" beforetext=" before me on" hint="Affidavit Date (dd mmm yyyy)" text="20 Apr 2020"/>
+                    </div>                   
+                    <div class="mt-3">
+                        <underline-form  textwidth="21.25rem" beforetext="" hint="(leave blank for Commissioner’s Stamp and Signature)" text=""/>
+                        <div style="margin:0.5rem 0; text-align:center; font-size:12px;">A commissioner for taking affidavits for British Columbia</div>                    
+                    </div>
+                </div>   
+            </div>
+
+            <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;">Statement of Assets, Liabilities and Distribution</div> 
+            <div style="margin-top:2rem;">
+                <b-table :fields="fieldsI" :items="itemsI"  small>                  
+                    <template v-slot:head(part)>
+                        <div style="white-space: pre;">Part I <br/> </div>
+                        <div>Real Property (including mortgages and vendors' and purchasers' interests in agreements for sale)</div>                        
+                    </template>
+                    <template v-slot:cell(scope)="data">
+                        <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
+                        <div v-else>{{data.value}}</div>                        
+                    </template>
+                </b-table>
+
+                <b-table :fields="fieldsII" :items="itemsII"  small>                    
+                    <template v-slot:head(part)>
+                        <div style="white-space: pre;">Part II <br/> </div>
+                        <div>Personal Property (all assets except real property)</div>                        
+                    </template>
+                    <template v-slot:cell(scope)="data">
+                        <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
+                        <div v-else>{{data.value}}</div>                        
+                    </template>
+                </b-table>
+          
+                <div style="margin:0.5rem 7rem 0.5rem 21.5rem;display:inline-block;"><b>GROSS VALUE OF ESTATE</b></div>
+                <underline-form style="float:right; border:1px solid;height:2.75rem; margin:0rem 0 0.5rem 1.5rem;padding:1rem 0.5rem 0 0.5rem;" textwidth="14rem" beforetext="$" hint="" text=""/>
+          
+                <b-table :fields="fieldsIII" :items="itemsIII"  small>
+                    <template v-slot:head(part)>
+                        <div style="white-space: pre;">Part III <br/> </div>
+                        <div>Liabilities</div>                        
+                    </template>
+                    <template v-slot:cell(scope)="data">
+                        <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
+                        <div v-else>{{data.value}}</div>                        
+                    </template>
+                </b-table>
+            </div>
+
     </b-card>
 </div>
 </template>
@@ -139,7 +211,7 @@ import CheckBox from "./components/CheckBox.vue"
     }
 })
 
-export default class FormP8 extends Vue {    
+export default class FormP10 extends Vue {    
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -155,6 +227,42 @@ export default class FormP8 extends Vue {
     serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
     form5Info={applicantFullName:"Its first daughter", first:"Its", middle:"first",last:"Daughter", date:"20 March 2020"}
     
+    fieldsI=[
+        {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', label:'Part I, Real Property (including mortgages and vendors\' and purchasers\' interests in agreements for sale)'},
+        {key:'scope',thClass:'border-dark text-center align-middle', tdClass:'border-dark c2', label:'Within or Without British Columbia'},
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', label:'Value at Death'}
+    ]
+    itemsI = [
+        {part:"",scope:"",value:""},
+        {part:"",scope:"",value:""},
+        {part:"",scope:"",value:""},
+        {part:"",scope:"TOTAL",value:""}
+    ]
+
+    fieldsII=[
+        {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', label:'Part II, Personal Property (all assets except real property)'},
+        {key:'scope',thClass:'border-dark text-center align-middle', tdClass:'border-dark c2', label:'Within or Without British Columbia'},
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', label:'Value at Death'}
+    ]
+    itemsII = [
+        {part:"",scope:"",value:""},
+        {part:"",scope:"",value:""},
+        {part:"",scope:"",value:""},
+        {part:"",scope:"TOTAL",value:""}
+    ]
+
+    fieldsIII=[
+        {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', label:'Part III, Liabilities'},
+        {key:'scope',thClass:'border-dark text-center align-middle', tdClass:'border-dark c2', label:'Paid or Unpaid'},
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', label:'Amount'}
+    ]
+    itemsIII = [
+        {part:"",scope:"",value:""},
+        {part:"",scope:"",value:""},
+        {part:"",scope:"",value:""},
+        {part:"",scope:"TOTAL",value:""}
+    ]
+
     mounted(){
         this.getRepGrantResultData()
         this.changeApplicantList()
@@ -188,7 +296,7 @@ export default class FormP8 extends Vue {
         if(margin<1.0) margin = 1;
         return margin+'rem'
     }
-    
+
     public getAllApplicants(len: number){
         let result="";
         for(const name of this.applicantList)
@@ -206,7 +314,7 @@ export default class FormP8 extends Vue {
         const applicationId = this.$store.state.Application.id;
         
         const url = '/survey-print/'+applicationId+'/?name=representation-grant'
-        const body = Vue.filter('printPdf')(el.innerHTML,`"SCCRPF  02/2021 \a         Form P8";`)
+        const body = Vue.filter('printPdf')(el.innerHTML,`"SCCRPF  02/2021 \a         Form P10";`)
         const options = {
             responseType: "blob",
             headers: {
@@ -220,7 +328,7 @@ export default class FormP8 extends Vue {
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             document.body.appendChild(link);
-            link.download = "FormP8.pdf";
+            link.download = "FormP10.pdf";
             link.click();
             setTimeout(() => URL.revokeObjectURL(link.href), 1000);            
         },err => {
@@ -261,7 +369,22 @@ export default class FormP8 extends Vue {
 <style scoped>
 
     .table >>> th.border-dark{border:1px solid #000;}
-    .table >>> td.border-dark{border:1px solid #000;}
+    .table >>> td.border-dark{
+        height: 2.5rem;        
+        border:1px solid #000;        
+    }
+
+    .table >>> td.c1{
+        width: 40rem;
+    }
+
+    .table >>> td.c2{
+        width: 11rem;
+    }
+
+    .table >>> td.c3{
+        width: 11rem;
+    }
 
     section{counter-increment: question-counter;float:left; text-indent: -20px;text-align: justify;text-justify: inter-word;margin: 1.0rem 0.5rem 0.5rem 0rem;}
  
@@ -276,6 +399,9 @@ export default class FormP8 extends Vue {
     
     section.resetquestion{counter-reset: question-counter;}
 
+    .new-page{
+        margin-top:10rem;
+    }
     
     ol.resetcounter{
         list-style: none;
