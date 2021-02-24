@@ -96,6 +96,11 @@
        "dateYearsBehind": 6
       },
       {
+       "type": "text",
+       "name": "question253",
+       "title": "survivorship rule date test {deceasedDateOfDeathPlus4}"
+      },
+      {
        "type": "helptext",
        "name": "deceasedDateOfDeathFAQ1",
        "title": "How do I get a `Certificate of Death`",
@@ -105,29 +110,9 @@
       {
        "type": "infotext",
        "name": "question412",
+       "visible": false,
        "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
        "titleLocation": "hidden"
-      },
-      {
-       "type": "infotext",
-       "name": "jiraRepgrant30",
-       "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-30\" target=\"_blank\">JIRA ticket REPGRANT30 - Deceased Death Date Limit</a>",
-       "titleLocation": "hidden",
-       "messageStyle": "error"
-      },
-      {
-       "type": "infotext",
-       "name": "jiraRepgrant31",
-       "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-31\" target=\"_blank\">JIRA ticket REPGRANT31 - Deceased Death + 4 Days</a>",
-       "titleLocation": "hidden",
-       "messageStyle": "error"
-      },
-      {
-       "type": "infotext",
-       "name": "jiraRepgrant32",
-       "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-32\" target=\"_blank\">JIRA ticket REPGRANT32 - Deceased Death Data as Validation</a>",
-       "titleLocation": "hidden",
-       "messageStyle": "error"
       }
      ],
      "visible": false,
@@ -162,12 +147,14 @@
       {
        "type": "infotext",
        "name": "question438",
+       "visible": false,
        "title": "[Obsolete - Will questions determine which asset affidavit to use regardless of where the address is]\n<br><br>\nThis service can help you extend the powers of a `Representation Grant` from another place.\n<br><br>\nIt makes sense to first get a `Representation Grant` from where {deceasedName} spent most of their time. There may be benefits to getting grants in this order that a lawyer can explain to you. [link to lawyer info]\n<br><br>\nIf you don't already have a Representation Grant from the place where {deceasedName} spent most of their time, this service can still help you apply for a B.C. Representation Grant.  ",
        "titleLocation": "hidden"
       },
       {
        "type": "infotext",
        "name": "question398",
+       "visible": false,
        "title": "[Obsolete?? Probably still useful if not for P10/P11 then service addresses] <a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Location Trigger</a>\n<br><br>TB Finished\nMay need location data to figure out which asset form to use: P10 or P11",
        "titleLocation": "hidden",
        "messageStyle": "error"
@@ -175,6 +162,7 @@
       {
        "type": "infotext",
        "name": "question415",
+       "visible": false,
        "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - PO Box</a>\n<br><br>TB Finished\n(pick either “Street number and street name:” or “Post office box:” the other options can be deleted)\n<br><br>Maybe irrelevant if the person can just write in PO Box in street number/name? But change label??",
        "titleLocation": "hidden",
        "messageStyle": "error"
@@ -182,6 +170,7 @@
       {
        "type": "infotext",
        "name": "question332",
+       "visible": false,
        "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Homeless postal code</a>\n<br><br>TB Finished\nIf the person had no fixed address, they don't have a postal code so validation needs to ignore that sometimes but validate most of the time.\n<br><br>\nInput mask? Probably not because we don't know postal codes around the world work.",
        "titleLocation": "hidden",
        "messageStyle": "error"
@@ -221,6 +210,7 @@
       {
        "type": "infotext",
        "name": "firstNationsNameTrello",
+       "visible": false,
        "title": "<a href=\"https://trello.com/c/cD8xmZY9\" target=\"_blank\">Trello - Radio Logic: notempty not working</a>\n<br><br>\nJIRA Ticket to be created; Copied from Trello:\n<br><br>\n{firstNationsName} is a radio button question.\n{deceasedExitPanel} has a visibleIf condition that includes {firstNationsName} notempty\n<br><br>\nThe problem is {deceasedExitPanel} shows even if {firstNationsName} has no selection",
        "titleLocation": "hidden",
        "messageStyle": "error"
@@ -244,7 +234,7 @@
       {
        "type": "infotext",
        "name": "deceasedExitExplanation",
-       "title": "Next, this service will ask if {deceasedName} made any `Wills`\n",
+       "title": "Next, this service will ask if {deceasedName} made any `Wills`.\n",
        "titleLocation": "hidden"
       }
      ],
@@ -375,6 +365,7 @@
        "type": "infotext",
        "name": "willGrantExistsNoErrorCurrent",
        "visible": false,
+       "visibleIf": "{willGrantExists} = \"y\"",
        "title": "For now, this service has only been developed for a limited number of situations. At this point in time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf the existing Representation Grant is from British Columbia, and you need to add a new person onto the Representation Grant, please talk to a lawyer. This is not a simple matter.\n<br><br>\nIf the existing Representation Grant is from British Columbia, and you have more `assets` to report, stop using this service. Use either form P14 or P15 to tell the court. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"blank\">Forms P14 and P15 can be found here.</a> (This link opens in a new tab)\n<br><br>\nIf the existing Representation Grant is from a British Commonwealth country, the United States of America or Hong Kong, the existing Representation Grant can be resealed. Please refer to the Supreme Court Civil Rules under <a href=\"http://www.bclaws.ca/civix/document/id/complete/statreg/168_2009_03_1#rule25-6\" target=\"blank\">Rule 25-6 - Application for Resealing</a> for information on resealing the Representation Grant. (This link opens in a new tab)\n<br><br>\nIf the existing Representation Grant is not from a British Commonwealth country, the United States of America or Hong Kong, you will have to apply for an ancillary Representation Grant. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"blank\">The forms to apply for an ancillary grant can be found here.</a> (This link opens in a new tab)",
        "titleLocation": "hidden",
        "messageStyle": "error"
@@ -383,7 +374,7 @@
        "type": "yesno",
        "name": "willGrantBC",
        "visible": false,
-       "visibleIf": "{willGrantExists} = \"y\"",
+       "visibleIf": "{willGrantExists} = \"yy\"",
        "title": "Was this Representation Grant issued in British Columbia?"
       },
       {
@@ -970,7 +961,7 @@
        "name": "willExistsFAQ2",
        "title": "What if I don't know if {deceasedName}'s `Will` is valid or not?",
        "titleLocation": "hidden",
-       "body": "If you don't know if {deceasedName}'s Will is valid or not, select \"Yes\". This service will ask questions to check if the Will is valid. \n<br><br>\nIf necessary, this service may ask if {deceasedName} made more than one Will."
+       "body": "If you don't know if {deceasedName}'s `Will` is valid or not, select \"Yes\". This service will ask questions to check if the Will is valid. \n<br><br>\nIf necessary, this service may ask if {deceasedName} made more than one Will."
       },
       {
        "type": "infotext",
@@ -978,6 +969,15 @@
        "visible": false,
        "title": "[Reference only - delete later]\n<br>\nIf you don't know if {deceasedName}'s `Will` is valid or not, select \"Yes\". This service will ask questions to check if the Will is valid. \n<br><br>\nIf necessary, this service may ask if {deceasedName} made more than one Will.",
        "titleLocation": "hidden"
+      },
+      {
+       "type": "infotext",
+       "name": "willExistsYesError",
+       "visible": false,
+       "visibleIf": "{willExists} = \"y\"",
+       "title": "If you believe {deceasedName} made a `Will`, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\n[Jack to decide what additional help text is required here]\"",
+       "titleLocation": "hidden",
+       "messageStyle": "error"
       },
       {
        "type": "yesno",
@@ -988,17 +988,29 @@
        "description": "If {deceasedName} made an invalid Will, select \"Yes\" to this question."
       },
       {
-       "type": "infotext",
-       "name": "question465",
-       "title": "[Feb 21 2021 for Tyler] What do we need to ask for a P11 in this scope of only AWOW?",
-       "titleLocation": "hidden"
-      },
-      {
        "type": "yesno",
        "name": "willOtherDocRecognize",
        "visible": false,
        "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\"",
        "title": "Do you want to have these `other testamentary documents` recognized as {deceasedName}'s `Will`?"
+      },
+      {
+       "type": "infotext",
+       "name": "willOtherDocRecognizeYesError",
+       "visible": false,
+       "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\"",
+       "title": "If you want to have an `other testamentary document` should be recognized as {deceasedName}'s `Will`, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\n[Jack to decide what additional help text is required here]\"",
+       "titleLocation": "hidden",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
+       "name": "willOtherDocRecognizeYesExplanationFuture",
+       "visible": false,
+       "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"yy\"",
+       "title": "If you want a document with issues to be recognized, this service will ask questions to identify the issues.",
+       "isRequired": true,
+       "titleLocation": "hidden"
       },
       {
        "type": "matrixdynamic",
@@ -1046,12 +1058,20 @@
        "removeRowText": "Delete this document"
       },
       {
+       "type": "yesno",
+       "name": "willOtherDocRecognizeNoReasonsFinished",
+       "visible": false,
+       "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\" and {willOtherDocRecognizeNoReasons[0].Column 3} notempty",
+       "title": "Have you finished listing all of {deceasedName}'s `other testamentary documents`"
+      },
+      {
        "type": "infotext",
-       "name": "willOtherDocRecognizeYesExplanation",
-       "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\"",
-       "title": "If you want a document with issues to be recognized, this service will ask questions to identify the issues.",
-       "isRequired": true,
-       "titleLocation": "hidden"
+       "name": "willOtherDocRecognizeNoReasonsFinishedNoError",
+       "visible": false,
+       "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\" and {willOtherDocRecognizeNoReasons[0].Column 3} notempty and {willOtherDocRecognizeNoReasonsFinished} = \"n\"",
+       "title": "Keep listing `other testamentary documents` until you are finished and then select \"Yes\". Click on \"Add other testamentary document\" to list another document.",
+       "titleLocation": "hidden",
+       "messageStyle": "error"
       }
      ],
      "visible": false,
@@ -1079,7 +1099,7 @@
        "type": "helptext",
        "name": "willMultipleFAQ1",
        "visible": false,
-       "visibleIf": "{willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanation} > 0)",
+       "visibleIf": "{willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanationFuture} > 0)",
        "title": "Do I/we include `other testamentary documents`?",
        "titleLocation": "hidden",
        "body": "No. This question is only about the Will.\n<br><br>\nIf {deceasedName} made a `codicil` or `other testamentary documents`, this service will ask about those documents later."
@@ -1144,7 +1164,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{willCheck} = \"y\" and ({willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanation} > 0))"
+     "visibleIf": "{willCheck} = \"y\" and ({willExists} = \"yy\" or ({willExists} = \"nn\" and {willOtherDocExists} = \"yy\" and {willOtherDocRecognize} = \"yy\" and {willOtherDocRecognizeYesExplanationFuture} > 0))"
     },
     {
      "type": "infotext",
@@ -1364,7 +1384,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{willCheck} = \"y\"\nand \n({willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanation} > 0)) \nand \n({willMultiple} = \"n\" or ({willMultiple} = \"y\" and (({willRevoked} = \"y\" and {willRevokedYesExplanation} > 0) or ({willRevoked} = \"n\" and {willDifferentAssets} = \"n\" and {willDifferentAssetsNoExplanation} > 0) or ({willRevoked} = \"n\" and {willAdministerMultiple} = \"n\" and {willAdministerMultipleNoExplanation} > 0) or ({willRevoked} = \"n\" and {willAdministerMultiple} = \"y\" and {willAdministerMultipleYesExplanation} > 0))))"
+     "visibleIf": "{willCheck} = \"y\"\nand \n({willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanationFuture} > 0)) \nand \n({willMultiple} = \"n\" or ({willMultiple} = \"y\" and (({willRevoked} = \"y\" and {willRevokedYesExplanation} > 0) or ({willRevoked} = \"n\" and {willDifferentAssets} = \"n\" and {willDifferentAssetsNoExplanation} > 0) or ({willRevoked} = \"n\" and {willAdministerMultiple} = \"n\" and {willAdministerMultipleNoExplanation} > 0) or ({willRevoked} = \"n\" and {willAdministerMultiple} = \"y\" and {willAdministerMultipleYesExplanation} > 0))))"
     },
     {
      "type": "infotext",
@@ -2601,7 +2621,7 @@
        "type": "yesno",
        "name": "willNewerInvalidAwow",
        "visible": false,
-       "visibleIf": "{willCheck} = \"y\" and\n{willExists} = \"n\" and \n{willOtherDocExists} = \"n\"",
+       "visibleIf": "{willCheck} = \"y\" and\n{willExists} = \"nn\" and \n{willOtherDocExists} = \"nn\"",
        "title": "Delete for P5 - Did {deceasedName} make any Wills that you are not using for this application?",
        "description": "[AWOW but multiple invalid wills] "
       },
@@ -2695,19 +2715,28 @@
      "elements": [
       {
        "type": "infotext",
-       "name": "question457",
+       "name": "willP5NoWillNoOtherDocExplanation",
        "visible": false,
-       "visibleIf": "{willCheck} = \"y\" and\n{willExists} = \"n\" and {willOtherDocExists} = \"n\" and {willNewerInvalidAwow} = \"n\"",
-       "title": "[Old Spreadsheet Note moved here Nov 12 2020]\n<br>\nMight be bad info. Could just delete. The idea is to start thinking about the \"bucket of info\" relating to \"people involved\" if necessary.\n<br><br>\nInformation about anyone who may be entitled to a part of the person who died's estate. We will help you identify these people in a later stage. For example:\nThe full name and contact information for the deceased's spouse, children and grandchildren\n<br><br>",
+       "visibleIf": "{willCheck} = \"y\" and {willGrantExists} = \"n\" and {willExists} = \"n\" and {willOtherDocExists} = \"n\"",
+       "title": "Because {deceasedName} did not make a `Will` or any `other testamentary document`, you can move on to the next step.\n<br><br>\nThe next step is to identify the people in {deceasedName}'s life who need to know that you are applying for a `Representation Grant`. This service will start by asking if {deceasedName} had a spouse or any children.",
+       "description": "[P5 no will, no other docs]",
        "titleLocation": "hidden"
       },
       {
        "type": "infotext",
-       "name": "willP5Explanation",
+       "name": "willP5NoWillYesOtherDocNoRecExplanation",
        "visible": false,
-       "visibleIf": "{willCheck} = \"y\" and\n{willExists} = \"n\" and {willOtherDocExists} = \"n\" and {willNewerInvalidAwow} = \"n\"",
-       "title": "Because {deceasedName} didn't make a Will, we can move on to asking about {deceasedName}'s spouse and children.",
-       "description": "[P5 no will, no other docs, no newer wills]",
+       "visibleIf": "{willCheck} = \"y\" and {willGrantExists} = \"n\" and {willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\" and {willOtherDocRecognizeNoReasonsFinished} = \"y\"",
+       "title": "Moving forward, this service will help you apply as if {deceasedName} did not make a `Will` because you've indicated that:\n<br><br>\n<ul>\n<li>{deceasedName} didn't make a valid Will,</li>\n<li>{deceasedName} did make one or more `other testamentary document` but you don't believe any of them should be recognized as {deceasedName}'s Will</li>\n</ul>\n<br>\nYou will need to provide a copy of the other testamentary document(s) in your application. This service will remind you to make a copy at the end.\n<br><br>\nThe next step is to identify the people in {deceasedName}'s life who need to know that you are applying for a `Representation Grant`. This service will start by asking if {deceasedName} had a spouse or any children.\n",
+       "description": "[P5 no will, yes other doc, do not recognize]\n",
+       "titleLocation": "hidden"
+      },
+      {
+       "type": "infotext",
+       "name": "question36",
+       "visible": false,
+       "title": "Because of the following situation:\n<ul>\n<li>{deceasedName} didn't make a valid `Will`,</li> <li>{deceasedName} did make (one or more?) an `other testamentary document`,</li>\n<li>you don't believe should the other testamentary document should be recognized as a Will</li>\n</ul>\nthis service will help you apply as if {deceasedName} did not make a Will. \n<br><br>\nYou will need to provide a copy of the other testamentary document in your application. This service will remind you to make a copy at the end.\n<br><br>\nNext, we can move on to asking about {deceasedName}'s spouse and children. \n",
+       "description": "[P5 no will, yes other doc, yes recognize, other doc invalid]\n",
        "titleLocation": "hidden"
       },
       {
@@ -2716,14 +2745,7 @@
        "visible": false,
        "visibleIf": "{willCheck} = \"y\" and \n{willExists} = \"n\" and {willOtherDocExists} = \"n\" and {willNewerInvalidAwow} = \"y\" and {willNewerInvalidList} notempty",
        "title": "Because {deceasedName} made a Will, but this Will is invalid, this service will continue as if {deceasedName} did not make a Will.\n<br><br>\nWe can move on to asking about {deceasedName}'s spouse and children.",
-       "description": "[P5 no will, no other docs, yes newer will]",
-       "titleLocation": "hidden"
-      },
-      {
-       "type": "infotext",
-       "name": "question36",
-       "visible": false,
-       "title": "[P5 no will, yes other doc, do not recognize, invalid will only] \nYou will need to provide a copy of the invalid Will. This service will remind you to make a copy at the end.\n<br><br>\nBecause {deceasedName} didn't leave a valid Will, we can move on to asking about {deceasedName}'s spouse and children. \n",
+       "description": "[P5 yes will, no other docs, yes newer will]???",
        "titleLocation": "hidden"
       },
       {
@@ -5290,15 +5312,16 @@
      "elements": [
       {
        "type": "infotext",
-       "name": "spouseIntroExplanation",
-       "title": "In this section, we need to figure if {deceasedName} had a `spouse`. There might be multiple spouses\n\nWill version: copy their names as they appear on the will.\n<br><br>\nUnderstanding Deceased Name's relatives helps identify who needs to know about how you are applying for a representation grant.\n<br><br>\nYou will need to notify everyone who has a right to part of Deceased Name's estate that you are applying for a representation grant. If any of these people do not think you should manage Deceased Name's estate, they will have a fair chance tell to the court.\n<br><br>\nIf you are a spouse or descendant, remember to include yourself in this step. \n<br><br>\nIf you are not a relative, you'll be asked for your information later in this service.",
+       "name": "spouseAWOWIntroExplanation",
+       "title": "The next step is to identify the people in {deceasedName}'s life who need to know that you are applying for a `Representation Grant`. \n<br>\nUnderstanding Deceased Name's relatives helps identify who needs to know about how you are applying for a representation grant.\n<br><br>\nYou will need to notify everyone who has a right to part of Deceased Name's estate that you are applying for a representation grant. If any of these people do not think you should manage Deceased Name's estate, they will have a fair chance tell to the court.\n<br><br>\nThis service will start by asking if {deceasedName} had any spouse or children.\n<br><br>\nOn this page, we need to figure if {deceasedName} had a `spouse`. There might be multiple spouses\n<br><br>\nIf you are a spouse or descendant, remember to include yourself in this step. \n<br><br>\nIf you are not a relative, you'll be asked for your information later in this service. ",
        "isRequired": true,
        "titleLocation": "hidden"
       },
       {
        "type": "infotext",
-       "name": "question463",
-       "title": "Future, note about if you already entered yourself as executor, do so again here.",
+       "name": "question243",
+       "visible": false,
+       "title": "Will version TBD: copy their names as they appear on the will.\n<br>\nFuture, note about if you already entered yourself as executor, do so again here.",
        "isRequired": true,
        "titleLocation": "hidden"
       }
@@ -5343,7 +5366,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{spouseIntroExplanation} > 0"
+     "visibleIf": "{spouseAWOWIntroExplanation} > 0"
     },
     {
      "type": "paneldynamic",
@@ -6391,11 +6414,6 @@
      "title": "OXD - Are there others applying to represent {deceasedName}?"
     },
     {
-     "type": "text",
-     "name": "question311",
-     "title": "Please enter the name of the other applicants."
-    },
-    {
      "type": "infotext",
      "name": "question276",
      "title": "[JIRA] Figure out how to combine people who are both executors and spouse/family/beneficiary",
@@ -6446,6 +6464,34 @@
      ]
     },
     {
+     "type": "text",
+     "name": "applicantNewName",
+     "title": "Please enter the name of the other applicant.",
+     "description": "If you are applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`, enter your name here. This service will ask for your organization's name in a later question."
+    },
+    {
+     "type": "radiogroup",
+     "name": "question258",
+     "choices": [
+      {
+       "value": "item1",
+       "text": "I am a regular person applying to manage {deceasedName}'s 'assets' (in my own name instead of regular person?)"
+      },
+      {
+       "value": "item2",
+       "text": "I am a professional applying, in my own name, to manage {deceasedName}'s `assets`"
+      },
+      {
+       "value": "item3",
+       "text": "I am a professional applying on behalf of an organization that has been asked to manage {deceasedName}'s `assets`"
+      },
+      {
+       "value": "item4",
+       "text": "I am a lawyer who is helping a client complete these documents"
+      }
+     ]
+    },
+    {
      "type": "paneldynamic",
      "name": "applicantInfoPanel",
      "templateElements": [
@@ -6458,6 +6504,7 @@
       {
        "type": "infotext",
        "name": "question312",
+       "visible": false,
        "title": "Can collapse/expand accordions<br>\nOrder of accordion items same as in previous question<br>\nRemove accordion according to who is removed in previous question<br>\nShow this question only if there is input from previous question",
        "titleLocation": "hidden"
       },
@@ -6469,41 +6516,81 @@
        "titleLocation": "hidden"
       },
       {
+       "type": "yesno",
+       "name": "applicantNewPartOfOrg",
+       "title": "Is {applicantNewName} applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`",
+       "defaultValue": "n"
+      },
+      {
+       "type": "infotext",
+       "name": "question44",
+       "visible": false,
+       "title": "If there is 1 applicant on behalf of an organization, use organization address as service address. still check if it is within 30km of courthouse later.",
+       "titleLocation": "hidden"
+      },
+      {
+       "type": "text",
+       "name": "applicantOrgName",
+       "visible": false,
+       "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+       "title": "Organization Name"
+      },
+      {
        "type": "radiogroup",
-       "name": "applicantIndividual",
-       "title": "individual or not <br>\n[JIRA] only ask this question for executors and beneficiaries",
-       "defaultValue": "person",
+       "name": "applicantOrgType",
+       "visible": false,
+       "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+       "title": "What type of organization is {applicantOrgName}?",
+       "hasOther": true,
        "choices": [
         {
-         "value": "person",
-         "text": "person"
+         "value": "item1",
+         "text": "Law Firm"
         },
         {
-         "value": "organization",
-         "text": "organization"
+         "value": "item2",
+         "text": "Accountants"
+        },
+        {
+         "value": "item3",
+         "text": "Bank or Credit Union"
+        },
+        {
+         "value": "item4",
+         "text": "Trust Company"
         }
        ]
       },
       {
-       "type": "text",
-       "name": "applicantOrganizationPerson",
-       "visible": false,
-       "visibleIf": "{panel.applicantIndividual} = 'organization'",
-       "title": "not individual - name of person who works at organization"
-      },
-      {
        "type": "address",
-       "name": "applicantOrganizationAddress",
+       "name": "applicantOrgAddress",
        "visible": false,
-       "visibleIf": "{panel.applicantIndividual} = 'organization'",
+       "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
        "title": "organization address"
       },
       {
-       "type": "contactinfo",
-       "name": "applicantOrganizationContact",
+       "type": "text",
+       "name": "applicantOrgPhone",
        "visible": false,
-       "visibleIf": "{panel.applicantIndividual} = 'organization'",
-       "title": "organization contact info"
+       "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+       "title": "Organization Phone Number",
+       "inputType": "tel"
+      },
+      {
+       "type": "text",
+       "name": "applicantOrgEmail",
+       "visible": false,
+       "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+       "title": "Organization Email",
+       "inputType": "email"
+      },
+      {
+       "type": "text",
+       "name": "applicantOrgFax",
+       "visible": false,
+       "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+       "title": "Organization Fax",
+       "inputType": "tel"
       },
       {
        "type": "text",
@@ -6637,19 +6724,19 @@
     },
     {
      "type": "yesno",
-     "name": "question286",
+     "name": "applicantNominatedBySpouse",
      "title": "are you a nominee of spouse(s)? only ask if there is a living spouse (even if the applicant is a child)",
      "description": "yes - 130a"
     },
     {
      "type": "yesno",
-     "name": "question297",
+     "name": "applicantChildConsent",
      "title": "select all other living children of deceased who support your application - ask everyone",
      "description": ">50% & child - 130b; >50% & not child - 130c;  =<50% & child - 130d; =<50% & not child - continue to next question"
     },
     {
      "type": "yesno",
-     "name": "question44",
+     "name": "applicantIntestateConsent",
      "title": "select from all other living successors who support your application - ask intestate and new applicants",
      "description": "calculate gift % per person - >50% gift & intestate - 130e; >50% gift & new applicant - 130e.1;  =<50% gift & intestate - 130f; =<50% gift & new applicant - 130g"
     },
@@ -7091,6 +7178,22 @@
       5
      ],
      "rowCount": 1
+    },
+    {
+     "type": "text",
+     "name": "p1EarlyServerName",
+     "title": "Server Name"
+    },
+    {
+     "type": "text",
+     "name": "p1EarlyDelivererOccupation",
+     "title": "Server Occupation"
+    },
+    {
+     "type": "address",
+     "name": "p1EarlyDelievererOrdinaryAddress",
+     "title": "Server Ordinary Address",
+     "description": "city, prov, country only"
     },
     {
      "type": "infotext",
@@ -8990,6 +9093,21 @@
      "name": "question432",
      "title": "How do I know which address to use? [use Local branch]",
      "titleLocation": "hidden"
+    },
+    {
+     "type": "text",
+     "name": "p1NoWillServerName",
+     "title": "Server Name"
+    },
+    {
+     "type": "text",
+     "name": "p1NoWillServerOccupation",
+     "title": "Server Occupation"
+    },
+    {
+     "type": "address",
+     "name": "p1NoWillServerOrdinaryAddress",
+     "title": "Server Address (City, Prov, Country only)"
     }
    ]
   },
@@ -9315,8 +9433,8 @@
     },
     {
      "type": "checkbox",
-     "name": "question461",
-     "title": "[Diligent Search Confirmation] Are you ({name of applicants}) satisfied that there was a diligent search for {deceasedName}'s Will and other testamentary documents? ",
+     "name": "willSearchApplicantDiligentSearchConfirmed",
+     "title": "[Diligent Search Confirmation] Are you ({name of applicants}) satisfied that there was a diligent search for {deceasedName}'s Will and other testamentary documents? \n[Doesn't seem like P8 people need to swear this]",
      "choices": [
       {
        "value": "item1",
