@@ -54,17 +54,12 @@ class SurveyPdfView(generics.GenericAPIView):
                 pdf_response = PreparedPdf(data=pdf_content_enc, key_id=pdf_key_id)
                 pdf_response.save()
                 app.prepared_pdf_id = pdf_response.pk
-            elif app.last_printed is None or app.last_updated > app.last_printed:
+            else:
                 pdf_queryset = PreparedPdf.objects.filter(id=pdf_result.id)
                 pdf_content = self.generate_pdf(name, data)
                 (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(pdf_content)
                 pdf_queryset.update(data=pdf_content_enc)
                 pdf_queryset.update(created_date=timezone.now())
-            else:
-                pdf_content = self.generate_pdf(name, data)
-                # pdf_content = settings.ENCRYPTOR.decrypt(
-                #         pdf_result.key_id, pdf_result.data
-                #     )
             app.last_printed = timezone.now()
             app.save()
         except Exception as ex:
