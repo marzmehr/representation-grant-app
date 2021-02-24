@@ -589,8 +589,9 @@
               "columns": [
                 {
                   "name": "Column 1",
-                  "title": "Date of Will/Doc [Date Input Selector]",
-                  "cellType": "text"
+                  "title": "Date of Will/Doc",
+                  "cellType": "text",
+                  "inputType":"date"
                 },
                 {
                   "name": "Column 2",
@@ -2361,8 +2362,9 @@
               "columns": [
                 {
                   "name": "Column 1",
-                  "title": "Date of Will/Doc [Date Input Selector]",
-                  "cellType": "text"
+                  "title": "Date of Will/Doc",
+                  "cellType": "text",
+                  "inputType":"date"
                 },
                 {
                   "name": "Column 2",

@@ -11,7 +11,8 @@
                      "type": "infotext",
                      "name": "p1EarlyWillIntro",
                      "title": "[Will version - custom intros GP, AWW, AGP, AGAWW, Resealing]\n<br>\nAccording the information you provided so far, your type of application is called X. Will dated. Y.\n<br><br>\nLet's first review the notice form that was filled out based on the information you provided. This notice form needs to be delivered (served) to the people and organizations you identified earlier (e.g. relatives, creditors).\n<br><br>\nWhen you submit your application for a representation grant, the court will need to know who you notified, and the people who delivered those notices.\n<br><br>\nWe'll help you keep track and make sure you haven't missed anyone.\n<br><br>\nAs part of the process to get a representation grant, you need to let the appropriate people know about your application. This means you need to deliver (serve) the following notice form to them.\n<br><br>\nPeople you will notify will have a ?fair? change to disagree with your applications. This gives them a fair chance ... work in 21 days... before you can file your documents to the courthouse.",
-                     "isRequired": true,
+                     "isRequired": false,
+                     "visible":false,
                      "titleLocation": "hidden"
                   },
                   {

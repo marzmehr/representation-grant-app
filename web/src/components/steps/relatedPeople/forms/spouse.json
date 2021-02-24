@@ -20,6 +20,7 @@
                    "name": "question463",
                    "title": "Future, note about if you already entered yourself as executor, do so again here.",
                    "isRequired": true,
+                   "visible":false,
                    "titleLocation": "hidden"
                   }
                ]
@@ -28,7 +29,8 @@
                "type": "infotext",
                "name": "question41",
                "title": "What if the spouse is the executor and already put their info in the executor page?",
-               "titleLocation": "hidden"
+               "titleLocation": "hidden",
+               "visible":false
             },
             {
                "type": "panel",
