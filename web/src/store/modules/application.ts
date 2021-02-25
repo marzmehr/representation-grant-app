@@ -730,29 +730,26 @@ class Application extends VuexModule {
             this.deceasedDateOfDeathPlus4 = Vue.filter('beautify-date')(moment(this.deceasedDateOfDeath, "YYYY-MM-DD").add(4, 'days').format());
         }
         this.dateOfWill = application.dateOfWill;
-       
-        const childrenInfo = this.steps[2].result["childrenSurvey"].questions[1].value;
 
-        const deceasedChildren = [];        
-        const deceasedChildrenNames = [];
-
-        if (childrenInfo && childrenInfo.length > 0) {
-
-            for (let i = 0; i < childrenInfo.length; i++) {
-                if (childrenInfo[i].childIsAlive == "n" &&
-                    childrenInfo[i].childHasPersonalRep == "n" && childrenInfo[i].childInformalPersonalRepName) {
-                    childrenInfo[i].fullName = Vue.filter('getFullName')(childrenInfo[i].childName);
-                    deceasedChildren.push(childrenInfo[i]);
-                    deceasedChildrenNames.push(childrenInfo[i].childName);
-                }
+        //console.log(this.steps[2])
+        if(this.steps[2].result["childrenSurvey"]){
+            const childrenInfo = this.steps[2].result["childrenSurvey"].data.childInfoPanel
+            const deceasedChildren = [];        
+            for (const child of childrenInfo) {
+                if (child.childIsAlive == "n"           && 
+                    child.childHasPersonalRep == "n"    &&
+                    child.childName                     &&
+                    child.childInformalPersonalRepName) {
+                        deceasedChildren.push(Vue.filter('getFullName')(child.childName));                    
+                }                       
             }
-
             if (deceasedChildren.length > 0) {
                 this.deceasedChildrenInfo = deceasedChildren;        
             } else {
                 this.deceasedChildrenInfo = [];
             }
         }
+        
         this.deceasedGrandChildrenInfo = [];     
         this.applicationLocation = application.applicationLocation;
     }
@@ -760,6 +757,8 @@ class Application extends VuexModule {
     public UpdateCurrentApplication(newApplication) {
         this.context.commit("setCurrentApplication", newApplication);
     }
+
+
 
     get getPrevStepPage(): { prevStep: number; prevPage: number } {
 

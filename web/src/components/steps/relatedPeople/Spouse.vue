@@ -89,7 +89,7 @@ export default class Spouse extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
-             console.log(options)
+             //console.log(options)
             // if(options.name == "ApplicantName") {
             //     this.$store.commit("Application/setApplicantName", options.value);
             // }

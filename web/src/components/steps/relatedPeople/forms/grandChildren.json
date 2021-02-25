@@ -7,7 +7,7 @@
                 {
                     "type": "panel",
                     "name": "child0Panel",
-                    "title":"Information about {deceasedChildrenInfo[0].fullName}",
+                    "title":"Information about {deceasedChildrenInfo[0]}",
                     "visible": true,
                     "elements": [
                         {
@@ -18,7 +18,7 @@
                                 {
                                     "type": "personname",
                                     "name": "grandchildName",
-                                    "title": "Please enter the full name of {deceasedChildrenInfo[0].fullName}'s child.",
+                                    "title": "Please enter the full name of {deceasedChildrenInfo[0]}'s child.",
                                     "defaultSubstitution": "(the deceased's grandchild)",
                                     "labelFirstName": "First Name (Given Name)",
                                     "labelLastName": "Last Name (Family Name or Surname)"
@@ -180,7 +180,7 @@
                                 {
                                     "type": "yesno",
                                     "name": "grandchildIsYou",
-                                    "title": "Are you a child of {deceasedChildrenInfo[0].fullName}?"
+                                    "title": "Are you a child of {deceasedChildrenInfo[0]}?"
                                 },
                                 {
                                     "type": "yesno",
