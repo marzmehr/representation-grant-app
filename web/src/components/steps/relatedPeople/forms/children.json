@@ -5,237 +5,244 @@
          "name": "childPage",
          "elements": [
             {
-               "type": "yesno",
-               "name": "child",
-               "title": "Did {deceasedName} have any children at the time of their death?"
-            },
-            {
-               "type": "paneldynamic",
-               "name": "childInfoPanel",
-               "visible": false,
-               "visibleIf": "{child} = \"y\"",
-               "templateElements": [
-                  {
-                     "type": "personname",
-                     "name": "childName",
-                     "title": "Please enter the full name of {deceasedName}'s child.",
-                     "defaultSubstitution": "(the deceased's child)",
-                     "labelFirstName": "First Name (Given Name)",
-                     "labelLastName": "Last Name (Family Name or Surname)"
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "childIsAlive",
-                     "title": "Is {panel.childName} alive?"
-                  },
-                  {
-                     "type": "helptext",
-                     "name": "childIsAliveFAQ1",
-                     "title": "What if {panel.childName} is on life support?",
-                     "titleLocation": "hidden",
-                     "body": "{panel.spouseName} are considered alive."
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "childIsAdult",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"y\"",
-                     "title": "Is {panel.childName} 19 years of age or older?"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "childIsAdultNoExplanation",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAdult} = \"n\"",
-                     "title": "Because {panel.childName} is under the age of 19, the Public Guardian and Trustee (PGT) needs to be notified in addition to {panel.childName}'s parent or guardian.\n\nThe PGT requires additional information. This service will let you know what additional information is required at a later stage.",
-                     "isRequired": true,
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "childHasGuardian",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\" and {panel.childIsAdultNoExplanation} > 0",
-                     "title": "Does {panel.childName} have a living parent or legal guardian?"
-                  },
-                  {
-                     "type": "personname",
-                     "name": "childGuardianName",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"y\"",
-                     "title": "Full name of living parent/ guardian",
-                     "defaultSubstitution": "(the deceased's child's parent/guardian)",
-                     "labelFirstName": "First Name (Given Name)",
-                     "labelLastName": "Last Name (Family Name or Surname)"
-                  },
-                  {
-                     "type": "address",
-                     "name": "question424",
-                     "title": "Address of living parent/guardian",
-                     "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"y\"",
-                     "description": "Why do you need the address? This is optional. If you fill it out, this service will help you generate a letter to the PGT which requires address. "
-                  },
-                  {
-                     "type": "address",
-                     "name": "question426",
-                     "title": "Address of {panel.childName}. You have the ability to select the same address",
-                     "visibleIf": "{panel.childIsAlive} = \"y\"",
-                     "description": "Why do you need the address? This is optional. If you fill it out, this service will help you generate a letter to the PGT which requires address. "
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "childIsCompetent",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\"))",
-                     "title": "Is {panel.childName} `mentally competent`?",
-                     "description": "Update logic to show even if this child is not an adult"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "childIsCompetentNoExplanation",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\")) and {panel.childIsCompetent} = \"n\"",
-                     "title": "In this scenario, the Public Guardian and Trustee (PGT) needs to be notified in addition to {panel.childName}'s committee (if there is one).",
-                     "isRequired": true,
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "childHasCommittee",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\")) and {panel.childIsCompetent} = \"n\" and {panel.childIsCompetentNoExplanation} > 0",
-                     "title": "Does {panel.childName} have a committee?",
-                     "description": "If someone has been declared mentally incompetent by a court, a committee (or equivalent), will have been appointed to take care of the mentally incompetent person's finances. "
-                  },
-                  {
-                     "type": "personname",
-                     "name": "childCommitteeName",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\")) and {panel.childIsCompetent} = \"n\" and {panel.childIsCompetentNoExplanation} > 0 and {panel.childHasCommittee} = \"y\"",
-                     "title": "Full name of {panel.childName}'s committee",
-                     "defaultSubstitution": "(the deceased's child's committee)",
-                     "labelFirstName": "First Name (Given Name)",
-                     "labelLastName": "Last Name (Family Name or Surname)"
-                  },
-                  {
-                     "type": "personname",
-                     "name": "childInformalCommitteeName",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\")) and {panel.childIsCompetent} = \"n\" and {panel.childIsCompetentNoExplanation} > 0 and {panel.childHasCommittee} = \"n\"",
-                     "title": "Full name of person most likely to manage {panel.childName}'s money and belongings.",
-                     "defaultSubstitution": "(the deceased's child's informal committee)",
-                     "labelFirstName": "First Name (Given Name)",
-                     "labelLastName": "Last Name (Family Name or Surname)"
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "childDied5DaysAfter",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"n\"",
-                     "title": "Did {panel.childName} die after {deceasedDateOfDeathPlus4}?"
-                  },
-                  {
-                     "type": "helptext",
-                     "name": "childDied5DaysAfterFAQ1",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"n\"",
-                     "title": "Why does this date matter?",
-                     "titleLocation": "hidden",
-                     "body": "In determining who gets part of estate, it is important to know who died first. This may not sound strange, but under the law, if they died less than 5 days after Deceased Name, they are considered to have died before Deceased Name. For more information, refer to Five-day survival rule from the Wills, Estate and Succession Act (WESA).\nhttp://www.bclaws.ca/civix/document/id/complete/statreg/00_09013_01#section10"
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "childHasPersonalRep",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"y\"",
-                     "title": "Does {panel.childName} have a `personal representative`?"
-                  },
-                  {
-                     "type": "personname",
-                     "name": "childPersonalRepName",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDied5DaysAfter} = 'y' and {panel.childHasPersonalRep} = 'y'",
-                     "title": "Full name of {panel.childName}'s personal representative",
-                     "defaultSubstitution": "(the deceased's child's representative)",
-                     "labelFirstName": "First Name (Given Name)",
-                     "labelLastName": "Last Name (Family Name or Surname)"
-                  },
-                  {
-                     "type": "personname",
-                     "name": "childInformalPersonalRepName",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDied5DaysAfter} = 'y' and {panel.childHasPersonalRep} = 'n'",
-                     "title": "Full name of the person who is most likely going to manage {panel.childName}'s money and belongings.",
-                     "description": "Update Logic",
-                     "defaultSubstitution": "(the deceased's child's informal representative)",
-                     "labelFirstName": "First Name (Given Name)",
-                     "labelLastName": "Last Name (Family Name or Surname)"
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "childHasChildren",
-                     "visible": false,
-                     "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"",
-                     "title": "Did {panel.childName} have any children?"
-                  }
-               ],
-               "panelCount": 1,
-               "minPanelCount": 1,
-               "panelAddText": "Add a child",
-               "panelRemoveText": "Delete this child"
-            },
-            {
                "type": "panel",
-               "name": "childExitCheckPanel",
+               "name": "childPanel",
                "elements": [
                   {
                      "type": "yesno",
-                     "name": "childIsYou",
-                     "title": "Are you a child of {deceasedName}?"
+                     "name": "child",
+                     "title": "Did {deceasedName} have any children at the time of their death?"
+                  },               
+                  {
+                     "type": "paneldynamic",
+                     "name": "childInfoPanel",
+                     "title":" ",               
+                     "visible": false,
+                     "visibleIf": "{child} = \"y\"",
+                     "templateElements": [
+                        {
+                           "type": "personname",
+                           "name": "childName",
+                           "title": "Please enter the full name of {deceasedName}'s child.",
+                           "defaultSubstitution": "(the deceased's child)",
+                           "labelFirstName": "First Name (Given Name)",
+                           "labelLastName": "Last Name (Family Name or Surname)"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childIsAlive",
+                           "title": "Is {panel.childName} alive?"
+                        },
+                        {
+                           "type": "helptext",
+                           "name": "childIsAliveFAQ1",
+                           "title": "What if {panel.childName} is on life support?",
+                           "titleLocation": "hidden",
+                           "body": "{panel.spouseName} are considered alive."
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childIsAdult",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"y\"",
+                           "title": "Is {panel.childName} 19 years of age or older?"
+                        },
+                        {
+                           "type": "infotext",
+                           "name": "childIsAdultNoExplanation",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAdult} = \"n\"",
+                           "title": "Because {panel.childName} is under the age of 19, the Public Guardian and Trustee (PGT) needs to be notified in addition to {panel.childName}'s parent or guardian.\n\nThe PGT requires additional information. This service will let you know what additional information is required at a later stage.",
+                           "isRequired": true,
+                           "titleLocation": "hidden"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childHasGuardian",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\" and {panel.childIsAdultNoExplanation} > 0",
+                           "title": "Does {panel.childName} have a living parent or legal guardian?"
+                        },
+                        {
+                           "type": "personname",
+                           "name": "childGuardianName",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"y\"",
+                           "title": "Full name of living parent/ guardian",
+                           "defaultSubstitution": "(the deceased's child's parent/guardian)",
+                           "labelFirstName": "First Name (Given Name)",
+                           "labelLastName": "Last Name (Family Name or Surname)"
+                        },
+                        {
+                           "type": "address",
+                           "name": "question424",
+                           "title": "Address of living parent/guardian",
+                           "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"y\"",
+                           "description": "Why do you need the address? This is optional. If you fill it out, this service will help you generate a letter to the PGT which requires address. "
+                        },
+                        {
+                           "type": "address",
+                           "name": "question426",
+                           "title": "Address of {panel.childName}. You have the ability to select the same address",
+                           "visibleIf": "{panel.childIsAlive} = \"y\"",
+                           "description": "Why do you need the address? This is optional. If you fill it out, this service will help you generate a letter to the PGT which requires address. "
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childIsCompetent",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\"))",
+                           "title": "Is {panel.childName} `mentally competent` ?",
+                           "description": "Update logic to show even if this child is not an adult"
+                        },
+                        {
+                           "type": "infotext",
+                           "name": "childIsCompetentNoExplanation",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\")) and {panel.childIsCompetent} = \"n\"",
+                           "title": "In this scenario, the Public Guardian and Trustee (PGT) needs to be notified in addition to {panel.childName}'s committee (if there is one).",
+                           "isRequired": true,
+                           "titleLocation": "hidden"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childHasCommittee",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\")) and {panel.childIsCompetent} = \"n\" and {panel.childIsCompetentNoExplanation} > 0",
+                           "title": "Does {panel.childName} have a committee?",
+                           "description": "If someone has been declared mentally incompetent by a court, a committee (or equivalent), will have been appointed to take care of the mentally incompetent person's finances. "
+                        },
+                        {
+                           "type": "personname",
+                           "name": "childCommitteeName",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\")) and {panel.childIsCompetent} = \"n\" and {panel.childIsCompetentNoExplanation} > 0 and {panel.childHasCommittee} = \"y\"",
+                           "title": "Full name of {panel.childName}'s committee",
+                           "defaultSubstitution": "(the deceased's child's committee)",
+                           "labelFirstName": "First Name (Given Name)",
+                           "labelLastName": "Last Name (Family Name or Surname)"
+                        },
+                        {
+                           "type": "personname",
+                           "name": "childInformalCommitteeName",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"y\" and ({panel.childIsAdult} = \"y\" or ({panel.childIsAdult} = \"n\" and {panel.childHasGuardian} = \"n\")) and {panel.childIsCompetent} = \"n\" and {panel.childIsCompetentNoExplanation} > 0 and {panel.childHasCommittee} = \"n\"",
+                           "title": "Full name of person most likely to manage {panel.childName}'s money and belongings.",
+                           "defaultSubstitution": "(the deceased's child's informal committee)",
+                           "labelFirstName": "First Name (Given Name)",
+                           "labelLastName": "Last Name (Family Name or Surname)"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childDied5DaysAfter",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"n\"",
+                           "title": "Did {panel.childName} die after {deceasedDateOfDeathPlus4}?"
+                        },
+                        {
+                           "type": "helptext",
+                           "name": "childDied5DaysAfterFAQ1",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"n\"",
+                           "title": "Why does this date matter?",
+                           "titleLocation": "hidden",
+                           "body": "In determining who gets part of estate, it is important to know who died first. This may not sound strange, but under the law, if they died less than 5 days after Deceased Name, they are considered to have died before Deceased Name. For more information, refer to Five-day survival rule from the Wills, Estate and Succession Act (WESA).\nhttp://www.bclaws.ca/civix/document/id/complete/statreg/00_09013_01#section10"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childHasPersonalRep",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"y\"",
+                           "title": "Does {panel.childName} have a `personal representative`?"
+                        },
+                        {
+                           "type": "personname",
+                           "name": "childPersonalRepName",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDied5DaysAfter} = 'y' and {panel.childHasPersonalRep} = 'y'",
+                           "title": "Full name of {panel.childName}'s personal representative",
+                           "defaultSubstitution": "(the deceased's child's representative)",
+                           "labelFirstName": "First Name (Given Name)",
+                           "labelLastName": "Last Name (Family Name or Surname)"
+                        },
+                        {
+                           "type": "personname",
+                           "name": "childInformalPersonalRepName",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDied5DaysAfter} = 'y' and {panel.childHasPersonalRep} = 'n'",
+                           "title": "Full name of the person who is most likely going to manage {panel.childName}'s money and belongings.",
+                           "description": "Update Logic",
+                           "defaultSubstitution": "(the deceased's child's informal representative)",
+                           "labelFirstName": "First Name (Given Name)",
+                           "labelLastName": "Last Name (Family Name or Surname)"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childHasChildren",
+                           "visible": false,
+                           "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"",
+                           "title": "Did {panel.childName} have any children?"
+                        }
+                     ],
+                     "panelCount": 1,
+                     "minPanelCount": 1,
+                     "panelAddText": "Add a child",
+                     "panelRemoveText": "Delete this child"
                   },
                   {
-                     "type": "yesno",
-                     "name": "childIsYouIncluded",
+                     "type": "panel",
+                     "name": "childExitCheckPanel",
+                     "elements": [
+                        {
+                           "type": "yesno",
+                           "name": "childIsYou",
+                           "title": "Are you a child of {deceasedName}?"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childIsYouIncluded",
+                           "visible": false,
+                           "visibleIf": "{childIsYou} = \"y\"",
+                           "title": "Did you enter your own information as part of this step?"
+                        },
+                        {
+                           "type": "infotext",
+                           "name": "childIsYouIncludedNoError",
+                           "visible": false,
+                           "visibleIf": "{childIsYouIncluded} = \"n\"",
+                           "title": "Before moving on to the next step, please add your information as a child. It is important to identify your relationship to {deceasedName} as this service will prepare the paperwork based on this information.",
+                           "titleLocation": "hidden",
+                           "messageStyle": "error"
+                        }
+                     ],
                      "visible": false,
-                     "visibleIf": "{childIsYou} = \"y\"",
-                     "title": "Did you enter your own information as part of this step?"
+                     "visibleIf": "{child} = \"y\""
                   },
                   {
-                     "type": "infotext",
-                     "name": "childIsYouIncludedNoError",
+                     "type": "panel",
+                     "name": "childExitPanel",
+                     "elements": [
+                        {
+                           "type": "infotext",
+                           "name": "childExitGrandchildrenExplanation",
+                           "title": "{deceasedChildrenExitMessage}",
+                           "titleLocation": "hidden",
+                           "visible": false,
+                           "visibleIf": "(!{noChildren}) and {needGrandChildrenInfo}"
+                        },
+                        {
+                           "type": "infotext",
+                           "name": "childExitParentsExplanation",
+                           "title": "Because {deceasedName} has no children, lets move on to information about {deceasedName}'s parents.",
+                           "titleLocation": "hidden",
+                           "visible": false,
+                           "visibleIf": "{noChildren} and (!{spouseExist})"
+                        }
+                     ],
                      "visible": false,
-                     "visibleIf": "{childIsYouIncluded} = \"n\"",
-                     "title": "Before moving on to the next step, please add your information as a child. It is important to identify your relationship to {deceasedName} as this service will prepare the paperwork based on this information.",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "visibleIf": "{noChildren} or ((!{noChildren}) and {childIsYou} = 'n') or ({childIsYou} = 'y' and {childIsYouIncluded} = 'y')"
                   }
-               ],
-               "visible": false,
-               "visibleIf": "{child} = \"y\""
-            },
-            {
-               "type": "panel",
-               "name": "childExitPanel",
-               "elements": [
-                  {
-                     "type": "infotext",
-                     "name": "childExitGrandchildrenExplanation",
-                     "title": "{deceasedChildrenExitMessage}",
-                     "titleLocation": "hidden",
-                     "visible": false,
-                     "visibleIf": "(!{noChildren}) and {needGrandChildrenInfo}"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "childExitParentsExplanation",
-                     "title": "Because {deceasedName} has no children, lets move on to information about {deceasedName}'s parents.",
-                     "titleLocation": "hidden",
-                     "visible": false,
-                     "visibleIf": "{noChildren}"
-                  }
-               ],
-               "visible": false,
-               "visibleIf": "{noChildren} or ((!{noChildren}) and {childIsYou} = 'n') or ({childIsYou} = 'y' and {childIsYouIncluded} = 'y')"
+               ]
             }
          ],
          "title": "{deceasedName}'s Children"

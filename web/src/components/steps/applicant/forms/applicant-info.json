@@ -77,11 +77,6 @@
                "title": "OXD - Are there others applying to represent {deceasedName}?"
             },
             {
-               "type": "text",
-               "name": "question311",
-               "title": "Please enter the name of the other applicants."
-            },
-            {
                "type": "infotext",
                "name": "question276",
                "title": "[JIRA] Figure out how to combine people who are both executors and spouse/family/beneficiary",
@@ -132,6 +127,34 @@
                ]
             },
             {
+               "type": "text",
+               "name": "applicantNewName",
+               "title": "Please enter the name of the other applicant.",
+               "description": "If you are applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`, enter your name here. This service will ask for your organization's name in a later question."
+            },
+            {
+               "type": "radiogroup",
+               "name": "question258",
+               "choices": [
+                  {
+                     "value": "item1",
+                     "text": "I am a regular person applying to manage {deceasedName}'s 'assets' (in my own name instead of regular person?)"
+                  },
+                  {
+                     "value": "item2",
+                     "text": "I am a professional applying, in my own name, to manage {deceasedName}'s `assets`"
+                  },
+                  {
+                     "value": "item3",
+                     "text": "I am a professional applying on behalf of an organization that has been asked to manage {deceasedName}'s `assets`"
+                  },
+                  {
+                     "value": "item4",
+                     "text": "I am a lawyer who is helping a client complete these documents"
+                  }
+               ]
+            },
+            {
                "type": "paneldynamic",
                "name": "applicantInfoPanel",
                "templateElements": [
@@ -144,6 +167,7 @@
                   {
                      "type": "infotext",
                      "name": "question312",
+                     "visible": false,
                      "title": "Can collapse/expand accordions<br>\nOrder of accordion items same as in previous question<br>\nRemove accordion according to who is removed in previous question<br>\nShow this question only if there is input from previous question",
                      "titleLocation": "hidden"
                   },
@@ -155,41 +179,81 @@
                      "titleLocation": "hidden"
                   },
                   {
+                     "type": "yesno",
+                     "name": "applicantNewPartOfOrg",
+                     "title": "Is {applicantNewName} applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`",
+                     "defaultValue": "n"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question44",
+                     "visible": false,
+                     "title": "If there is 1 applicant on behalf of an organization, use organization address as service address. still check if it is within 30km of courthouse later.",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantOrgName",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "Organization Name"
+                  },
+                  {
                      "type": "radiogroup",
-                     "name": "applicantIndividual",
-                     "title": "individual or not <br>\n[JIRA] only ask this question for executors and beneficiaries",
-                     "defaultValue": "person",
+                     "name": "applicantOrgType",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "What type of organization is {applicantOrgName}?",
+                     "hasOther": true,
                      "choices": [
                         {
-                           "value": "person",
-                           "text": "person"
+                           "value": "item1",
+                           "text": "Law Firm"
                         },
                         {
-                           "value": "organization",
-                           "text": "organization"
+                           "value": "item2",
+                           "text": "Accountants"
+                        },
+                        {
+                           "value": "item3",
+                           "text": "Bank or Credit Union"
+                        },
+                        {
+                           "value": "item4",
+                           "text": "Trust Company"
                         }
                      ]
                   },
                   {
-                     "type": "text",
-                     "name": "applicantOrganizationPerson",
-                     "visible": false,
-                     "visibleIf": "{panel.applicantIndividual} = 'organization'",
-                     "title": "not individual - name of person who works at organization"
-                  },
-                  {
                      "type": "address",
-                     "name": "applicantOrganizationAddress",
+                     "name": "applicantOrgAddress",
                      "visible": false,
-                     "visibleIf": "{panel.applicantIndividual} = 'organization'",
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
                      "title": "organization address"
                   },
                   {
-                     "type": "contactinfo",
-                     "name": "applicantOrganizationContact",
+                     "type": "text",
+                     "name": "applicantOrgPhone",
                      "visible": false,
-                     "visibleIf": "{panel.applicantIndividual} = 'organization'",
-                     "title": "organization contact info"
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "Organization Phone Number",
+                     "inputType": "tel"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantOrgEmail",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "Organization Email",
+                     "inputType": "email"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantOrgFax",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "Organization Fax",
+                     "inputType": "tel"
                   },
                   {
                      "type": "text",
@@ -323,19 +387,19 @@
             },
             {
                "type": "yesno",
-               "name": "question286",
+               "name": "applicantNominatedBySpouse",
                "title": "are you a nominee of spouse(s)? only ask if there is a living spouse (even if the applicant is a child)",
                "description": "yes - 130a"
             },
             {
                "type": "yesno",
-               "name": "question297",
+               "name": "applicantChildConsent",
                "title": "select all other living children of deceased who support your application - ask everyone",
                "description": ">50% & child - 130b; >50% & not child - 130c;  =<50% & child - 130d; =<50% & not child - continue to next question"
             },
             {
                "type": "yesno",
-               "name": "question44",
+               "name": "applicantIntestateConsent",
                "title": "select from all other living successors who support your application - ask intestate and new applicants",
                "description": "calculate gift % per person - >50% gift & intestate - 130e; >50% gift & new applicant - 130e.1;  =<50% gift & intestate - 130f; =<50% gift & new applicant - 130g"
             },
