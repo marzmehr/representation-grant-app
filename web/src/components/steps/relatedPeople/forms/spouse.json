@@ -10,17 +10,18 @@
                "elements": [
                   {
                      "type": "infotext",
-                     "name": "spouseIntroExplanation",
-                     "title": "In this section, we need to figure if {deceasedName} had a `spouse`. There might be multiple spouses\n\nWill version: copy their names as they appear on the will.\n<br><br>\nUnderstanding Deceased Name's relatives helps identify who needs to know about how you are applying for a representation grant.\n<br><br>\nYou will need to notify everyone who has a right to part of Deceased Name's estate that you are applying for a representation grant. If any of these people do not think you should manage Deceased Name's estate, they will have a fair chance tell to the court.\n<br><br>\nIf you are a spouse or descendant, remember to include yourself in this step. \n<br><br>\nIf you are not a relative, you'll be asked for your information later in this service.",
+                     "name": "spouseAWOWIntroExplanation",
+                     "title": "The next step is to identify the people in {deceasedName}'s life who need to know that you are applying for a `Representation Grant`. \n<br>\nUnderstanding Deceased Name's relatives helps identify who needs to know about how you are applying for a representation grant.\n<br><br>\nYou will need to notify everyone who has a right to part of Deceased Name's estate that you are applying for a representation grant. If any of these people do not think you should manage Deceased Name's estate, they will have a fair chance tell to the court.\n<br><br>\nThis service will start by asking if {deceasedName} had any spouse or children.\n<br><br>\nOn this page, we need to figure if {deceasedName} had a `spouse`. There might be multiple spouses\n<br><br>\nIf you are a spouse or descendant, remember to include yourself in this step. \n<br><br>\nIf you are not a relative, you'll be asked for your information later in this service. ",
                      "isRequired": true,
                      "titleLocation": "hidden"
                   },
                   {
-                   "type": "infotext",
-                   "name": "question463",
-                   "title": "Future, note about if you already entered yourself as executor, do so again here.",
-                   "isRequired": true,
-                   "titleLocation": "hidden"
+                     "type": "infotext",
+                     "name": "question243",
+                     "visible": false,
+                     "title": "Will version TBD: copy their names as they appear on the will.\n<br>\nFuture, note about if you already entered yourself as executor, do so again here.",
+                     "isRequired": true,
+                     "titleLocation": "hidden"
                   }
                ]
             },
@@ -28,7 +29,8 @@
                "type": "infotext",
                "name": "question41",
                "title": "What if the spouse is the executor and already put their info in the executor page?",
-               "titleLocation": "hidden"
+               "titleLocation": "hidden",
+               "visible": false
             },
             {
                "type": "panel",
@@ -63,11 +65,12 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{spouseIntroExplanation} > 0"
+               "visibleIf": "{spouseAWOWIntroExplanation} > 0"
             },
             {
                "type": "paneldynamic",
                "name": "spouseInfoPanel",
+               "title":" ",
                "visible": false,
                "visibleIf": "{spouseExists} = \"y\"",
                "templateElements": [

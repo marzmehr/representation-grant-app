@@ -1,7 +1,11 @@
 <template>
-    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
-        <survey v-bind:survey="survey"></survey>
-    </page-base>
+  <page-base
+    v-on:onPrev="onPrev()"
+    v-on:onNext="onNext()"
+    v-on:onComplete="onComplete()"
+  >
+    <survey v-bind:survey="survey"></survey>
+  </page-base>
 </template>
 
 <script lang="ts">
@@ -9,7 +13,7 @@ import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
 
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/components/survey/survey-glossary.ts";
-import surveyJson from "./forms/spouse.json";
+import surveyJson from "./forms/greatGrandChildren.json";
 
 import PageBase from "../PageBase.vue";
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
@@ -24,7 +28,7 @@ const applicationState = namespace("Application");
     }
 })
 
-export default class Spouse extends Vue {
+export default class GreatGrandChildren extends Vue {
     
     @Prop({required: true})
     step!: stepInfoType;
@@ -39,7 +43,13 @@ export default class Spouse extends Vue {
     public deceasedName!: string;
 
     @applicationState.State
+    public deceasedGrandChildrenInfo!: [];
+
+    @applicationState.State
     public deceasedDateOfDeathPlus4!: string;
+
+    @applicationState.Action
+    public UpdateDeceasedGrandChildrenInfo!: (newDeceasedGrandChildrenInfo) => void
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -48,14 +58,13 @@ export default class Spouse extends Vue {
     public UpdateGotoNextStepPage!: () => void
 
     @applicationState.Action
+    public UpdatePageActive!: (newPageActive) => void
+
+    @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
 
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
-
-    @applicationState.Action
-    public UpdateSpouseNames!: (newSpouseNames) => void
-
 
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
@@ -84,22 +93,32 @@ export default class Spouse extends Vue {
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
         surveyEnv.setGlossaryMarkdown(this.survey);
+        console.log(this.survey);
     }
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
-             //console.log(options)
-            // if(options.name == "ApplicantName") {
-            //     this.$store.commit("Application/setApplicantName", options.value);
-            // }
+            console.log(options)
+            
         })
+    }
+
+    public togglePages(pageArr, activeIndicator) {
+        
+        for (let i = 0; i < pageArr.length; i++) {
+            this.UpdatePageActive( {
+                currentStep: this.currentStep,
+                currentPage: pageArr[i],
+                active: activeIndicator
+            });
+        }
     }
     
     public reloadPageInformation() {
         //console.log(this.step.result)
-        if (this.step.result && this.step.result['spouseSurvey']) {
-            this.survey.data = this.step.result['spouseSurvey'].data;
+        if (this.step.result && this.step.result['greatGrandChildrenSurvey']) {
+            this.survey.data = this.step.result['greatGrandChildrenSurvey'].data;
             Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
         }
 
@@ -109,7 +128,8 @@ export default class Spouse extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
-        this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);     
+        this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);
+        this.survey.setVariable("deceasedGrandChildrenInfo", this.deceasedGrandChildrenInfo);      
    
     }
 
@@ -129,10 +149,8 @@ export default class Spouse extends Vue {
   
     
     beforeDestroy() {
-        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
-        
-        this.UpdateStepResultData({step:this.step, data: {spouseSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}})
-
+        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);        
+        this.UpdateStepResultData({step:this.step, data: {greatGrandChildrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
     }
 }
 </script>

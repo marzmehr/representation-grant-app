@@ -122,6 +122,7 @@
               "type": "infotext",
               "name": "willGrantExistsNoErrorCurrent",
               "visible": false,
+              "visibleIf": "{willGrantExists} = \"y\"",
               "title": "For now, this service has only been developed for a limited number of situations. At this point in time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf the existing Representation Grant is from British Columbia, and you need to add a new person onto the Representation Grant, please talk to a lawyer. This is not a simple matter.\n<br><br>\nIf the existing Representation Grant is from British Columbia, and you have more `assets` to report, stop using this service. Use either form P14 or P15 to tell the court. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"blank\">Forms P14 and P15 can be found here.</a> \n<br><br>\nIf the existing Representation Grant is from a British Commonwealth country, the United States of America or Hong Kong, the existing Representation Grant can be resealed. Please refer to the Supreme Court Civil Rules under <a href=\"http://www.bclaws.ca/civix/document/id/complete/statreg/168_2009_03_1#rule25-6\" target=\"blank\">Rule 25-6 - Application for Resealing</a> for information on resealing the Representation Grant.\n<br><br>\nIf the existing Representation Grant is not from a British Commonwealth country, the United States of America or Hong Kong, you will have to apply for an ancillary Representation Grant. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"blank\">The forms to apply for an ancillary grant can be found here.</a>",
               "titleLocation": "hidden",
               "messageStyle": "error"
@@ -130,7 +131,7 @@
               "type": "yesno",
               "name": "willGrantBC",
               "visible": false,
-              "visibleIf": "{willGrantExists} = \"y\"",
+              "visibleIf": "{willGrantExists} = \"yy\"",
               "title": "Was this Representation Grant issued in British Columbia?"
             },
             {
@@ -589,8 +590,9 @@
               "columns": [
                 {
                   "name": "Column 1",
-                  "title": "Date of Will/Doc [Date Input Selector]",
-                  "cellType": "text"
+                  "title": "Date of Will/Doc",
+                  "cellType": "text",
+                  "inputType": "date"
                 },
                 {
                   "name": "Column 2",
@@ -717,7 +719,7 @@
               "name": "willExistsFAQ2",
               "title": "What if I don't know if {deceasedName}'s `Will` is valid or not?",
               "titleLocation": "hidden",
-              "body": "If you don't know if {deceasedName}'s Will is valid or not, select \"Yes\". This service will ask questions to check if the Will is valid. \n<br><br>\nIf necessary, this service may ask if {deceasedName} made more than one Will."
+              "body": "If you don't know if {deceasedName}'s `Will` is valid or not, select \"Yes\". This service will ask questions to check if the Will is valid. \n<br><br>\nIf necessary, this service may ask if {deceasedName} made more than one Will."
             },
             {
               "type": "infotext",
@@ -725,6 +727,15 @@
               "visible": false,
               "title": "[Reference only - delete later]\n<br>\nIf you don't know if {deceasedName}'s `Will` is valid or not, select \"Yes\". This service will ask questions to check if the Will is valid. \n<br><br>\nIf necessary, this service may ask if {deceasedName} made more than one Will.",
               "titleLocation": "hidden"
+            },
+            {
+              "type": "infotext",
+              "name": "willExistsYesError",
+              "visible": false,
+              "visibleIf": "{willExists} = \"y\"",
+              "title": "If you believe {deceasedName} made a `Will`, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\n[Jack to decide what additional help text is required here]\"",
+              "titleLocation": "hidden",
+              "messageStyle": "error"
             },
             {
               "type": "yesno",
@@ -735,17 +746,29 @@
               "description": "If {deceasedName} made an invalid Will, select \"Yes\" to this question."
             },
             {
-              "type": "infotext",
-              "name": "question465",
-              "title": "[Feb 21 2021 for Tyler] What do we need to ask for a P11 in this scope of only AWOW?",
-              "titleLocation": "hidden"
-            },
-            {
               "type": "yesno",
               "name": "willOtherDocRecognize",
               "visible": false,
               "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\"",
               "title": "Do you want to have these `other testamentary documents` recognized as {deceasedName}'s `Will`?"
+            },
+            {
+              "type": "infotext",
+              "name": "willOtherDocRecognizeYesError",
+              "visible": false,
+              "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\"",
+              "title": "If you want to have an `other testamentary document` should be recognized as {deceasedName}'s `Will`, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\n[Jack to decide what additional help text is required here]\"",
+              "titleLocation": "hidden",
+              "messageStyle": "error"
+            },
+            {
+              "type": "infotext",
+              "name": "willOtherDocRecognizeYesExplanationFuture",
+              "visible": false,
+              "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"yy\"",
+              "title": "If you want a document with issues to be recognized, this service will ask questions to identify the issues.",
+              "isRequired": true,
+              "titleLocation": "hidden"
             },
             {
               "type": "matrixdynamic",
@@ -793,12 +816,20 @@
               "removeRowText": "Delete this document"
             },
             {
+              "type": "yesno",
+              "name": "willOtherDocRecognizeNoReasonsFinished",
+              "visible": false,
+              "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\" and {willOtherDocRecognizeNoReasons[0].Column 3} notempty",
+              "title": "Have you finished listing all of {deceasedName}'s `other testamentary documents`"
+            },
+            {
               "type": "infotext",
-              "name": "willOtherDocRecognizeYesExplanation",
-              "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\"",
-              "title": "If you want a document with issues to be recognized, this service will ask questions to identify the issues.",
-              "isRequired": true,
-              "titleLocation": "hidden"
+              "name": "willOtherDocRecognizeNoReasonsFinishedNoError",
+              "visible": false,
+              "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\" and {willOtherDocRecognizeNoReasons[0].Column 3} notempty and {willOtherDocRecognizeNoReasonsFinished} = \"n\"",
+              "title": "Keep listing `other testamentary documents` until you are finished and then select \"Yes\". Click on \"Add other testamentary document\" to list another document.",
+              "titleLocation": "hidden",
+              "messageStyle": "error"
             }
           ],
           "visible": false,
@@ -826,7 +857,7 @@
               "type": "helptext",
               "name": "willMultipleFAQ1",
               "visible": false,
-              "visibleIf": "{willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanation} > 0)",
+              "visibleIf": "{willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanationFuture} > 0)",
               "title": "Do I/we include `other testamentary documents`?",
               "titleLocation": "hidden",
               "body": "No. This question is only about the Will.\n<br><br>\nIf {deceasedName} made a `codicil` or `other testamentary documents`, this service will ask about those documents later."
@@ -891,7 +922,7 @@
             }
           ],
           "visible": false,
-          "visibleIf": "{willCheck} = \"y\" and ({willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanation} > 0))"
+          "visibleIf": "{willCheck} = \"y\" and ({willExists} = \"yy\" or ({willExists} = \"nn\" and {willOtherDocExists} = \"yy\" and {willOtherDocRecognize} = \"yy\" and {willOtherDocRecognizeYesExplanationFuture} > 0))"
         },
         {
           "type": "infotext",
@@ -1111,7 +1142,7 @@
             }
           ],
           "visible": false,
-          "visibleIf": "{willCheck} = \"y\"\nand \n({willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanation} > 0)) \nand \n({willMultiple} = \"n\" or ({willMultiple} = \"y\" and (({willRevoked} = \"y\" and {willRevokedYesExplanation} > 0) or ({willRevoked} = \"n\" and {willDifferentAssets} = \"n\" and {willDifferentAssetsNoExplanation} > 0) or ({willRevoked} = \"n\" and {willAdministerMultiple} = \"n\" and {willAdministerMultipleNoExplanation} > 0) or ({willRevoked} = \"n\" and {willAdministerMultiple} = \"y\" and {willAdministerMultipleYesExplanation} > 0))))"
+          "visibleIf": "{willCheck} = \"y\"\nand \n({willExists} = \"y\" or ({willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"y\" and {willOtherDocRecognizeYesExplanationFuture} > 0)) \nand \n({willMultiple} = \"n\" or ({willMultiple} = \"y\" and (({willRevoked} = \"y\" and {willRevokedYesExplanation} > 0) or ({willRevoked} = \"n\" and {willDifferentAssets} = \"n\" and {willDifferentAssetsNoExplanation} > 0) or ({willRevoked} = \"n\" and {willAdministerMultiple} = \"n\" and {willAdministerMultipleNoExplanation} > 0) or ({willRevoked} = \"n\" and {willAdministerMultiple} = \"y\" and {willAdministerMultipleYesExplanation} > 0))))"
         },
         {
           "type": "infotext",
@@ -2348,7 +2379,7 @@
               "type": "yesno",
               "name": "willNewerInvalidAwow",
               "visible": false,
-              "visibleIf": "{willCheck} = \"y\" and\n{willExists} = \"n\" and \n{willOtherDocExists} = \"n\"",
+              "visibleIf": "{willCheck} = \"y\" and\n{willExists} = \"nn\" and \n{willOtherDocExists} = \"nn\"",
               "title": "Delete for P5 - Did {deceasedName} make any Wills that you are not using for this application?",
               "description": "[AWOW but multiple invalid wills] "
             },
@@ -2361,8 +2392,9 @@
               "columns": [
                 {
                   "name": "Column 1",
-                  "title": "Date of Will/Doc [Date Input Selector]",
-                  "cellType": "text"
+                  "title": "Date of Will/Doc",
+                  "cellType": "text",
+                  "inputType": "date"
                 },
                 {
                   "name": "Column 2",
@@ -2442,19 +2474,28 @@
           "elements": [
             {
               "type": "infotext",
-              "name": "question457",
+              "name": "willP5NoWillNoOtherDocExplanation",
               "visible": false,
-              "visibleIf": "{willCheck} = \"y\" and\n{willExists} = \"n\" and {willOtherDocExists} = \"n\" and {willNewerInvalidAwow} = \"n\"",
-              "title": "[Old Spreadsheet Note moved here Nov 12 2020]\n<br>\nMight be bad info. Could just delete. The idea is to start thinking about the \"bucket of info\" relating to \"people involved\" if necessary.\n<br><br>\nInformation about anyone who may be entitled to a part of the person who died's estate. We will help you identify these people in a later stage. For example:\nThe full name and contact information for the deceased's spouse, children and grandchildren\n<br><br>",
+              "visibleIf": "{willCheck} = \"y\" and {willGrantExists} = \"n\" and {willExists} = \"n\" and {willOtherDocExists} = \"n\"",
+              "title": "Because {deceasedName} did not make a `Will` or any `other testamentary document`, you can move on to the next step.\n<br><br>\nThe next step is to identify the people in {deceasedName}'s life who need to know that you are applying for a `Representation Grant`. This service will start by asking if {deceasedName} had a spouse or any children.",
+              "description": "[P5 no will, no other docs]",
               "titleLocation": "hidden"
             },
             {
               "type": "infotext",
-              "name": "willP5Explanation",
+              "name": "willP5NoWillYesOtherDocNoRecExplanation",
               "visible": false,
-              "visibleIf": "{willCheck} = \"y\" and\n{willExists} = \"n\" and {willOtherDocExists} = \"n\" and {willNewerInvalidAwow} = \"n\"",
-              "title": "Because {deceasedName} didn't make a Will, we can move on to asking about {deceasedName}'s spouse and children.",
-              "description": "[P5 no will, no other docs, no newer wills]",
+              "visibleIf": "{willCheck} = \"y\" and {willGrantExists} = \"n\" and {willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\" and {willOtherDocRecognizeNoReasonsFinished} = \"y\"",
+              "title": "Moving forward, this service will help you apply as if {deceasedName} did not make a `Will` because you've indicated that:\n<br><br>\n<ul>\n<li>{deceasedName} didn't make a valid Will,</li>\n<li>{deceasedName} did make one or more `other testamentary document` but you don't believe any of them should be recognized as {deceasedName}'s Will</li>\n</ul>\n<br>\nYou will need to provide a copy of the other testamentary document(s) in your application. This service will remind you to make a copy at the end.\n<br><br>\nThe next step is to identify the people in {deceasedName}'s life who need to know that you are applying for a `Representation Grant`. This service will start by asking if {deceasedName} had a spouse or any children.\n",
+              "description": "[P5 no will, yes other doc, do not recognize]\n",
+              "titleLocation": "hidden"
+            },
+            {
+              "type": "infotext",
+              "name": "question36",
+              "visible": false,
+              "title": "Because of the following situation:\n<ul>\n<li>{deceasedName} didn't make a valid `Will`,</li> <li>{deceasedName} did make (one or more?) an `other testamentary document`,</li>\n<li>you don't believe should the other testamentary document should be recognized as a Will</li>\n</ul>\nthis service will help you apply as if {deceasedName} did not make a Will. \n<br><br>\nYou will need to provide a copy of the other testamentary document in your application. This service will remind you to make a copy at the end.\n<br><br>\nNext, we can move on to asking about {deceasedName}'s spouse and children. \n",
+              "description": "[P5 no will, yes other doc, yes recognize, other doc invalid]\n",
               "titleLocation": "hidden"
             },
             {
@@ -2463,14 +2504,7 @@
               "visible": false,
               "visibleIf": "{willCheck} = \"y\" and \n{willExists} = \"n\" and {willOtherDocExists} = \"n\" and {willNewerInvalidAwow} = \"y\" and {willNewerInvalidList} notempty",
               "title": "Because {deceasedName} made a Will, but this Will is invalid, this service will continue as if {deceasedName} did not make a Will.\n<br><br>\nWe can move on to asking about {deceasedName}'s spouse and children.",
-              "description": "[P5 no will, no other docs, yes newer will]",
-              "titleLocation": "hidden"
-            },
-            {
-              "type": "infotext",
-              "name": "question36",
-              "visible": false,
-              "title": "[P5 no will, yes other doc, do not recognize, invalid will only] \nYou will need to provide a copy of the invalid Will. This service will remind you to make a copy at the end.\n<br><br>\nBecause {deceasedName} didn't leave a valid Will, we can move on to asking about {deceasedName}'s spouse and children. \n",
+              "description": "[P5 yes will, no other docs, yes newer will]???",
               "titleLocation": "hidden"
             },
             {
