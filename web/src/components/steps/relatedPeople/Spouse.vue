@@ -53,6 +53,9 @@ export default class Spouse extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdateSpouseNames!: (newSpouseNames) => void
+
 
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
@@ -86,10 +89,10 @@ export default class Spouse extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
-            // console.log(options)
-            if(options.name == "ApplicantName") {
-                this.$store.commit("Application/setApplicantName", options.value);
-            }
+             console.log(options)
+            // if(options.name == "ApplicantName") {
+            //     this.$store.commit("Application/setApplicantName", options.value);
+            // }
         })
     }
     

@@ -29,6 +29,7 @@ class Application extends VuexModule {
     public applicationLocation = ""
     public scrollToLocationName = ""
     public requiredDocuments: string[] = []
+    public spouseNames: string[] = []
     public packageNumber = ""
     public eFilingHubLink = ""
 
@@ -467,7 +468,6 @@ class Application extends VuexModule {
     public setRequiredDocuments(requiredDocuments): void {
         this.requiredDocuments = requiredDocuments;
     }
-
     @Action
     public UpdateRequiredDocuments(newRequiredDocuments) {
         this.context.commit("setRequiredDocuments", newRequiredDocuments);
@@ -477,7 +477,6 @@ class Application extends VuexModule {
     public setPackageNumber(packageNumber): void {
         this.packageNumber = packageNumber;
     }
-
     @Action
     public UpdatePackageNumber(newPackageNumber) {
         this.context.commit("setPackageNumber", newPackageNumber);
@@ -487,7 +486,6 @@ class Application extends VuexModule {
     public setEFilingHubLink(eFilingHubLink): void {
         this.eFilingHubLink = eFilingHubLink;
     }
-
     @Action
     public UpdateEFilingHubLink(newEFilingHubLink) {
         this.context.commit("setEFilingHubLink", newEFilingHubLink);
@@ -533,7 +531,6 @@ class Application extends VuexModule {
         }
         window.scrollTo(0, 0);
     }
-
     @Action
     public UpdateGotoNextStepPage() {
         const nextStepPage = this.context.getters["getNextStepPage"];
@@ -547,7 +544,6 @@ class Application extends VuexModule {
     public setPageActive({ currentStep, currentPage, active }): void {
         this.steps[currentStep].pages[currentPage].active = active;
     }
-
     @Action
     public UpdatePageActive({ currentStep, currentPage, active }) {
         this.context.commit("setPageActive", { currentStep, currentPage, active });
@@ -615,6 +611,15 @@ class Application extends VuexModule {
     @Action
     public UpdateDeceasedDateOfDeathPlus4(newDeceasedDateOfDeathPlus4) {
         this.context.commit("setDeceasedDateOfDeathPlus4", newDeceasedDateOfDeathPlus4);
+    }
+
+    @Mutation
+    public setSpouseNames(spouseNames): void {
+        this.spouseNames = spouseNames;
+    }
+    @Action
+    public UpdateSpouseNames(newSpouseNames) {
+        this.context.commit("setSpouseNames", newSpouseNames);
     }
 
     @Mutation

@@ -1,11 +1,11 @@
 <template>
-  <page-base
-    v-on:onPrev="onPrev()"
-    v-on:onNext="onNext()"
-    v-on:onComplete="onComplete()"
-  >
-    <survey v-bind:survey="survey"></survey>
-  </page-base>
+    <page-base
+        v-on:onPrev="onPrev()"
+        v-on:onNext="onNext()"
+        v-on:onComplete="onComplete()"
+    >
+        <survey v-bind:survey="survey"></survey>
+    </page-base>
 </template>
 
 <script lang="ts">
@@ -87,7 +87,8 @@ export default class GrandChildren extends Vue {
         this.reloadPageInformation();
     }
 
-    public initializeSurvey(){
+    public initializeSurvey(){        
+        this.adjustSurveyForMultipleDeceasedChild();
         this.survey = new SurveyVue.Model(surveyJson);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
@@ -95,59 +96,122 @@ export default class GrandChildren extends Vue {
         surveyEnv.setGlossaryMarkdown(this.survey);
         console.log(this.survey);
     }
+
+    public adjustSurveyForMultipleDeceasedChild(){
+        
+        const temp = (surveyJson.pages[0].elements[0])
+        surveyJson.pages[0].elements=[];
+        //console.log(temp)
+        let tmp = JSON.parse(JSON.stringify(temp));
+        for(const deceasedChild in this.deceasedChildrenInfo){
+            
+            tmp = JSON.parse(JSON.stringify(temp));
+            tmp.name = "childPanel["+deceasedChild+"]";
+            tmp.title = "Information about {deceasedChildrenInfo["+deceasedChild+"].fullName}'s children"
+
+            tmp.elements[0].name = "grandchildPanel["+deceasedChild+"]";
+            tmp.elements[0].templateElements[0].title = "Please enter the full name of {deceasedChildrenInfo["+deceasedChild+"].fullName}'s child.";
+
+            tmp.elements[1].name = "grandchildExitCheckPanel["+deceasedChild+"]";
+            tmp.elements[1].elements[0].name = "grandchildIsYou["+deceasedChild+"]";
+            tmp.elements[1].elements[0].title = "Are you a child of {deceasedChildrenInfo["+deceasedChild+"].fullName}?";
+            tmp.elements[1].elements[1].name = "grandchildIsYouIncluded["+deceasedChild+"]";
+            tmp.elements[1].elements[2].name = "grandchildIsYouIncludedNoError["+deceasedChild+"]";
+
+            tmp.elements[2].name = "grandchildExitPanel["+deceasedChild+"]";
+            tmp.elements[2].elements[0].name = "grandchildExitExplanation["+deceasedChild+"]";
+            tmp.elements[2].elements[1].name = "grandchildExitGreatGrandchildrenExplanation["+deceasedChild+"]";
+            tmp.elements[2].elements[2].name = "childExitParentsExplanation["+deceasedChild+"]";
+
+            surveyJson.pages[0].elements.push(tmp)
+        }
+        //console.log(surveyJson)
+    }
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            //console.log(this.survey.data);
-            // console.log(options)
+            console.log(this.survey.data);
+            console.log(options)
+            this.extractDeceasedGrandchildren();
 
-
-            const grandChildrenInfo = this.survey.data.grandChildPanel
-            const deceasedName = Vue.filter('getFullName')(this.deceasedName);
+            // const grandChildrenInfo = this.survey.data.grandChildPanel
+            // const deceasedName = Vue.filter('getFullName')(this.deceasedName);
             
-            const deceasedGrandChildren = [];
-            let deceasedGrandChildrenExitMessage = "";
-            const deceasedGrandChildrenNames = [];
-            console.log(grandChildrenInfo);
+            // const deceasedGrandChildren = [];
+            // let deceasedGrandChildrenExitMessage = "";
+            // const deceasedGrandChildrenNames = [];
+            // console.log(grandChildrenInfo);
 
-            if ( grandChildrenInfo && grandChildrenInfo.length > 0) {
+            // if ( grandChildrenInfo && grandChildrenInfo.length > 0) {
 
-                for (let i = 0; i < grandChildrenInfo.length; i++) {
-                    if (grandChildrenInfo[i].childIsAlive == "n" && 
-                        grandChildrenInfo[i].childHasPersonalRep == "n" && grandChildrenInfo[i].childInformalPersonalRepName) {
-                            grandChildrenInfo[i].fullName = Vue.filter('getFullName')(grandChildrenInfo[i].childName);
-                            deceasedGrandChildren.push(grandChildrenInfo[i]);
-                            deceasedGrandChildrenNames.push(grandChildrenInfo[i].childName);
-                    }                       
-                }
+            //     for (let i = 0; i < grandChildrenInfo.length; i++) {
+            //         if (grandChildrenInfo[i].childIsAlive == "n" && 
+            //             grandChildrenInfo[i].childHasPersonalRep == "n" && grandChildrenInfo[i].childInformalPersonalRepName) {
+            //                 grandChildrenInfo[i].fullName = Vue.filter('getFullName')(grandChildrenInfo[i].childName);
+            //                 deceasedGrandChildren.push(grandChildrenInfo[i]);
+            //                 deceasedGrandChildrenNames.push(grandChildrenInfo[i].childName);
+            //         }                       
+            //     }
 
-                if (deceasedGrandChildren.length > 0) {
+            //     if (deceasedGrandChildren.length > 0) {
 
-                    if (deceasedGrandChildrenNames.length == 1){
-                        deceasedGrandChildrenExitMessage = "Because " + Vue.filter('getFullName')(deceasedGrandChildrenNames[0]) + 
-                        " has died, doesn't have a personal representative but has children who are alive," +
-                        " lets move on to information about " + Vue.filter('getFullName')(deceasedGrandChildrenNames[0]) + "'s children.";
+            //         if (deceasedGrandChildrenNames.length == 1){
+            //             deceasedGrandChildrenExitMessage = "Because " + Vue.filter('getFullName')(deceasedGrandChildrenNames[0]) + 
+            //             " has died, doesn't have a personal representative but has children who are alive," +
+            //             " lets move on to information about " + Vue.filter('getFullName')(deceasedGrandChildrenNames[0]) + "'s children.";
 
-                    } else {
-                        deceasedGrandChildrenExitMessage = "Because some of " + deceasedName + "'s grand children have died, don't have personal" + 
-                        " representatives but have children who are alive, lets move on to information about their children.";
-                    }
+            //         } else {
+            //             deceasedGrandChildrenExitMessage = "Because some of " + deceasedName + "'s grand children have died, don't have personal" + 
+            //             " representatives but have children who are alive, lets move on to information about their children.";
+            //         }
                     
-                    this.survey.setVariable("needGreatGrandChildrenInfo", true);
-                    this.survey.setVariable("deceasedGrandChildrenExitMessage", deceasedGrandChildrenExitMessage);
-                    this.UpdateDeceasedGrandChildrenInfo(deceasedGrandChildren);
-                    this.togglePages([4], true);
+            //         this.survey.setVariable("needGreatGrandChildrenInfo", true);
+            //         this.survey.setVariable("deceasedGrandChildrenExitMessage", deceasedGrandChildrenExitMessage);
+            //         this.UpdateDeceasedGrandChildrenInfo(deceasedGrandChildren);
+            //         this.togglePages([4], true);
 
-                } else {
-                    this.survey.setVariable("needGreatGrandChildrenInfo", false);
-                    this.UpdateDeceasedGrandChildrenInfo([]);
-                    this.togglePages([4], false);
-                }
-            }
+            //     } else {
+            //         this.survey.setVariable("needGreatGrandChildrenInfo", false);
+            //         this.UpdateDeceasedGrandChildrenInfo([]);
+            //         this.togglePages([4], false);
+            //     }
+            // }
 
 
             
         })
+    }
+
+    public extractDeceasedGrandchildren(){
+
+        const deceasedGrandChildren = [];
+        
+        for(const deceasedChild in this.deceasedChildrenInfo){
+            const panel =  "grandchildPanel["+deceasedChild+"]";
+            console.log(this.survey.data[panel])
+            for(const result of this.survey.data[panel]){
+                console.log(result) 
+                if (result.grandchildIsAlive == "n"          && 
+                    result.grandchildHasPersonalRep == "n"   && 
+                    result.grandchildName                    &&
+                    result.grandchildInformalPersonalRepName) {
+                        //grandChildrenInfo[i].fullName = Vue.filter('getFullName')(grandChildrenInfo[i].childName);
+                        deceasedGrandChildren.push(Vue.filter('getFullName')(result.grandchildName));
+                        //deceasedGrandChildrenNames.push(grandChildrenInfo[i].childName);
+                }     
+            }
+        }
+        console.log(deceasedGrandChildren)
+        if (deceasedGrandChildren.length > 0) {
+            this.UpdateDeceasedGrandChildrenInfo(deceasedGrandChildren);
+            this.togglePages([4], true);
+
+        } else {
+            
+            this.UpdateDeceasedGrandChildrenInfo([]);
+            this.togglePages([4], false);
+        }
+        
     }
 
     public togglePages(pageArr, activeIndicator) {
@@ -195,6 +259,8 @@ export default class GrandChildren extends Vue {
   
     
     beforeDestroy() {
+
+        console.log(this.survey.data)
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);        
         this.UpdateStepResultData({step:this.step, data: {grandChildrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
 

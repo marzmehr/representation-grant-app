@@ -91,7 +91,7 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 	//____________________________________________________________________
 	//console.log(survey)if(question.titleLocation!="hidden" && question.title != " " && question.title != "" && question.isVisible)
 	// console.log(survey.currentPage.title)
-	 console.log(survey.currentPage.questions)
+	// console.log(survey.currentPage.questions)
 	// console.log(survey.data)
 	const questionResults: {name:string; value: any; title:string; inputType:string}[] =[];
 	for(const question of survey.currentPage.questions){
