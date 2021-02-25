@@ -75,7 +75,7 @@
                "type": "yesno",
                "name": "question310",
                "title": "OXD - Are there others applying to represent {deceasedName}?"
-            },           
+            },
             {
                "type": "infotext",
                "name": "question276",
@@ -131,7 +131,29 @@
                "name": "applicantNewName",
                "title": "Please enter the name of the other applicant.",
                "description": "If you are applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`, enter your name here. This service will ask for your organization's name in a later question."
-           },
+            },
+            {
+               "type": "radiogroup",
+               "name": "question258",
+               "choices": [
+                  {
+                     "value": "item1",
+                     "text": "I am a regular person applying to manage {deceasedName}'s 'assets' (in my own name instead of regular person?)"
+                  },
+                  {
+                     "value": "item2",
+                     "text": "I am a professional applying, in my own name, to manage {deceasedName}'s `assets`"
+                  },
+                  {
+                     "value": "item3",
+                     "text": "I am a professional applying on behalf of an organization that has been asked to manage {deceasedName}'s `assets`"
+                  },
+                  {
+                     "value": "item4",
+                     "text": "I am a lawyer who is helping a client complete these documents"
+                  }
+               ]
+            },
             {
                "type": "paneldynamic",
                "name": "applicantInfoPanel",
@@ -161,22 +183,22 @@
                      "name": "applicantNewPartOfOrg",
                      "title": "Is {applicantNewName} applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`",
                      "defaultValue": "n"
-                 },
-                 {
+                  },
+                  {
                      "type": "infotext",
                      "name": "question44",
                      "visible": false,
                      "title": "If there is 1 applicant on behalf of an organization, use organization address as service address. still check if it is within 30km of courthouse later.",
                      "titleLocation": "hidden"
-                 },
-                 {
+                  },
+                  {
                      "type": "text",
                      "name": "applicantOrgName",
                      "visible": false,
                      "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
                      "title": "Organization Name"
-                 },
-                 {
+                  },
+                  {
                      "type": "radiogroup",
                      "name": "applicantOrgType",
                      "visible": false,
@@ -184,55 +206,55 @@
                      "title": "What type of organization is {applicantOrgName}?",
                      "hasOther": true,
                      "choices": [
-                         {
-                             "value": "item1",
-                             "text": "Law Firm"
-                         },
-                         {
-                             "value": "item2",
-                             "text": "Accountants"
-                         },
-                         {
-                             "value": "item3",
-                             "text": "Bank or Credit Union"
-                         },
-                         {
-                             "value": "item4",
-                             "text": "Trust Company"
-                         }
+                        {
+                           "value": "item1",
+                           "text": "Law Firm"
+                        },
+                        {
+                           "value": "item2",
+                           "text": "Accountants"
+                        },
+                        {
+                           "value": "item3",
+                           "text": "Bank or Credit Union"
+                        },
+                        {
+                           "value": "item4",
+                           "text": "Trust Company"
+                        }
                      ]
-                 },
-                 {
+                  },
+                  {
                      "type": "address",
                      "name": "applicantOrgAddress",
                      "visible": false,
                      "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
                      "title": "organization address"
-                 },
-                 {
+                  },
+                  {
                      "type": "text",
                      "name": "applicantOrgPhone",
                      "visible": false,
                      "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
                      "title": "Organization Phone Number",
                      "inputType": "tel"
-                 },
-                 {
+                  },
+                  {
                      "type": "text",
                      "name": "applicantOrgEmail",
                      "visible": false,
                      "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
                      "title": "Organization Email",
                      "inputType": "email"
-                 },
-                 {
+                  },
+                  {
                      "type": "text",
                      "name": "applicantOrgFax",
                      "visible": false,
                      "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
                      "title": "Organization Fax",
                      "inputType": "tel"
-                 },
+                  },
                   {
                      "type": "text",
                      "name": "applicantOccupation",
