@@ -107,14 +107,14 @@ export default class GrandChildren extends Vue {
             
             tmp = JSON.parse(JSON.stringify(temp));
             tmp.name = "childPanel["+deceasedChild+"]";
-            tmp.title = "Information about {deceasedChildrenInfo["+deceasedChild+"].fullName}'s children"
+            tmp.title = "Information about {deceasedChildrenInfo["+deceasedChild+"]}'s children"
 
             tmp.elements[0].name = "grandchildPanel["+deceasedChild+"]";
-            tmp.elements[0].templateElements[0].title = "Please enter the full name of {deceasedChildrenInfo["+deceasedChild+"].fullName}'s child.";
+            tmp.elements[0].templateElements[0].title = "Please enter the full name of {deceasedChildrenInfo["+deceasedChild+"]}'s child.";
 
             tmp.elements[1].name = "grandchildExitCheckPanel["+deceasedChild+"]";
             tmp.elements[1].elements[0].name = "grandchildIsYou["+deceasedChild+"]";
-            tmp.elements[1].elements[0].title = "Are you a child of {deceasedChildrenInfo["+deceasedChild+"].fullName}?";
+            tmp.elements[1].elements[0].title = "Are you a child of {deceasedChildrenInfo["+deceasedChild+"]}?";
             tmp.elements[1].elements[1].name = "grandchildIsYouIncluded["+deceasedChild+"]";
             tmp.elements[1].elements[2].name = "grandchildIsYouIncludedNoError["+deceasedChild+"]";
 
@@ -132,53 +132,7 @@ export default class GrandChildren extends Vue {
         this.survey.onValueChanged.add((sender, options) => {
             console.log(this.survey.data);
             console.log(options)
-            this.extractDeceasedGrandchildren();
-
-            // const grandChildrenInfo = this.survey.data.grandChildPanel
-            // const deceasedName = Vue.filter('getFullName')(this.deceasedName);
-            
-            // const deceasedGrandChildren = [];
-            // let deceasedGrandChildrenExitMessage = "";
-            // const deceasedGrandChildrenNames = [];
-            // console.log(grandChildrenInfo);
-
-            // if ( grandChildrenInfo && grandChildrenInfo.length > 0) {
-
-            //     for (let i = 0; i < grandChildrenInfo.length; i++) {
-            //         if (grandChildrenInfo[i].childIsAlive == "n" && 
-            //             grandChildrenInfo[i].childHasPersonalRep == "n" && grandChildrenInfo[i].childInformalPersonalRepName) {
-            //                 grandChildrenInfo[i].fullName = Vue.filter('getFullName')(grandChildrenInfo[i].childName);
-            //                 deceasedGrandChildren.push(grandChildrenInfo[i]);
-            //                 deceasedGrandChildrenNames.push(grandChildrenInfo[i].childName);
-            //         }                       
-            //     }
-
-            //     if (deceasedGrandChildren.length > 0) {
-
-            //         if (deceasedGrandChildrenNames.length == 1){
-            //             deceasedGrandChildrenExitMessage = "Because " + Vue.filter('getFullName')(deceasedGrandChildrenNames[0]) + 
-            //             " has died, doesn't have a personal representative but has children who are alive," +
-            //             " lets move on to information about " + Vue.filter('getFullName')(deceasedGrandChildrenNames[0]) + "'s children.";
-
-            //         } else {
-            //             deceasedGrandChildrenExitMessage = "Because some of " + deceasedName + "'s grand children have died, don't have personal" + 
-            //             " representatives but have children who are alive, lets move on to information about their children.";
-            //         }
-                    
-            //         this.survey.setVariable("needGreatGrandChildrenInfo", true);
-            //         this.survey.setVariable("deceasedGrandChildrenExitMessage", deceasedGrandChildrenExitMessage);
-            //         this.UpdateDeceasedGrandChildrenInfo(deceasedGrandChildren);
-            //         this.togglePages([4], true);
-
-            //     } else {
-            //         this.survey.setVariable("needGreatGrandChildrenInfo", false);
-            //         this.UpdateDeceasedGrandChildrenInfo([]);
-            //         this.togglePages([4], false);
-            //     }
-            // }
-
-
-            
+            this.extractDeceasedGrandchildren();            
         })
     }
 
