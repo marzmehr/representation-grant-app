@@ -91,64 +91,16 @@ export default class Children extends Vue {
     }
     
     public addSurveyListener(){
-        this.survey.onValueChanged.add((sender, options) => {            
-           
-            if(options.name == "child"){
-               this.determineHasChild();
-            }            
-
-            console.log(this.survey.data)
+        this.survey.onValueChanged.add((sender, options) => {
+            this.determineHasChild();           
             
-               
-            // const childrenInfo = this.survey.data.childInfoPanel
-            // const deceasedName = Vue.filter('getFullName')(this.deceasedName);
-            // const deceasedChildren = [];
-            // let deceasedChildrenExitMessage = "";
-            // const deceasedChildrenNames = [];
-            // console.log(childrenInfo)
-
-            // if ( childrenInfo && childrenInfo.length > 0) {
-
-            //     for (let i = 0; i < childrenInfo.length; i++) {
-            //         if (childrenInfo[i].childIsAlive == "n" && 
-            //             childrenInfo[i].childHasPersonalRep == "n" && childrenInfo[i].childInformalPersonalRepName) {
-            //                 childrenInfo[i].fullName = Vue.filter('getFullName')(childrenInfo[i].childName);
-            //                 deceasedChildren.push(childrenInfo[i]);
-            //                 deceasedChildrenNames.push(childrenInfo[i].childName);
-            //         }                       
-            //     }
-
-            //     if (deceasedChildren.length > 0) {
-
-            //         if (deceasedChildrenNames.length == 1){
-            //             deceasedChildrenExitMessage = "Because " + Vue.filter('getFullName')(deceasedChildrenNames[0]) + 
-            //             " has died, doesn't have a personal representative but has children who are alive," +
-            //             " lets move on to information about " + Vue.filter('getFullName')(deceasedChildrenNames[0]) + "'s children.";
-
-            //         } else {
-            //             deceasedChildrenExitMessage = "Because some of " + deceasedName + "'s children have died, don't have personal" + 
-            //             " representatives but have children who are alive, lets move on to information about their children.";
-            //         }
-                    
-            //         this.survey.setVariable("needGrandChildrenInfo", true);
-            //         this.survey.setVariable("deceasedChildrenExitMessage", deceasedChildrenExitMessage);
-            //         this.UpdateDeceasedChildrenInfo(deceasedChildren);
-            //         this.togglePages([3], true);
-
-            //     } else {
-            //         this.survey.setVariable("needGrandChildrenInfo", false);
-            //         this.UpdateDeceasedChildrenInfo([]);
-            //         this.togglePages([3], false);
-            //     }
-            // }  
-            
-        })
-            
+        })            
     }
 
     public determineHasChild(){
         if (this.survey.data.child == "n") { //No Children
             this.survey.setVariable("noChildren", true);
+            this.survey.setVariable("spouseExist", this.spouseExist);
             if(!this.spouseExist){                
                 this.togglePages([2], true);//parent page
                 this.togglePages([3,4], false);

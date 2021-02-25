@@ -236,7 +236,7 @@
                            "title": "Because {deceasedName} has no children, lets move on to information about {deceasedName}'s parents.",
                            "titleLocation": "hidden",
                            "visible": false,
-                           "visibleIf": "{noChildren}"
+                           "visibleIf": "{noChildren} and (!{spouseExist})"
                         }
                      ],
                      "visible": false,

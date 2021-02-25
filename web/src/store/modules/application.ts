@@ -169,14 +169,14 @@ class Application extends VuexModule {
         // s.pages.push(p);
 
 
-        p = {} as pageInfoType;
-        p.key = "5";
-        p.label = "Creditors";
-        //TODO: turn active to false
-        p.active = true;
-        p.progress = 0;
+        // p = {} as pageInfoType;
+        // p.key = "5";
+        // p.label = "Creditors";
+        // //TODO: turn active to false
+        // p.active = true;
+        // p.progress = 0;
 
-        s.pages.push(p);
+        // s.pages.push(p);
 
         this.steps.push(s);
 
