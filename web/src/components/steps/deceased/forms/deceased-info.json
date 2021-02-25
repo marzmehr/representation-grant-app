@@ -48,7 +48,8 @@
                      "name": "jiraRepgrant28",
                      "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-28\" target=\"_blank\">JIRA ticket REPGRANT-28 - Name Capitalization based on Input Device</a>",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "messageStyle": "error",
+                     "visible":false
                   }
                ],
                "visible": false,
@@ -122,7 +123,8 @@
                      "name": "jiraRepgrant32",
                      "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-32\" target=\"_blank\">JIRA ticket REPGRANT32 - Deceased Death Data as Validation</a>",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "messageStyle": "error",
+                     "visible": false
                   }
                ],
                "visible": false,
@@ -172,14 +174,16 @@
                      "name": "question415",
                      "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - PO Box</a>\n<br><br>TB Finished\n(pick either “Street number and street name:” or “Post office box:” the other options can be deleted)\n<br><br>Maybe irrelevant if the person can just write in PO Box in street number/name? But change label??",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "messageStyle": "error",
+                     "visible": false
                   },
                   {
                      "type": "infotext",
                      "name": "question332",
                      "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Homeless postal code</a>\n<br><br>TB Finished\nIf the person had no fixed address, they don't have a postal code so validation needs to ignore that sometimes but validate most of the time.\n<br><br>\nInput mask? Probably not because we don't know postal codes around the world work.",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "messageStyle": "error",
+                     "visible": false
                   }
                ],
                "visible": false,

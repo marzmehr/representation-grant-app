@@ -6,8 +6,8 @@
     <parents v-bind:step="step" v-if="step.currentPage == 2"></parents>
     <grand-children v-bind:step="step" v-if="step.currentPage == 3"></grand-children>
     <great-grand-children v-bind:step="step" v-if="step.currentPage == 4"></great-grand-children>
-    <beneficiaries v-bind:step="step" v-if="step.currentPage == 5"></beneficiaries>
-    <creditors v-bind:step="step" v-if="step.currentPage == 6"></creditors>
+    <!-- <beneficiaries v-bind:step="step" v-if="step.currentPage == 5"></beneficiaries> -->
+    <creditors v-bind:step="step" v-if="step.currentPage == 5"></creditors>
   </step-base>
 </template>
 
