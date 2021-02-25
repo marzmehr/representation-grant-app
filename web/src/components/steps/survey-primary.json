@@ -96,6 +96,11 @@
                             "dateYearsBehind": 6
                         },
                         {
+                            "type": "text",
+                            "name": "question253",
+                            "title": "survivorship rule date test {deceasedDateOfDeathPlus4}"
+                        },
+                        {
                             "type": "helptext",
                             "name": "deceasedDateOfDeathFAQ1",
                             "title": "How do I get a `Certificate of Death`",
@@ -108,27 +113,6 @@
                             "visible": false,
                             "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
                             "titleLocation": "hidden"
-                        },
-                        {
-                            "type": "infotext",
-                            "name": "jiraRepgrant30",
-                            "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-30\" target=\"_blank\">JIRA ticket REPGRANT30 - Deceased Death Date Limit</a>",
-                            "titleLocation": "hidden",
-                            "messageStyle": "error"
-                        },
-                        {
-                            "type": "infotext",
-                            "name": "jiraRepgrant31",
-                            "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-31\" target=\"_blank\">JIRA ticket REPGRANT31 - Deceased Death + 4 Days</a>",
-                            "titleLocation": "hidden",
-                            "messageStyle": "error"
-                        },
-                        {
-                            "type": "infotext",
-                            "name": "jiraRepgrant32",
-                            "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-32\" target=\"_blank\">JIRA ticket REPGRANT32 - Deceased Death Data as Validation</a>",
-                            "titleLocation": "hidden",
-                            "messageStyle": "error"
                         }
                     ],
                     "visible": false,
@@ -163,12 +147,14 @@
                         {
                             "type": "infotext",
                             "name": "question438",
+                            "visible": false,
                             "title": "[Obsolete - Will questions determine which asset affidavit to use regardless of where the address is]\n<br><br>\nThis service can help you extend the powers of a `Representation Grant` from another place.\n<br><br>\nIt makes sense to first get a `Representation Grant` from where {deceasedName} spent most of their time. There may be benefits to getting grants in this order that a lawyer can explain to you. [link to lawyer info]\n<br><br>\nIf you don't already have a Representation Grant from the place where {deceasedName} spent most of their time, this service can still help you apply for a B.C. Representation Grant.  ",
                             "titleLocation": "hidden"
                         },
                         {
                             "type": "infotext",
                             "name": "question398",
+                            "visible": false,
                             "title": "[Obsolete?? Probably still useful if not for P10/P11 then service addresses] <a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Location Trigger</a>\n<br><br>TB Finished\nMay need location data to figure out which asset form to use: P10 or P11",
                             "titleLocation": "hidden",
                             "messageStyle": "error"
@@ -176,6 +162,7 @@
                         {
                             "type": "infotext",
                             "name": "question415",
+                            "visible": false,
                             "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - PO Box</a>\n<br><br>TB Finished\n(pick either “Street number and street name:” or “Post office box:” the other options can be deleted)\n<br><br>Maybe irrelevant if the person can just write in PO Box in street number/name? But change label??",
                             "titleLocation": "hidden",
                             "messageStyle": "error"
@@ -183,6 +170,7 @@
                         {
                             "type": "infotext",
                             "name": "question332",
+                            "visible": false,
                             "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Homeless postal code</a>\n<br><br>TB Finished\nIf the person had no fixed address, they don't have a postal code so validation needs to ignore that sometimes but validate most of the time.\n<br><br>\nInput mask? Probably not because we don't know postal codes around the world work.",
                             "titleLocation": "hidden",
                             "messageStyle": "error"
@@ -222,6 +210,7 @@
                         {
                             "type": "infotext",
                             "name": "firstNationsNameTrello",
+                            "visible": false,
                             "title": "<a href=\"https://trello.com/c/cD8xmZY9\" target=\"_blank\">Trello - Radio Logic: notempty not working</a>\n<br><br>\nJIRA Ticket to be created; Copied from Trello:\n<br><br>\n{firstNationsName} is a radio button question.\n{deceasedExitPanel} has a visibleIf condition that includes {firstNationsName} notempty\n<br><br>\nThe problem is {deceasedExitPanel} shows even if {firstNationsName} has no selection",
                             "titleLocation": "hidden",
                             "messageStyle": "error"
@@ -245,7 +234,7 @@
                         {
                             "type": "infotext",
                             "name": "deceasedExitExplanation",
-                            "title": "Next, this service will ask if {deceasedName} made any `Wills`\n",
+                            "title": "Next, this service will ask if {deceasedName} made any `Wills`.\n",
                             "titleLocation": "hidden"
                         }
                     ],
