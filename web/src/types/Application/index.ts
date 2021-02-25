@@ -14,6 +14,8 @@ export interface applicationInfoType {
     deceasedDateOfDeath: string;
     DeceasedDateOfDeathPlus4: string;
     dateOfWill: string;
+    deceasedChildrenInfo: [];
+    deceasedGrandChildrenInfo: [];
     applicationLocation: string;
 }
 
