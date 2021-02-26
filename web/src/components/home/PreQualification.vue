@@ -62,7 +62,7 @@ export default class PreQualification extends Vue {
     error = "";
     applicationId = 0;
     displayButton = false;
-    showDisclaimer = true;
+    showDisclaimer = false;
     survey = new SurveyVue.Model(surveyJson);  
 
     beforeCreate() {
@@ -72,7 +72,7 @@ export default class PreQualification extends Vue {
     }
 
     mounted(){
-        this.showDisclaimer = true;
+        this.showDisclaimer = false;
         this.displayButton = false;       
         this.initializeSurvey();
         this.addSurveyListener();
@@ -106,7 +106,9 @@ export default class PreQualification extends Vue {
     }
 
     public addSurveyListener(){
-        this.survey.onValueChanged.add((sender, options) => {         
+        this.survey.onValueChanged.add((sender, options) => { 
+            console.log(this.survey.data) 
+            console.log(options)        
             if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation) 
             {
                 this.displayButton = true;

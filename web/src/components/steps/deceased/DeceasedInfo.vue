@@ -35,6 +35,9 @@ export default class DeceasedInfo extends Vue {
     @applicationState.State
     public currentStep!: number;
 
+    @applicationState.State
+    public deceasedName!: string;
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -66,8 +69,8 @@ export default class DeceasedInfo extends Vue {
     disableNextButton = false;   
     currentPage=0;
     earliestDeathDate = "";
+    today = "";
     thisStep = 0;
-
 
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -82,10 +85,9 @@ export default class DeceasedInfo extends Vue {
     }
 
     created() {
-        this.disableNextButton = false
+        this.disableNextButton = false;
         if (this.step.result && this.step.result['deceasedInfoSurvey']) { 
             this.disableNextButton = false;           
-            // this.determinePeaceBondAndBlock();
         }
     }
 
@@ -111,30 +113,36 @@ export default class DeceasedInfo extends Vue {
             }
 
             if(options.name == "deceasedDateOfDeath") {
-                if (this.earliestDeathDate > options.value) {
-                    this.survey.setVariable("invalidDateOfDeathError", true);
-                    this.disableNextButton = true;
-                } else {
-                    this.disableNextButton = false;
+                if (this.earliestDeathDate < options.value && this.today > options.value) {
+
                     this.survey.setVariable("invalidDateOfDeathError", false);
+                    this.disableNextButton = false;
+
+                } else {
+
+                    this.disableNextButton = true;
+                    this.survey.setVariable("invalidDateOfDeathError", true);
+
+                    if (this.earliestDeathDate > options.value) {
+                        this.survey.setVariable("invalidDateOfDeathMessage", "The Date of Death should be after March 30, 2014.");
+                    } else {
+                        this.survey.setVariable("invalidDateOfDeathMessage", Vue.filter('getFullName')(this.deceasedName) + " cannot have died on a future date.");
+                    }                   
+                    
                 }
                 this.UpdateDeceasedDateOfDeath(options.value);
                 const deceasedDateOfDeathPlus4 = moment(options.value, "YYYY-MM-DD").add(4, 'days').format();
                 console.log(deceasedDateOfDeathPlus4)
-                this.UpdateDeceasedDateOfDeathPlus4(Vue.filter('beautify-date')(deceasedDateOfDeathPlus4));
-            }
-
-
+                this.UpdateDeceasedDateOfDeathPlus4(Vue.filter('beautify-full-date')(deceasedDateOfDeathPlus4));
+            }            
             
-            //console.log(this.survey.data);
-            // console.log(options)
-            let pagesArr = [];
         })   
     }
 
     public reloadPageInformation() {
         //console.log(this.step.result)
         this.earliestDeathDate = moment("2014-03-30").format();
+        this.today = moment().format();
 
         if (this.step.result && this.step.result["deceasedInfoSurvey"]){
             this.survey.data = this.step.result["deceasedInfoSurvey"].data;
@@ -166,33 +174,11 @@ export default class DeceasedInfo extends Vue {
         }
     }
 
-    public toggleOtherPartyPage(activeIndicator) {
-        this.UpdatePageActive({
-            currentStep: 1,
-            currentPage: 1,
-            active: activeIndicator
-        });
-    }
-
     public toggleStep(step, active) {
         this.UpdateStepActive({
             currentStep: step,
             active: active
         });
-    }
-
-    public removePages() {
-        let allPageIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-        this.togglePages(allPageIndex, false);
-    }
-
-    public populatePagesForNeedPO(sender) {
-        if (sender.data.PORConfirmed) {
-            if (sender.data.PORConfirmed.length !== 0) {
-            let pagesArr = [0, 1, 2, 4, 5, 6, 8];
-            this.togglePages(pagesArr, true);
-            }
-        }
     }
 
     public onPrev() {
@@ -217,34 +203,7 @@ export default class DeceasedInfo extends Vue {
     public getDisableNextText() {
         // demo
         return "You will need to answer the question above to continue";
-    }
-
-    public getApplicationType(selectedOrder){
-        if (selectedOrder == "needPO") return "New Protection Order";
-        else if (selectedOrder == "changePO") return "Change Protection Order";
-        else if (selectedOrder == "terminatePO") return "Terminate Protection Order";
-        else return "Protection Order";
-    }
-    
-    public determinePeaceBondAndBlock(){
-        var pagesArr = [0, 1, 2, 4, 5, 6, 8];
-        if((this.survey.data.familyUnsafe == 'n' && this.survey.data.orderType == 'needPO')||(this.survey.data.unsafe == 'n' && this.survey.data.orderType == 'needPO')){
-            //this.disableNextButton = true;
-            this.togglePages(pagesArr, false);
-            this.toggleStep(1, false);
-            this.toggleStep(2, false);
-            this.toggleStep(8, false);
-            
-        }else{
-            //this.disableNextButton = false;
-            if (this.survey.data.PORConfirmed && this.survey.data.orderType == 'needPO') {            
-            this.toggleStep(1, true);
-            this.toggleStep(2, true);
-            this.toggleStep(8, true);
-            this.togglePages(pagesArr, true);
-            }       
-        }
-    }
+    }    
 
     beforeDestroy() {
 
