@@ -732,7 +732,7 @@ class Application extends VuexModule {
         this.dateOfWill = application.dateOfWill;
 
         //console.log(this.steps[2])
-        if(this.steps[2].result["childrenSurvey"]){
+        if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
             const childrenInfo = this.steps[2].result["childrenSurvey"].data.childInfoPanel
             const deceasedChildren = [];        
             for (const child of childrenInfo) {
