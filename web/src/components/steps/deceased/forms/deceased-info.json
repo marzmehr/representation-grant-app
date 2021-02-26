@@ -98,7 +98,7 @@
                   {
                      "type": "infotext",
                      "name": "invalidDateOfDeath",
-                     "title": "The Date of Death should be after March 30, 2014.",
+                     "title": "{invalidDateOfDeathMessage}",
                      "titleLocation": "hidden",
                      "messageStyle": "error",
                      "visible": false,
@@ -241,7 +241,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and (({deceasedFirstNations} = \"n\") or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty))"
+               "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and (!{invalidDateOfDeathError}) and {deceasedAddress} notempty and (({deceasedFirstNations} = \"n\") or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty))"
             }
          ],
          "title": "Information about {deceasedName}"

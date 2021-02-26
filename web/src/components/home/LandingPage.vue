@@ -15,28 +15,15 @@
                              is a type of Representation Grant specifically for executors named in the Will. 
                         </p>                      
 
-                           
-                        <b-list-group-item >
-                            <b-icon-clock-history variant="primary"/><b> Time:</b>
-                            The average time that people spend using this service is 6 hours. Don't worry. You don't have to 
-                            complete this all at once. This service will save your progress so you can come back later.<br>
-                            The amount of time it will take you to complete your application will depend on:
-                            <ul>
-                                <li>If there is a <tooltip :index="0" title='Will'/>. </li>
-                                <li>How many people are involved (optional?? full names and whereabouts/addresses?)</li>
-                                <li>How many belongings are involved (optional?? brief list of asset info?)</li>
-                            </ul>
-
-                        </b-list-group-item>
                         <b-list-group-item>
-                            <b-icon-slash-circle variant="primary"/><b> Cost:</b>
+                            <b-icon-credit-card variant="primary"/><b> Cost:</b>
                             <ul>
                                 <li>This service is provided for free by the Government of British Columbia.
                                 </li>
                                 <li>This service will help you complete your <tooltip :index="0" title='application'/>
                                 </li>
                                 <li>Once your application is complete, there will usually be a $200 fee to file 
-                                    your application with the court. If the `estate` is worth less than $25,000,
+                                    your application with the court. If the <tooltip :index="2" title='estate'/> is worth less than $25,000,
                                     the application will be free to file.
                                 </li>
                                 <li>There will be costs for swearing or affirming the <tooltip :index="0" title='affidavit'/>s
@@ -48,13 +35,25 @@
                                 </li>
                             </ul>
                         </b-list-group-item>
+                        <b-list-group-item >
+                            <b-icon-clock-history variant="primary"/><b> Time:</b>
+                            The average time that people spend using this service is 6 hours. Don't worry. You don't have to 
+                            complete this all at once. This service will save your progress so you can come back later.<br>
+                            The amount of time it will take you to complete your application will depend on:
+                            <ul>
+                                <li>If there is a <tooltip :index="0" title='Will'/>. </li>
+                                <li>How many people are involved</li>
+                                <li>How many belongings are involved</li>
+                            </ul>
+
+                        </b-list-group-item>
                         <b-list-group-item>
                             <b-icon-printer variant="primary"/><b> Print:</b>
                             You will need a printer to print your application.
                         </b-list-group-item>
 
                         
-                        <b-card border-variant="white" class="mt-3">
+                        <!-- <b-card border-variant="white" class="mt-3">
                             <span class="text-primary h3">Filing Your Application</span>
                             <p class="mt-3">You can use this service to file your application online. </p>
                             <p>If there is a <tooltip :index="1" title='Will'/> and it is written on paper, you can still 
@@ -63,7 +62,7 @@
                             <p>You may also choose to print your application and file the whole package, including 
                                 the Will, in person at a courthouse.
                             </p>
-                        </b-card> 
+                        </b-card>  -->
                        
 
 
@@ -109,7 +108,8 @@ export default class LandingPage extends Vue {
         await SessionManager.getUserInfo(this.$store);
         if(this.$store.state.Common.userId !== ""){
             this.isLoggedIn = true;
-            this.determineUserType();
+            this.navigate("returning");
+            // this.determineUserType();
             
         }else{
             this.isLoggedIn = false;

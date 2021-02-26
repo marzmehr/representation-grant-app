@@ -112,6 +112,26 @@
      "visibleIf": "(({needGrant} = \"y\" and {needGrantYesExplanation} > 0) or ({needGrant} = \"n\" and {stillNeedGrant} = \"y\")) and {qualifyingWillExists} = \"n\""
     },
     {
+        "type": "panel",
+        "name": "qualifyingTermsPanel",
+        "elements": [
+            {
+                "type": "checkbox",
+                "name": "qualifyingTerms",
+                "title": "This service can help you apply for a `Representation Grant`. Before continuing, please read the terms of using this service.\n<br><br>\n\"Apply to Represent Someone Who Died\" is a service provided by the Government of British Columbia.\n<br><br>\nThe Government of British Columbia has the right to change this service at any time.\n<br><br>\n<ul>\n<li>Learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)</li>\n<li>Learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security here.</a> (This link opens in a new tab)</li>\n</ul>\nThe Supreme Court of British Columbia will review your `application`. The Court will decide to give you a `Representation Grant` or not.",
+                "isRequired": true,
+                "choices": [
+                    {
+                        "value": "agree",
+                        "text": "I agree to these terms"
+                    }
+                ]
+            }
+        ],
+        "visible": false,
+        "visibleIf": "(({needGrant} = \"y\" and {needGrantYesExplanation} > 0) or ({needGrant} = \"n\" and {stillNeedGrant} = \"y\")) and {qualifyingWillExists} = \"n\" and {diedAfterWESA} = \"y\" "       
+    },
+    {
      "type": "panel",
      "name": "qualifyingComplicationsPanel",
      "elements": [
@@ -131,7 +151,7 @@
       }      
      ],
      "visible": false,
-     "visibleIf": "(({needGrant} = \"y\" and {needGrantYesExplanation} > 0) or ({needGrant} = \"n\" and {stillNeedGrant} = \"y\")) and {qualifyingWillExists} = \"n\" and {diedAfterWESA} = \"y\""
+     "visibleIf": "(({needGrant} = \"y\" and {needGrantYesExplanation} > 0) or ({needGrant} = \"n\" and {stillNeedGrant} = \"y\")) and {qualifyingWillExists} = \"n\" and {diedAfterWESA} = \"y\" and {qualifyingTerms[0]}='agree'"
     }
    
    ],

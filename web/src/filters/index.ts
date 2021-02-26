@@ -11,6 +11,14 @@ Vue.filter('beautify-date', function(date){
 		return ''
 })
 
+Vue.filter('beautify-full-date', function(date){
+	enum MonthList {'January' = 1, 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'}
+	if(date)
+		return MonthList[Number(date.substr(5,2))] + ' ' + date.substr(8,2) + ', ' + date.substr(0,4);
+	else
+		return ''
+})
+
 Vue.filter('beautify-date-weekday', function(date){
 	if(date)
 		return	moment(date).format('ddd MMM DD, YYYY HH:mm');
