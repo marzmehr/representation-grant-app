@@ -727,7 +727,7 @@ class Application extends VuexModule {
         this.deceasedName = application.deceasedName;
         this.deceasedDateOfDeath = application.deceasedDateOfDeath;
         if (this.deceasedDateOfDeath) {
-            this.deceasedDateOfDeathPlus4 = Vue.filter('beautify-date')(moment(this.deceasedDateOfDeath, "YYYY-MM-DD").add(4, 'days').format());
+            this.deceasedDateOfDeathPlus4 = Vue.filter('beautify-full-date')(moment(this.deceasedDateOfDeath, "YYYY-MM-DD").add(4, 'days').format());
         }
         this.dateOfWill = application.dateOfWill;
 

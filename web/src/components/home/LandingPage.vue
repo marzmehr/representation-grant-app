@@ -108,7 +108,8 @@ export default class LandingPage extends Vue {
         await SessionManager.getUserInfo(this.$store);
         if(this.$store.state.Common.userId !== ""){
             this.isLoggedIn = true;
-            this.determineUserType();
+            this.navigate("returning");
+            // this.determineUserType();
             
         }else{
             this.isLoggedIn = false;
