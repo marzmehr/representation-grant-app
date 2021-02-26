@@ -85,7 +85,7 @@ export default class DeceasedInfo extends Vue {
     }
 
     created() {
-        this.disableNextButton = false
+        this.disableNextButton = false;
         if (this.step.result && this.step.result['deceasedInfoSurvey']) { 
             this.disableNextButton = false;           
         }

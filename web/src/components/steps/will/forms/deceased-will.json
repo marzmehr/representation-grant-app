@@ -33,7 +33,7 @@
               "type": "yesno",
               "name": "willCheck",
               "title": "Have you looked for {deceasedName}'s `Will`",
-              "description": "This means checking all the places where {deceasedName} kept important documents.\n<br><br>Physical places include: <ul><li>their home </li><li>safety deposit box </li><li>their lawyer's office.</ul>\n<br>\nElectronic places include: <ul><li>their smart phone </li><li>computer </li><li>external hard drive </li><li>cloud storage.</li></ul>"
+              "description": "This means checking all the places where {deceasedName} kept important documents.\n<br><br>Physical places include their home, safety deposit box, and their lawyer's office.\n<br><br>\nElectronic places include their smart phone, computer, external hard drive, and cloud storage."
             },
             {
               "type": "helptext",

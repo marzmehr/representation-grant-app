@@ -1,5 +1,5 @@
 <template>
-    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
+    <page-base :disableNext="disableNextButton" v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
         <survey v-bind:survey="survey"></survey>
     </page-base>
 </template>
@@ -50,10 +50,10 @@ export default class DeceasedWill extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
-
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
     thisStep=0;
+    disableNextButton = false;   
    
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -64,6 +64,10 @@ export default class DeceasedWill extends Vue {
     beforeCreate() {
         const Survey = SurveyVue;
         surveyEnv.setCss(Survey);
+    }
+
+    created() {
+        this.disableNextButton = false;
     }
 
     mounted(){
@@ -84,9 +88,23 @@ export default class DeceasedWill extends Vue {
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
             // console.log(options)
-            if(options.name == "ApplicantName") {
-                this.$store.commit("Application/setApplicantName", options.value);
+            if(options.name == "willCheck") {
+                if (options.value == "n") {
+                    this.disableNextButton = true;
+                } else {
+                    this.disableNextButton = false;
+                }                
             }
+
+            if(options.name == "willGrantExists") {
+                if (options.value == "y") {
+                    this.disableNextButton = true;
+                } else {
+                    this.disableNextButton = false;
+                }                
+            }
+
+
         })
     }
     
