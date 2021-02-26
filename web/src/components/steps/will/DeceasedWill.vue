@@ -39,6 +39,9 @@ export default class DeceasedWill extends Vue {
     public deceasedName!: string;
 
     @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
+
+    @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
     @applicationState.Action
@@ -91,16 +94,20 @@ export default class DeceasedWill extends Vue {
             if(options.name == "willCheck") {
                 if (options.value == "n") {
                     this.disableNextButton = true;
+                    this.toggleSteps([2, 3, 4, 5, 6, 7, 8], false)
                 } else {
                     this.disableNextButton = false;
+                     this.toggleSteps([2, 3, 4, 5, 6, 7, 8], true)
                 }                
             }
 
             if(options.name == "willGrantExists") {
                 if (options.value == "y") {
                     this.disableNextButton = true;
+                     this.toggleSteps([2, 3, 4, 5, 6, 7, 8], false)
                 } else {
                     this.disableNextButton = false;
+                     this.toggleSteps([2, 3, 4, 5, 6, 7, 8], true)
                 }                
             }
 
@@ -121,6 +128,15 @@ export default class DeceasedWill extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
 
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+    }   
+
+    public toggleSteps(stepArr, activeIndicator) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: activeIndicator
+            });
+        }
     }
 
     public onPrev() {
