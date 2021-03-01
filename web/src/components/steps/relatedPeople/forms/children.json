@@ -237,6 +237,14 @@
                            "titleLocation": "hidden",
                            "visible": false,
                            "visibleIf": "{noChildren} and (!{spouseExist})"
+                        },
+                        {
+                           "type": "infotext",
+                           "name": "childExitApplicantExplanation",
+                           "title": "Because {deceasedName} has no children, lets move on to information about the applicant/s.",
+                           "titleLocation": "hidden",
+                           "visible": false,
+                           "visibleIf": "{noChildren} and {spouseExist}"
                         }
                      ],
                      "visible": false,
