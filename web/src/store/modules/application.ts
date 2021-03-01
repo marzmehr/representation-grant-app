@@ -20,7 +20,7 @@ class Application extends VuexModule {
     public userName = ""
     public userId = ""
     public applicantName = ""
-    public deceasedName = ""
+    public deceasedName = {"first":"(the person","middle":"who","last":"died)"};
     public deceasedDateOfDeath = null
     public deceasedDateOfDeathPlus4 = ""
     public dateOfWill = null
@@ -38,6 +38,7 @@ class Application extends VuexModule {
         this.allCompleted = false;
         this.currentStep = 0;
         this.type = "probate";
+        this.deceasedName = {"first":"(the person","middle":"who","last":"died)"};
         this.userName = "";
         this.lastPrinted = null;
         this.lastUpdate = null;

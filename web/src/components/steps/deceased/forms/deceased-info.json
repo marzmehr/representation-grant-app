@@ -160,14 +160,16 @@
                      "type": "infotext",
                      "name": "question438",
                      "title": "[Obsolete - Will questions determine which asset affidavit to use regardless of where the address is]\n<br><br>\nThis service can help you extend the powers of a `Representation Grant` from another place.\n<br><br>\nIt makes sense to first get a `Representation Grant` from where {deceasedName} spent most of their time. There may be benefits to getting grants in this order that a lawyer can explain to you. [link to lawyer info]\n<br><br>\nIf you don't already have a Representation Grant from the place where {deceasedName} spent most of their time, this service can still help you apply for a B.C. Representation Grant.  ",
-                     "titleLocation": "hidden"
+                     "titleLocation": "hidden",
+                     "visible":false
                   },
                   {
                      "type": "infotext",
                      "name": "question398",
                      "title": "[Obsolete?? Probably still useful if not for P10/P11 then service addresses] <a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Location Trigger</a>\n<br><br>TB Finished\nMay need location data to figure out which asset form to use: P10 or P11",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "messageStyle": "error",
+                     "visible":false
                   },
                   {
                      "type": "infotext",
