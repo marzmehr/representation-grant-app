@@ -91,7 +91,7 @@ export default class PreQualification extends Vue {
 
         if(!this.survey.isCurrentPageHasErrors) 
         {
-            if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation > 0) 
+            if (this.survey.data.qualifyingWillExists == 'n' && this.survey.data.qualifyingDiedAfterWESA == 'y' && this.survey.data.qualifyingTerms > 0 ) 
             {
                 if(this.userId !== ""){
                     this.$router.push({ name: "surveys" });
@@ -109,7 +109,7 @@ export default class PreQualification extends Vue {
         this.survey.onValueChanged.add((sender, options) => { 
             console.log(this.survey.data) 
             console.log(options)        
-            if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation) 
+            if (this.survey.data.qualifyingWillExists == 'n' && this.survey.data.qualifyingDiedAfterWESA == 'y' && this.survey.data.qualifyingTerms > 0 ) 
             {
                 this.displayButton = true;
             } else {

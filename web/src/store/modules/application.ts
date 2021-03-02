@@ -22,7 +22,7 @@ class Application extends VuexModule {
     public applicantName = ""
     public deceasedName = {"first":"(the person","middle":"who","last":"died)"};
     public deceasedDateOfDeath = null
-    public deceasedDateOfDeathPlus4 = ""
+    public deceasedDateOfDeathPlus4 = "(the Five-day survival rule)"
     public dateOfWill = null
     public deceasedChildrenInfo = []
     public deceasedGrandChildrenInfo = []
