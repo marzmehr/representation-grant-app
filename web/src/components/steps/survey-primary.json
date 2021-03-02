@@ -96,22 +96,17 @@
                             "dateYearsBehind": 6
                         },
                         {
-                            "type": "text",
-                            "name": "question253",
-                            "title": "survivorship rule date test {deceasedDateOfDeathPlus4}"
-                        },
-                        {
                             "type": "helptext",
                             "name": "deceasedDateOfDeathFAQ1",
                             "title": "How do I get a `Certificate of Death`",
                             "titleLocation": "hidden",
-                            "body": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n"
+                            "body": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. You can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\" target=\"_blank\">Click here for more information from the Government of British Columbia's website.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of British Columbia but still inside of Canada, you must get a Certificate of Death from the province or territory where they died. \n<br><br>\n<a href=\"https://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\" target=\"_blank\">Click here for other Vital Statistics Agencies in Canada.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. "
                         },
                         {
                             "type": "infotext",
                             "name": "question412",
                             "visible": false,
-                            "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
+                            "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. You can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\" target=\"_blank\">Click here for more information from the Government of British Columbia's website.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of British Columbia but still inside of Canada, you must get a Certificate of Death from the province or territory where they died. \n<br><br>\n<a href=\"https://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\" target=\"_blank\">Click here for other Vital Statistics Agencies in Canada.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
                             "titleLocation": "hidden"
                         }
                     ],
@@ -125,7 +120,7 @@
                         {
                             "type": "address",
                             "name": "deceasedAddress",
-                            "title": "What was {deceasedName} last known address?",
+                            "title": "What was {deceasedName}'s last known address?",
                             "description": "If {deceasedName} was homeless:\n<ul>\n<li>write \"no fixed address\" for the street address</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
                         },
                         {
@@ -148,16 +143,8 @@
                             "type": "infotext",
                             "name": "question438",
                             "visible": false,
-                            "title": "[Obsolete - Will questions determine which asset affidavit to use regardless of where the address is]\n<br><br>\nThis service can help you extend the powers of a `Representation Grant` from another place.\n<br><br>\nIt makes sense to first get a `Representation Grant` from where {deceasedName} spent most of their time. There may be benefits to getting grants in this order that a lawyer can explain to you. [link to lawyer info]\n<br><br>\nIf you don't already have a Representation Grant from the place where {deceasedName} spent most of their time, this service can still help you apply for a B.C. Representation Grant.  ",
+                            "title": "[Location triggered Explanation Obsolete here?? - Will questions determine which asset affidavit to use regardless of where the address is]\n<br><br>\nThis service can help you extend the powers of a `Representation Grant` from another place.\n<br><br>\nIt makes sense to first get a `Representation Grant` from where {deceasedName} spent most of their time. There may be benefits to getting grants in this order that a lawyer can explain to you. [link to lawyer info]\n<br><br>\nIf you don't already have a Representation Grant from the place where {deceasedName} spent most of their time, this service can still help you apply for a B.C. Representation Grant.  ",
                             "titleLocation": "hidden"
-                        },
-                        {
-                            "type": "infotext",
-                            "name": "question398",
-                            "visible": false,
-                            "title": "[Obsolete?? Probably still useful if not for P10/P11 then service addresses] <a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Location Trigger</a>\n<br><br>TB Finished\nMay need location data to figure out which asset form to use: P10 or P11",
-                            "titleLocation": "hidden",
-                            "messageStyle": "error"
                         },
                         {
                             "type": "infotext",
@@ -209,19 +196,20 @@
                         },
                         {
                             "type": "infotext",
-                            "name": "firstNationsNameTrello",
+                            "name": "deceasedFirstNationsNotifyExplanation",
                             "visible": false,
-                            "title": "<a href=\"https://trello.com/c/cD8xmZY9\" target=\"_blank\">Trello - Radio Logic: notempty not working</a>\n<br><br>\nJIRA Ticket to be created; Copied from Trello:\n<br><br>\n{firstNationsName} is a radio button question.\n{deceasedExitPanel} has a visibleIf condition that includes {firstNationsName} notempty\n<br><br>\nThe problem is {deceasedExitPanel} shows even if {firstNationsName} has no selection",
-                            "titleLocation": "hidden",
-                            "messageStyle": "error"
+                            "visibleIf": "{deceasedFirstNations} =\"y\" and {deceasedFirstNationsName} notempty",
+                            "title": "This service will tell you how to notify the {deceasedFirstNationsName} Nation in a later step.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
                         },
                         {
                             "type": "infotext",
-                            "name": "question460",
+                            "name": "question13",
                             "visible": false,
-                            "title": "This service will tell you how to notify the Nation in a later step.",
-                            "isRequired": true,
-                            "titleLocation": "hidden"
+                            "title": "double check that the variable substitution from {deceasedFirstNationsName} updates in real-time in the deployed version for {deceasedFirstNationsNotifyExplanation}",
+                            "titleLocation": "hidden",
+                            "messageStyle": "error"
                         }
                     ],
                     "visible": false,
@@ -239,7 +227,7 @@
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "{deceasedName} notempty and ({deceasedNameReplace} = \"n\" or ({deceasedNameReplace} = \"y\" and {deceasedNickname} notempty)) and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and ({deceasedFirstNations} = \"n\" or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty}))"
+                    "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and ({deceasedFirstNations} = \"n\" or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty and {deceasedFirstNationsNotifyExplanation} >0))"
                 }
             ],
             "title": "Information about {deceasedName}"
@@ -5324,14 +5312,15 @@
                             "title": "Will version TBD: copy their names as they appear on the will.\n<br>\nFuture, note about if you already entered yourself as executor, do so again here.",
                             "isRequired": true,
                             "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question41",
+                            "visible": false,
+                            "title": "What if the spouse is the executor and already put their info in the executor page?",
+                            "titleLocation": "hidden"
                         }
                     ]
-                },
-                {
-                    "type": "infotext",
-                    "name": "question41",
-                    "title": "What if the spouse is the executor and already put their info in the executor page?",
-                    "titleLocation": "hidden"
                 },
                 {
                     "type": "panel",
@@ -5352,7 +5341,7 @@
                         },
                         {
                             "type": "helptext",
-                            "name": "question28",
+                            "name": "spouseExistsFAQ2",
                             "title": "ask-erin about common-law and separated for less than 1? year but not yet divorced",
                             "description": "better to include person than no. if you're not sure, include them. \n<br><br>\nif separated, likely not going to get anything under WESA. No noticed required. This spouse's entitlement to {deceasedName}'s belongings will be through FLA. A different court.\n\nWESA\nhttp://www.bclaws.ca/civix/document/id/lc/statreg/09013_01#section2\n\nFamily Law Act 84\nhttp://www.bclaws.ca/civix/document/id/complete/statreg/11025_05#section84",
                             "titleLocation": "hidden"
@@ -5468,7 +5457,7 @@
                             "name": "spouseDied5DaysAfter",
                             "visible": false,
                             "visibleIf": "{panel.spouseIsAlive} = \"n\"",
-                            "title": "Did  die after (Deceased Date of Death + 4 days)?"
+                            "title": "Did {panel.spouseName} die after {deceasedDateOfDeathPlus4}?"
                         },
                         {
                             "type": "helptext",
@@ -5481,7 +5470,14 @@
                         },
                         {
                             "type": "infotext",
-                            "name": "question13",
+                            "name": "spouseDied5DaysAfterNo",
+                            "visible": false,
+                            "title": "Because {panel.spouseName} did not die after {deceasedDateOfDeathPlus4}, the people managing {panel.spouseName}'s belongings do not need to be notified that you are applying for a `Representation Grant` for {deceasedName}.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question28",
                             "visible": false,
                             "title": "no - died \"before\" pretend they are dead, no notice. even if they died after, but before 4 days, no notice. pretend they died after.",
                             "titleLocation": "hidden"
@@ -5551,19 +5547,20 @@
                             "name": "spouseCompleted",
                             "visible": false,
                             "visibleIf": "{spouseIsYou} = \"n\" or ({spouseIsYou} = \"y\" and {spouseIsYouIncluded} = \"y\")",
-                            "title": "Have you included anyone who may be considered a `spouse` of {deceasedName}?  "
+                            "title": "Have you included everyone who may be considered a `spouse` of {deceasedName}?  "
                         },
                         {
                             "type": "infotext",
                             "name": "spouseCompletedNoError",
                             "visible": false,
-                            "visibleIf": "{spouseIsYou} = \"n\" or ({spouseIsYou} = \"y\" and {spouseIsYouIncluded} = \"y\") and {spouseCompleted} = \"n\"",
+                            "visibleIf": "{spouseCompleted} = \"n\"",
                             "title": "Please make sure to include anyone who may be considered a spouse of {deceasedName}.  It is important to identify your relationship to <Deceased Name> as this service will prepare the paperwork based on this information.",
                             "titleLocation": "hidden",
                             "messageStyle": "error"
                         }
                     ],
-                    "visible": false
+                    "visible": false,
+                    "visibleIf": "{spouseExists} = \"n\"\nor\n\n{spouseInfoPanel[0].spouseName} notempty \nand \n\n({spouseInfoPanel[0].spouseIsAlive} = \"y\" \nand\n\n({spouseInfoPanel[0].spouseIsAdult} = \"y\" \nor \n({spouseInfoPanel[0].spouseIsAdult} = \"n\" and {spouseInfoPanel[0].spouseHasGuardian} = \"n\")\nor\n({spouseInfoPanel[0].spouseIsAdult} = \"n\" and {spouseInfoPanel[0].spouseHasGuardian} = \"y\" and {spouseInfoPanel[0].spouseGuardianName} notempty))\nand \n\n({spouseInfoPanel[0].spouseIsCompetent} = \"y\" \nor\n({spouseInfoPanel[0].spouseIsCompetent} = \"n\" and\n{spouseInfoPanel[0].spouseHasCommittee} = \"n\" and \n{spouseInfoPanel[0].spouseInformalCommitteeName} notempty)\nor\n({spouseInfoPanel[0].spouseIsCompetent} = \"n\" and\n{spouseInfoPanel[0].spouseHasCommittee} = \"y\" and \n{spouseInfoPanel[0].spouseCommitteeName} notempty)))\n\nor\n\n({spouseInfoPanel[0].spouseIsAlive} = \"n\" \nand\n({spouseInfoPanel[0].spouseDied5DaysAfter} = \"n\"\nor\n({spouseInfoPanel[0].spouseDied5DaysAfter} = \"y\" and\n{spouseInfoPanel[0].spouseHasPersonalRep} = \"n\" and\n{spouseInfoPanel[0].spouseInformalPersonalRepName} notempty)\nor\n({spouseInfoPanel[0].spouseDied5DaysAfter} = \"y\" and\n{spouseInfoPanel[0].spouseHasPersonalRep} = \"y\" and\n{spouseInfoPanel[0].spousePersonalRepName} notempty)))\n\n"
                 },
                 {
                     "type": "panel",
@@ -5577,7 +5574,7 @@
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "{spouseExists} = 'n' or ({spouseExists} = 'y' and {spouseIsYou} = 'n') or ({spouseIsYou} = 'y' and {spouseIsYouIncluded} = 'y')"
+                    "visibleIf": "({spouseIsYou} = \"n\" or \n({spouseIsYou} = \"y\" and {spouseIsYouIncluded} = \"y\"))\nand \n{spouseCompleted} = \"y\""
                 }
             ],
             "title": "{deceasedName}'s Spouse"
