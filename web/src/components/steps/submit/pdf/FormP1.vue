@@ -15,7 +15,7 @@
     <b-card id="print" style="border:1px solid; border-radius:5px;padding:3rem 4rem 2rem 4rem;" bg-variant="white" class="printcard mt-4 mb-3">
 
         <div style="text-align:center;">
-            <div style="margin:5rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P1 (RULE 25-2 (3) )</div>
+            <div style="margin:5rem 0 0 -1.3rem;font-weight: 300;font-size:20px;font-family:myFirstFont">FORM P1 (RULE 25-2 (3) )</div>
             <div style="margin:1rem 0 0 -1.3rem;font-weight: 600;font-size:24px;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
             <div style="margin:1rem 0 5rem -1.3rem;font-weight: 600;font-size:24px;">NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</div>            
         </div>
@@ -298,7 +298,7 @@ export default class FormP1 extends Vue {
 }
 </script>
 <style scoped>
-
+   
     .table >>> th.border-dark{border:1px solid #000;}
     .table >>> td.border-dark{border:1px solid #000;}
 
