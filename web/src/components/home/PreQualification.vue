@@ -2,7 +2,7 @@
     <b-container class="container home-content" >
         <survey v-bind:survey="survey"></survey>
         <b-button v-if="displayButton" @click="onSubmit" variant="success">
-            <b-icon-check-circle-fill/> Create an Account
+            <b-icon-check-circle-fill/> Next
         </b-button>
 
         <b-modal size="xl" v-model="showDisclaimer" header-class="bg-white" no-close-on-backdrop hide-header-close>
