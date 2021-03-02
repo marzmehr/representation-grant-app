@@ -51,7 +51,7 @@
                   },
                   {
                      "type": "helptext",
-                     "name": "question28",
+                     "name": "spouseExistsFAQ2",
                      "title": "ask-erin about common-law and separated for less than 1? year but not yet divorced",
                      "description": "better to include person than no. if you're not sure, include them. \n<br><br>\nif separated, likely not going to get anything under WESA. No noticed required. This spouse's entitlement to {deceasedName}'s belongings will be through FLA. A different court.\n\nWESA\nhttp://www.bclaws.ca/civix/document/id/lc/statreg/09013_01#section2\n\nFamily Law Act 84\nhttp://www.bclaws.ca/civix/document/id/complete/statreg/11025_05#section84",
                      "titleLocation": "hidden"
@@ -70,14 +70,17 @@
             {
                "type": "paneldynamic",
                "name": "spouseInfoPanel",
-               "title":" ",
+               "title": " ",
                "visible": false,
                "visibleIf": "{spouseExists} = \"y\"",
                "templateElements": [
                   {
-                     "type": "text",
+                     "type": "personname",
                      "name": "spouseName",
-                     "title": "Please enter the full name of {deceasedName}'s `spouse`."
+                     "defaultSubstitution": "{deceasedName}'s spouse",
+                     "title": "Please enter the full name of {deceasedName}'s `spouse`.",
+                     "labelFirstName": "First Name (Given Name)",
+                     "labelLastName": "Last Name (Family Name or Surname)"
                   },
                   {
                      "type": "yesno",
@@ -127,8 +130,7 @@
                      "name": "spouseIsCompetent",
                      "visible": false,
                      "visibleIf": "{panel.spouseIsAlive} = \"y\" and ({panel.spouseIsAdult} = \"y\" or ({panel.spouseIsAdult} = \"n\" and {panel.spouseHasGuardian} = \"n\"))",
-                     "title": "Is {panel.spouseName} `mentally competent`?",
-                     "description": "Update this logic so that living guardian comes here as well."
+                     "title": "Is {panel.spouseName} `mentally competent`?"
                   },
                   {
                      "type": "infotext",
@@ -168,7 +170,7 @@
                      "name": "spouseDied5DaysAfter",
                      "visible": false,
                      "visibleIf": "{panel.spouseIsAlive} = \"n\"",
-                     "title": "Did  die after {deceasedDateOfDeathPlus4}?"
+                     "title": "Did {panel.spouseName} die after {deceasedDateOfDeathPlus4}?"
                   },
                   {
                      "type": "helptext",
@@ -181,7 +183,14 @@
                   },
                   {
                      "type": "infotext",
-                     "name": "question13",
+                     "name": "spouseDied5DaysAfterNo",
+                     "visible": false,
+                     "title": "Because {panel.spouseName} did not die after {deceasedDateOfDeathPlus4}, the people managing {panel.spouseName}'s belongings do not need to be notified that you are applying for a `Representation Grant` for {deceasedName}.",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question28",
                      "visible": false,
                      "title": "no - died \"before\" pretend they are dead, no notice. even if they died after, but before 4 days, no notice. pretend they died after.",
                      "titleLocation": "hidden"
@@ -251,19 +260,20 @@
                      "name": "spouseCompleted",
                      "visible": false,
                      "visibleIf": "{spouseIsYou} = \"n\" or ({spouseIsYou} = \"y\" and {spouseIsYouIncluded} = \"y\")",
-                     "title": "Have you included anyone who may be considered a `spouse` of {deceasedName}?  "
+                     "title": "Have you included everyone who may be considered a `spouse` of {deceasedName}?  "
                   },
                   {
                      "type": "infotext",
                      "name": "spouseCompletedNoError",
                      "visible": false,
-                     "visibleIf": "{spouseIsYou} = \"n\" or ({spouseIsYou} = \"y\" and {spouseIsYouIncluded} = \"y\") and {spouseCompleted} = \"n\"",
+                     "visibleIf": "{spouseCompleted} = \"n\"",
                      "title": "Please make sure to include anyone who may be considered a spouse of {deceasedName}.  It is important to identify your relationship to <Deceased Name> as this service will prepare the paperwork based on this information.",
                      "titleLocation": "hidden",
                      "messageStyle": "error"
                   }
                ],
-               "visible": false
+               "visible": false,
+               "visibleIf": "{spouseExists} = \"n\"\nor\n\n{spouseInfoPanel[0].spouseName} notempty \nand \n\n({spouseInfoPanel[0].spouseIsAlive} = \"y\" \nand\n\n({spouseInfoPanel[0].spouseIsAdult} = \"y\" \nor \n({spouseInfoPanel[0].spouseIsAdult} = \"n\" and {spouseInfoPanel[0].spouseHasGuardian} = \"n\")\nor\n({spouseInfoPanel[0].spouseIsAdult} = \"n\" and {spouseInfoPanel[0].spouseHasGuardian} = \"y\" and {spouseInfoPanel[0].spouseGuardianName} notempty))\nand \n\n({spouseInfoPanel[0].spouseIsCompetent} = \"y\" \nor\n({spouseInfoPanel[0].spouseIsCompetent} = \"n\" and\n{spouseInfoPanel[0].spouseHasCommittee} = \"n\" and \n{spouseInfoPanel[0].spouseInformalCommitteeName} notempty)\nor\n({spouseInfoPanel[0].spouseIsCompetent} = \"n\" and\n{spouseInfoPanel[0].spouseHasCommittee} = \"y\" and \n{spouseInfoPanel[0].spouseCommitteeName} notempty)))\n\nor\n\n({spouseInfoPanel[0].spouseIsAlive} = \"n\" \nand\n({spouseInfoPanel[0].spouseDied5DaysAfter} = \"n\"\nor\n({spouseInfoPanel[0].spouseDied5DaysAfter} = \"y\" and\n{spouseInfoPanel[0].spouseHasPersonalRep} = \"n\" and\n{spouseInfoPanel[0].spouseInformalPersonalRepName} notempty)\nor\n({spouseInfoPanel[0].spouseDied5DaysAfter} = \"y\" and\n{spouseInfoPanel[0].spouseHasPersonalRep} = \"y\" and\n{spouseInfoPanel[0].spousePersonalRepName} notempty)))\n\n"
             },
             {
                "type": "panel",
@@ -277,7 +287,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{spouseExists} = 'n' or ({spouseExists} = 'y' and {spouseIsYou} = 'n') or ({spouseIsYou} = 'y' and {spouseIsYouIncluded} = 'y')"
+               "visibleIf": "({spouseIsYou} = \"n\" or \n({spouseIsYou} = \"y\" and {spouseIsYouIncluded} = \"y\"))\nand \n{spouseCompleted} = \"y\""
             }
          ],
          "title": "{deceasedName}'s Spouse"
