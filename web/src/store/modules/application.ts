@@ -16,6 +16,7 @@ class Application extends VuexModule {
     public lastFiled = null
     public currentStep = 1
     public allCompleted = false
+    public spouseCompleted = false
     public userType = ""
     public userName = ""
     public userId = ""
@@ -24,6 +25,7 @@ class Application extends VuexModule {
     public deceasedDateOfDeath = null
     public deceasedDateOfDeathPlus4 = "(the Five-day survival rule)"
     public dateOfWill = null
+    public relatedPeopleInfo = []
     public deceasedChildrenInfo = []
     public deceasedGrandChildrenInfo = []
     public applicationLocation = ""
@@ -36,6 +38,7 @@ class Application extends VuexModule {
     @Mutation
     public init(): void {
         this.allCompleted = false;
+        this.spouseCompleted = false;
         this.currentStep = 0;
         this.type = "probate";
         this.deceasedName = {"first":"(the person","middle":"who","last":"died)"};
@@ -579,6 +582,15 @@ class Application extends VuexModule {
     }
 
     @Mutation
+    public setSpouseCompleted(spouseCompleted): void {
+        this.spouseCompleted = spouseCompleted;
+    }
+    @Action
+    public UpdateSpouseCompleted(newSpouseCompleted) {
+        this.context.commit("setSpouseCompleted", newSpouseCompleted);
+    }
+
+    @Mutation
     public setApplicantName(applicantName): void {
         this.applicantName = applicantName;
     }
@@ -639,6 +651,15 @@ class Application extends VuexModule {
     @Action
     public UpdateDeceasedChildrenInfo(newDeceasedChildrenInfo) {
         this.context.commit("setDeceasedChildrenInfo", newDeceasedChildrenInfo);
+    }
+
+    @Mutation
+    public setRelatedPeopleInfo(relatedPeopleInfo): void {
+        this.relatedPeopleInfo = relatedPeopleInfo;
+    }
+    @Action
+    public UpdateRelatedPeopleInfo(newRelatedPeopleInfo) {
+        this.context.commit("setRelatedPeopleInfo", newRelatedPeopleInfo);
     }
 
     @Mutation
@@ -727,14 +748,15 @@ class Application extends VuexModule {
         this.applicantName = application.applicantName;
         this.deceasedName = application.deceasedName;
         this.deceasedDateOfDeath = application.deceasedDateOfDeath;
+        this.relatedPeopleInfo = [];
         if (this.deceasedDateOfDeath) {
             this.deceasedDateOfDeathPlus4 = Vue.filter('beautify-full-date')(moment(this.deceasedDateOfDeath, "YYYY-MM-DD").add(4, 'days').format());
         }
         this.dateOfWill = application.dateOfWill;
-
-        //console.log(this.steps[2])
+        console.log(this.steps[1]);
+        console.log(this.steps[2]);
         if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
-            const childrenInfo = this.steps[2].result["childrenSurvey"].data.childInfoPanel
+            const childrenInfo = this.steps[2].result["childrenSurvey"].data.childInfoPanel?this.steps[2].result["childrenSurvey"].data.childInfoPanel:[]
             const deceasedChildren = [];        
             for (const child of childrenInfo) {
                 if (child.childIsAlive == "n"           && 
@@ -742,12 +764,30 @@ class Application extends VuexModule {
                     child.childName                     &&
                     child.childInformalPersonalRepName) {
                         deceasedChildren.push(Vue.filter('getFullName')(child.childName));                    
+                } else if (child.childIsAlive == "y") {
+                    this.relatedPeopleInfo.push({relationShip: "child", info: child});
                 }                       
             }
             if (deceasedChildren.length > 0) {
                 this.deceasedChildrenInfo = deceasedChildren;        
             } else {
                 this.deceasedChildrenInfo = [];
+            }
+        }
+
+        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
+            const spouseInfo = this.steps[2].result["spouseSurvey"].data.spouseInfoPanel?this.steps[2].result["spouseSurvey"].data.spouseInfoPanel:[];
+                   
+            for (const spouse of spouseInfo) {
+                if (spouse.spouseIsAlive == "y") {
+                    this.relatedPeopleInfo.push({relationShip: "spouse", info: spouse});
+                }                       
+            }
+            
+            if (this.steps[2].result["spouseSurvey"].data.spouseCompleted && this.steps[2].result["spouseSurvey"].data.spouseCompleted == "y") {
+                this.spouseCompleted = true;
+            } else {
+                this.spouseCompleted = false;
             }
         }
         

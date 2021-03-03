@@ -455,17 +455,20 @@
                   {
                      "type": "text",
                      "name": "applicantLawyerName",
-                     "title": "lawyer's name"
+                     "title": "lawyer's name",
+                     "visibleIf": "{applicantLawyer} = 'y'"
                   },
                   {
                      "type": "text",
                      "name": "applicantLawyerFirmName",
-                     "title": "law firm name"
+                     "title": "law firm name",
+                     "visibleIf": "{applicantLawyer} = 'y'"
                   },
                   {
                      "type": "address",
                      "name": "applicantLawyerFirmAddress",
-                     "title": "lawyer's address"
+                     "title": "lawyer's address",
+                     "visibleIf": "{applicantLawyer} = 'y'"
                   },
                   {
                      "type": "infotext",
@@ -482,14 +485,9 @@
                      "type": "infotext",
                      "name": "question268",
                      "title": "[JIRA] Determine closest courthouse based on service address.",
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question242",
-                     "title": "do we need to allow for homeless applicants?",
-                     "titleLocation": "hidden"
-                  },
+                     "titleLocation": "hidden",
+                     "visible":false
+                  },                 
                   {
                      "type": "yesno",
                      "name": "applicantCourthouseClosest",
@@ -540,15 +538,13 @@
                   {
                      "type": "text",
                      "name": "applicantServiceEmail",
-                     "title": "Service Email Address",
-                     "description": "usually optional but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
+                     "title": "Service Email Address (optional)",
                      "inputType": "email"
                   },
                   {
                      "type": "text",
                      "name": "applicantServiceFax",
-                     "title": "Service Fax Number",
-                     "description": "usually optional but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
+                     "title": "Service Fax Number (optional)",
                      "inputType": "tel"
                   },
                   {
@@ -592,7 +588,8 @@
                "type": "helptext",
                "name": "question450",
                "title": "[Moved here Nov 19 2020]\n<br>\nMight need to appear in multiple pages' exit panels depending if will or not will? \n<br>\nOld Sidebar FAQ What if I don't know all the assets in the deceased's estate?\n\nIt is your responsibility to make sure you find and report all the deceased's assets that you know about. If you successfully become the deceased's personal representative and you find more assets to report afterwards, there will be additional forms to complete. Use either form P14 or P15 to tell the court.\nhttps://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms",
-               "titleLocation": "hidden"
+               "titleLocation": "hidden",
+               "visible":false
             }
          ],
          "title": "The Applicant(s)"

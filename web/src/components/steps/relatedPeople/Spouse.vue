@@ -51,6 +51,9 @@ export default class Spouse extends Vue {
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
 
     @applicationState.Action
+    public UpdateSpouseCompleted!: (newSpouseCompleted: boolean) => void
+
+    @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
     @applicationState.Action
@@ -89,10 +92,20 @@ export default class Spouse extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
-             //console.log(options)
-            // if(options.name == "ApplicantName") {
-            //     this.$store.commit("Application/setApplicantName", options.value);
-            // }
+             console.log(options)
+            if(options.name == "spouseCompleted") {
+                if (options.value == "y"){
+                    this.UpdateSpouseCompleted(true);
+                } else {
+                    this.UpdateSpouseCompleted(false);
+                }
+            }
+
+            if(options.name == "spouseExists") {
+                if (options.value == "n"){
+                    this.UpdateSpouseCompleted(true);
+                }
+            }
         })
     }
     
@@ -100,7 +113,14 @@ export default class Spouse extends Vue {
         //console.log(this.step.result)
         if (this.step.result && this.step.result['spouseSurvey']) {
             this.survey.data = this.step.result['spouseSurvey'].data;
-            Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
+            Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);
+
+            if(this.survey.data.spouseExists && this.survey.data.spouseExists == "n") {                
+                this.UpdateSpouseCompleted(true);                
+            } else if(this.survey.data.spouseCompleted && this.survey.data.spouseCompleted == "y") {                
+                this.UpdateSpouseCompleted(true);                
+            }
+
         }
 
         this.thisStep = this.currentStep;
