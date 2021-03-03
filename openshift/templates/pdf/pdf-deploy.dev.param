@@ -4,10 +4,10 @@
 # Template File: ../openshift/templates/pdf/pdf-deploy.yaml
 #=========================================================
 # NAME=pdf
-# APP_NAME=fla
+# APP_NAME=representation-grant
 # ROLE=pdf
 # SOURCE_IMAGE_NAME=pdf
-# IMAGE_NAMESPACE=09e0c5-tools
+# IMAGE_NAMESPACE=583dbf-tools
 TAG_NAME=dev
 # MIN_REPLICAS=3
 # MAX_REPLICAS=6

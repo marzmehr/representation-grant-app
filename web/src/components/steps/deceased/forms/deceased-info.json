@@ -48,7 +48,8 @@
                      "name": "jiraRepgrant28",
                      "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-28\" target=\"_blank\">JIRA ticket REPGRANT-28 - Name Capitalization based on Input Device</a>",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "messageStyle": "error",
+                     "visible": false
                   }
                ],
                "visible": false,
@@ -80,8 +81,7 @@
                      "messageStyle": "error"
                   }
                ],
-               "visible": false,
-               "visibleIf": "{deceasedIntroExplanation} > 0"
+               "visible": false
             },
             {
                "type": "panel",
@@ -93,41 +93,38 @@
                      "title": "When did {deceasedName} die?",
                      "description": "If you are unsure, this date can be found on {deceasedName}'s `Certificate of Death`.",
                      "inputType": "date",
-                     "dateYearsBehind": 6
+                     "dateYearsBehind": 7
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "invalidDateOfDeath",
+                     "title": "{invalidDateOfDeathMessage}",
+                     "titleLocation": "hidden",
+                     "messageStyle": "error",
+                     "visible": false,
+                     "visibleIf": "{invalidDateOfDeathError}"
                   },
                   {
                      "type": "helptext",
                      "name": "deceasedDateOfDeathFAQ1",
                      "title": "How do I get a `Certificate of Death`",
                      "titleLocation": "hidden",
-                     "body": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n"
+                     "body": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. You can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\" target=\"_blank\">Click here for more information from the Government of British Columbia's website.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of British Columbia but still inside of Canada, you must get a Certificate of Death from the province or territory where they died. \n<br><br>\n<a href=\"https://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\" target=\"_blank\">Click here for other Vital Statistics Agencies in Canada.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. "
                   },
                   {
                      "type": "infotext",
                      "name": "question412",
-                     "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. \n<br>\nYou can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n\nVisit the Government of British Columbia website for more information. https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\n\n<br><br>\nIf {deceasedName} died outside of British Columbia but still in Canada, you must get a Certificate of Death from the province or territory where they died. \n\n<br><br>\nClick here for other Vital Statistics Agencies in Canada. \nhttps://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\n\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "jiraRepgrant30",
-                     "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-30\" target=\"_blank\">JIRA ticket REPGRANT30 - Deceased Death Date Limit</a>",
+                     "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. You can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\" target=\"_blank\">Click here for more information from the Government of British Columbia's website.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of British Columbia but still inside of Canada, you must get a Certificate of Death from the province or territory where they died. \n<br><br>\n<a href=\"https://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\" target=\"_blank\">Click here for other Vital Statistics Agencies in Canada.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "jiraRepgrant31",
-                     "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-31\" target=\"_blank\">JIRA ticket REPGRANT31 - Deceased Death + 4 Days</a>",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "visible": false
                   },
                   {
                      "type": "infotext",
                      "name": "jiraRepgrant32",
                      "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-32\" target=\"_blank\">JIRA ticket REPGRANT32 - Deceased Death Data as Validation</a>",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "messageStyle": "error",
+                     "visible": false
                   }
                ],
                "visible": false,
@@ -140,7 +137,7 @@
                   {
                      "type": "address",
                      "name": "deceasedAddress",
-                     "title": "What was {deceasedName} last known address?",
+                     "title": "What was {deceasedName}'s last known address?",
                      "description": "If {deceasedName} was homeless:\n<ul>\n<li>write \"no fixed address\" for the street address</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
                   },
                   {
@@ -162,33 +159,29 @@
                   {
                      "type": "infotext",
                      "name": "question438",
-                     "title": "[Obsolete - Will questions determine which asset affidavit to use regardless of where the address is]\n<br><br>\nThis service can help you extend the powers of a `Representation Grant` from another place.\n<br><br>\nIt makes sense to first get a `Representation Grant` from where {deceasedName} spent most of their time. There may be benefits to getting grants in this order that a lawyer can explain to you. [link to lawyer info]\n<br><br>\nIf you don't already have a Representation Grant from the place where {deceasedName} spent most of their time, this service can still help you apply for a B.C. Representation Grant.  ",
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question398",
-                     "title": "[Obsolete?? Probably still useful if not for P10/P11 then service addresses] <a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Location Trigger</a>\n<br><br>TB Finished\nMay need location data to figure out which asset form to use: P10 or P11",
+                     "title": "[Location triggered Explanation Obsolete here?? - Will questions determine which asset affidavit to use regardless of where the address is]\n<br><br>\nThis service can help you extend the powers of a `Representation Grant` from another place.\n<br><br>\nIt makes sense to first get a `Representation Grant` from where {deceasedName} spent most of their time. There may be benefits to getting grants in this order that a lawyer can explain to you. [link to lawyer info]\n<br><br>\nIf you don't already have a Representation Grant from the place where {deceasedName} spent most of their time, this service can still help you apply for a B.C. Representation Grant.  ",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "visible": false
                   },
                   {
                      "type": "infotext",
                      "name": "question415",
                      "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - PO Box</a>\n<br><br>TB Finished\n(pick either “Street number and street name:” or “Post office box:” the other options can be deleted)\n<br><br>Maybe irrelevant if the person can just write in PO Box in street number/name? But change label??",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "messageStyle": "error",
+                     "visible": false
                   },
                   {
                      "type": "infotext",
                      "name": "question332",
                      "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Homeless postal code</a>\n<br><br>TB Finished\nIf the person had no fixed address, they don't have a postal code so validation needs to ignore that sometimes but validate most of the time.\n<br><br>\nInput mask? Probably not because we don't know postal codes around the world work.",
                      "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "messageStyle": "error",
+                     "visible": false
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedIntroExplanation} > 0"
+               "visibleIf": "(!{invalidDateOfDeathError}) and {deceasedIntroExplanation} > 0"
             },
             {
                "type": "panel",
@@ -220,22 +213,24 @@
                   },
                   {
                      "type": "infotext",
-                     "name": "firstNationsNameTrello",
-                     "title": "<a href=\"https://trello.com/c/cD8xmZY9\" target=\"_blank\">Trello - Radio Logic: notempty not working</a>\n<br><br>\nJIRA Ticket to be created; Copied from Trello:\n<br><br>\n{firstNationsName} is a radio button question.\n{deceasedExitPanel} has a visibleIf condition that includes {firstNationsName} notempty\n<br><br>\nThe problem is {deceasedExitPanel} shows even if {firstNationsName} has no selection",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error"
+                     "name": "deceasedFirstNationsNotifyExplanation",
+                     "visible": false,
+                     "visibleIf": "{deceasedFirstNations} =\"y\" and {deceasedFirstNationsName} notempty",
+                     "title": "This service will tell you how to notify the {deceasedFirstNationsName} Nation in a later step.",
+                     "isRequired": true,
+                     "titleLocation": "hidden"
                   },
                   {
                      "type": "infotext",
-                     "name": "question460",
+                     "name": "question13",
                      "visible": false,
-                     "title": "This service will tell you how to notify the Nation in a later step.",
-                     "isRequired": true,
-                     "titleLocation": "hidden"
+                     "title": "double check that the variable substitution from {deceasedFirstNationsName} updates in real-time in the deployed version for {deceasedFirstNationsNotifyExplanation}",
+                     "titleLocation": "hidden",
+                     "messageStyle": "error"
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedIntroExplanation} > 0"
+               "visibleIf": "(!{invalidDateOfDeathError}) and {deceasedIntroExplanation} > 0"
             },
             {
                "type": "panel",
@@ -249,7 +244,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedName} notempty and ({deceasedNameReplace} = \"n\" or ({deceasedNameReplace} = \"y\" and {deceasedNickname} notempty)) and {deceasedDateOfDeath} notempty and {deceasedAddress} notempty and ({deceasedFirstNations} = \"n\" or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty}))"
+               "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and (!{invalidDateOfDeathError}) and {deceasedAddress} notempty and (({deceasedFirstNations} = \"n\") or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty and {deceasedFirstNationsNotifyExplanation} >0))"
             }
          ],
          "title": "Information about {deceasedName}"

@@ -56,6 +56,7 @@ export default class Beneficiaries extends Vue {
 
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
+    thisStep=0;
    
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -98,12 +99,14 @@ export default class Beneficiaries extends Vue {
             this.survey.data = this.step.result['beneficiarySurvey'].data;
             Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
         }
+
+        this.thisStep = this.currentStep;
       
         this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
-        this.survey.setVariable("deceasedDateOfDeathPlus4", Vue.filter('beautify-date')(this.deceasedDateOfDeathPlus4));
+        this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);
  
     }
 
@@ -123,9 +126,9 @@ export default class Beneficiaries extends Vue {
   
     
     beforeDestroy() {
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
+        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
-        this.UpdateStepResultData({step:this.step, data: {beneficiarySurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}})
+        this.UpdateStepResultData({step:this.step, data: {beneficiarySurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
 
     }
 }

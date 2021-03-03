@@ -77,11 +77,6 @@
                "title": "OXD - Are there others applying to represent {deceasedName}?"
             },
             {
-               "type": "text",
-               "name": "question311",
-               "title": "Please enter the name of the other applicants."
-            },
-            {
                "type": "infotext",
                "name": "question276",
                "title": "[JIRA] Figure out how to combine people who are both executors and spouse/family/beneficiary",
@@ -132,6 +127,34 @@
                ]
             },
             {
+               "type": "text",
+               "name": "applicantNewName",
+               "title": "Please enter the name of the other applicant.",
+               "description": "If you are applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`, enter your name here. This service will ask for your organization's name in a later question."
+            },
+            {
+               "type": "radiogroup",
+               "name": "question258",
+               "choices": [
+                  {
+                     "value": "item1",
+                     "text": "I am a regular person applying to manage {deceasedName}'s 'assets' (in my own name instead of regular person?)"
+                  },
+                  {
+                     "value": "item2",
+                     "text": "I am a professional applying, in my own name, to manage {deceasedName}'s `assets`"
+                  },
+                  {
+                     "value": "item3",
+                     "text": "I am a professional applying on behalf of an organization that has been asked to manage {deceasedName}'s `assets`"
+                  },
+                  {
+                     "value": "item4",
+                     "text": "I am a lawyer who is helping a client complete these documents"
+                  }
+               ]
+            },
+            {
                "type": "paneldynamic",
                "name": "applicantInfoPanel",
                "templateElements": [
@@ -144,6 +167,7 @@
                   {
                      "type": "infotext",
                      "name": "question312",
+                     "visible": false,
                      "title": "Can collapse/expand accordions<br>\nOrder of accordion items same as in previous question<br>\nRemove accordion according to who is removed in previous question<br>\nShow this question only if there is input from previous question",
                      "titleLocation": "hidden"
                   },
@@ -155,40 +179,81 @@
                      "titleLocation": "hidden"
                   },
                   {
+                     "type": "yesno",
+                     "name": "applicantNewPartOfOrg",
+                     "title": "Is {applicantNewName} applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`",
+                     "defaultValue": "n"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question44",
+                     "visible": false,
+                     "title": "If there is 1 applicant on behalf of an organization, use organization address as service address. still check if it is within 30km of courthouse later.",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantOrgName",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "Organization Name"
+                  },
+                  {
                      "type": "radiogroup",
-                     "name": "applicantIndividual",
-                     "title": "individual or not <br>\n[JIRA] only ask this question for executors and beneficiaries",
+                     "name": "applicantOrgType",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "What type of organization is {applicantOrgName}?",
+                     "hasOther": true,
                      "choices": [
                         {
-                           "value": "person",
-                           "text": "person"
+                           "value": "item1",
+                           "text": "Law Firm"
                         },
                         {
-                           "value": "organization",
-                           "text": "organization"
+                           "value": "item2",
+                           "text": "Accountants"
+                        },
+                        {
+                           "value": "item3",
+                           "text": "Bank or Credit Union"
+                        },
+                        {
+                           "value": "item4",
+                           "text": "Trust Company"
                         }
                      ]
                   },
                   {
-                     "type": "text",
-                     "name": "applicantOrganizationPerson",
-                     "visible": false,
-                     "visibleIf": "{panel.applicantIndividual} = 'organization'",
-                     "title": "not individual - name of person who works at organization"
-                  },
-                  {
                      "type": "address",
-                     "name": "applicantOrganizationAddress",
+                     "name": "applicantOrgAddress",
                      "visible": false,
-                     "visibleIf": "{panel.applicantIndividual} = 'organization'",
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
                      "title": "organization address"
                   },
                   {
-                     "type": "contactinfo",
-                     "name": "applicantOrganizationContact",
+                     "type": "text",
+                     "name": "applicantOrgPhone",
                      "visible": false,
-                     "visibleIf": "{panel.applicantIndividual} = 'organization'",
-                     "title": "organization contact info"
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "Organization Phone Number",
+                     "inputType": "tel"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantOrgEmail",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "Organization Email",
+                     "inputType": "email"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantOrgFax",
+                     "visible": false,
+                     "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+                     "title": "Organization Fax",
+                     "inputType": "tel"
                   },
                   {
                      "type": "text",
@@ -200,7 +265,7 @@
                   },
                   {
                      "type": "address",
-                     "name": "applicantAddress",
+                     "name": "applicantMailingAddress",
                      "visible": false,
                      "visibleIf": "{panel.applicantIndividual} = 'person'",
                      "title": "What is Jillian Patricia Taylor mailing address? (probably too hard to combine with ordinarily lives)",
@@ -208,14 +273,14 @@
                   },
                   {
                      "type": "yesno",
-                     "name": "applicantOrdinaryAddress",
+                     "name": "applicantMailingAddressIsOrdinary",
                      "visible": false,
                      "visibleIf": "{panel.applicantIndividual} = 'person'",
                      "title": "ordinarily live at this address?"
                   },
                   {
                      "type": "address",
-                     "name": "question242",
+                     "name": "applicantOrdinaryAddress",
                      "visible": false,
                      "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantOrdinaryAddress} = 'n'",
                      "title": "if mailing address not where they ordinarily live; ordinary city and country"
@@ -309,7 +374,8 @@
                      "titleLocation": "hidden",
                      "messageStyle": "inline"
                   }
-               ]
+               ],
+               "panelCount": 1
             },
             {
                "type": "infotext",
@@ -321,19 +387,19 @@
             },
             {
                "type": "yesno",
-               "name": "question286",
+               "name": "applicantNominatedBySpouse",
                "title": "are you a nominee of spouse(s)? only ask if there is a living spouse (even if the applicant is a child)",
                "description": "yes - 130a"
             },
             {
                "type": "yesno",
-               "name": "question297",
+               "name": "applicantChildConsent",
                "title": "select all other living children of deceased who support your application - ask everyone",
                "description": ">50% & child - 130b; >50% & not child - 130c;  =<50% & child - 130d; =<50% & not child - continue to next question"
             },
             {
                "type": "yesno",
-               "name": "question44",
+               "name": "applicantIntestateConsent",
                "title": "select from all other living successors who support your application - ask intestate and new applicants",
                "description": "calculate gift % per person - >50% gift & intestate - 130e; >50% gift & new applicant - 130e.1;  =<50% gift & intestate - 130f; =<50% gift & new applicant - 130g"
             },
@@ -436,22 +502,22 @@
                   },
                   {
                      "type": "yesno",
-                     "name": "question253",
+                     "name": "applicantLawyer",
                      "title": "do you have a lawyer?"
                   },
                   {
                      "type": "text",
-                     "name": "question271",
+                     "name": "applicantLawyerName",
                      "title": "lawyer's name"
                   },
                   {
                      "type": "text",
-                     "name": "question272",
+                     "name": "applicantLawyerFirmName",
                      "title": "law firm name"
                   },
                   {
                      "type": "address",
-                     "name": "question243",
+                     "name": "applicantLawyerFirmAddress",
                      "title": "lawyer's address"
                   },
                   {
@@ -462,7 +528,7 @@
                   },
                   {
                      "type": "address",
-                     "name": "question258",
+                     "name": "applicantServiceAddress",
                      "title": "service address"
                   },
                   {
@@ -472,14 +538,20 @@
                      "titleLocation": "hidden"
                   },
                   {
+                     "type": "infotext",
+                     "name": "question242",
+                     "title": "do we need to allow for homeless applicants?",
+                     "titleLocation": "hidden"
+                  },
+                  {
                      "type": "yesno",
-                     "name": "question269",
+                     "name": "applicantCourthouseClosest",
                      "title": "The closest courthouse to this service address is [courthouse location]. Do you want to file here?",
                      "description": "This means the file including the Will lives here if you ever need to look at it."
                   },
                   {
                      "type": "dropdown",
-                     "name": "question270",
+                     "name": "applicantCourthouseDifferent",
                      "visible": false,
                      "title": "select the court location you want to file at",
                      "description": "courthouse location",
@@ -492,28 +564,60 @@
                   {
                      "type": "infotext",
                      "name": "question298",
+                     "visible": false,
                      "title": "[further than 30km away from selected courthouse] You will need to provide one or more of the following: email, fax, PO box within 30km of {courthouseLocation}",
                      "titleLocation": "hidden"
                   },
                   {
                      "type": "infotext",
                      "name": "question275",
+                     "visible": false,
                      "title": "Is it fine to secretly ignore the 30km rule?",
                      "titleLocation": "hidden"
                   },
                   {
                      "type": "contactinfo",
                      "name": "jillContact",
-                     "title": "service contact (optional?) (one or more required if outside 30km of courthouse?)",
+                     "visible": false,
+                     "title": "[obsolete Feb 15 2021 - service contact (optional?) (one or more required if outside 30km of courthouse?)",
                      "description": "If the address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
                      "labelEmail": "Email (optional)",
                      "labelFax": "Fax (optional)"
                   },
                   {
+                     "type": "text",
+                     "name": "applicantServicePhone",
+                     "title": "Service Phone Number",
+                     "inputType": "tel"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantServiceEmail",
+                     "title": "Service Email Address",
+                     "description": "usually optional but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
+                     "inputType": "email"
+                  },
+                  {
+                     "type": "text",
+                     "name": "applicantServiceFax",
+                     "title": "Service Fax Number",
+                     "description": "usually optional but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
+                     "inputType": "tel"
+                  },
+                  {
                      "type": "yesno",
-                     "name": "question273",
-                     "title": "Do you want to enter a PO Box address that is within 30km of the courthouse?",
-                     "description": "figure out how this works?"
+                     "name": "applicantServicePOBox",
+                     "visible": false,
+                     "title": "Do you want to use a PO Box address that is within 30km of the courthouse?",
+                     "description": "figure out how this works?\nusually invisible but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia."
+                  },
+                  {
+                     "type": "address",
+                     "name": "applicantServicePOBoxAddress",
+                     "visible": false,
+                     "visibleIf": "{applicantServicePOBox} = \"y\"",
+                     "title": "PO Box address within 30km of [courthouse]",
+                     "description": "usually invisible but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia."
                   }
                ]
             },

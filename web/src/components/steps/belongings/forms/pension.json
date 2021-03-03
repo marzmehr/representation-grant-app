@@ -131,7 +131,7 @@
                         {
                            "type": "yesno",
                            "name": "question354",
-                           "title": "did the the designated beneficiary die after (date of death + 4 days)?"
+                           "title": "did the the designated beneficiary die after {deceasedDateOfDeathPlus4}?"
                         },
                         {
                            "type": "infotext",

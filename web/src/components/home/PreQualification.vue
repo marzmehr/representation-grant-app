@@ -2,7 +2,7 @@
     <b-container class="container home-content" >
         <survey v-bind:survey="survey"></survey>
         <b-button v-if="displayButton" @click="onSubmit" variant="success">
-            <b-icon-check-circle-fill/> Complete
+            <b-icon-check-circle-fill/> Next
         </b-button>
 
         <b-modal size="xl" v-model="showDisclaimer" header-class="bg-white" no-close-on-backdrop hide-header-close>
@@ -62,7 +62,7 @@ export default class PreQualification extends Vue {
     error = "";
     applicationId = 0;
     displayButton = false;
-    showDisclaimer = true;
+    showDisclaimer = false;
     survey = new SurveyVue.Model(surveyJson);  
 
     beforeCreate() {
@@ -72,7 +72,7 @@ export default class PreQualification extends Vue {
     }
 
     mounted(){
-        this.showDisclaimer = true;
+        this.showDisclaimer = false;
         this.displayButton = false;       
         this.initializeSurvey();
         this.addSurveyListener();
@@ -91,7 +91,7 @@ export default class PreQualification extends Vue {
 
         if(!this.survey.isCurrentPageHasErrors) 
         {
-            if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation > 0) 
+            if (this.survey.data.qualifyingWillExists == 'n' && this.survey.data.qualifyingDiedAfterWESA == 'y' && this.survey.data.qualifyingTerms > 0 ) 
             {
                 if(this.userId !== ""){
                     this.$router.push({ name: "surveys" });
@@ -106,8 +106,10 @@ export default class PreQualification extends Vue {
     }
 
     public addSurveyListener(){
-        this.survey.onValueChanged.add((sender, options) => {         
-            if (this.survey.data.diedAfterWESA == 'y' && this.survey.data.complicationsExplanation) 
+        this.survey.onValueChanged.add((sender, options) => { 
+            console.log(this.survey.data) 
+            console.log(options)        
+            if (this.survey.data.qualifyingWillExists == 'n' && this.survey.data.qualifyingDiedAfterWESA == 'y' && this.survey.data.qualifyingTerms > 0 ) 
             {
                 this.displayButton = true;
             } else {

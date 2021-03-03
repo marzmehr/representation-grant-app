@@ -1,5 +1,5 @@
 <template>
-    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
+    <page-base :disableNext="disableNextButton" v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
         <survey v-bind:survey="survey"></survey>
     </page-base>
 </template>
@@ -39,6 +39,9 @@ export default class DeceasedWill extends Vue {
     public deceasedName!: string;
 
     @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
+
+    @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
     @applicationState.Action
@@ -50,9 +53,10 @@ export default class DeceasedWill extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
-
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
+    thisStep=0;
+    disableNextButton = false;   
    
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -63,6 +67,10 @@ export default class DeceasedWill extends Vue {
     beforeCreate() {
         const Survey = SurveyVue;
         surveyEnv.setCss(Survey);
+    }
+
+    created() {
+        this.disableNextButton = false;
     }
 
     mounted(){
@@ -83,9 +91,27 @@ export default class DeceasedWill extends Vue {
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
             // console.log(options)
-            if(options.name == "ApplicantName") {
-                this.$store.commit("Application/setApplicantName", options.value);
+            if(options.name == "willCheck") {
+                if (options.value == "n") {
+                    this.disableNextButton = true;
+                    this.toggleSteps([2, 3, 4, 5, 6, 7, 8], false)
+                } else {
+                    this.disableNextButton = false;
+                     this.toggleSteps([2, 3, 4, 5, 6, 7, 8], true)
+                }                
             }
+
+            if(options.name == "willGrantExists") {
+                if (options.value == "y") {
+                    this.disableNextButton = true;
+                     this.toggleSteps([2, 3, 4, 5, 6, 7, 8], false)
+                } else {
+                    this.disableNextButton = false;
+                     this.toggleSteps([2, 3, 4, 5, 6, 7, 8], true)
+                }                
+            }
+
+
         })
     }
     
@@ -95,11 +121,22 @@ export default class DeceasedWill extends Vue {
             this.survey.data = this.step.result['deceasedWillSurvey'].data;
             Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
         }
+
+        this.thisStep = this.currentStep;
       
         this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
 
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+    }   
+
+    public toggleSteps(stepArr, activeIndicator) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: activeIndicator
+            });
+        }
     }
 
     public onPrev() {
@@ -118,9 +155,9 @@ export default class DeceasedWill extends Vue {
   
     
     beforeDestroy() {
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
+        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
-        this.UpdateStepResultData({step:this.step, data: {deceasedWillSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}})
+        this.UpdateStepResultData({step:this.step, data: {deceasedWillSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
 
     }
 }
