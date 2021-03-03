@@ -199,7 +199,6 @@
                      "visible": false,
                      "visibleIf": "{deceasedFirstNations} = \"y\"",
                      "title": "Which Nation did {deceasedName} belong to? [was a member of? check with an Indigenous authority]",
-                     "description": "This service will help you notify the appropriate Nation in a later step.",
                      "choices": [
                         "Nisga'a",
                         "Huu-ay-aht",
@@ -216,7 +215,7 @@
                      "name": "deceasedFirstNationsNotifyExplanation",
                      "visible": false,
                      "visibleIf": "{deceasedFirstNations} =\"y\" and {deceasedFirstNationsName} notempty",
-                     "title": "This service will tell you how to notify the {deceasedFirstNationsName} Nation in a later step.",
+                     "title": "You will need to tell the {deceasedFirstNationsName} Nation that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will help you tell the {deceasedFirstNationsName} Nation in a later step.",
                      "isRequired": true,
                      "titleLocation": "hidden"
                   },
