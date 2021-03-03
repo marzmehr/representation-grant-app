@@ -41,6 +41,9 @@ export default class Children extends Vue {
     @applicationState.State
     public deceasedDateOfDeathPlus4!: string;
 
+    @applicationState.State
+    public spouseCompleted!: boolean;
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -52,6 +55,9 @@ export default class Children extends Vue {
 
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
+
+    @applicationState.Action
+    public UpdateChildrenCompleted!: (newChildrenCompleted) => void
 
     @applicationState.Action
     public UpdatePageActive!: (newPageActive) => void
@@ -92,13 +98,14 @@ export default class Children extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            this.determineHasChild();           
+            this.determineHasChild();
+
             
         })            
     }
 
     public determineHasChild(){
-        if (this.survey.data.child == "n") { //No Children
+        if (this.survey.data.child && this.survey.data.child == "n") { //No Children
             this.survey.setVariable("noChildren", true);
             this.survey.setVariable("spouseExist", this.spouseExist);
             if(!this.spouseExist){                

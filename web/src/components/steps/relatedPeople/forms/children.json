@@ -213,6 +213,22 @@
                            "title": "Before moving on to the next step, please add your information as a child. It is important to identify your relationship to {deceasedName} as this service will prepare the paperwork based on this information.",
                            "titleLocation": "hidden",
                            "messageStyle": "error"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childCompleted",
+                           "visible": false,
+                           "visibleIf": "{childIsYou} = \"n\" or ({childIsYou} = \"y\" and {childIsYouIncluded} = \"y\")",
+                           "title": "Have you included everyone who may be considered a child of {deceasedName}?  "
+                        },
+                        {
+                           "type": "infotext",
+                           "name": "childCompletedNoError",
+                           "visible": false,
+                           "visibleIf": "{childCompleted} = \"n\"",
+                           "title": "Please make sure to include anyone who may be considered a child of {deceasedName}.  It is important to identify your relationship to <Deceased Name> as this service will prepare the paperwork based on this information.",
+                           "titleLocation": "hidden",
+                           "messageStyle": "error"
                         }
                      ],
                      "visible": false,
@@ -248,7 +264,7 @@
                         }
                      ],
                      "visible": false,
-                     "visibleIf": "{noChildren} or ((!{noChildren}) and {childIsYou} = 'n') or ({childIsYou} = 'y' and {childIsYouIncluded} = 'y')"
+                     "visibleIf": "{childCompleted} = \"y\""
                   }
                ]
             }

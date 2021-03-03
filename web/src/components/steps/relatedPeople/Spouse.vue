@@ -36,10 +36,22 @@ export default class Spouse extends Vue {
     public currentStep!: number;
 
     @applicationState.State
+    public spouseCompleted!: boolean;
+
+    @applicationState.State
+    public childrenCompleted!: boolean;
+
+    @applicationState.State
+    public relatedPeopleInfo!: any;
+
+    @applicationState.State
     public deceasedName!: string;
 
     @applicationState.State
     public deceasedDateOfDeathPlus4!: string;
+
+    @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -106,6 +118,13 @@ export default class Spouse extends Vue {
                     this.UpdateSpouseCompleted(true);
                 }
             }
+
+            if (this.spouseCompleted && this.childrenCompleted && this.relatedPeopleInfo.length>0) {
+                this.toggleSteps([3], true);            
+            } else {
+                this.toggleSteps([3, 4, 5, 6, 7, 8], false); 
+
+            }
         })
     }
     
@@ -131,6 +150,16 @@ export default class Spouse extends Vue {
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);     
    
+    }
+
+    public toggleSteps(stepArr, active) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: active
+            });
+        }
+        
     }
 
     public onPrev() {

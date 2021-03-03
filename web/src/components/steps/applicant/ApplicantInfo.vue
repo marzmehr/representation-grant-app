@@ -99,50 +99,7 @@ export default class ApplicantInfo extends Vue {
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
             // console.log(options)
-            let pagesArr = [];
-            // if (options.name == "orderType") {                
-            //     this.removePages();
-            //     //console.log('__removed')
-            //     const selectedOrder = options.value;
-            //     this.$store.commit("Application/setApplicationType",this.getApplicationType(selectedOrder));
-                
-            //     this.UpdateStepResultData({step:this.step, data: {selectedPOOrder: sender.data}});
-
-            //     pagesArr = [7, 8];
-            //     if (selectedOrder !== "needPO" && selectedOrder !== "none") {
-            //         this.togglePages(pagesArr, true);
-            //         this.toggleOtherPartyPage(true); 
-            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:1, currentPage:0 })
-            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:2, currentPage:7 });
-            //         this.$store.commit("Application/setPageProgress", { currentStep: 2, currentPage:7, progress:0 })
-            //     } else {
-            //         this.togglePages(pagesArr, false);
-            //         this.toggleOtherPartyPage(false);
-            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:1, currentPage:0 })
-            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:2, currentPage:0 })
-            //     }
-            //     if (selectedOrder == "needPO") {
-            //         this.populatePagesForNeedPO(sender);
-            //     }
-            //     this.determinePeaceBondAndBlock();
-            // }
-            // if (options.name == "PORConfirmed") {
-            //     //console.log(this.survey.data)
-            //     this.determinePeaceBondAndBlock();
-            //     pagesArr = [0, 1, 2, 4, 5, 6, 8];
-            //     if (options.value.length !== 0) {
-            //     this.togglePages(pagesArr, true);
-            //     } else {
-            //     this.togglePages(pagesArr, false);
-            //     }
-            // }
-
-            // if (options.name == "familyUnsafe" || options.name == "unsafe") {
-            //     //console.warn(options.value)
-            //     this.determinePeaceBondAndBlock();
-            // }
-            //console.log(this.survey.data)
-            //console.log(options.name) 
+            let pagesArr = [];            
         })   
     }
 
