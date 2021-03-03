@@ -77,7 +77,7 @@
                   {
                      "type": "personname",
                      "name": "spouseName",
-                     "defaultSubstitution": "{deceasedName}'s spouse",
+                     "defaultSubstitution": "({deceasedName}'s spouse)",
                      "title": "Please enter the full name of {deceasedName}'s `spouse`.",
                      "labelFirstName": "First Name (Given Name)",
                      "labelLastName": "Last Name (Family Name or Surname)"
@@ -179,7 +179,14 @@
                      "visibleIf": "{panel.spouseIsAlive} = \"n\"",
                      "title": "Why does this date matter?",
                      "titleLocation": "hidden",
-                     "body": "In determining who gets part of estate, it is important to know who died first. This may not sound strange, but under the law, if they died less than 5 days after Deceased Name, they are considered to have died before Deceased Name. For more information, refer to Five-day survival rule from the Wills, Estate and Succession Act (WESA).\nhttp://www.bclaws.ca/civix/document/id/complete/statreg/00_09013_01#section10"
+                     "body": "In determining who gets part of estate, it is important to know who died first. This may not sound strange, but under the law, if they died less than 5 days after Deceased Name, they are considered to have died before Deceased Name.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section10\" target=\"_blank\">For more information, click here for the Five-day survival rule from the Wills, Estate and Succession Act (WESA).</a> (This link opens in a new tab)"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question253",
+                     "visible": false,
+                     "title": "In determining who gets part of estate, it is important to know who died first. This may not sound strange, but under the law, if they died less than 5 days after Deceased Name, they are considered to have died before Deceased Name.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section10\" target=\"_blank\">For more information, click here for the Five-day survival rule from the Wills, Estate and Succession Act (WESA).</a> (This link opens in a new tab)",
+                     "titleLocation": "hidden"
                   },
                   {
                      "type": "infotext",
@@ -287,7 +294,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "({spouseIsYou} = \"n\" or \n({spouseIsYou} = \"y\" and {spouseIsYouIncluded} = \"y\"))\nand \n{spouseCompleted} = \"y\""
+               "visibleIf": "{spouseCompleted} = \"y\""
             }
          ],
          "title": "{deceasedName}'s Spouse"
