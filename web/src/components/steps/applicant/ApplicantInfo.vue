@@ -77,7 +77,7 @@ export default class ApplicantInfo extends Vue {
         this.disableNextButton = false
         if (this.step.result && this.step.result['applicantInfoSurvey']) { 
             this.disableNextButton = false;           
-            // this.determinePeaceBondAndBlock();
+           
         }
     }
 
@@ -97,10 +97,20 @@ export default class ApplicantInfo extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            //console.log(this.survey.data);
+            console.log(this.survey.data);
             // console.log(options)
-            let pagesArr = [];            
+            this.determineApplicantInfoCompleted();
+                        
         })   
+    }
+
+    public determineApplicantInfoCompleted(){
+
+        if (this.survey.data.applicantCourthouseClosest && this.survey.data.applicantCourthouseClosest == "y") {
+            this.toggleSteps([4], true);
+        } else{
+            this.toggleSteps([4, 5, 6, 7, 8], false);
+        }        
     }
 
     public reloadPageInformation() {
@@ -113,7 +123,7 @@ export default class ApplicantInfo extends Vue {
         
         this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
-        // this.determinePeaceBondAndBlock();
+        this.determineApplicantInfoCompleted();
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
     
    }
@@ -145,11 +155,13 @@ export default class ApplicantInfo extends Vue {
         });
     }
 
-    public toggleStep(step, active) {
-        this.UpdateStepActive({
-            currentStep: step,
-            active: active
-        });
+    public toggleSteps(stepArr, active) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: active
+            });
+        }        
     }
 
     public removePages() {
@@ -197,25 +209,7 @@ export default class ApplicantInfo extends Vue {
         else return "Protection Order";
     }
     
-    public determinePeaceBondAndBlock(){
-        var pagesArr = [0, 1, 2, 4, 5, 6, 8];
-        if((this.survey.data.familyUnsafe == 'n' && this.survey.data.orderType == 'needPO')||(this.survey.data.unsafe == 'n' && this.survey.data.orderType == 'needPO')){
-            this.disableNextButton = true;
-            this.togglePages(pagesArr, false);
-            this.toggleStep(1, false);
-            this.toggleStep(2, false);
-            this.toggleStep(8, false);
-            
-        }else{
-            this.disableNextButton = false;
-            if (this.survey.data.PORConfirmed && this.survey.data.orderType == 'needPO') {            
-            this.toggleStep(1, true);
-            this.toggleStep(2, true);
-            this.toggleStep(8, true);
-            this.togglePages(pagesArr, true);
-            }       
-        }
-    }
+   
 
     beforeDestroy() {
 
