@@ -6,6 +6,8 @@
 # NAME=db
 # APP_NAME=representation-grant
 # ROLE=db
+# BACKUP_APP_NAME=Backup
+# NAMESPACE_NAME=583dbf
 # IMAGE_NAMESPACE=583dbf-tools
 # SOURCE_IMAGE_NAME=db
 TAG_NAME=test

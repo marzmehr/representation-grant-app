@@ -163,7 +163,7 @@ Vue.filter('extractRequiredDocuments', function(questions){
 	return requiredDocuments;
 })
 
-Vue.filter('printPdf', function(html, pageFooter){
+Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 
 	//console.log(customCss)
 	const body = [
@@ -177,12 +177,12 @@ Vue.filter('printPdf', function(html, pageFooter){
 				size: 15.5in 16.17in;
 				margin: 3rem 3rem 4rem 3rem;
 				@bottom-left {
-					content:`+ pageFooter +
+					content:`+ pageFooterLeft +
 					`white-space: pre;
 					font-size: 6pt;
 				}
 				@bottom-right {
-					content:"Page " counter(page) " of " counter(pages);
+					content:`+pageFooterRight+` " Page " counter(page) " of " counter(pages);
 					font-size: 8pt;
 				}
 			}`+
