@@ -101,6 +101,16 @@ export default class DeceasedWill extends Vue {
                 }                
             }
 
+            if(options.name == "willExists") {
+                if (options.value == "y") {
+                    this.disableNextButton = true;
+                    this.toggleSteps([2, 3, 4, 5, 6, 7, 8], false)
+                } else {
+                    this.disableNextButton = false;
+                     this.toggleSteps([2, 3, 4, 5, 6, 7, 8], true)
+                }                
+            }
+
             if(options.name == "willGrantExists") {
                 if (options.value == "y") {
                     this.disableNextButton = true;
