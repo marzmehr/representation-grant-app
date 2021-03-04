@@ -158,7 +158,7 @@ export default class Children extends Vue {
 
         for (const child of childrenInfo) {
             if (child.childIsAlive == "n"           && 
-                child.childDied5DaysAfter == "y"    &&
+                child.childDied5DaysAfter == "n"    &&
                 child.childName) {
                     deceasedChildren.push(Vue.filter('getFullName')(child.childName));                    
             }                       

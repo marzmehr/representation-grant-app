@@ -146,7 +146,7 @@ export default class GrandChildren extends Vue {
             for(const result of this.survey.data[panel]){
                 console.log(result) 
                 if (result.grandchildIsAlive == "n"          && 
-                    result.grandchildDied5DaysAfter == "y"   && 
+                    result.grandchildDied5DaysAfter == "n"   && 
                     result.grandchildName) {
                         //grandChildrenInfo[i].fullName = Vue.filter('getFullName')(grandChildrenInfo[i].childName);
                         deceasedGrandChildren.push(Vue.filter('getFullName')(result.grandchildName));

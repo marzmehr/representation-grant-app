@@ -773,7 +773,7 @@ class Application extends VuexModule {
             const deceasedChildren = [];        
             for (const child of childrenInfo) {
                 if (child.childIsAlive == "n"           && 
-                    child.childDied5DaysAfter == "y"    &&
+                    child.childDied5DaysAfter == "n"    &&
                     child.childName) {
                         deceasedChildren.push(Vue.filter('getFullName')(child.childName));                    
                 } else if (child.childIsAlive == "y") {
