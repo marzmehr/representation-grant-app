@@ -42,7 +42,16 @@ export default class Children extends Vue {
     public deceasedDateOfDeathPlus4!: string;
 
     @applicationState.State
+    public childrenCompleted!: boolean;
+
+    @applicationState.State
     public spouseCompleted!: boolean;
+
+    @applicationState.State
+    public relatedPeopleInfo!: any;
+
+    @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -99,9 +108,25 @@ export default class Children extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             this.determineHasChild();
-
-            
+            this.determineChildrenCompleted();
+            //console.log(options)
         })            
+    }
+
+    public determineChildrenCompleted(){
+        if (this.survey.data.child && this.survey.data.child == "n") {
+            this.UpdateChildrenCompleted(true);
+        }else if(this.survey.data.childCompleted && this.survey.data.childCompleted == "y") {
+            this.UpdateChildrenCompleted(true);
+        }else{
+            this.UpdateChildrenCompleted(false);
+        }
+
+        if (this.spouseCompleted && this.childrenCompleted && this.relatedPeopleInfo.length>0) {
+            this.toggleSteps([3], true);            
+        } else {
+            this.toggleSteps([3, 4, 5, 6, 7, 8], false);
+        }
     }
 
     public determineHasChild(){
@@ -173,6 +198,15 @@ export default class Children extends Vue {
             });
         }
     }
+
+    public toggleSteps(stepArr, active) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: active
+            });
+        }        
+    }
     
     public reloadPageInformation() {
         //console.log(this.step.result)
@@ -195,7 +229,8 @@ export default class Children extends Vue {
 
         if(this.survey.data.child){
             this.determineHasChild();
-        }  
+        } 
+        this.determineChildrenCompleted();
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);     
@@ -214,8 +249,7 @@ export default class Children extends Vue {
 
     public onComplete() {
         this.UpdateAllCompleted(true);
-    }
-  
+    }  
     
     beforeDestroy() {
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);        
