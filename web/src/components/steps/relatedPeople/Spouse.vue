@@ -51,6 +51,9 @@ export default class Spouse extends Vue {
     public deceasedDateOfDeathPlus4!: string;
 
     @applicationState.Action
+    public UpdateRelatedPeopleInfo!: (newRelatedPeopleInfo) => void
+
+    @applicationState.Action
     public UpdateStepActive!: (newStepActive) => void
 
     @applicationState.Action
@@ -153,6 +156,29 @@ export default class Spouse extends Vue {
         }        
     }
 
+    public extractRelatedPeopleInfo(){
+        const relatedPeopleInfo=[]
+        const spouseInfo = (this.survey.data.spouseExists =='y' && this.survey.data.spouseInfoPanel)?this.survey.data.spouseInfoPanel:[];
+                
+        for (const spouse of spouseInfo) {
+            if (spouse.spouseIsAlive == "y") {
+                relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
+            }                       
+        }        
+
+        if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
+            const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
+            const childrenInfo = (childrenSurvey.data.child=='y'&& childrenSurvey.data.childInfoPanel)?childrenSurvey.data.childInfoPanel:[]
+                
+            for (const child of childrenInfo) {
+                if (child.childIsAlive == "y") {
+                    relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
+                }                       
+            }
+        }
+        this.UpdateRelatedPeopleInfo(relatedPeopleInfo)
+    }
+
     public onPrev() {
         this.UpdateGotoPrevStepPage()
     }
@@ -165,14 +191,12 @@ export default class Spouse extends Vue {
 
     public onComplete() {
         this.UpdateAllCompleted(true);
-    }
-  
+    }  
     
     beforeDestroy() {
-        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
-        
+        this.extractRelatedPeopleInfo();
+        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);        
         this.UpdateStepResultData({step:this.step, data: {spouseSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}})
-
     }
 }
 </script>
