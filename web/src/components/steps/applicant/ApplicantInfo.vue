@@ -38,6 +38,12 @@ export default class ApplicantInfo extends Vue {
     @applicationState.State
     public deceasedName!: string;
 
+    @applicationState.State
+    public relatedPeopleInfo!: any;
+
+    @applicationState.Action
+    public UpdateRelatedPeopleInfo!: (newRelatedPeopleInfo) => void
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -81,68 +87,87 @@ export default class ApplicantInfo extends Vue {
         }
     }
 
-    mounted(){
+    mounted(){        
+        this.extractRelatedPeopleInfo();
+        console.log(this.relatedPeopleInfo);
+
         this.initializeSurvey();
         this.addSurveyListener();
         this.reloadPageInformation();
     }
 
+    public extractRelatedPeopleInfo(){
+        const relatedPeopleInfo=[]
+        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
+            const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
+            //console.log(spouseSurvey)
+            const spouseInfo = (spouseSurvey.data.spouseExists =='y' && spouseSurvey.data.spouseInfoPanel)?spouseSurvey.data.spouseInfoPanel:[];
+                   
+            for (const spouse of spouseInfo) {
+                if (spouse.spouseIsAlive == "y") {
+                    relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
+                }                       
+            }
+        }
+
+        if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
+            const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
+            const childrenInfo = (childrenSurvey.data.child=='y'&& childrenSurvey.data.childInfoPanel)?childrenSurvey.data.childInfoPanel:[]
+                
+            for (const child of childrenInfo) {
+                if (child.childIsAlive == "y") {
+                    relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
+                }                       
+            }
+        }
+        this.UpdateRelatedPeopleInfo(relatedPeopleInfo)
+    }
+
     public initializeSurvey(){
+        this.adjustSurveyForRelatedPeople();
         this.survey = new SurveyVue.Model(surveyJson);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
         surveyEnv.setGlossaryMarkdown(this.survey);
-    }    
+    } 
+    
+    public adjustSurveyForRelatedPeople(){
+        
+        const temp = (surveyJson.pages[0].elements[6])        
+        console.log(temp)
+        let tmp = JSON.parse(JSON.stringify(temp));
+        surveyJson.pages[0].elements[4].elements[0]["choices"]=[];
+        for(const relatedPerson in this.relatedPeopleInfo){
+            const applicantName = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)+' ('+this.relatedPeopleInfo[relatedPerson].relationShip+')'
+            surveyJson.pages[0].elements[4].elements[0]["choices"].push({value:'relatedPerson['+relatedPerson+']', text: applicantName})
+            
+            tmp = JSON.parse(JSON.stringify(temp));
+            tmp.name = "applicantInfoPanel["+relatedPerson+"]";
+            tmp.visibleIf = "{applicant} contains 'relatedPerson["+relatedPerson+"]'"
+
+            tmp.elements[3].name = "applicantNewPartOfOrg["+relatedPerson+"]";
+            tmp.elements[3].title = "Is "+ applicantName +" applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`"
+           
+            tmp.elements[11].name = "applicantOccupation["+relatedPerson+"]";
+            tmp.elements[11].title = "What is "+ applicantName +"'s job or profession?"
+
+            tmp.elements[12].name = "applicantMailingAddress["+relatedPerson+"]";
+            tmp.elements[12].title = "What is "+ applicantName +" mailing address?"
+            
+            if(relatedPerson == '0')
+                surveyJson.pages[0].elements[6] = tmp;
+            else 
+                surveyJson.pages[0].elements.splice(6+Number(relatedPerson),0,tmp)
+        }
+        //console.log(surveyJson)
+    }
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
             // console.log(options)
-            let pagesArr = [];
-            // if (options.name == "orderType") {                
-            //     this.removePages();
-            //     //console.log('__removed')
-            //     const selectedOrder = options.value;
-            //     this.$store.commit("Application/setApplicationType",this.getApplicationType(selectedOrder));
-                
-            //     this.UpdateStepResultData({step:this.step, data: {selectedPOOrder: sender.data}});
-
-            //     pagesArr = [7, 8];
-            //     if (selectedOrder !== "needPO" && selectedOrder !== "none") {
-            //         this.togglePages(pagesArr, true);
-            //         this.toggleOtherPartyPage(true); 
-            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:1, currentPage:0 })
-            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:2, currentPage:7 });
-            //         this.$store.commit("Application/setPageProgress", { currentStep: 2, currentPage:7, progress:0 })
-            //     } else {
-            //         this.togglePages(pagesArr, false);
-            //         this.toggleOtherPartyPage(false);
-            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:1, currentPage:0 })
-            //         this.$store.commit("Application/setCurrentStepPage", { currentStep:2, currentPage:0 })
-            //     }
-            //     if (selectedOrder == "needPO") {
-            //         this.populatePagesForNeedPO(sender);
-            //     }
-            //     this.determinePeaceBondAndBlock();
-            // }
-            // if (options.name == "PORConfirmed") {
-            //     //console.log(this.survey.data)
-            //     this.determinePeaceBondAndBlock();
-            //     pagesArr = [0, 1, 2, 4, 5, 6, 8];
-            //     if (options.value.length !== 0) {
-            //     this.togglePages(pagesArr, true);
-            //     } else {
-            //     this.togglePages(pagesArr, false);
-            //     }
-            // }
-
-            // if (options.name == "familyUnsafe" || options.name == "unsafe") {
-            //     //console.warn(options.value)
-            //     this.determinePeaceBondAndBlock();
-            // }
-            //console.log(this.survey.data)
-            //console.log(options.name) 
+            let pagesArr = [];            
         })   
     }
 

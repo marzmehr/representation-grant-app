@@ -175,13 +175,6 @@
                            "defaultSubstitution": "(the deceased's child's informal representative)",
                            "labelFirstName": "First Name (Given Name)",
                            "labelLastName": "Last Name (Family Name or Surname)"
-                        },
-                        {
-                           "type": "yesno",
-                           "name": "childHasChildren",
-                           "visible": false,
-                           "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"",
-                           "title": "Did {panel.childName} have any children?"
                         }
                      ],
                      "panelCount": 1,
@@ -213,6 +206,22 @@
                            "title": "Before moving on to the next step, please add your information as a child. It is important to identify your relationship to {deceasedName} as this service will prepare the paperwork based on this information.",
                            "titleLocation": "hidden",
                            "messageStyle": "error"
+                        },
+                        {
+                           "type": "yesno",
+                           "name": "childCompleted",
+                           "visible": false,
+                           "visibleIf": "{childIsYou} = \"n\" or ({childIsYou} = \"y\" and {childIsYouIncluded} = \"y\")",
+                           "title": "Have you included everyone who may be considered a child of {deceasedName}?  "
+                        },
+                        {
+                           "type": "infotext",
+                           "name": "childCompletedNoError",
+                           "visible": false,
+                           "visibleIf": "{childCompleted} = \"n\"",
+                           "title": "Please make sure to include anyone who may be considered a child of {deceasedName}.  It is important to identify your relationship to <Deceased Name> as this service will prepare the paperwork based on this information.",
+                           "titleLocation": "hidden",
+                           "messageStyle": "error"
                         }
                      ],
                      "visible": false,
@@ -237,10 +246,18 @@
                            "titleLocation": "hidden",
                            "visible": false,
                            "visibleIf": "{noChildren} and (!{spouseExist})"
+                        },
+                        {
+                           "type": "infotext",
+                           "name": "childExitApplicantExplanation",
+                           "title": "Because {deceasedName} has no children, lets move on to information about the applicant/s.",
+                           "titleLocation": "hidden",
+                           "visible": false,
+                           "visibleIf": "{noChildren} and {spouseExist}"
                         }
                      ],
                      "visible": false,
-                     "visibleIf": "{noChildren} or ((!{noChildren}) and {childIsYou} = 'n') or ({childIsYou} = 'y' and {childIsYouIncluded} = 'y')"
+                     "visibleIf": "{childCompleted} = \"y\""
                   }
                ]
             }

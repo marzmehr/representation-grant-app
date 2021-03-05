@@ -41,6 +41,21 @@ export default class Children extends Vue {
     @applicationState.State
     public deceasedDateOfDeathPlus4!: string;
 
+    @applicationState.State
+    public childrenCompleted!: boolean;
+
+    @applicationState.State
+    public spouseCompleted!: boolean;
+
+    @applicationState.State
+    public relatedPeopleInfo!: any;
+
+    @applicationState.Action
+    public UpdateRelatedPeopleInfo!: (newRelatedPeopleInfo) => void
+
+    @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -52,6 +67,9 @@ export default class Children extends Vue {
 
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
+
+    @applicationState.Action
+    public UpdateChildrenCompleted!: (newChildrenCompleted) => void
 
     @applicationState.Action
     public UpdatePageActive!: (newPageActive) => void
@@ -92,13 +110,31 @@ export default class Children extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            this.determineHasChild();           
-            
+            this.determineHasChild();
+            this.determineChildrenCompleted();
+            //console.log(options)
         })            
     }
 
+    public determineChildrenCompleted(){
+        
+        if (this.survey.data.child && this.survey.data.child == "n") {
+            this.UpdateChildrenCompleted(true);
+        }else if(this.survey.data.childCompleted && this.survey.data.childCompleted == "y") {
+            this.UpdateChildrenCompleted(true);
+        }else{
+            this.UpdateChildrenCompleted(false);
+        }
+
+        if (this.spouseCompleted && this.childrenCompleted && this.relatedPeopleInfo.length>0) {
+            this.toggleSteps([3,8], true);            
+        } else {
+            this.toggleSteps([3, 4, 5, 6, 7, 8], false);
+        }
+    }
+
     public determineHasChild(){
-        if (this.survey.data.child == "n") { //No Children
+        if (this.survey.data.child && this.survey.data.child == "n") { //No Children
             this.survey.setVariable("noChildren", true);
             this.survey.setVariable("spouseExist", this.spouseExist);
             if(!this.spouseExist){                
@@ -126,7 +162,7 @@ export default class Children extends Vue {
 
         for (const child of childrenInfo) {
             if (child.childIsAlive == "n"           && 
-                child.childDied5DaysAfter == "y"    &&
+                child.childDied5DaysAfter == "n"    &&
                 child.childName) {
                     deceasedChildren.push(Vue.filter('getFullName')(child.childName));                    
             }                       
@@ -166,6 +202,15 @@ export default class Children extends Vue {
             });
         }
     }
+
+    public toggleSteps(stepArr, active) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: active
+            });
+        }        
+    }
     
     public reloadPageInformation() {
         //console.log(this.step.result)
@@ -188,7 +233,8 @@ export default class Children extends Vue {
 
         if(this.survey.data.child){
             this.determineHasChild();
-        }  
+        } 
+        this.determineChildrenCompleted();
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);     
@@ -205,12 +251,38 @@ export default class Children extends Vue {
         }
     }
 
+    public extractRelatedPeopleInfo(){
+        const relatedPeopleInfo=[]
+        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
+            const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
+            //console.log(spouseSurvey)
+            const spouseInfo = (spouseSurvey.data.spouseExists =='y' && spouseSurvey.data.spouseInfoPanel)?spouseSurvey.data.spouseInfoPanel:[];
+                   
+            for (const spouse of spouseInfo) {
+                if (spouse.spouseIsAlive == "y") {
+                    relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
+                }                       
+            }
+        }
+
+       
+        const childrenInfo = (this.survey.data.child=='y'&& this.survey.data.childInfoPanel)?this.survey.data.childInfoPanel:[]
+            
+        for (const child of childrenInfo) {
+            if (child.childIsAlive == "y") {
+                relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
+            }                       
+        }
+        
+        this.UpdateRelatedPeopleInfo(relatedPeopleInfo)
+    }
+
     public onComplete() {
         this.UpdateAllCompleted(true);
-    }
-  
+    }  
     
     beforeDestroy() {
+        this.extractRelatedPeopleInfo()
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);        
         this.UpdateStepResultData({step:this.step, data: {childrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
     }
