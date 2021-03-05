@@ -127,7 +127,7 @@ export default class Children extends Vue {
         }
 
         if (this.spouseCompleted && this.childrenCompleted && this.relatedPeopleInfo.length>0) {
-            this.toggleSteps([3], true);            
+            this.toggleSteps([3,8], true);            
         } else {
             this.toggleSteps([3, 4, 5, 6, 7, 8], false);
         }

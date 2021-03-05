@@ -351,7 +351,7 @@ class Application extends VuexModule {
         //Submit START
         s = {} as stepInfoType;
         //TODO: turn active to false
-        s.active = false;
+        s.active = true;
         s.id = "8";
         s.label = "Review and File";
         s.icon = "paper-plane";
