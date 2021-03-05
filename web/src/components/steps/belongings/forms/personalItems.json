@@ -11,12 +11,14 @@
                         {
                             "type": "yesno",
                             "name": "question316",
+                            "visible":false,
                             "title": "[only if there is a will] any other Specific Will gifts not already disclosed?",
                             "description": "please list all gifts specifically mentioned in the will that haven't already been disclosed.\n[+ add secured debt question if there is a value]"
                         },
                         {
                             "type": "matrixdynamic",
                             "name": "question397",
+                            "visible":false,
                             "titleLocation": "hidden",
                             "columns": [
                                 {
@@ -56,6 +58,7 @@
                         {
                             "type": "yesno",
                             "name": "question333",
+                            "visible":false,
                             "title": "Are all the gifts that were specially mentioned in the will included in this service?"
                         },
                         {
@@ -69,7 +72,7 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question301",
+                    "name": "cashExists",
                     "title": "Cash?",
                     "description": "you are required to declare cash that will enter your possession when you manage {deceasedName}'s estate even if you don't need a rep grant get access to this cash."
                 },
@@ -77,19 +80,22 @@
                     "type": "text",
                     "name": "question328",
                     "visible": false,
+                    "visibleIf": "{cashExists} = 'y'",
                     "title": "value of cash",
                     "description": "physical cash at home or buried somewhere",
                     "inputType": "number"
                 },
                 {
                     "type": "yesno",
-                    "name": "question324",
+                    "name": "stocksExists",
                     "title": "certificated stocks and bonds",
                     "description": "this means physical copies of stocks/bonds that are not held in a digital online broker. company, amounts of shares, value at date of death, registered loan against this?"
                 },
                 {
                     "type": "paneldynamic",
                     "name": "question374",
+                    "visible": false,
+                    "visibleIf": "{stocksExists} = 'y'",
                     "templateElements": [
                         {
                             "type": "text",
@@ -110,25 +116,31 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question375",
+                    "name": "stocksCompleted",
+                    "visible": false,
+                    "visibleIf": "{stocksExists} = 'y'",
                     "title": "Is this all the stocks/bonds?"
                 },
                 {
                     "type": "infotext",
-                    "name": "question376",
+                    "name": "stocksCompletedNoError",
+                    "visible": false,
+                    "visibleIf": "{stocksCompleted} = 'n'",
                     "title": "add more stocks/bonds",
                     "titleLocation": "hidden",
                     "messageStyle": "error"
                 },
                 {
                     "type": "yesno",
-                    "name": "question365",
+                    "name": "oweMoney",
                     "title": "Does anyone or any organization owe {deceasedName} money?",
                     "description": "direct loans to people or business, lease payments on property, etc"
                 },
                 {
                     "type": "paneldynamic",
-                    "name": "question366",
+                    "name": "moneyOwingPanel",
+                    "visible": false,
+                    "visibleIf": "{oweMoney} = 'y'",
                     "templateElements": [
                         {
                             "type": "text",
@@ -156,12 +168,16 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question379",
+                    "name": "oweMoneyCompleted",
+                    "visible": false,
+                    "visibleIf": "{oweMoney} = 'y'",
                     "title": "is this everyone who owes {deceasedName} money?"
                 },
                 {
                     "type": "infotext",
-                    "name": "question380",
+                    "name": "oweMoneyCompletedNoError",
+                    "visible": false,
+                    "visibleIf": "{oweMoneyCompleted} = 'n'",
                     "title": "add more private loans",
                     "titleLocation": "hidden",
                     "messageStyle": "error"

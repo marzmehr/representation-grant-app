@@ -16,36 +16,46 @@
                "elements": [
                   {
                      "type": "yesno",
-                     "name": "question350",
+                     "name": "payCPP",
                      "title": "Did {deceasedName} pay into CPP?"
                   },
                   {
                      "type": "infotext",
                      "name": "question351",
+                     "visible": false,
+                     "visibleIf": "{payCPP} = 'y'",                
                      "title": "there is an entitlement to survivor's benefits. it won't form part of the estate so we don't need further information about that.<br><br>\nwe do need to know if death benefit is claimed because it will form part of the estate",
                      "titleLocation": "hidden"
                   },
                   {
                      "type": "yesno",
                      "name": "question346",
+                     "visible": false,
+                     "visibleIf": "{payCPP} = 'y'",
                      "title": "Has the CPP Death Benefit been claimed for {deceasedName}?",
                      "description": "https://www.canada.ca/en/services/benefits/publicpensions/cpp/cpp-death-benefit.html"
                   },
                   {
                      "type": "infotext",
                      "name": "question347",
+                     "visible": false,
+                     "visibleIf": "{payCPP} = 'y'",
                      "title": "we will include this on the P10\nthe death benefit is an amount that automatically becomes part of the estate on {deceasedName}'s date of death even if it shows up in a bank account much later.",
                      "titleLocation": "hidden"
                   },
                   {
                      "type": "yesno",
                      "name": "question320",
+                     "visible": false,
+                     "visibleIf": "{payCPP} = 'y'",
                      "title": "[No] Was {deceasedName} eligible for Canadian Pension Plan (CPP)'s Death Benefit?",
                      "description": "automatically assume it will be claimed"
                   },
                   {
                      "type": "helptext",
                      "name": "question348",
+                     "visible": false,
+                     "visibleIf": "{payCPP} = 'y'",
                      "title": "How do I know if {deceasedName} was elligble for CPP Death Benefit",
                      "titleLocation": "hidden",
                      "body": "https://www.canada.ca/en/services/benefits/publicpensions/cpp/cpp-death-benefit.html"
@@ -53,6 +63,8 @@
                   {
                      "type": "infotext",
                      "name": "question349",
+                     "visible": false,
+                     "visibleIf": "{payCPP} = 'y'",
                      "title": "If they are eligible, this money will be added to the P10. the death benefit is an amount that automatically becomes part of the estate on {deceasedName}'s date of death even if it shows up in a bank account much later.\n<br><br>\nEven if someone has not claimed the death benefit so far, it will be presumed to be claimed.",
                      "titleLocation": "hidden"
                   }
@@ -77,16 +89,16 @@
             },
             {
                "type": "yesno",
-               "name": "question343",
+               "name": "ageOver65",
                "title": "was deceased over 65 when they died?"
             },
             {
                "type": "panel",
-               "name": "panel15",
+               "name": "otherPensionExistsPanel",
                "elements": [
                   {
                      "type": "yesno",
-                     "name": "question319",
+                     "name": "otherPensionExists",
                      "title": "Did {deceasedName} have any other pensions?"
                   }
                ]
@@ -188,7 +200,7 @@
                "elements": [
                   {
                      "type": "yesno",
-                     "name": "question339",
+                     "name": "lifeInsuranceExists",
                      "title": "Did {deceasedName} have any life insurance?"
                   },
                   {

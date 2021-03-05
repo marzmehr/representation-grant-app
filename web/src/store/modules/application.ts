@@ -18,6 +18,11 @@ class Application extends VuexModule {
     public allCompleted = false
     public spouseCompleted = false
     public childrenCompleted = false
+    public landCompleted = false
+    public vehiclesCompleted = false
+    public bankAccountsCompleted = false
+    public pensionCompleted = false
+    public personalItemsCompleted = false
     public userType = ""
     public userName = ""
     public userId = ""
@@ -29,6 +34,7 @@ class Application extends VuexModule {
     public relatedPeopleInfo = []
     public deceasedChildrenInfo = []
     public deceasedGrandChildrenInfo = []
+    public belongingsInfo = [];
     public applicationLocation = ""
     public scrollToLocationName = ""
     public requiredDocuments: string[] = []
@@ -41,6 +47,11 @@ class Application extends VuexModule {
         this.allCompleted = false;
         this.spouseCompleted = false;
         this.childrenCompleted = false;
+        this.landCompleted = false;
+        this.vehiclesCompleted = false;
+        this.bankAccountsCompleted = false;
+        this.pensionCompleted = false;
+        this.personalItemsCompleted = false;
         this.currentStep = 0;
         this.type = "probate";
         this.deceasedName = {"first":"(the person","middle":"who","last":"died)"};
@@ -602,6 +613,51 @@ class Application extends VuexModule {
     }
 
     @Mutation
+    public setLandCompleted(landCompleted): void {
+        this.landCompleted = landCompleted;
+    }
+    @Action
+    public UpdateLandCompleted(newLandCompleted) {
+        this.context.commit("setLandCompleted", newLandCompleted);
+    }
+
+    @Mutation
+    public setVehiclesCompleted(vehiclesCompleted): void {
+        this.vehiclesCompleted = vehiclesCompleted;
+    }
+    @Action
+    public UpdateVehiclesCompleted(newVehiclesCompleted) {
+        this.context.commit("setVehiclesCompleted", newVehiclesCompleted);
+    }
+
+    @Mutation
+    public setBankAccountsCompleted(bankAccountsCompleted): void {
+        this.bankAccountsCompleted = bankAccountsCompleted;
+    }
+    @Action
+    public UpdateBankAccountsCompleted(newBankAccountsCompleted) {
+        this.context.commit("setBankAccountsCompleted", newBankAccountsCompleted);
+    }
+
+    @Mutation
+    public setPensionCompleted(pensionCompleted): void {
+        this.pensionCompleted = pensionCompleted;
+    }
+    @Action
+    public UpdatePensionCompleted(newPensionCompleted) {
+        this.context.commit("setPensionCompleted", newPensionCompleted);
+    }
+
+    @Mutation
+    public setPersonalItemsCompleted(personalItemsCompleted): void {
+        this.personalItemsCompleted = personalItemsCompleted;
+    }
+    @Action
+    public UpdatePersonalItemsCompleted(newPersonalItemsCompleted) {
+        this.context.commit("setPersonalItemsCompleted", newPersonalItemsCompleted);
+    }
+
+    @Mutation
     public setApplicantName(applicantName): void {
         this.applicantName = applicantName;
     }
@@ -671,6 +727,15 @@ class Application extends VuexModule {
     @Action
     public UpdateRelatedPeopleInfo(newRelatedPeopleInfo) {
         this.context.commit("setRelatedPeopleInfo", newRelatedPeopleInfo);
+    }
+
+    @Mutation
+    public setBelongingsInfo(belongingsInfo): void {
+        this.belongingsInfo = belongingsInfo;
+    }
+    @Action
+    public UpdateBelongingsInfo(newBelongingsInfo) {
+        this.context.commit("setBelongingsInfo", newBelongingsInfo);
     }
 
     @Mutation
@@ -760,12 +825,13 @@ class Application extends VuexModule {
         this.deceasedName = application.deceasedName;
         this.deceasedDateOfDeath = application.deceasedDateOfDeath;
         this.relatedPeopleInfo = [];
+        this.belongingsInfo = [];
         if (this.deceasedDateOfDeath) {
             this.deceasedDateOfDeathPlus4 = Vue.filter('beautify-full-date')(moment(this.deceasedDateOfDeath, "YYYY-MM-DD").add(4, 'days').format());
         }
         this.dateOfWill = application.dateOfWill;
         // console.log(this.steps[1]);
-        console.log(this.steps[2]);
+        // console.log(this.steps[2]);
         
         if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
             const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
