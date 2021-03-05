@@ -351,7 +351,7 @@ class Application extends VuexModule {
         //Submit START
         s = {} as stepInfoType;
         //TODO: turn active to false
-        s.active = false;
+        s.active = true;
         s.id = "8";
         s.label = "Review and File";
         s.icon = "paper-plane";
@@ -765,11 +765,43 @@ class Application extends VuexModule {
         }
         this.dateOfWill = application.dateOfWill;
         // console.log(this.steps[1]);
-        console.log(this.steps[2]);
-        
+        console.log(this.steps[2]); 
+
+        this.applicationLocation = application.applicationLocation;
+    }
+    @Action
+    public UpdateCurrentApplication(newApplication) {
+        this.context.commit("setCurrentApplication", newApplication);
+        this.context.commit("loadSpouseInfo");
+        this.context.commit("loadChildrenInfo")
+        this.context.commit("loadGrandChildrenInfo")
+    }
+    @Mutation
+    public loadSpouseInfo(): void{
+        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
+            const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
+            const spouseInfo = spouseSurvey.data.spouseInfoPanel? spouseSurvey.data.spouseInfoPanel:[];
+                   
+            for (const spouse of spouseInfo) {
+                if (spouse.spouseIsAlive == "y") {
+                    this.relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
+                }                       
+            }
+            
+            if (spouseSurvey.data && spouseSurvey.data.spouseExists == "n") {
+                this.spouseCompleted = true;
+            } else if (spouseSurvey.data.spouseCompleted && spouseSurvey.data.spouseCompleted == "y") {
+                this.spouseCompleted = true;
+            } else {
+                this.spouseCompleted = false;
+            }
+        } 
+    }    
+    @Mutation
+    public loadChildrenInfo(): void{
         if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
             const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
-            const childrenInfo = childrenSurvey.data.childInfoPanel?this.steps[2].result["childrenSurvey"].data.childInfoPanel:[]
+            const childrenInfo = childrenSurvey.data.childInfoPanel? childrenSurvey.data.childInfoPanel:[]
             const deceasedChildren = [];        
             for (const child of childrenInfo) {
                 if (child.childIsAlive == "n"           && 
@@ -777,7 +809,7 @@ class Application extends VuexModule {
                     child.childName) {
                         deceasedChildren.push(Vue.filter('getFullName')(child.childName));                    
                 } else if (child.childIsAlive == "y") {
-                    this.relatedPeopleInfo.push({relationShip: "child", info: child});
+                    this.relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
                 }                       
             }
             if (deceasedChildren.length > 0) {
@@ -794,37 +826,35 @@ class Application extends VuexModule {
                 } else {
                     this.childrenCompleted = false;
                 }
-            } 
-
-        }        
-
-        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
-            const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
-            const spouseInfo = spouseSurvey.data.spouseInfoPanel?spouseSurvey.data.spouseInfoPanel:[];
-                   
-            for (const spouse of spouseInfo) {
-                if (spouse.spouseIsAlive == "y") {
-                    this.relatedPeopleInfo.push({relationShip: "spouse", info: spouse});
-                }                       
             }
+        } 
+    }       
+    @Mutation
+    public loadGrandChildrenInfo(): void{
+        if(this.steps[2].result && this.steps[2].result["grandChildrenSurvey"]){
+            const deceasedGrandChildren = []; 
+            const grandChildrenSurvey = this.steps[2].result["grandChildrenSurvey"];
+            console.log(grandChildrenSurvey)
             
-            if (spouseSurvey.data.spouseExists && spouseSurvey.data.spouseExists == "n") {
-                this.spouseCompleted = true;
-            } else if (spouseSurvey.data.spouseCompleted && spouseSurvey.data.spouseCompleted == "y") {
-                this.spouseCompleted = true;
-            } else {
-                this.spouseCompleted = false;
+            for(const deceasedChild in this.deceasedChildrenInfo){
+                const panel =  "grandchildPanel["+deceasedChild+"]";
+                console.log(grandChildrenSurvey.data[panel])
+                for (const grandChild of grandChildrenSurvey.data[panel]) {
+                    if (grandChild.grandchildIsAlive == "n"           && 
+                        grandChild.grandchildDied5DaysAfter == "n"    &&
+                        grandChild.grandchildName) {
+                        deceasedGrandChildren.push(Vue.filter('getFullName')(grandChild.grandchildName));                    
+                    }                      
+                }
             }
-        }        
-        
-        this.deceasedGrandChildrenInfo = [];     
-        this.applicationLocation = application.applicationLocation;
+            if (deceasedGrandChildren.length > 0) {
+                this.deceasedGrandChildrenInfo = deceasedGrandChildren;        
+            } else {
+                this.deceasedGrandChildrenInfo = [];
+            }
+        }       
+        console.log(this.deceasedGrandChildrenInfo)
     }
-    @Action
-    public UpdateCurrentApplication(newApplication) {
-        this.context.commit("setCurrentApplication", newApplication);
-    }
-
 
 
     get getPrevStepPage(): { prevStep: number; prevPage: number } {

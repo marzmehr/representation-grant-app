@@ -51,6 +51,9 @@ export default class Children extends Vue {
     public relatedPeopleInfo!: any;
 
     @applicationState.Action
+    public UpdateRelatedPeopleInfo!: (newRelatedPeopleInfo) => void
+
+    @applicationState.Action
     public UpdateStepActive!: (newStepActive) => void
 
     @applicationState.Action
@@ -114,6 +117,7 @@ export default class Children extends Vue {
     }
 
     public determineChildrenCompleted(){
+        
         if (this.survey.data.child && this.survey.data.child == "n") {
             this.UpdateChildrenCompleted(true);
         }else if(this.survey.data.childCompleted && this.survey.data.childCompleted == "y") {
@@ -123,7 +127,7 @@ export default class Children extends Vue {
         }
 
         if (this.spouseCompleted && this.childrenCompleted && this.relatedPeopleInfo.length>0) {
-            this.toggleSteps([3], true);            
+            this.toggleSteps([3,8], true);            
         } else {
             this.toggleSteps([3, 4, 5, 6, 7, 8], false);
         }
@@ -247,11 +251,38 @@ export default class Children extends Vue {
         }
     }
 
+    public extractRelatedPeopleInfo(){
+        const relatedPeopleInfo=[]
+        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
+            const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
+            //console.log(spouseSurvey)
+            const spouseInfo = (spouseSurvey.data.spouseExists =='y' && spouseSurvey.data.spouseInfoPanel)?spouseSurvey.data.spouseInfoPanel:[];
+                   
+            for (const spouse of spouseInfo) {
+                if (spouse.spouseIsAlive == "y") {
+                    relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
+                }                       
+            }
+        }
+
+       
+        const childrenInfo = (this.survey.data.child=='y'&& this.survey.data.childInfoPanel)?this.survey.data.childInfoPanel:[]
+            
+        for (const child of childrenInfo) {
+            if (child.childIsAlive == "y") {
+                relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
+            }                       
+        }
+        
+        this.UpdateRelatedPeopleInfo(relatedPeopleInfo)
+    }
+
     public onComplete() {
         this.UpdateAllCompleted(true);
     }  
     
     beforeDestroy() {
+        this.extractRelatedPeopleInfo()
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);        
         this.UpdateStepResultData({step:this.step, data: {childrenSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
     }

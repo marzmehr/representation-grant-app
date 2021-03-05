@@ -38,6 +38,12 @@ export default class ApplicantInfo extends Vue {
     @applicationState.State
     public deceasedName!: string;
 
+    @applicationState.State
+    public relatedPeopleInfo!: any;
+
+    @applicationState.Action
+    public UpdateRelatedPeopleInfo!: (newRelatedPeopleInfo) => void
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -81,19 +87,81 @@ export default class ApplicantInfo extends Vue {
         }
     }
 
-    mounted(){
+    mounted(){        
+        this.extractRelatedPeopleInfo();
+        console.log(this.relatedPeopleInfo);
+
         this.initializeSurvey();
         this.addSurveyListener();
         this.reloadPageInformation();
     }
 
+    public extractRelatedPeopleInfo(){
+        const relatedPeopleInfo=[]
+        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
+            const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
+            //console.log(spouseSurvey)
+            const spouseInfo = (spouseSurvey.data.spouseExists =='y' && spouseSurvey.data.spouseInfoPanel)?spouseSurvey.data.spouseInfoPanel:[];
+                   
+            for (const spouse of spouseInfo) {
+                if (spouse.spouseIsAlive == "y") {
+                    relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
+                }                       
+            }
+        }
+
+        if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
+            const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
+            const childrenInfo = (childrenSurvey.data.child=='y'&& childrenSurvey.data.childInfoPanel)?childrenSurvey.data.childInfoPanel:[]
+                
+            for (const child of childrenInfo) {
+                if (child.childIsAlive == "y") {
+                    relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
+                }                       
+            }
+        }
+        this.UpdateRelatedPeopleInfo(relatedPeopleInfo)
+    }
+
     public initializeSurvey(){
+        this.adjustSurveyForRelatedPeople();
         this.survey = new SurveyVue.Model(surveyJson);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
         surveyEnv.setGlossaryMarkdown(this.survey);
-    }    
+    } 
+    
+    public adjustSurveyForRelatedPeople(){
+        
+        const temp = (surveyJson.pages[0].elements[6])        
+        console.log(temp)
+        let tmp = JSON.parse(JSON.stringify(temp));
+        surveyJson.pages[0].elements[4].elements[0]["choices"]=[];
+        for(const relatedPerson in this.relatedPeopleInfo){
+            const applicantName = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)+' ('+this.relatedPeopleInfo[relatedPerson].relationShip+')'
+            surveyJson.pages[0].elements[4].elements[0]["choices"].push({value:'relatedPerson['+relatedPerson+']', text: applicantName})
+            
+            tmp = JSON.parse(JSON.stringify(temp));
+            tmp.name = "applicantInfoPanel["+relatedPerson+"]";
+            tmp.visibleIf = "{applicant} contains 'relatedPerson["+relatedPerson+"]'"
+
+            tmp.elements[3].name = "applicantNewPartOfOrg["+relatedPerson+"]";
+            tmp.elements[3].title = "Is "+ applicantName +" applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`"
+           
+            tmp.elements[11].name = "applicantOccupation["+relatedPerson+"]";
+            tmp.elements[11].title = "What is "+ applicantName +"'s job or profession?"
+
+            tmp.elements[12].name = "applicantMailingAddress["+relatedPerson+"]";
+            tmp.elements[12].title = "What is "+ applicantName +" mailing address?"
+            
+            if(relatedPerson == '0')
+                surveyJson.pages[0].elements[6] = tmp;
+            else 
+                surveyJson.pages[0].elements.splice(6+Number(relatedPerson),0,tmp)
+        }
+        //console.log(surveyJson)
+    }
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
