@@ -159,14 +159,7 @@
                                     "defaultSubstitution": "(the deceased's grandchild's informal representative)",
                                     "labelFirstName": "First Name (Given Name)",
                                     "labelLastName": "Last Name (Family Name or Surname)"
-                                },
-                                {
-                                    "type": "yesno",
-                                    "name": "grandchildHasChildren",
-                                    "visible": false,
-                                    "visibleIf": "{panel.grandchildIsAlive} = \"n\" and {panel.grandchildDied5DaysAfter} = \"n\"",
-                                    "title": "Did {panel.grandchildName} have any children?"
-                                }
+                                }                              
                             ],
                             "panelCount": 1,
                             "minPanelCount": 1,

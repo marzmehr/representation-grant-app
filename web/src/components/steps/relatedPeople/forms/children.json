@@ -175,13 +175,6 @@
                            "defaultSubstitution": "(the deceased's child's informal representative)",
                            "labelFirstName": "First Name (Given Name)",
                            "labelLastName": "Last Name (Family Name or Surname)"
-                        },
-                        {
-                           "type": "yesno",
-                           "name": "childHasChildren",
-                           "visible": false,
-                           "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"",
-                           "title": "Did {panel.childName} have any children?"
                         }
                      ],
                      "panelCount": 1,

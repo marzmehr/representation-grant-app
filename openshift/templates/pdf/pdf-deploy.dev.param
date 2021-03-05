@@ -6,6 +6,7 @@
 # NAME=pdf
 # APP_NAME=representation-grant
 # ROLE=pdf
+# NAMESPACE_NAME=583dbf
 # SOURCE_IMAGE_NAME=pdf
 # IMAGE_NAMESPACE=583dbf-tools
 TAG_NAME=dev
