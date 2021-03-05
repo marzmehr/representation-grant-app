@@ -16,6 +16,8 @@ class Application extends VuexModule {
     public lastFiled = null
     public currentStep = 1
     public allCompleted = false
+    public spouseCompleted = false
+    public childrenCompleted = false
     public userType = ""
     public userName = ""
     public userId = ""
@@ -24,6 +26,7 @@ class Application extends VuexModule {
     public deceasedDateOfDeath = null
     public deceasedDateOfDeathPlus4 = "(the Five-day survival rule)"
     public dateOfWill = null
+    public relatedPeopleInfo = []
     public deceasedChildrenInfo = []
     public deceasedGrandChildrenInfo = []
     public applicationLocation = ""
@@ -36,6 +39,8 @@ class Application extends VuexModule {
     @Mutation
     public init(): void {
         this.allCompleted = false;
+        this.spouseCompleted = false;
+        this.childrenCompleted = false;
         this.currentStep = 0;
         this.type = "probate";
         this.deceasedName = {"first":"(the person","middle":"who","last":"died)"};
@@ -185,7 +190,7 @@ class Application extends VuexModule {
         //Applicant START
         s = {} as stepInfoType;
         //TODO: turn active to false
-        s.active = true;
+        s.active = false;
         s.id = "3";
         s.label = "Applicant";
         s.icon = "user-tie";
@@ -208,7 +213,7 @@ class Application extends VuexModule {
         // Notify START
         s = {} as stepInfoType;
         //TODO: turn active to false
-        s.active = true;
+        s.active = false;
         s.id = "4";
         s.label = "Notify";
         s.icon = "envelope-open-text";
@@ -230,7 +235,7 @@ class Application extends VuexModule {
         //Deceased's Belongings START
         s = {} as stepInfoType;
         //TODO: turn active to false
-        s.active = true;
+        s.active = false;
         s.id = "5";
         s.label = "Deceased's Belongings";
         s.icon = "coins";
@@ -291,7 +296,7 @@ class Application extends VuexModule {
         //No Will Notify START
         s = {} as stepInfoType;
         //TODO: turn active to false
-        s.active = true;
+        s.active = false;
         s.id = "6";
         s.label = "No Will Notification";
         s.icon = "envelope-open-text";
@@ -313,7 +318,7 @@ class Application extends VuexModule {
         //Overview START
         s = {} as stepInfoType;
         //TODO: turn active to false
-        s.active = true;
+        s.active = false;
         s.id = "7";
         s.label = "Overview";
         s.icon = "user-edit";
@@ -579,6 +584,24 @@ class Application extends VuexModule {
     }
 
     @Mutation
+    public setSpouseCompleted(spouseCompleted): void {
+        this.spouseCompleted = spouseCompleted;
+    }
+    @Action
+    public UpdateSpouseCompleted(newSpouseCompleted) {
+        this.context.commit("setSpouseCompleted", newSpouseCompleted);
+    }
+
+    @Mutation
+    public setChildrenCompleted(childrenCompleted): void {
+        this.childrenCompleted = childrenCompleted;
+    }
+    @Action
+    public UpdateChildrenCompleted(newChildrenCompleted) {
+        this.context.commit("setChildrenCompleted", newChildrenCompleted);
+    }
+
+    @Mutation
     public setApplicantName(applicantName): void {
         this.applicantName = applicantName;
     }
@@ -639,6 +662,15 @@ class Application extends VuexModule {
     @Action
     public UpdateDeceasedChildrenInfo(newDeceasedChildrenInfo) {
         this.context.commit("setDeceasedChildrenInfo", newDeceasedChildrenInfo);
+    }
+
+    @Mutation
+    public setRelatedPeopleInfo(relatedPeopleInfo): void {
+        this.relatedPeopleInfo = relatedPeopleInfo;
+    }
+    @Action
+    public UpdateRelatedPeopleInfo(newRelatedPeopleInfo) {
+        this.context.commit("setRelatedPeopleInfo", newRelatedPeopleInfo);
     }
 
     @Mutation
@@ -727,21 +759,57 @@ class Application extends VuexModule {
         this.applicantName = application.applicantName;
         this.deceasedName = application.deceasedName;
         this.deceasedDateOfDeath = application.deceasedDateOfDeath;
+        this.relatedPeopleInfo = [];
         if (this.deceasedDateOfDeath) {
             this.deceasedDateOfDeathPlus4 = Vue.filter('beautify-full-date')(moment(this.deceasedDateOfDeath, "YYYY-MM-DD").add(4, 'days').format());
         }
         this.dateOfWill = application.dateOfWill;
+        // console.log(this.steps[1]);
+        console.log(this.steps[2]); 
 
-        //console.log(this.steps[2])
+        this.applicationLocation = application.applicationLocation;
+    }
+    @Action
+    public UpdateCurrentApplication(newApplication) {
+        this.context.commit("setCurrentApplication", newApplication);
+        this.context.commit("loadSpouseInfo");
+        this.context.commit("loadChildrenInfo")
+        this.context.commit("loadGrandChildrenInfo")
+    }
+    @Mutation
+    public loadSpouseInfo(): void{
+        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
+            const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
+            const spouseInfo = spouseSurvey.data.spouseInfoPanel? spouseSurvey.data.spouseInfoPanel:[];
+                   
+            for (const spouse of spouseInfo) {
+                if (spouse.spouseIsAlive == "y") {
+                    this.relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
+                }                       
+            }
+            
+            if (spouseSurvey.data && spouseSurvey.data.spouseExists == "n") {
+                this.spouseCompleted = true;
+            } else if (spouseSurvey.data.spouseCompleted && spouseSurvey.data.spouseCompleted == "y") {
+                this.spouseCompleted = true;
+            } else {
+                this.spouseCompleted = false;
+            }
+        } 
+    }    
+    @Mutation
+    public loadChildrenInfo(): void{
         if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
-            const childrenInfo = this.steps[2].result["childrenSurvey"].data.childInfoPanel
+            const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
+            const childrenInfo = childrenSurvey.data.childInfoPanel? childrenSurvey.data.childInfoPanel:[]
             const deceasedChildren = [];        
             for (const child of childrenInfo) {
                 if (child.childIsAlive == "n"           && 
-                    child.childHasPersonalRep == "n"    &&
-                    child.childName                     &&
-                    child.childInformalPersonalRepName) {
+                    child.childDied5DaysAfter == "n"    &&
+                    child.childName) {
                         deceasedChildren.push(Vue.filter('getFullName')(child.childName));                    
+                } else if (child.childIsAlive == "y") {
+                    this.relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
                 }                       
             }
             if (deceasedChildren.length > 0) {
@@ -749,16 +817,44 @@ class Application extends VuexModule {
             } else {
                 this.deceasedChildrenInfo = [];
             }
-        }
-        
-        this.deceasedGrandChildrenInfo = [];     
-        this.applicationLocation = application.applicationLocation;
-    }
-    @Action
-    public UpdateCurrentApplication(newApplication) {
-        this.context.commit("setCurrentApplication", newApplication);
-    }
 
+            if (childrenSurvey.data.child) {
+                if (childrenSurvey.data.child == "n") {
+                    this.childrenCompleted = true;
+                }else if (childrenSurvey.data.childCompleted && childrenSurvey.data.childCompleted == "y") {
+                    this.childrenCompleted = true;
+                } else {
+                    this.childrenCompleted = false;
+                }
+            }
+        } 
+    }       
+    @Mutation
+    public loadGrandChildrenInfo(): void{
+        if(this.steps[2].result && this.steps[2].result["grandChildrenSurvey"]){
+            const deceasedGrandChildren = []; 
+            const grandChildrenSurvey = this.steps[2].result["grandChildrenSurvey"];
+            console.log(grandChildrenSurvey)
+            
+            for(const deceasedChild in this.deceasedChildrenInfo){
+                const panel =  "grandchildPanel["+deceasedChild+"]";
+                console.log(grandChildrenSurvey.data[panel])
+                for (const grandChild of grandChildrenSurvey.data[panel]) {
+                    if (grandChild.grandchildIsAlive == "n"           && 
+                        grandChild.grandchildDied5DaysAfter == "n"    &&
+                        grandChild.grandchildName) {
+                        deceasedGrandChildren.push(Vue.filter('getFullName')(grandChild.grandchildName));                    
+                    }                      
+                }
+            }
+            if (deceasedGrandChildren.length > 0) {
+                this.deceasedGrandChildrenInfo = deceasedGrandChildren;        
+            } else {
+                this.deceasedGrandChildrenInfo = [];
+            }
+        }       
+        console.log(this.deceasedGrandChildrenInfo)
+    }
 
 
     get getPrevStepPage(): { prevStep: number; prevPage: number } {
