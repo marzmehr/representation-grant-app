@@ -5593,10 +5593,6 @@
      "title": "Did {deceasedName} have any children at the time of their death?"
     },
     {
-     "type": "yesno",
-     "name": "magicButton"
-    },
-    {
      "type": "paneldynamic",
      "name": "childInfoPanel",
      "visible": false,
