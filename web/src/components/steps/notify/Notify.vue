@@ -140,7 +140,7 @@ export default class Notify extends Vue {
             this.survey.data.deceasedInfoCorrect && 
             this.survey.data.deceasedInfoCorrect == "y") {            
             this.survey.setVariable("notifyCompleted", true);
-            this.toggleSteps([5], true);
+            this.toggleSteps([5, 8], true);
 
             if (this.landCompleted && 
                 this.vehiclesCompleted && 

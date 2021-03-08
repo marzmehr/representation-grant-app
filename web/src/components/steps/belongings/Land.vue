@@ -140,7 +140,7 @@ export default class Land extends Vue {
             this.bankAccountsCompleted &&
             this.pensionCompleted &&
             this.personalItemsCompleted) {
-            this.toggleSteps([nextStep], true);            
+            this.toggleSteps([nextStep, 8], true);            
         } else {
             this.toggleSteps([6, 7, 8], false);
         }
