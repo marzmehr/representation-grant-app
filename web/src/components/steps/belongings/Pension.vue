@@ -12,7 +12,7 @@ import * as surveyEnv from "@/components/survey/survey-glossary.ts";
 import surveyJson from "./forms/pension.json";
 
 import PageBase from "../PageBase.vue";
-import { stepInfoType, stepResultInfoType } from "@/types/Application";
+import { belongingsInfoType, stepInfoType, stepResultInfoType } from "@/types/Application";
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -39,6 +39,9 @@ export default class Pension extends Vue {
     public deceasedName!: string;
 
     @applicationState.State
+    public noWillNotifyStepRequired!: boolean;
+
+    @applicationState.State
     public landCompleted!: boolean;
 
     @applicationState.State
@@ -52,6 +55,12 @@ export default class Pension extends Vue {
 
     @applicationState.State
     public personalItemsCompleted!: boolean;
+
+    @applicationState.State
+    public belongingsInfo!: belongingsInfoType;
+
+    @applicationState.Action
+    public UpdateBelongingsInfo!: (newBelongingsInfo: belongingsInfoType) => void
 
     @applicationState.Action
     public UpdateStepActive!: (newStepActive) => void
@@ -117,12 +126,15 @@ export default class Pension extends Vue {
             this.UpdatePensionCompleted(false);
         }
 
+        const nextStep = this.noWillNotifyStepRequired?6:7;
+        console.log(nextStep)
+
         if (this.landCompleted && 
             this.vehiclesCompleted && 
             this.bankAccountsCompleted &&
             this.pensionCompleted &&
             this.personalItemsCompleted) {
-            this.toggleSteps([6], true);            
+            this.toggleSteps([nextStep], true);            
         } else {
             this.toggleSteps([6, 7, 8], false);
         }
@@ -153,6 +165,14 @@ export default class Pension extends Vue {
         }        
     }
 
+    public extractBelongingInfo(){
+        let belongingsInfo = this.belongingsInfo;
+        belongingsInfo.pension = [];
+        const pensionInfo = (this.survey.data)?this.survey.data:[];
+        belongingsInfo.pension.push(pensionInfo);                
+        this.UpdateBelongingsInfo(belongingsInfo);
+    }
+
     public onPrev() {
         this.UpdateGotoPrevStepPage()
     }
@@ -165,10 +185,10 @@ export default class Pension extends Vue {
 
     public onComplete() {
         this.UpdateAllCompleted(true);
-    }
-  
+    }  
     
     beforeDestroy() {
+        this.extractBelongingInfo();
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
         this.UpdateStepResultData({step:this.step, data: {pensionSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})

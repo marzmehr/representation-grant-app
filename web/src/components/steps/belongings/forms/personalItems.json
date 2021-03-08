@@ -184,13 +184,15 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question315",
+                    "name": "jewelryExists",
                     "title": "Did {deceasedName} have any jewelry?"
                 },
                 {
                     "type": "radiogroup",
-                    "name": "question318",
-                    "title": "What is the total value of all of their jewelry [ Add secured debt questions]",
+                    "name": "jewelryTotalValue",
+                    "visible": false,
+                    "visibleIf": "{jewelryExists} = 'y'",
+                    "title": "What is the total value of all of {deceasedName}'s jewelry [ Add secured debt questions]",
                     "hasOther": true,
                     "choices": [
                         {
@@ -202,12 +204,14 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question314",
-                    "title": "Clothes"
+                    "name": "clothesExists",
+                    "title": "Did {deceasedName} have any clothes?"
                 },
                 {
                     "type": "radiogroup",
-                    "name": "question329",
+                    "name": "clothesTotalValue",
+                    "visible": false,
+                    "visibleIf": "{clothesExists} = 'y'",
                     "title": "Value options + [add secured debt questions]",
                     "hasOther": true,
                     "choices": [
@@ -220,13 +224,17 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question372",
+                    "name": "furnitureExists",
+                    "visible": false,
+                    "visibleIf": "{noBuildings}",
                     "title": "Did {deceasedName} own any furniture? [ask only if they don't have a house]",
                     "description": "bed, couch"
                 },
                 {
                     "type": "radiogroup",
-                    "name": "question396",
+                    "name": "furnitureTotalValue",
+                    "visible": false,
+                    "visibleIf": "{noBuildings} and {furnitureExists} = 'y'",
                     "title": " What is the value of the furniture? [ask only if they don't have a house] + add secured debt questions only where there is a commercial value. no need to explain debt but warn you may need to provide proof.",
                     "hasOther": true,
                     "choices": [
@@ -239,13 +247,15 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question395",
+                    "name": "householdItemsExists",
                     "title": "Did {deceasedName} own household items?",
                     "description": "include computers, tvs, smart phones/tablets, kitchenware"
                 },
                 {
                     "type": "radiogroup",
-                    "name": "question302",
+                    "name": "householdItemsTotalValue",
+                    "visible": false,
+                    "visibleIf": "{householdItemsExists} = 'y'",
                     "title": "What is the value of the household items? [+ secured debts questions if there is a value. validation - debt can't be more than value. - include total secured debt on all applicable household items]",
                     "hasOther": true,
                     "choices": [
@@ -258,13 +268,15 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question327",
+                    "name": "otherAssetsExists",
                     "title": "any other assets (that will come into your possession as executors??) that {deceasedName} had of value?",
                     "description": " small vehicles like bikes/small boats, leasehold interests, promissory notes, gold, silver, intellectual property, digital assets, manufactured homes, time share interests, interests in business, interests in estates and trusts."
                 },
                 {
                     "type": "paneldynamic",
-                    "name": "question381",
+                    "name": "otherAssetsPanel",
+                    "visible": false,
+                    "visibleIf": "{otherAssetsExists} = 'y'",
                     "templateElements": [
                         {
                             "type": "text",
@@ -289,12 +301,16 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question382",
+                    "name": "otherAssetsCompleted",
+                    "visible": false,
+                    "visibleIf": "{otherAssetsExists} = 'y'",
                     "title": "is this every \"other asset\" of value?"
                 },
                 {
                     "type": "infotext",
-                    "name": "question383",
+                    "name": "otherAssetsCompletedNoError",
+                    "visible": false,
+                    "visibleIf": "{otherAssetsCompleted} = 'n'",
                     "title": "add more \"other assets\"",
                     "titleLocation": "hidden",
                     "messageStyle": "error"

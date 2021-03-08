@@ -12,7 +12,7 @@ import * as surveyEnv from "@/components/survey/survey-glossary.ts";
 import surveyJson from "./forms/personalItems.json";
 
 import PageBase from "../PageBase.vue";
-import { stepInfoType, stepResultInfoType } from "@/types/Application";
+import { belongingsInfoType, stepInfoType, stepResultInfoType } from "@/types/Application";
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -39,6 +39,9 @@ export default class PersonalItems extends Vue {
     public deceasedName!: string;
 
     @applicationState.State
+    public noWillNotifyStepRequired!: boolean;
+
+    @applicationState.State
     public landCompleted!: boolean;
 
     @applicationState.State
@@ -52,6 +55,13 @@ export default class PersonalItems extends Vue {
 
     @applicationState.State
     public personalItemsCompleted!: boolean;
+
+    @applicationState.State
+    public belongingsInfo!: belongingsInfoType;
+
+    @applicationState.Action
+    public UpdateBelongingsInfo!: (newBelongingsInfo: belongingsInfoType) => void
+
 
     @applicationState.Action
     public UpdateStepActive!: (newStepActive) => void
@@ -109,20 +119,25 @@ export default class PersonalItems extends Vue {
     }
 
     public determinePersonalItemsCompleted(){
-        if (this.survey.data.landExists && this.survey.data.landExists == "n") {
+        if (this.survey.data.otherAssetsExists && this.survey.data.otherAssetsExists == "n") {
             this.UpdatePersonalItemsCompleted(true);
-        }else if(this.survey.data.landCompleted && this.survey.data.landCompleted == "y") {
+        }else if(this.survey.data.otherAssetsExists && 
+                this.survey.data.otherAssetsExists == "y" &&
+                this.survey.data.otherAssetsCompleted && 
+                this.survey.data.otherAssetsCompleted == "y") {
             this.UpdatePersonalItemsCompleted(true);
         }else{
             this.UpdatePersonalItemsCompleted(false);
         }
+
+        const nextStep = this.noWillNotifyStepRequired?6:7;
 
         if (this.landCompleted && 
             this.vehiclesCompleted && 
             this.bankAccountsCompleted &&
             this.pensionCompleted &&
             this.personalItemsCompleted) {
-            this.toggleSteps([6], true);            
+            this.toggleSteps([nextStep], true);            
         } else {
             this.toggleSteps([6, 7, 8], false);
         }
@@ -141,6 +156,7 @@ export default class PersonalItems extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+        this.survey.setVariable("noBuildings", this.belongingsInfo.land.length == 0);
         this.determinePersonalItemsCompleted();
     }
 
@@ -151,6 +167,16 @@ export default class PersonalItems extends Vue {
                 active: active
             });
         }        
+    }
+
+    public extractBelongingInfo(){
+        let belongingsInfo = this.belongingsInfo;
+        belongingsInfo.personalItem = [];
+        const personalItemInfo = (this.survey.data.otherAssetsExists && this.survey.data.otherAssetsExists == "y")?this.survey.data:[];
+                          
+        belongingsInfo.personalItem.push(personalItemInfo);
+                
+        this.UpdateBelongingsInfo(belongingsInfo);
     }
 
     public onPrev() {
@@ -169,6 +195,7 @@ export default class PersonalItems extends Vue {
   
     
     beforeDestroy() {
+        this.extractBelongingInfo();
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
         this.UpdateStepResultData({step:this.step, data: {personalItemsSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})

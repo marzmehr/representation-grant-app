@@ -41,6 +41,27 @@ export default class Notify extends Vue {
     @applicationState.State
     public relatedPeopleInfo!: any;
 
+    @applicationState.State
+    public noWillNotifyStepRequired!: boolean;
+
+    @applicationState.State
+    public landCompleted!: boolean;
+
+    @applicationState.State
+    public vehiclesCompleted!: boolean;
+
+    @applicationState.State
+    public bankAccountsCompleted!: boolean;
+
+    @applicationState.State
+    public pensionCompleted!: boolean;
+
+    @applicationState.State
+    public personalItemsCompleted!: boolean;
+
+    @applicationState.Action
+    public UpdateNoWillNotifyStepRequired!: (newNoWillNotifyStepRequired: boolean) => void
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -99,8 +120,7 @@ export default class Notify extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            // console.log(this.survey.data);
-            // console.log(options)
+            console.log(this.survey.data);            
             this.determineRequiredNotice(); 
             this.determineNotifyCompleted();          
         })   
@@ -108,16 +128,35 @@ export default class Notify extends Vue {
 
     public determineNotifyCompleted(){
 
+        if (this.survey.data.p1EarlyNoWillOwe10k && 
+            this.survey.data.p1EarlyNoWillOwe10k == "y") {
+                this.UpdateNoWillNotifyStepRequired(true);
+        } else {
+            this.UpdateNoWillNotifyStepRequired(false);
+        }
+
         if (this.survey.data.applicantInfoCorrect && 
             this.survey.data.applicantInfoCorrect == "y" &&
             this.survey.data.deceasedInfoCorrect && 
             this.survey.data.deceasedInfoCorrect == "y") {            
             this.survey.setVariable("notifyCompleted", true);
             this.toggleSteps([5], true);
-        } else{
-            this.survey.setVariable("notifyCompleted", false);
+
+            if (this.landCompleted && 
+                this.vehiclesCompleted && 
+                this.bankAccountsCompleted &&
+                this.pensionCompleted &&
+                this.personalItemsCompleted &&
+                this.noWillNotifyStepRequired) {
+                    this.toggleSteps([6], true);            
+            } else if (!this.noWillNotifyStepRequired) {
+                    this.toggleSteps([6], false); 
+            }
+        } else {
+            this.survey.setVariable("notifyCompleted", false);            
             this.toggleSteps([5, 6, 7, 8], false);
         }        
+        
     }
 
     public determineRequiredNotice(){

@@ -12,7 +12,7 @@ import * as surveyEnv from "@/components/survey/survey-glossary.ts";
 import surveyJson from "./forms/bankAccounts.json";
 
 import PageBase from "../PageBase.vue";
-import { stepInfoType, stepResultInfoType } from "@/types/Application";
+import { belongingsInfoType, stepInfoType, stepResultInfoType } from "@/types/Application";
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -37,6 +37,40 @@ export default class BankAccounts extends Vue {
 
     @applicationState.State
     public deceasedName!: string;
+
+    @applicationState.State
+    public noWillNotifyStepRequired!: boolean;
+
+    @applicationState.State
+    public deceasedDateOfDeathPlus4!: string;
+
+    @applicationState.State
+    public landCompleted!: boolean;
+
+    @applicationState.State
+    public vehiclesCompleted!: boolean;
+
+    @applicationState.State
+    public bankAccountsCompleted!: boolean;
+
+    @applicationState.State
+    public pensionCompleted!: boolean;
+
+    @applicationState.State
+    public personalItemsCompleted!: boolean;
+
+    @applicationState.State
+    public belongingsInfo!: belongingsInfoType;
+
+    @applicationState.Action
+    public UpdateBelongingsInfo!: (newBelongingsInfo: belongingsInfoType) => void
+
+
+    @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
+
+    @applicationState.Action
+    public UpdateBankAccountsCompleted!: (newLandCompleted) => void
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -81,13 +115,36 @@ export default class BankAccounts extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            //console.log(this.survey.data);
-            // console.log(options)
-            if(options.name == "ApplicantName") {
-                this.$store.commit("Application/setApplicantName", options.value);
-            }
+            console.log(this.survey.data);
+            this.determineBankAccountsCompleted();           
         })
     }
+
+    public determineBankAccountsCompleted(){
+        if (this.survey.data.bankAccountExists && this.survey.data.bankAccountExists == "n") {
+            this.UpdateBankAccountsCompleted(true);
+        }else if(this.survey.data.bankAccountExists && 
+                this.survey.data.bankAccountExists == "y" &&
+                this.survey.data.banksCompleted && 
+                this.survey.data.banksCompleted == "y") {
+            this.UpdateBankAccountsCompleted(true);
+        }else{
+            this.UpdateBankAccountsCompleted(false);
+        }
+
+        const nextStep = this.noWillNotifyStepRequired?6:7;
+        console.log(nextStep)
+
+        if (this.landCompleted && 
+            this.vehiclesCompleted && 
+            this.bankAccountsCompleted &&
+            this.pensionCompleted &&
+            this.personalItemsCompleted) {
+            this.toggleSteps([nextStep], true);            
+        } else {
+            this.toggleSteps([6, 7, 8], false);
+        }
+    }   
     
     public reloadPageInformation() {
         //console.log(this.step.result)
@@ -102,7 +159,29 @@ export default class BankAccounts extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
 
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
-    
+        this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);
+        this.determineBankAccountsCompleted();
+    }
+
+    public toggleSteps(stepArr, active) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: active
+            });
+        }        
+    }
+
+    public extractBelongingInfo(){
+        let belongingsInfo = this.belongingsInfo;
+        belongingsInfo.bankAccount = [];
+        const bankAccountInfo = (this.survey.data.bankAccountExists && this.survey.data.bankAccountExists == "y" && this.survey.data.bankAccountInfoPanel)?this.survey.data.bankAccountInfoPanel:[];
+        console.log(bankAccountInfo)  
+        for (const bankAccount of bankAccountInfo) {            
+            belongingsInfo.bankAccount.push(bankAccount);                                   
+        }        
+                
+        this.UpdateBelongingsInfo(belongingsInfo);
     }
 
     public onPrev() {
@@ -121,6 +200,7 @@ export default class BankAccounts extends Vue {
   
     
     beforeDestroy() {
+        this.extractBelongingInfo()
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
         this.UpdateStepResultData({step:this.step, data: {bankAccountsSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
