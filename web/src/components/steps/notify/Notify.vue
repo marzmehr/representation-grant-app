@@ -38,6 +38,30 @@ export default class Notify extends Vue {
     @applicationState.State
     public deceasedName!: string;
 
+    @applicationState.State
+    public relatedPeopleInfo!: any;
+
+    @applicationState.State
+    public noWillNotifyStepRequired!: boolean;
+
+    @applicationState.State
+    public landCompleted!: boolean;
+
+    @applicationState.State
+    public vehiclesCompleted!: boolean;
+
+    @applicationState.State
+    public bankAccountsCompleted!: boolean;
+
+    @applicationState.State
+    public pensionCompleted!: boolean;
+
+    @applicationState.State
+    public personalItemsCompleted!: boolean;
+
+    @applicationState.Action
+    public UpdateNoWillNotifyStepRequired!: (newNoWillNotifyStepRequired: boolean) => void
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -77,7 +101,6 @@ export default class Notify extends Vue {
         this.disableNextButton = false
         if (this.step.result && this.step.result['notifySurvey']) { 
             this.disableNextButton = false;           
-            // this.determinePeaceBondAndBlock();
         }
     }
 
@@ -97,10 +120,52 @@ export default class Notify extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            //console.log(this.survey.data);
-            // console.log(options)
-            let pagesArr = [];           
+            console.log(this.survey.data);            
+            this.determineRequiredNotice(); 
+            this.determineNotifyCompleted();          
         })   
+    }
+
+    public determineNotifyCompleted(){
+
+        if (this.survey.data.p1EarlyNoWillOwe10k && 
+            this.survey.data.p1EarlyNoWillOwe10k == "y") {
+                this.UpdateNoWillNotifyStepRequired(true);
+        } else {
+            this.UpdateNoWillNotifyStepRequired(false);
+        }
+
+        if (this.survey.data.applicantInfoCorrect && 
+            this.survey.data.applicantInfoCorrect == "y" &&
+            this.survey.data.deceasedInfoCorrect && 
+            this.survey.data.deceasedInfoCorrect == "y") {            
+            this.survey.setVariable("notifyCompleted", true);
+            this.toggleSteps([5, 8], true);
+
+            if (this.landCompleted && 
+                this.vehiclesCompleted && 
+                this.bankAccountsCompleted &&
+                this.pensionCompleted &&
+                this.personalItemsCompleted &&
+                this.noWillNotifyStepRequired) {
+                    this.toggleSteps([6], true);            
+            } else if (!this.noWillNotifyStepRequired) {
+                    this.toggleSteps([6], false); 
+            }
+        } else {
+            this.survey.setVariable("notifyCompleted", false);            
+            this.toggleSteps([5, 6, 7, 8], false);
+        }        
+        
+    }
+
+    public determineRequiredNotice(){
+
+        if (this.relatedPeopleInfo.length>1){
+            this.survey.setVariable("noticeRequired", true);
+        } else {
+            this.survey.setVariable("noticeRequired", false);
+        }    
     }
 
     public reloadPageInformation() {
@@ -115,6 +180,7 @@ export default class Notify extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+        this.determineRequiredNotice();       
    }
 
     public activateStep(stepActive) {
@@ -122,49 +188,17 @@ export default class Notify extends Vue {
             currentStep: 0,
             active: stepActive
         });
-    }
+    }    
 
-
-    public togglePages(pageArr, activeIndicator) {
-        this.activateStep(activeIndicator);
-        for (let i = 0; i < pageArr.length; i++) {
-            this.UpdatePageActive({
-                currentStep: 0,
-                currentPage: pageArr[i],
-                active: activeIndicator
+    public toggleSteps(stepArr, active) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: active
             });
-        }
+        }        
     }
-
-    public toggleOtherPartyPage(activeIndicator) {
-        this.UpdatePageActive({
-            currentStep: 1,
-            currentPage: 1,
-            active: activeIndicator
-        });
-    }
-
-    public toggleStep(step, active) {
-        this.UpdateStepActive({
-            currentStep: step,
-            active: active
-        });
-    }
-
-    public removePages() {
-        let allPageIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-        this.togglePages(allPageIndex, false);
-    }
-
-    public populatePagesForNeedPO(sender) {
-        if (sender.data.PORConfirmed) {
-            if (sender.data.PORConfirmed.length !== 0) {
-            let pagesArr = [0, 1, 2, 4, 5, 6, 8];
-            this.togglePages(pagesArr, true);
-            }
-        }
-    }
-
+   
     public onPrev() {
         this.UpdateGotoPrevStepPage()
     }
@@ -182,39 +216,7 @@ export default class Notify extends Vue {
     public isDisableNext() {
         // demo
         return Object.keys(this.survey.data).length == 0;
-    }
-
-    public getDisableNextText() {
-        // demo
-        return "You will need to answer the question above to continue";
-    }
-
-    public getApplicationType(selectedOrder){
-        if (selectedOrder == "needPO") return "New Protection Order";
-        else if (selectedOrder == "changePO") return "Change Protection Order";
-        else if (selectedOrder == "terminatePO") return "Terminate Protection Order";
-        else return "Protection Order";
-    }
-    
-    public determinePeaceBondAndBlock(){
-        var pagesArr = [0, 1, 2, 4, 5, 6, 8];
-        if((this.survey.data.familyUnsafe == 'n' && this.survey.data.orderType == 'needPO')||(this.survey.data.unsafe == 'n' && this.survey.data.orderType == 'needPO')){
-            this.disableNextButton = true;
-            this.togglePages(pagesArr, false);
-            this.toggleStep(1, false);
-            this.toggleStep(2, false);
-            this.toggleStep(8, false);
-            
-        }else{
-            this.disableNextButton = false;
-            if (this.survey.data.PORConfirmed && this.survey.data.orderType == 'needPO') {            
-            this.toggleStep(1, true);
-            this.toggleStep(2, true);
-            this.toggleStep(8, true);
-            this.togglePages(pagesArr, true);
-            }       
-        }
-    }
+    }       
 
     beforeDestroy() {
 

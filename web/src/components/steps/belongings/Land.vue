@@ -12,7 +12,7 @@ import * as surveyEnv from "@/components/survey/survey-glossary.ts";
 import surveyJson from "./forms/land.json";
 
 import PageBase from "../PageBase.vue";
-import { stepInfoType, stepResultInfoType } from "@/types/Application";
+import { belongingsInfoType, stepInfoType, stepResultInfoType } from "@/types/Application";
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -39,10 +39,40 @@ export default class Land extends Vue {
     public deceasedName!: string;
 
     @applicationState.State
+    public noWillNotifyStepRequired!: boolean;
+
+    @applicationState.State
     public deceasedDateOfDeath!: string;
 
     @applicationState.State
     public deceasedDateOfDeathPlus4!: string;
+
+    @applicationState.State
+    public landCompleted!: boolean;
+
+    @applicationState.State
+    public vehiclesCompleted!: boolean;
+
+    @applicationState.State
+    public bankAccountsCompleted!: boolean;
+
+    @applicationState.State
+    public pensionCompleted!: boolean;
+
+    @applicationState.State
+    public personalItemsCompleted!: boolean;
+
+    @applicationState.State
+    public belongingsInfo!: belongingsInfoType;
+
+    @applicationState.Action
+    public UpdateBelongingsInfo!: (newBelongingsInfo: belongingsInfoType) => void
+
+    @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
+
+    @applicationState.Action
+    public UpdateLandCompleted!: (newLandCompleted) => void
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -88,12 +118,32 @@ export default class Land extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            //console.log(this.survey.data);
-            // console.log(options)
-            if(options.name == "ApplicantName") {
-                this.$store.commit("Application/setApplicantName", options.value);
-            }
+            console.log(this.survey.data);
+            this.determineLandCompleted();
+            
         })
+    }
+
+    public determineLandCompleted(){
+        if (this.survey.data.landExists && this.survey.data.landExists == "n") {
+            this.UpdateLandCompleted(true);
+        }else if(this.survey.data.landCompleted && this.survey.data.landCompleted == "y") {
+            this.UpdateLandCompleted(true);
+        }else{
+            this.UpdateLandCompleted(false);
+        }
+
+        const nextStep = this.noWillNotifyStepRequired?6:7;
+        
+        if (this.landCompleted && 
+            this.vehiclesCompleted && 
+            this.bankAccountsCompleted &&
+            this.pensionCompleted &&
+            this.personalItemsCompleted) {
+            this.toggleSteps([nextStep, 8], true);            
+        } else {
+            this.toggleSteps([6, 7, 8], false);
+        }
     }
     
     public reloadPageInformation() {
@@ -109,7 +159,29 @@ export default class Land extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.survey.setVariable("deceasedDateOfDeath", Vue.filter('beautify-date')(this.deceasedDateOfDeath));
-        this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);   
+        this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);
+        this.determineLandCompleted();   
+    }
+
+    public toggleSteps(stepArr, active) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: active
+            });
+        }        
+    }
+
+    public extractBelongingInfo(){
+        let belongingsInfo = this.belongingsInfo;
+        belongingsInfo.land = [];
+        const landInfo = (this.survey.data.landExists && this.survey.data.landExists == "y" && this.survey.data.landInfoPanel)?this.survey.data.landInfoPanel:[];
+        console.log(landInfo)       
+        for (const land of landInfo) {            
+            belongingsInfo.land.push(land);                                   
+        }        
+                
+        this.UpdateBelongingsInfo(belongingsInfo);
     }
 
     public onPrev() {
@@ -128,6 +200,7 @@ export default class Land extends Vue {
   
     
     beforeDestroy() {
+        this.extractBelongingInfo();
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
         this.UpdateStepResultData({step:this.step, data: {landSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
