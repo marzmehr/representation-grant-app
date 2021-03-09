@@ -238,12 +238,29 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Notify People";
+        p.label = "Confirm Debt";
         //TODO: turn active to false
         p.active = true;
         p.progress = 0;
 
         s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "1";
+        p.label = "Review";        
+        p.active = true;
+        p.progress = 0;
+
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "2";
+        p.label = "Notify People";       
+        p.active = true;
+        p.progress = 0;
+
+        s.pages.push(p);
+
         this.steps.push(s);
         //Notify STOP
         //Deceased's Belongings START

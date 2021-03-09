@@ -1,6 +1,8 @@
 <template>
     <step-base v-bind:step="step">
-        <notify v-bind:step="step" v-if="step.currentPage == 0"></notify>
+        <debt-confirmation v-bind:step="step" v-if="step.currentPage == 0"></debt-confirmation>
+        <review-p1 v-bind:step="step" v-if="step.currentPage == 1"></review-p1>
+        <notify v-bind:step="step" v-if="step.currentPage == 2"></notify>
     </step-base>
 </template>
 
@@ -10,12 +12,16 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import StepBase from "../StepBase.vue";
 import { stepInfoType } from "@/types/Application";
 import Notify from "./Notify.vue";
+import DebtConfirmation from "./DebtConfirmation.vue";
+import ReviewP1 from "./ReviewP1.vue";
 
 
 @Component({
     components:{
         StepBase,        
-        Notify
+        Notify,
+        DebtConfirmation,
+        ReviewP1
     }
 })
 

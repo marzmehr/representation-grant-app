@@ -1,0 +1,61 @@
+{
+   "pages": [
+      {
+         "name": "p1ReviewPage",
+         "elements": [            
+            {
+               "type": "panel",
+               "name": "p1EarlyReviewPanel",
+               "elements": [
+                  {
+                     "type": "infotext",
+                     "name": "p1EarlyFormDownloadExplanation",
+                     "title": "Notice of Proposed Application in Relation to Estate (P1)\n<br>\nThe form that is being generated is for you to deliver to other people. Read this form as if are receiving this document, not the person who is giving the document. It tells people what you are trying to do and it outlines their rights to respond if they want to.\n<br>\nDownload and Review\n<br>\n[JIRA Download Link]",
+                     "visible": false,
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question417",
+                     "visible": false,
+                     "title": "Custom intros here instead of at the beginning??<br>\nReview the forms, specially the parts with information relevant to your applicant.\n<br>\n[JIRA - possibility of HTML review earlier?]",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "deceasedInfoCorrect",
+                     "title": "Is all of the information about the deceased correct?"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question419",
+                     "title": "[Not correct]\n<br>\nHTML correction Table instead of having to go back to the previous pages.\n<br>Deceased name\n<br>Deceased date of death\n<br>Deceased last address\n<br>Deceased Will info or no will",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "applicantInfoCorrect",
+                     "title": "Is all of the information about you, and your contact info, correct? "
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "question421",
+                     "title": "[Not correct]\n<br>\nHTML correction Table instead of having to go back to the previous pages.\n<br>Applicant name(s)\n<br>Applicant Contact Info\n<br>Applicant regular address\n<br>Applicant service address\n<br>Courthouse filing.\n<br>Laywer\n<br>Lawyer Address\n<br>Lawyer Contact Info",
+                     "titleLocation": "hidden"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "p1EarlyGeneratePDFAgain",
+                     "visible": false,
+                     "title": "[JIRA] Click here to preview/download from again [functionality of earlier button should be the same. Should this exist or jump back to top button?]",
+                     "titleLocation": "hidden"
+                  }
+               ]
+            }
+         ],
+         "title": "Review P1"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}
