@@ -207,6 +207,10 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 			`ol li.listnumber{counter-increment: list-counter;}`+
 			`ol li.listnumber:before {content:counter(list-counter) ". ";font-weight: bold;}`+
 			`
+			body{
+				font-family: BCSans;
+			}
+
 			div.ch
 			{
 				text-align:justify; 

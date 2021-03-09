@@ -650,24 +650,32 @@
                 },
                 {
                     "type": "yesno",
-                    "name": "question384",
-                    "title": "is this all the land?"
+                    "name": "landCompleted",
+                    "title": "is this all the land?",
+                    "visible": false,
+                    "visibleIf": "{landExists} = 'y' and {landExistsYesExplanation} > 0"
                 },
                 {
                     "type": "infotext",
-                    "name": "question385",
+                    "name": "landCompletedNoError",
                     "title": "add all the land",
                     "titleLocation": "hidden",
-                    "messageStyle": "error"
+                    "messageStyle": "error",
+                    "visible":false,
+                    "visibleIf":"({landExists} = 'y') and ({landExistsYesExplanation} > 0) and {landCompleted} = 'n'"
                 },
                 {
                     "type": "yesno",
                     "name": "question394",
+                    "visible": false,
+                    "visibleIf": "{landExists} = 'y' and {landExistsYesExplanation} > 0",
                     "title": "secured line of credit? [Dani says yes - Tyler says applicable for all other things as well]"
                 },
                 {
                     "type": "infotext",
                     "name": "question340",
+                    "visible": false,
+                    "visibleIf": "{landExists} = 'y' and {landExistsYesExplanation} > 0",
                     "title": "Understanding land title certificates\n<br>\nA land title certificate contains a lot of information about a real estate. Here are some of the areas you may find useful for completing the questions.\n\n\n\nRegistered Owner in Fee Simple\n\nShows the owner(s) of the real estate.\n\n\n\nTaxation Authority\n<br>\nThe one receiving property taxes on the real estate\n<br>\nDescription of Land\n<br>\nContains legal description about the real estate.\n<br>\nCharges, Liens and Interests\n<br>\nLists any mortgages, liens or money owing on the property.",
                     "titleLocation": "hidden"
                 }

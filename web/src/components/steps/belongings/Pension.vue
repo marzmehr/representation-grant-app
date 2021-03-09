@@ -12,7 +12,7 @@ import * as surveyEnv from "@/components/survey/survey-glossary.ts";
 import surveyJson from "./forms/pension.json";
 
 import PageBase from "../PageBase.vue";
-import { stepInfoType, stepResultInfoType } from "@/types/Application";
+import { belongingsInfoType, stepInfoType, stepResultInfoType } from "@/types/Application";
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -37,6 +37,36 @@ export default class Pension extends Vue {
 
     @applicationState.State
     public deceasedName!: string;
+
+    @applicationState.State
+    public noWillNotifyStepRequired!: boolean;
+
+    @applicationState.State
+    public landCompleted!: boolean;
+
+    @applicationState.State
+    public vehiclesCompleted!: boolean;
+
+    @applicationState.State
+    public bankAccountsCompleted!: boolean;
+
+    @applicationState.State
+    public pensionCompleted!: boolean;
+
+    @applicationState.State
+    public personalItemsCompleted!: boolean;
+
+    @applicationState.State
+    public belongingsInfo!: belongingsInfoType;
+
+    @applicationState.Action
+    public UpdateBelongingsInfo!: (newBelongingsInfo: belongingsInfoType) => void
+
+    @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
+
+    @applicationState.Action
+    public UpdatePensionCompleted!: (newLandCompleted) => void
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -82,12 +112,32 @@ export default class Pension extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            //console.log(this.survey.data);
-            // console.log(options)
-            if(options.name == "ApplicantName") {
-                this.$store.commit("Application/setApplicantName", options.value);
-            }
+            console.log(this.survey.data);
+            this.determinePensionCompleted();
         })
+    }
+
+    public determinePensionCompleted(){
+        if (this.survey.data.payCPP && this.survey.data.payCPP == "n" &&
+            this.survey.data.otherPensionExists && this.survey.data.otherPensionExists == "n" &&
+            this.survey.data.lifeInsuranceExists && this.survey.data.lifeInsuranceExists == "n") {
+            this.UpdatePensionCompleted(true);
+        }else{
+            this.UpdatePensionCompleted(false);
+        }
+
+        const nextStep = this.noWillNotifyStepRequired?6:7;
+        console.log(nextStep)
+
+        if (this.landCompleted && 
+            this.vehiclesCompleted && 
+            this.bankAccountsCompleted &&
+            this.pensionCompleted &&
+            this.personalItemsCompleted) {
+            this.toggleSteps([nextStep, 8], true);            
+        } else {
+            this.toggleSteps([6, 7, 8], false);
+        }
     }
     
     public reloadPageInformation() {
@@ -103,7 +153,24 @@ export default class Pension extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
 
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
-    
+        this.determinePensionCompleted();
+    }
+
+    public toggleSteps(stepArr, active) {
+        for (let i = 0; i < stepArr.length; i++) {
+            this.UpdateStepActive({
+                currentStep: stepArr[i],
+                active: active
+            });
+        }        
+    }
+
+    public extractBelongingInfo(){
+        let belongingsInfo = this.belongingsInfo;
+        belongingsInfo.pension = [];
+        const pensionInfo = (this.survey.data)?this.survey.data:[];
+        belongingsInfo.pension.push(pensionInfo);                
+        this.UpdateBelongingsInfo(belongingsInfo);
     }
 
     public onPrev() {
@@ -118,10 +185,10 @@ export default class Pension extends Vue {
 
     public onComplete() {
         this.UpdateAllCompleted(true);
-    }
-  
+    }  
     
     beforeDestroy() {
+        this.extractBelongingInfo();
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
         this.UpdateStepResultData({step:this.step, data: {pensionSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})

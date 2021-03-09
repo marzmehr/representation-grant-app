@@ -1,7 +1,7 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
 import { Vue } from 'vue-property-decorator';
 import moment from 'moment-timezone';
-import { stepInfoType, pageInfoType } from "@/types/Application";
+import { stepInfoType, pageInfoType, belongingsInfoType } from "@/types/Application";
 
 @Module({
     namespaced: true
@@ -18,6 +18,12 @@ class Application extends VuexModule {
     public allCompleted = false
     public spouseCompleted = false
     public childrenCompleted = false
+    public landCompleted = false
+    public vehiclesCompleted = false
+    public bankAccountsCompleted = false
+    public pensionCompleted = false
+    public personalItemsCompleted = false
+    public noWillNotifyStepRequired = false;
     public userType = ""
     public userName = ""
     public userId = ""
@@ -29,6 +35,7 @@ class Application extends VuexModule {
     public relatedPeopleInfo = []
     public deceasedChildrenInfo = []
     public deceasedGrandChildrenInfo = []
+    public belongingsInfo = {} as belongingsInfoType;
     public applicationLocation = ""
     public scrollToLocationName = ""
     public requiredDocuments: string[] = []
@@ -41,9 +48,16 @@ class Application extends VuexModule {
         this.allCompleted = false;
         this.spouseCompleted = false;
         this.childrenCompleted = false;
+        this.landCompleted = false;
+        this.vehiclesCompleted = false;
+        this.bankAccountsCompleted = false;
+        this.pensionCompleted = false;
+        this.personalItemsCompleted = false;
+        this.noWillNotifyStepRequired = false;
         this.currentStep = 0;
         this.type = "probate";
         this.deceasedName = {"first":"(the person","middle":"who","last":"died)"};
+        this.belongingsInfo = {} as belongingsInfoType;
         this.userName = "";
         this.lastPrinted = null;
         this.lastUpdate = null;
@@ -246,8 +260,7 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Land and Buildings";
-        //TODO: turn active to false
+        p.label = "Land and Buildings";        
         p.active = true;
         p.progress = 0;
 
@@ -255,8 +268,7 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "1";
-        p.label = "Vehicles";
-        //TODO: turn active to false
+        p.label = "Vehicles";       
         p.active = true;
         p.progress = 0;
 
@@ -264,8 +276,7 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "2";
-        p.label = "Bank Accounts";
-        //TODO: turn active to false
+        p.label = "Bank Accounts";        
         p.active = true;
         p.progress = 0;
 
@@ -273,8 +284,7 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "3";
-        p.label = "Pensions and Insurance";
-        //TODO: turn active to false
+        p.label = "Pensions and Insurance";        
         p.active = true;
         p.progress = 0;
 
@@ -282,8 +292,7 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "4";
-        p.label = "Personal Items";
-        //TODO: turn active to false
+        p.label = "Personal Items";        
         p.active = true;
         p.progress = 0;
 
@@ -602,6 +611,60 @@ class Application extends VuexModule {
     }
 
     @Mutation
+    public setLandCompleted(landCompleted): void {
+        this.landCompleted = landCompleted;
+    }
+    @Action
+    public UpdateLandCompleted(newLandCompleted) {
+        this.context.commit("setLandCompleted", newLandCompleted);
+    }
+
+    @Mutation
+    public setVehiclesCompleted(vehiclesCompleted): void {
+        this.vehiclesCompleted = vehiclesCompleted;
+    }
+    @Action
+    public UpdateVehiclesCompleted(newVehiclesCompleted) {
+        this.context.commit("setVehiclesCompleted", newVehiclesCompleted);
+    }
+
+    @Mutation
+    public setBankAccountsCompleted(bankAccountsCompleted): void {
+        this.bankAccountsCompleted = bankAccountsCompleted;
+    }
+    @Action
+    public UpdateBankAccountsCompleted(newBankAccountsCompleted) {
+        this.context.commit("setBankAccountsCompleted", newBankAccountsCompleted);
+    }
+
+    @Mutation
+    public setPensionCompleted(pensionCompleted): void {
+        this.pensionCompleted = pensionCompleted;
+    }
+    @Action
+    public UpdatePensionCompleted(newPensionCompleted) {
+        this.context.commit("setPensionCompleted", newPensionCompleted);
+    }
+
+    @Mutation
+    public setPersonalItemsCompleted(personalItemsCompleted): void {
+        this.personalItemsCompleted = personalItemsCompleted;
+    }
+    @Action
+    public UpdatePersonalItemsCompleted(newPersonalItemsCompleted) {
+        this.context.commit("setPersonalItemsCompleted", newPersonalItemsCompleted);
+    }
+
+    @Mutation
+    public setNoWillNotifyStepRequired(noWillNotifyStepRequired): void {
+        this.noWillNotifyStepRequired = noWillNotifyStepRequired;
+    }
+    @Action
+    public UpdateNoWillNotifyStepRequired(newNoWillNotifyStepRequired) {
+        this.context.commit("setNoWillNotifyStepRequired", newNoWillNotifyStepRequired);
+    }
+
+    @Mutation
     public setApplicantName(applicantName): void {
         this.applicantName = applicantName;
     }
@@ -671,6 +734,15 @@ class Application extends VuexModule {
     @Action
     public UpdateRelatedPeopleInfo(newRelatedPeopleInfo) {
         this.context.commit("setRelatedPeopleInfo", newRelatedPeopleInfo);
+    }
+
+    @Mutation
+    public setBelongingsInfo(belongingsInfo: belongingsInfoType): void {
+        this.belongingsInfo = belongingsInfo;
+    }
+    @Action
+    public UpdateBelongingsInfo(newBelongingsInfo: belongingsInfoType) {
+        this.context.commit("setBelongingsInfo", newBelongingsInfo);
     }
 
     @Mutation
@@ -760,6 +832,7 @@ class Application extends VuexModule {
         this.deceasedName = application.deceasedName;
         this.deceasedDateOfDeath = application.deceasedDateOfDeath;
         this.relatedPeopleInfo = [];
+        this.belongingsInfo = {land: [], vehicle:[], bankAccount:[], pension:[], personalItem:[]};
         if (this.deceasedDateOfDeath) {
             this.deceasedDateOfDeathPlus4 = Vue.filter('beautify-full-date')(moment(this.deceasedDateOfDeath, "YYYY-MM-DD").add(4, 'days').format());
         }
@@ -775,11 +848,20 @@ class Application extends VuexModule {
         this.context.commit("loadSpouseInfo");
         this.context.commit("loadChildrenInfo")
         this.context.commit("loadGrandChildrenInfo")
+        this.context.commit("loadNotifyInfo");
+        // this.context.commit("loadBelongingsInfo");
+        this.context.commit("loadLandInfo");
+        this.context.commit("loadVehicleInfo");
+        this.context.commit("loadBankAccountInfo");
+        this.context.commit("loadPensionInfo");
+        this.context.commit("loadPersonalItemInfo");
+
+
     }
     @Mutation
     public loadSpouseInfo(): void{
         if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
-            const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
+            const spouseSurvey = this.steps[2].result["spouseSurvey"];
             const spouseInfo = spouseSurvey.data.spouseInfoPanel? spouseSurvey.data.spouseInfoPanel:[];
                    
             for (const spouse of spouseInfo) {
@@ -855,6 +937,141 @@ class Application extends VuexModule {
         }       
         console.log(this.deceasedGrandChildrenInfo)
     }
+
+    @Mutation
+    public loadLandInfo(): void{
+        console.log(this.steps[5].result)
+        if(this.steps[5].result && this.steps[5].result["landSurvey"] && this.steps[5].result["landSurvey"].data){
+
+            const landSurvey = this.steps[5].result["landSurvey"].data;
+            if (landSurvey.landExists && landSurvey.landExists == "n") {
+                this.landCompleted = true;
+            }else if(landSurvey.landCompleted && landSurvey.landCompleted == "y") {
+                this.landCompleted = true;
+            }else{
+                this.landCompleted = false;
+            }
+
+            this.belongingsInfo.land = [];
+
+            const landInfo = (landSurvey.landExists && landSurvey.landExists == "y" && landSurvey.landInfoPanel)?landSurvey.landInfoPanel:[];
+            
+            for (const land of landInfo) {            
+                this.belongingsInfo.land.push(land);                                   
+            }
+        }
+    }
+
+    @Mutation
+    public loadVehicleInfo(): void{        
+
+        if(this.steps[5].result && this.steps[5].result["vehiclesSurvey"] && this.steps[5].result["vehiclesSurvey"].data){
+
+            const vehiclesSurvey = this.steps[5].result["vehiclesSurvey"].data;
+            if (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == "n") {
+                this.vehiclesCompleted = true;
+            }else{
+                this.vehiclesCompleted = false;
+            }
+
+            this.belongingsInfo.vehicle = [];
+            const vehicleInfo = (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == "y" && vehiclesSurvey.vehicleInfoPanel)?vehiclesSurvey.vehicleInfoPanel:[];
+            
+            for (const vehicle of vehicleInfo) {            
+                this.belongingsInfo.vehicle.push(vehicle);                                   
+            }
+        }
+    }
+
+    @Mutation
+    public loadBankAccountInfo(): void{
+        console.log(this.steps[5].result)       
+
+        if(this.steps[5].result && this.steps[5].result["bankAccountsSurvey"] && this.steps[5].result["bankAccountsSurvey"].data){
+
+            const bankAccountsSurvey = this.steps[5].result["bankAccountsSurvey"].data;
+            if (bankAccountsSurvey.bankAccountExists && bankAccountsSurvey.bankAccountExists == "n") {
+                this.bankAccountsCompleted = true;
+            }else if(bankAccountsSurvey.bankAccountExists && 
+                    bankAccountsSurvey.bankAccountExists == "y" &&
+                    bankAccountsSurvey.banksCompleted && 
+                    bankAccountsSurvey.banksCompleted == "y") {
+                        this.bankAccountsCompleted = true;
+            }else{
+                this.bankAccountsCompleted = false;
+            }
+
+            this.belongingsInfo.bankAccount = [];
+            const bankAccountInfo = (bankAccountsSurvey.bankAccountExists && bankAccountsSurvey.bankAccountExists == "y" && bankAccountsSurvey.bankAccountInfoPanel)?bankAccountsSurvey.bankAccountInfoPanel:[];
+    
+            for (const bankAccount of bankAccountInfo) {            
+                this.belongingsInfo.bankAccount.push(bankAccount);                                   
+            } 
+        }
+    }
+
+    @Mutation
+    public loadPensionInfo(): void{       
+
+        if(this.steps[5].result && this.steps[5].result["pensionSurvey"] && this.steps[5].result["pensionSurvey"].data){
+
+            const pensionSurvey = this.steps[5].result["pensionSurvey"].data;
+
+            if (pensionSurvey.payCPP && pensionSurvey.payCPP == "n" &&
+                pensionSurvey.otherPensionExists && pensionSurvey.otherPensionExists == "n" &&
+                pensionSurvey.lifeInsuranceExists && pensionSurvey.lifeInsuranceExists == "n") {
+                this.pensionCompleted = true;
+            }else{
+                this.pensionCompleted = false;
+            }
+
+            this.belongingsInfo.pension = [];
+            const pensionInfo = (pensionSurvey)?pensionSurvey:[];
+            this.belongingsInfo.pension.push(pensionInfo);                
+        }
+    }
+
+    @Mutation
+    public loadPersonalItemInfo(): void{
+        
+        if(this.steps[5].result && this.steps[5].result["personalItemsSurvey"] && this.steps[5].result["personalItemsSurvey"].data){
+
+            const personalItemsSurvey = this.steps[5].result["personalItemsSurvey"].data;
+
+            if (personalItemsSurvey.otherAssetsExists && personalItemsSurvey.otherAssetsExists == "n") {
+                this.personalItemsCompleted = true;
+            }else if(personalItemsSurvey.otherAssetsExists && 
+                personalItemsSurvey.otherAssetsExists == "y" &&
+                personalItemsSurvey.otherAssetsCompleted && 
+                personalItemsSurvey.otherAssetsCompleted == "y") {
+                    this.personalItemsCompleted = true;
+            }else{
+                this.personalItemsCompleted = false;
+            }
+
+            this.belongingsInfo.personalItem = [];
+            const personalItemInfo = (personalItemsSurvey.otherAssetsExists && personalItemsSurvey.otherAssetsExists == "y")?personalItemsSurvey:[];
+                            
+            this.belongingsInfo.personalItem.push(personalItemInfo);  
+
+        }
+    }
+    @Mutation
+    public loadNotifyInfo(): void{
+
+        console.log(this.steps[4].result["notifySurvey"].data)
+
+        if(this.steps[4].result && this.steps[4].result["notifySurvey"]){
+            const notifySurvey = this.steps[4].result["notifySurvey"].data;
+            
+            if (notifySurvey.p1EarlyNoWillOwe10k && 
+                notifySurvey.p1EarlyNoWillOwe10k == "y") {
+                    this.noWillNotifyStepRequired = true;
+            } else {
+                this.noWillNotifyStepRequired = false;
+            }
+        } 
+    } 
 
 
     get getPrevStepPage(): { prevStep: number; prevPage: number } {
