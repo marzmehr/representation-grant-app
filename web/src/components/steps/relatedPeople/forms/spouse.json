@@ -273,7 +273,7 @@
                      "type": "infotext",
                      "name": "spouseCompletedNoError",
                      "visible": false,
-                     "visibleIf": "{spouseCompleted} = \"n\"",
+                     "visibleIf": "({spouseIsYou} = \"n\" and {spouseCompleted} = \"n\") or ({spouseIsYou} = \"y\" and {spouseIsYouIncluded} = \"y\" and {spouseCompleted} = \"n\") ",
                      "title": "Please make sure to include anyone who may be considered a spouse of {deceasedName}.  It is important to identify your relationship to <Deceased Name> as this service will prepare the paperwork based on this information.",
                      "titleLocation": "hidden",
                      "messageStyle": "error"
@@ -294,7 +294,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{spouseCompleted} = \"y\""
+               "visibleIf": "({spouseIsYou} = \"n\" and {spouseCompleted} = \"y\") or ({spouseIsYou} = \"y\" and {spouseIsYouIncluded} = \"y\" and {spouseCompleted} = \"y\") "
             }
          ],
          "title": "{deceasedName}'s Spouse"

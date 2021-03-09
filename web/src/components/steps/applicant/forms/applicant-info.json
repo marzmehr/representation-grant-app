@@ -463,6 +463,8 @@
                   {
                      "type": "infotext",
                      "name": "question287",
+                     "visible": false,
+                     "visibleIf": "{applicantLawyer} = 'n' and ",
                      "title": "[conditional messaging for 1 applicant vs multiple]<br>\nYou have multiple applicants and no lawyer. You need to pick one single service address that you all agree to",
                      "titleLocation": "hidden"
                   },

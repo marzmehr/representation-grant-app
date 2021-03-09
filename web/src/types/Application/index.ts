@@ -45,3 +45,11 @@ export interface stepInfoType {
     data: any;
   }
 
+  export interface belongingsInfoType {
+    land: any[];
+    vehicle: any[];
+    bankAccount: any[];
+    pension: any[];
+    personalItem: any[];
+  }
+
