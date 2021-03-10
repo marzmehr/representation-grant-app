@@ -134,31 +134,29 @@ export default class ApplicantInfo extends Vue {
     
     public adjustSurveyForRelatedPeople(){
         
-        const temp = (surveyJson.pages[0].elements[6])        
-        console.log(temp)
+        const temp = (surveyJson.pages[0].elements[2])        
+        console.log(temp)        
         let tmp = JSON.parse(JSON.stringify(temp));
-        surveyJson.pages[0].elements[4].elements[0]["choices"]=[];
+        surveyJson.pages[0].elements[1].elements[0]["choices"]=[];
+        
         for(const relatedPerson in this.relatedPeopleInfo){
-            const applicantName = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)+' ('+this.relatedPeopleInfo[relatedPerson].relationShip+')'
-            surveyJson.pages[0].elements[4].elements[0]["choices"].push({value:'relatedPerson['+relatedPerson+']', text: applicantName})
             
-            tmp = JSON.parse(JSON.stringify(temp));
-            tmp.name = "applicantInfoPanel["+relatedPerson+"]";
-            tmp.visibleIf = "{applicant} contains 'relatedPerson["+relatedPerson+"]'"
-
-            tmp.elements[3].name = "applicantNewPartOfOrg["+relatedPerson+"]";
-            tmp.elements[3].title = "Is "+ applicantName +" applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`"
-           
-            tmp.elements[11].name = "applicantOccupation["+relatedPerson+"]";
-            tmp.elements[11].title = "What is "+ applicantName +"'s job or profession?"
-
-            tmp.elements[12].name = "applicantMailingAddress["+relatedPerson+"]";
-            tmp.elements[12].title = "What is "+ applicantName +" mailing address?"
+            const applicantNameAndRelation = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)+' ('+this.relatedPeopleInfo[relatedPerson].relationShip+')'
+            const applicantName = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)
             
+            surveyJson.pages[0].elements[1].elements[0]["choices"].push({value:'relatedPerson['+relatedPerson+']', text: applicantNameAndRelation})
+            
+            let jsonText= JSON.stringify(temp)
+            jsonText = jsonText.replace(/[0]/g, relatedPerson);
+            jsonText = jsonText.replace(/{applicantName}/g, applicantName);
+            jsonText = jsonText.replace(/{applicantRelationship}/g,"'"+this.relatedPeopleInfo[relatedPerson].relationShip+"'");
+            tmp = JSON.parse(jsonText);
+            //console.log(tmp)
+
             if(relatedPerson == '0')
-                surveyJson.pages[0].elements[6] = tmp;
+                surveyJson.pages[0].elements[2] = tmp;
             else 
-                surveyJson.pages[0].elements.splice(6+Number(relatedPerson),0,tmp)
+                surveyJson.pages[0].elements.splice(2+Number(relatedPerson),0,tmp)
         }
         //console.log(surveyJson)
     }
@@ -168,14 +166,20 @@ export default class ApplicantInfo extends Vue {
             console.log(this.survey.data);
             // console.log(options)
             this.determineApplicantInfoCompleted();
+            this.determineLengthOfApplicants()
                         
         })   
+    }
+
+    public determineLengthOfApplicants(){
+        //console.log(this.survey.data.applicant.length)
+        this.survey.setVariable("multipleApplicants",this.survey.data.applicant?this.survey.data.applicant.length:0)
     }
 
     public determineApplicantInfoCompleted(){
 
         if (this.survey.data.applicantCourthouseClosest && this.survey.data.applicantCourthouseClosest == "y") {
-            this.toggleSteps([4], true);
+            this.toggleSteps([4,8], true);
         } else{
             this.toggleSteps([4, 5, 6, 7, 8], false);
         }        
@@ -193,6 +197,7 @@ export default class ApplicantInfo extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         this.determineApplicantInfoCompleted();
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+        this.determineLengthOfApplicants();
     
    }
 
