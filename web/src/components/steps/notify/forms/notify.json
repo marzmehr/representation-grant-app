@@ -267,6 +267,12 @@
                "body": "What happens now?\nAfter you deliver the notice to the appropriate people and organizations, there may be some who have concerns about your application and submit a Notice of Dispute (P29). In this situation, you will not be able to get an estate grant. You may want to talk things through with the person who submitted the Notice of Dispute and see if they are willing to withdraw it. You can also apply to remove the Notice of Dispute if you believe the reason for the dispute is not valid."
             },
             {
+               "type": "helptext",
+               "name": "question450",
+               "title": "[Moved here Nov 19 2020]\n<br>\nMight need to appear in multiple pages' exit panels depending if will or not will? \n<br>\nOld Sidebar FAQ What if I don't know all the assets in the deceased's estate?\n\nIt is your responsibility to make sure you find and report all the deceased's assets that you know about. If you successfully become the deceased's personal representative and you find more assets to report afterwards, there will be additional forms to complete. Use either form P14 or P15 to tell the court.\nhttps://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms",
+               "titleLocation": "hidden"
+              },
+            {
                "type": "panel",
                "name": "notifyExitPanel",
                "elements": [

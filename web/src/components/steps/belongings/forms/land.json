@@ -649,6 +649,19 @@
                     "panelRemoveText": "Remove a land or building"
                 },
                 {
+                    "type": "infotext",
+                    "name": "question272",
+                    "visible": false,
+                    "title": "Mar 8 2021 interest in land other than ownership?",
+                    "titleLocation": "hidden"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question271",
+                    "title": "interest in land other than ownership?",
+                    "description": "lent money and hold a mortgage. or right to buy land for less than market value"
+                },
+                {
                     "type": "yesno",
                     "name": "landCompleted",
                     "title": "is this all the land?",
@@ -661,8 +674,8 @@
                     "title": "add all the land",
                     "titleLocation": "hidden",
                     "messageStyle": "error",
-                    "visible":false,
-                    "visibleIf":"({landExists} = 'y') and ({landExistsYesExplanation} > 0) and {landCompleted} = 'n'"
+                    "visible": false,
+                    "visibleIf": "({landExists} = 'y') and ({landExistsYesExplanation} > 0) and {landCompleted} = 'n'"
                 },
                 {
                     "type": "yesno",
