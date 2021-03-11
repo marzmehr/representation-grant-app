@@ -659,7 +659,9 @@
                     "type": "yesno",
                     "name": "question271",
                     "title": "interest in land other than ownership?",
-                    "description": "lent money and hold a mortgage. or right to buy land for less than market value"
+                    "description": "lent money and hold a mortgage. or right to buy land for less than market value",
+                    "visible": false,
+                    "visibleIf": "{landIntroExplanation} > 0"
                 },
                 {
                     "type": "yesno",

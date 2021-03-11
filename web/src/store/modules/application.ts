@@ -36,6 +36,7 @@ class Application extends VuexModule {
     public deceasedChildrenInfo = []
     public deceasedGrandChildrenInfo = []
     public belongingsInfo = {} as belongingsInfoType;
+    public deceasedAliases = [];
     public applicationLocation = ""
     public scrollToLocationName = ""
     public requiredDocuments: string[] = []
@@ -772,6 +773,15 @@ class Application extends VuexModule {
     }
 
     @Mutation
+    public setDeceasedAliases(deceasedAliases): void {
+        this.deceasedAliases = deceasedAliases;
+    }
+    @Action
+    public UpdateDeceasedAliases(newDeceasedAliases) {
+        this.context.commit("setDeceasedAliases", newDeceasedAliases);
+    }
+
+    @Mutation
     public setApplicationLocation(applicationLocation): void {
         this.applicationLocation = applicationLocation;
     }
@@ -1019,10 +1029,14 @@ class Application extends VuexModule {
             }
 
             this.belongingsInfo.bankAccount = [];
+            this.deceasedAliases = [];
             const bankAccountInfo = (bankAccountsSurvey.bankAccountExists && bankAccountsSurvey.bankAccountExists == "y" && bankAccountsSurvey.bankAccountInfoPanel)?bankAccountsSurvey.bankAccountInfoPanel:[];
-    
+            
             for (const bankAccount of bankAccountInfo) {            
-                this.belongingsInfo.bankAccount.push(bankAccount);                                   
+                this.belongingsInfo.bankAccount.push(bankAccount);
+                if (bankAccount.bankNameMatch == 'n' && bankAccount.alias) {
+                    this.deceasedAliases.push(bankAccount.alias);
+                } 
             } 
         }
     }

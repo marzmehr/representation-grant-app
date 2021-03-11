@@ -196,128 +196,55 @@
                 },
                 {
                     "type": "panel",
-                    "name": "willSearchAliasPanel",
-                    "elements": [
+                    "name": "willSearchAliasPanel[0]",
+                    "elements": [                        
                         {
-                            "type": "infotext",
-                            "name": "JIRAWillSearch2",
-                            "visible": false,
-                            "visibleIf": "{willSearchAlias} = \"n\"",
-                            "title": "[JIRA] Dynamically create a yes/no question for each alias, including {deceasedName}",
-                            "titleLocation": "hidden"
+                            "type": "yesno",
+                            "name": "willSearchAlias[0]",
+                            "title": "Did you do a will search with this spellings of {deceasedName}'s name? ({alias})"
                         },
                         {
                             "type": "yesno",
-                            "name": "willSearchAlias",
-                            "title": "Did you do a will search with this spellings of {deceasedName}'s name? {alias} Tim A. Taylor"
+                            "name": "willSearchWillsExist[0]",
+                            "visible": false,
+                            "visibleIf": "{willSearchAlias[0]} = 'y'",
+                            "title": "Was there one or more Wills listed on the will search under '{alias}'?",
+                            "description": "Just because Vital Stats doesn't know about a will, doesn't mean the Will is invalid or that it doesn't exist. (this needs work) just because the will you have doesn't show up in vital stats, doesn't mean there isn't anything wrong with the will."
                         },
                         {
                             "type": "yesno",
-                            "name": "willSearchWillsExist",
+                            "name": "willSearchWillsCurrent[0]",
                             "visible": false,
-                            "title": "Was there one or more Wills listed on the will search under this alias?",
-                            "description": "Just because Vital Stats doesn't know about a will, doesn't mean the Will is invalid or that it doesn't exist. (this needs work) just because the will you have doesn't show up in vital stats, doesn't mean there isn't anything wrong with the will.\n<br>\nNo - end"
+                            "visibleIf": "({willSearchAlias[0]} = 'y') and ({willSearchWillsExist[0]} = 'y')",
+                            "title": "Are all of the Wills listed in the will search for '{alias}' dated {willDate} or older?",
+                            "description": "If the will in the will search is older and you are using a newer will, this is ok."
                         },
                         {
                             "type": "yesno",
-                            "name": "willSearchWillsCurrent",
+                            "name": "willSearchInvalidWillsDeclared[0]",
                             "visible": false,
-                            "visibleIf": "{willSearchWillsExist} = \"y\"",
-                            "title": "[If there is a will] Are all of the Wills listed in the will search for {alias} dated {willDate} or older?",
-                            "description": "If the will in the will search is older and you are using a newer will, this is ok.\n<br>\nYes - end"
-                        },
-                        {
-                            "type": "yesno",
-                            "name": "willSearchInvalidWillsDeclared",
-                            "visible": false,
-                            "visibleIf": "{willSearchWillsCurrent} = \"n\"",
-                            "title": "[JIRA - newer invalid will] Are all of the Wills listed in the will search for {alias} any of these newer invalid wills you have already identified?",
+                            "visibleIf": "({willSearchAlias[0]} = 'y') and ({willSearchWillsExist[0]} = 'y') and ({willSearchWillsCurrent[0]} = 'n')",
+                            "title": "[JIRA - newer invalid will] Are all of the Wills listed in the will search for '{alias}' any of these newer invalid wills you have already identified?",
                             "description": "List of newer invalid wills from will page. Date - Reason not using <br> yes - end"
                         },
                         {
                             "type": "infotext",
-                            "name": "willSearchInvalidWillsDeclaredNoExplanation",
+                            "name": "willSearchInvalidWillsDeclaredNoExplanation[0]",
                             "visible": false,
-                            "visibleIf": "{willSearchInvalidWillsDeclared} ",
+                            "visibleIf": "({willSearchAlias[0]} = 'y') and ({willSearchWillsExist[0]} = 'y') and ({willSearchWillsCurrent[0]} = 'n') and ({willSearchInvalidWillsDeclared[0]} = 'y')",
                             "title": "The Court may be concerned about newer wills that exist while you try to use an older will. Since you haven't already listed these newer wills that are not using, this service will need to ask questions about the most recent of the wills recently uncovered by the wills search.",
                             "isRequired": true,
                             "titleLocation": "hidden"
                         },
                         {
                             "type": "yesno",
-                            "name": "willSearchFin",
-                            "title": "[Jul 7 2020] Are you able to find the most recent Will (or a copy) listed under {alias} in the wills search?",
+                            "name": "willSearchFin[0]",
+                            "visible": false,
+                            "visibleIf":"({willSearchAlias[0]} = 'y') and ({willSearchWillsExist[0]} = 'y') and ({willSearchWillsCurrent[0]} = 'n') and ({willSearchInvalidWillsDeclared[0]} = 'y') and ({willSearchInvalidWillsDeclaredNoExplanation[0]} > 0)",
+                            "title": "Are you able to find the most recent Will (or a copy) listed under '{alias}' in the wills search?",
                             "description": "(whether or not the will was in the location specified in the wills search notice or not)"
-                        },
-                        {
-                            "type": "yesno",
-                            "name": "question452",
-                            "title": "destroyed will??"
-                        },
-                        {
-                            "type": "yesno",
-                            "name": "question448",
-                            "visible": false,
-                            "visibleIf": "{willHave} = \"y\"",
-                            "title": "Does this the most Will deal with property in BC?"
-                        },
-                        {
-                            "type": "helptext",
-                            "name": "question449",
-                            "visible": false,
-                            "visibleIf": "{willHave} = \"y\"",
-                            "title": "Will that deals with property outside of BC?",
-                            "titleLocation": "hidden"
-                        },
-                        {
-                            "type": "yesno",
-                            "name": "question445",
-                            "title": "Was {deceasedName} mentally competent when they made the will ({willDate})?"
-                        },
-                        {
-                            "type": "yesno",
-                            "name": "question446",
-                            "title": "Did {deceasedName} make their Will (dated {willDate}) under any undue influence?",
-                            "description": "For example, a nurse that threatened to not care of {deceasedName} unless they made a Will that gifted everything to the nurse."
-                        },
-                        {
-                            "type": "yesno",
-                            "name": "question447",
-                            "title": "Do you think is any other issue with how this will was made that someone (for example the person reviewing this application) may question?",
-                            "description": "(make this question distinct from appearance problems)"
-                        },
-                        {
-                            "type": "matrixdynamic",
-                            "name": "question444",
-                            "visible": false,
-                            "visibleIf": "{willNewerInvalidMultiple} = \"y\" or {willNewerInvalidAwow} = \"y\"",
-                            "title": "Date and Reason not using that will",
-                            "columns": [
-                                {
-                                    "name": "Column 1",
-                                    "title": "Date of Will/Doc",
-                                    "cellType": "text",
-                                    "inputType":"date"
-                                },
-                                {
-                                    "name": "Column 2",
-                                    "title": "Reason this doc should be considered irrelevnt or invalid",
-                                    "cellType": "checkbox"
-                                }
-                            ],
-                            "choices": [
-                                "lack of capacity",
-                                "undue influence",
-                                "will does not deal with property in BC",
-                                {
-                                    "value": "other",
-                                    "text": "other (specify)"
-                                }
-                            ],
-                            "rowCount": 1,
-                            "addRowText": "Add new Will/Testamentary Document?",
-                            "removeRowText": "Remove document"
-                        }
+                        }                       
+                        
                     ],
                     "visible": false,
                     "visibleIf": "{willSearchStarted} = \"y\""
@@ -325,18 +252,19 @@
                 {
                     "type": "checkbox",
                     "name": "willSearchApplicantDiligentSearchConfirmed",
-                    "title": "[Diligent Search Confirmation] Are you ({name of applicants}) satisfied that there was a diligent search for {deceasedName}'s Will and other testamentary documents? \n[Doesn't seem like P8 people need to swear this]",
+                    "title": "Are you ({primaryApplicantName}) satisfied that there was a diligent search for {deceasedName}'s Will and other testamentary documents?",
                     "choices": [
                         {
-                            "value": "item1",
-                            "text": "Yes can confirm"
+                            "value": "confirmedwillSearch",
+                            "text": "Yes I can confirm"
                         }
                     ]
                 },
                 {
-                    "type": "infotext",
-                    "name": "question462",
-                    "title": "[Delete when reference not useful anymore]\n<br>\nA diligent search is doing your best to check all the places where {deceasedName} usually kept their important documents. This means checking physical places as well electronic places.\n<br><br>\n<ul>\n<li>Physical places include their home, safety deposit box, and their lawyer's office.</li>\n<li>Electronic places include their smart phone, computer, external hard drive, and cloud storage.</li>\n</ul>\nIf people are working together to apply for a `Representation Grant`, the `applicants` can decide which applicant searches which place.\n<br><br>\nThere is also a document called a Search of Wills Notice. This document can help reveal the location of a will.  You don't need to have gotten a Search of Wills Notice to answer \"Yes\" that you have done a diligent search. \n<br><br>\nThis document is not necessary for your diligent search yes/no but it is eventually necessary. this service will complete it at a later point. ",
+                    "type": "helptext",
+                    "name": "diligentSearchHelpText",
+                    "title": "What is a diligent search?",
+                    "body": "A diligent search is doing your best to check all the places where {deceasedName} usually kept their important documents. This means checking physical places as well electronic places.\n<br><br>\n<ul>\n<li>Physical places include their home, safety deposit box, and their lawyer's office.</li>\n<li>Electronic places include their smart phone, computer, external hard drive, and cloud storage.</li>\n</ul>\nIf people are working together to apply for a `Representation Grant`, the `applicants` can decide which applicant searches which place.\n<br><br>\nThere is also a document called a Search of Wills Notice. This document can help reveal the location of a will.  You don't need to have gotten a Search of Wills Notice to answer \"Yes\" that you have done a diligent search. \n<br><br>\nThis document is not necessary for your diligent search yes/no but it is eventually necessary. this service will complete it at a later point. ",
                     "titleLocation": "hidden"
                 },
                 {
@@ -392,8 +320,7 @@
                     ]
                 }
             ],
-            "title": "Will Search Check",
-            "description": "why is this invisible?"
+            "title": "Will Search Check"
         }
     ],
     "showQuestionNumbers": "off",

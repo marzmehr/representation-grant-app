@@ -269,8 +269,9 @@
             {
                "type": "helptext",
                "name": "question450",
-               "title": "[Moved here Nov 19 2020]\n<br>\nMight need to appear in multiple pages' exit panels depending if will or not will? \n<br>\nOld Sidebar FAQ What if I don't know all the assets in the deceased's estate?\n\nIt is your responsibility to make sure you find and report all the deceased's assets that you know about. If you successfully become the deceased's personal representative and you find more assets to report afterwards, there will be additional forms to complete. Use either form P14 or P15 to tell the court.\nhttps://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms",
-               "titleLocation": "hidden"
+               "title": "What if I don't know all the assets in the deceased's estate?\n\n",
+               "titleLocation": "hidden",
+               "body": "It is your responsibility to make sure you find and report all the deceased's assets that you know about. If you successfully become the deceased's personal representative and you find more assets to report afterwards, there will be additional forms to complete. Use either form P14 or P15 to tell the court.\nhttps://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms"
               },
             {
                "type": "panel",
