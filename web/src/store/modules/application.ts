@@ -889,8 +889,7 @@ class Application extends VuexModule {
     public loadSpouseInfo(): void{
         if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
             const spouseSurvey = this.steps[2].result["spouseSurvey"];
-            const spouseInfo = spouseSurvey.data.spouseInfoPanel? spouseSurvey.data.spouseInfoPanel:[];
-                   
+            const spouseInfo = (spouseSurvey.data.spouseExists=='y' && spouseSurvey.data.spouseInfoPanel)? spouseSurvey.data.spouseInfoPanel:[];    
             for (const spouse of spouseInfo) {
                 if (spouse.spouseIsAlive == "y") {
                     this.relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
@@ -910,7 +909,7 @@ class Application extends VuexModule {
     public loadChildrenInfo(): void{
         if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
             const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
-            const childrenInfo = childrenSurvey.data.childInfoPanel? childrenSurvey.data.childInfoPanel:[]
+            const childrenInfo = (childrenSurvey.data.child=='y'&& childrenSurvey.data.childInfoPanel)? childrenSurvey.data.childInfoPanel:[]
             const deceasedChildren = [];        
             for (const child of childrenInfo) {
                 if (child.childIsAlive == "n"           && 

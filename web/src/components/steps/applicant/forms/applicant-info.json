@@ -247,7 +247,7 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{multipleApplicants}"
+               "visibleIf": "{multipleApplicants} > 0"
             },            
             {
                "type": "panel",

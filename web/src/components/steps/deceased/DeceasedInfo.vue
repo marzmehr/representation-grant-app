@@ -186,9 +186,10 @@ export default class DeceasedInfo extends Vue {
     }
 
     public onNext() {
-        if(!this.survey.isCurrentPageHasErrors) {
+        //if(!this.survey.isCurrentPageHasErrors) {
+        if(this.survey.data.deceasedIntroExplanation == true)    
             this.UpdateGotoNextStepPage()
-        }
+        //}
     }
     
     public onComplete() {

@@ -23,6 +23,7 @@
                   {
                      "type": "personname",
                      "name": "deceasedName",
+                     "isRequired":true,
                      "title": "What is the name of the person who died?",
                      "description": "If {deceasedName} made a `Will`, you should use the exact spelling of their name on their Will.\n<br><br>\nIf {deceasedName} did not make a Will, you should use the exact spelling of their name on their government-issued photo ID.",
                      "defaultSubstitution": "(the person who died)",
