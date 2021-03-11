@@ -66,6 +66,7 @@ export default class ApplicantInfo extends Vue {
     disableNextButton = false;   
     currentPage=0;
     thisStep = 0;
+    relatedPeopleNames: string[]=[];
 
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -143,7 +144,7 @@ export default class ApplicantInfo extends Vue {
             
             const applicantNameAndRelation = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)+' ('+this.relatedPeopleInfo[relatedPerson].relationShip+')'
             const applicantName = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)
-            
+            this.relatedPeopleNames.push(applicantNameAndRelation)
             surveyJson.pages[0].elements[1].elements[0]["choices"].push({value:'relatedPerson['+relatedPerson+']', text: applicantNameAndRelation})
             
             let jsonText= JSON.stringify(temp)
@@ -166,8 +167,10 @@ export default class ApplicantInfo extends Vue {
             console.log(this.survey.data);
             // console.log(options)
             this.determineApplicantInfoCompleted();
-            this.determineLengthOfApplicants()
-                        
+            this.determineLengthOfApplicants();
+
+            // console.log(options.question.visibleChoices)
+            // console.log(options.value)
         })   
     }
 
@@ -198,8 +201,8 @@ export default class ApplicantInfo extends Vue {
         this.determineApplicantInfoCompleted();
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.determineLengthOfApplicants();
-    
-   }
+        this.survey.setValue("relatedPeopleNames",this.relatedPeopleNames)
+    }
 
     public activateStep(stepActive) {
         this.UpdateStepActive( {
@@ -285,6 +288,9 @@ export default class ApplicantInfo extends Vue {
    
 
     beforeDestroy() {
+
+        console.log(this.relatedPeopleInfo)
+        console.log(this.survey.data)
 
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
        

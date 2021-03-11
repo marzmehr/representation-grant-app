@@ -108,6 +108,8 @@ export default class Notify extends Vue {
         this.initializeSurvey();
         this.addSurveyListener();
         this.reloadPageInformation();
+
+        console.log(this.steps)
     }
 
     public initializeSurvey(){
@@ -134,11 +136,10 @@ export default class Notify extends Vue {
         } else {
             this.UpdateNoWillNotifyStepRequired(false);
         }
-
-        if (this.survey.data.applicantInfoCorrect && 
-            this.survey.data.applicantInfoCorrect == "y" &&
-            this.survey.data.deceasedInfoCorrect && 
-            this.survey.data.deceasedInfoCorrect == "y") {            
+//console.log(this.steps)
+        if (this.steps[4].result['reviewP1Survey'] && 
+            this.steps[4].result['reviewP1Survey'].data && 
+            this.steps[4].result['reviewP1Survey'].p1ReviewInfoCorrect) {            
             this.survey.setVariable("notifyCompleted", true);
             this.toggleSteps([5, 8], true);
 
