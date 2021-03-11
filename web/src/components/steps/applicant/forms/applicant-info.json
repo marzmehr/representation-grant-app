@@ -193,55 +193,31 @@
                      "titleLocation": "hidden"
                   },
                   {
-                     "type": "yesno",
-                     "name": "applicantCourthouseClosest",
+                     "type": "dropdown",
+                     "name": "applicantCourthouse",
                      "visible": false,
                      "visibleIf": "{applicantLawyerFirmAddress} notempty or {applicantServiceAddress} notempty",
-                     "title": "The closest courthouse to this service address is [courthouse location]. Do you want to file here?",
-                     "description": "This means the file including the Will lives here if you ever need to look at it."
-                  },
-                  {
-                     "type": "dropdown",
-                     "name": "applicantCourthouseDifferent",
-                     "visible": false,
-                     "visibleIf": "{applicantCourthouseClosest} = \"n\"",
-                     "title": "select the court location you want to file at",
+                     "title": "Select the court location you want to file at",
                      "description": "courthouse location",
                      "choices": [
-                        "item1",
-                        "item2",
-                        "item3"
+                        "Victoria Law Courts",
+                        "Surrey",
+                        "Vancouver"
                      ]
                   },
                   {
                      "type": "infotext",
-                     "name": "question298",
+                     "name": "30kmRuleInfo",
                      "visible": false,
                      "title": "[further than 30km away from selected courthouse] You will need to provide one or more of the following: email, fax, PO box within 30km of {courthouseLocation}",
                      "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question275",
-                     "visible": false,
-                     "title": "Is it fine to secretly ignore the 30km rule?",
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "contactinfo",
-                     "name": "jillContact",
-                     "visible": false,
-                     "title": "[obsolete Feb 15 2021 - service contact (optional?) (one or more required if outside 30km of courthouse?)",
-                     "description": "If the address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
-                     "labelEmail": "Email (optional)",
-                     "labelFax": "Fax (optional)"
-                  },
+                  },                                  
                   {
                      "type": "text",
                      "name": "applicantServiceEmail",
                      "visible": false,
                      "visibleIf": "{applicantLawyerFirmAddress} notempty or {applicantServiceAddress} notempty",
-                     "title": "Service Email Address (Optional)",
+                     "title": "Service Email Address",
                      "description": "usually optional but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
                      "inputType": "email"
                   },
@@ -285,7 +261,7 @@
                    }
                ],
                "visible": false,
-               "visibleIf": "{applicantCourthouseClosest} notempty"
+               "visibleIf": "{applicantCourthouse} notempty"
             }
          ],
          "title": "The Applicant(s)"

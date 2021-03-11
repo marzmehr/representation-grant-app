@@ -176,9 +176,10 @@ export default class ApplicantInfo extends Vue {
         this.survey.setVariable("multipleApplicants",this.survey.data.applicant?this.survey.data.applicant.length:0)
     }
 
-    public determineApplicantInfoCompleted(){
+    public determineApplicantInfoCompleted(){        
 
-        if (this.survey.data.applicantCourthouseClosest && this.survey.data.applicantCourthouseClosest == "y") {
+        if (this.survey.data.applicantCourthouse && this.survey.data.applicantCourthouse != "") {
+           
             this.toggleSteps([4,8], true);
         } else{
             this.toggleSteps([4, 5, 6, 7, 8], false);
