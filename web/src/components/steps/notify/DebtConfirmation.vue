@@ -8,7 +8,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';    
 
 import * as SurveyVue from "survey-vue";
-import surveyJson from "./forms/notify.json";
+import surveyJson from "./forms/debtConfirmation.json";
 import * as surveyEnv from "@/components/survey/survey-glossary.ts"
 
 import PageBase from "../PageBase.vue";
@@ -24,7 +24,7 @@ const applicationState = namespace("Application");
     }
 })
 
-export default class Notify extends Vue {
+export default class DebtConfirmation extends Vue {
         
     @Prop({required: true})
     step!: stepInfoType;
@@ -95,14 +95,19 @@ export default class Notify extends Vue {
         const Survey = SurveyVue;
         surveyEnv.setCss(Survey);
         surveyEnv.loadGlossary();
-    }  
+    }
+
+    created() {
+        this.disableNextButton = false
+        if (this.step.result && this.step.result['debtConfirmationSurvey']) { 
+            this.disableNextButton = false;           
+        }
+    }
 
     mounted(){
         this.initializeSurvey();
         this.addSurveyListener();
         this.reloadPageInformation();
-
-        console.log(this.step)
     }
 
     public initializeSurvey(){
@@ -122,10 +127,18 @@ export default class Notify extends Vue {
     }
 
     public determineNotifyCompleted(){
-        
-        if (this.steps[4].result['reviewP1Survey'] && 
-            this.steps[4].result['reviewP1Survey'].data && 
-            this.steps[4].result['reviewP1Survey'].data.p1ReviewInfoCorrect) {            
+
+        if (this.survey.data.p1EarlyNoWillOwe10k && 
+            this.survey.data.p1EarlyNoWillOwe10k == "y") {
+                this.UpdateNoWillNotifyStepRequired(true);
+        } else {
+            this.UpdateNoWillNotifyStepRequired(false);
+        }
+
+        if (this.survey.data.applicantInfoCorrect && 
+            this.survey.data.applicantInfoCorrect == "y" &&
+            this.survey.data.deceasedInfoCorrect && 
+            this.survey.data.deceasedInfoCorrect == "y") {            
             this.survey.setVariable("notifyCompleted", true);
             this.toggleSteps([5, 8], true);
 
@@ -157,8 +170,8 @@ export default class Notify extends Vue {
 
     public reloadPageInformation() {
         //console.log(this.step.result)
-        if (this.step.result && this.step.result["notifySurvey"]){
-            this.survey.data = this.step.result["notifySurvey"].data;
+        if (this.step.result && this.step.result["debtConfirmationSurvey"]){
+            this.survey.data = this.step.result["debtConfirmationSurvey"].data;
         } 
         
         this.thisStep = this.currentStep;
@@ -167,8 +180,7 @@ export default class Notify extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
-        this.determineRequiredNotice(); 
-        this.determineNotifyCompleted();      
+        this.determineRequiredNotice();       
    }
 
     public activateStep(stepActive) {
@@ -210,7 +222,7 @@ export default class Notify extends Vue {
 
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
        
-        this.UpdateStepResultData({step:this.step, data: {notifySurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
+        this.UpdateStepResultData({step:this.step, data: {debtConfirmationSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
 
     }
 };

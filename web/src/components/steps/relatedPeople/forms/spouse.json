@@ -70,7 +70,7 @@
             {
                "type": "paneldynamic",
                "name": "spouseInfoPanel",
-               "title": " ",
+               "title": "Spouse Information",
                "visible": false,
                "visibleIf": "{spouseExists} = \"y\"",
                "templateElements": [

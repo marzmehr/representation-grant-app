@@ -103,7 +103,7 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 	// console.log(survey.data)
 	const questionResults: {name:string; value: any; title:string; inputType:string}[] =[];
 	for(const question of survey.currentPage.questions){
-		if(question.isVisible)
+		if(question.isVisible && question.questionValue!=true && question.questionValue!=false)
 			if(survey.data[question.name]){
 				// console.log("____________")
 				// console.log(question)
@@ -127,9 +127,7 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 				
 			}
 		//__specialities
-		else if(question.name=='PartiesHasOtherChilderen' && question.isVisible)
-			questionResults.push({name:question.name, value: question.questionValue, title:question.title, inputType:question.inputType})
-
+		
 	}
 	// console.log(result)
 	// console.log(document.getElementsByName("inCourtForPO"))
