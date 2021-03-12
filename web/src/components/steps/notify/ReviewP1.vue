@@ -122,14 +122,7 @@ export default class ReviewP1 extends Vue {
 
     beforeCreate() {
      
-    }
-
-    created() {
-        this.disableNextButton = false
-        if (this.step.result && this.step.result['notifySurvey']) { 
-            this.disableNextButton = false;           
-        }
-    }
+    }    
 
     mounted(){
         this.initializeSurvey();
@@ -150,9 +143,9 @@ export default class ReviewP1 extends Vue {
             console.log(stepResult);
             for (const [key, value] of Object.entries(stepResult))
             {
-                console.error("____________")
-                console.log(key)
-                console.log(value)
+                // console.error("____________")
+                // console.log(key)
+                // console.log(value)
                 if(value && value['data'] && value['data'].length == 0){
                     const isPageActive = step.pages[value['currentPage']]? step.pages[value['currentPage']].active : false; 
                     value['questions'][0]= {name: "require", value: "", title: value['pageName'], inputType: ""}                 

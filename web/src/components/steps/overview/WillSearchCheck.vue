@@ -56,7 +56,8 @@ export default class WillSearchCheck extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
-    survey = new SurveyVue.Model(surveyJson);  
+    survey = new SurveyVue.Model(surveyJson); 
+    surveyJsonCopy; 
     currentPage=0;
     thisStep=0;
    
@@ -79,7 +80,7 @@ export default class WillSearchCheck extends Vue {
 
     public initializeSurvey(){
         this.adjustSurveyForAliases();
-        this.survey = new SurveyVue.Model(surveyJson);
+        this.survey = new SurveyVue.Model(this.surveyJsonCopy);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
@@ -87,11 +88,15 @@ export default class WillSearchCheck extends Vue {
     }
 
     public adjustSurveyForAliases(){
+
+        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
         
-        const temp = (surveyJson.pages[0].elements[2])       
-           
+        const temp = (this.surveyJsonCopy.pages[0].elements[2])       
+        //console.log(temp)   
         let tmp = JSON.parse(JSON.stringify(temp));
-        
+       // console.log(tmp)
+        this.surveyJsonCopy.pages[0].elements.splice(2,1);
+        //console.log(this.surveyJsonCopy)
         for(const deceasedAlias in this.deceasedAliases){
             
             const aliasName = this.deceasedAliases[deceasedAlias]             
@@ -101,10 +106,10 @@ export default class WillSearchCheck extends Vue {
             jsonText = jsonText.replace(/{alias}/g, aliasName);
             tmp = JSON.parse(jsonText);            
 
-            if(deceasedAlias == '0')
-                surveyJson.pages[0].elements[2] = tmp;
-            else 
-                surveyJson.pages[0].elements.splice(2+Number(deceasedAlias),0,tmp)
+            // if(deceasedAlias == '0')
+            //     this.surveyJsonCopy.pages[0].elements[2] = tmp;
+            // else 
+            this.surveyJsonCopy.pages[0].elements.splice(2+Number(deceasedAlias),0,tmp)
         }
     }
     
@@ -113,6 +118,7 @@ export default class WillSearchCheck extends Vue {
             //console.log(this.survey.data);
             // console.log(options)
             this.determinePrimaryApplicant();
+            this.determineNumberOfAliases();
         })
     }
     
@@ -130,6 +136,7 @@ export default class WillSearchCheck extends Vue {
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.determinePrimaryApplicant();
+        this.determineNumberOfAliases();
     }
 
     public determinePrimaryApplicant() {
@@ -142,6 +149,11 @@ export default class WillSearchCheck extends Vue {
                 }
             }
         }
+    }
+
+     public determineNumberOfAliases(){
+        
+        this.survey.setVariable("numberOfAliases",this.deceasedAliases?this.deceasedAliases.length:0)
     }
 
     public onPrev() {

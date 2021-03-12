@@ -247,7 +247,7 @@
                         
                     ],
                     "visible": false,
-                    "visibleIf": "{willSearchStarted} = \"y\""
+                    "visibleIf": "{willSearchStarted} = 'y' and ({numberOfAliases} > 0)"
                 },
                 {
                     "type": "checkbox",

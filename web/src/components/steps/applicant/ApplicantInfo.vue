@@ -63,6 +63,7 @@ export default class ApplicantInfo extends Vue {
     public UpdateAllCompleted!: (newAllCompleted) => void
 
     survey = new SurveyVue.Model(surveyJson);
+    surveyJsonCopy; 
     disableNextButton = false;   
     currentPage=0;
     thisStep = 0;
@@ -126,7 +127,7 @@ export default class ApplicantInfo extends Vue {
 
     public initializeSurvey(){
         this.adjustSurveyForRelatedPeople();
-        this.survey = new SurveyVue.Model(surveyJson);
+        this.survey = new SurveyVue.Model(this.surveyJsonCopy);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
@@ -134,18 +135,21 @@ export default class ApplicantInfo extends Vue {
     } 
     
     public adjustSurveyForRelatedPeople(){
+
+        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
+    
         
-        const temp = (surveyJson.pages[0].elements[2])        
+        const temp = (this.surveyJsonCopy.pages[0].elements[2])        
         console.log(temp)        
         let tmp = JSON.parse(JSON.stringify(temp));
-        surveyJson.pages[0].elements[1].elements[0]["choices"]=[];
+        this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"]=[];
         
         for(const relatedPerson in this.relatedPeopleInfo){
             
             const applicantNameAndRelation = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)+' ('+this.relatedPeopleInfo[relatedPerson].relationShip+')'
             const applicantName = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)
             this.relatedPeopleNames.push(applicantNameAndRelation)
-            surveyJson.pages[0].elements[1].elements[0]["choices"].push({value:'relatedPerson['+relatedPerson+']', text: applicantNameAndRelation})
+            this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"].push({value:'relatedPerson['+relatedPerson+']', text: applicantNameAndRelation})
             
             let jsonText= JSON.stringify(temp)
             jsonText = jsonText.replace(/[0]/g, relatedPerson);
@@ -155,11 +159,11 @@ export default class ApplicantInfo extends Vue {
             //console.log(tmp)
 
             if(relatedPerson == '0')
-                surveyJson.pages[0].elements[2] = tmp;
+                this.surveyJsonCopy.pages[0].elements[2] = tmp;
             else 
-                surveyJson.pages[0].elements.splice(2+Number(relatedPerson),0,tmp)
+                this.surveyJsonCopy.pages[0].elements.splice(2+Number(relatedPerson),0,tmp)
         }
-        //console.log(surveyJson)
+        console.log(this.surveyJsonCopy)
     }
     
     public addSurveyListener(){

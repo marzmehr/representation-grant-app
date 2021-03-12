@@ -95,21 +95,14 @@ export default class Notify extends Vue {
         const Survey = SurveyVue;
         surveyEnv.setCss(Survey);
         surveyEnv.loadGlossary();
-    }
-
-    created() {
-        this.disableNextButton = false
-        if (this.step.result && this.step.result['notifySurvey']) { 
-            this.disableNextButton = false;           
-        }
-    }
+    }  
 
     mounted(){
         this.initializeSurvey();
         this.addSurveyListener();
         this.reloadPageInformation();
 
-        console.log(this.steps)
+        console.log(this.step)
     }
 
     public initializeSurvey(){
@@ -129,17 +122,10 @@ export default class Notify extends Vue {
     }
 
     public determineNotifyCompleted(){
-
-        if (this.survey.data.p1EarlyNoWillOwe10k && 
-            this.survey.data.p1EarlyNoWillOwe10k == "y") {
-                this.UpdateNoWillNotifyStepRequired(true);
-        } else {
-            this.UpdateNoWillNotifyStepRequired(false);
-        }
-//console.log(this.steps)
+        
         if (this.steps[4].result['reviewP1Survey'] && 
             this.steps[4].result['reviewP1Survey'].data && 
-            this.steps[4].result['reviewP1Survey'].p1ReviewInfoCorrect) {            
+            this.steps[4].result['reviewP1Survey'].data.p1ReviewInfoCorrect) {            
             this.survey.setVariable("notifyCompleted", true);
             this.toggleSteps([5, 8], true);
 
@@ -181,7 +167,8 @@ export default class Notify extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
-        this.determineRequiredNotice();       
+        this.determineRequiredNotice(); 
+        this.determineNotifyCompleted();      
    }
 
     public activateStep(stepActive) {

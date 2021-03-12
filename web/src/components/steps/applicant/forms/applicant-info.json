@@ -261,7 +261,7 @@
                    }
                ],
                "visible": false,
-               "visibleIf": "{applicantCourthouse} notempty"
+               "visibleIf": "({multipleApplicants} = 1) and ({applicantCourthouse} notempty)"
             }
          ],
          "title": "The Applicant(s)"

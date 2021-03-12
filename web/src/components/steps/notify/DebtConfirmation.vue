@@ -99,7 +99,7 @@ export default class DebtConfirmation extends Vue {
 
     created() {
         this.disableNextButton = false
-        if (this.step.result && this.step.result['notifySurvey']) { 
+        if (this.step.result && this.step.result['debtConfirmationSurvey']) { 
             this.disableNextButton = false;           
         }
     }
@@ -170,8 +170,8 @@ export default class DebtConfirmation extends Vue {
 
     public reloadPageInformation() {
         //console.log(this.step.result)
-        if (this.step.result && this.step.result["notifySurvey"]){
-            this.survey.data = this.step.result["notifySurvey"].data;
+        if (this.step.result && this.step.result["debtConfirmationSurvey"]){
+            this.survey.data = this.step.result["debtConfirmationSurvey"].data;
         } 
         
         this.thisStep = this.currentStep;
@@ -222,7 +222,7 @@ export default class DebtConfirmation extends Vue {
 
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
        
-        this.UpdateStepResultData({step:this.step, data: {notifySurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
+        this.UpdateStepResultData({step:this.step, data: {debtConfirmationSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
 
     }
 };
