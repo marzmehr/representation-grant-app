@@ -16,7 +16,7 @@
                   {
                      "type": "paneldynamic",
                      "name": "childInfoPanel",
-                     "title":" ",               
+                     "title":"Children Information ",               
                      "visible": false,
                      "visibleIf": "{child} = \"y\"",
                      "templateElements": [
