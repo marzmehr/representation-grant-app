@@ -2,101 +2,7 @@
    "pages": [
       {
          "name": "p1EarlyPage",
-         "elements": [
-            {
-               "type": "panel",
-               "name": "p1EarlyIntroPanel",
-               "elements": [
-                  {
-                     "type": "infotext",
-                     "name": "p1EarlyWillIntro",
-                     "title": "[Will version - custom intros GP, AWW, AGP, AGAWW, Resealing]\n<br>\nAccording the information you provided so far, your type of application is called X. Will dated. Y.\n<br><br>\nLet's first review the notice form that was filled out based on the information you provided. This notice form needs to be delivered (served) to the people and organizations you identified earlier (e.g. relatives, creditors).\n<br><br>\nWhen you submit your application for a representation grant, the court will need to know who you notified, and the people who delivered those notices.\n<br><br>\nWe'll help you keep track and make sure you haven't missed anyone.\n<br><br>\nAs part of the process to get a representation grant, you need to let the appropriate people know about your application. This means you need to deliver (serve) the following notice form to them.\n<br><br>\nPeople you will notify will have a ?fair? change to disagree with your applications. This gives them a fair chance ... work in 21 days... before you can file your documents to the courthouse.",
-                     "isRequired": false,
-                     "visible": false,
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "p1EarlyNoWillIntro",
-                     "title": "[No Will version - custom AWW, AGAWW, Resealing] Review and Deliver Notice\n<br><br>\nAs part of the process to get a representation grant, you need to let the appropriate people know about your application. This means you need to deliver (serve) the following notice form to them.\n<br><br>\nBecause {deceasedName} did not leave a Will (valid?), you will also need to notify anyone who {deceasedName} owed more than $10,000.",
-                     "isRequired": true,
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "p1EarlyNoWillOwe10k",
-                     "title": "Did {deceasedName} owed more than $10,000 to a single person or organization. ",
-                     "description": "If you are not sure, select \"Yes\". This will guide through all of {deceasedName}'s relevant assets/liabilities. "
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "p1EarlyNoWillOwe10kYesExplanation",
-                     "visible": false,
-                     "visibleIf": "{p1EarlyNoWillOwe10k} = \"y\"",
-                     "title": "[No Will - over $10k debt]\nYou need to identify the creditor(s) that are owed more than $10,000 in order to notify them. (P1) The way this service works is now you have to start with  the asset and liabilities to identify these creditors. Click next.\n[No further text on this page]",
-                     "isRequired": true,
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "p1EarlyNoWillOwe10kNoExplanation",
-                     "visible": false,
-                     "visibleIf": "{p1EarlyNoWillOwe10k} = \"n\"",
-                     "title": "[No Will - less than $10k debt] Review and Deliver Notice\n<br>\nYou will not need to notify people that are owed less than $10,000. We can capture their information about these debts at a later stage.\n<br><br>\n[Copy Yes Will Stuff - obligation to notify] Let's first review the notice form that was filled out based on the information you provided. This notice form needs to be delivered (served) to the people and organizations you identified earlier (e.g. relatives, creditors).\n<br><br>\nWhen you submit your application for a representation grant, the court will need to know who you notified, and the people who delivered those notices.\n<br><br>\nWe'll help you keep track and make sure you haven't missed anyone.\n<br><br>\nAs part of the process to get a representation grant, you need to let the appropriate people know about your application. This means you need to deliver (serve) the following notice form to them.",
-                     "isRequired": true,
-                     "titleLocation": "hidden"
-                  }
-               ]
-            },
-            {
-               "type": "panel",
-               "name": "p1EarlyReviewPanel",
-               "elements": [
-                  {
-                     "type": "infotext",
-                     "name": "p1EarlyFormDownloadExplanation",
-                     "title": "Notice of Proposed Application in Relation to Estate (P1)\n<br>\nThe form that is being generated is for you to deliver to other people. Read this form as if are receiving this document, not the person who is giving the document. It tells people what you are trying to do and it outlines their rights to respond if they want to.\n<br>\nDownload and Review\n<br>\n[JIRA Download Link]",
-                     "visible": false,
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question417",
-                     "visible": false,
-                     "title": "Custom intros here instead of at the beginning??<br>\nReview the forms, specially the parts with information relevant to your applicant.\n<br>\n[JIRA - possibility of HTML review earlier?]",
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "deceasedInfoCorrect",
-                     "title": "Is all of the information about the deceased correct?"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question419",
-                     "title": "[Not correct]\n<br>\nHTML correction Table instead of having to go back to the previous pages.\n<br>Deceased name\n<br>Deceased date of death\n<br>Deceased last address\n<br>Deceased Will info or no will",
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "yesno",
-                     "name": "applicantInfoCorrect",
-                     "title": "Is all of the information about you, and your contact info, correct? "
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question421",
-                     "title": "[Not correct]\n<br>\nHTML correction Table instead of having to go back to the previous pages.\n<br>Applicant name(s)\n<br>Applicant Contact Info\n<br>Applicant regular address\n<br>Applicant service address\n<br>Courthouse filing.\n<br>Laywer\n<br>Lawyer Address\n<br>Lawyer Contact Info",
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "p1EarlyGeneratePDFAgain",
-                     "visible": false,
-                     "title": "[JIRA] Click here to preview/download from again [functionality of earlier button should be the same. Should this exist or jump back to top button?]",
-                     "titleLocation": "hidden"
-                  }
-               ]
-            },
+         "elements": [            
             {
                "type": "panel",
                "name": "panel22",
@@ -361,6 +267,13 @@
                "body": "What happens now?\nAfter you deliver the notice to the appropriate people and organizations, there may be some who have concerns about your application and submit a Notice of Dispute (P29). In this situation, you will not be able to get an estate grant. You may want to talk things through with the person who submitted the Notice of Dispute and see if they are willing to withdraw it. You can also apply to remove the Notice of Dispute if you believe the reason for the dispute is not valid."
             },
             {
+               "type": "helptext",
+               "name": "question450",
+               "title": "What if I don't know all the assets in the deceased's estate?\n\n",
+               "titleLocation": "hidden",
+               "body": "It is your responsibility to make sure you find and report all the deceased's assets that you know about. If you successfully become the deceased's personal representative and you find more assets to report afterwards, there will be additional forms to complete. Use either form P14 or P15 to tell the court.\nhttps://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms"
+              },
+            {
                "type": "panel",
                "name": "notifyExitPanel",
                "elements": [
@@ -372,12 +285,10 @@
                      "visible": false,
                      "visibleIf": "(!{noticeRequired})"
                   }
-               ],
-               "visible": false,
-               "visibleIf": "{notifyCompleted}"
+               ]
             }
          ],
-         "title": "Review and Print P1"
+         "title": "Print P1"
       }
    ],
    "showQuestionNumbers": "off",

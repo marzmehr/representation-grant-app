@@ -36,6 +36,7 @@ class Application extends VuexModule {
     public deceasedChildrenInfo = []
     public deceasedGrandChildrenInfo = []
     public belongingsInfo = {} as belongingsInfoType;
+    public deceasedAliases = [];
     public applicationLocation = ""
     public scrollToLocationName = ""
     public requiredDocuments: string[] = []
@@ -238,12 +239,29 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Notify People";
+        p.label = "Confirm Debt";
         //TODO: turn active to false
         p.active = true;
         p.progress = 0;
 
         s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "1";
+        p.label = "Review";        
+        p.active = true;
+        p.progress = 0;
+
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "2";
+        p.label = "Notify People";       
+        p.active = true;
+        p.progress = 0;
+
+        s.pages.push(p);
+
         this.steps.push(s);
         //Notify STOP
         //Deceased's Belongings START
@@ -755,6 +773,15 @@ class Application extends VuexModule {
     }
 
     @Mutation
+    public setDeceasedAliases(deceasedAliases): void {
+        this.deceasedAliases = deceasedAliases;
+    }
+    @Action
+    public UpdateDeceasedAliases(newDeceasedAliases) {
+        this.context.commit("setDeceasedAliases", newDeceasedAliases);
+    }
+
+    @Mutation
     public setApplicationLocation(applicationLocation): void {
         this.applicationLocation = applicationLocation;
     }
@@ -862,8 +889,7 @@ class Application extends VuexModule {
     public loadSpouseInfo(): void{
         if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
             const spouseSurvey = this.steps[2].result["spouseSurvey"];
-            const spouseInfo = spouseSurvey.data.spouseInfoPanel? spouseSurvey.data.spouseInfoPanel:[];
-                   
+            const spouseInfo = (spouseSurvey.data.spouseExists=='y' && spouseSurvey.data.spouseInfoPanel)? spouseSurvey.data.spouseInfoPanel:[];    
             for (const spouse of spouseInfo) {
                 if (spouse.spouseIsAlive == "y") {
                     this.relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
@@ -883,7 +909,7 @@ class Application extends VuexModule {
     public loadChildrenInfo(): void{
         if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
             const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
-            const childrenInfo = childrenSurvey.data.childInfoPanel? childrenSurvey.data.childInfoPanel:[]
+            const childrenInfo = (childrenSurvey.data.child=='y'&& childrenSurvey.data.childInfoPanel)? childrenSurvey.data.childInfoPanel:[]
             const deceasedChildren = [];        
             for (const child of childrenInfo) {
                 if (child.childIsAlive == "n"           && 
@@ -1002,10 +1028,14 @@ class Application extends VuexModule {
             }
 
             this.belongingsInfo.bankAccount = [];
+            this.deceasedAliases = [];
             const bankAccountInfo = (bankAccountsSurvey.bankAccountExists && bankAccountsSurvey.bankAccountExists == "y" && bankAccountsSurvey.bankAccountInfoPanel)?bankAccountsSurvey.bankAccountInfoPanel:[];
-    
+            
             for (const bankAccount of bankAccountInfo) {            
-                this.belongingsInfo.bankAccount.push(bankAccount);                                   
+                this.belongingsInfo.bankAccount.push(bankAccount);
+                if (bankAccount.bankNameMatch == 'n' && bankAccount.alias) {
+                    this.deceasedAliases.push(bankAccount.alias);
+                } 
             } 
         }
     }

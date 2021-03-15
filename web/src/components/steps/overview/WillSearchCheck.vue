@@ -38,6 +38,12 @@ export default class WillSearchCheck extends Vue {
     @applicationState.State
     public deceasedName!: string;
 
+    @applicationState.State
+    public deceasedAliases!: string[];
+
+    @applicationState.State
+    public relatedPeopleInfo!: any;
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -50,7 +56,8 @@ export default class WillSearchCheck extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
-    survey = new SurveyVue.Model(surveyJson);  
+    survey = new SurveyVue.Model(surveyJson); 
+    surveyJsonCopy; 
     currentPage=0;
     thisStep=0;
    
@@ -72,20 +79,46 @@ export default class WillSearchCheck extends Vue {
     }
 
     public initializeSurvey(){
-        this.survey = new SurveyVue.Model(surveyJson);
+        this.adjustSurveyForAliases();
+        this.survey = new SurveyVue.Model(this.surveyJsonCopy);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
         surveyEnv.setGlossaryMarkdown(this.survey);
+    }
+
+    public adjustSurveyForAliases(){
+
+        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
+        
+        const temp = (this.surveyJsonCopy.pages[0].elements[2])       
+        //console.log(temp)   
+        let tmp = JSON.parse(JSON.stringify(temp));
+       // console.log(tmp)
+        this.surveyJsonCopy.pages[0].elements.splice(2,1);
+        //console.log(this.surveyJsonCopy)
+        for(const deceasedAlias in this.deceasedAliases){
+            
+            const aliasName = this.deceasedAliases[deceasedAlias]             
+             
+            let jsonText= JSON.stringify(temp)
+            jsonText = jsonText.replace(/[0]/g, deceasedAlias);
+            jsonText = jsonText.replace(/{alias}/g, aliasName);
+            tmp = JSON.parse(jsonText);            
+
+            // if(deceasedAlias == '0')
+            //     this.surveyJsonCopy.pages[0].elements[2] = tmp;
+            // else 
+            this.surveyJsonCopy.pages[0].elements.splice(2+Number(deceasedAlias),0,tmp)
+        }
     }
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
             // console.log(options)
-            if(options.name == "ApplicantName") {
-                this.$store.commit("Application/setApplicantName", options.value);
-            }
+            this.determinePrimaryApplicant();
+            this.determineNumberOfAliases();
         })
     }
     
@@ -102,6 +135,25 @@ export default class WillSearchCheck extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+        this.determinePrimaryApplicant();
+        this.determineNumberOfAliases();
+    }
+
+    public determinePrimaryApplicant() {
+        if (this.steps[3].result && this.steps[3].result["applicantInfoSurvey"] && this.steps[3].result["applicantInfoSurvey"].data) {
+            const applicantInfoSurvey = this.steps[3].result["applicantInfoSurvey"].data;
+            if (applicantInfoSurvey.applicant){
+                if (applicantInfoSurvey.applicant.length == 1) {
+                    const index = applicantInfoSurvey.applicant[0][14];                   
+                    this.survey.setVariable("primaryApplicantName", Vue.filter('getFullName')(this.relatedPeopleInfo[index].name));
+                }
+            }
+        }
+    }
+
+     public determineNumberOfAliases(){
+        
+        this.survey.setVariable("numberOfAliases",this.deceasedAliases?this.deceasedAliases.length:0)
     }
 
     public onPrev() {
@@ -119,10 +171,8 @@ export default class WillSearchCheck extends Vue {
     }  
     
     beforeDestroy() {
-        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
-        
+        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);        
         this.UpdateStepResultData({step:this.step, data: {willSearchCheckSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
-
     }
 }
 </script>

@@ -63,9 +63,11 @@ export default class ApplicantInfo extends Vue {
     public UpdateAllCompleted!: (newAllCompleted) => void
 
     survey = new SurveyVue.Model(surveyJson);
+    surveyJsonCopy; 
     disableNextButton = false;   
     currentPage=0;
     thisStep = 0;
+    relatedPeopleNames: string[]=[];
 
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -125,7 +127,7 @@ export default class ApplicantInfo extends Vue {
 
     public initializeSurvey(){
         this.adjustSurveyForRelatedPeople();
-        this.survey = new SurveyVue.Model(surveyJson);
+        this.survey = new SurveyVue.Model(this.surveyJsonCopy);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
@@ -133,18 +135,21 @@ export default class ApplicantInfo extends Vue {
     } 
     
     public adjustSurveyForRelatedPeople(){
+
+        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
+    
         
-        const temp = (surveyJson.pages[0].elements[2])        
+        const temp = (this.surveyJsonCopy.pages[0].elements[2])        
         console.log(temp)        
         let tmp = JSON.parse(JSON.stringify(temp));
-        surveyJson.pages[0].elements[1].elements[0]["choices"]=[];
+        this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"]=[];
         
         for(const relatedPerson in this.relatedPeopleInfo){
             
             const applicantNameAndRelation = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)+' ('+this.relatedPeopleInfo[relatedPerson].relationShip+')'
             const applicantName = Vue.filter('getFullName')(this.relatedPeopleInfo[relatedPerson].name)
-            
-            surveyJson.pages[0].elements[1].elements[0]["choices"].push({value:'relatedPerson['+relatedPerson+']', text: applicantNameAndRelation})
+            this.relatedPeopleNames.push(applicantNameAndRelation)
+            this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"].push({value:'relatedPerson['+relatedPerson+']', text: applicantNameAndRelation})
             
             let jsonText= JSON.stringify(temp)
             jsonText = jsonText.replace(/[0]/g, relatedPerson);
@@ -154,11 +159,11 @@ export default class ApplicantInfo extends Vue {
             //console.log(tmp)
 
             if(relatedPerson == '0')
-                surveyJson.pages[0].elements[2] = tmp;
+                this.surveyJsonCopy.pages[0].elements[2] = tmp;
             else 
-                surveyJson.pages[0].elements.splice(2+Number(relatedPerson),0,tmp)
+                this.surveyJsonCopy.pages[0].elements.splice(2+Number(relatedPerson),0,tmp)
         }
-        //console.log(surveyJson)
+        console.log(this.surveyJsonCopy)
     }
     
     public addSurveyListener(){
@@ -166,8 +171,10 @@ export default class ApplicantInfo extends Vue {
             console.log(this.survey.data);
             // console.log(options)
             this.determineApplicantInfoCompleted();
-            this.determineLengthOfApplicants()
-                        
+            this.determineLengthOfApplicants();
+
+            // console.log(options.question.visibleChoices)
+            // console.log(options.value)
         })   
     }
 
@@ -176,9 +183,10 @@ export default class ApplicantInfo extends Vue {
         this.survey.setVariable("multipleApplicants",this.survey.data.applicant?this.survey.data.applicant.length:0)
     }
 
-    public determineApplicantInfoCompleted(){
+    public determineApplicantInfoCompleted(){        
 
-        if (this.survey.data.applicantCourthouseClosest && this.survey.data.applicantCourthouseClosest == "y") {
+        if (this.survey.data.applicantCourthouse && this.survey.data.applicantCourthouse != "") {
+           
             this.toggleSteps([4,8], true);
         } else{
             this.toggleSteps([4, 5, 6, 7, 8], false);
@@ -198,8 +206,8 @@ export default class ApplicantInfo extends Vue {
         this.determineApplicantInfoCompleted();
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.determineLengthOfApplicants();
-    
-   }
+        this.survey.setValue("relatedPeopleNames",this.relatedPeopleNames)
+    }
 
     public activateStep(stepActive) {
         this.UpdateStepActive( {
@@ -285,6 +293,9 @@ export default class ApplicantInfo extends Vue {
    
 
     beforeDestroy() {
+
+        console.log(this.relatedPeopleInfo)
+        console.log(this.survey.data)
 
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
        

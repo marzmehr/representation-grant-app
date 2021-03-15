@@ -65,6 +65,8 @@ export default class BankAccounts extends Vue {
     @applicationState.Action
     public UpdateBelongingsInfo!: (newBelongingsInfo: belongingsInfoType) => void
 
+    @applicationState.Action
+    public UpdateDeceasedAliases!: (newUpdateDeceasedAliases: string[]) => void
 
     @applicationState.Action
     public UpdateStepActive!: (newStepActive) => void
@@ -176,12 +178,16 @@ export default class BankAccounts extends Vue {
         let belongingsInfo = this.belongingsInfo;
         belongingsInfo.bankAccount = [];
         const bankAccountInfo = (this.survey.data.bankAccountExists && this.survey.data.bankAccountExists == "y" && this.survey.data.bankAccountInfoPanel)?this.survey.data.bankAccountInfoPanel:[];
-        console.log(bankAccountInfo)  
+        const aliases = []; 
         for (const bankAccount of bankAccountInfo) {            
-            belongingsInfo.bankAccount.push(bankAccount);                                   
-        }        
+            belongingsInfo.bankAccount.push(bankAccount);                 
+            if (bankAccount.bankNameMatch == 'n' && bankAccount.alias) {
+                aliases.push(bankAccount.alias);
+            }                                   
+        }      
                 
         this.UpdateBelongingsInfo(belongingsInfo);
+        this.UpdateDeceasedAliases(aliases);
     }
 
     public onPrev() {
@@ -200,7 +206,7 @@ export default class BankAccounts extends Vue {
   
     
     beforeDestroy() {
-        this.extractBelongingInfo()
+        this.extractBelongingInfo();        
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
         this.UpdateStepResultData({step:this.step, data: {bankAccountsSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})

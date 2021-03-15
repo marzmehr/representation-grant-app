@@ -21,7 +21,7 @@
                     />
                 </a>
                 <div class="navbar-brand navbar-text">
-                    Apply to Represent Somone Who Died (also know as Probate)
+                    Apply to Represent Someone Who Died (also know as Probate)
                     <span class="navbar-tag">BETA</span>
                 </div>
 
