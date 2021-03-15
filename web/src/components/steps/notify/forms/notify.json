@@ -125,7 +125,7 @@
             },
             {
                "type": "address",
-               "name": "p1EarlyDelievererOrdinaryAddress",
+               "name": "p1EarlyDelivererOrdinaryAddress",
                "title": "Server Ordinary Address",
                "description": "city, prov, country only",
                "visible": false,
@@ -231,7 +231,7 @@
             },
             {
                "type": "text",
-               "name": "question422",
+               "name": "p1EarlyDelivererP9SwornDate",
                "visible": false,
                "visibleIf": "{noticeRequired}",
                "title": "Date the P9 was sworn by {applicantX}. occupation and address for non-applicant left blank to be filled by hand.[JIRA ability to put this off until later - applicant(s) can leave blank to swear everything at the courthouse]",

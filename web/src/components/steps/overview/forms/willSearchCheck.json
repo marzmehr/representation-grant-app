@@ -273,7 +273,7 @@
                             "body": "A diligent search is doing your best to check all the places where {deceasedName} usually kept their important documents. This means checking physical places as well electronic places.\n<br>\n<ul>\n<li>Physical places include their home, safety deposit box, and their lawyer's office.</li>\n<li>Electronic places include their smart phone, computer, external hard drive, and cloud storage.</li>\n</ul>\nIf people are working together to apply for a `Representation Grant`, the `applicants` can decide which applicant searches which place.\n<br><br>\nThere is also a document called a Search of Wills Notice. This document can help reveal the location of a will.  You don't need to have gotten a Search of Wills Notice to answer \"Yes\" that you have done a diligent search. \n<br><br>\nThis document is not necessary for your diligent search yes/no but it is eventually necessary. this service will complete it at a later point. "
                         }
                     ],
-                    "visibleIf": "{willSearchAlias[0]} = 'y' and {willSearchWillsExist[0]} = 'n'"
+                    "visibleIf": "{willSearchStarted} = 'y' and ( (({numberOfAliases} > 0) and {willSearchAlias[0]} = 'y' and {willSearchWillsExist[0]} = 'n') or ({numberOfAliases} = 0))"
                 },                 
                 {
                     "type": "panel",
@@ -283,7 +283,7 @@
                             "type": "infotext",
                             "visible":false,
                             "name": "willSearchExitABC",
-                            "visibleIf": "{willSearchApplicantDiligentSearchConfirmed} = ['yes']",
+                            "visibleIf": "{willSearchStarted} = 'y' and ( (({numberOfAliases} > 0) and {willSearchAlias[0]} = 'y' and {willSearchWillsExist[0]} = 'n') or ({numberOfAliases} = 0)) and ({willSearchApplicantDiligentSearchConfirmed} = ['yes'])",
                             "title": "You have done all of the searches for {deceasedName}'s name that are required. \n<br><br>\nYou will need to provide 2 photocopies of the Notice of Wills Search when you file your application. This service will remind you in a later step.\n<br><br>\nNext, you will review and finish your application.",
                             "titleLocation": "hidden"
                         },
