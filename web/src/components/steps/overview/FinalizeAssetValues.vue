@@ -51,9 +51,11 @@ export default class FinalizeAssetValues extends Vue {
     public UpdateAllCompleted!: (newAllCompleted) => void
 
 
-    survey = new SurveyVue.Model(surveyJson);  
+    survey = new SurveyVue.Model(surveyJson); 
+    surveyJsonCopy;  
     currentPage=0;
     thisStep = 0;
+    numberOfUnknownValueAssets = 0;
    
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -73,7 +75,8 @@ export default class FinalizeAssetValues extends Vue {
     }
 
     public initializeSurvey(){
-        this.survey = new SurveyVue.Model(surveyJson);
+        this.adjustSurveyForUnknownValueAssets();
+        this.survey = new SurveyVue.Model(this.surveyJsonCopy);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
@@ -83,10 +86,8 @@ export default class FinalizeAssetValues extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
-            // console.log(options)
-            if(options.name == "ApplicantName") {
-                this.$store.commit("Application/setApplicantName", options.value);
-            }
+            console.log(options)
+            
         })
     }
     
@@ -103,7 +104,44 @@ export default class FinalizeAssetValues extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+
+        this.survey.setVariable("numberOfUnknownValueAssets", this.numberOfUnknownValueAssets);
+        
     
+    }
+
+    public adjustSurveyForUnknownValueAssets() {
+        console.log(this.steps[5]);
+
+        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
+    
+        
+        const temp = (this.surveyJsonCopy.pages[0].elements[2])        
+        console.log(temp)        
+        let tmp = JSON.parse(JSON.stringify(temp));
+        this.surveyJsonCopy.pages[0].elements[0].elements[0]["items"]=[];
+        this.numberOfUnknownValueAssets = 0;       
+
+        if(this.steps[5].result && this.steps[5].result["bankAccountsSurvey"] && this.steps[5].result["bankAccountsSurvey"].data){
+
+            const bankAccountsSurvey = this.steps[5].result["bankAccountsSurvey"].data;
+
+            const bankAccountInfo = (bankAccountsSurvey.bankAccountExists && bankAccountsSurvey.bankAccountExists == "y" && bankAccountsSurvey.bankAccountInfoPanel)?bankAccountsSurvey.bankAccountInfoPanel:[];
+            
+            for (const bankAccount of bankAccountInfo) {                
+                for (const account of bankAccount.accountPanel) {                   
+                    if (account.accountValue == "willGetValueLater"){
+                        this.surveyJsonCopy.pages[0].elements[0].elements[0]["items"].push({name:'Account Number "'+account.accountNumber + '" at ' + bankAccount.bankName, title: 'Account Number "'+account.accountNumber + '" at ' + bankAccount.bankName})
+                    }
+                }                
+            } 
+
+            this.numberOfUnknownValueAssets = this.surveyJsonCopy.pages[0].elements[0].elements[0]["items"].length;
+            
+        }
+
+      
+
     }
 
     public onPrev() {
