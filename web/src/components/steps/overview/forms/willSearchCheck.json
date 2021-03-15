@@ -11,7 +11,7 @@
                         {
                             "type": "infotext",
                             "name": "willSearchIntroExplanation",
-                            "title": "Generic Intro to Will Search\n<br><br>\nYou will need to do a will search for all of the spellings of {deceasedName}'s name. Click here to download the form. (Click here to generate a PDF?)",
+                            "title": "You will need to do a will search for all of the spellings of {deceasedName}'s name. Click here to download the form. (Click here to generate a PDF?)",
                             "isRequired": true,
                             "titleLocation": "hidden"
                         }
@@ -24,6 +24,8 @@
                         {
                             "type": "yesno",
                             "name": "willSearchStarted",
+                            "visible":false,
+                            "visibleIf": "{willSearchIntroExplanation}>0",
                             "title": "Have you already done a will search?"
                         },
                         {
@@ -201,7 +203,7 @@
                         {
                             "type": "yesno",
                             "name": "willSearchAlias[0]",
-                            "title": "Did you do a will search with this spellings of {deceasedName}'s name? ({alias})"
+                            "title": "Did you do a will search with the spelling of {deceasedName}'s name listed below?\n<br>\"{alias}\""
                         },
                         {
                             "type": "yesno",
@@ -215,7 +217,7 @@
                             "type": "yesno",
                             "name": "willSearchWillsCurrent[0]",
                             "visible": false,
-                            "visibleIf": "({willSearchAlias[0]} = 'y') and ({willSearchWillsExist[0]} = 'y')",
+                            "visibleIf": "({willSearchAlias[0]} = 'y') and ({willSearchWillsExist[0]} = 'yy')",
                             "title": "Are all of the Wills listed in the will search for '{alias}' dated {willDate} or older?",
                             "description": "If the will in the will search is older and you are using a newer will, this is ok."
                         },
@@ -223,7 +225,7 @@
                             "type": "yesno",
                             "name": "willSearchInvalidWillsDeclared[0]",
                             "visible": false,
-                            "visibleIf": "({willSearchAlias[0]} = 'y') and ({willSearchWillsExist[0]} = 'y') and ({willSearchWillsCurrent[0]} = 'n')",
+                            "visibleIf": "({willSearchAlias[0]} = 'y') and ({willSearchWillsExist[0]} = 'y') and ({willSearchWillsCurrent[0]} = 'nn')",
                             "title": "[JIRA - newer invalid will] Are all of the Wills listed in the will search for '{alias}' any of these newer invalid wills you have already identified?",
                             "description": "List of newer invalid wills from will page. Date - Reason not using <br> yes - end"
                         },
@@ -240,84 +242,61 @@
                             "type": "yesno",
                             "name": "willSearchFin[0]",
                             "visible": false,
-                            "visibleIf":"({willSearchAlias[0]} = 'y') and ({willSearchWillsExist[0]} = 'y') and ({willSearchWillsCurrent[0]} = 'n') and ({willSearchInvalidWillsDeclared[0]} = 'y') and ({willSearchInvalidWillsDeclaredNoExplanation[0]} > 0)",
+                            "visibleIf":"({willSearchAlias[0]} = 'yy') and ({willSearchWillsExist[0]} = 'y') and ({willSearchWillsCurrent[0]} = 'n') and ({willSearchInvalidWillsDeclared[0]} = 'y') and ({willSearchInvalidWillsDeclaredNoExplanation[0]} > 0)",
                             "title": "Are you able to find the most recent Will (or a copy) listed under '{alias}' in the wills search?",
                             "description": "(whether or not the will was in the location specified in the wills search notice or not)"
-                        }                       
-                        
+                        }                        
                     ],
                     "visible": false,
                     "visibleIf": "{willSearchStarted} = 'y' and ({numberOfAliases} > 0)"
                 },
                 {
-                    "type": "checkbox",
-                    "name": "willSearchApplicantDiligentSearchConfirmed",
-                    "title": "Are you ({primaryApplicantName}) satisfied that there was a diligent search for {deceasedName}'s Will and other testamentary documents?",
-                    "choices": [
-                        {
-                            "value": "confirmedwillSearch",
-                            "text": "Yes I can confirm"
-                        }
-                    ]
-                },
-                {
-                    "type": "helptext",
-                    "name": "diligentSearchHelpText",
-                    "title": "What is a diligent search?",
-                    "body": "A diligent search is doing your best to check all the places where {deceasedName} usually kept their important documents. This means checking physical places as well electronic places.\n<br><br>\n<ul>\n<li>Physical places include their home, safety deposit box, and their lawyer's office.</li>\n<li>Electronic places include their smart phone, computer, external hard drive, and cloud storage.</li>\n</ul>\nIf people are working together to apply for a `Representation Grant`, the `applicants` can decide which applicant searches which place.\n<br><br>\nThere is also a document called a Search of Wills Notice. This document can help reveal the location of a will.  You don't need to have gotten a Search of Wills Notice to answer \"Yes\" that you have done a diligent search. \n<br><br>\nThis document is not necessary for your diligent search yes/no but it is eventually necessary. this service will complete it at a later point. ",
-                    "titleLocation": "hidden"
-                },
-                {
                     "type": "panel",
-                    "name": "panel25",
+                    "name": "willSearchApplicantDiligentSearchPanel",
                     "elements": [
                         {
-                            "type": "infotext",
-                            "name": "JIRAwillSearch4",
-                            "visible": false,
-                            "visibleIf": "{willSearchAlias} = \"n\"",
-                            "title": "[JIRA] If any no,\n<br><br>\nYou need to do a will search for each alias. \n<br><br>\nClick here for a form that includes the aliases you still need to search for.",
-                            "titleLocation": "hidden"
+                            "type": "checkbox",
+                            "name": "willSearchApplicantDiligentSearchConfirmed",
+                            "title": "Are you, ({primaryApplicantName}), satisfied that there was a diligent search for {deceasedName}'s `Will` and `other testamentary documents` ",
+                            "choices": [
+                                {
+                                    "value": "yes",
+                                    "text": "Yes, I am satisfied that there was a diligent search for {deceasedName}'s Will and other testamentary documents."
+                                }
+                            ]
                         },
                         {
-                            "type": "infotext",
-                            "name": "JIRAwillSearch5",
-                            "visible": false,
-                            "visibleIf": "{willSearchAlias} = \"n\"",
-                            "title": "[JIRA] Can we auto-generate form AND allow people to pay AND send directly to Vital Stats?",
-                            "titleLocation": "hidden"
-                        },
-                        {
-                            "type": "infotext",
-                            "name": "question440",
-                            "visible": false,
-                            "visibleIf": "{willSearchAlias} = \"n\"",
-                            "title": "When you get your response, go back and check off \"Yes\" for the aliases that were just searched.",
-                            "titleLocation": "hidden"
+                            "type": "helptext",
+                            "name": "willSearchApplicantDiligentSearchConfirmedFAQ1",
+                            "title": "What is a diligent search?",
+                            "titleLocation": "hidden",
+                            "body": "A diligent search is doing your best to check all the places where {deceasedName} usually kept their important documents. This means checking physical places as well electronic places.\n<br>\n<ul>\n<li>Physical places include their home, safety deposit box, and their lawyer's office.</li>\n<li>Electronic places include their smart phone, computer, external hard drive, and cloud storage.</li>\n</ul>\nIf people are working together to apply for a `Representation Grant`, the `applicants` can decide which applicant searches which place.\n<br><br>\nThere is also a document called a Search of Wills Notice. This document can help reveal the location of a will.  You don't need to have gotten a Search of Wills Notice to answer \"Yes\" that you have done a diligent search. \n<br><br>\nThis document is not necessary for your diligent search yes/no but it is eventually necessary. this service will complete it at a later point. "
                         }
-                    ]
-                },
+                    ],
+                    "visibleIf": "{willSearchAlias[0]} = 'y' and {willSearchWillsExist[0]} = 'n'"
+                },                 
                 {
                     "type": "panel",
                     "name": "willSearchExitPanel",
                     "elements": [
                         {
                             "type": "infotext",
+                            "visible":false,
                             "name": "willSearchExitABC",
-                            "visible": false,
-                            "visibleIf": "{willSearchAlias} = \"n\"",
-                            "title": "[single will search]\nYou've done a will search for all of the spellings/aliases required.\n\nYou will need to provide 2 copies of the wills search (originals or copies ok?). ",
+                            "visibleIf": "{willSearchApplicantDiligentSearchConfirmed} = ['yes']",
+                            "title": "You have done all of the searches for {deceasedName}'s name that are required. \n<br><br>\nYou will need to provide 2 photocopies of the Notice of Wills Search when you file your application. This service will remind you in a later step.\n<br><br>\nNext, you will review and finish your application.",
                             "titleLocation": "hidden"
                         },
                         {
                             "type": "infotext",
                             "name": "willSearchExitDCE",
                             "visible": false,
-                            "visibleIf": "{willSearchAlias} = \"n\"",
                             "title": "[multiple will search]\nYou've done a will search for all of the spellings/aliases required.\n<br><br>\nYou will need to provide 2 copies of each of the the wills search (originals or copies ok?). \n<br><br>\nFor example, 2 copies of the first ",
                             "titleLocation": "hidden"
                         }
-                    ]
+                    ],
+                    "visible": false,
+                    "visibleIf": "{willSearchApplicantDiligentSearchConfirmed} = ['yes']"
                 }
             ],
             "title": "Will Search Check"
