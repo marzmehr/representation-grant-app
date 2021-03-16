@@ -27,13 +27,21 @@ Vue.filter('beautify-date-weekday', function(date){
 })
 
 Vue.filter('scrollToLocation', function(locationName){
-	console.log(locationName)
-	//console.log(locationName.substring(0,3))
+	//console.log(locationName)
+	//console.log(locationName.slice(1).indexOf('_'))
 	if(locationName){
 		Vue.nextTick(()=>{
-			const el = document.getElementsByName(locationName)
+			let elementName = locationName
+			let elementIndex = 0
+			if(locationName.slice(0,1)=='_'){
+				elementIndex=locationName.slice(1,locationName.slice(1).indexOf('_')+1)
+				elementName =locationName.slice(locationName.slice(1).indexOf('_')+2)
+				//console.log(elementName)
+			}
+			const el = document.getElementsByName(elementName)
 			console.log(el)
-			if(el[0]) el[0].scrollIntoView();
+			if(el[elementIndex]) el[elementIndex].scrollIntoView();
+			else if(el[0]) el[0].scrollIntoView();
 		})
 	}
 })
@@ -184,8 +192,9 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 		<title>Representation Grant</title>`+
 		`<style>`+
 			`@page {
-				size: 8.5in 11in;
-				margin: 3rem 3rem 4rem 3rem;				
+				size: 8.5in 11in ;
+				margin: .75in 0.75in 0.9in 0.75in !important;
+				font-size: 9pt;			
 				@bottom-left {
 					content:`+ pageFooterLeft +
 					`white-space: pre;
@@ -202,6 +211,17 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 					position: relative; top: 8em;
 				}
 			}`+ customCss+
+			`@page label{font-size: 9pt;}
+			.container {
+				padding: 0 !important; 
+				margin: 0 !important;				
+				width: 100% !important;
+				max-width: 500px !important;
+				min-width: 680px !important;
+				font-size: .65em !important;
+				font-family: BCSans !important;
+			}
+			`+
 			`td.border-dark {height: 4.5rem;border: 1px solid black;}`+
 			`td.c1{width: 37.5rem;}
 			 td.c2{width: 11rem;}		
@@ -241,11 +261,15 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 				
 				content:url("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhciIgZGF0YS1pY29uPSJjaGVjay1zcXVhcmUiIGNsYXNzPSJzdmctaW5saW5lLS1mYSBmYS1jaGVjay1zcXVhcmUgZmEtdy0xNCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik00MDAgMzJINDhDMjEuNDkgMzIgMCA1My40OSAwIDgwdjM1MmMwIDI2LjUxIDIxLjQ5IDQ4IDQ4IDQ4aDM1MmMyNi41MSAwIDQ4LTIxLjQ5IDQ4LTQ4VjgwYzAtMjYuNTEtMjEuNDktNDgtNDgtNDh6bTAgNDAwSDQ4VjgwaDM1MnYzNTJ6bS0zNS44NjQtMjQxLjcyNEwxOTEuNTQ3IDM2MS40OGMtNC43MDUgNC42NjctMTIuMzAzIDQuNjM3LTE2Ljk3LS4wNjhsLTkwLjc4MS05MS41MTZjLTQuNjY3LTQuNzA1LTQuNjM3LTEyLjMwMy4wNjktMTYuOTcxbDIyLjcxOS0yMi41MzZjNC43MDUtNC42NjcgMTIuMzAzLTQuNjM3IDE2Ljk3LjA2OWw1OS43OTIgNjAuMjc3IDE0MS4zNTItMTQwLjIxNmM0LjcwNS00LjY2NyAxMi4zMDMtNC42MzcgMTYuOTcuMDY4bDIyLjUzNiAyMi43MThjNC42NjcgNC43MDYgNC42MzcgMTIuMzA0LS4wNjggMTYuOTcxeiI+PC9wYXRoPjwvc3ZnPg==");
 			}
+			
 			`+
 		`</style>
 		</head>
-		<body>`+html+
-		`</body>\n</html>`]		 
-	//console.log(body)		
+		<body>
+			
+				<div class="containe">
+					`+html+
+		`</div></body></html>`]		 
+	
 	return body
 })

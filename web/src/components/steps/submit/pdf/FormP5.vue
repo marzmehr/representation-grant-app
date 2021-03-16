@@ -11,9 +11,9 @@
     </b-form-group>
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
     
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:3rem 3.9rem 2rem 2.0rem;" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;margin:0 auto;padding:2rem 3rem 2rem 2rem;" bg-variant="white" class="mt-4 mb-3 containe">
 
-            <div style="text-align:center;margin:2rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P5 (RULE 25-3 (2) )</div>
+            <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P5 (RULE 25-3 (3i) )</div>
             
             <div class="mt-0 m-0 p-0 row">
                 <!-- <div class="col-8"/> -->
@@ -345,7 +345,18 @@ export default class FormP1 extends Vue {
     ol li.listnumber:before {
         content:counter(list-counter) ". ";
         font-weight: bold;
-    }  
+    } 
+
+    .container {
+        padding: 0 !important; 
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 500px !important;
+        min-width: 680px !important;        
+        font-size: .65em !important;
+        font-family: BCSans;
+    }
         
 
     

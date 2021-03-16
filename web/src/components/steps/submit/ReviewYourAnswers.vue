@@ -209,7 +209,23 @@ export default class ReviewYourAnswers extends Vue {
     public edit(section, data){
         console.log(data)
         console.log(section)
-        this.$store.commit("Application/setScrollToLocationName",data.item.name);
+        //console.log(data.index)
+        //console.log(this.bankNamesIndex)
+        
+        //change scroll element Index if Bank Account
+        let elementIndex = 0;
+        if(this.bankNamesIndex.length>1 && section.pageName == 'About Bank Accounts')
+            for(const inxString in this.bankNamesIndex.reverse()){
+                const inx = Number(inxString);
+                const bankinx = this.bankNamesIndex[inx]
+                console.log(bankinx+' '+inx+' '+(this.bankNamesIndex.length-1-inx))
+                if(data.index>=bankinx){
+                    elementIndex = this.bankNamesIndex.length-1-inx
+                    break
+                }                
+            }
+
+        this.$store.commit("Application/setScrollToLocationName", elementIndex>0?('_'+elementIndex+'_'+data.item.name):data.item.name);
         this.$store.commit("Application/setCurrentStep", section.currentStep);
         this.$store.commit("Application/setCurrentStepPage", {currentStep: section.currentStep, currentPage: section.currentPage });
         const currPage = document.getElementById(this.getStepPageId(section.currentStep, section.currentPage));
@@ -249,12 +265,15 @@ export default class ReviewYourAnswers extends Vue {
                 
                 if(key=='bankAccountsSurvey' && value && value['questions']){
 
-                    for (const inx of value['questions']){
-                        console.log(inx)
-                // //         //bankNamesIndex"bankName"
+                    for (const inx in value['questions']){
+                        const question = value['questions'][inx]
+                        //console.log(inx)
+                        //console.log(question.name=="bankName")
+                        if(question.name=="bankName")
+                            this.bankNamesIndex.push(Number(inx))
                     }
-                    console.warn(key)
-                    console.log(value['questions'])
+                    //console.warn(key)
+                    //console.log(value['questions'])
 
                 }
             }

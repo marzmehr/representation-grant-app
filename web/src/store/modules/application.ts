@@ -1091,7 +1091,7 @@ class Application extends VuexModule {
     @Mutation
     public loadNotifyInfo(): void{
 
-        console.log(this.steps[4].result["notifySurvey"].data)
+        //console.log(this.steps[4].result["notifySurvey"].data)
 
         if(this.steps[4].result && this.steps[4].result["notifySurvey"]){
             const notifySurvey = this.steps[4].result["notifySurvey"].data;
