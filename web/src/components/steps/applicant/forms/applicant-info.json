@@ -2,7 +2,7 @@
    "pages": [
       {
          "name": "applicantsPage",
-         "elements": [            
+         "elements": [
             {
                "type": "panel",
                "name": "applicantsIntroPanel",
@@ -13,7 +13,7 @@
                      "title": "Intro paragraph<br>\npick applicants<br>\nexplain what that means<br>\nhere's a list of everyone you've identified so far. time to figure who is actually applying (applicant can be someone you haven't yet identified)\n<br>\nNow we need to learn more about you as the applicant.\n<br>\nIf you are not the only applicant, we will also ask questions related to the other applicants.\n<br>\nNow we need to learn more about the people who are applying to represent the deceased. Applicants are commonly the people you've noted down in the previous step. They can also be someone different.\nYou will have to opportunity to identify all applicants in this step.\n<br>\nNow that we have asked about 's family members, we will ask for information about you to help the Supreme Court of BC decide whether they should make you 's personal representative(s).\n<br>\nApplicants (people applying) are usually family members who inherit 's assets. However, people who are not inheriting the assets can also apply.",
                      "isRequired": true,
                      "titleLocation": "hidden"
-                 }                 
+                  }
                ]
             },
             {
@@ -32,7 +32,7 @@
                         }
                      ],
                      "otherText": "Add a different applicant"
-                  },                  
+                  },
                   {
                      "type": "helptext",
                      "name": "applicantFAQ1",
@@ -48,8 +48,8 @@
                "type": "panel",
                "name": "applicantInfoPanel[0]",
                "title": "",
-               "visible":false,
-               "visibleIf":"{applicant} contains 'relatedPerson[0]'",
+               "visible": false,
+               "visibleIf": "{applicant} contains 'relatedPerson[0]'",
                "elements": [
                   {
                      "type": "text",
@@ -74,7 +74,7 @@
                      "visible": false,
                      "visibleIf": "{applicantMailingAddressIsOrdinary[0]} = 'n'",
                      "title": "Where they ordinarily live? [ordinary city, province and country]"
-                  },                  
+                  },
                   {
                      "type": "infotext",
                      "name": "applicantExplanationSpouseOnly[0]",
@@ -98,12 +98,57 @@
                      "visibleIf": "{applicantCited[0]} = 'y'",
                      "title": "Please enter the name of the person from whom {applicantName} received a citation.",
                      "description": "put the information as it appears on the citation"
-                  }                 
+                  }
                ]
             },
             {
                "type": "panel",
-               "name": "panel13",
+               "name": "applicantExitCheckPanel",
+               "elements": [
+                  {
+                     "type": "yesno",
+                     "name": "applicantIsYou",
+                     "title": "Are you applying to represent {deceasedName}?"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "applicantIsYouIncluded",
+                     "visible": false,
+                     "visibleIf": "{applicantIsYou} = \"y\"",
+                     "title": "Did you enter your own information as part of this step?"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "applicantIsYouIncludedNoEffor",
+                     "visible": false,
+                     "visibleIf": "{applicantIsYou} = 'y' and {applicantIsYouIncluded} = \"n\"",
+                     "title": "Before moving on to the next step, please add your information as a spouse or descendant. It is important to identify your relationship to <Deceased Name> as this service will prepare the paperwork based on this information.",
+                     "titleLocation": "hidden",
+                     "messageStyle": "error"
+                  },
+                  {
+                     "type": "yesno",
+                     "name": "applicantCompleted",
+                     "visible": false,
+                     "visibleIf": "{applicantIsYou} = \"n\" or ({applicantIsYou} = \"y\" and {applicantIsYouIncluded} = \"y\")",
+                     "title": "Have you included everyone who you want to be on the `representation grant` for {deceasedName}?  "
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "applicantCompletedNoError",
+                     "visible": false,
+                     "visibleIf": "({applicantIsYou} = \"n\" and {applicantCompleted} = \"n\") or ({applicantIsYou} = \"y\" and {applicantIsYouIncluded} = \"y\" and {applicantCompleted} = \"n\") ",
+                     "title": "Please make sure to include anyone who may be considered a spouse of {deceasedName}.  It is important to identify your relationship to <Deceased Name> as this service will prepare the paperwork based on this information.",
+                     "titleLocation": "hidden",
+                     "messageStyle": "error"
+                  }
+               ],
+               "visible": false,
+               "visibleIf": "{multipleApplicants} > 0 and ({applicantCited[0]} = \"n\" or ({applicantCited[0]} = \"y\" and {applicantCitedByName[0]} notempty))"
+            },
+            {
+               "type": "panel",
+               "name": "applicantServiceAddressPanel",
                "elements": [
                   {
                      "type": "yesno",
@@ -179,6 +224,14 @@
                      "inputType": "tel"
                   },
                   {
+                     "type": "text",
+                     "name": "applicantServiceEmail",
+                     "visible": false,
+                     "visibleIf": "{applicantLawyer} notempty",
+                     "title": "Service Email Address",
+                     "inputType": "email"
+                  },
+                  {
                      "type": "infotext",
                      "name": "question268",
                      "visible": false,
@@ -200,9 +253,18 @@
                      "title": "Select the court location you want to file at",
                      "description": "courthouse location",
                      "choices": [
-                        "Victoria Law Courts",
-                        "Surrey",
-                        "Vancouver"
+                        {
+                           "value": "Vancouver",
+                           "text": "Vancouver"
+                        },
+                        {
+                           "value": "Victoria",
+                           "text": "Victoria"
+                        },
+                        {
+                           "value": "New Westminster",
+                           "text": "New Westminster"
+                        }
                      ]
                   },
                   {
@@ -211,16 +273,8 @@
                      "visible": false,
                      "title": "[further than 30km away from selected courthouse] You will need to provide one or more of the following: email, fax, PO box within 30km of {courthouseLocation}",
                      "titleLocation": "hidden"
-                  },                                  
-                  {
-                     "type": "text",
-                     "name": "applicantServiceEmail",
-                     "visible": false,
-                     "visibleIf": "{applicantLawyerFirmAddress} notempty or {applicantServiceAddress} notempty",
-                     "title": "Service Email Address",
-                     "description": "usually optional but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
-                     "inputType": "email"
                   },
+                 
                   {
                      "type": "text",
                      "name": "applicantServiceFax",
@@ -247,21 +301,21 @@
                   }
                ],
                "visible": false,
-               "visibleIf": "{multipleApplicants} > 0"
-            },            
+               "visibleIf": "{applicantCompleted} = 'y'"
+            },
             {
                "type": "panel",
                "name": "applicantExitPanel",
                "elements": [
-                   {
-                       "type": "infotext",
-                       "name": "applicantExitSpouseOnly",
-                       "title": "Next is Notifying Page for Story 1 (no notifying required but review answers.)",
-                       "titleLocation": "hidden"
-                   }
+                  {
+                     "type": "infotext",
+                     "name": "applicantExitSpouseOnly",
+                     "title": "Next is Notifying Page for Story 1 (no notifying required but review answers.)",
+                     "titleLocation": "hidden"
+                  }
                ],
                "visible": false,
-               "visibleIf": "({multipleApplicants} = 1) and ({applicantCourthouse} notempty)"
+               "visibleIf": "({applicantCompleted} = 'y' and {multipleApplicants} = 1) and ({applicantCourthouse} notempty)"
             }
          ],
          "title": "The Applicant(s)"
