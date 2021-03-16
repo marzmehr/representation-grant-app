@@ -27,6 +27,8 @@ Vue.filter('beautify-date-weekday', function(date){
 })
 
 Vue.filter('scrollToLocation', function(locationName){
+	console.log(locationName)
+	//console.log(locationName.substring(0,3))
 	if(locationName){
 		Vue.nextTick(()=>{
 			const el = document.getElementsByName(locationName)
@@ -104,7 +106,33 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 	const questionResults: {name:string; value: any; title:string; inputType:string}[] =[];
 	for(const question of survey.currentPage.questions){
 		if(question.isVisible && question.questionValue!=true && question.questionValue!=false)
-			if(survey.data[question.name]){
+			if(question.name=='bankAccountInfoPanel'){
+				console.log("____________")
+				console.log(question)
+				console.log(question.name)
+				console.log(question.inputType)
+				console.log(question.questionValue);
+				for(const panel of question.panels)
+				{
+					
+					console.log("_____PANEL______")
+					console.log(panel)
+					console.log(panel.questions)
+					console.log(panel.name)
+					console.log(panel.inputType)
+					console.log(panel.questionsValue);
+					for(const panelquestion of panel.questions){
+						console.log("____________")
+						console.log(panelquestion)
+						console.log(panelquestion.name)
+						console.log(panelquestion.inputType)
+						console.log(panelquestion.questionValue);
+						if(panelquestion.isVisible && panelquestion.questionValue!=true && panelquestion.questionValue!=false)
+						questionResults.push({name:panelquestion.name, value: panelquestion.questionValue, title:panelquestion.fullTitle, inputType:panelquestion.inputType})
+					}
+				}
+			}
+			else if(survey.data[question.name]){
 				// console.log("____________")
 				// console.log(question)
 				// console.log(question.name)
@@ -123,8 +151,7 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 				// console.log(question.name)
 				// console.log(question.inputType)
 				// console.log(question.questionValue);
-				questionResults.push({name:question.name, value: "", title:question.title, inputType:question.inputType})
-				
+				questionResults.push({name:question.name, value: "", title:question.title, inputType:question.inputType})	
 			}
 		//__specialities
 		
@@ -138,24 +165,9 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 Vue.filter('extractRequiredDocuments', function(questions){
 	//console.log(questions)
 	const requiredDocuments = [];
-	// if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "changePO"){
-	// 	requiredDocuments.push("Copy of the existing protection order")
-	// }else if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "terminatePO"){
-	// 	requiredDocuments.push("Copy of the existing protection order")
-	// }else if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "needPO"){
-	// 	if(questions.protectionWhomSurvey && questions.protectionWhomSurvey.ExistingFamilyCase =="y"){
-	// 		if(questions.protectionWhomSurvey.ExistingFileNumber && questions.protectionWhomSurvey.ExistingCourt) requiredDocuments.push("Copy of the Family Law file number:" + questions.protectionWhomSurvey.ExistingFileNumber + " submitted to the court at " + questions.protectionWhomSurvey.ExistingCourt);
-	// 		else requiredDocuments.push("Copy of the Family Law file open between you and the other parties");
-	// 	}
-	// 	if(questions.backgroundSurvey && questions.backgroundSurvey.existingPOOrders=="y"){
-	// 		requiredDocuments.push("Copy of the existing court orders protecting one of the parties or restraining contact between the parties");
-	// 	}
-	// 	if(questions.backgroundSurvey && questions.backgroundSurvey.ExistingOrders=="y"){
-	// 		requiredDocuments.push("Copy of the existing written agreements or court order(s) about the child(ren) concerning parenting arrangements, child support, contact with a child or guardianship of a child");
-	// 	}
-	// }
-	//this.UpdateRequiredDocuments(requiredDocuments)
-	//console.log('required documents')
+	//		requiredDocuments.push("Copy of the existing written agreements or court order(s) about the child(ren) concerning parenting arrangements, child support, contact with a child or guardianship of a child");
+	// 	}transform: scale(0.6);transform-origin: 0 0;				
+	// }size: 15.5in 16.17in;margin: 3rem 3rem 4rem 3rem;	
 	//console.log(requiredDocuments)<link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" >
 
 	return requiredDocuments;
@@ -172,8 +184,8 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 		<title>Representation Grant</title>`+
 		`<style>`+
 			`@page {
-				size: 15.5in 16.17in;
-				margin: 3rem 3rem 4rem 3rem;
+				size: 8.5in 11in;
+				margin: 3rem 3rem 4rem 3rem;				
 				@bottom-left {
 					content:`+ pageFooterLeft +
 					`white-space: pre;
@@ -205,7 +217,7 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 			`ol li.listnumber{counter-increment: list-counter;}`+
 			`ol li.listnumber:before {content:counter(list-counter) ". ";font-weight: bold;}`+
 			`
-			body{
+			body{				
 				font-family: BCSans;
 			}
 

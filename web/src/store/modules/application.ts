@@ -598,6 +598,8 @@ class Application extends VuexModule {
     @Action
     public UpdateStepResultData({ step, data }) {
         this.context.commit("setScrollToLocationName", "");
+        console.log(step)
+        console.log(data)
         this.context.commit("setStepResultData", { step, data });
     }
 
