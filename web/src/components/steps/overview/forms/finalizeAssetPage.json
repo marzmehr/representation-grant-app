@@ -7,29 +7,17 @@
                 {
                     "type": "panel",
                     "name": "panel1",
+                    "visible":"false",
+                    "visibleIf": "{numberOfUnknownValueAssets}>0",
                     "elements": [
                         {
-                            "type": "matrixdropdown",
+                            "type": "multipletext",
                             "name": "finalizeAssetPlaceholder",
                             "title": "What is the value for the following items on the date of {deceasedName}'s death?",
-                            "columns": [
+                            "items": [
                                 {
-                                    "name": "Column 1",
-                                    "title": "Value",
-                                    "cellType": "text"
-                                }
-                            ],
-                            "choices": [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                            ],
-                            "rows": [
-                                {
-                                    "value": "Row 1",
-                                    "text": "1969 Ford Mustang"
+                                    "name": "Row 1",
+                                    "title": "1969 Ford Mustang"
                                 }
                             ]
                         }
@@ -38,6 +26,7 @@
                 {
                     "type": "text",
                     "name": "question429",
+                    "visible": "false",
                     "title": "P9 swearing date? Option to leave completely/partially blank so the applicant can swear the P9 at the courthouse."
                 },
                 {
@@ -60,7 +49,7 @@
                 },
                 {
                     "type": "text",
-                    "name": "question436",
+                    "name": "PrintCertifiedCopies",
                     "title": "How many certified copies of the Representation Grant do you need?",
                     "description": "$40 each so call ahead to see if they will accept a photo copy instead of a certified court copy."
                 }

@@ -244,7 +244,7 @@
                   {
                      "type": "yesno",
                      "name": "spouseIsYou",
-                     "title": "Are you a spouse of {deceasedName}?"
+                     "title": "Are you {deceasedName}'s `spouse`?"
                   },
                   {
                      "type": "yesno",
