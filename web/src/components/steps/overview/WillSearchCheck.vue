@@ -59,7 +59,7 @@ export default class WillSearchCheck extends Vue {
     survey = new SurveyVue.Model(surveyJson); 
     surveyJsonCopy; 
     currentPage=0;
-    thisStep=0;
+    thisStep=0;   
    
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -91,12 +91,13 @@ export default class WillSearchCheck extends Vue {
 
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
         
-        const temp = (this.surveyJsonCopy.pages[0].elements[2])       
-        //console.log(temp)   
-        let tmp = JSON.parse(JSON.stringify(temp));
-       // console.log(tmp)
-        this.surveyJsonCopy.pages[0].elements.splice(2,1);
-        //console.log(this.surveyJsonCopy)
+        const temp = (this.surveyJsonCopy.pages[0].elements[3])       
+        
+        let tmp = JSON.parse(JSON.stringify(temp));       
+        this.surveyJsonCopy.pages[0].elements.splice(3,1);   
+
+        
+       
         for(const deceasedAlias in this.deceasedAliases){
             
             const aliasName = this.deceasedAliases[deceasedAlias]             
@@ -104,12 +105,10 @@ export default class WillSearchCheck extends Vue {
             let jsonText= JSON.stringify(temp)
             jsonText = jsonText.replace(/[0]/g, deceasedAlias);
             jsonText = jsonText.replace(/{alias}/g, aliasName);
-            tmp = JSON.parse(jsonText);            
+            tmp = JSON.parse(jsonText);           
 
-            // if(deceasedAlias == '0')
-            //     this.surveyJsonCopy.pages[0].elements[2] = tmp;
-            // else 
-            this.surveyJsonCopy.pages[0].elements.splice(2+Number(deceasedAlias),0,tmp)
+             
+            this.surveyJsonCopy.pages[0].elements.splice(3+Number(deceasedAlias),0,tmp)
         }
     }
     
@@ -151,7 +150,7 @@ export default class WillSearchCheck extends Vue {
         }
     }
 
-     public determineNumberOfAliases(){
+    public determineNumberOfAliases(){
         
         this.survey.setVariable("numberOfAliases",this.deceasedAliases?this.deceasedAliases.length:0)
     }
