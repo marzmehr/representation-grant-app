@@ -15,14 +15,7 @@
 
                 <span class="text-primary" style='font-size:1.4rem;'>Review your application:</span>            
             
-                <div style="margin:1rem 0; width:23rem;">
-                    <b-button                   
-                        v-on:click.prevent="onDownload()"
-                        variant="success">
-                            <span class="fa fa-print btn-icon-left"/>
-                            Download and Review Your Application
-                    </b-button>
-                </div>
+                <form-list />
 
                 <div class="my-4 text-primary" @click="showGetHelpForPDF = true" style="border-bottom:1px solid; width:20.25rem;">
                     <span style='font-size:1.2rem;' class="fa fa-question-circle" /> Get help opening and saving PDF forms 
@@ -181,9 +174,10 @@
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator';
     import moment from 'moment-timezone';
+
+    import FormList from "./components/FormList.vue"
     
     import { stepInfoType } from "@/types/Application";
-    import { supportingDocumentInfoType } from "@/types/Common";
 
     import PageBase from "../PageBase.vue";    
     import GetHelpForPdf from "./helpPages/GetHelpForPDF.vue"
@@ -201,7 +195,8 @@
         components:{
             PageBase,
             GetHelpForPdf,
-            GetHelpScanning
+            GetHelpScanning,
+            FormList
         }
     })
     
@@ -249,12 +244,21 @@
         @applicationState.Action
         public UpdateLastPrinted!: (newLastPrinted) => void
 
+        @applicationState.State
+        public documentTypesJson!: any;
+
+        @applicationState.State
+        public supportingDocuments!: any;
+        @applicationState.Action
+        public UpdateSupportingDocuments!: (newSupportingDocuments) => void
+
+
         error = "";
         showGetHelpForPDF = false;
         showGetHelpScanning = false;
         applicantLocation = {name:'', address:'', cityStatePostcode:'', email:''}        
-        submissionId = "";
-        generatedUrlPayload = {};
+        submissionInProgress = false;
+        
         supportingFile = null;
         selectedDocumentTypeState = true;
         selectedSupportingDocumentState = true;
@@ -262,15 +266,19 @@
         fileTypes = [];
         requiredDocuments: string[] = [];
         supportingDocumentFields = [
-            { key: 'fileName', label: 'File Name'},
-            { key: 'fileType', label: 'File Type'},
-            { key: 'edit', thClass: 'd-none'}
+            { key: 'fileName', label: 'File Name',tdClass:'align-middle'},
+            { key: 'fileType', label: 'File Type',tdClass:'align-middle'},
+            { key: 'edit', thClass: 'd-none',tdClass:'align-middle'},
+            { key: 'preview', thClass: 'd-none'}
         ];
-        supportingDocuments: supportingDocumentInfoType[] = [];
+       
         showTypeOfDocuments = false;
+
+        submitEnable = true;
 
         mounted(){
 
+            this.submitEnable =  true;
             const progress = 50;
 
             //console.log(this.currentStep)
@@ -286,9 +294,8 @@
             } else if(location == 'Surrey'){
                 this.applicantLocation = {name:'Surrey Provincial Court', address:'14340 - 57 Avenue', cityStatePostcode:'Surrey, B.C.  V3X 1B2', email:'CSBSurreyProvincialCourt.FamilyRegistry@gov.bc.ca'}
             }
-            //TODO: use get api for document-types
-            const documentTypesJson = require("./forms/documentTypes.json");
-            this.fileTypes = documentTypesJson;
+            //TODO: use get api for document-types           
+            this.fileTypes = this.documentTypesJson;
             this.requiredDocuments = Vue.filter('extractRequiredDocuments')(this.getRepGrantResultData())
 
             const dropArea = document.getElementById('drop-area');
@@ -306,22 +313,27 @@
         public handleFileDrop(e) {
             e.preventDefault()
             e.stopPropagation()
-            let dt = e.dataTransfer
-            let files = dt.files
-            //console.log(files)
-            this.supportingFile = files[0];
-            this.showTypeOfDocuments= true;
+            const dt = e.dataTransfer
+            const files = dt.files
+            console.log(files)
+            if (files && files[0]) 
+            {
+                this.supportingFile = files[0];
+                this.showTypeOfDocuments= true;
+            }
         } 
 
         public uploadClicked(){
-            //console.log('click')
+            console.log('click')
             const el = document.getElementById("inputfile");
             if(el) el.click();
         }
 
         public handleSelectedFile(event){
-            
-            //console.log(event.target.files)
+            console.log(event)
+            event.preventDefault();
+            event.stopPropagation();
+            console.log(event.target.files[0])
             
             if (event.target.files && event.target.files[0]) 
             {
@@ -389,9 +401,9 @@
             return this.getStepId(stepIndex) + "-page-" + pageIndex;
         }
 
-        public loadPdf() {
+        public loadPdf(noDownload) {
             
-            const url = '/survey-print/'+this.id+'/?name=application-about-a-protection-order'
+            const url = '/survey-print/'+this.id+'/?name=application-about-a-protection-order'+(noDownload?'&noDownload=true':'');
             const body = this.getRepGrantResultData()
             const options = {
                 responseType: "blob",
@@ -402,17 +414,24 @@
             //console.log(body)
             this.$http.post(url,body, options)
             .then(res => {
-                const blob = res.data;
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                document.body.appendChild(link);
-                link.download = "fpo.pdf";
-                link.click();
-                setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-                this.error = "";
+                console.log('done')
+                if(noDownload)
+                    this.eFile();
+                else
+                {
+                    const blob = res.data;
+                    const link = document.createElement("a");
+                    link.href = URL.createObjectURL(blob);
+                    document.body.appendChild(link);
+                    link.download = "fpo.pdf";
+                    link.click();
+                    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+                    this.error = "";                    
+                }
+                //this.submitEnable =  true;
             },err => {
                 console.error(err);
-                this.error = "Sorry, we were unable to print your form at this time, please try again later.";
+                this.error = "Print failed, please try again.";                
             });
 
         }
@@ -444,50 +463,54 @@
             // }            
         }
 
-        public eFile() {
+         public eFile() {
+            
+            const bodyFormData = new FormData();
+            const docType = []
+            for(const index in this.supportingDocuments){
+                const supportingDoc = this.supportingDocuments[index]
+                bodyFormData.append('files',supportingDoc['file']); 
+                          
+                docType.push({type: supportingDoc['documentType'], files: [Number(index)], rotations:[supportingDoc['imageRotation']]})
+               // bodyFormData.append('documents', );
+               // console.log(supportingDoc['imageRotation'])
+            }
+            console.log(docType);
+            const docTypeJson = JSON.stringify(docType);
+            const docTypeBlob = new Blob([docTypeJson], {type: 'application/json'});
+            bodyFormData.append('documents', docTypeJson);
+            
 
-            //TODO: get the pdf through new API
-            var bodyFormData = new FormData();
-            bodyFormData.append('files', "~/Downloads/fpo.pdf");
+            console.log(bodyFormData.get('documents'))
 
-            const url = "http://fla-nginx-proxy-qzaydf-dev.pathfinder.gov.bc.ca/api/submission/documents";
+            const url = "/efiling/"+this.id+"/submit/" 
             const header = {
                 responseType: "json",
                 headers: {
-                    Authorization: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJjVDg3bHVwcmhwYmdwNHQtZ3ZIM0U1RHBfNUJEYms1cGtVVHo3Z3ZVUTZZIn0.eyJleHAiOjE1OTg0ODE0NjMsImlhdCI6MTU5ODQ4MTE2MywianRpIjoiNjY5ZGJmYjktNjMyMC00ZGNlLWFiMzMtZGQ0MjExZTk4ZWNkIiwiaXNzIjoiaHR0cHM6Ly9zc28tZGV2LnBhdGhmaW5kZXIuZ292LmJjLmNhL2F1dGgvcmVhbG1zL3F4NjhvYTVjIiwiYXVkIjpbImVmaWxpbmctYXBpIiwiYWNjb3VudCJdLCJzdWIiOiJiZWZlNjM1OS1iNDFmLTQ5NjktYTcyZi01ZGJjYjkzZDlhODgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJmbGEiLCJzZXNzaW9uX3N0YXRlIjoiMGJlNzczYTItMzZhOS00MTBkLTgyNWUtMmFlYTg1ZTMwYjA2IiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiZWZpbGluZy1hcGkiOnsicm9sZXMiOlsiZWZpbGluZy1jbGllbnQiXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImNzby1zZXJ2aWNlLXR5cGUtY29kZSI6IkRDRkwiLCJjbGllbnRIb3N0IjoiNTAuOTIuMTE5LjI3IiwiY2xpZW50SWQiOiJmbGEiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNzby1hcHBsaWNhdGlvbi1jb2RlIjoiRkxBIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LWZsYSIsImNsaWVudEFkZHJlc3MiOiI1MC45Mi4xMTkuMjciLCJlbWFpbCI6InNlcnZpY2UtYWNjb3VudC1mbGFAcGxhY2Vob2xkZXIub3JnIn0.RFQNciMI-_RZv8T5HglZiZil4mksWoNGBzVOabT02PY9zFEJGSuSgY4fc17HfPUaqiVr9ritaMC01h8BYHzIeZj-iCg5M0CUXi9QO8lfOYyYPRXXowjOVfKQtWem58z3NQ4RSpfZa5NAaIfQVGByina89hSICZJj-oL2vZxPiVEw3hvJgadBCsh8v9bwsK2LiTEHr8mL_WQPj-loM-xrYxIr6R4CPi1ACDf1JCIwIt8C3Zo9dmEPJZ-_iJS37FsVa9bmf9caRJVTDtDI6c-nhOJ2N-akQ5q64hgAXZJ8t-AD4Esiz0-K78F9XYeY3vTlKlS1wieKa1i_LolLg-AV_w",
                     "Content-Type": "multipart/form-data",
-                    Accept: "application/json",
-                    "X-Transaction-Id": "ca09e538-d34e-11ea-87d0-0242ac130003",
-                    "X-User-Id": "54546456"
+                    Accept: "application/json"                  
                 }
             }
-            //TODO: add the new api to call submit documents
+            
+            this.submissionInProgress = true;
+            
             this.$http.post(url, bodyFormData, header)
             .then(res => {
-                //console.log(res)
-                this.submissionId = res.data.submissionId;
-                this.generateUrl();
-
+                console.log(res)
+                if(res.data.message=="success")
+                {
+                    this.generateUrl(res.data.redirectUrl)                   
+                }
             }, err => {
                 console.error(err);
                 this.error = err;
+                this.submissionInProgress = false;
             });           
         }
         
-        public generateUrl() {        
-            this.generateUrlPayload();
-            //TODO: use new api to generate url
-            var eFilingUrl = "";
-            // use a new api to:
-            //1. add efiling hub access information to the application table
-            //2. add the date of submission to the application table
+        public generateUrl(eFilingUrl) {            
             // redirect user to the generated url
             location.replace(eFilingUrl);        
-        }
-
-        public generateUrlPayload() {
-            //TODO: add the payload elements
-            this.generatedUrlPayload = {}
         }
 
         public removeDocument(index) {
@@ -499,15 +522,23 @@
             this.selectedDocumentTypeState = this.fileType.length>0? true: false;
 
             if (this.supportingFile && this.fileType.length>0) {
+
                 this.showTypeOfDocuments = false;
+
+                const supportingdocuments = this.supportingDocuments 
+              
                 const newFile = {
                     "fileName": this.supportingFile.name,
                     "file": this.supportingFile,
-                    "documentType": this.fileType
+                    "documentType": this.fileType,
+                    "image": URL.createObjectURL(this.supportingFile),
+                    "imageRotation": 0
                 }
-                this.supportingDocuments.push(newFile);
+                supportingdocuments.push(newFile);
+                this.UpdateSupportingDocuments(supportingdocuments);
                 this.supportingFile = null;
                 this.fileType = "";
+                
             }
         }
     }
