@@ -59,7 +59,7 @@ export default class WillSearchCheck extends Vue {
     survey = new SurveyVue.Model(surveyJson); 
     surveyJsonCopy; 
     currentPage=0;
-    thisStep=0;
+    thisStep=0;   
    
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -91,12 +91,12 @@ export default class WillSearchCheck extends Vue {
 
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
         
-        const temp = (this.surveyJsonCopy.pages[0].elements[2])       
+        const temp = (this.surveyJsonCopy.pages[0].elements[3])       
         
         let tmp = JSON.parse(JSON.stringify(temp));       
-        this.surveyJsonCopy.pages[0].elements.splice(2,1);
+        this.surveyJsonCopy.pages[0].elements.splice(3,1);   
 
-        this.deceasedAliases.push(Vue.filter('getFullName')(this.deceasedName));
+        
        
         for(const deceasedAlias in this.deceasedAliases){
             
@@ -108,7 +108,7 @@ export default class WillSearchCheck extends Vue {
             tmp = JSON.parse(jsonText);           
 
              
-            this.surveyJsonCopy.pages[0].elements.splice(2+Number(deceasedAlias),0,tmp)
+            this.surveyJsonCopy.pages[0].elements.splice(3+Number(deceasedAlias),0,tmp)
         }
     }
     
@@ -150,7 +150,7 @@ export default class WillSearchCheck extends Vue {
         }
     }
 
-     public determineNumberOfAliases(){
+    public determineNumberOfAliases(){
         
         this.survey.setVariable("numberOfAliases",this.deceasedAliases?this.deceasedAliases.length:0)
     }
