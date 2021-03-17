@@ -55,7 +55,7 @@
                         <span v-if="applicantList.length>1"> We are </span>
                         <span v-else > I am </span>
                         <span>submitting with this submission for estate grant an affidavit of assets and liabilities in
-                            Form P10 or P11 for estate grant and therefore do not require an authorization to obtain estate grant
+                            Form P10 for estate grant and therefore do not require an authorization to obtain estate grant
                             information.
                         </span>
                     </div>               
@@ -179,11 +179,13 @@
                             This application is for a grant of administration without will annexed.
                         </li>
                         <li class="mb-2" style="text-indent: 5px;">
-                            This application is for a grant of administration without will annexed.
+                            This application is for a grant of administration without will annexed and therefore there can be 
+                            no orders affecting the validity or content of a will.
                         </li>
 
                         <li class="mb-2" style="text-indent: 5px;">
-                            This application is for a grant of administration without will annexed.
+                            This application is for a grant of administration without will annexed and therefore there is no 
+                            will to refer to additional documents.
                         </li>
 
                         <li class="mb-2" style="text-indent: 5px;">
@@ -230,13 +232,14 @@
                             
                                 <li class="bracketalpha">
                                     spouse, if any, of the deceased:
-                                    <div class="mt-2" style="text-indent: 5px;">spouseName</div>
+                                    <div class="mt-2" style="text-indent: 5px;">{{spouseName}}</div>
+
                                 </li>
                                 <li class="bracketalpha">
                                     child(ren), if any, of the deceased:
                                     <div class="mt-2" v-if="childrenList.length==0" style="text-indent: 5px;">none</div>
                                     <div class="mt-2" v-if="childrenList.length!=0" style="text-indent: 5px;" >
-                                        <span v-for="(name,i) in childrenList" :key="i">{{name}}></span>
+                                        <span v-for="(name,i) in childrenList" :key="i">{{name}}<br v-if="i != (childrenList.length - 1)"></span>
                                     </div>
                                 </li>
                                 <li class="bracketalpha">
@@ -248,7 +251,8 @@
                                     each creditor of the deceased, if any, not named in paragraph (a), (b) or (c) whose claim exceeds $10,000:
                                     <div class="mt-2" v-if="creditorList.length==0" style="text-indent: 5px;">none</div>
                                     <div class="mt-2" v-if="creditorList.length!=0" style="text-indent: 5px;" >
-                                         <span v-for="(name,i) in creditorList" :key="i">{{name}}></span>
+                                        <span v-for="(name,i) in creditorList" :key="i">{{name}}<br v-if="i != (creditorList.length - 1)"></span>
+                                         
                                         
                                     </div>
                                 </li>
@@ -256,7 +260,7 @@
                                     each citor, if any, not named in paragraph (a), (b), (c) or (d):
                                     <div class="mt-2" v-if="citorList.length==0" style="text-indent: 5px;">none</div>
                                     <div class="mt-2" v-if="citorList.length!=0" style="text-indent: 5px;" >
-                                         <span v-for="(name,i) in citorList" :key="i">{{name}}></span>
+                                         <span v-for="(name,i) in citorList" :key="i">{{name}}<br v-if="i != (citorList.length - 1)"></span>
                                         
                                     </div>
                                    
@@ -288,27 +292,37 @@ import "@/store/modules/application";
 const applicationState = namespace("Application");
 
 import UnderlineForm from "./components/UnderlineForm.vue"
-import CheckBox from "./components/CheckBox.vue"
 import moment from 'moment';
+import { stepInfoType } from '@/types/Application';
 
 @Component({
     components:{
-        UnderlineForm,
-        CheckBox
+        UnderlineForm
     }
 })
 
-export default class FormP1 extends Vue {    
+export default class FormP2 extends Vue {    
 
+    @applicationState.State
+    public steps!: stepInfoType[];
+
+    @applicationState.State
+    public deceasedName!: string;
+
+    @applicationState.State
+    public deceasedAliases!: string[];
+
+    @applicationState.State
+    public relatedPeopleInfo!: any;
+    
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
     @applicationState.Action
-    public UpdateGotoNextStepPage!: () => void
+    public UpdateGotoNextStepPage!: () => void   
 
-    check = ""//"&#10003"
-    check2= "&#10003"
 
+    multipleApplicant=false
     applicantList = []
     aliasList = []
     deceasedFirstNations = false;
@@ -326,10 +340,13 @@ export default class FormP1 extends Vue {
     mounted(){
         this.getRepGrantResultData()
         this.changeApplicantList()
-        this.getAliasList()
+        this.getAliasList();
         this.getDeceasedInfo();
+        this.getRelatedPeopleInfo();
     }
-    multipleApplicant=false
+
+   
+
     public changeApplicantList(){
         this.applicantList=[]
         if(this.multipleApplicant){
@@ -353,7 +370,17 @@ export default class FormP1 extends Vue {
     }
 
     public getAliasList(){
-        this.aliasList = ['first alias', 'second alias']
+        console.log(this.aliasList)
+        const deceasedFullName = Vue.filter('getFullName')(this.deceasedName);
+        if (this.deceasedAliases.indexOf(deceasedFullName) != -1){
+            this.aliasList = this.deceasedAliases.splice(this.deceasedAliases.indexOf(deceasedFullName), 1)
+
+        } else {
+            this.aliasList = this.deceasedAliases;
+
+        }
+        
+         console.log(this.aliasList)
     }
 
     public getDeceasedInfo() {
@@ -370,7 +397,7 @@ export default class FormP1 extends Vue {
         this.childrenList = [];
         this.otherRelatedPeopleList = [];
         this.citorList = [];
-        this.creditorList = [];
+        this.creditorList = ['cred1', 'cred2'];
         this.deceasedFirstNations = this.deceased['deceasedFirstNations'] == 'y';
         this.deceasedNisaga = this.deceased['deceasedFirstNationsName'] == "Nisga'a";
         this.deceasedFirstNationsName = this.deceased['deceasedFirstNationsName'];

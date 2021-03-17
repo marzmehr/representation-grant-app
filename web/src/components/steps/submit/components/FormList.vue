@@ -9,6 +9,7 @@
             </template>
              
             <form-p1  v-if="showPDFformName=='P1'" />
+            <form-p2  v-if="showPDFformName=='P2'" />
             <form-p5  v-if="showPDFformName=='P5'" />
             <form-p8  v-if="showPDFformName=='P8'" />
             <form-p9  v-if="showPDFformName=='P9'" />  
@@ -28,6 +29,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import FormP1 from  "../pdf/FormP1.vue"
+import FormP2 from  "../pdf/FormP2.vue"
 import FormP5 from  "../pdf/FormP5.vue"
 import FormP8 from  "../pdf/FormP8.vue"
 import FormP9 from  "../pdf/FormP9.vue"
@@ -41,6 +43,7 @@ const applicationState = namespace("Application");
 @Component({
     components:{
         FormP1,
+        FormP2,
         FormP5,
         FormP8,
         FormP9,
@@ -62,7 +65,7 @@ export default class FormList extends Vue {
 
     formsTitle =[
         { name:'P1', color:"danger", title:"Notice Of Proposed Application In Relation To Estate (FORM P1)"},
-        //{ name:'P2', color:"danger", title:"Submission For Estate Grant (FORM P2)"},
+        { name:'P2', color:"danger", title:"Submission For Estate Grant (FORM P2)"},
         { name:'P5', color:"danger", title:"Affidavit Of Applicant For Grant Of Administration Without Will Annexed(FORM P5)"},
         { name:'P8', color:"danger", title:"Affidavit In Support Of Application For Estate Grant (FORM P8)"},
         { name:'P9', color:"danger", title:"Affidavit Of Delivery (FORM P9)" },
