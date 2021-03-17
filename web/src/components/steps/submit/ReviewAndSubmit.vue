@@ -15,7 +15,7 @@
 
                 <span class="text-primary" style='font-size:1.4rem;'>Review your application:</span>            
             
-                <form-list />
+                <form-list id="formslist" type="Save" @formsList="setFormList" currentPage="-1"/>
 
                 <div class="my-4 text-primary" @click="showGetHelpForPDF = true" style="border-bottom:1px solid; width:20.25rem;">
                     <span style='font-size:1.2rem;' class="fa fa-question-circle" /> Get help opening and saving PDF forms 
@@ -252,6 +252,9 @@
         @applicationState.Action
         public UpdateSupportingDocuments!: (newSupportingDocuments) => void
 
+        @applicationState.State
+        public generatedForms!: string[];
+
 
         error = "";
         showGetHelpForPDF = false;
@@ -275,6 +278,7 @@
         showTypeOfDocuments = false;
 
         submitEnable = true;
+        formsList = [];
 
         mounted(){
 
@@ -401,40 +405,7 @@
             return this.getStepId(stepIndex) + "-page-" + pageIndex;
         }
 
-        public loadPdf(noDownload) {
-            
-            const url = '/survey-print/'+this.id+'/?name=application-about-a-protection-order'+(noDownload?'&noDownload=true':'');
-            const body = this.getRepGrantResultData()
-            const options = {
-                responseType: "blob",
-                headers: {
-                "Content-Type": "application/json",
-                }
-            }
-            //console.log(body)
-            this.$http.post(url,body, options)
-            .then(res => {
-                console.log('done')
-                if(noDownload)
-                    this.eFile();
-                else
-                {
-                    const blob = res.data;
-                    const link = document.createElement("a");
-                    link.href = URL.createObjectURL(blob);
-                    document.body.appendChild(link);
-                    link.download = "fpo.pdf";
-                    link.click();
-                    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-                    this.error = "";                    
-                }
-                //this.submitEnable =  true;
-            },err => {
-                console.error(err);
-                this.error = "Print failed, please try again.";                
-            });
-
-        }
+        
 
         public getRepGrantResultData() {      
             var result = this.steps[0].result; 
@@ -455,7 +426,20 @@
             return result;
         }
 
+        public setFormList(formsList){
+            this.formsList = formsList
+        }
+
         public onSubmit() {
+            for(const form of this.formsList)
+                if(!this.generatedForms.includes(form.name)){
+                    //console.log(form)
+                    const el = document.getElementById('formslist')	
+                    //console.log(el)		
+			        if(el) el.scrollIntoView();
+                    
+                    return
+                }
             console.log("submit")
 
             // if(this.checkErrorOnPages()){

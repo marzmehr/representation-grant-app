@@ -17,7 +17,7 @@
 
                 <span class="text-primary" style='font-size:1.4rem;'>Review your application:</span>  
      
-                <form-list />
+                <form-list type="Save" @formsList="setFormList" :currentPage="currentPage"/>
                
                 <div class="my-4 text-primary" @click="showGetHelpForPDF = true" style="border-bottom:1px solid; width:20.25rem;">
                     <span style='font-size:1.2rem;' class="fa fa-question-circle" /> Get help opening and saving PDF forms 
@@ -136,6 +136,9 @@ export default class ReviewAndSave extends Vue {
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
 
+    @applicationState.State
+    public generatedForms!: string[];
+
     currentStep=0;
     currentPage=0;
     error = ""
@@ -143,14 +146,14 @@ export default class ReviewAndSave extends Vue {
     showGetHelpScanning = false;
     applicationLocation = {name:'', address:'', cityStatePostcode:'', email:''}
     requiredDocuments: string[] = [];
+    formsList = [];
 
     mounted(){
 
         this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
-        let progress = this.$store.state.Application.steps[this.currentStep].pages[this.currentPage].progress
-        if(progress==0) progress=50;
-        Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, progress, false);
+        
+        //this.setProgress()
            
         let location = this.$store.state.Application.applicationLocation
         if(!location) location = this.$store.state.Common.userLocation
@@ -204,6 +207,10 @@ export default class ReviewAndSave extends Vue {
         
     }
 
+    public setFormList(formsList){
+        this.formsList = formsList
+    }
+
     public getStepId(stepIndex) {
         return "step-" + stepIndex;
     }
@@ -221,8 +228,8 @@ export default class ReviewAndSave extends Vue {
         for(var i=1;i<9; i++){
             const stepResults = this.$store.state.Application.steps[i].result
             for(const stepResult in stepResults){
-                console.log(stepResults[stepResult])
-                console.log(stepResults[stepResult].data)
+                //console.log(stepResults[stepResult])
+                //console.log(stepResults[stepResult].data)
                 result[stepResult]=stepResults[stepResult].data; 
                 //Object.assign(result, result,{$stepResult: stepResults[stepResult].data});  
             }
