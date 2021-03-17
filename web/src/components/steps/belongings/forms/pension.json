@@ -90,7 +90,7 @@
             {
                "type": "yesno",
                "name": "ageOver65",
-               "title": "was deceased over 65 when they died?"
+               "title": "Was deceased over 65 when they died?"
             },
             {
                "type": "panel",
@@ -240,7 +240,7 @@
                         {
                            "type": "yesno",
                            "name": "question358",
-                           "title": "does {deceasedName} have more than 1 policy at {insurance} place?"
+                           "title": "Does {deceasedName} have more than 1 policy at {insurance} place?"
                         },
                         {
                            "type": "text",
@@ -296,7 +296,7 @@
                         {
                            "type": "yesno",
                            "name": "question363",
-                           "title": "is there a lump sum?",
+                           "title": "Is there a lump sum?",
                            "description": "no - any number of reason insurance company is not paying. but we can leave it off the P10"
                         },
                         {
@@ -321,13 +321,13 @@
                         {
                            "type": "yesno",
                            "name": "question259",
-                           "title": "is there a registered loan to account # {accountNumber}?",
+                           "title": "Is there a registered loan to account # {accountNumber}?",
                            "description": "name of lender, address of lender, registration number, registration date, name match, value"
                         },
                         {
                            "type": "infotext",
                            "name": "question364",
-                           "title": "ask DDR if they would accept loan against life insurance?\n<br>\ncash surrender value?\n<br>\nhttps://www.sunnet.sunlife.com/files/advisor/english/PDF/810-2876.pdf",
+                           "title": "Ask DDR if they would accept loan against life insurance?\n<br>\ncash surrender value?\n<br>\nhttps://www.sunnet.sunlife.com/files/advisor/english/PDF/810-2876.pdf",
                            "titleLocation": "hidden"
                         }
                      ],
@@ -339,7 +339,7 @@
                "minPanelCount": 1
             }
          ],
-         "title": "pensions and insurance"
+         "title": "Pensions and Insurance"
       }
    ],
    "showQuestionNumbers": "off",

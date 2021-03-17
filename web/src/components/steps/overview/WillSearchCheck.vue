@@ -56,6 +56,9 @@ export default class WillSearchCheck extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
+
     survey = new SurveyVue.Model(surveyJson); 
     surveyJsonCopy; 
     currentPage=0;
@@ -94,9 +97,7 @@ export default class WillSearchCheck extends Vue {
         const temp = (this.surveyJsonCopy.pages[0].elements[3])       
         
         let tmp = JSON.parse(JSON.stringify(temp));       
-        this.surveyJsonCopy.pages[0].elements.splice(3,1);   
-
-        
+        this.surveyJsonCopy.pages[0].elements.splice(3,1);        
        
         for(const deceasedAlias in this.deceasedAliases){
             
@@ -105,8 +106,7 @@ export default class WillSearchCheck extends Vue {
             let jsonText= JSON.stringify(temp)
             jsonText = jsonText.replace(/[0]/g, deceasedAlias);
             jsonText = jsonText.replace(/{alias}/g, aliasName);
-            tmp = JSON.parse(jsonText);           
-
+            tmp = JSON.parse(jsonText); 
              
             this.surveyJsonCopy.pages[0].elements.splice(3+Number(deceasedAlias),0,tmp)
         }
@@ -115,6 +115,7 @@ export default class WillSearchCheck extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
+            this.UpdateGeneratedForms([]);
             // console.log(options)
             this.determinePrimaryApplicant();
             this.determineNumberOfAliases();

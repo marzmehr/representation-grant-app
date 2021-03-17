@@ -213,7 +213,7 @@
                      "name": "applicantServiceAddress",
                      "visible": false,
                      "visibleIf": "{applicantLawyer} = \"n\"",
-                     "title": "service address"
+                     "title": "Service Address"
                   },
                   {
                      "type": "text",

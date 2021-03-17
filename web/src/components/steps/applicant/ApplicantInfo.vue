@@ -62,6 +62,9 @@ export default class ApplicantInfo extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
+
     survey = new SurveyVue.Model(surveyJson);
     surveyJsonCopy; 
     disableNextButton = false;   
@@ -168,6 +171,8 @@ export default class ApplicantInfo extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
+
+            this.UpdateGeneratedForms([]); 
             console.log(this.survey.data);
             // console.log(options)
             this.determineApplicantInfoCompleted();

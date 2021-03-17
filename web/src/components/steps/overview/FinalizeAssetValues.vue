@@ -50,6 +50,9 @@ export default class FinalizeAssetValues extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
+
 
     survey = new SurveyVue.Model(surveyJson); 
     surveyJsonCopy;  
@@ -86,6 +89,7 @@ export default class FinalizeAssetValues extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
+            this.UpdateGeneratedForms([]);
             console.log(options)
             
         })

@@ -53,6 +53,9 @@ export default class DeceasedWill extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
+
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
     thisStep=0;
@@ -89,6 +92,8 @@ export default class DeceasedWill extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
+
+            this.UpdateGeneratedForms([]);
             //console.log(this.survey.data);
             // console.log(options)
             if(options.name == "willCheck") {
