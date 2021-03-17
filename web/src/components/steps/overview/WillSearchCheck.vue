@@ -56,6 +56,9 @@ export default class WillSearchCheck extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
+
     survey = new SurveyVue.Model(surveyJson); 
     surveyJsonCopy; 
     currentPage=0;
@@ -122,6 +125,7 @@ export default class WillSearchCheck extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
+            this.UpdateGeneratedForms([]);
             // console.log(options)
             this.determinePrimaryApplicant();
             this.determineNumberOfAliases();

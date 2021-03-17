@@ -65,6 +65,9 @@ export default class DeceasedInfo extends Vue {
     @applicationState.Action
     public UpdateDeceasedDateOfDeathPlus4!: (newDeceasedDateOfDeathPlus4) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
+
     survey = new SurveyVue.Model(surveyJson);
     disableNextButton = false;   
     currentPage=0;
@@ -110,6 +113,7 @@ export default class DeceasedInfo extends Vue {
 
             console.log(options)
             //console.log(this.steps[4].result['reviewP1Survey'].data.p1ReviewInfoCorrect)
+            this.UpdateGeneratedForms([]);
 
             if(options.name == "deceasedName") {
                 this.UpdateDeceasedName(options.value);
