@@ -108,6 +108,9 @@ export default class DeceasedInfo extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
 
+            console.log(options)
+            //console.log(this.steps[4].result['reviewP1Survey'].data.p1ReviewInfoCorrect)
+
             if(options.name == "deceasedName") {
                 this.UpdateDeceasedName(options.value);
             }

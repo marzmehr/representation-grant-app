@@ -598,6 +598,8 @@ class Application extends VuexModule {
     @Action
     public UpdateStepResultData({ step, data }) {
         this.context.commit("setScrollToLocationName", "");
+        console.log(step)
+        console.log(data)
         this.context.commit("setStepResultData", { step, data });
     }
 
@@ -1089,7 +1091,7 @@ class Application extends VuexModule {
     @Mutation
     public loadNotifyInfo(): void{
 
-        console.log(this.steps[4].result["notifySurvey"].data)
+        //console.log(this.steps[4].result["notifySurvey"].data)
 
         if(this.steps[4].result && this.steps[4].result["notifySurvey"]){
             const notifySurvey = this.steps[4].result["notifySurvey"].data;
