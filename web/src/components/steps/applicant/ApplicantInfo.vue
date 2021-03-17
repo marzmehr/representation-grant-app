@@ -172,7 +172,7 @@ export default class ApplicantInfo extends Vue {
             // console.log(options)
             this.determineApplicantInfoCompleted();
             this.determineLengthOfApplicants();
-
+            // TODO: add listener to handle multiple applicant options in having the "Applicants finish panel appear"
             // console.log(options.question.visibleChoices)
             // console.log(options.value)
         })   
