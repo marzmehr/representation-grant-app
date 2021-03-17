@@ -23,8 +23,16 @@
                 "title": "I want to file my application",
                 "choices": [
                     {
-                    "value": "inperson",
-                    "text": "In Person"
+                        "value": "inperson",
+                        "text": "In Person"
+                    },
+                    {
+                        "value": "byemail",
+                        "text": "By Email"
+                    },
+                    {
+                        "value": "byefiling",
+                        "text": "By Electronic Filing"
                     }
                 ]
             }]
