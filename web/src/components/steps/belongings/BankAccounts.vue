@@ -86,6 +86,9 @@ export default class BankAccounts extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
+
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
     thisStep = 0;
@@ -117,7 +120,8 @@ export default class BankAccounts extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            console.log(this.survey.data);
+            this.UpdateGeneratedForms([]);
+            console.log(this.survey);
             this.determineBankAccountsCompleted();           
         })
     }

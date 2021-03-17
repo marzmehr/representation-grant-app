@@ -658,7 +658,7 @@
                 {
                     "type": "yesno",
                     "name": "question271",
-                    "title": "interest in land other than ownership?",
+                    "title": "Interest in land other than ownership?",
                     "description": "lent money and hold a mortgage. or right to buy land for less than market value",
                     "visible": false,
                     "visibleIf": "{landIntroExplanation} > 0"
@@ -666,14 +666,14 @@
                 {
                     "type": "yesno",
                     "name": "landCompleted",
-                    "title": "is this all the land?",
+                    "title": "Is this all the land?",
                     "visible": false,
                     "visibleIf": "{landExists} = 'y' and {landExistsYesExplanation} > 0"
                 },
                 {
                     "type": "infotext",
                     "name": "landCompletedNoError",
-                    "title": "add all the land",
+                    "title": "Add all the land",
                     "titleLocation": "hidden",
                     "messageStyle": "error",
                     "visible": false,
@@ -684,7 +684,7 @@
                     "name": "question394",
                     "visible": false,
                     "visibleIf": "{landExists} = 'y' and {landExistsYesExplanation} > 0",
-                    "title": "secured line of credit? [Dani says yes - Tyler says applicable for all other things as well]"
+                    "title": "Secured line of credit? [Dani says yes - Tyler says applicable for all other things as well]"
                 },
                 {
                     "type": "infotext",
@@ -695,7 +695,7 @@
                     "titleLocation": "hidden"
                 }
             ],
-            "title": "About land or buildings"
+            "title": "About Land or Buildings"
         }
     ],
     "showQuestionNumbers": "off",
