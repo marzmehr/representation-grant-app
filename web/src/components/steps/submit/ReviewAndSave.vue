@@ -15,17 +15,10 @@
             
             <b-card style="borde:1px solid; border-radius:10px;" bg-variant="white" class="mt-4 mb-2">
 
-                <span class="text-primary" style='font-size:1.4rem;'>Review your application:</span>            
-            
-                <div style="margin:1rem 0; width:19rem;">
-                    <b-button                   
-                        v-on:click.prevent="onDownload()"
-                        variant="success">
-                            <span class="fa fa-print btn-icon-left"/>
-                            Review and Save Your Application
-                    </b-button>
-                </div>
-
+                <span class="text-primary" style='font-size:1.4rem;'>Review your application:</span>  
+     
+                <form-list />
+               
                 <div class="my-4 text-primary" @click="showGetHelpForPDF = true" style="border-bottom:1px solid; width:20.25rem;">
                     <span style='font-size:1.2rem;' class="fa fa-question-circle" /> Get help opening and saving PDF forms 
                 </div>
@@ -108,6 +101,8 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
+import FormList from "./components/FormList.vue"
+
 import { stepInfoType } from "@/types/Application";
 import PageBase from "../PageBase.vue";
 
@@ -123,7 +118,8 @@ const applicationState = namespace("Application");
     components:{
         PageBase,
         GetHelpForPdf,
-        GetHelpScanning
+        GetHelpScanning,
+        FormList
     }
 })    
 export default class ReviewAndSave extends Vue {
@@ -168,8 +164,9 @@ export default class ReviewAndSave extends Vue {
 
         this.requiredDocuments = [];
         this.requiredDocuments = Vue.filter('extractRequiredDocuments')(this.getRepGrantResultData())
-    }       
-    
+
+
+    }    
     
     public onPrev() {
         this.UpdateGotoPrevStepPage()
@@ -177,15 +174,6 @@ export default class ReviewAndSave extends Vue {
 
     public onNext() {
         this.UpdateGotoNextStepPage()
-    }
-
-    public onDownload() {
-        console.log("downloading")
-        // if(this.checkErrorOnPages()){ 
-        //     const currentDate = moment().format();
-        //     this.$store.commit("Application/setLastPrinted", currentDate); 
-        //     this.loadPdf();
-        // }
     }
 
     public checkErrorOnPages(){
@@ -226,35 +214,6 @@ export default class ReviewAndSave extends Vue {
 
     public getStepPageId(stepIndex, pageIndex) {
         return this.getStepId(stepIndex) + "-page-" + pageIndex;
-    }
-
-    public loadPdf() {
-        const applicationId = this.$store.state.Application.id;
-        const url = '/survey-print/'+applicationId+'/?name=application-about-a-protection-order'
-        const body = this.getRepGrantResultData()
-        const options = {
-            responseType: "blob",
-            headers: {
-            "Content-Type": "application/json",
-            }
-        }
-        //console.log(body)
-        this.$http.post(url,body, options)
-        .then(res => {
-            const blob = res.data;
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            document.body.appendChild(link);
-            link.download = "fpo.pdf";
-            link.click();
-            setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-            this.error = "";
-            Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, 100, true);
-        },err => {
-            console.error(err);
-            this.error = "Sorry, we were unable to print your form at this time, please try again later.";
-        });
-
     }
 
     public getRepGrantResultData() { 

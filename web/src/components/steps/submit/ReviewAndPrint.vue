@@ -17,14 +17,7 @@
 
                 <span class="text-primary" style='font-size:1.4rem;'>Review your application:</span>            
             
-                <div style="margin:1rem 0; width:23rem;">
-                    <b-button                   
-                        v-on:click.prevent="onDownload()"
-                        variant="success">
-                            <span class="fa fa-print btn-icon-left"/>
-                            Review and Print Your Application
-                    </b-button>
-                </div>
+                <form-list/>
 
                 <div class="my-4 text-primary" @click="showGetHelpForPDF = true" style="border-bottom:1px solid; width:20.25rem;">
                     <span style='font-size:1.2rem;' class="fa fa-question-circle" /> Get help opening and saving PDF forms 
@@ -78,32 +71,19 @@
             </template>
         </b-modal>
 
-        <b-modal size="xl" v-model="showPDFpreview" header-class="bg-white" hide-footer>
-            <template v-slot:modal-title>
-                <h1 class="mb-0 text-primary">Preview the PDF form</h1> 
-            </template>
-            <print-preview/> 
-            <!-- <template v-slot:modal-footer>
-                <b-button variant="primary" @click="showPDFpreview=false">Close</b-button>
-                <b-button variant="success" @click="onPrint();showPDFpreview=false">Save and Close</b-button>
-            </template>             -->
-            <template v-slot:modal-header-close>                 
-                <b-button variant="outline-dark" class="closeButton" @click="showPDFpreview=false">&times;Close</b-button>
-            </template>
-        </b-modal>
-
     </page-base>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
+import FormList from "./components/FormList.vue"
+
 import { stepInfoType } from "@/types/Application";
 import PageBase from "../PageBase.vue";
 
 import moment from 'moment-timezone';
 import GetHelpForPdf from "./helpPages/GetHelpForPDF.vue"
-import PrintPreview from "./pdf/PrintPreview.vue"
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -113,7 +93,7 @@ const applicationState = namespace("Application");
     components:{
         PageBase,
         GetHelpForPdf,
-        PrintPreview,
+        FormList
     }
 })
 
