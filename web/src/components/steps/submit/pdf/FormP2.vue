@@ -588,8 +588,6 @@ export default class FormP2 extends Vue {
 
     ol li.bracketalpha{
         text-indent: -25px;
-        text-align: justify; 
-        text-justify: inter-word;
         margin:1rem 0;
         counter-increment: alpha;
     }
@@ -604,8 +602,6 @@ export default class FormP2 extends Vue {
     }
     ol li.listnumber{
         text-indent: -25px;
-        text-align: justify; 
-        text-justify: inter-word;
         margin:1rem 0;
         counter-increment: list-counter;
     }
