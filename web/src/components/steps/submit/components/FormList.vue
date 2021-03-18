@@ -14,7 +14,7 @@
             </b-button>
         </b-card> 
                 
-        <b-modal size="xl" v-model="showPDFpreview" header-class="bg-white" hide-footer>
+        <b-modal size="lg" v-model="showPDFpreview" header-class="bg-white" hide-footer>
             <template v-slot:modal-title>
                 <h1 class="mb-0 text-primary">Preview the PDF form</h1> 
             </template>
@@ -77,11 +77,11 @@ export default class FormList extends Vue {
     showPDFpreview = false;
 
     formsList =[
-        { name:'P1', color:"danger", title:"Notice Of Proposed Application In Relation To Estate (FORM P1)"},
+        //{ name:'P1', color:"danger", title:"Notice Of Proposed Application In Relation To Estate (FORM P1)"},
         //{ name:'P2', color:"danger", title:"Submission For Estate Grant (FORM P2)"},
         { name:'P5', color:"danger", title:"Affidavit Of Applicant For Grant Of Administration Without Will Annexed(FORM P5)"},
         { name:'P8', color:"danger", title:"Affidavit In Support Of Application For Estate Grant (FORM P8)"},
-        { name:'P9', color:"danger", title:"Affidavit Of Delivery (FORM P9)" },
+        //{ name:'P9', color:"danger", title:"Affidavit Of Delivery (FORM P9)" },
         { name:'P10',color:"danger", title:"Affidavit Of Assets And Liabilities For Domiciled Estate Grant (FORM P10)"}
     ]
 
