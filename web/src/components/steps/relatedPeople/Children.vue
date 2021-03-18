@@ -77,6 +77,9 @@ export default class Children extends Vue {
     @applicationState.Action
     public UpdateDeceasedChildrenInfo!: (newDeceasedChildrenInfo) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
+
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
     thisStep=0;
@@ -110,6 +113,8 @@ export default class Children extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
+
+            this.UpdateGeneratedForms([]);
             this.determineHasChild();
             this.determineChildrenCompleted();
             //console.log(options)

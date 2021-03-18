@@ -81,6 +81,8 @@ export default class PersonalItems extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
 
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
@@ -113,6 +115,7 @@ export default class PersonalItems extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
+            this.UpdateGeneratedForms([]);
             console.log(this.survey.data);
             this.determinePersonalItemsCompleted();
         })

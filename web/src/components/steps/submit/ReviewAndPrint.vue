@@ -17,14 +17,7 @@
 
                 <span class="text-primary" style='font-size:1.4rem;'>Review your application:</span>            
             
-                <div style="margin:1rem 0; width:23rem;">
-                    <b-button                   
-                        v-on:click.prevent="onDownload()"
-                        variant="success">
-                            <span class="fa fa-print btn-icon-left"/>
-                            Review and Print Your Application
-                    </b-button>
-                </div>
+                <form-list type="Print" @formsList="setFormList" :currentPage="currentPage"/>
 
                 <div class="my-4 text-primary" @click="showGetHelpForPDF = true" style="border-bottom:1px solid; width:20.25rem;">
                     <span style='font-size:1.2rem;' class="fa fa-question-circle" /> Get help opening and saving PDF forms 
@@ -78,32 +71,19 @@
             </template>
         </b-modal>
 
-        <b-modal size="xl" v-model="showPDFpreview" header-class="bg-white" hide-footer>
-            <template v-slot:modal-title>
-                <h1 class="mb-0 text-primary">Preview the PDF form</h1> 
-            </template>
-            <print-preview/> 
-            <!-- <template v-slot:modal-footer>
-                <b-button variant="primary" @click="showPDFpreview=false">Close</b-button>
-                <b-button variant="success" @click="onPrint();showPDFpreview=false">Save and Close</b-button>
-            </template>             -->
-            <template v-slot:modal-header-close>                 
-                <b-button variant="outline-dark" class="closeButton" @click="showPDFpreview=false">&times;Close</b-button>
-            </template>
-        </b-modal>
-
     </page-base>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
+import FormList from "./components/FormList.vue"
+
 import { stepInfoType } from "@/types/Application";
 import PageBase from "../PageBase.vue";
 
 import moment from 'moment-timezone';
 import GetHelpForPdf from "./helpPages/GetHelpForPDF.vue"
-import PrintPreview from "./pdf/PrintPreview.vue"
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -113,7 +93,7 @@ const applicationState = namespace("Application");
     components:{
         PageBase,
         GetHelpForPdf,
-        PrintPreview,
+        FormList
     }
 })
 
@@ -131,6 +111,9 @@ export default class ReviewAndPrint extends Vue {
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
 
+    @applicationState.State
+    public generatedForms!: string[];
+
     error= "";
     currentStep=0;
     currentPage=0;
@@ -141,14 +124,13 @@ export default class ReviewAndPrint extends Vue {
     applicationLocation = {name:'', address:'', cityStatePostcode:'', email:''}
     requiredDocuments: string[] = [];
 
+    formsList = [];
+
     mounted(){
 
         this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
-        let progress = this.$store.state.Application.steps[this.currentStep].pages[this.currentPage].progress
-        if(progress==0) progress=50;
-        Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, progress, false);
-
+       
         let location = this.$store.state.Application.applicationLocation
         if(!location) location = this.$store.state.Common.userLocation
         //console.log(location)
@@ -172,15 +154,17 @@ export default class ReviewAndPrint extends Vue {
         this.UpdateGotoNextStepPage()     
     }
 
-    public onDownload() {
-        console.log('downloading')
+    public setFormList(formsList){
+        this.formsList = formsList
+    }
 
-        this.showPDFpreview = true
-        // if(this.checkErrorOnPages()){
-        //     const currentDate = moment().format();
-        //     this.$store.commit("Application/setLastPrinted", currentDate);
-        //     this.loadPdf();
-        // }
+    public isFormReviewed(){
+        for(const form of this.formsList)
+            if(!this.generatedForms.includes(form.name)){
+                //console.log(form)
+                return false
+            }
+        return true
     }
 
     public checkErrorOnPages(){
