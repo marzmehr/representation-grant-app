@@ -17,7 +17,7 @@
 
                 <span class="text-primary" style='font-size:1.4rem;'>Review your application:</span>            
             
-                <form-list/>
+                <form-list type="Print" @formsList="setFormList" :currentPage="currentPage"/>
 
                 <div class="my-4 text-primary" @click="showGetHelpForPDF = true" style="border-bottom:1px solid; width:20.25rem;">
                     <span style='font-size:1.2rem;' class="fa fa-question-circle" /> Get help opening and saving PDF forms 
@@ -111,6 +111,9 @@ export default class ReviewAndPrint extends Vue {
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
 
+    @applicationState.State
+    public generatedForms!: string[];
+
     error= "";
     currentStep=0;
     currentPage=0;
@@ -121,14 +124,13 @@ export default class ReviewAndPrint extends Vue {
     applicationLocation = {name:'', address:'', cityStatePostcode:'', email:''}
     requiredDocuments: string[] = [];
 
+    formsList = [];
+
     mounted(){
 
         this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
-        let progress = this.$store.state.Application.steps[this.currentStep].pages[this.currentPage].progress
-        if(progress==0) progress=50;
-        Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, progress, false);
-
+       
         let location = this.$store.state.Application.applicationLocation
         if(!location) location = this.$store.state.Common.userLocation
         //console.log(location)
@@ -152,15 +154,17 @@ export default class ReviewAndPrint extends Vue {
         this.UpdateGotoNextStepPage()     
     }
 
-    public onDownload() {
-        console.log('downloading')
+    public setFormList(formsList){
+        this.formsList = formsList
+    }
 
-        this.showPDFpreview = true
-        // if(this.checkErrorOnPages()){
-        //     const currentDate = moment().format();
-        //     this.$store.commit("Application/setLastPrinted", currentDate);
-        //     this.loadPdf();
-        // }
+    public isFormReviewed(){
+        for(const form of this.formsList)
+            if(!this.generatedForms.includes(form.name)){
+                //console.log(form)
+                return false
+            }
+        return true
     }
 
     public checkErrorOnPages(){

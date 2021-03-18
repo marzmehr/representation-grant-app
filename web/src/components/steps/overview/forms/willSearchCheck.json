@@ -198,6 +198,60 @@
                 },
                 {
                     "type": "panel",
+                    "name": "willSearchPanel",
+                    "elements": [                        
+                        {
+                            "type": "yesno",
+                            "name": "willSearch",
+                            "title": "Did you do a will search with the spelling of {deceasedName}'s name? listed below?\n<br>\"{deceasedName}\""
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "willSearchWillsExist",
+                            "visible": false,
+                            "visibleIf": "{willSearch} = 'y'",
+                            "title": "Was there one or more Wills listed on the will search under '{deceasedName}'?",
+                            "description": "Just because Vital Stats doesn't know about a will, doesn't mean the Will is invalid or that it doesn't exist. (this needs work) just because the will you have doesn't show up in vital stats, doesn't mean there isn't anything wrong with the will."
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "willSearchWillsCurrent",
+                            "visible": false,
+                            "visibleIf": "({willSearch} = 'y') and ({willSearchWillsExist} = 'yy')",
+                            "title": "Are all of the Wills listed in the will search for '{deceasedName}' dated {willDate} or older?",
+                            "description": "If the will in the will search is older and you are using a newer will, this is ok."
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "willSearchInvalidWillsDeclared",
+                            "visible": false,
+                            "visibleIf": "({willSearch} = 'y') and ({willSearchWillsExist} = 'y') and ({willSearchWillsCurrent} = 'nn')",
+                            "title": "[JIRA - newer invalid will] Are all of the Wills listed in the will search for '{deceasedName}' any of these newer invalid wills you have already identified?",
+                            "description": "List of newer invalid wills from will page. Date - Reason not using <br> yes - end"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "willSearchInvalidWillsDeclaredNoExplanation",
+                            "visible": false,
+                            "visibleIf": "({willSearch} = 'y') and ({willSearchWillsExist} = 'y') and ({willSearchWillsCurrent} = 'n') and ({willSearchInvalidWillsDeclared} = 'y')",
+                            "title": "The Court may be concerned about newer wills that exist while you try to use an older will. Since you haven't already listed these newer wills that are not using, this service will need to ask questions about the most recent of the wills recently uncovered by the wills search.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "willSearchFin",
+                            "visible": false,
+                            "visibleIf":"({willSearchAlias} = 'yy') and ({willSearchWillsExist} = 'y') and ({willSearchWillsCurrent} = 'n') and ({willSearchInvalidWillsDeclared} = 'y') and ({willSearchInvalidWillsDeclaredNoExplanation} > 0)",
+                            "title": "Are you able to find the most recent Will (or a copy) listed under '{deceasedName}' in the wills search?",
+                            "description": "(whether or not the will was in the location specified in the wills search notice or not)"
+                        }                        
+                    ],
+                    "visible": false,
+                    "visibleIf": "{willSearchStarted} = 'y'"
+                },
+                {
+                    "type": "panel",
                     "name": "willSearchAliasPanel[0]",
                     "elements": [                        
                         {
