@@ -9,62 +9,65 @@
             @change="changeApplicantList()"                
         ></b-form-radio-group>            
     </b-form-group>
-    <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
+    <b-button style="transform:translate(340px,0px)" variant="success" @click="onPrint()"> Save </b-button>
     
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;" bg-variant="white" class="mt-4 mb-3 container" no-body>
 
-            <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P10 (RULE 25-3 (2) )</div>
+            <div style="text-align:center;margin:0 0 1rem 0;font-size:14pt;">FORM P10 (RULE 25-3 (2) )</div>
             
             <div class="mt-3 m-0 p-0 row">
                
-                <div style="margin:0 0 0 40rem;">
+                <div style="margin:0 0 0 25.25rem;">
                     <div>
-                        <underline-form  textwidth="10.6rem" beforetext="This is the" hint="1st/2nd/3rd..." text="1st"/>
+                        <underline-form  textwidth="8.6rem" beforetext="This is the" hint="" text="1st"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="12.8rem" beforetext="of" hint="Applicant Name" :text="getAllApplicants(25)"/>
+                        <underline-form  textwidth="10.8rem" beforetext="of" hint="" :text="getAllApplicants(25)"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> in this case</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="11rem" beforetext="and was made on" hint="Affidavit Date (dd mmm yyyy)" text="20 Apr 2020"/>
+                        <underline-form  textwidth="9.5rem" beforetext="and was made on" hint="" text=""/>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="15rem" beforetext="" hint="Court Location (leave blank for Commissioner)" text="Victoria"/>
+                        <underline-form  textwidth="13.2rem" beforetext="" hint="" text="Victoria"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> Registry</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="18rem" beforetext="No." hint="File Number (leave blank for Registry)" text="2020REP_abc"/>
+                        <underline-form  textwidth="14.9rem" beforetext="No." hint="" text=""/>
                     </div>
                 </div>   
             </div>
 
-            <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
-            <div style="display:inline-block; text-indent: 5px;"> <i>In the Matter of the Estate of</i></div>
-            <underline-form textwidth="37rem" beforetext="" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
-            <div style="display:inline-block; text-indent: 5px;"> <i>, deceased</i></div>   
-            <div style="text-align:center;margin:2rem 0 5rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT OF ASSETS AND LIABILITIES FOR DOMICILED ESTATE GRANT </div>            
+            <div style="text-align:center;margin:1rem 0 1rem 0;font-weight:bold;font-size:14pt;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
+            <div style="text-align:center;font-size:12pt;"> <i>In the Matter of the Estate of {{deceased.fullName}}, deceased</i></div>   
+            <div style="text-align:center;margin:1.25rem 0 3rem 0;font-weight:bold;font-size:10pt;">AFFIDAVIT OF ASSETS AND LIABILITIES FOR DOMICILED ESTATE GRANT </div>            
 
-            <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;"> We</div>
-            <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
-            <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
-                <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
-                <underline-form textwidth="20rem" beforetext="" hint="Full Name of Applicant(s)" :text="name.fullName"/>
-                <underline-form textwidth="25rem" beforetext=", of" hint="Street, City/Town, Province, Country and Postal Code" :text="name.address"/>
-                <underline-form textwidth="10.5rem" beforetext=", " hint="Occupation" :text="name.occupation"/>
-                <div style="display:inline-block;"> ,</div>
+            <div>
+                <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> We</div>
+                <div v-else style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> I</div>
+                <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
+                    <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
+                    <underline-form textwidth="17rem" beforetext="" hint="" :text="name.fullName"/>
+                    <underline-form textwidth="11rem" beforetext=", of" hint="" :text="name.address"/>
+                    <underline-form textwidth="9.55rem" beforetext=", " hint="" :text="name.occupation"/>
+                    <div style="display:inline-block;"> ,</div>
+                </div>
             </div>
-            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
-            <div v-else style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) THAT:</div>
+
+            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
+            <div v-else style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) THAT:</div>
         
             <ol style="margin:0rem 0 0 -1.5rem;">
                 <!-- <1> -->
-                <li class=" text-justify ">                    
-                    <underline-form v-if="applicantList.length>1" style="display:inline-block;" textwidth="47rem" beforetext="We are the applicants for" hint="a grant of probate/administration WWA/administration WOWA or an ancillary grant of probate/administration WWA/administration WOWA" text="a grant of probate"/>
-                    <underline-form v-else style="display:inline-block;" textwidth="48rem" beforetext="I am an applicant for" hint="a grant of probate/administration WWA/administration WOWA or an ancillary grant of probate/administration WWA/administration WOWA" text="a grant of probate"/>
+                <li>                    
+                    <underline-form v-if="applicantList.length>1" style="display:inline-block;" textwidth="30.7rem" beforetext="We are the applicants for" hint="" text="a grant of administration without will annexed"/>
+                    <underline-form v-else style="display:inline-block;" textwidth="31.5rem" beforetext="I am an applicant for" hint="" text="a grant of administration without will annexed"/>
                    
-                    <underline-form style="margin:1rem 0 0 0 ;display:inline-block;" textwidth="34rem" beforetext="in relation to the estate of" hint="Deceased’s Legal Name" :text="deceased.fullName"/>
-                    <div style="margin:1rem  0 0 0 ; display:inline; text-indent: 5px;"> (the "deceased").</div>                   
+                   
+                    <underline-form style="margin:0.5rem 0 0 0 ;display:inline-block;" textwidth="23rem" beforetext="in relation to the estate of" hint="" :text="deceased.fullName"/>
+                    <div style="margin:0.5rem  0 0 0 ; display:inline; text-indent: 5px;"> (the "deceased").</div>                   
+                   
                 </li>
                 
                 <!-- <2> -->
@@ -75,19 +78,19 @@
                     
                 </li>                
                 <!-- <3> -->
-                <li class="mt-4 text-justify">
+                <li class="mt-4">
                     <div style="display:inline;"> Attached to this affidavit as Exhibit A is a Statement of Assets, Liabilities and Distribution that discloses
-                        <ol style="list-style-type: lower-alpha;" >
-                            <li class="mt-3">all of the property of the deceased, irrespective of its location, nature or value, that passes to the applicant in the applicant's capacity as the deceased's personal representative,</li>
-                            <li class="mt-3">the value of that property, and</li>
-                            <li class="mt-3">the liabilities that charge or encumber that property.</li>
+                        <ol class="resetcounter">
+                            <li class="bracketalpha">all of the property of the deceased, irrespective of its location, nature or value, that passes to the applicant in the applicant's capacity as the deceased's personal representative,</li>
+                            <li class="bracketalpha">the value of that property, and</li>
+                            <li class="bracketalpha">the liabilities that charge or encumber that property.</li>
                         </ol>
                     </div>
                         
                   
                 </li>
                 <!-- <4> -->
-                <li class="mt-4 text-justify">
+                <li class="mt-4">
                     <div v-if="applicantList.length>1" style="display:inline;">
                         If we determine that there is any property or liability that has not been disclosed in Exhibit A, or that information contained in this affidavit is incorrect or incomplete, we will promptly after learning of the same file an affidavit of assets and liabilities in Form P14 to disclose the correct and complete information.
                     </div>   
@@ -96,8 +99,10 @@
                     </div> 
                 </li>
 
-                <!-- <4> -->
-                <li class="mt-4 text-justify">
+                <div v-if="applicantList.length==1"  class="new-page"> </div>
+
+                <!-- <5> -->
+                <li class="mt-4">
                     <div v-if="applicantList.length>1" style="display:inline;">
                         In addition to the probate fees payable in relation to any property disclosed in Exhibit A, we promise to pay the Minister of Finance the probate fees payable with respect to the value of any property that passes to us as the deceased's personal representative, and that is not disclosed in Exhibit A, on a determination being made as to the value of that asset.
                     </div>   
@@ -109,20 +114,19 @@
             </ol>
 
             <div class="mt-5 row">
-                <div class="col-6">  
-                    <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">SWORN (OR AFFIRMED) BEFORE ME</div>    
-                    <underline-form textwidth="15rem" beforetext="at" hint="Commissioner City" text="Victoria"/>
+                <div class="col-7">  
+                    <div style="margin:0.5rem 0 1rem 0rem;font-size:12pt;">SWORN (OR AFFIRMED) BEFORE ME</div>    
+                    <underline-form textwidth="12.5rem" beforetext="at" hint="Commissioner City" text=""/>
                     <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">, British Columbia</div>
 
-                    <underline-form style="margin:0.75rem 0 ;" textwidth="24rem" beforetext="on" hint="Swear/Affirm Date" text="20 Apr 2020"/>
-                    <underline-form style="margin:0.5rem 0 ;" textwidth="25rem" beforetext="" hint="Commissioner Signature" text=""/>
-                    <div style="margin:0.5rem 0; font-size:14px;">A commissioner for taking affidavits for British Columbia</div>
-                    <underline-form style="margin:.5rem 0 ;" textwidth="25rem" beforetext="" hint="[print name or affix stamp of commissioner]" text=""/>
+                    <underline-form style="margin:0.75rem 0 ;" textwidth="19rem" beforetext="on" hint="Swear/Affirm Date" text=""/>
+                    <underline-form style="margin:0.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="A commissioner for taking affidavits for British Columbia" text=""/>
+                    <underline-form style="margin:.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="[print name or affix stamp of commissioner]" text=""/>
 
                 </div>
-                <div class="col-6 border-left">
+                <div class="col-5" style="border-left:1px solid #313132">
                     <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="29rem" beforetext="" :hint="name.fullName+' Signature'" text=""/>                         
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :hint="'Signature of '+name.fullName" text=""/>                         
                     </div>
                 </div>
             </div>
@@ -130,34 +134,33 @@
             <!-- <TABLE PAGE> -->
             <div class="new-page"> </div>
 
-            <div class="mt-3 m-0 p-0 row">
+            <div class="mt-0 m-0 p-0 row">
                 
                 <div style="margin:0 0 0 auto;">
                     <div>                        
                         <div style="display:inline-block;">This is Exhibit A referred to in the affidavit of</div>
                     </div>
-                    <div class="mt-3">
-                        <underline-form  textwidth="11.5rem" beforetext="" hint="Applicant Name" :text="getAllApplicants(25)"/>
+                    <div class="mt-1">
+                        <underline-form  textwidth="11.5rem" beforetext="" hint="" :text="getAllApplicants(25)"/>
                         <div style="display:inline-block; ">, sworn (or affirmed)</div>
                     </div>
-                    <div class="mt-3">
-                        <underline-form style="margin:0 0 0 .5rem;" textwidth="14rem" beforetext=" before me on" hint="Affidavit Date (dd mmm yyyy)" text="20 Apr 2020"/>
+                    <div class="mt-1">
+                        <underline-form style="margin:0 0 0 0;" textwidth="13.5rem" beforetext=" before me on" hint="" text=""/>
                     </div>                   
-                    <div class="mt-3">
-                        <underline-form  textwidth="21.25rem" beforetext="" hint="(leave blank for Commissioner’s Stamp and Signature)" text=""/>
-                        <div style="margin:0.5rem 0; text-align:center; font-size:12px;">A commissioner for taking affidavits for British Columbia</div>                    
+                    <div class="mt-1">
+                        <underline-form  textwidth="19.25rem" beforetext="" hint="" text=""/>
                     </div>
                 </div>   
             </div>
 
-            <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;">Statement of Assets, Liabilities and Distribution</div> 
-            <div style="margin-top:2rem;">
+            <div style="text-align:center;margin:1rem 0 0 0;font-weight:bold;font-size:14pt;">Statement of Assets, Liabilities and Distribution</div> 
+            <div style="margin-top:1rem;">
                 <b-table :fields="fieldsI" :items="itemsI"  small>                  
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part I <br/> </div>
-                        <div>Real Property (including mortgages and vendors' and purchasers' interests in agreements for sale)</div>                        
+                        <div>Real Property located within British Columbia <span style="font-weight:normal;">(including mortgages and vendors' and purchasers' interests in agreements for sale)</span></div>                        
                     </template>
-                    <template v-slot:cell(scope)="data">
+                    <template v-slot:cell(part)="data">
                         <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
                         <div v-else>{{data.value}}</div>                        
                     </template>
@@ -166,27 +169,28 @@
                 <b-table :fields="fieldsII" :items="itemsII"  small>                    
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part II <br/> </div>
-                        <div>Personal Property (all assets except real property)</div>                        
+                        <div>Tangible Personal Property within British Columbia <span style="font-weight:normal;">(including vehicles, furniture and other physical items)</span> </div>                        
                     </template>
-                    <template v-slot:cell(scope)="data">
+                    <template v-slot:cell(part)="data">
                         <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
                         <div v-else>{{data.value}}</div>                        
                     </template>
-                </b-table>
-          
-                <div style="margin:0.5rem 7rem 0.5rem 21.5rem;display:inline-block;"><b>GROSS VALUE OF ESTATE</b></div>
-                <underline-form style="float:right; border:1px solid;height:2.75rem; margin:0rem 0 0.5rem 1.5rem;padding:1rem 0.5rem 0 0.5rem;" textwidth="14rem" beforetext="$" hint="" text=""/>
-          
+                </b-table>          
+               
                 <b-table :fields="fieldsIII" :items="itemsIII"  small>
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part III <br/> </div>
-                        <div>Liabilities</div>                        
+                        <div>Intangible Personal Property anywhere in the world <span style="font-weight:normal;">(including bank accounts, intellectual property and other valuable items that cannot be touched by hand)</span></div>                        
                     </template>
-                    <template v-slot:cell(scope)="data">
+                    <template v-slot:cell(part)="data">
                         <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
                         <div v-else>{{data.value}}</div>                        
                     </template>
                 </b-table>
+
+                <div style="margin:0.5rem 1rem 0.5rem 14rem;display:inline-block;"><b>NET VALUE OF ASSETS</b></div>
+                <underline-form style="float:right; border:1px solid;height:2.25rem; margin:0rem 0 0.5rem 1.5rem;padding:0.9rem 0.5rem 0 0.5rem;" textwidth="14rem" beforetext="$" hint="" text=""/>
+          
             </div>
 
     </b-card>
@@ -203,6 +207,8 @@ const applicationState = namespace("Application");
 
 import UnderlineForm from "./components/UnderlineForm.vue"
 import CheckBox from "./components/CheckBox.vue"
+
+import moment from 'moment';
 
 @Component({
     components:{
@@ -228,39 +234,36 @@ export default class FormP10 extends Vue {
     form5Info={applicantFullName:"Its first daughter", first:"Its", middle:"first",last:"Daughter", date:"20 March 2020"}
     
     fieldsI=[
-        {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', label:'Part I, Real Property (including mortgages and vendors\' and purchasers\' interests in agreements for sale)'},
-        {key:'scope',thClass:'border-dark text-center align-middle', tdClass:'border-dark c2', label:'Within or Without British Columbia'},
-        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', label:'Value at Death'}
+        {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part I, Real Property (including mortgages and vendors\' and purchasers\' interests in agreements for sale)'},
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
     ]
     itemsI = [
         {part:"",scope:"",value:""},
         {part:"",scope:"",value:""},
         {part:"",scope:"",value:""},
-        {part:"",scope:"TOTAL",value:""}
+        {part:"TOTAL",scope:"",value:""}
     ]
 
     fieldsII=[
-        {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', label:'Part II, Personal Property (all assets except real property)'},
-        {key:'scope',thClass:'border-dark text-center align-middle', tdClass:'border-dark c2', label:'Within or Without British Columbia'},
-        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', label:'Value at Death'}
+        {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part II, Personal Property (all assets except real property)'},
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
     ]
     itemsII = [
         {part:"",scope:"",value:""},
         {part:"",scope:"",value:""},
         {part:"",scope:"",value:""},
-        {part:"",scope:"TOTAL",value:""}
+        {part:"TOTAL",scope:"",value:""}
     ]
 
     fieldsIII=[
-        {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', label:'Part III, Liabilities'},
-        {key:'scope',thClass:'border-dark text-center align-middle', tdClass:'border-dark c2', label:'Paid or Unpaid'},
-        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', label:'Amount'}
+        {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part III, Liabilities'},
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
     ]
     itemsIII = [
         {part:"",scope:"",value:""},
         {part:"",scope:"",value:""},
         {part:"",scope:"",value:""},
-        {part:"",scope:"TOTAL",value:""}
+        {part:"TOTAL",scope:"",value:""}
     ]
 
     mounted(){
@@ -272,20 +275,20 @@ export default class FormP10 extends Vue {
         this.applicantList=[]
         if(this.multipleApplicant){
             this.applicantList.push(
-                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"worker", city:"Victoria", state:"BC", country:"Canada", section130:"(b)" },
-                {fullName:"Its first Daughter",first:"Its", middle:"first",last:"Daughter", address:"1-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work", city:"Seattle", state:"WA", country:"USA", section130:"(a)"  },
-                {fullName:"Its second Son",first:"Its", middle:"second",last:"Son", address:"0000 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"Its good lawyer", occupation:"working" , city:"Seattle", state:"WA", country:"USA", section130:"(c)" },
-                {fullName:"Its second Daughter",first:"Its", middle:"second",last:"Daughter", address:"1111 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"worker" , city:"Vancouver", state:"BC", country:"Canada", section130:"(d)" }, 
-                {fullName:"Its third Son",first:"Its", middle:"third",last:"Son", address:"43-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Seattle", state:"WA", country:"USA" , section130:"(d)" },
-                {fullName:"Its third Daughter",first:"Its", middle:"third",last:"Daughter", address:"100-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"worker", city:"Victoria", state:"BC", country:"Canada", section130:"(e)"  },
-                {fullName:"Its fourth Son",first:"Its", middle:"fourth",last:"Son", address:"7777 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"Its good lawyer", occupation:"work" , city:"Victoria", state:"BC", country:"Canada", section130:"(f)" },
-                {fullName:"Its fourth Daughter",first:"Its", middle:"fourth",last:"Daughter", address:"9999 st, Vancouver, BC, Canada V0v 0v0", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"working", city:"Seattle", state:"WA", country:"USA" , section130:"(f)" }, 
-                {fullName:"Its fifth Son",first:"Its", middle:"fifth",last:"Son", address:"80-123 st, Vancouver, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"worker", city:"Seattle", state:"WA", country:"USA" , section130:"(f)" },
-                {fullName:"Its fifth Daughter",first:"Its", middle:"fifth",last:"Daughter", address:"780-123 st, Vancouver, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"  },
+                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"Victoria, BC, Canada", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"worker", city:"Victoria", state:"BC", country:"Canada", section130:"(b)" },
+                {fullName:"Its first Daughter",first:"Its", middle:"first",last:"Daughter", address:"Victoria, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work", city:"Seattle", state:"WA", country:"USA", section130:"(a)"  },
+                {fullName:"Its second Son",first:"Its", middle:"second",last:"Son", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"Its good lawyer", occupation:"working" , city:"Seattle", state:"WA", country:"USA", section130:"(c)" },
+                {fullName:"Its second Daughter",first:"Its", middle:"second",last:"Daughter", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"worker" , city:"Vancouver", state:"BC", country:"Canada", section130:"(d)" }, 
+                {fullName:"Its third Son",first:"Its", middle:"third",last:"Son", address:"Victoria, BC, Canada", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Seattle", state:"WA", country:"USA" , section130:"(d)" },
+                {fullName:"Its third Daughter",first:"Its", middle:"third",last:"Daughter", address:"Victoria, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"worker", city:"Victoria", state:"BC", country:"Canada", section130:"(e)"  },
+                {fullName:"Its fourth Son",first:"Its", middle:"fourth",last:"Son", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", lawyer:"Its good lawyer", occupation:"work" , city:"Victoria", state:"BC", country:"Canada", section130:"(f)" },
+                {fullName:"Its fourth Daughter",first:"Its", middle:"fourth",last:"Daughter", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"working", city:"Seattle", state:"WA", country:"USA" , section130:"(f)" }, 
+                {fullName:"Its fifth Son",first:"Its", middle:"fifth",last:"Son", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"worker", city:"Seattle", state:"WA", country:"USA" , section130:"(f)" },
+                {fullName:"Its fifth Daughter",first:"Its", middle:"fifth",last:"Daughter", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"  },
             )
         }else{
             this.applicantList.push(
-                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"0-123 st, Victoria, BC, Canada V0i 8i8", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"    },
+                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"Victoria, BC, Canada", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"    },
             )
         }
     }
@@ -312,9 +315,12 @@ export default class FormP10 extends Vue {
         const el= document.getElementById("print");
         console.log(el)
         const applicationId = this.$store.state.Application.id;
-        
+
+        const bottomLeftText = `"Generated by “Apply to Represent Someone Who Died” on `+moment().format("MMMM D, YYYY")+`.";`;
+        const bottomRightText = `"P10"`
         const url = '/survey-print/'+applicationId+'/?name=representation-grant'
-        const body = Vue.filter('printPdf')(el.innerHTML,`"SCCRPF  02/2021 \a         Form P10";`)
+        const body = Vue.filter('printPdf')(el.innerHTML, bottomLeftText, bottomRightText );
+        
         const options = {
             responseType: "blob",
             headers: {
@@ -368,22 +374,22 @@ export default class FormP10 extends Vue {
 </script>
 <style scoped>
 
-    .table >>> th.border-dark{border:1px solid #000;}
+    .table >>> th.border-dark{border:1px solid #313131 !important;}
     .table >>> td.border-dark{
         height: 2.5rem;        
-        border:1px solid #000;        
+        border:1px solid #313131 !important;        
     }
 
-    .table >>> td.c1{
-        width: 40rem;
+    .table >>> td.c1{        
+        height:2rem;
     }
 
     .table >>> td.c2{
-        width: 11rem;
+        height:2rem;
     }
 
     .table >>> td.c3{
-        width: 11rem;
+        height:2rem;
     }
 
     section{counter-increment: question-counter;float:left; text-indent: -20px;text-align: justify;text-justify: inter-word;margin: 1.0rem 0.5rem 0.5rem 0rem;}
@@ -433,6 +439,28 @@ export default class FormP10 extends Vue {
     ol li.listnumber:before {
         content:counter(list-counter) ". ";
         font-weight: bold;
+    }
+
+    ol li.bracketalpha{
+        text-indent: -40px;
+        margin:0.5rem 0;
+        counter-increment: alpha;
+    }
+    ol li.bracketalpha:before {
+        content:"(" counter(alpha, lower-alpha)") "
+    }
+    
+
+    .container {
+        padding: 40px !important; 
+        margin-right: auto !important;
+        margin-left: auto !important;
+        width: 100% !important;
+        max-width: 760px !important;
+        min-width: 760px !important;   
+        font-size: 10pt !important;
+        font-family: BCSans;
+        color: #313132 !important;
     }
 
 </style>
