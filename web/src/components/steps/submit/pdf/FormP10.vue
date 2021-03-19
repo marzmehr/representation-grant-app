@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="dataIsReady">
     <b-form-group >
         <label style="display:inline-block; margin: 0 1rem 0 0;">Example of filled Form for:</label>
         <b-form-radio-group    
@@ -19,7 +19,7 @@
                
                 <div style="margin:0 0 0 25.25rem;">
                     <div>
-                        <underline-form  textwidth="8.6rem" beforetext="This is the" hint="" text="1st"/>
+                        <underline-form  textwidth="8.6rem" beforetext="This is the" hint="" text="2nd"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
                     </div>
                     <div class="mt-2">
@@ -30,7 +30,7 @@
                         <underline-form  textwidth="9.5rem" beforetext="and was made on" hint="" text=""/>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="13.2rem" beforetext="" hint="" text="Victoria"/>
+                        <underline-form  textwidth="13.2rem" beforetext="" hint="" :text="applicantCourtHouse"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> Registry</div>
                     </div>
                     <div class="mt-2">
@@ -206,18 +206,29 @@ import "@/store/modules/application";
 const applicationState = namespace("Application");
 
 import UnderlineForm from "./components/UnderlineForm.vue"
-import CheckBox from "./components/CheckBox.vue"
 
 import moment from 'moment';
+import { stepInfoType } from '@/types/Application';
 
 @Component({
     components:{
-        UnderlineForm,
-        CheckBox
+        UnderlineForm
     }
 })
 
-export default class FormP10 extends Vue {    
+export default class FormP10 extends Vue {
+    
+    @applicationState.State
+    public steps!: stepInfoType[];
+
+    @applicationState.State
+    public deceasedName!: string;
+
+    @applicationState.State
+    public deceasedAliases!: string[];
+
+    @applicationState.State
+    public relatedPeopleInfo!: any;
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -225,12 +236,17 @@ export default class FormP10 extends Vue {
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
 
-    check = ""//"&#10003"
-    check2= "&#10003"
+    
 
+    dataIsReady = false;
+    multipleApplicant=false
     applicantList = []
-    deceased={fullName:"Rest In Peace", first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
-    serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
+    applicantCourtHouse = '';
+    deceased;
+    serviceContact;  
+    //deceased={fullName:"Rest In Peace", first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
+    
+   // serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
     form5Info={applicantFullName:"Its first daughter", first:"Its", middle:"first",last:"Daughter", date:"20 March 2020"}
     
     fieldsI=[
@@ -267,10 +283,98 @@ export default class FormP10 extends Vue {
     ]
 
     mounted(){
+        this.dataIsReady = false;
         this.getRepGrantResultData()
-        this.changeApplicantList()
+        this.getApplicantsInfo();
+        this.getDeceasedInfo();
+        this.dataIsReady = true;
     }
-    multipleApplicant=false
+
+    public getDeceasedInfo() {
+        
+        if (this.steps[0] && this.steps[0].result && this.steps[0].result["deceasedInfoSurvey"] && this.steps[0].result["deceasedInfoSurvey"].data) {
+            const deceasedInfoSurvey = this.steps[0].result["deceasedInfoSurvey"].data;
+            this.deceased = {
+                fullName: Vue.filter('getFullName')(this.deceasedName), 
+                first:this.deceasedName['first'], 
+                middle:this.deceasedName['middle'],
+                last:this.deceasedName['last'],
+                address: deceasedInfoSurvey.deceasedAddress, 
+                DOD: Vue.filter('beautify-full-date')(deceasedInfoSurvey.deceasedDateOfDeath)
+            }            
+          
+        } 
+    }
+
+    public getApplicantsInfo() {
+
+        if (this.multipleApplicant){
+            this.changeApplicantList();
+        } else {
+            this.applicantList = [];            
+
+            if (this.steps[3] && this.steps[3].result && this.steps[3].result["applicantInfoSurvey"] && this.steps[3].result["applicantInfoSurvey"].data) {
+                const applicantInfoSurvey = this.steps[3].result["applicantInfoSurvey"].data;
+                if (applicantInfoSurvey.applicant.length > 0) {
+                    for (const applicant of applicantInfoSurvey.applicant) {
+                        const index = applicant.charAt(14)
+
+                        const applicantSurvey = this.relatedPeopleInfo[index];
+
+                        const applicantInfo = {
+                            fullName:Vue.filter('getFullName')(applicantSurvey.name),
+                            first:applicantSurvey.name.first, 
+                            middle:applicantSurvey.name.middle,
+                            last:applicantSurvey.name.last                                                          
+                        }
+
+                        if (applicantInfoSurvey["applicantOccupation[" + index + "]"]) {
+                            applicantInfo["occupation"] = (applicantInfoSurvey["applicantOccupation[" + index + "]"]);
+                        }
+                        
+                        if (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] && (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] == 'y')) {
+                            
+                            if (applicantInfoSurvey["applicantMailingAddress[" + index + "]"]) {
+
+                                const addressInfo = applicantInfoSurvey["applicantMailingAddress[" + index + "]"];
+                                const address = addressInfo.city +', ' + addressInfo.state +', ' + addressInfo.country;
+                                applicantInfo["address"] = address;
+
+                            }
+                           
+                        } else if (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] && (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] == 'n')) {
+                            
+                            if (applicantInfoSurvey["applicantOrdinaryAddress[" + index + "]"]) {
+
+                                const addressInfo = applicantInfoSurvey["applicantOrdinaryAddress[" + index + "]"];
+                                const address = addressInfo.city +', ' + addressInfo.state +', ' + addressInfo.country;
+                                applicantInfo["address"] = address;
+                            }
+                           
+                        } else {
+                            applicantInfo["address"] = '';
+
+                        }
+
+                        this.applicantList.push(applicantInfo);                        
+                    }
+                }                
+               
+                this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;
+                this.serviceContact = {
+                    address:applicantInfoSurvey.applicantServiceAddress.street + ', ' 
+                        + applicantInfoSurvey.applicantServiceAddress.city +', '
+                        + applicantInfoSurvey.applicantServiceAddress.state +', '
+                        + applicantInfoSurvey.applicantServiceAddress.country +', ' 
+                        + applicantInfoSurvey.applicantServiceAddress.postcode,
+                    phone:applicantInfoSurvey.applicantServiceEmail,                    
+                    email:applicantInfoSurvey.applicantServicePhone
+                }
+            }
+        }
+
+    }
+    
     public changeApplicantList(){
         this.applicantList=[]
         if(this.multipleApplicant){
