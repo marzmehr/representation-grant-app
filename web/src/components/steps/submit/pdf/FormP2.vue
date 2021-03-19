@@ -9,267 +9,234 @@
             @change="changeApplicantList()"                
         ></b-form-radio-group>            
     </b-form-group>
-    <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
+    <b-button style="transform:translate(340px,0px)" variant="success" @click="onPrint()"> Save </b-button>
     
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:3rem 3.9rem 2rem 2.0rem;" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;" bg-variant="white" class="mt-4 mb-3 container" no-body>
 
-        <div style="text-align:center;margin:2rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P2 (RULE 25-3 (2) )</div>
+        <div style="text-align:center;margin:0 0 1rem 0;font-size:14pt;">FORM P2 (RULE 25-3 (2) )</div>
         
         <div class="mt-0 m-0 p-0 row">
-            <!-- <div class="col-8"/> -->
-            <div style="margin:0 0 0 40rem;">
+            <div style="margin:0 0 0 25.25rem;">
                 
                 <div class="mt-2">
-                    <underline-form  textwidth="15.5rem" beforetext="" hint="" :text="applicantCourtHouse"/>
+                    <underline-form  textwidth="13.2rem" beforetext="" hint="" :text="applicantCourtHouse"/>
                     <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> Registry</div>
                 </div>
                 <div class="mt-2">
-                    <underline-form  textwidth="18.5rem" beforetext="No." hint="" text=""/>
+                    <underline-form  textwidth="14.9rem" beforetext="No." hint="" text=""/>
                 </div>
             </div>   
         </div>
 
-        <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
-        <div style="text-align:center;"> <i>In the Matter of the Estate of {{deceased.fullName}}, deceased</i></div>   
-        <div style="text-align:center;margin:2rem 0 3rem -1.3rem;font-weight: 600;font-size:20px;">SUBMISSION FOR ESTATE GRANT</div>            
+        <div style="text-align:center;margin:1rem 0 1rem 0;font-weight:bold;font-size:14pt;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
+        <div style="text-align:center;font-size:12pt;"> <i>In the Matter of the Estate of {{deceased.fullName}}, deceased</i></div>   
+        <div style="text-align:center;margin:1.25rem 0 3rem 0;font-weight:bold;font-size:10pt;">SUBMISSION FOR ESTATE GRANT</div>            
 
-        <div style="display:inline-block; text-indent: 5px; font-weight: 600;"> This submission for estate grant is submitted by:</div>
-        
-        <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
-            <underline-form v-if="i == 0" textwidth="20rem" beforetext="" hint="" :text="name.fullName"/>
-            <underline-form v-else textwidth="20rem" beforetext="" hint="" :text="', ' + name.fullName"/>
+        <div>
+            <div style="display:inline-block; font-weight:bold; margin-right:0.5rem;"> This submission for estate grant is submitted by:</div>
             
+            <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
+                <underline-form v-if="i == 0" textwidth="21.25rem" beforetext="" hint="" :text="name.fullName"/>
+                <underline-form v-else  textwidth="42rem" beforetext="" hint="" :text="name.fullName"/>            
+            </div>
         </div>
-        <b-card border-variant="white">
-            <div  style="margin:0.5rem 0 1rem 0rem;">
+
+        
+        <div  style="margin:0.5rem 0 0rem 0rem;">
+            <span v-if="applicantList.length>1"> We are </span>
+            <span v-else > I am </span>
+            <span>applying for the following in relation to the estate of the deceased
+            described in Part 1 of this submission for estate grant (the "deceased"):</span>
+        </div>                
+        
+        <ul>
+            <li>Grant of administration without will annexed</li>
+            <li>
                 <span v-if="applicantList.length>1"> We are </span>
                 <span v-else > I am </span>
-                <span>applying for the following in relation to the estate of the deceased
-                described in Part 1 of this submission for estate grant (the "deceased"):</span>
-            </div>                
+                <span>submitting with this submission for estate grant an affidavit of assets and liabilities in
+                    Form P10 for estate grant and therefore do not require an authorization to obtain estate grant
+                    information.
+                </span>
+            </li>               
+        </ul>
         
-            <ol style="margin:0rem 0 0 -1.5rem;">
-                <div class="mb-2" style="display:inline-block; text-indent: 10px;">Grant of administration without will annexed</div>
-                <div style="display:inline-block; text-indent: 10px;">
-                    <span v-if="applicantList.length>1"> We are </span>
-                    <span v-else > I am </span>
-                    <span>submitting with this submission for estate grant an affidavit of assets and liabilities in
-                        Form P10 for estate grant and therefore do not require an authorization to obtain estate grant
-                        information.
-                    </span>
-                </div>               
-            </ol>
-        </b-card>
-
-        <b-card border-variant="white">
-            <div  style="margin:0.5rem 0 1rem 0rem;">
-                <span v-if="applicantList.length>1"> We </span>
-                <span v-else > I </span>
-                <underline-form textwidth="5rem" beforetext="request" hint="" :text="printCertifiedCopies"/>
-                <span> certified copy(ies) of the estate grant.</span>
-            </div>
-        </b-card>
-
-        <b-card border-variant="white">
-            <div  style="margin:0.5rem 0 1rem 0rem;">                    
-                <span>This submission for estate grant has 4 Parts:</span>
-            </div>                
+        <div  style="margin:0.5rem 0 1rem 0rem;">
+            <span v-if="applicantList.length>1"> We </span>
+            <span v-else > I </span>
+            <underline-form textwidth="5rem" beforetext="request" hint="" :text="printCertifiedCopies"/>
+            <span> certified copy(ies) of the estate grant.</span>
+        </div>
         
-            <ol style="margin:0rem 0 0 -1.5rem;">
-                <div class="mb-2" style="text-indent: 10px;">Part 1: Information about the Deceased</div>
-                <div class="mb-2" style="text-indent: 10px;">Part 2: Contact Information about the Applicant(s)</div>
-                <div class="mb-2" style="text-indent: 10px;">Part 3: Documents filed with the submission for estate grant</div>
-                <div class="mb-2" style="text-indent: 10px;">Part 4: Schedule</div>                                  
-            </ol>
-        </b-card>
-        <b-card border-variant="white">
-            <b-row>
-                <b-col cols="4">
-                    <underline-form textwidth="11.35rem" beforetext="Date" hint="" text=""/>
-                </b-col>
-                <b-col cols="8">
-                    <underline-form textwidth="11.35rem" beforetext="" :hint="'Signiture of ' + applicantList[0].fullName " text=""/>
-                </b-col>
-            </b-row>
-        </b-card>
 
-        <b-card border-variant="white">
-            <h3>PART 1 - INFORMATION ABOUT THE DECEASED</h3>
-            <div  style="margin:0.5rem 0 1rem 2rem;">                    
-                <div class="mb-2">Full legal name of deceased:</div>
-                <underline-form textwidth="30rem" beforetext="" hint="" :text="deceased.fullName"/>
+        
+        <div  style="margin:0.5rem 0 0.5rem 0rem;">                    
+            <span>This submission for estate grant has 4 Parts:</span>
+        </div>                
+    
+        <ol style="margin:0rem 0 2rem 0;">
+            <div class="mb-2" style="text-indent: 10px;">Part 1: Information about the Deceased</div>
+            <div class="mb-2" style="text-indent: 10px;">Part 2: Contact Information about the Applicant(s)</div>
+            <div class="mb-2" style="text-indent: 10px;">Part 3: Documents filed with the submission for estate grant</div>
+            <div class="mb-2" style="text-indent: 10px;">Part 4: Schedule</div>                                  
+        </ol>
+    
+        <div class="mt-5">
+            <underline-form textwidth="10rem" beforetext="Date" hint="" text=""/>            
+            <underline-form style="margin-left:2rem;" textwidth="27rem" beforetext="" :hint="'Signiture of ' + applicantList[0].fullName " text=""/>    
+        </div>
+       
+        <div class="new-page" />
+
+<!-- <Part 1> -->        
+        <div style="text-align:left;margin:0rem 0 0.5rem 0;font-weight:bold;font-size:12pt;">PART 1 - INFORMATION ABOUT THE DECEASED</div>            
+
+        <div class="ml-4">
+            <div>
+                <underline-form textwidth="29.2rem" beforetext="Full legal name of deceased:" hint="" :text="deceased.fullName"/>
             </div>
 
-            <div style="margin:0.5rem 0 1rem 2rem;">                    
-                <span>Other names in which the deceased held or may have held an interest in property:</span>
-            </div>                
-        
-            <ol style="margin:0rem 0 0 2rem;">
-                <li v-if="deceasedAliases.length == 0" style="text-indent: 10px;">none</li>
-                <li v-else class="mb-2" style="text-indent: 10px;" v-for="(name,i) in deceasedAliases" :key="i">{{name}}</li>                                                     
-            </ol>
-
-            <div  style="margin:0.5rem 0 1rem 2rem;">                    
-                <span>Last residential address of the deceased:</span>
-            </div>
-
-            <b-row>
-                <ol style="margin:0rem 0 0 0rem;">
-                    <underline-form style="float: right;" textwidth="40rem" beforetext="Street number and street name: " hint="" :text="deceased.address.street"/>
-                    <underline-form style="float: right;" textwidth="40rem" beforetext="City/Town: " hint="" :text="deceased.address.city"/>
-                    <underline-form style="float: right;" textwidth="40rem" beforetext="Province: " hint="" :text="deceased.address.state"/>
-                    <underline-form style="float: right;" textwidth="40rem" beforetext="Country: " hint="" :text="deceased.address.country"/>
-                    <underline-form style="float: right;" textwidth="40rem" beforetext="Postal Code: " hint="" :text="deceased.address.postcode"/>
+            <div style="margin:1rem 0">                    
+                <span>Other names in which the deceased held or may have held an interest in property:</span>        
+                <ol>
+                    <li v-if="deceasedAliases.length == 0" style="text-indent: 10px;">none</li>
+                    <li v-else class="mb-2" style="text-indent: 10px;" v-for="(name,i) in deceasedAliases" :key="i">{{name}}</li>                                                     
                 </ol>
-            </b-row>
+            </div> 
 
-            <b-row>
-                <div style="margin:0.5rem 0 1rem 3rem;">                    
-                    
-                    <underline-form textwidth="20rem" beforetext="Deceased's date of death: " hint="" :text="deceased.DOD"/>
-                    
+            <div style="margin:1rem 0" >                    
+                <span>Last residential address of the deceased:</span>  
+                <ol>
+                    <underline-form style="float: right;" textwidth="24rem" beforetext="Street number and street name: " hint="" :text="deceased.address.street"/>
+                    <underline-form style="float: right;" textwidth="24rem" beforetext="City/Town: " hint="" :text="deceased.address.city"/>
+                    <underline-form style="float: right;" textwidth="24rem" beforetext="Province: " hint="" :text="deceased.address.state"/>
+                    <underline-form style="float: right;" textwidth="24rem" beforetext="Country: " hint="" :text="deceased.address.country"/>
+                    <underline-form style="float: right;" textwidth="24rem" beforetext="Postal Code: " hint="" :text="deceased.address.postcode"/>
+                </ol>
+            </div>
+
+            <div style="margin-top:8rem !important;"> 
+                <underline-form textwidth="12rem" beforetext="Deceased's date of death: " hint="" :text="deceased.DOD"/>            
+            </div>
+
+            <div style="margin:0.5rem 0 1rem 0rem;">
+                <div v-if="!deceasedFirstNations" class="mb-2">
+                    The deceased was neither a Nisga'a citizen nor a member of a treaty first nation.
                 </div>
-                <ol style="margin:0.5rem 0 1rem 0.5rem;">
-                    <div v-if="!deceasedFirstNations" class="mb-2">
-                        The deceased was neither a Nisga'a citizen nor a member of a treaty first nation.
-                    </div>
-                    <div v-else-if="deceasedFirstNations && deceasedNisaga" class="mb-2" >
-                        The deceased was a Nisga'a citizen.
-                    </div>
-                    <div v-else-if="deceasedFirstNations && !deceasedNisaga" class="mb-2" >
-                        <underline-form textwidth="20rem" beforetext="The deceased was a member of the " hint="" :text="deceasedFirstNationsName"/>
-                        treaty first nation.
-                    </div>                                               
-                </ol>                    
-            </b-row>              
+                <div v-else-if="deceasedFirstNations && deceasedNisaga" class="mb-2" >
+                    The deceased was a Nisga'a citizen.
+                </div>
+                <div v-else-if="deceasedFirstNations && !deceasedNisaga" class="mb-2" >
+                    <underline-form textwidth="20rem" beforetext="The deceased was a member of the " hint="" :text="deceasedFirstNationsName"/>
+                    treaty first nation.
+                </div>                                               
+            </div>                    
+        </div>
 
-        </b-card>
+<!-- <Part 2> -->
+        <div style="text-align:left;margin:0rem 0 0.5rem 0;font-weight:bold;font-size:12pt;">PART 2 - CONTACT INFORMATION FOR THE APPLICANT(S)</div>            
+        
+        <ol style="margin:0rem 0 0 -1rem;">
+            <underline-form textwidth="30rem" beforetext="Street address for service: " hint="" :text="serviceContact.address"/>
+            <underline-form textwidth="32.35rem" beforetext="Telephone Number: " hint="" :text="serviceContact.phone"/>
+            <underline-form textwidth="29.9rem" beforetext="E-mail address for service: " hint="" :text="serviceContact.email"/>                       
+        </ol>
 
-        <b-card border-variant="white">
-            <h3>PART 2 - CONTACT INFORMATION FOR THE APPLICANT(S)</h3>
+<!-- <Part 3> -->        
+        <div style="text-align:left;margin:1rem 0 0.5rem 0;font-weight:bold;font-size:12pt;">PART 3 - DOCUMENTS FILED WITH THIS SUBMISSION FOR ESTATE GRANT</div>            
+                
+        <ol>
+            <li class="mb-2">
+                <underline-form textwidth="5rem" beforetext="There is one applicant to this submission for estate grant and a " hint="" text="P5"/>
+                affidavit is filed with this submission for estate grant. 
+            </li>
+            <li class="mb-2">
+                No affidavit of delivery is attached. In accordance with Rule 25-2, no one, other than the applicant(s), is entitled to notice.
+            </li>
+            <li class="mb-2">
+                Filed with this submission for estate grant are 2 copies of the certificate of the chief executive officer under the Vital 
+                Statistics Act indicating the results of a search for a wills notice filed by or on behalf of the deceased.
+            </li>
+            <li class="mb-2">
+                This application is for a grant of administration without will annexed.
+            </li>
+            <li class="mb-2">
+                This application is for a grant of administration without will annexed and therefore there can be 
+                no orders affecting the validity or content of a will.
+            </li>
 
-            <b-row>
-                <ol style="margin:0rem 0 0 0rem;">
-                    <underline-form textwidth="40rem" beforetext="Street address for service: " hint="" :text="serviceContact.address"/>
-                    <underline-form textwidth="40rem" beforetext="Telephone Number: " hint="" :text="serviceContact.phone"/>
-                    <underline-form textwidth="40rem" beforetext="E-mail address for service: " hint="" :text="serviceContact.email"/>                       
-                </ol>
-            </b-row>
+            <li class="mb-2">
+                This application is for a grant of administration without will annexed and therefore there is no 
+                will to refer to additional documents.
+            </li>
 
-        </b-card>
+            <li class="mb-2">
+                No documents other than those described elsewhere in this submission for estate grant are filed with this submission for 
+                estate grant.
+            </li>
 
-        <b-card border-variant="white">
-            <h3>PART 3 - DOCUMENTS FILED WITH THIS SUBMISSION FOR ESTATE GRANT</h3>
+            <li>
+                All documents filed with this submission for estate grant are written in the English language.
+            </li>                                             
+        </ol>
+            
+<!-- <Part 4> -->        
+        <div style="text-align:left;margin:0.5rem 0 0.5rem 0;font-weight:bold;font-size:12pt;">PART 4 - SCHEDULE</div>            
+ 
+        <ol>            
+            <li class="mb-2" style="text-indent: 5px;">
+                Attached to this submission for estate grant is a Schedule for Grant of Administration without Will Annexed.
+            </li>                            
+        </ol>
 
-            <b-row>
-                <ol style="margin:0rem 0 0 1.5rem;">
-                    <li class="mb-2" style="text-indent: 5px;">
-                        <underline-form textwidth="5rem" beforetext="There is one applicant to this submission for estate grant and a " hint="" text="P5"/>
-                        affidavit is filed with this submission for estate grant. 
-                    </li>
-                    <li class="mb-2" style="text-indent: 5px;">
-                        No affidavit of delivery is attached. In accordance with Rule 25-2, no one, other than the applicant(s), is entitled to notice.
-                    </li>
-                    <li class="mb-2" style="text-indent: 5px;">
-                        Filed with this submission for estate grant are 2 copies of the certificate of the chief executive officer under the Vital 
-                        Statistics Act indicating the results of a search for a wills notice filed by or on behalf of the deceased.
-                    </li>
-                    <li class="mb-2" style="text-indent: 5px;">
-                        This application is for a grant of administration without will annexed.
-                    </li>
-                    <li class="mb-2" style="text-indent: 5px;">
-                        This application is for a grant of administration without will annexed and therefore there can be 
-                        no orders affecting the validity or content of a will.
-                    </li>
 
-                    <li class="mb-2" style="text-indent: 5px;">
-                        This application is for a grant of administration without will annexed and therefore there is no 
-                        will to refer to additional documents.
-                    </li>
-
-                    <li class="mb-2" style="text-indent: 5px;">
-                        No documents other than those described elsewhere in this submission for estate grant are filed with this submission for 
-                        estate grant.
-                    </li>
-
-                    <li class="mb-2" style="text-indent: 5px;">
-                        All documents filed with this submission for estate grant are written in the English language.
-                    </li>                                             
-                </ol>
-            </b-row>
-
-        </b-card>
-
-        <b-card border-variant="white">
-            <h3>PART 4 - SCHEDULE</h3>
-
-            <b-row>
-                <ol style="margin:0rem 0 0 1.5rem;">
-                    
-                    <li class="mb-2" style="text-indent: 5px;">
-                        Attached to this submission for estate grant is a Schedule for Grant of Administration without Will Annexed.
-                    </li>
-                                    
-                </ol>
-            </b-row>
-
-        </b-card>
-
+<!-- <NEW PAGE> -->  
         <div class="new-page"> </div>
 
-        <b-card border-variant="white">
-            <h3>SCHEDULE FOR GRANT OF ADMINISTRATION WITHOUT WILL ANNEXED</h3>
+        <div style="text-align:left;margin:0.5rem 0 0.5rem 0;font-weight:bold;font-size:12pt;">SCHEDULE FOR GRANT OF ADMINISTRATION WITHOUT WILL ANNEXED</div>
+           
+        <ol>            
+            <li class="mb-2" style="text-indent: 5px;">
+                Listed in each of the following paragraphs is every person who falls within the class of persons identified 
+                by that paragraph:                        
 
-            <b-row>
-                <ol style="margin:0rem 0 0 1.5rem;">
-                    
-                    <li class="mb-2" style="text-indent: 5px;">
-                        Listed in each of the following paragraphs is every person who falls within the class of persons identified 
-                        by that paragraph:                        
+                <ol class="resetcounter" style="margin:0rem 0 0 0;">
+                
+                    <li class="bracketalpha">
+                        spouse, if any, of the deceased:
+                        <div class="mt-1" style="text-indent: 5px;">{{spouseName}}</div>
+                    </li>
+                    <li class="bracketalpha">
+                        child(ren), if any, of the deceased:
+                        <div class="mt-1" v-if="childrenList.length==0" style="text-indent: 5px;">none</div>
+                        <div class="mt-1" v-if="childrenList.length!=0" style="text-indent: 5px;" >
+                            <span v-for="(name,i) in childrenList" :key="i">{{name}}<br v-if="i != (childrenList.length - 1)"></span>
+                        </div>
+                    </li>
+                    <li class="bracketalpha">
+                        each person, if any, not named in paragraph (a) or (b), who is entitled to receive all or part of the estate 
+                        of a person who dies without a will:
+                        <div class="mt-1" style="text-indent: 5px;">none</div>
+                    </li>
+                    <li class="bracketalpha">
+                        each creditor of the deceased, if any, not named in paragraph (a), (b) or (c) whose claim exceeds $10,000:
+                        <div class="mt-1" v-if="creditorList.length==0" style="text-indent: 5px;">none</div>
+                        <div class="mt-1" v-if="creditorList.length!=0" style="text-indent: 5px;" >
+                            <span v-for="(name,i) in creditorList" :key="i">{{name}}<br v-if="i != (creditorList.length - 1)"></span>                           
+                        </div>
+                    </li>
+                    <li class="bracketalpha">
+                        each citor, if any, not named in paragraph (a), (b), (c) or (d):
+                        <div class="mt-1" v-if="citorList.length==0" style="text-indent: 5px;">none</div>
+                        <div class="mt-1" v-if="citorList.length!=0" style="text-indent: 5px;" >
+                                <span v-for="(name,i) in citorList" :key="i">{{name}}<br v-if="i != (citorList.length - 1)"></span>                            
+                        </div>                                
+                    </li>
 
-                        <ol class="resetcounter" style="margin:0rem 0 0 0;">
-                        
-                            <li class="bracketalpha">
-                                spouse, if any, of the deceased:
-                                <div class="mt-2" style="text-indent: 5px;">{{spouseName}}</div>
-
-                            </li>
-                            <li class="bracketalpha">
-                                child(ren), if any, of the deceased:
-                                <div class="mt-2" v-if="childrenList.length==0" style="text-indent: 5px;">none</div>
-                                <div class="mt-2" v-if="childrenList.length!=0" style="text-indent: 5px;" >
-                                    <span v-for="(name,i) in childrenList" :key="i">{{name}}<br v-if="i != (childrenList.length - 1)"></span>
-                                </div>
-                            </li>
-                            <li class="bracketalpha">
-                                each person, if any, not named in paragraph (a) or (b), who is entitled to receive all or part of the estate 
-                                of a person who dies without a will:
-                                <div class="mt-2" style="text-indent: 5px;">none</div>
-                            </li>
-                            <li class="bracketalpha">
-                                each creditor of the deceased, if any, not named in paragraph (a), (b) or (c) whose claim exceeds $10,000:
-                                <div class="mt-2" v-if="creditorList.length==0" style="text-indent: 5px;">none</div>
-                                <div class="mt-2" v-if="creditorList.length!=0" style="text-indent: 5px;" >
-                                    <span v-for="(name,i) in creditorList" :key="i">{{name}}<br v-if="i != (creditorList.length - 1)"></span>
-                                        
-                                    
-                                </div>
-                            </li>
-                            <li class="bracketalpha">
-                                each citor, if any, not named in paragraph (a), (b), (c) or (d):
-                                <div class="mt-2" v-if="citorList.length==0" style="text-indent: 5px;">none</div>
-                                <div class="mt-2" v-if="citorList.length!=0" style="text-indent: 5px;" >
-                                        <span v-for="(name,i) in citorList" :key="i">{{name}}<br v-if="i != (citorList.length - 1)"></span>
-                                    
-                                </div>                                
-                            </li>
-
-                        </ol>
-                    </li>        
-                </ol>  
-            </b-row>
-        </b-card>
-            
+                </ol>
+            </li>        
+        </ol>  
+           
     </b-card>
 </div>
 </template>
@@ -569,6 +536,9 @@ export default class FormP2 extends Vue {
     
     section.resetquestion{counter-reset: question-counter;}
 
+    .new-page{
+        margin-top:9rem;
+    }
     
     ol.resetcounter{
         list-style: none;
@@ -587,8 +557,8 @@ export default class FormP2 extends Vue {
     }
 
     ol li.bracketalpha{
-        text-indent: -25px;
-        margin:1rem 0;
+        text-indent: -20px;
+        margin:0.75rem 0;
         counter-increment: alpha;
     }
 
@@ -610,7 +580,17 @@ export default class FormP2 extends Vue {
         font-weight: bold;
     }  
         
-
+    .container {
+        padding: 40px !important; 
+        margin-right: auto !important;
+        margin-left: auto !important;
+        width: 100% !important;
+        max-width: 760px !important;
+        min-width: 760px !important;   
+        font-size: 10pt !important;
+        font-family: BCSans;
+        color: #313132 !important;
+    }
     
 
 </style>

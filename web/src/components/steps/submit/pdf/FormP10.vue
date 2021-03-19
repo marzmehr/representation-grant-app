@@ -442,8 +442,8 @@ export default class FormP10 extends Vue {
     }
 
     ol li.bracketalpha{
-        text-indent: -40px;
-        margin:0.5rem 0;
+        text-indent: -20px;
+        margin:0.75rem 0;
         counter-increment: alpha;
     }
     ol li.bracketalpha:before {

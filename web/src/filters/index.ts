@@ -239,7 +239,7 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 			`ol.resetlist {list-style: none;counter-reset: list-counter;margin-left:-3.5rem;}`+
 			`ol li.listnumber{counter-increment: list-counter;}`+
 			`ol li.listnumber:before {content:counter(list-counter) ". ";font-weight: bold;}`+
-			`ol li.bracketalpha{text-indent: -40px;margin:0.5rem 0;counter-increment: alpha;}`+
+			`ol li.bracketalpha{text-indent: -20px;margin:0.75rem 0;counter-increment: alpha;}`+
 			`ol li.bracketalpha:before {content:"(" counter(alpha, lower-alpha)") ";}`+			
 			`
 			body{				
