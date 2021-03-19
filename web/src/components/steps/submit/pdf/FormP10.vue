@@ -155,7 +155,7 @@
 
             <div style="text-align:center;margin:1rem 0 0 0;font-weight:bold;font-size:14pt;">Statement of Assets, Liabilities and Distribution</div> 
             <div style="margin-top:1rem;">
-                <b-table :fields="fieldsI" :items="itemsI"  small>                  
+                <b-table :fields="realEstateFields" :items="realEstateItems"  small>                  
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part I <br/> </div>
                         <div>Real Property located within British Columbia <span style="font-weight:normal;">(including mortgages and vendors' and purchasers' interests in agreements for sale)</span></div>                        
@@ -166,7 +166,7 @@
                     </template>
                 </b-table>
 
-                <b-table :fields="fieldsII" :items="itemsII"  small>                    
+                <b-table :fields="personalTangibleFields" :items="personalTangibleItems"  small>                    
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part II <br/> </div>
                         <div>Tangible Personal Property within British Columbia <span style="font-weight:normal;">(including vehicles, furniture and other physical items)</span> </div>                        
@@ -177,14 +177,17 @@
                     </template>
                 </b-table>          
                
-                <b-table :fields="fieldsIII" :items="itemsIII"  small>
+                <b-table :fields="personalIntangibleFields" :items="personalIntangibleItems"  small>
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part III <br/> </div>
                         <div>Intangible Personal Property anywhere in the world <span style="font-weight:normal;">(including bank accounts, intellectual property and other valuable items that cannot be touched by hand)</span></div>                        
                     </template>
                     <template v-slot:cell(part)="data">
                         <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
-                        <div v-else>{{data.value}}</div>                        
+                        <div v-else v-html="data.value">{{data.value}}</div>                        
+                    </template>
+                    <template v-slot:cell(value)="data">                       
+                        <div v-html="data.value">{{data.value}}</div>                        
                     </template>
                 </b-table>
 
@@ -235,51 +238,39 @@ export default class FormP10 extends Vue {
 
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
-
-    
-
+   
     dataIsReady = false;
     multipleApplicant=false
     applicantList = []
     applicantCourtHouse = '';
     deceased;
-    serviceContact;  
-    //deceased={fullName:"Rest In Peace", first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
-    
-   // serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
-    form5Info={applicantFullName:"Its first daughter", first:"Its", middle:"first",last:"Daughter", date:"20 March 2020"}
-    
-    fieldsI=[
+    // serviceContact;  
+     
+    realEstateFields=[
         {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part I, Real Property (including mortgages and vendors\' and purchasers\' interests in agreements for sale)'},
         {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
     ]
-    itemsI = [
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"TOTAL",scope:"",value:""}
+    realEstateItems = [
+        {part:"none",value:"$0.00"},        
+        {part:"TOTAL",value:"$0.00"}
     ]
 
-    fieldsII=[
+    personalTangibleFields=[
         {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part II, Personal Property (all assets except real property)'},
         {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
     ]
-    itemsII = [
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"TOTAL",scope:"",value:""}
+    personalTangibleItems = [
+        {part:"none",value:"$0.00"},        
+        {part:"TOTAL",value:"$0.00"}
     ]
 
-    fieldsIII=[
+    personalIntangibleFields=[
         {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part III, Liabilities'},
         {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
     ]
-    itemsIII = [
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"TOTAL",scope:"",value:""}
+    personalIntangibleItems = [
+        {part:"none",value:"$0.00"},        
+        {part:"TOTAL",value:"$0.00"}
     ]
 
     mounted(){
@@ -287,6 +278,7 @@ export default class FormP10 extends Vue {
         this.getRepGrantResultData()
         this.getApplicantsInfo();
         this.getDeceasedInfo();
+        this.getBelongingsInfo();
         this.dataIsReady = true;
     }
 
@@ -361,18 +353,122 @@ export default class FormP10 extends Vue {
                 }                
                
                 this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;
-                this.serviceContact = {
-                    address:applicantInfoSurvey.applicantServiceAddress.street + ', ' 
-                        + applicantInfoSurvey.applicantServiceAddress.city +', '
-                        + applicantInfoSurvey.applicantServiceAddress.state +', '
-                        + applicantInfoSurvey.applicantServiceAddress.country +', ' 
-                        + applicantInfoSurvey.applicantServiceAddress.postcode,
-                    phone:applicantInfoSurvey.applicantServiceEmail,                    
-                    email:applicantInfoSurvey.applicantServicePhone
-                }
+                // this.serviceContact = {
+                //     address:applicantInfoSurvey.applicantServiceAddress.street + ', ' 
+                //         + applicantInfoSurvey.applicantServiceAddress.city +', '
+                //         + applicantInfoSurvey.applicantServiceAddress.state +', '
+                //         + applicantInfoSurvey.applicantServiceAddress.country +', ' 
+                //         + applicantInfoSurvey.applicantServiceAddress.postcode,
+                //     phone:applicantInfoSurvey.applicantServiceEmail,                    
+                //     email:applicantInfoSurvey.applicantServicePhone
+                // }
             }
         }
 
+    }
+
+    public getBelongingsInfo() {
+
+        this.realEstateItems = [
+            {part:"none",value:"$0.00"},        
+            {part:"TOTAL",value:"$0.00"}
+        ]
+
+        this.personalTangibleItems = [
+            {part:"none",value:"$0.00"},        
+            {part:"TOTAL",value:"$0.00"}
+        ]
+
+        this.personalIntangibleItems = [
+            {part:"none",value:"$0.00"},        
+            {part:"TOTAL",value:"$0.00"}
+        ]
+        
+        if (this.steps[5] && this.steps[5].result) {
+            const belongingsInfo = this.steps[5].result;
+            if (belongingsInfo["landSurvey"] && belongingsInfo["landSurvey"].data) {
+        
+                const landSurvey = belongingsInfo["landSurvey"].data;
+                if (landSurvey.landExists && landSurvey.landExists == 'y') {
+                    console.log('has real estate')
+                }
+                
+            }
+            
+            if (belongingsInfo["vehiclesSurvey"] && belongingsInfo["vehiclesSurvey"].data) {
+        
+                const vehiclesSurvey = belongingsInfo["vehiclesSurvey"].data;
+                if (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == 'y') {
+                    console.log('has vehicle')
+                }
+                
+            }
+            
+            if (belongingsInfo["bankAccountsSurvey"] && belongingsInfo["bankAccountsSurvey"].data) {
+        
+                const bankAccountsSurvey = belongingsInfo["bankAccountsSurvey"].data;
+                if (bankAccountsSurvey.bankAccountExists && 
+                    bankAccountsSurvey.bankAccountExists == 'y' &&
+                    bankAccountsSurvey.bankAccountInfoPanel &&
+                    bankAccountsSurvey.bankAccountInfoPanel.length > 0) {
+                        this.personalIntangibleItems = [];
+                        let totalValue = 0;
+                        for (const bankIndex in bankAccountsSurvey.bankAccountInfoPanel) {
+                            const bankInfo = bankAccountsSurvey.bankAccountInfoPanel[bankIndex];
+                            
+                            const bankName = bankInfo.bankName;
+                            let bankRow = (Number(bankIndex) + 1) + '. ' + bankName;
+                            let valueRow = '';
+                            
+                            
+                            if (bankInfo.accountPanel && bankInfo.accountPanel.length > 0) {
+                                bankRow = bankRow + '<ol style="list-style-type: lower-alpha;">';
+
+                                for (const accountIndex in bankInfo.accountPanel) {
+                                    const accountInfo = bankInfo.accountPanel[accountIndex];
+                                    const accountNumber = accountInfo.accountNumber;
+                                    const accountType = accountInfo.accountType;
+                                    if (accountInfo.accountValue && accountInfo.accountValue == 'other') {
+                                        if (accountInfo.accountValueComment) {
+                                            valueRow = valueRow + '$' + accountInfo.accountValueComment + ((Number(accountIndex) != bankInfo.accountPanel.length - 1)?'<br>':'');
+                                            totalValue = totalValue + Number(accountInfo.accountValueComment);
+                                        }
+                                        console.log(valueRow)
+
+                                    } else if (accountInfo.accountValue && accountInfo.accountValue == 'willGetValueLater') {
+                                        if (this.steps[7] && this.steps[7].result && 
+                                            this.steps[7].result['finalizeAssetValuesSurvey'] &&
+                                            this.steps[7].result['finalizeAssetValuesSurvey'].data &&
+                                            this.steps[7].result['finalizeAssetValuesSurvey'].data['finalizeAssetPlaceholder']) {
+                                                const accountValue = this.steps[7].result['finalizeAssetValuesSurvey'].data['finalizeAssetPlaceholder']
+                                                const key = 'Account Number "' + accountNumber + '" at ' + bankName;
+                                                console.log(key)
+                                                console.log(accountValue[key])
+                                            valueRow = '<br>' + valueRow + '$' + accountValue[key];
+                                            totalValue = totalValue + Number(accountValue[key]);
+                                        }
+                                        console.log(valueRow)
+
+                                    }
+                                    
+                                    bankRow = bankRow + '<li >' + accountType + ' Account # ' + accountNumber + '</li>';
+                                }
+                                bankRow = bankRow + '</ol>';
+                            }
+                            console.log(valueRow)
+                            this.personalIntangibleItems.push({part : bankRow, value: valueRow})
+
+                        }
+                        this.personalIntangibleItems.push({part:"TOTAL",value:"$" + totalValue})
+                           
+
+
+                    
+                }
+                
+            }
+          
+        } 
     }
     
     public changeApplicantList(){
