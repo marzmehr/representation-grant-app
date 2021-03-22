@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="dataIsReady">
     <b-form-group >
         <label style="display:inline-block; margin: 0 1rem 0 0;">Example of filled Form for:</label>
         <b-form-radio-group    
@@ -9,51 +9,53 @@
             @change="changeApplicantList()"                
         ></b-form-radio-group>            
     </b-form-group>
-    <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
+    <b-button style="transform:translate(340px,0px)" variant="success" @click="onPrint()"> Save </b-button>
     
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:3rem 3.9rem 2rem 2.0rem;" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;" bg-variant="white" class="mt-4 mb-4 container" no-body>
 
-            <div style="text-align:center;margin:2rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P5 (RULE 25-3 (2) )</div>
+            <div style="text-align:center;margin:0 0 1rem 0rem;font-weight: 300;font-size:14pt;">FORM P5 (RULE 25-3 (2) )</div>
             
             <div class="mt-0 m-0 p-0 row">
-                <!-- <div class="col-8"/> -->
-                <div style="margin:0 0 0 40rem;">
+                <div style="margin:0 0 0 25.25rem;">
                     <div >
-                        <underline-form  textwidth="10.6rem" beforetext="This is the" hint="" text="1st"/>
+                        <underline-form  textwidth="8.6rem" beforetext="This is the" hint="" text="1st"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="12.8rem" beforetext="of" hint="" :text="getAllApplicants(25)"/>
+                        <underline-form  textwidth="10.8rem" beforetext="of" hint="" :text="getAllApplicants(25)"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> in this case</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="11.35rem" beforetext="and was made on" hint="" text="April 20, 2020"/>
+                        <underline-form  textwidth="9.5rem" beforetext="and was made on" hint="" text=""/>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="15.5rem" beforetext="" hint="" text="Victoria"/>
+                        <underline-form  textwidth="13.2rem" beforetext="" hint="" :text="applicantCourtHouse"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> Registry</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="18.5rem" beforetext="No." hint="" text="2020REP_abc"/>
+                        <underline-form  textwidth="14.9rem" beforetext="No." hint="" text=""/>
                     </div>
                 </div>   
             </div>
 
-            <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
-            <div style="text-align:center;"> <i>In the Matter of the Estate of {{deceased.fullName}}, deceased</i></div>   
-            <div style="text-align:center;margin:2rem 0 3rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT OF APPLICANT FOR GRANT OF ADMINISTRATION WITHOUT WILL ANNEXED</div>            
+            <div style="text-align:center;margin:1rem 0 1rem 0;font-weight:bold;font-size:14pt;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
+            <div style="text-align:center;font-size:12pt;"> <i>In the Matter of the Estate of {{deceased.fullName}}, deceased</i></div>   
+            <div style="text-align:center;margin:1.25rem 0 3rem 0;font-weight:bold;font-size:10pt;">AFFIDAVIT OF APPLICANT FOR GRANT OF ADMINISTRATION WITHOUT WILL ANNEXED</div>            
 
-            <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;"> We</div>
-            <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
-            <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
-                <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
-                <underline-form textwidth="20rem" beforetext="" hint="" :text="name.fullName"/>
-                <underline-form textwidth="25em" beforetext=", of" hint="" :text="name.address"/>
-                <underline-form textwidth="10.05rem" beforetext=", " hint="" :text="name.occupation"/>
-                <div style="display:inline-block;"> ,</div>
+            <div>
+                <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px; margin-right:0.5rem;"> We</div>
+                <div v-else style="display:inline-block; text-indent: 5px; margin-right:0.5rem;"> I </div>
+                <div style="display:inline-block; margin:0.5rem 0;" v-for="(applicant,i) in applicantList" :key="i+50">
+                    <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
+                    <underline-form textwidth="17rem" beforetext="" hint="" :text="applicant.fullName"/>
+                    <underline-form textwidth="11rem" beforetext=", of" hint="" :text="applicant.address.city + ', ' + applicant.address.state + ', ' + applicant.address.country"/>
+                    <underline-form textwidth="9.55rem" beforetext=", " hint="" :text="applicant.occupation"/>
+                    <div style="display:inline-block;"> ,</div>
+                </div>
             </div>
-            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
-            <div v-else style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) THAT:</div>
+
+            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
+            <div v-else style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) THAT:</div>
         
             <ol style="margin:0rem 0 0 -1.5rem;">
                 <!-- <1> -->
@@ -61,29 +63,30 @@
                     <div v-if="applicantList.length>1" style="display:inline;">I am one of the applicants referred to in the submission for estate grant in relation to the estate of </div>   
                     <div v-else style="display:inline;">I am the applicant referred to in the submission for estate grant in relation to the estate of </div> 
                     
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" :text="deceased.fullName"/>
-                    <div v-if="applicantList.length>1" style="margin:0.5rem 0 ; display:inline; text-indent: 2px;"> (the "deceased") and are applying for a grant of administration</div>
-                    <div v-else style="margin:0.5rem 0 ; display:inline; text-indent: 2px;"> (the "deceased") and am applying for a grant of administration</div>
-                    <div style="display:inline-block; text-indent: 10px;">without will annexed.</div>
+                    <underline-form style="margin:0.25rem 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" :text="deceased.fullName"/>
+                    <div v-if="applicantList.length>1" style="margin:0.25rem 0 ; display:inline; text-indent: 2px;"> (the "deceased") and are </div>
+                    <div v-else style="margin:0.25rem 0 ; display:inline; text-indent: 2px;"> (the "deceased") and am </div>
+                    <div style="display:inline-block; text-indent: 10px;">applying for a grant of administration without will annexed.</div>
                 </li>
                 <!-- <2> -->
                 <li class="mt-3">
                     
-                    <div class="mb-2" style="" v-for="(name,i) in applicantList" :key="i+50">
-                        <div style="" v-if="applicantList.length>1"> I am <b>{{name.fullName}}</b> and ordinarily live at the following location</div>
+                    <div class="mb-2" style="" v-for="(applicant,i) in applicantList" :key="i+50">
+                        <div style="" v-if="applicantList.length>1"> I am <b>{{applicant.fullName}}</b> and ordinarily live at the following location</div>
                         <div style="" v-else >I am an individual and ordinarily live at the following location:</div>
                         
-                        <underline-form style="text-indent: 0px;" textwidth="15rem" beforetext="City/town:" hint="" :text="name.city"/> 
-                        <underline-form style="display:inline-block;text-indent: 15px;" textwidth="9.5rem" beforetext="Province/state:" hint="" :text="name.state"/>
-                        <underline-form style="display:inline-block;text-indent: 15px;" textwidth="11.5rem" beforetext="Country:" hint="" :text="name.country"/>
+                        <underline-form style="text-indent: 0px;" textwidth="12rem" beforetext="City/town:" hint="" :text="applicant.address.city"/> 
+                        <underline-form style="display:inline-block;text-indent: 5px;" textwidth="6rem" beforetext="Province/state:" hint="" :text="applicant.address.state"/>
+                        <underline-form style="display:inline-block;text-indent: 5px;" textwidth="7rem" beforetext="Country:" hint="" :text="applicant.address.country"/>
                     </div>
                 </li>
                 <!-- <3> -->
                 <li class="mt-3">
-                    <div style="display:inline-block; margin:0 0 1rem 0;" v-for="(name,i) in applicantList" :key="i+50">
-                        <div v-if="applicantList.length>1" style="display:inline-block;"><b>{{name.fullName}}</b> is a person referred to in paragraph</div>   
+                    <br v-if="applicantList.length>1" />
+                    <div style="display:inline-block; margin:0 0 1rem 0;" v-for="(applicant,i) in applicantList" :key="i+50">
+                        <div v-if="applicantList.length>1" style="display:inline-block;"><b>{{applicant.fullName}}</b> is a person referred to in paragraph</div>   
                         <div v-else style="display:inline-block;">I am a person referred to in paragraph </div>                     
-                        <underline-form style="display:inline-block;margin-right:0.5rem;" textwidth="2rem" beforetext="" hint="" :text="name.section130"/>
+                        <underline-form style="display:inline-block;margin:0 0.25rem;" textwidth="2rem" beforetext="" hint="" :text="applicant.section130"/>
                         <div style="display:inline; ">of section 130 of the <i> Wills, Estates and Succession Act.</i></div>
                     </div>
                 </li>
@@ -137,20 +140,19 @@
             </ol>
 
             <div class="mt-5 row">
-                <div class="col-6">  
-                    <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">SWORN (OR AFFIRMED) BEFORE ME</div>    
-                    <underline-form textwidth="15rem" beforetext="at" hint="Commissioner City" text=""/>
+                <div class="col-7">  
+                    <div style="margin:0.5rem 0 1rem 0rem;font-size:12pt;">SWORN (OR AFFIRMED) BEFORE ME</div>    
+                    <underline-form textwidth="12.5rem" beforetext="at" hint="Commissioner City" text=""/>
                     <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">, British Columbia</div>
 
-                    <underline-form style="margin:0.75rem 0 ;" textwidth="24rem" beforetext="on" hint="Swear/Affirm Date" text=""/>
-                    <underline-form style="margin:0.5rem 0 ;" textwidth="25rem" beforetext="" hint="A commissioner for taking affidavits for British Columbia" text=""/>
-                    <!-- <div style="margin:0.5rem 0 ;font-size:14px; ">A commissioner for taking affidavits for British Columbia</div> -->
-                    <underline-form style="margin:.5rem 0 ;" textwidth="25rem" beforetext="" hint="[print name or affix stamp of commissioner]" text=""/>
+                    <underline-form style="margin:0.75rem 0 ;" textwidth="19rem" beforetext="on" hint="Swear/Affirm Date" text=""/>
+                    <underline-form style="margin:0.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="A commissioner for taking affidavits for British Columbia" text=""/>
+                    <underline-form style="margin:.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="[print name or affix stamp of commissioner]" text=""/>
 
                 </div>
-                <div class="col-6 border-left">
-                    <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="29rem" beforetext="" :hint="'Signature of ('+name.fullName+')'" text=""/>                         
+                <div class="col-5" style="border-left:1px solid #313132">
+                    <div  v-for="(applicant,i) in applicantList" :key="i+250">                        
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :hint="'Signature of ('+applicant.fullName+')'" text=""/>                         
                     </div>
                 </div>
             </div>
@@ -167,17 +169,28 @@ import "@/store/modules/application";
 const applicationState = namespace("Application");
 
 import UnderlineForm from "./components/UnderlineForm.vue"
-import CheckBox from "./components/CheckBox.vue"
 import moment from 'moment';
+import { stepInfoType } from '@/types/Application';
 
 @Component({
     components:{
-        UnderlineForm,
-        CheckBox
+        UnderlineForm
     }
 })
 
-export default class FormP1 extends Vue {    
+export default class FormP5 extends Vue { 
+    
+    @applicationState.State
+    public steps!: stepInfoType[];
+
+    @applicationState.State
+    public deceasedName!: string;
+
+    @applicationState.State
+    public deceasedAliases!: string[];
+
+    @applicationState.State
+    public relatedPeopleInfo!: any;
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
@@ -185,18 +198,100 @@ export default class FormP1 extends Vue {
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
 
-    check = ""//"&#10003"
-    check2= "&#10003"
-
+    dataIsReady = false;
+    multipleApplicant=false
     applicantList = []
-    deceased={fullName:"Rest In Peace", first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
-    serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
+    applicantCourtHouse = '';
+    deceased;
+    serviceContact; 
     
     mounted(){
-        this.getRepGrantResultData()
-        this.changeApplicantList()
+        this.dataIsReady = false;
+        this.getRepGrantResultData();
+        this.getApplicantsInfo();
+        this.getDeceasedInfo();
+        this.dataIsReady = true;
     }
-    multipleApplicant=false
+
+    public getDeceasedInfo() {
+        
+        if (this.steps[0] && this.steps[0].result && this.steps[0].result["deceasedInfoSurvey"] && this.steps[0].result["deceasedInfoSurvey"].data) {
+            const deceasedInfoSurvey = this.steps[0].result["deceasedInfoSurvey"].data;
+            this.deceased = {
+                fullName: Vue.filter('getFullName')(this.deceasedName), 
+                first:this.deceasedName['first'], 
+                middle:this.deceasedName['middle'],
+                last:this.deceasedName['last'],
+                address: deceasedInfoSurvey.deceasedAddress, 
+                DOD: Vue.filter('beautify-full-date')(deceasedInfoSurvey.deceasedDateOfDeath)
+            }           
+        }      
+
+    }
+
+    public getApplicantsInfo() {
+
+        if (this.multipleApplicant){
+            this.changeApplicantList();
+        } else {
+            this.applicantList = [];            
+
+            if (this.steps[3] && this.steps[3].result && this.steps[3].result["applicantInfoSurvey"] && this.steps[3].result["applicantInfoSurvey"].data) {
+                const applicantInfoSurvey = this.steps[3].result["applicantInfoSurvey"].data;
+                if (applicantInfoSurvey.applicant.length > 0) {
+                    for (const applicant of applicantInfoSurvey.applicant) {
+                        const index = applicant.charAt(14)
+
+                        const applicantSurvey = this.relatedPeopleInfo[index];
+
+                        const applicantInfo = {
+                            fullName:Vue.filter('getFullName')(applicantSurvey.name),
+                            first:applicantSurvey.name.first, 
+                            middle:applicantSurvey.name.middle,
+                            last:applicantSurvey.name.last                                                          
+                        }
+
+                        if (applicantInfoSurvey["applicantOccupation[" + index + "]"]) {
+                            applicantInfo["occupation"] = (applicantInfoSurvey["applicantOccupation[" + index + "]"]);
+                        }
+                        
+                        if (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] && (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] == 'y')) {
+                            
+                            if (applicantInfoSurvey["applicantMailingAddress[" + index + "]"]) {
+                                const addressInfo = applicantInfoSurvey["applicantMailingAddress[" + index + "]"];                               
+                                applicantInfo["address"] = addressInfo;
+                            }
+                           
+                        } else if (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] && (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] == 'n')) {
+                            
+                            if (applicantInfoSurvey["applicantOrdinaryAddress[" + index + "]"]) {
+                                const addressInfo = applicantInfoSurvey["applicantOrdinaryAddress[" + index + "]"];                                
+                                applicantInfo["address"] = addressInfo;
+                            }
+                           
+                        } else {
+                            applicantInfo["address"] = '';
+                        }
+                        // console.log(applicantInfo)
+                        this.applicantList.push(applicantInfo);                        
+                    }
+                }                
+               
+                this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;
+                this.serviceContact = {
+                    address:applicantInfoSurvey.applicantServiceAddress.street + ', ' 
+                        + applicantInfoSurvey.applicantServiceAddress.city +', '
+                        + applicantInfoSurvey.applicantServiceAddress.state +', '
+                        + applicantInfoSurvey.applicantServiceAddress.country +', ' 
+                        + applicantInfoSurvey.applicantServiceAddress.postcode,
+                    phone:applicantInfoSurvey.applicantServiceEmail,                    
+                    email:applicantInfoSurvey.applicantServicePhone
+                }
+            }
+        }
+
+    }
+    
     public changeApplicantList(){
         this.applicantList=[]
         if(this.multipleApplicant){
@@ -213,9 +308,7 @@ export default class FormP1 extends Vue {
                 {fullName:"Its fifth Daughter",first:"Its", middle:"fifth",last:"Daughter", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"  },
             )
         }else{
-            this.applicantList.push(
-                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"Victoria, BC, Canada", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"    },
-            )
+            this.getApplicantsInfo();
         }
     }
 
@@ -345,7 +438,30 @@ export default class FormP1 extends Vue {
     ol li.listnumber:before {
         content:counter(list-counter) ". ";
         font-weight: bold;
-    }  
+    } 
+
+    .containe {
+        padding: 0 !important; 
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 500px !important;
+        min-width: 680px !important;        
+        font-size: .65em !important;
+        font-family: BCSans;
+    }
+
+    .container {
+        padding: 40px !important; 
+        margin-right: auto !important;
+        margin-left: auto !important;
+        width: 100% !important;
+        max-width: 760px !important;
+        min-width: 760px !important;   
+        font-size: 10pt !important;
+        font-family: BCSans;
+        color: #313132 !important;
+    }
         
 
     

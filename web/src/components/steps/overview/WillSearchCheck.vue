@@ -56,10 +56,13 @@ export default class WillSearchCheck extends Vue {
     @applicationState.Action
     public UpdateAllCompleted!: (newAllCompleted) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
+
     survey = new SurveyVue.Model(surveyJson); 
     surveyJsonCopy; 
     currentPage=0;
-    thisStep=0;
+    thisStep=0;   
    
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -91,12 +94,10 @@ export default class WillSearchCheck extends Vue {
 
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
         
-        const temp = (this.surveyJsonCopy.pages[0].elements[2])       
+        const temp = (this.surveyJsonCopy.pages[0].elements[3])       
         
         let tmp = JSON.parse(JSON.stringify(temp));       
-        this.surveyJsonCopy.pages[0].elements.splice(2,1);
-
-        this.deceasedAliases.push(Vue.filter('getFullName')(this.deceasedName));
+        this.surveyJsonCopy.pages[0].elements.splice(3,1);        
        
         for(const deceasedAlias in this.deceasedAliases){
             
@@ -105,16 +106,16 @@ export default class WillSearchCheck extends Vue {
             let jsonText= JSON.stringify(temp)
             jsonText = jsonText.replace(/[0]/g, deceasedAlias);
             jsonText = jsonText.replace(/{alias}/g, aliasName);
-            tmp = JSON.parse(jsonText);           
-
+            tmp = JSON.parse(jsonText); 
              
-            this.surveyJsonCopy.pages[0].elements.splice(2+Number(deceasedAlias),0,tmp)
+            this.surveyJsonCopy.pages[0].elements.splice(3+Number(deceasedAlias),0,tmp)
         }
     }
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             //console.log(this.survey.data);
+            this.UpdateGeneratedForms([]);
             // console.log(options)
             this.determinePrimaryApplicant();
             this.determineNumberOfAliases();
@@ -150,7 +151,7 @@ export default class WillSearchCheck extends Vue {
         }
     }
 
-     public determineNumberOfAliases(){
+    public determineNumberOfAliases(){
         
         this.survey.setVariable("numberOfAliases",this.deceasedAliases?this.deceasedAliases.length:0)
     }

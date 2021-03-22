@@ -1,10 +1,10 @@
 <template>
     <div style="display:inline-block;">
-        <div style="display:inline-block; margin-right:0.5rem;"> {{beforetext}} </div>
+        <div v-if="beforetext" style="display:inline-block; margin-right:0.5rem;"> {{beforetext}} </div>
         <div style="display:inline-block">
-            <div :style="{position: 'absolute', marginTop:'-23px', fontSize: '18x', minWidth: textwidth, textAlign: 'center'}">{{text}}</div> 
-            <div :style="{borderBottom: '0.7px solid #000', minWidth: textwidth}"></div>            
-            <div style="position: absolute; margin-top:-1px; font-size: 9px;">{{hint}}</div>
+            <div :style="{position: 'absolute', marginTop:'-22px', fontSize: '12pt', color:'#000000', minWidth: textwidth, textAlign: 'center'}">{{text}}</div> 
+            <div :style="{borderBottom: '0.7px solid #313132', minWidth: textwidth}"></div>            
+            <div style="position: absolute; margin-top:-1px; font-size: 8pt; color:#313132;"><i>{{hint}}</i></div>
         </div>
     </div>
 </template>

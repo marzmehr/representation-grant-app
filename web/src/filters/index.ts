@@ -27,11 +27,21 @@ Vue.filter('beautify-date-weekday', function(date){
 })
 
 Vue.filter('scrollToLocation', function(locationName){
+	//console.log(locationName)
+	//console.log(locationName.slice(1).indexOf('_'))
 	if(locationName){
 		Vue.nextTick(()=>{
-			const el = document.getElementsByName(locationName)
+			let elementName = locationName
+			let elementIndex = 0
+			if(locationName.slice(0,1)=='_'){
+				elementIndex=locationName.slice(1,locationName.slice(1).indexOf('_')+1)
+				elementName =locationName.slice(locationName.slice(1).indexOf('_')+2)
+				//console.log(elementName)
+			}
+			const el = document.getElementsByName(elementName)
 			console.log(el)
-			if(el[0]) el[0].scrollIntoView();
+			if(el[elementIndex]) el[elementIndex].scrollIntoView();
+			else if(el[0]) el[0].scrollIntoView();
 		})
 	}
 })
@@ -77,6 +87,22 @@ Vue.filter('getFullContactInfo',function(nameObject){
 	}
 })
 
+var CadFormatter = new Intl.NumberFormat('en-US', {
+	style: 'currency',
+	currency: 'CAD',
+	maximumFractionDigits: 2  
+	
+});
+
+Vue.filter('currencyFormat', function(cashValue){
+	if (cashValue) {
+		return CadFormatter.format(cashValue).replace('CA', '');
+	} else {
+		return '';
+	}
+	
+})
+
 Vue.filter('setSurveyProgress', function(survey, currentStep: number, currentPage: number, defaultProgress: number, beforeDestroy: boolean){
 
 	let progress =  defaultProgress;
@@ -104,7 +130,33 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 	const questionResults: {name:string; value: any; title:string; inputType:string}[] =[];
 	for(const question of survey.currentPage.questions){
 		if(question.isVisible && question.questionValue!=true && question.questionValue!=false)
-			if(survey.data[question.name]){
+			if(question.name=='bankAccountInfoPanel'){
+				console.log("____________")
+				console.log(question)
+				console.log(question.name)
+				console.log(question.inputType)
+				console.log(question.questionValue);
+				for(const panel of question.panels)
+				{
+					
+					console.log("_____PANEL______")
+					console.log(panel)
+					console.log(panel.questions)
+					console.log(panel.name)
+					console.log(panel.inputType)
+					console.log(panel.questionsValue);
+					for(const panelquestion of panel.questions){
+						console.log("____________")
+						console.log(panelquestion)
+						console.log(panelquestion.name)
+						console.log(panelquestion.inputType)
+						console.log(panelquestion.questionValue);
+						if(panelquestion.isVisible && panelquestion.questionValue!=true && panelquestion.questionValue!=false)
+						questionResults.push({name:panelquestion.name, value: panelquestion.questionValue, title:panelquestion.fullTitle, inputType:panelquestion.inputType})
+					}
+				}
+			}
+			else if(survey.data[question.name]){
 				// console.log("____________")
 				// console.log(question)
 				// console.log(question.name)
@@ -123,8 +175,7 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 				// console.log(question.name)
 				// console.log(question.inputType)
 				// console.log(question.questionValue);
-				questionResults.push({name:question.name, value: "", title:question.title, inputType:question.inputType})
-				
+				questionResults.push({name:question.name, value: "", title:question.title, inputType:question.inputType})	
 			}
 		//__specialities
 		
@@ -138,24 +189,9 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 Vue.filter('extractRequiredDocuments', function(questions){
 	//console.log(questions)
 	const requiredDocuments = [];
-	// if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "changePO"){
-	// 	requiredDocuments.push("Copy of the existing protection order")
-	// }else if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "terminatePO"){
-	// 	requiredDocuments.push("Copy of the existing protection order")
-	// }else if(questions.questionnaireSurvey && questions.questionnaireSurvey.orderType == "needPO"){
-	// 	if(questions.protectionWhomSurvey && questions.protectionWhomSurvey.ExistingFamilyCase =="y"){
-	// 		if(questions.protectionWhomSurvey.ExistingFileNumber && questions.protectionWhomSurvey.ExistingCourt) requiredDocuments.push("Copy of the Family Law file number:" + questions.protectionWhomSurvey.ExistingFileNumber + " submitted to the court at " + questions.protectionWhomSurvey.ExistingCourt);
-	// 		else requiredDocuments.push("Copy of the Family Law file open between you and the other parties");
-	// 	}
-	// 	if(questions.backgroundSurvey && questions.backgroundSurvey.existingPOOrders=="y"){
-	// 		requiredDocuments.push("Copy of the existing court orders protecting one of the parties or restraining contact between the parties");
-	// 	}
-	// 	if(questions.backgroundSurvey && questions.backgroundSurvey.ExistingOrders=="y"){
-	// 		requiredDocuments.push("Copy of the existing written agreements or court order(s) about the child(ren) concerning parenting arrangements, child support, contact with a child or guardianship of a child");
-	// 	}
-	// }
-	//this.UpdateRequiredDocuments(requiredDocuments)
-	//console.log('required documents')
+	//		requiredDocuments.push("Copy of the existing written agreements or court order(s) about the child(ren) concerning parenting arrangements, child support, contact with a child or guardianship of a child");
+	// 	}transform: scale(0.6);transform-origin: 0 0;				
+	// }size: 15.5in 16.17in;margin: 3rem 3rem 4rem 3rem;	
 	//console.log(requiredDocuments)<link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" >
 
 	return requiredDocuments;
@@ -172,16 +208,19 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 		<title>Representation Grant</title>`+
 		`<style>`+
 			`@page {
-				size: 15.5in 16.17in;
-				margin: 3rem 3rem 4rem 3rem;
+				size: 8.5in 11in !important;
+				margin: .7in 0.7in 0.9in 0.7in !important;
+				font-size: 10pt !important;			
 				@bottom-left {
 					content:`+ pageFooterLeft +
 					`white-space: pre;
-					font-size: 6pt;
+					font-size: 8pt;
+					color: #606060;
 				}
 				@bottom-right {
 					content:`+pageFooterRight+` " Page " counter(page) " of " counter(pages);
 					font-size: 8pt;
+					color: #606060;
 				}
 			}`+
 			`@media print{
@@ -190,11 +229,23 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 					position: relative; top: 8em;
 				}
 			}`+ customCss+
-			`td.border-dark {height: 4.5rem;border: 1px solid black;}`+
-			`td.c1{width: 37.5rem;}
-			 td.c2{width: 11rem;}		
-			 td.c3{width: 11rem;}`+
-			`th.border-dark {border: 1px solid black;}`+
+			`@page label{font-size: 9pt;}
+			.container {
+				padding: 0 !important; 
+				margin: 0 !important;				
+				width: 100% !important;
+				max-width: 680px !important;
+				min-width: 680px !important;			
+				font-size: 10pt !important;
+				font-family: BCSans !important;
+				color: #313132 !important;
+			}
+			`+
+			`td.border-dark {height: 4.5rem;border: 1px solid #313132 !important;}`+
+			`td.c1{height:2.25rem;}
+			 td.c2{height:2.25rem;}		
+			 td.c3{height:2.25rem;}`+
+			`th.border-dark {border: 1px solid #313132 !important;}`+
 			`section{ counter-increment: question-counter; text-indent: -20px; text-align: justify; text-justify: inter-word; margin: 1.0rem 0.5rem 0.5rem 0rem;}`+ 
 			`section:before {font-weight: bolder; content:counter(question-counter) ".";}`+
 			`section.resetquestion{counter-reset: question-counter;}`+
@@ -204,8 +255,10 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 			`ol.resetlist {list-style: none;counter-reset: list-counter;margin-left:-3.5rem;}`+
 			`ol li.listnumber{counter-increment: list-counter;}`+
 			`ol li.listnumber:before {content:counter(list-counter) ". ";font-weight: bold;}`+
+			`ol li.bracketalpha{text-indent: -20px;margin:0.75rem 0;counter-increment: alpha;}`+
+			`ol li.bracketalpha:before {content:"(" counter(alpha, lower-alpha)") ";}`+			
 			`
-			body{
+			body{				
 				font-family: BCSans;
 			}
 
@@ -229,11 +282,15 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 				
 				content:url("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhciIgZGF0YS1pY29uPSJjaGVjay1zcXVhcmUiIGNsYXNzPSJzdmctaW5saW5lLS1mYSBmYS1jaGVjay1zcXVhcmUgZmEtdy0xNCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik00MDAgMzJINDhDMjEuNDkgMzIgMCA1My40OSAwIDgwdjM1MmMwIDI2LjUxIDIxLjQ5IDQ4IDQ4IDQ4aDM1MmMyNi41MSAwIDQ4LTIxLjQ5IDQ4LTQ4VjgwYzAtMjYuNTEtMjEuNDktNDgtNDgtNDh6bTAgNDAwSDQ4VjgwaDM1MnYzNTJ6bS0zNS44NjQtMjQxLjcyNEwxOTEuNTQ3IDM2MS40OGMtNC43MDUgNC42NjctMTIuMzAzIDQuNjM3LTE2Ljk3LS4wNjhsLTkwLjc4MS05MS41MTZjLTQuNjY3LTQuNzA1LTQuNjM3LTEyLjMwMy4wNjktMTYuOTcxbDIyLjcxOS0yMi41MzZjNC43MDUtNC42NjcgMTIuMzAzLTQuNjM3IDE2Ljk3LjA2OWw1OS43OTIgNjAuMjc3IDE0MS4zNTItMTQwLjIxNmM0LjcwNS00LjY2NyAxMi4zMDMtNC42MzcgMTYuOTcuMDY4bDIyLjUzNiAyMi43MThjNC42NjcgNC43MDYgNC42MzcgMTIuMzA0LS4wNjggMTYuOTcxeiI+PC9wYXRoPjwvc3ZnPg==");
 			}
+			
 			`+
 		`</style>
 		</head>
-		<body>`+html+
-		`</body>\n</html>`]		 
-	//console.log(body)		
+		<body>
+			
+				<div class="container">
+					`+html+
+		`</div></body></html>`]		 
+	
 	return body
 })

@@ -2,6 +2,7 @@ import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
 import { Vue } from 'vue-property-decorator';
 import moment from 'moment-timezone';
 import { stepInfoType, pageInfoType, belongingsInfoType } from "@/types/Application";
+import { supportingDocumentInfoType } from "@/types/Common";
 
 @Module({
     namespaced: true
@@ -43,6 +44,9 @@ class Application extends VuexModule {
     public spouseNames: string[] = []
     public packageNumber = ""
     public eFilingHubLink = ""
+    public documentTypesJson = [];
+    public supportingDocuments: supportingDocumentInfoType[] = [];
+    public generatedForms: string[] = [];
 
     @Mutation
     public init(): void {
@@ -598,6 +602,8 @@ class Application extends VuexModule {
     @Action
     public UpdateStepResultData({ step, data }) {
         this.context.commit("setScrollToLocationName", "");
+        console.log(step)
+        console.log(data)
         this.context.commit("setStepResultData", { step, data });
     }
 
@@ -845,6 +851,33 @@ class Application extends VuexModule {
     }
 
     @Mutation
+    public setSupportingDocuments(supportingDocuments): void {
+        this.supportingDocuments = supportingDocuments;
+    }
+    @Action
+    public UpdateSupportingDocuments(newSupportingDocuments) {
+        this.context.commit("setSupportingDocuments", newSupportingDocuments);
+    }
+
+    @Mutation
+    public setDocumentTypesJson(documentTypesJson): void {
+        this.documentTypesJson = documentTypesJson;
+    }
+    @Action
+    public UpdateDocumentTypesJson(newDocumentTypesJson) {
+        this.context.commit("setDocumentTypesJson", newDocumentTypesJson);
+    }
+
+    @Mutation
+    public setGeneratedForms(generatedForms): void {
+        this.generatedForms = generatedForms;
+    }
+    @Action
+    public UpdateGeneratedForms(newGeneratedForms) {
+        this.context.commit("setGeneratedForms", newGeneratedForms);
+    }
+
+    @Mutation
     public setCurrentApplication(application): void {
         this.id = application.id;
         this.type = application.type;
@@ -1089,7 +1122,7 @@ class Application extends VuexModule {
     @Mutation
     public loadNotifyInfo(): void{
 
-        console.log(this.steps[4].result["notifySurvey"].data)
+        //console.log(this.steps[4].result["notifySurvey"].data)
 
         if(this.steps[4].result && this.steps[4].result["notifySurvey"]){
             const notifySurvey = this.steps[4].result["notifySurvey"].data;

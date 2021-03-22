@@ -37,6 +37,7 @@
             {
                "type": "paneldynamic",
                "name": "bankAccountInfoPanel",
+               "title":"Bank Accounts Information",
                "visible": false,
                "visibleIf": "{bankAccountExists} = \"y\"",
                "templateElements": [
@@ -48,14 +49,14 @@
                   {
                      "type": "yesno",
                      "name": "bankNameMatch",
-                     "title": "name match"
+                     "title": "Does the name of the account owner match {deceasedName}?"
                   },
                   {
                      "type": "text",
                      "name": "alias",
                      "visible": false,
                      "visibleIf": "{panel.bankNameMatch} = 'n'",
-                     "title": "alias at financial institution"
+                     "title": "Alias at {panel.bankName}"
                   },
                   {
                      "type": "paneldynamic",
@@ -75,35 +76,35 @@
                            "hasOther": true,
                            "choices": [
                               {
-                                 "value": "savingsAccount",
+                                 "value": "Savings",
                                  "text": "Savings"
                               },
                               {
-                                 "value": "chequingAccount",
+                                 "value": "Chequing",
                                  "text": "Chequing"
                               },
                               {
-                                 "value": "gicAccount",
+                                 "value": "GIC",
                                  "text": "GIC (can live inside registered accounts)"
                               },
                               {
-                                 "value": "tfsaAccount",
+                                 "value": "TFSA",
                                  "text": "TFSA"
                               },
                               {
-                                 "value": "rrspAccount",
+                                 "value": "RRSP",
                                  "text": "RRSP"
                               },
                               {
-                                 "value": "respAccount",
+                                 "value": "RESP",
                                  "text": "RESP"
                               },
                               {
-                                 "value": "reitAccount",
+                                 "value": "REIT",
                                  "text": "REIT??"
                               },
                               {
-                                 "value": "investmentAccount",
+                                 "value": "Investment",
                                  "text": "Investment Account"
                               }
                            ]
@@ -132,7 +133,7 @@
                            "name": "beneficiaryExists",
                            "visible": false,
                            "visibleIf": "{panel.accountType} = 'tfsaAccount' or {panel.accountType} = 'rrspAccount' or {panel.accountType} = 'respAccount'",
-                           "title": "is there a designated beneficiary for this account?"
+                           "title": "Is there a designated beneficiary for this account?"
                         },
                         {
                            "type": "yesno",
@@ -179,13 +180,13 @@
                         {
                            "type": "text",
                            "name": "interestAccrued",
-                           "title": "interest accrued at date of death",
+                           "title": "Interest accrued at date of death",
                            "description": "ask the financial institution for value at date of death, app will subtract it from the last statement. could be zero if the asset is something you can find the exact value at the date of death "
                         },
                         {
                            "type": "yesno",
                            "name": "registeredLoan",
-                           "title": "is there a registered loan to account # {panel.accountNumber}?",
+                           "title": "Is there a registered loan to account # {panel.accountNumber}?",
                            "description": "name of lender, address of lender, registration number, registration date, name match, value"
                         }
                      ],
@@ -233,7 +234,7 @@
                "visibleIf": "({bankAccountExists} = 'y') and ({banksCompleted} = 'n')"
             }
          ],
-         "title": "about bank accounts"
+         "title": "About Bank Accounts"
       }
    ],
    "showQuestionNumbers": "off",

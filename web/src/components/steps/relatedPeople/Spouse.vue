@@ -74,6 +74,8 @@ export default class Spouse extends Vue {
     @applicationState.Action
     public UpdateSpouseNames!: (newSpouseNames) => void
 
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void
 
     survey = new SurveyVue.Model(surveyJson);  
     currentPage=0;
@@ -106,6 +108,8 @@ export default class Spouse extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
+
+            this.UpdateGeneratedForms([]);
             //console.log(this.survey.data);
             this.determineSpouseCompleted();
             console.log(options)            
