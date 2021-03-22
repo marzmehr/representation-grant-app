@@ -304,8 +304,7 @@ export default class FormP10 extends Vue {
                 last:this.deceasedName['last'],
                 address: deceasedInfoSurvey.deceasedAddress, 
                 DOD: Vue.filter('beautify-full-date')(deceasedInfoSurvey.deceasedDateOfDeath)
-            }            
-          
+            }
         } 
     }
 
@@ -358,21 +357,10 @@ export default class FormP10 extends Vue {
                             applicantInfo["address"] = '';
 
                         }
-
                         this.applicantList.push(applicantInfo);                        
                     }
-                }                
-               
-                this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;
-                // this.serviceContact = {
-                //     address:applicantInfoSurvey.applicantServiceAddress.street + ', ' 
-                //         + applicantInfoSurvey.applicantServiceAddress.city +', '
-                //         + applicantInfoSurvey.applicantServiceAddress.state +', '
-                //         + applicantInfoSurvey.applicantServiceAddress.country +', ' 
-                //         + applicantInfoSurvey.applicantServiceAddress.postcode,
-                //     phone:applicantInfoSurvey.applicantServiceEmail,                    
-                //     email:applicantInfoSurvey.applicantServicePhone
-                // }
+                }
+                this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;               
             }
         }
 
@@ -443,8 +431,7 @@ export default class FormP10 extends Vue {
                                         if (accountInfo.accountValueComment) {
                                             valueRow = valueRow + '<br>' + Vue.filter('currencyFormat')(accountInfo.accountValueComment);
                                             totalValue = totalValue + Number(accountInfo.accountValueComment);
-                                        }
-                                        //console.log(valueRow)
+                                        }                                        
 
                                     } else if (accountInfo.accountValue && accountInfo.accountValue == 'willGetValueLater') {
                                         if (this.steps[7] && this.steps[7].result && 
@@ -453,10 +440,14 @@ export default class FormP10 extends Vue {
                                             this.steps[7].result['finalizeAssetValuesSurvey'].data['finalizeAssetPlaceholder']) {
                                                 const accountValue = this.steps[7].result['finalizeAssetValuesSurvey'].data['finalizeAssetPlaceholder']
                                                 const key = 'Account Number "' + accountNumber + '" at ' + bankName;
-                                                //console.log(key)
-                                                //console.log(accountValue[key])
-                                            valueRow = valueRow + '<br>' + Vue.filter('currencyFormat')(accountValue[key]);
-                                            totalValue = totalValue + Number(accountValue[key]);
+                                                // console.log(key)
+                                                // console.log(accountValue[key])
+                                                if (accountValue[key] && accountValue[key].length>0) {
+                                                    valueRow = valueRow + '<br>' + Vue.filter('currencyFormat')(accountValue[key]);
+                                                    totalValue = totalValue + Number(accountValue[key]);
+                                                }
+                                               // console.log(totalValue)
+                                            
                                         }
                                         //console.log(valueRow)
 
@@ -470,6 +461,7 @@ export default class FormP10 extends Vue {
                             this.personalIntangibleItems.push({part : bankRow, value: valueRow})
 
                         }
+                       // console.log(Vue.filter('currencyFormat')(totalValue))
                         this.personalIntangibleItems.push({part:"TOTAL",value: Vue.filter('currencyFormat')(totalValue)})
                         this.totalAssetsValue = this.totalAssetsValue + totalValue;                    
                 }
@@ -495,9 +487,7 @@ export default class FormP10 extends Vue {
                 {fullName:"Its fifth Daughter",first:"Its", middle:"fifth",last:"Daughter", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"  },
             )
         }else{
-            this.applicantList.push(
-                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"Victoria, BC, Canada", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"    },
-            )
+            this.getApplicantsInfo();
         }
     }
 

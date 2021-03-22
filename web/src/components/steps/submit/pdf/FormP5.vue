@@ -45,11 +45,11 @@
             <div>
                 <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px; margin-right:0.5rem;"> We</div>
                 <div v-else style="display:inline-block; text-indent: 5px; margin-right:0.5rem;"> I </div>
-                <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
+                <div style="display:inline-block; margin:0.5rem 0;" v-for="(applicant,i) in applicantList" :key="i+50">
                     <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
-                    <underline-form textwidth="17rem" beforetext="" hint="" :text="name.fullName"/>
-                    <underline-form textwidth="11rem" beforetext=", of" hint="" :text="name.address"/>
-                    <underline-form textwidth="9.55rem" beforetext=", " hint="" :text="name.occupation"/>
+                    <underline-form textwidth="17rem" beforetext="" hint="" :text="applicant.fullName"/>
+                    <underline-form textwidth="11rem" beforetext=", of" hint="" :text="applicant.address.city + ', ' + applicant.address.state + ', ' + applicant.address.country"/>
+                    <underline-form textwidth="9.55rem" beforetext=", " hint="" :text="applicant.occupation"/>
                     <div style="display:inline-block;"> ,</div>
                 </div>
             </div>
@@ -71,22 +71,22 @@
                 <!-- <2> -->
                 <li class="mt-3">
                     
-                    <div class="mb-2" style="" v-for="(name,i) in applicantList" :key="i+50">
-                        <div style="" v-if="applicantList.length>1"> I am <b>{{name.fullName}}</b> and ordinarily live at the following location</div>
+                    <div class="mb-2" style="" v-for="(applicant,i) in applicantList" :key="i+50">
+                        <div style="" v-if="applicantList.length>1"> I am <b>{{applicant.fullName}}</b> and ordinarily live at the following location</div>
                         <div style="" v-else >I am an individual and ordinarily live at the following location:</div>
                         
-                        <underline-form style="text-indent: 0px;" textwidth="12rem" beforetext="City/town:" hint="" :text="name.city"/> 
-                        <underline-form style="display:inline-block;text-indent: 5px;" textwidth="6rem" beforetext="Province/state:" hint="" :text="name.state"/>
-                        <underline-form style="display:inline-block;text-indent: 5px;" textwidth="7rem" beforetext="Country:" hint="" :text="name.country"/>
+                        <underline-form style="text-indent: 0px;" textwidth="12rem" beforetext="City/town:" hint="" :text="applicant.address.city"/> 
+                        <underline-form style="display:inline-block;text-indent: 5px;" textwidth="6rem" beforetext="Province/state:" hint="" :text="applicant.address.state"/>
+                        <underline-form style="display:inline-block;text-indent: 5px;" textwidth="7rem" beforetext="Country:" hint="" :text="applicant.address.country"/>
                     </div>
                 </li>
                 <!-- <3> -->
                 <li class="mt-3">
                     <br v-if="applicantList.length>1" />
-                    <div style="display:inline-block; margin:0 0 1rem 0;" v-for="(name,i) in applicantList" :key="i+50">
-                        <div v-if="applicantList.length>1" style="display:inline-block;"><b>{{name.fullName}}</b> is a person referred to in paragraph</div>   
+                    <div style="display:inline-block; margin:0 0 1rem 0;" v-for="(applicant,i) in applicantList" :key="i+50">
+                        <div v-if="applicantList.length>1" style="display:inline-block;"><b>{{applicant.fullName}}</b> is a person referred to in paragraph</div>   
                         <div v-else style="display:inline-block;">I am a person referred to in paragraph </div>                     
-                        <underline-form style="display:inline-block;margin:0 0.25rem;" textwidth="2rem" beforetext="" hint="" :text="name.section130"/>
+                        <underline-form style="display:inline-block;margin:0 0.25rem;" textwidth="2rem" beforetext="" hint="" :text="applicant.section130"/>
                         <div style="display:inline; ">of section 130 of the <i> Wills, Estates and Succession Act.</i></div>
                     </div>
                 </li>
@@ -147,13 +147,12 @@
 
                     <underline-form style="margin:0.75rem 0 ;" textwidth="19rem" beforetext="on" hint="Swear/Affirm Date" text=""/>
                     <underline-form style="margin:0.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="A commissioner for taking affidavits for British Columbia" text=""/>
-                    <!-- <div style="margin:0.5rem 0 ;font-size:14px; ">A commissioner for taking affidavits for British Columbia</div> -->
                     <underline-form style="margin:.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="[print name or affix stamp of commissioner]" text=""/>
 
                 </div>
                 <div class="col-5" style="border-left:1px solid #313132">
-                    <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :hint="'Signature of ('+name.fullName+')'" text=""/>                         
+                    <div  v-for="(applicant,i) in applicantList" :key="i+250">                        
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :hint="'Signature of ('+applicant.fullName+')'" text=""/>                         
                     </div>
                 </div>
             </div>
@@ -204,10 +203,7 @@ export default class FormP5 extends Vue {
     applicantList = []
     applicantCourtHouse = '';
     deceased;
-    serviceContact;  
-
-    // deceased={fullName:"Rest In Peace", first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
-    // serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
+    serviceContact; 
     
     mounted(){
         this.dataIsReady = false;
@@ -228,17 +224,8 @@ export default class FormP5 extends Vue {
                 last:this.deceasedName['last'],
                 address: deceasedInfoSurvey.deceasedAddress, 
                 DOD: Vue.filter('beautify-full-date')(deceasedInfoSurvey.deceasedDateOfDeath)
-            }
-            
-            // if (deceasedInfoSurvey.deceasedFirstNations == 'y'){
-            //     this.deceasedFirstNations = true;
-            //     this.deceasedNisaga = deceasedInfoSurvey.deceasedFirstNationsName == "Nisga'a";
-            //     this.deceasedFirstNationsName = deceasedInfoSurvey.deceasedFirstNationsName;
-
-            // } else {
-            //     this.deceasedFirstNations = false;
-            // }
-        }       
+            }           
+        }      
 
     }
 
@@ -271,30 +258,22 @@ export default class FormP5 extends Vue {
                         if (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] && (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] == 'y')) {
                             
                             if (applicantInfoSurvey["applicantMailingAddress[" + index + "]"]) {
-
-                                const addressInfo = applicantInfoSurvey["applicantMailingAddress[" + index + "]"];
-                                const address = addressInfo.city +', ' + addressInfo.state +', ' + addressInfo.country;
-                                applicantInfo["address"] = address;
-
+                                const addressInfo = applicantInfoSurvey["applicantMailingAddress[" + index + "]"];                               
+                                applicantInfo["address"] = addressInfo;
                             }
                            
                         } else if (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] && (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] == 'n')) {
                             
                             if (applicantInfoSurvey["applicantOrdinaryAddress[" + index + "]"]) {
-
-                                const addressInfo = applicantInfoSurvey["applicantOrdinaryAddress[" + index + "]"];
-                                const address = addressInfo.city +', ' + addressInfo.state +', ' + addressInfo.country;
-                                applicantInfo["address"] = address;
+                                const addressInfo = applicantInfoSurvey["applicantOrdinaryAddress[" + index + "]"];                                
+                                applicantInfo["address"] = addressInfo;
                             }
                            
                         } else {
                             applicantInfo["address"] = '';
-
                         }
-
-                        this.applicantList.push(applicantInfo);
-
-                        
+                        // console.log(applicantInfo)
+                        this.applicantList.push(applicantInfo);                        
                     }
                 }                
                
@@ -329,9 +308,7 @@ export default class FormP5 extends Vue {
                 {fullName:"Its fifth Daughter",first:"Its", middle:"fifth",last:"Daughter", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"  },
             )
         }else{
-            this.applicantList.push(
-                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"Victoria, BC, Canada", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"    },
-            )
+            this.getApplicantsInfo();
         }
     }
 

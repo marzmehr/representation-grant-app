@@ -95,7 +95,12 @@ var CadFormatter = new Intl.NumberFormat('en-US', {
 });
 
 Vue.filter('currencyFormat', function(cashValue){
-	return CadFormatter.format(cashValue).replace('CA', '');
+	if (cashValue) {
+		return CadFormatter.format(cashValue).replace('CA', '');
+	} else {
+		return '';
+	}
+	
 })
 
 Vue.filter('setSurveyProgress', function(survey, currentStep: number, currentPage: number, defaultProgress: number, beforeDestroy: boolean){
