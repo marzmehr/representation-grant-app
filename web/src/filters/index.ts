@@ -192,17 +192,19 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 		<title>Representation Grant</title>`+
 		`<style>`+
 			`@page {
-				size: 8.5in 11in ;
-				margin: .75in 0.75in 0.9in 0.75in !important;
-				font-size: 9pt;			
+				size: 8.5in 11in !important;
+				margin: .7in 0.7in 0.9in 0.7in !important;
+				font-size: 10pt !important;			
 				@bottom-left {
 					content:`+ pageFooterLeft +
 					`white-space: pre;
-					font-size: 6pt;
+					font-size: 8pt;
+					color: #606060;
 				}
 				@bottom-right {
 					content:`+pageFooterRight+` " Page " counter(page) " of " counter(pages);
 					font-size: 8pt;
+					color: #606060;
 				}
 			}`+
 			`@media print{
@@ -216,17 +218,18 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 				padding: 0 !important; 
 				margin: 0 !important;				
 				width: 100% !important;
-				max-width: 500px !important;
-				min-width: 680px !important;
-				font-size: .65em !important;
+				max-width: 680px !important;
+				min-width: 680px !important;			
+				font-size: 10pt !important;
 				font-family: BCSans !important;
+				color: #313132 !important;
 			}
 			`+
-			`td.border-dark {height: 4.5rem;border: 1px solid black;}`+
-			`td.c1{width: 37.5rem;}
-			 td.c2{width: 11rem;}		
-			 td.c3{width: 11rem;}`+
-			`th.border-dark {border: 1px solid black;}`+
+			`td.border-dark {height: 4.5rem;border: 1px solid #313132 !important;}`+
+			`td.c1{height:2.25rem;}
+			 td.c2{height:2.25rem;}		
+			 td.c3{height:2.25rem;}`+
+			`th.border-dark {border: 1px solid #313132 !important;}`+
 			`section{ counter-increment: question-counter; text-indent: -20px; text-align: justify; text-justify: inter-word; margin: 1.0rem 0.5rem 0.5rem 0rem;}`+ 
 			`section:before {font-weight: bolder; content:counter(question-counter) ".";}`+
 			`section.resetquestion{counter-reset: question-counter;}`+
@@ -236,6 +239,8 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 			`ol.resetlist {list-style: none;counter-reset: list-counter;margin-left:-3.5rem;}`+
 			`ol li.listnumber{counter-increment: list-counter;}`+
 			`ol li.listnumber:before {content:counter(list-counter) ". ";font-weight: bold;}`+
+			`ol li.bracketalpha{text-indent: -20px;margin:0.75rem 0;counter-increment: alpha;}`+
+			`ol li.bracketalpha:before {content:"(" counter(alpha, lower-alpha)") ";}`+			
 			`
 			body{				
 				font-family: BCSans;
@@ -267,7 +272,7 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 		</head>
 		<body>
 			
-				<div class="containe">
+				<div class="container">
 					`+html+
 		`</div></body></html>`]		 
 	

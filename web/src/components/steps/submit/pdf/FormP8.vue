@@ -9,50 +9,53 @@
             @change="changeApplicantList()"                
         ></b-form-radio-group>            
     </b-form-group>
-    <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()"> Save </b-button>
+    <b-button style="transform:translate(340px,0px)" variant="success" @click="onPrint()"> Save </b-button>
     
-    <b-card id="print" style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;" bg-variant="white" class="mt-4 mb-3">
+    <b-card id="print" style="border:1px solid; border-radius:5px;" bg-variant="white" class="mt-4 mb-3 container" no-body>
 
-            <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">FORM P8 (RULE 25-3 (2) )</div>
+            <div style="text-align:center;margin:0 0 1rem 0;font-size:14pt;">FORM P8 (RULE 25-3 (2) )</div>
             
             <div class="mt-3 m-0 p-0 row">               
-                <div style="margin: 0 0 0 40rem;" >
+                <div style="margin: 0 0 0 25.25rem;" >
                     <div>
-                        <underline-form  textwidth="10.6rem" beforetext="This is the" hint="" text="1st"/>
+                        <underline-form  textwidth="8.6rem" beforetext="This is the" hint="" text="1st"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="12.8rem" beforetext="of" hint="" :text="getAllApplicants(25)"/>
+                        <underline-form  textwidth="10.8rem" beforetext="of" hint="" :text="getAllApplicants(25)"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> in this case</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="11rem" beforetext="and was made on" hint="" text="April 20, 2020"/>
+                        <underline-form  textwidth="9.5rem" beforetext="and was made on" hint="" text=""/>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="15rem" beforetext="" hint="" text="Victoria"/>
+                        <underline-form  textwidth="13.2rem" beforetext="" hint="" text="Victoria"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> Registry</div>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="18rem" beforetext="No." hint="" text="2020REP_abc"/>
+                        <underline-form  textwidth="14.9rem" beforetext="No." hint="" text=""/>
                     </div>
                 </div>   
             </div>
 
-            <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
-            <div style="text-align:center;"> <i>In the Matter of the Estate of {{deceased.fullName}}, deceased</i></div>   
-            <div style="text-align:center;margin:2rem 0 5rem -1.3rem;font-weight: 600;font-size:20px;">AFFIDAVIT IN SUPPORT OF APPLICATION FOR ESTATE GRANT</div>            
+            <div style="text-align:center;margin:1rem 0 1rem 0;font-weight:bold;font-size:14pt;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
+            <div style="text-align:center;font-size:12pt;"> <i>In the Matter of the Estate of {{deceased.fullName}}, deceased</i></div>   
+            <div style="text-align:center;margin:1.25rem 0 3rem 0;font-weight: bold;font-size:10pt;">AFFIDAVIT IN SUPPORT OF APPLICATION FOR ESTATE GRANT</div>            
 
-            <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;"> We</div>
-            <div v-else style="display:inline-block; text-indent: 5px;"> I</div>
-            <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
-                <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
-                <underline-form textwidth="20rem" beforetext="" hint="" :text="name.fullName"/>
-                <underline-form textwidth="25rem" beforetext=", of" hint="" :text="name.address"/>
-                <underline-form textwidth="10rem" beforetext=", " hint="" :text="name.occupation"/>
-                <div style="display:inline-block;"> ,</div>
+            <div>
+                <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> We</div>
+                <div v-else style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> I</div>
+                <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
+                    <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
+                    <underline-form textwidth="17rem" beforetext="" hint="" :text="name.fullName"/>
+                    <underline-form textwidth="11rem" beforetext=", of" hint="" :text="name.address"/>
+                    <underline-form textwidth="9.55rem" beforetext=", " hint="" :text="name.occupation"/>
+                    <div style="display:inline-block;"> ,</div>
+                </div>
             </div>
-            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
-            <div v-else style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"> SWEAR (OR AFFIRM) THAT:</div>
+
+            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
+            <div v-else style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) THAT:</div>
         
             <ol style="margin:0rem 0 0 -1.5rem;">
                 <!-- <1> -->
@@ -60,20 +63,20 @@
                     <div v-if="applicantList.length>1" style="display:inline;">We are the applicants/some of the applicants referred to in the submission for estate grant in relation to the estate of </div>   
                     <div v-else style="display:inline;">I am one of the applicants referred to in the submission for estate grant in relation to the estate of </div> 
                     
-                    <underline-form style="margin:0.5rem 0 0 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" :text="deceased.fullName"/>
-                    <div style="margin:0.5rem  0 0 0 ; display:inline; text-indent: 5px;"> (the "deceased").</div>                   
+                    <underline-form style="margin:0.25rem 0 0 0 ;display:inline-block; text-indent: 5px;" textwidth="29rem" beforetext="" hint="" :text="deceased.fullName"/>
+                    <div style="margin:0.25rem  0 0 0 ; display:inline; text-indent: 5px;"> (the "deceased").</div>                   
                 </li>
                 
                 <!-- <2> -->
                 <li class="mt-4">
-                    <underline-form v-if="applicantList.length>1" style="" textwidth="42.5rem" beforetext="We have read the affidavit in Form " hint="" text="P5"/>                    
-                    <underline-form v-else style="" textwidth="43.75rem" beforetext="I have read the affidavit in Form " hint="" text="P5"/>                    
+                    <underline-form v-if="applicantList.length>1" style="" textwidth="26.25rem" beforetext="We have read the affidavit in Form " hint="" text="P5"/>                    
+                    <underline-form v-else style="" textwidth="27.25rem" beforetext="I have read the affidavit in Form " hint="" text="P5"/>                    
                     
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; " textwidth="12.5rem" beforetext="sworn" hint="" :text="form5Info.date"/>
-                    <underline-form style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;" textwidth="42rem" beforetext="by" hint="" :text="form5Info.applicantFullName"/>
+                    <underline-form style="margin:0.25rem 0 ;display:inline-block; " textwidth="12.5rem" beforetext="sworn" hint="" :text="form5Info.date"/>
+                    <underline-form style="margin:0.25rem 0 ;display:inline-block; text-indent: 5px;" textwidth="22.75rem" beforetext="by" hint="" :text="form5Info.applicantFullName"/>
                     
-                    <div v-if="applicantList.length>1" style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that we know to be inaccurate.</div>
-                    <div v-else style="margin:0 0 .25rem 0; display:inline-block; text-indent: 5px;"> and there is nothing in that affidavit that I know to be inaccurate.</div> 
+                    <div v-if="applicantList.length>1" style="margin:0 0 .25rem 0; display:inline-block;"> and there is nothing in that affidavit that we know to be inaccurate.</div>
+                    <div v-else style="margin:0 0 .25rem 0; display:inline-block;"> and there is nothing in that affidavit that I know to be inaccurate.</div> 
                     
                 </li>                
                 <!-- <3> -->
@@ -98,20 +101,20 @@
             </ol>
 
             <div class="mt-5 row">
-                <div class="col-6">  
-                    <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">SWORN (OR AFFIRMED) BEFORE ME</div>    
-                    <underline-form textwidth="15rem" beforetext="at" hint="Commissioner City" text=""/>
+                <div class="col-7">  
+                    <div style="margin:0.5rem 0 1rem 0rem;font-size:12pt;">SWORN (OR AFFIRMED) BEFORE ME</div>    
+                    <underline-form textwidth="12.5rem" beforetext="at" hint="Commissioner City" text=""/>
                     <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">, British Columbia</div>
 
-                    <underline-form style="margin:0.75rem 0 ;" textwidth="24rem" beforetext="on" hint="Swear/Affirm Date" text=""/>
-                    <underline-form style="margin:0.5rem 0 ;" textwidth="25rem" beforetext="" hint="A commissioner for taking affidavits for British Columbia" text=""/>
+                    <underline-form style="margin:0.75rem 0 ;" textwidth="19rem" beforetext="on" hint="Swear/Affirm Date" text=""/>
+                    <underline-form style="margin:0.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="A commissioner for taking affidavits for British Columbia" text=""/>
                     <!-- <div style="margin:0.5rem 0; font-size:14px;"></div> -->
-                    <underline-form style="margin:.5rem 0 ;" textwidth="25rem" beforetext="" hint="[print name or affix stamp of commissioner]" text=""/>
+                    <underline-form style="margin:.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="[print name or affix stamp of commissioner]" text=""/>
 
                 </div>
-                <div class="col-6 border-left">
+                <div class="col-5" style="border-left:1px solid #313132" >
                     <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="29rem" beforetext="" :hint="'Signature of ('+name.fullName+')'" text=""/>                         
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :hint="'Signature of ('+name.fullName+')'" text=""/>                         
                     </div>
                 </div>
             </div>
@@ -307,6 +310,18 @@ export default class FormP8 extends Vue {
     ol li.listnumber:before {
         content:counter(list-counter) ". ";
         font-weight: bold;
+    }
+
+    .container {
+        padding: 40px !important; 
+        margin-right: auto !important;
+        margin-left: auto !important;
+        width: 100% !important;
+        max-width: 760px !important;
+        min-width: 760px !important;   
+        font-size: 10pt !important;
+        font-family: BCSans;
+        color: #313132 !important;
     }
 
 </style>
