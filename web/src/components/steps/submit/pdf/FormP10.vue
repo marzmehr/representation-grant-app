@@ -155,44 +155,54 @@
 
             <div style="text-align:center;margin:1rem 0 0 0;font-weight:bold;font-size:14pt;">Statement of Assets, Liabilities and Distribution</div> 
             <div style="margin-top:1rem;">
-                <b-table :fields="realEstateFields" :items="realEstateItems"  small>                  
+                <b-table :fields="realEstateFields" :items="realEstateItems" small>                  
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part I <br/> </div>
                         <div>Real Property located within British Columbia <span style="font-weight:normal;">(including mortgages and vendors' and purchasers' interests in agreements for sale)</span></div>                        
                     </template>
                     <template v-slot:cell(part)="data">
-                        <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
+                        <div v-if="data.value=='TOTAL'" style="text-align:right; font-weight:bold;">{{data.value}}</div>
                         <div v-else>{{data.value}}</div>                        
+                    </template>
+                    <template v-slot:cell(value)="data">                       
+                        <div v-if="data.item.part == 'TOTAL'" style="font-weight:bold; text-align:right;">{{data.value}}</div> 
+                        <div v-else style="text-align:right;">{{data.value}}</div>
                     </template>
                 </b-table>
 
-                <b-table :fields="personalTangibleFields" :items="personalTangibleItems"  small>                    
+                <b-table :fields="personalTangibleFields" :items="personalTangibleItems" small>                    
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part II <br/> </div>
                         <div>Tangible Personal Property within British Columbia <span style="font-weight:normal;">(including vehicles, furniture and other physical items)</span> </div>                        
                     </template>
                     <template v-slot:cell(part)="data">
-                        <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
+                        <div v-if="data.value=='TOTAL'" style="text-align:right; font-weight:bold;">{{data.value}}</div>
                         <div v-else>{{data.value}}</div>                        
+                    </template>
+                    <template v-slot:cell(value)="data">                       
+                        <div v-if="data.item.part == 'TOTAL'" style="font-weight:bold; text-align:right;">{{data.value}}</div> 
+                        <div v-else style="text-align:right;">{{data.value}}</div>
                     </template>
                 </b-table>          
                
-                <b-table :fields="personalIntangibleFields" :items="personalIntangibleItems"  small>
+                <b-table :fields="personalIntangibleFields" :items="personalIntangibleItems" small>
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part III <br/> </div>
                         <div>Intangible Personal Property anywhere in the world <span style="font-weight:normal;">(including bank accounts, intellectual property and other valuable items that cannot be touched by hand)</span></div>                        
                     </template>
                     <template v-slot:cell(part)="data">
-                        <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
+                        <div v-if="data.value=='TOTAL'" style="text-align:right; font-weight:bold;">{{data.value}}</div>
                         <div v-else v-html="data.value">{{data.value}}</div>                        
                     </template>
                     <template v-slot:cell(value)="data">                       
-                        <div v-html="data.value">{{data.value}}</div>                        
+                        <div v-if="data.item.part == 'TOTAL'" style="font-weight:bold; text-align:right;" v-html="data.value">{{data.value}}</div> 
+                        <div v-else v-html="data.value" style="text-align:right;">{{data.value}}</div>
                     </template>
+
                 </b-table>
 
-                <div style="margin:0.5rem 1rem 0.5rem 14rem;display:inline-block;"><b>NET VALUE OF ASSETS</b></div>
-                <underline-form style="float:right; border:1px solid;height:2.25rem; margin:0rem 0 0.5rem 1.5rem;padding:0.9rem 0.5rem 0 0.5rem;" textwidth="14rem" beforetext="$" hint="" text=""/>
+                <div style="margin:0.5rem 1rem 0.5rem 8rem;display:inline-block;"><b>GROSS VALUE OF ASSETS LESS SECURED DEBTS</b></div>
+                <div style="float:right; border:1px solid;height:2.25rem; width:10rem; font-weight:bold; text-align:right; margin:0rem 0 0.5rem 1.5rem;padding:0.5rem 0.25rem 0 0.25rem;">{{totalAssetsValue | currencyFormat}}</div>
           
             </div>
 
@@ -244,11 +254,12 @@ export default class FormP10 extends Vue {
     applicantList = []
     applicantCourtHouse = '';
     deceased;
+    totalAssetsValue = 0;
     // serviceContact;  
      
     realEstateFields=[
         {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part I, Real Property (including mortgages and vendors\' and purchasers\' interests in agreements for sale)'},
-        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3 pl-0', thStyle:'width:9.25rem;', label:'Value at Death'}
     ]
     realEstateItems = [
         {part:"none",value:"$0.00"},        
@@ -257,7 +268,7 @@ export default class FormP10 extends Vue {
 
     personalTangibleFields=[
         {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part II, Personal Property (all assets except real property)'},
-        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3 pl-0', thStyle:'width:9.25rem;', label:'Value at Death'}
     ]
     personalTangibleItems = [
         {part:"none",value:"$0.00"},        
@@ -266,7 +277,7 @@ export default class FormP10 extends Vue {
 
     personalIntangibleFields=[
         {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part III, Liabilities'},
-        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3 pl-0', thStyle:'width:9.25rem;', label:'Value at Death'}
     ]
     personalIntangibleItems = [
         {part:"none",value:"$0.00"},        
@@ -386,12 +397,13 @@ export default class FormP10 extends Vue {
         
         if (this.steps[5] && this.steps[5].result) {
             const belongingsInfo = this.steps[5].result;
+            this.totalAssetsValue = 0;
             if (belongingsInfo["landSurvey"] && belongingsInfo["landSurvey"].data) {
         
                 const landSurvey = belongingsInfo["landSurvey"].data;
                 if (landSurvey.landExists && landSurvey.landExists == 'y') {
                     console.log('has real estate')
-                }
+                } 
                 
             }
             
@@ -400,8 +412,7 @@ export default class FormP10 extends Vue {
                 const vehiclesSurvey = belongingsInfo["vehiclesSurvey"].data;
                 if (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == 'y') {
                     console.log('has vehicle')
-                }
-                
+                }                
             }
             
             if (belongingsInfo["bankAccountsSurvey"] && belongingsInfo["bankAccountsSurvey"].data) {
@@ -430,10 +441,10 @@ export default class FormP10 extends Vue {
                                     const accountType = accountInfo.accountType;
                                     if (accountInfo.accountValue && accountInfo.accountValue == 'other') {
                                         if (accountInfo.accountValueComment) {
-                                            valueRow = valueRow + '$' + accountInfo.accountValueComment + ((Number(accountIndex) != bankInfo.accountPanel.length - 1)?'<br>':'');
+                                            valueRow = valueRow + '<br>' + Vue.filter('currencyFormat')(accountInfo.accountValueComment);
                                             totalValue = totalValue + Number(accountInfo.accountValueComment);
                                         }
-                                        console.log(valueRow)
+                                        //console.log(valueRow)
 
                                     } else if (accountInfo.accountValue && accountInfo.accountValue == 'willGetValueLater') {
                                         if (this.steps[7] && this.steps[7].result && 
@@ -442,12 +453,12 @@ export default class FormP10 extends Vue {
                                             this.steps[7].result['finalizeAssetValuesSurvey'].data['finalizeAssetPlaceholder']) {
                                                 const accountValue = this.steps[7].result['finalizeAssetValuesSurvey'].data['finalizeAssetPlaceholder']
                                                 const key = 'Account Number "' + accountNumber + '" at ' + bankName;
-                                                console.log(key)
-                                                console.log(accountValue[key])
-                                            valueRow = '<br>' + valueRow + '$' + accountValue[key];
+                                                //console.log(key)
+                                                //console.log(accountValue[key])
+                                            valueRow = valueRow + '<br>' + Vue.filter('currencyFormat')(accountValue[key]);
                                             totalValue = totalValue + Number(accountValue[key]);
                                         }
-                                        console.log(valueRow)
+                                        //console.log(valueRow)
 
                                     }
                                     
@@ -455,18 +466,15 @@ export default class FormP10 extends Vue {
                                 }
                                 bankRow = bankRow + '</ol>';
                             }
-                            console.log(valueRow)
+                            //console.log(valueRow)
                             this.personalIntangibleItems.push({part : bankRow, value: valueRow})
 
                         }
-                        this.personalIntangibleItems.push({part:"TOTAL",value:"$" + totalValue})
-                           
-
-
-                    
+                        this.personalIntangibleItems.push({part:"TOTAL",value: Vue.filter('currencyFormat')(totalValue)})
+                        this.totalAssetsValue = this.totalAssetsValue + totalValue;                    
                 }
                 
-            }
+            }            
           
         } 
     }
