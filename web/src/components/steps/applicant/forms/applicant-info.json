@@ -73,7 +73,7 @@
                      "name": "applicantOrdinaryAddress[0]",
                      "visible": false,
                      "visibleIf": "{applicantMailingAddressIsOrdinary[0]} = 'n'",
-                     "title": "Where they ordinarily live? [ordinary city, province and country]"
+                     "title": "Where does {applicantName} ordinarily live? [ordinary city, province and country]"
                   },
                   {
                      "type": "infotext",
@@ -230,26 +230,12 @@
                      "visibleIf": "{applicantLawyer} notempty",
                      "title": "Service Email Address",
                      "inputType": "email"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question268",
-                     "visible": false,
-                     "title": "[JIRA] Determine closest courthouse based on service address.",
-                     "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question242",
-                     "visible": false,
-                     "title": "do we need to allow for homeless applicants?",
-                     "titleLocation": "hidden"
-                  },
+                  },                  
                   {
                      "type": "dropdown",
                      "name": "applicantCourthouse",
                      "visible": false,
-                     "visibleIf": "{applicantLawyerFirmAddress} notempty or {applicantServiceAddress} notempty",
+                     "visibleIf": "{applicantLawyer} notempty",
                      "title": "Select the court location you want to file at",
                      "description": "courthouse location",
                      "choices": [
@@ -273,16 +259,6 @@
                      "visible": false,
                      "title": "[further than 30km away from selected courthouse] You will need to provide one or more of the following: email, fax, PO box within 30km of {courthouseLocation}",
                      "titleLocation": "hidden"
-                  },
-                 
-                  {
-                     "type": "text",
-                     "name": "applicantServiceFax",
-                     "visible": false,
-                     "visibleIf": "{applicantLawyerFirmAddress} notempty or {applicantServiceAddress} notempty",
-                     "title": "Service Fax Number (Optional)",
-                     "description": "usually optional but If the service address provided is not within 30 km of a court registry, you must provide one or more of the following: email address, fax number or postal address (PO Box) in British Columbia.",
-                     "inputType": "tel"
                   },
                   {
                      "type": "yesno",
