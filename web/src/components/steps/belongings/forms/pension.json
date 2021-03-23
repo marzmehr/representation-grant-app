@@ -17,7 +17,8 @@
                   {
                      "type": "yesno",
                      "name": "payCPP",
-                     "title": "Did {deceasedName} pay into CPP?"
+                     "title": "Did {deceasedName} pay into CPP?",
+                     "isRequired": true
                   },
                   {
                      "type": "infotext",

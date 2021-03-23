@@ -24,6 +24,7 @@
                   {
                      "type": "yesno",
                      "name": "bankAccountExists",
+                     "isRequired": true,
                      "title": "Did {deceasedName} have any bank accounts at the time of their death?"
                   },
                   {
@@ -222,6 +223,7 @@
                "name": "banksCompleted",
                "title": "Have you included all the financial institutions with accounts under {deceasedName}'s name?",
                "visible": false,
+               "isRequired": true,
                "visibleIf": "({bankAccountExists} = 'y')"
             },
             {

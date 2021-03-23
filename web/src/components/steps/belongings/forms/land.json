@@ -24,6 +24,7 @@
                         {
                             "type": "yesno",
                             "name": "landExists",
+                            "isRequired": true,
                             "title": "Did {deceasedName} own any land or buildings in BC at the time of their death?",
                             "description": "You do not need to include land or buildings outside of British Columbia"
                         },
@@ -661,6 +662,7 @@
                     "title": "Interest in land other than ownership?",
                     "description": "lent money and hold a mortgage. or right to buy land for less than market value",
                     "visible": false,
+                    "isRequired": true,
                     "visibleIf": "{landIntroExplanation} > 0"
                 },
                 {
