@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="dataIsReady">
     <b-form-group >
         <label style="display:inline-block; margin: 0 1rem 0 0;">Example of filled Form for:</label>
         <b-form-radio-group    
@@ -19,7 +19,7 @@
                
                 <div style="margin:0 0 0 25.25rem;">
                     <div>
-                        <underline-form  textwidth="8.6rem" beforetext="This is the" hint="" text="1st"/>
+                        <underline-form  textwidth="8.6rem" beforetext="This is the" hint="" text="2nd"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> affidavit</div>
                     </div>
                     <div class="mt-2">
@@ -30,7 +30,7 @@
                         <underline-form  textwidth="9.5rem" beforetext="and was made on" hint="" text=""/>
                     </div>
                     <div class="mt-2">
-                        <underline-form  textwidth="13.2rem" beforetext="" hint="" text="Victoria"/>
+                        <underline-form  textwidth="13.2rem" beforetext="" hint="" :text="applicantCourtHouse"/>
                         <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;"> Registry</div>
                     </div>
                     <div class="mt-2">
@@ -155,41 +155,54 @@
 
             <div style="text-align:center;margin:1rem 0 0 0;font-weight:bold;font-size:14pt;">Statement of Assets, Liabilities and Distribution</div> 
             <div style="margin-top:1rem;">
-                <b-table :fields="fieldsI" :items="itemsI"  small>                  
+                <b-table :fields="realEstateFields" :items="realEstateItems" small>                  
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part I <br/> </div>
                         <div>Real Property located within British Columbia <span style="font-weight:normal;">(including mortgages and vendors' and purchasers' interests in agreements for sale)</span></div>                        
                     </template>
                     <template v-slot:cell(part)="data">
-                        <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
+                        <div v-if="data.value=='TOTAL'" style="text-align:right; font-weight:bold;">{{data.value}}</div>
                         <div v-else>{{data.value}}</div>                        
+                    </template>
+                    <template v-slot:cell(value)="data">                       
+                        <div v-if="data.item.part == 'TOTAL'" style="font-weight:bold; text-align:right;">{{data.value}}</div> 
+                        <div v-else style="text-align:right;">{{data.value}}</div>
                     </template>
                 </b-table>
 
-                <b-table :fields="fieldsII" :items="itemsII"  small>                    
+                <b-table :fields="personalTangibleFields" :items="personalTangibleItems" small>                    
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part II <br/> </div>
                         <div>Tangible Personal Property within British Columbia <span style="font-weight:normal;">(including vehicles, furniture and other physical items)</span> </div>                        
                     </template>
                     <template v-slot:cell(part)="data">
-                        <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
+                        <div v-if="data.value=='TOTAL'" style="text-align:right; font-weight:bold;">{{data.value}}</div>
                         <div v-else>{{data.value}}</div>                        
+                    </template>
+                    <template v-slot:cell(value)="data">                       
+                        <div v-if="data.item.part == 'TOTAL'" style="font-weight:bold; text-align:right;">{{data.value}}</div> 
+                        <div v-else style="text-align:right;">{{data.value}}</div>
                     </template>
                 </b-table>          
                
-                <b-table :fields="fieldsIII" :items="itemsIII"  small>
+                <b-table :fields="personalIntangibleFields" :items="personalIntangibleItems" small>
                     <template v-slot:head(part)>
                         <div style="white-space: pre;">Part III <br/> </div>
                         <div>Intangible Personal Property anywhere in the world <span style="font-weight:normal;">(including bank accounts, intellectual property and other valuable items that cannot be touched by hand)</span></div>                        
                     </template>
                     <template v-slot:cell(part)="data">
-                        <div v-if="data.value=='TOTAL'" style="text-align:right;">{{data.value}}</div>
-                        <div v-else>{{data.value}}</div>                        
+                        <div v-if="data.value=='TOTAL'" style="text-align:right; font-weight:bold;">{{data.value}}</div>
+                        <div v-else v-html="data.value">{{data.value}}</div>                        
                     </template>
+                    <template v-slot:cell(value)="data">                       
+                        <div v-if="data.item.part == 'TOTAL'" style="font-weight:bold; text-align:right;" v-html="data.value">{{data.value}}</div> 
+                        <div v-else v-html="data.value" style="text-align:right;">{{data.value}}</div>
+                    </template>
+
                 </b-table>
 
-                <div style="margin:0.5rem 1rem 0.5rem 14rem;display:inline-block;"><b>NET VALUE OF ASSETS</b></div>
-                <underline-form style="float:right; border:1px solid;height:2.25rem; margin:0rem 0 0.5rem 1.5rem;padding:0.9rem 0.5rem 0 0.5rem;" textwidth="14rem" beforetext="$" hint="" text=""/>
+                <div style="margin:0.5rem 1rem 0.5rem 8rem;display:inline-block;"><b>GROSS VALUE OF ASSETS LESS SECURED DEBTS</b></div>
+                <div style="float:right; border:1px solid;height:2.25rem; width:10rem; font-weight:bold; text-align:right; margin:0rem 0 0.5rem 1.5rem;padding:0.5rem 0.25rem 0 0.25rem;">{{totalAssetsValue | currencyFormat}}</div>
           
             </div>
 
@@ -206,71 +219,258 @@ import "@/store/modules/application";
 const applicationState = namespace("Application");
 
 import UnderlineForm from "./components/UnderlineForm.vue"
-import CheckBox from "./components/CheckBox.vue"
 
 import moment from 'moment';
+import { stepInfoType } from '@/types/Application';
 
 @Component({
     components:{
-        UnderlineForm,
-        CheckBox
+        UnderlineForm
     }
 })
 
-export default class FormP10 extends Vue {    
+export default class FormP10 extends Vue {
+    
+    @applicationState.State
+    public steps!: stepInfoType[];
+
+    @applicationState.State
+    public deceasedName!: string;
+
+    @applicationState.State
+    public deceasedAliases!: string[];
+
+    @applicationState.State
+    public relatedPeopleInfo!: any;
 
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
     @applicationState.Action
     public UpdateGotoNextStepPage!: () => void
-
-    check = ""//"&#10003"
-    check2= "&#10003"
-
+   
+    dataIsReady = false;
+    multipleApplicant=false
     applicantList = []
-    deceased={fullName:"Rest In Peace", first:"Rest", middle:"In",last:"Peace", address:"0-123 st, Victoria, BC, Canada V0i 8i8"}
-    serviceContact={address:"0-123 st, Victoria, BC, Canada V0i 8i8", phone:"+1 123 456 7890", fax:"+1 123 456 7890", email:"ABC@yahoo.ca"}
-    form5Info={applicantFullName:"Its first daughter", first:"Its", middle:"first",last:"Daughter", date:"20 March 2020"}
-    
-    fieldsI=[
+    applicantCourtHouse = '';
+    deceased;
+    totalAssetsValue = 0;
+    // serviceContact;  
+     
+    realEstateFields=[
         {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part I, Real Property (including mortgages and vendors\' and purchasers\' interests in agreements for sale)'},
-        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3 pl-0', thStyle:'width:9.25rem;', label:'Value at Death'}
     ]
-    itemsI = [
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"TOTAL",scope:"",value:""}
+    realEstateItems = [
+        {part:"none",value:"$0.00"},        
+        {part:"TOTAL",value:"$0.00"}
     ]
 
-    fieldsII=[
+    personalTangibleFields=[
         {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part II, Personal Property (all assets except real property)'},
-        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3 pl-0', thStyle:'width:9.25rem;', label:'Value at Death'}
     ]
-    itemsII = [
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"TOTAL",scope:"",value:""}
+    personalTangibleItems = [
+        {part:"none",value:"$0.00"},        
+        {part:"TOTAL",value:"$0.00"}
     ]
 
-    fieldsIII=[
+    personalIntangibleFields=[
         {key:'part', thClass:'border-dark',                          tdClass:'border-dark c1', thStyle:'width:30rem;', label:'Part III, Liabilities'},
-        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3', thStyle:'width:6rem;', label:'Value at Death'}
+        {key:'value',thClass:'border-dark text-center align-middle', tdClass:'border-dark c3 pl-0', thStyle:'width:9.25rem;', label:'Value at Death'}
     ]
-    itemsIII = [
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"",scope:"",value:""},
-        {part:"TOTAL",scope:"",value:""}
+    personalIntangibleItems = [
+        {part:"none",value:"$0.00"},        
+        {part:"TOTAL",value:"$0.00"}
     ]
 
     mounted(){
+        this.dataIsReady = false;
         this.getRepGrantResultData()
-        this.changeApplicantList()
+        this.getApplicantsInfo();
+        this.getDeceasedInfo();
+        this.getBelongingsInfo();
+        this.dataIsReady = true;
     }
-    multipleApplicant=false
+
+    public getDeceasedInfo() {
+        
+        if (this.steps[0] && this.steps[0].result && this.steps[0].result["deceasedInfoSurvey"] && this.steps[0].result["deceasedInfoSurvey"].data) {
+            const deceasedInfoSurvey = this.steps[0].result["deceasedInfoSurvey"].data;
+            this.deceased = {
+                fullName: Vue.filter('getFullName')(this.deceasedName), 
+                first:this.deceasedName['first'], 
+                middle:this.deceasedName['middle'],
+                last:this.deceasedName['last'],
+                address: deceasedInfoSurvey.deceasedAddress, 
+                DOD: Vue.filter('beautify-full-date')(deceasedInfoSurvey.deceasedDateOfDeath)
+            }
+        } 
+    }
+
+    public getApplicantsInfo() {
+
+        if (this.multipleApplicant){
+            this.changeApplicantList();
+        } else {
+            this.applicantList = [];            
+
+            if (this.steps[3] && this.steps[3].result && this.steps[3].result["applicantInfoSurvey"] && this.steps[3].result["applicantInfoSurvey"].data) {
+                const applicantInfoSurvey = this.steps[3].result["applicantInfoSurvey"].data;
+                if (applicantInfoSurvey.applicant.length > 0) {
+                    for (const applicant of applicantInfoSurvey.applicant) {
+                        const index = applicant.charAt(14)
+
+                        const applicantSurvey = this.relatedPeopleInfo[index];
+
+                        const applicantInfo = {
+                            fullName:Vue.filter('getFullName')(applicantSurvey.name),
+                            first:applicantSurvey.name.first, 
+                            middle:applicantSurvey.name.middle,
+                            last:applicantSurvey.name.last                                                          
+                        }
+
+                        if (applicantInfoSurvey["applicantOccupation[" + index + "]"]) {
+                            applicantInfo["occupation"] = (applicantInfoSurvey["applicantOccupation[" + index + "]"]);
+                        }
+                        
+                        if (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] && (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] == 'y')) {
+                            
+                            if (applicantInfoSurvey["applicantMailingAddress[" + index + "]"]) {
+
+                                const addressInfo = applicantInfoSurvey["applicantMailingAddress[" + index + "]"];
+                                const address = addressInfo.city +', ' + addressInfo.state +', ' + addressInfo.country;
+                                applicantInfo["address"] = address;
+
+                            }
+                           
+                        } else if (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] && (applicantInfoSurvey["applicantMailingAddressIsOrdinary[" + index + "]"] == 'n')) {
+                            
+                            if (applicantInfoSurvey["applicantOrdinaryAddress[" + index + "]"]) {
+
+                                const addressInfo = applicantInfoSurvey["applicantOrdinaryAddress[" + index + "]"];
+                                const address = addressInfo.city +', ' + addressInfo.state +', ' + addressInfo.country;
+                                applicantInfo["address"] = address;
+                            }
+                           
+                        } else {
+                            applicantInfo["address"] = '';
+
+                        }
+                        this.applicantList.push(applicantInfo);                        
+                    }
+                }
+                this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;               
+            }
+        }
+
+    }
+
+    public getBelongingsInfo() {
+
+        this.realEstateItems = [
+            {part:"none",value:"$0.00"},        
+            {part:"TOTAL",value:"$0.00"}
+        ]
+
+        this.personalTangibleItems = [
+            {part:"none",value:"$0.00"},        
+            {part:"TOTAL",value:"$0.00"}
+        ]
+
+        this.personalIntangibleItems = [
+            {part:"none",value:"$0.00"},        
+            {part:"TOTAL",value:"$0.00"}
+        ]
+        
+        if (this.steps[5] && this.steps[5].result) {
+            const belongingsInfo = this.steps[5].result;
+            this.totalAssetsValue = 0;
+            if (belongingsInfo["landSurvey"] && belongingsInfo["landSurvey"].data) {
+        
+                const landSurvey = belongingsInfo["landSurvey"].data;
+                if (landSurvey.landExists && landSurvey.landExists == 'y') {
+                    console.log('has real estate')
+                } 
+                
+            }
+            
+            if (belongingsInfo["vehiclesSurvey"] && belongingsInfo["vehiclesSurvey"].data) {
+        
+                const vehiclesSurvey = belongingsInfo["vehiclesSurvey"].data;
+                if (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == 'y') {
+                    console.log('has vehicle')
+                }                
+            }
+            
+            if (belongingsInfo["bankAccountsSurvey"] && belongingsInfo["bankAccountsSurvey"].data) {
+        
+                const bankAccountsSurvey = belongingsInfo["bankAccountsSurvey"].data;
+                if (bankAccountsSurvey.bankAccountExists && 
+                    bankAccountsSurvey.bankAccountExists == 'y' &&
+                    bankAccountsSurvey.bankAccountInfoPanel &&
+                    bankAccountsSurvey.bankAccountInfoPanel.length > 0) {
+                        this.personalIntangibleItems = [];
+                        let totalValue = 0;
+                        for (const bankIndex in bankAccountsSurvey.bankAccountInfoPanel) {
+                            const bankInfo = bankAccountsSurvey.bankAccountInfoPanel[bankIndex];
+                            
+                            const bankName = bankInfo.bankName;
+                            let bankRow = (Number(bankIndex) + 1) + '. ' + bankName;
+                            let valueRow = '';
+                            
+                            
+                            if (bankInfo.accountPanel && bankInfo.accountPanel.length > 0) {
+                                bankRow = bankRow + '<ol style="list-style-type: lower-alpha;">';
+
+                                for (const accountIndex in bankInfo.accountPanel) {
+                                    const accountInfo = bankInfo.accountPanel[accountIndex];
+                                    const accountNumber = accountInfo.accountNumber;
+                                    const accountType = accountInfo.accountType;
+                                    if (accountInfo.accountValue && accountInfo.accountValue == 'other') {
+                                        if (accountInfo.accountValueComment) {
+                                            valueRow = valueRow + '<br>' + Vue.filter('currencyFormat')(accountInfo.accountValueComment);
+                                            totalValue = totalValue + Number(accountInfo.accountValueComment);
+                                        }                                        
+
+                                    } else if (accountInfo.accountValue && accountInfo.accountValue == 'willGetValueLater') {
+                                        if (this.steps[7] && this.steps[7].result && 
+                                            this.steps[7].result['finalizeAssetValuesSurvey'] &&
+                                            this.steps[7].result['finalizeAssetValuesSurvey'].data &&
+                                            this.steps[7].result['finalizeAssetValuesSurvey'].data['finalizeAssetPlaceholder']) {
+                                                const accountValue = this.steps[7].result['finalizeAssetValuesSurvey'].data['finalizeAssetPlaceholder']
+                                                const key = 'Account Number "' + accountNumber + '" at ' + bankName;
+                                                // console.log(key)
+                                                // console.log(accountValue[key])
+                                                if (accountValue[key] && accountValue[key].length>0) {
+                                                    valueRow = valueRow + '<br>' + Vue.filter('currencyFormat')(accountValue[key]);
+                                                    totalValue = totalValue + Number(accountValue[key]);
+                                                }
+                                               // console.log(totalValue)
+                                            
+                                        }
+                                        //console.log(valueRow)
+
+                                    }
+                                    
+                                    bankRow = bankRow + '<li >' + accountType + ' Account # ' + accountNumber + '</li>';
+                                }
+                                bankRow = bankRow + '</ol>';
+                            }
+                            //console.log(valueRow)
+                            this.personalIntangibleItems.push({part : bankRow, value: valueRow})
+
+                        }
+                       // console.log(Vue.filter('currencyFormat')(totalValue))
+                        this.personalIntangibleItems.push({part:"TOTAL",value: Vue.filter('currencyFormat')(totalValue)})
+                        this.totalAssetsValue = this.totalAssetsValue + totalValue;                    
+                }
+                
+            }            
+          
+        } 
+    }
+    
     public changeApplicantList(){
         this.applicantList=[]
         if(this.multipleApplicant){
@@ -287,9 +487,7 @@ export default class FormP10 extends Vue {
                 {fullName:"Its fifth Daughter",first:"Its", middle:"fifth",last:"Daughter", address:"Vancouver, BC, Canada", notIndividual:"", individual:"yes", sameMail:"yes", differentMail:"", differentAddress:"", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"  },
             )
         }else{
-            this.applicantList.push(
-                {fullName:"Its first Son",first:"Its", middle:"first",last:"Son", address:"Victoria, BC, Canada", notIndividual:"", individual:"yes", sameMail:"", differentMail:"yes", differentAddress:"New York, USA", occupation:"work", city:"Victoria", state:"BC", country:"Canada", section130:"(a)"    },
-            )
+            this.getApplicantsInfo();
         }
     }
 

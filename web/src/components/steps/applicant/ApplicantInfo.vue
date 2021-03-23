@@ -18,6 +18,9 @@ import { namespace } from "vuex-class";
 import "@/store/modules/application";
 const applicationState = namespace("Application");
 
+import "@/store/modules/common";
+const commonState = namespace("Common");
+
 @Component({
     components:{
         PageBase
@@ -28,6 +31,9 @@ export default class ApplicantInfo extends Vue {
         
     @Prop({required: true})
     step!: stepInfoType;
+
+    @commonState.State
+    public locationsInfo!: any[];
 
     @applicationState.State
     public steps!: stepInfoType[];
@@ -94,8 +100,6 @@ export default class ApplicantInfo extends Vue {
 
     mounted(){        
         this.extractRelatedPeopleInfo();
-        console.log(this.relatedPeopleInfo);
-
         this.initializeSurvey();
         this.addSurveyListener();
         this.reloadPageInformation();
@@ -130,6 +134,7 @@ export default class ApplicantInfo extends Vue {
 
     public initializeSurvey(){
         this.adjustSurveyForRelatedPeople();
+        this.adjustSurveyForLocations();
         this.survey = new SurveyVue.Model(this.surveyJsonCopy);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
@@ -165,8 +170,18 @@ export default class ApplicantInfo extends Vue {
                 this.surveyJsonCopy.pages[0].elements[2] = tmp;
             else 
                 this.surveyJsonCopy.pages[0].elements.splice(2+Number(relatedPerson),0,tmp)
-        }
+        }        
         console.log(this.surveyJsonCopy)
+    }
+
+    public adjustSurveyForLocations(){ 
+        
+        this.surveyJsonCopy.pages[0].elements[4].elements[11]["choices"] = [];
+        
+        for(const location of this.locationsInfo){
+            
+            this.surveyJsonCopy.pages[0].elements[4].elements[11]["choices"].push({value:location["name"], text: location["name"]})
+        }
     }
     
     public addSurveyListener(){

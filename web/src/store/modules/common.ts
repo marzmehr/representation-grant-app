@@ -10,6 +10,7 @@ class Common extends VuexModule {
     public userLocation = '';
 
     public hideHeaderFooter = false;
+    public locationsInfo = [];
 
 
     @Mutation
@@ -49,6 +50,16 @@ class Common extends VuexModule {
     @Action
     public UpdateUserName(newUserName) {
         this.context.commit("setUserName", newUserName);
+    }
+
+    @Mutation
+    public setLocationsInfo(locationsInfo): void {   
+        this.locationsInfo = locationsInfo
+    }
+
+    @Action
+    public UpdateLocationsInfo(newLocationsInfo): void {
+        this.context.commit('setLocationsInfo', newLocationsInfo)
     }
 
     @Mutation
