@@ -134,6 +134,12 @@ export default class ApplicationStatus extends Vue {
     @commonState.State
     public existingApplication!: Boolean;
 
+    @commonState.State
+    public locationsInfo!: any[];
+
+    @commonState.Action
+    public UpdateLocationsInfo!: (newLocationsInfo) => void
+
     @commonState.Action
     public UpdateExistingApplication!: (newExistingApplication) => void
 
@@ -189,11 +195,43 @@ export default class ApplicationStatus extends Vue {
                 app.app_type = appJson.app_type;
                 this.previousApplications.push(app);
             }
+            this.extractFilingLocations();
+
             //console.log(this.previousApplications)       
         },(err) => {            
             //console.log(err)
             this.error = err;        
         });
+    }
+
+    public extractFilingLocations() {
+        this.$http.get('/efiling/locations/')
+        .then((response) => {
+            // console.log(Object.keys(response.data))
+            const locationsInfo = response.data 
+            const locationNames = Object.keys(response.data);
+            const locations = []
+            for (const location of locationNames){
+                // console.log(location)
+                // console.log(locationsInfo[location])
+                const locationInfo = locationsInfo[location];
+                const address = locationInfo.address_1?(locationInfo.address_1+ ', '):''  + 
+                                locationInfo.address_2?(locationInfo.address_2 + ', '):'' + 
+                                locationInfo.address_3?(locationInfo.address_3 + ', '):'' + 
+                                locationInfo.address_2?(locationInfo.postal):'';
+                locations.push({id: locationInfo.location_id, name: location, address: address})
+            }
+            console.log(locations)
+            this.UpdateLocationsInfo(locations);
+            
+            // if(response.data.length>0) {
+            //     this.navigate("returning");
+            // }else{
+            //     this.navigate("new");
+            // }        
+        
+        },(err) => console.log(err));
+        
     }
 
     public beginApplication() {   

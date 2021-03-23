@@ -87,6 +87,22 @@ Vue.filter('getFullContactInfo',function(nameObject){
 	}
 })
 
+var CadFormatter = new Intl.NumberFormat('en-US', {
+	style: 'currency',
+	currency: 'CAD',
+	maximumFractionDigits: 2  
+	
+});
+
+Vue.filter('currencyFormat', function(cashValue){
+	if (cashValue) {
+		return CadFormatter.format(cashValue).replace('CA', '');
+	} else {
+		return '';
+	}
+	
+})
+
 Vue.filter('setSurveyProgress', function(survey, currentStep: number, currentPage: number, defaultProgress: number, beforeDestroy: boolean){
 
 	let progress =  defaultProgress;

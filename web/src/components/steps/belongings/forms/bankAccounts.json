@@ -76,35 +76,35 @@
                            "hasOther": true,
                            "choices": [
                               {
-                                 "value": "savingsAccount",
+                                 "value": "Savings",
                                  "text": "Savings"
                               },
                               {
-                                 "value": "chequingAccount",
+                                 "value": "Chequing",
                                  "text": "Chequing"
                               },
                               {
-                                 "value": "gicAccount",
+                                 "value": "GIC",
                                  "text": "GIC (can live inside registered accounts)"
                               },
                               {
-                                 "value": "tfsaAccount",
+                                 "value": "TFSA",
                                  "text": "TFSA"
                               },
                               {
-                                 "value": "rrspAccount",
+                                 "value": "RRSP",
                                  "text": "RRSP"
                               },
                               {
-                                 "value": "respAccount",
+                                 "value": "RESP",
                                  "text": "RESP"
                               },
                               {
-                                 "value": "reitAccount",
+                                 "value": "REIT",
                                  "text": "REIT??"
                               },
                               {
-                                 "value": "investmentAccount",
+                                 "value": "Investment",
                                  "text": "Investment Account"
                               }
                            ]

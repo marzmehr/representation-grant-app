@@ -32,7 +32,7 @@
             {
               "type": "yesno",
               "name": "willCheck",
-              "title": "Have you looked for {deceasedName}'s `Will`",
+              "title": "Have you looked for {deceasedName}'s `Will`?",
               "description": "This means checking all the places where {deceasedName} kept important documents.\n<br><br>Physical places include their home, safety deposit box, and their lawyer's office.\n<br><br>\nElectronic places include their smart phone, computer, external hard drive, and cloud storage."
             },
             {
@@ -698,7 +698,7 @@
             {
               "type": "yesno",
               "name": "willExists",
-              "title": "Did {deceasedName} make a `Will`"
+              "title": "Did {deceasedName} make a `Will`?"
             },
             {
               "type": "helptext",
