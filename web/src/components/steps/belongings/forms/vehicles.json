@@ -36,6 +36,7 @@
                         {
                             "type": "yesno",
                             "name": "vehicleExists",
+                            "isRequired": true,
                             "visibleIf": "{vehicleIntroExplanation} > 0",
                             "title": "Did {deceasedName} have any vehicles at the time of their death?",
                             "description": "What about a leased car?"

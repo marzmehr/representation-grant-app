@@ -44,19 +44,19 @@
             <div style="text-align:center;margin:1.25rem 0 3rem 0;font-weight:bold;font-size:10pt;">AFFIDAVIT OF ASSETS AND LIABILITIES FOR DOMICILED ESTATE GRANT </div>            
 
             <div>
-                <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> We</div>
-                <div v-else style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> I</div>
+                <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> We,</div>
+                <div v-else style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> I,</div>
                 <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
                     <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
                     <underline-form textwidth="17rem" beforetext="" hint="" :text="name.fullName"/>
                     <underline-form textwidth="11rem" beforetext=", of" hint="" :text="name.address"/>
                     <underline-form textwidth="9.55rem" beforetext=", " hint="" :text="name.occupation"/>
-                    <div style="display:inline-block;"> ,</div>
+                    
                 </div>
             </div>
 
-            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
-            <div v-else style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) THAT:</div>
+            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
+            <div v-else style="margin:0.5rem 0 1rem 0rem;"> SWEAR (OR AFFIRM) THAT:</div>
         
             <ol style="margin:0rem 0 0 -1.5rem;">
                 <!-- <1> -->
@@ -80,7 +80,7 @@
                 <!-- <3> -->
                 <li class="mt-4">
                     <div style="display:inline;"> Attached to this affidavit as Exhibit A is a Statement of Assets, Liabilities and Distribution that discloses
-                        <ol class="resetcounter">
+                        <ol style="margin-left: -1.25rem;" class="resetcounter">
                             <li class="bracketalpha">all of the property of the deceased, irrespective of its location, nature or value, that passes to the applicant in the applicant's capacity as the deceased's personal representative,</li>
                             <li class="bracketalpha">the value of that property, and</li>
                             <li class="bracketalpha">the liabilities that charge or encumber that property.</li>
@@ -90,7 +90,7 @@
                   
                 </li>
                 <!-- <4> -->
-                <li class="mt-4">
+                <li class="mt-3">
                     <div v-if="applicantList.length>1" style="display:inline;">
                         If we determine that there is any property or liability that has not been disclosed in Exhibit A, or that information contained in this affidavit is incorrect or incomplete, we will promptly after learning of the same file an affidavit of assets and liabilities in Form P14 to disclose the correct and complete information.
                     </div>   
@@ -113,9 +113,9 @@
 
             </ol>
 
-            <div class="mt-5 row">
+            <div class="mt-2 row">
                 <div class="col-7">  
-                    <div style="margin:0.5rem 0 1rem 0rem;font-size:12pt;">SWORN (OR AFFIRMED) BEFORE ME</div>    
+                    <div style="margin:0.5rem 0 1rem 0rem;">SWORN (OR AFFIRMED) BEFORE ME</div>    
                     <underline-form textwidth="12.5rem" beforetext="at" hint="Commissioner City" text=""/>
                     <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">, British Columbia</div>
 
@@ -126,7 +126,7 @@
                 </div>
                 <div class="col-5" style="border-left:1px solid #313132">
                     <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :hint="'Signature of '+name.fullName" text=""/>                         
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :italicHint="false" :hint="'Signature of '+name.fullName" text=""/>                         
                     </div>
                 </div>
             </div>

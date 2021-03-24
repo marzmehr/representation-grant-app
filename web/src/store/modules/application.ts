@@ -284,7 +284,7 @@ class Application extends VuexModule {
         p.key = "0";
         p.label = "Land and Buildings";        
         p.active = true;
-        p.progress = 0;
+        p.progress = 1;
 
         s.pages.push(p);
 
@@ -292,7 +292,7 @@ class Application extends VuexModule {
         p.key = "1";
         p.label = "Vehicles";       
         p.active = true;
-        p.progress = 0;
+        p.progress = 1;
 
         s.pages.push(p);
 
@@ -300,7 +300,7 @@ class Application extends VuexModule {
         p.key = "2";
         p.label = "Bank Accounts";        
         p.active = true;
-        p.progress = 0;
+        p.progress = 1;
 
         s.pages.push(p);
 
@@ -308,7 +308,7 @@ class Application extends VuexModule {
         p.key = "3";
         p.label = "Pensions and Insurance";        
         p.active = true;
-        p.progress = 0;
+        p.progress = 1;
 
         s.pages.push(p);
 
@@ -316,7 +316,7 @@ class Application extends VuexModule {
         p.key = "4";
         p.label = "Personal Items";        
         p.active = true;
-        p.progress = 0;
+        p.progress = 1;
 
         s.pages.push(p);
 
