@@ -38,24 +38,23 @@
                 </div>   
             </div>
 
-            <div style="text-align:center;margin:1rem 0 1rem 0;font-weight:bold;font-size:14pt;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
+            <div style="text-align:center;margin:1rem 0 0.25rem 0;font-weight:bold;font-size:14pt;"><i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i></div>                    
             <div style="text-align:center;font-size:12pt;"> <i>In the Matter of the Estate of {{deceased.fullName}}, deceased</i></div>   
-            <div style="text-align:center;margin:1.25rem 0 3rem 0;font-weight: bold;font-size:10pt;">AFFIDAVIT IN SUPPORT OF APPLICATION FOR ESTATE GRANT</div>            
+            <div style="text-align:center;margin:0.5rem 0 2rem 0;font-weight: bold;font-size:10pt;">AFFIDAVIT IN SUPPORT OF APPLICATION FOR ESTATE GRANT</div>            
 
             <div>
-                <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> We</div>
-                <div v-else style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> I</div>
+                <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> We,</div>
+                <div v-else style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"> I,</div>
                 <div style="display:inline-block; margin:0.5rem 0;" v-for="(name,i) in applicantList" :key="i+50">
                     <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
                     <underline-form textwidth="17rem" beforetext="" hint="" :text="name.fullName"/>
                     <underline-form textwidth="11rem" beforetext=", of" hint="" :text="name.address"/>
                     <underline-form textwidth="9.55rem" beforetext=", " hint="" :text="name.occupation"/>
-                    <div style="display:inline-block;"> ,</div>
                 </div>
             </div>
 
-            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
-            <div v-else style="margin:0.5rem 0 1rem 0rem;font-size:12pt;"> SWEAR (OR AFFIRM) THAT:</div>
+            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
+            <div v-else style="margin:0.5rem 0 1rem 0rem;"> SWEAR (OR AFFIRM) THAT:</div>
         
             <ol style="margin:0rem 0 0 -1.5rem;">
                 <!-- <1> -->
@@ -68,19 +67,19 @@
                 </li>
                 
                 <!-- <2> -->
-                <li class="mt-4">
+                <li class="mt-3">
                     <underline-form v-if="applicantList.length>1" style="" textwidth="26.25rem" beforetext="We have read the affidavit in Form " hint="" text="P5"/>                    
                     <underline-form v-else style="" textwidth="27.25rem" beforetext="I have read the affidavit in Form " hint="" text="P5"/>                    
                     
                     <underline-form style="margin:0.25rem 0 ;display:inline-block; " textwidth="12.5rem" beforetext="sworn" hint="" :text="form5Info.date"/>
                     <underline-form style="margin:0.25rem 0 ;display:inline-block; text-indent: 5px;" textwidth="22.75rem" beforetext="by" hint="" :text="form5Info.applicantFullName"/>
                     
-                    <div v-if="applicantList.length>1" style="margin:0 0 .25rem 0; display:inline-block;"> and there is nothing in that affidavit that we know to be inaccurate.</div>
-                    <div v-else style="margin:0 0 .25rem 0; display:inline-block;"> and there is nothing in that affidavit that I know to be inaccurate.</div> 
+                    <div v-if="applicantList.length>1" style="margin:0 0 0 0; display:inline-block;"> and there is nothing in that affidavit that we know to be inaccurate.</div>
+                    <div v-else style="margin:0 0 0 0; display:inline-block;"> and there is nothing in that affidavit that I know to be inaccurate.</div> 
                     
                 </li>                
                 <!-- <3> -->
-                <li class="mt-4">
+                <li class="mt-3">
                     <div v-if="applicantList.length>1" style="display:inline;"> We have read the submission for estate grant and the other documents referred to in that document and we believe
                         that the information contained in that submission for estate grant and those documents is correct and complete.
                     </div>
@@ -90,7 +89,7 @@
                     </div> 
                 </li>
                 <!-- <4> -->
-                <li class="mt-4">
+                <li class="mt-3">
                     <div v-if="applicantList.length>1" style="display:inline;">We will administer according to law the deceased's estate to which the submission for estate grant relates and we
                         acknowledge that, in doing this, we will be subject to the legal responsibility of a personal representative.                         
                     </div>   
@@ -99,10 +98,11 @@
                     </div> 
                 </li>
             </ol>
+            
 
-            <div class="mt-5 row">
+            <div class="mt-2 row">
                 <div class="col-7">  
-                    <div style="margin:0.5rem 0 1rem 0rem;font-size:12pt;">SWORN (OR AFFIRMED) BEFORE ME</div>    
+                    <div style="margin:0.5rem 0 0.5rem 0rem;">SWORN (OR AFFIRMED) BEFORE ME</div>    
                     <underline-form textwidth="12.5rem" beforetext="at" hint="Commissioner City" text=""/>
                     <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">, British Columbia</div>
 
@@ -114,7 +114,7 @@
                 </div>
                 <div class="col-5" style="border-left:1px solid #313132" >
                     <div  v-for="(name,i) in applicantList" :key="i+250">                        
-                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :hint="'Signature of ('+name.fullName+')'" text=""/>                         
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :italicHint="false" :hint="'Signature of '+name.fullName" text=""/>                         
                     </div>
                 </div>
             </div>

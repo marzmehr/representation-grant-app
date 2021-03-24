@@ -215,11 +215,13 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 					content:`+ pageFooterLeft +
 					`white-space: pre;
 					font-size: 8pt;
+					font-family: BCSans !important;
 					color: #606060;
 				}
 				@bottom-right {
 					content:`+pageFooterRight+` " Page " counter(page) " of " counter(pages);
 					font-size: 8pt;
+					font-family: BCSans !important;
 					color: #606060;
 				}
 			}`+
