@@ -152,7 +152,7 @@
                 </div>
                 <div class="col-5" style="border-left:1px solid #313132">
                     <div  v-for="(applicant,i) in applicantList" :key="i+250">                        
-                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :italicHint="false" :hint="'Signature of '+applicant.fullName" text=""/>                         
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :italicHint="false" hintFontSize="10pt" :hint="'Signature of '+applicant.fullName" text=""/>                         
                     </div>
                 </div>
             </div>

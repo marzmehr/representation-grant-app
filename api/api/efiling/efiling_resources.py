@@ -51,7 +51,7 @@ class EFilingResources(EFilingHubCallerBase):
         if cache.get("courts"):
             return cache.get("courts")
 
-        url = f"{self.api_base_url}/courts?courtLevel=P"
+        url = f"{self.api_base_url}/courts?courtLevel={self.court_level}"
         response = self._get_api(url, headers={})
 
         if response.status_code == 200:
