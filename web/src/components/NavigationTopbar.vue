@@ -1,7 +1,6 @@
 <template>
     <header class="app-header">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-        <!-- Navbar content -->
+        <nav class="navbar navbar-expand-lg navbar-dark">        
 
             <div class="container-fluid">
                 <a class="navbar-brand" href="https://www2.gov.bc.ca" style="max-width:200px">
@@ -22,7 +21,7 @@
                     />
                 </a>
                 <div class="navbar-brand navbar-text">
-                    Apply for a Family Law Act Protection Order
+                    Apply to Represent Someone Who Died (also know as Probate)
                     <span class="navbar-tag">BETA</span>
                 </div>
 
@@ -39,33 +38,13 @@
                                 <template #button-content style="background-color: #003366">
                                     <span class="fa fa-user"></span> {{ userName }}
                                 </template>
+                                <b-dropdown-item @click="runsurvey()">SurveyJS Editor</b-dropdown-item>
                                 <b-dropdown-item @click="logout(false)">Logout</b-dropdown-item>
                             </b-dropdown>
                         </div>
                     </div>
-                </div>
-                <div id="app-exit" class="app-exit">
-                    <a
-                        @click="logout(true)"
-                        target="_blank"
-                        id="quick-exit"
-                        rel="external"
-                        class="btn btn-primary text-warning"
-                        ><span class="fa fa-sign-out"/> Quick Exit</a
-                    >
-                </div>
-
-                <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                </div> 
+               
             </div>
         </nav>
     </header>
@@ -75,16 +54,22 @@
 import { Component, Vue} from 'vue-property-decorator';
 import { SessionManager } from "@/components/utils/utils";
 import moment from "moment-timezone";
+import { namespace } from "vuex-class";   
+
+import "@/store/modules/common";
+const commonState = namespace("Common");
+
 
 @Component
 export default class NavigationTopbar extends Vue {
     
+    @commonState.Action
+    public UpdateHideHeaderFooter!: (newHideHeaderFooter) => void
+
     error = "";
 
-    get userName() {
-      return this.$store.state.Application.userName;
-    }
-  
+    @commonState.State
+    public userName!: string;  
 
     public logout(isQuickExit) {
 
@@ -121,6 +106,11 @@ export default class NavigationTopbar extends Vue {
         });
     }
 
+    public runsurvey(){
+        this.UpdateHideHeaderFooter(true)
+        this.$router.push({name: "surveyeditor"})
+    }
+
 };
 </script>
 
@@ -132,51 +122,28 @@ export default class NavigationTopbar extends Vue {
 </style>
 
 <style scoped lang="scss">
-@import "../styles/common";
 
-.app-exit + .navbar {
-    padding-right: 170px;
-}
+    @import "../styles/common";
 
-.navbar-brand:not(.logo) {
-    flex: 1 1 auto;
-}
 
-.navbar-extra {
-    display: inline-block;
-    flex: 1 1 auto;
-    text-align: right;
-}
-.navbar .navbar-extra {
-    display: inline-block;
-    flex: 1 1 auto;
-    text-align: right;
-}
-
-.app-exit,
-.navbar {
-    .btn-primary {
-        border-color: #ccc;
+    .navbar-brand:not(.logo) {
+        flex: 1 1 auto;
     }
-}
 
-
-
-#app-exit {
-    padding: 8px 15px;
-    position: absolute;
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 100;
-    .btn {
-        border-radius: 10rem;
-        font-size: 110%;
-        padding: 0.5em 1em;
+    .navbar-extra {
+        display: inline-block;
+        flex: 1 1 auto;
+        text-align: right;
     }
-}
 
-#app-profile {
-    color: $gov-white;
-}
+    .navbar .navbar-extra {
+        display: inline-block;
+        flex: 1 1 auto;
+        text-align: right;
+    }
+
+    #app-profile {
+        color: $gov-white;
+    }
+
 </style>

@@ -13,7 +13,7 @@ from rest_framework import generics
 from core.pdf import render as render_pdf
 from api.models.application import Application
 from api.models.prepared_pdf import PreparedPdf
-from api.utils import get_app_object
+from api.utils import get_application_for_user
 
 LOGGER = logging.getLogger(__name__)
 
@@ -22,9 +22,9 @@ class SurveyPdfView(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def generate_pdf(self, name, data):
-        template = '{}.html'.format(name)
-        template = get_template(template)
-        html_content = template.render(data)
+        #template = '{}.html'.format(name)
+        #template = get_template(template)
+        html_content = data #template.render(data)
 
         pdf_content = render_pdf(html_content)
         return pdf_content
@@ -41,7 +41,7 @@ class SurveyPdfView(generics.GenericAPIView):
     def post(self, request, pk, name=None):
         data = request.data
         uid = request.user.id
-        app = get_app_object(pk, uid)
+        app = get_application_for_user(pk, uid)
         if not app:
             return HttpResponseNotFound("No record found")
 
@@ -54,16 +54,12 @@ class SurveyPdfView(generics.GenericAPIView):
                 pdf_response = PreparedPdf(data=pdf_content_enc, key_id=pdf_key_id)
                 pdf_response.save()
                 app.prepared_pdf_id = pdf_response.pk
-            elif app.last_printed is None or app.last_updated > app.last_printed:
+            else:
                 pdf_queryset = PreparedPdf.objects.filter(id=pdf_result.id)
                 pdf_content = self.generate_pdf(name, data)
                 (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(pdf_content)
                 pdf_queryset.update(data=pdf_content_enc)
                 pdf_queryset.update(created_date=timezone.now())
-            else:
-                pdf_content = settings.ENCRYPTOR.decrypt(
-                        pdf_result.key_id, pdf_result.data
-                    )
             app.last_printed = timezone.now()
             app.save()
         except Exception as ex:

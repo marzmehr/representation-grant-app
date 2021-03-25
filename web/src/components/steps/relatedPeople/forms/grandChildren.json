@@ -1,0 +1,236 @@
+{
+    "title": "Representation Grant",
+    "pages": [
+        {
+            "name": "grandchildPage",
+            "elements": [
+                {
+                    "type": "panel",
+                    "name": "child0Panel",
+                    "title":"Information about {deceasedChildrenInfo[0]}",
+                    "visible": true,
+                    "elements": [
+                        {
+                            "type": "paneldynamic",
+                            "name": "grandchild0Panel",
+                            "title": " ",
+                            "templateElements": [
+                                {
+                                    "type": "personname",
+                                    "name": "grandchildName",
+                                    "title": "Please enter the full name of {deceasedChildrenInfo[0]}'s child.",
+                                    "defaultSubstitution": "(the deceased's grandchild)",
+                                    "labelFirstName": "First Name (Given Name)",
+                                    "labelLastName": "Last Name (Family Name or Surname)"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "grandchildIsAlive",
+                                    "title": "Is {panel.grandchildName} alive?"
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "grandchildIsAliveFAQ1",
+                                    "title": "What if {panel.grandchildName} is on life support?",
+                                    "titleLocation": "hidden",
+                                    "body": "{panel.spouseName} are considered alive."
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "grandchildIsAdult",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"y\"",
+                                    "title": "Is {panel.grandchildName} 19 years of age or older?"
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "grandchildIsAdultNoExplanation",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAdult} = \"n\"",
+                                    "title": "Because {panel.grandchildName} is under the age of 19, the Public Guardian and Trustee (PGT) needs to be notified in addition to {panel.grandchildName}'s parent or guardian.\n\nThe PGT requires additional information. This service will let you know what additional information is required at a later stage.",
+                                    "isRequired": true,
+                                    "titleLocation": "hidden"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "grandchildHasGuardian",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"y\" and {panel.grandchildIsAdult} = \"n\" and {panel.grandchildIsAdultNoExplanation} > 0",
+                                    "title": "Does {panel.grandchildName} have a living parent or legal guardian?"
+                                },
+                                {
+                                    "type": "personname",
+                                    "name": "grandchildGuardianName",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"y\" and {panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"y\"",
+                                    "title": "Full name of living parent/guardian",
+                                    "defaultSubstitution": "(the deceased's grandchild's parent/guardian)",
+                                    "labelFirstName": "First Name (Given Name)",
+                                    "labelLastName": "Last Name (Family Name or Surname)"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "question424",
+                                    "title": "Address of living parent/guardian",
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"y\" and {panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"y\"",
+                                    "description": "Why do you need the address? This is optional. If you fill it out, this service will help you generate a letter to the PGT which requires address. "
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "question426",
+                                    "title": "Address of {panel.grandchildName}.",
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"y\"",
+                                    "description": "Why do you need the address? This is optional. If you fill it out, this service will help you generate a letter to the PGT which requires address. "
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "grandchildIsCompetent",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"y\" and ({panel.grandchildIsAdult} = \"y\" or ({panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"n\"))",
+                                    "title": "Is {panel.grandchildName} `mentally competent` ?"
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "grandchildIsCompetentNoExplanation",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"y\" and ({panel.grandchildIsAdult} = \"y\" or ({panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"n\")) and {panel.grandchildIsCompetent} = \"n\"",
+                                    "title": "In this scenario, the Public Guardian and Trustee (PGT) needs to be notified in addition to {panel.grandchildName}'s committee (if there is one).",
+                                    "isRequired": true,
+                                    "titleLocation": "hidden"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "grandchildHasCommittee",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"y\" and ({panel.grandchildIsAdult} = \"y\" or ({panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"n\")) and {panel.grandchildIsCompetent} = \"n\" and {panel.grandchildIsCompetentNoExplanation} > 0",
+                                    "title": "Does {panel.grandchildName} have a committee?",
+                                    "description": "If someone has been declared mentally incompetent by a court, a committee (or equivalent), will have been appointed to take care of the mentally incompetent person's finances. "
+                                },
+                                {
+                                    "type": "personname",
+                                    "name": "grandchildCommitteeName",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"y\" and ({panel.grandchildIsAdult} = \"y\" or ({panel.grandchildIsAdult} = \"n\" and {panel.grandchildHasGuardian} = \"n\")) and {panel.grandchildIsCompetent} = \"n\" and {panel.grandchildIsCompetentNoExplanation} > 0 and {panel.grandchildHasCommittee} = \"y\"",
+                                    "title": "Full name of {panel.grandchildName}'s committee",
+                                    "defaultSubstitution": "(the deceased's grandchild's committee)",
+                                    "labelFirstName": "First Name (Given Name)",
+                                    "labelLastName": "Last Name (Family Name or Surname)"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "grandchildDied5DaysAfter",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"n\"",
+                                    "title": "Did {panel.grandchildName} die after {deceasedDateOfDeathPlus4}?"
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "grandchildDied5DaysAfterFAQ1",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"n\"",
+                                    "title": "Why does this date matter?",
+                                    "titleLocation": "hidden",
+                                    "body": "In determining who gets part of estate, it is important to know who died first. This may not sound strange, but under the law, if they died less than 5 days after Deceased Name, they are considered to have died before Deceased Name. For more information, refer to Five-day survival rule from the Wills, Estate and Succession Act (WESA).\nhttp://www.bclaws.ca/civix/document/id/complete/statreg/00_09013_01#section10"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "grandchildHasPersonalRep",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = \"n\" and {panel.grandchildDied5DaysAfter} = \"y\"",
+                                    "title": "Does {panel.grandchildName} have a `personal representative`?"
+                                },
+                                {
+                                    "type": "personname",
+                                    "name": "grandchildPersonalRepName",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = 'n' and {panel.grandchildDied5DaysAfter} = 'y' and {panel.grandchildHasPersonalRep} = 'y'",
+                                    "title": "Full name of {panel.grandchildName}'s personal representative",
+                                    "defaultSubstitution": "(the deceased's grandchild's informal committee)",
+                                    "labelFirstName": "First Name (Given Name)",
+                                    "labelLastName": "Last Name (Family Name or Surname)"
+                                },
+                                {
+                                    "type": "personname",
+                                    "name": "grandchildInformalPersonalRepName",
+                                    "visible": false,
+                                    "visibleIf": "{panel.grandchildIsAlive} = 'n' and {panel.grandchildDied5DaysAfter} = 'y' and {panel.grandchildHasPersonalRep} = 'n'",
+                                    "title": "Full name of the person who is most likely going to manage {panel.grandchildName}'s money and belongings.",
+                                    "description": "Update Logic",
+                                    "defaultSubstitution": "(the deceased's grandchild's informal representative)",
+                                    "labelFirstName": "First Name (Given Name)",
+                                    "labelLastName": "Last Name (Family Name or Surname)"
+                                }                              
+                            ],
+                            "panelCount": 1,
+                            "minPanelCount": 1,
+                            "panelAddText": "Add a child",
+                            "panelRemoveText": "Delete this child"
+                        },
+                        {
+                            "type": "panel",
+                            "name": "grandchildExitCheckPanel",
+                            "elements": [
+                                {
+                                    "type": "yesno",
+                                    "name": "grandchildIsYou",
+                                    "title": "Are you a child of {deceasedChildrenInfo[0]}?"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "grandchildIsYouIncluded",
+                                    "visible": false,
+                                    "visibleIf": "{grandchildIsYou} = \"y\"",
+                                    "title": "Did you enter your information as part of this step?"
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "grandchildIsYouIncludedNoError",
+                                    "visible": false,
+                                    "visibleIf": "{grandchildIsYouIncluded} = \"n\"",
+                                    "title": "Before moving on to the next step, please add your information as a grandchild of {deceasedName}. It is important to identify your relationship to {deceasedName} as this service will prepare the paperwork based on this information.",
+                                    "titleLocation": "hidden",
+                                    "messageStyle": "error"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "panel",
+                            "name": "grandchildExitPanel",
+                            "elements": [
+                                {
+                                    "type": "infotext",
+                                    "name": "grandchildExitExplanation",
+                                    "title": "We have enough information about {deceasedName}'s family. Next we move on to information about you, the applicants.",
+                                    "titleLocation": "hidden"
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "grandChildExitGreatGrandchildrenExplanation",
+                                    "title": "{deceasedGrandChildrenExitMessage}",
+                                    "titleLocation": "hidden",
+                                    "visible": false,
+                                    "visibleIf": "({needGreatGrandChildrenInfo}"
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "childExitParentsExplanation",
+                                    "title": "Because {deceasedName} has no children, lets move on to information about {deceasedName}'s parents.",
+                                    "titleLocation": "hidden",
+                                    "visible": false,
+                                    "visibleIf": "{noChildren}"
+                                }
+                            ],
+                            "visible": false,
+                            "visibleIf": "{grandchildIsYou} = 'n' or ({grandchildIsYou} = 'y' and {grandchildIsYouIncluded} = 'y')"
+                        }                
+                    ]             
+                
+                }
+            ],
+            "visible": true,
+            "title": "{deceasedName}'s Grandchildren"
+        }
+    ],
+    "showQuestionNumbers": "off",
+    "requiredText": ""
+}

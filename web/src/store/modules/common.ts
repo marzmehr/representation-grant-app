@@ -6,7 +6,12 @@ import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
 class Common extends VuexModule {
     public existingApplication = false;
     public userId = '';
+    public userName = "";
     public userLocation = '';
+
+    public hideHeaderFooter = false;
+    public locationsInfo = [];
+
 
     @Mutation
     public setExistingApplication(existingApplication: boolean): void {   
@@ -36,7 +41,35 @@ class Common extends VuexModule {
     @Action
     public UpdateUserLocation(newUserLocation: string): void {
         this.context.commit('setUserLocation', newUserLocation)
-    } 
+    }
+    
+    @Mutation
+    public  setUserName(userName): void {
+        this.userName = userName;
+    }
+    @Action
+    public UpdateUserName(newUserName) {
+        this.context.commit("setUserName", newUserName);
+    }
+
+    @Mutation
+    public setLocationsInfo(locationsInfo): void {   
+        this.locationsInfo = locationsInfo
+    }
+
+    @Action
+    public UpdateLocationsInfo(newLocationsInfo): void {
+        this.context.commit('setLocationsInfo', newLocationsInfo)
+    }
+
+    @Mutation
+    public  setHideHeaderFooter(hideHeaderFooter: boolean): void {
+        this.hideHeaderFooter = hideHeaderFooter;
+    }
+    @Action
+    public UpdateHideHeaderFooter(newHideHeaderFooter: boolean) {
+        this.context.commit("setHideHeaderFooter", newHideHeaderFooter);
+    }
 
 }
 

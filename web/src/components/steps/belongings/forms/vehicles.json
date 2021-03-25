@@ -1,0 +1,305 @@
+{
+    "title": "Representation Grant",
+    "pages": [
+        {
+            "name": "vehiclesPage",
+            "elements": [
+                {
+                    "type": "panel",
+                    "name": "vehicleIntroPanel",
+                    "elements": [
+                        {
+                            "type": "infotext",
+                            "name": "vehicleIntroExplanation",
+                            "title": "It's time to enter information about any vehicles that {deceasedName} are registered in British Columbia.\n<br>\n<br>\nIf {deceasedName} owned any vehicles, make sure you have the registration documents to help fill in the information.\n<br><br>\nvehicles that don't need a title transfer, don't need to be included here. for example a bicycle or small boat. ",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question230",
+                            "title": "need to ask about cars worldwide, not just in BC.<br>\nForeign Grant modifications?? - if resealing, only ask about cars inside bc. if ancillary, AND they said yes to stuff being handled well, only ask about cars inside bc. if ancillary BUt they said no to stuff being handled well, ask about the whole world.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question326",
+                            "title": "add the \"is this listed in the will question?\"",
+                            "titleLocation": "hidden"
+                        }
+                    ]
+                },
+                {
+                    "type": "panel",
+                    "name": "vehicleExistsPanel",
+                    "elements": [
+                        {
+                            "type": "yesno",
+                            "name": "vehicleExists",
+                            "isRequired": true,
+                            "visibleIf": "{vehicleIntroExplanation} > 0",
+                            "title": "Did {deceasedName} have any vehicles at the time of their death?",
+                            "description": "What about a leased car?"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question233",
+                            "title": "https://www2.gov.bc.ca/gov/content/employment-business/business/managing-a-business/permits-licences/bc-registry-services-personal-property-registry",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "question392",
+                            "title": "What about ATVs and other Off Road Vehicles",
+                            "titleLocation": "hidden",
+                            "body": "If they registered the vehicle, yes, if not, include this later on the \"cash page\" https://www.icbc.com/vehicle-registration/specialty-vehicles/Pages/Off-road-vehicles.aspx"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{vehicleIntroExplanation} > 0"
+                },
+                {
+                    "type": "paneldynamic",
+                    "name": "vehicleInfoPanel",
+                    "visible": false,
+                    "visibleIf": "{vehicleExists} = \"y\"",
+                    "templateElements": [
+                        {
+                            "type": "text",
+                            "name": "vehicleYear",
+                            "title": "Year"
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleMake",
+                            "startWithNewLine": false,
+                            "title": "Make"
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleModel",
+                            "startWithNewLine": false,
+                            "title": "Model"
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleVIN",
+                            "startWithNewLine": false,
+                            "title": "VIN #"
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleColour",
+                            "title": "Colour (optional)"
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleBody",
+                            "startWithNewLine": false,
+                            "title": "Body Style (optional)"
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleTrim",
+                            "startWithNewLine": false,
+                            "title": "Trim (optional)"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "vehicleSoleOwner",
+                            "title": "Is {deceasedName} the only registered owner of the {panel.vehicleYear} {panel.vehicleMake} {panel.vehicleModel}?"
+                        },
+                        {
+                            "type": "radiogroup",
+                            "name": "vehicleOwnershipType",
+                            "visible": false,
+                            "title": "What type of ownership is {panel.landAddress} registered under?",
+                            "choices": [
+                                {
+                                    "value": "item1",
+                                    "text": "Joint Tenancy"
+                                },
+                                {
+                                    "value": "item2",
+                                    "text": "Tenancy in Common"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleCommonPercent",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'common'",
+                            "title": "What % of {address} did deceased own? (how many sig figs for 1/3 = 33.33%?)",
+                            "description": "usually specified in the Land Title. If not, assume an equal split with other Tenants in Common"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "vehicleJointAlive",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint'",
+                            "title": "Are any of the other registered owners alive?"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question313",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'y'",
+                            "title": "Because another joint tenant of {panel.landAddress} is alive, this land or building passes to them automatically and you do not need to manage it as part of {deceasedName}'s estate.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "vehicleJointDiedAfter",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n'",
+                            "title": "Did any other registered owners of {panel.address} die after {deceasedDateOfDeathPlus4}?"
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "vehicleJointDiedAfterFAQ",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n'",
+                            "title": "Why does this date matter?",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "vehicleJointDiedAfterYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = y",
+                            "title": "Because one or more joint tenants of {panel.landAddress} has died after {deceased}, this vehicle passed to them automatically and you do not need to manage it as part of {deceasedName}'s estate.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "vehicleJointDiedAfterNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n'",
+                            "title": "Because {decasedName} is considered the last surviving joint tenant of {panel.landAddress}, it needs to be managed as part of {deceasedName}'s estate.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "vehicleNameMatch",
+                            "visible": false,
+                            "visibleIf": "{vehicleSoleOwner} = \"y\"",
+                            "title": "Is {deceasedName}'s name spelled exactly as <b>{deceasedName}</b> on the registration papers for the {panel.vehicleYear} {panel.vehicleMake} {panel.vehicleModel}?"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "vehicleJointAlive",
+                            "visible": false,
+                            "title": "Are any of the other registered owners alive?"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "vehicleJointAliveYesExplanation",
+                            "visible": false,
+                            "title": "Because another joint tenant of {panel.landAddress} is alive, this land or building passes to them automatically and you do not need to manage it as part of {deceasedName}'s estate.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "question334",
+                            "title": "[If there was a will & it looks like this car doesn't need to be on the P10] Was this {vehicle} listed in {decasedName}'s Will as a gift?"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "question336",
+                            "title": "is this still part of {deceasedName}'s estate?",
+                            "description": "yes - still include in P10 but say \"this asset is dealt with outside of their estate\";\nno - P10 text \"this asset was not in their estate at time of death\""
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleAlias",
+                            "visible": false,
+                            "visibleIf": "{vehicleNameMatch} = \"y\"",
+                            "title": "How is {deceasedName}'s name spelled exactly on the registration papers for the {panel.vehicleYear} {panel.vehicleMake} {panel.vehicleModel}?"
+                        },
+                        {
+                            "type": "radiogroup",
+                            "name": "vehicleValue",
+                            "visible": false,
+                            "visibleIf": "{panel.vehicleSoleOwner} = \"y\")",
+                            "title": "Do you have the exact value of the {panel.vehicleYear} {panel.vehicleMake} {panel.vehicleModel} at the time of {deceasedName}'s death?",
+                            "hasOther": true,
+                            "choices": [
+                                {
+                                    "value": "item1",
+                                    "text": "No, the financial institution will not give it to me."
+                                },
+                                {
+                                    "value": "item2",
+                                    "text": "No, I but I can get it at a later time."
+                                }
+                            ],
+                            "otherText": "Yes, I know the exact value:"
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "vehicleValueFAQ",
+                            "visible": false,
+                            "visibleIf": "{panel.vehicleSoleOwner} = \"y\"",
+                            "title": "How do I find the value of a vehicle?",
+                            "titleLocation": "hidden",
+                            "body": "The value of a vehicle is what someone would pay for it. Check your local buy and sell."
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question228",
+                            "title": "[JIRA] link to Canadian Blue Book or other? - look for limitations of site before promoting it. import a read-only number based on median price. applicant can copy or use their own.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "vehicleLiabilities",
+                            "visible": false,
+                            "visibleIf": "{panel.vehicleSoleOwner} = \"y\"",
+                            "title": "Was there a registered car loan on ?",
+                            "description": "We only care about loans that have been registered in the personal property registry"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question234",
+                            "title": "copy format for land",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleLoan",
+                            "visible": false,
+                            "visibleIf": "{vehicleLiabilities} = \"y\"",
+                            "title": "What is the value of the loan on the {panel.vehicleYear} {panel.vehicleMake} {panel.vehicleModel} at the time of {deceasedName}'s death?",
+                            "inputType": "number"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "question232",
+                            "visible": false,
+                            "visibleIf": "{panel.vehicleSoleOwner} = \"y\"",
+                            "title": "Was there a registered repairer's lien on ?",
+                            "description": "for example repairer's lien. this is part of the personal property registry system. look up the VIN#"
+                        },
+                        {
+                            "type": "text",
+                            "name": "vehicleLien",
+                            "visible": false,
+                            "visibleIf": "{vehicleLiabilities} = \"y\"",
+                            "title": "What is the value of the lien on the {panel.vehicleYear} {panel.vehicleMake} {panel.vehicleModel} at the time of {deceasedName}'s death?",
+                            "inputType": "number"
+                        }
+                    ],
+                    "panelCount": 1,
+                    "minPanelCount": 1,
+                    "panelAddText": "Add a vehicle",
+                    "panelRemoveText": "Remove a vehicle"
+                }
+            ],
+            "title": "About Vehicles"
+        }
+    ],
+    "showQuestionNumbers": "off",
+    "requiredText": ""
+}

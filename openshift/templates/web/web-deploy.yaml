@@ -7,27 +7,52 @@ metadata:
     tags: vue,nginx
   name: vue-on-nginx
 objects:
-  - kind: NetworkSecurityPolicy
-    apiVersion: security.devops.gov.bc.ca/v1alpha1
+
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
     metadata:
-      name: ${NAME}
+      name: ${NAME}-allow-ingress
       labels:
-        name: ${NAME}
+        name: ${NAME}-allow-ingress
         app: ${APP_NAME}
         env: ${TAG_NAME}
     spec:
       description: |
-        Allow the frontend (web) to talk to the api pod.
-      source:
-        - - role=${ROLE}
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
-      destination:
-        - - role=api
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
+        Allow traffic from routes into the ${ROLE} container(s).
+      ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                  network.openshift.io/policy-group: ingress
+      podSelector:
+        matchLabels:
+          role: ${ROLE}
+          app: ${APP_NAME}
+          env: ${TAG_NAME}
+      policyTypes:
+        - Ingress
+
+  # - kind: NetworkSecurityPolicy
+  #   apiVersion: security.devops.gov.bc.ca/v1alpha1
+  #   metadata:
+  #     name: ${NAME}
+  #     labels:
+  #       name: ${NAME}
+  #       app: ${APP_NAME}
+  #       env: ${TAG_NAME}
+  #   spec:
+  #     description: |
+  #       Allow the frontend (web) to talk to the api pod.
+  #     source:
+  #       - - role=${ROLE}
+  #         - app=${APP_NAME}
+  #         - env=${TAG_NAME}
+  #         - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
+  #     destination:
+  #       - - role=api
+  #         - app=${APP_NAME}
+  #         - env=${TAG_NAME}
+  #         - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
 
   - kind: DeploymentConfig
     apiVersion: v1
@@ -208,7 +233,7 @@ parameters:
     displayName: App Name
     description: App Name
     required: true
-    value: fla
+    value: representation-grant
   - name: ROLE
     displayName: Role
     description: Role
@@ -219,7 +244,7 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: 09e0c5
+    value: 583dbf
 
   - description: The namespace where to get the above image name
     displayName: Image Namespace
@@ -256,7 +281,7 @@ parameters:
     displayName: Web Base Href
     description: The application host path (Web Base Href).
     required: false
-    value: /apply-for-family-order/
+    value: /representation-grant/
   - description:
       Additional known and trusted reverse proxy ips conforming to nginx
       set_real_ip_from directive syntax. Multiple directives are allowed, separated
@@ -270,7 +295,7 @@ parameters:
   - description: The endpoint used for routing access to the application.
     displayName: Application Domain
     name: APPLICATION_DOMAIN
-    value: fla-dev.apps.silver.devops.gov.bc.ca
+    value: representation-grant-dev.silver.devops.bcgov
   - name: ALLOW_LIST
     displayName: Allow List
     description: The allow list containing all of the trusted source IPs.

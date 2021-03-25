@@ -10,9 +10,12 @@ export interface applicationInfoType {
     userName: string;
     userId: string;
     applicantName: string;
-    respondentName: string;
-    protectedPartyName: string;
-    protectedChildName: string;
+    deceasedName: string;
+    deceasedDateOfDeath: string;
+    DeceasedDateOfDeathPlus4: string;
+    dateOfWill: string;
+    deceasedChildrenInfo: [];
+    deceasedGrandChildrenInfo: [];
     applicationLocation: string;
 }
 
@@ -40,5 +43,13 @@ export interface stepInfoType {
   export interface stepResultInfoType {
     step: stepInfoType;
     data: any;
+  }
+
+  export interface belongingsInfoType {
+    land: any[];
+    vehicle: any[];
+    bankAccount: any[];
+    pension: any[];
+    personalItem: any[];
   }
 

@@ -4,49 +4,49 @@ apiVersion: v1
 metadata:
   name: ${NAME}${SUFFIX}-deployment-template
 objects:
-  - kind: ExternalNetwork
-    apiVersion: security.devops.gov.bc.ca/v1alpha1
-    metadata:
-      name: ${NAME}
-      network: ${NAME}
-      labels:
-        name: ${NAME}${SUFFIX}
-        app: ${APP_NAME}${SUFFIX}
-        app-group: ${APP_GROUP}
-        role: ${ROLE}
-        env: ${TAG_NAME}
-    spec:
-      description: |
-        Define the network parameters for accessing remote resources.
-      entries:
-        - ${WEBHOOK_URL_HOST}
-      servicePorts:
-        - tcp/443
+  # - kind: ExternalNetwork
+  #   apiVersion: security.devops.gov.bc.ca/v1alpha1
+  #   metadata:
+  #     name: ${NAME}
+  #     network: ${NAME}
+  #     labels:
+  #       name: ${NAME}${SUFFIX}
+  #       app: ${APP_NAME}${SUFFIX}
+  #       app-group: ${APP_GROUP}
+  #       role: ${ROLE}
+  #       env: ${TAG_NAME}
+  #   spec:
+  #     description: |
+  #       Define the network parameters for accessing remote resources.
+  #     entries:
+  #       - ${WEBHOOK_URL_HOST}
+  #     servicePorts:
+  #       - tcp/443
 
-  - kind: NetworkSecurityPolicy
-    apiVersion: security.devops.gov.bc.ca/v1alpha1
-    metadata:
-      name: ${NAME}${SUFFIX}
-      labels:
-        name: ${NAME}${SUFFIX}
-        app: ${APP_NAME}${SUFFIX}
-        app-group: ${APP_GROUP}
-        role: ${ROLE}
-        env: ${TAG_NAME}
-    spec:
-      description: |
-        Allow the backup-container to access the application's database for backup purposes, as well as access to rocket.chat to log notifications.
-      source:
-        - - role=${ROLE}
-          - app=${APP_NAME}${SUFFIX}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
-      destination:
-        - - role=db
-          - app=${APP_GROUP}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
-        - - ext:name=${NAME}
+  # - kind: NetworkSecurityPolicy
+  #   apiVersion: security.devops.gov.bc.ca/v1alpha1
+  #   metadata:
+  #     name: ${NAME}${SUFFIX}
+  #     labels:
+  #       name: ${NAME}${SUFFIX}
+  #       app: ${APP_NAME}${SUFFIX}
+  #       app-group: ${APP_GROUP}
+  #       role: ${ROLE}
+  #       env: ${TAG_NAME}
+  #   spec:
+  #     description: |
+  #       Allow the backup-container to access the application's database for backup purposes, as well as access to rocket.chat to log notifications.
+  #     source:
+  #       - - role=${ROLE}
+  #         - app=${APP_NAME}${SUFFIX}
+  #         - env=${TAG_NAME}
+  #         - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
+  #     destination:
+  #       - - role=db
+  #         - app=${APP_GROUP}
+  #         - env=${TAG_NAME}
+  #         - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
+  #       - - ext:name=${NAME}
 
   - kind: PersistentVolumeClaim
     apiVersion: v1
@@ -224,7 +224,7 @@ parameters:
     displayName: App Group
     description: The name assigned to all of the deployments in this project.
     required: true
-    value: fla
+    value: representation-grant
   - name: ROLE
     displayName: Role
     description: Role
@@ -235,7 +235,7 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: 09e0c5
+    value: 583dbf
 
   - name: SOURCE_IMAGE_NAME
     displayName: Source Image Name
@@ -248,7 +248,7 @@ parameters:
       The namespace of the OpenShift project containing the imagestream for
       the application.
     required: true
-    value: 09e0c5-tools
+    value: 583dbf-tools
   - name: TAG_NAME
     displayName: Environment TAG name
     description: The TAG name for this environment, e.g., dev, test, prod
@@ -299,14 +299,14 @@ parameters:
       by the webhook integration to identify the environment in which the backup notifications
       originate.
     required: false
-    value: Family Law Act (dev)
+    value: Representation Grant (dev)
   - name: ENVIRONMENT_NAME
     displayName: Environment Name (Environment Id)
     description:
       The name or Id of the environment.  This variable is used by the webhook
       integration to identify the environment in which the backup notifications originate.
     required: false
-    value: 09e0c5-dev
+    value: 583dbf-dev
   - name: BACKUP_DIR
     displayName: The root backup directory
     description:

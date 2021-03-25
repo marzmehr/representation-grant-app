@@ -7,28 +7,53 @@ metadata:
     description: Deployment template for a Schema Spy instance.
     tags: schema-spy
 objects:
-  - kind: NetworkSecurityPolicy
-    apiVersion: security.devops.gov.bc.ca/v1alpha1
+
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
     metadata:
-      name: ${NAME}
+      name: ${NAME}-allow-ingress
       labels:
-        name: ${NAME}
+        name: ${NAME}-allow-ingress
         app: ${APP_NAME}
         env: ${TAG_NAME}
     spec:
       description: |
-        Allow the schema-spy service to talk to the db pod.
-      source:
-        - - role=${ROLE}
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
+        Allow traffic from routes into the ${ROLE} container(s).
+      ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                  network.openshift.io/policy-group: ingress
+      podSelector:
+        matchLabels:
+          role: ${ROLE}
+          app: ${APP_NAME}
+          env: ${TAG_NAME}
+      policyTypes:
+        - Ingress
 
-      destination:
-        - - role=db
-          - app=${APP_NAME}
-          - env=${TAG_NAME}
-          - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
+  # - kind: NetworkSecurityPolicy
+  #   apiVersion: security.devops.gov.bc.ca/v1alpha1
+  #   metadata:
+  #     name: ${NAME}
+  #     labels:
+  #       name: ${NAME}
+  #       app: ${APP_NAME}
+  #       env: ${TAG_NAME}
+  #   spec:
+  #     description: |
+  #       Allow the schema-spy service to talk to the db pod.
+  #     source:
+  #       - - role=${ROLE}
+  #         - app=${APP_NAME}
+  #         - env=${TAG_NAME}
+  #         - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
+
+  #     destination:
+  #       - - role=db
+  #         - app=${APP_NAME}
+  #         - env=${TAG_NAME}
+  #         - $namespace=${NAMESPACE_NAME}-${TAG_NAME}
 
   - kind: Service
     apiVersion: v1
@@ -170,7 +195,7 @@ parameters:
     displayName: App Name
     description: App Name
     required: true
-    value: fla
+    value: representation-grant
   - name: ROLE
     displayName: Role
     description: Role
@@ -181,7 +206,7 @@ parameters:
     displayName: Namespace Name
     description: The base namespace name for the project.
     required: true
-    value: 09e0c5
+    value: 583dbf
 
   - name: IMAGE_NAMESPACE
     displayName: Image Namespace
@@ -189,7 +214,7 @@ parameters:
     description:
       The namespace of the OpenShift project containing the imagestream for
       the application.
-    value: 09e0c5-tools
+    value: 583dbf-tools
   - name: MEMORY_LIMIT
     displayName: Memory Limit
     required: true

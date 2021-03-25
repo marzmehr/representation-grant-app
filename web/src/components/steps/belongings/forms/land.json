@@ -1,0 +1,705 @@
+{
+    "title": "Representation Grant",
+    "pages": [
+        {
+            "name": "landPage",
+            "elements": [
+                {
+                    "type": "panel",
+                    "name": "landIntroPanel",
+                    "elements": [
+                        {
+                            "type": "infotext",
+                            "name": "landIntroExplanation",
+                            "title": "It's time to enter information about any land or buildings that {deceasedName} owned in British Columbia.\n<br>\n<br>\nIf {deceasedName} owned any land or buildings, make sure you have the Land Title Certificate(s) to help fill in the information.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        }
+                    ]
+                },
+                {
+                    "type": "panel",
+                    "name": "landExistsPanel",
+                    "elements": [
+                        {
+                            "type": "yesno",
+                            "name": "landExists",
+                            "isRequired": true,
+                            "title": "Did {deceasedName} own any land or buildings in BC at the time of their death?",
+                            "description": "You do not need to include land or buildings outside of British Columbia"
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "landExistsFAQ",
+                            "title": "What if the deceased owns real estate that is not in British Columbia?",
+                            "titleLocation": "hidden",
+                            "body": "You do not need to list real estate that is not in British Columbia. These are not within the jurisdiction of the Supreme Court of BC.  <– needs rephrasing, \"jurisdiction of supreme court...\" doesn't really mean anything to the user."
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "question373",
+                            "title": "manufactured homes, also know as mobile homes or trailer homes. don't include here. there will be questions later.",
+                            "titleLocation": "hidden",
+                            "body": "You do not need to list real estate that is not in British Columbia. These are not within the jurisdiction of the Supreme Court of BC.  <– needs rephrasing, \"jurisdiction of supreme court...\" doesn't really mean anything to the user."
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "landExistsYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{landExists} = 'y'",
+                            "title": "Please use some of the documents listed below to answer the questions.  \n<br>\nLand Title Certificate\n<br>\nAn official document issued by the Land Title and Survey Authority.\n<br>\nMortgage Statements\n<br>\nDetails the outstanding value of a mortgage for the real estate.\n<br>\nProperty Tax Statements\n<br>\nDetails the amount of  property tax that needs to be paid for the real estate.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{landIntroExplanation} > 0"
+                },
+                {
+                    "type": "paneldynamic",
+                    "name": "landInfoPanel",
+                    "visible": false,
+                    "visibleIf": "{landExists} = 'y' and {landExistsYesExplanation} > 0",
+                    "templateElements": [
+                        {
+                            "type": "address",
+                            "name": "landAdress",
+                            "title": "What is the address of this land or building? (Province and Country shouldn't be here - maybe greyed out)"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question442",
+                            "title": "[JIRA] Connect to BC Assessment's website to fill in fields",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question29",
+                            "title": "[Nov 10 2020 - old notes from qualifying]\n<br>\n* Dispute - Estate and Applicant Q’s\n<br>\n    * Issue if there is a dispute who is the “real” owner of the estate\n<br>    \n* Eg. Spouse name is not on title but has lived there for 70yrs\n<br>\n    * Does everyone agree to the names of the owners for the estate?\n<br>\nScenario - House Rich Cash Poor wife - not enough distribution for children\n<br>\nLikely not happening as part of the application, usually after during distribution [check with VLC/Chilliwack for frequency]",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "landSoleOwner",
+                            "title": "On the Land Title, is on {deceasedName} the only registered owner of {panel.landAddress}?"
+                        },
+                        {
+                            "type": "radiogroup",
+                            "name": "landOwnershipType",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'n'",
+                            "title": "What type of ownership is {panel.landAddress} registered under?",
+                            "choices": [
+                                {
+                                    "value": "joint",
+                                    "text": "Joint Tenancy"
+                                },
+                                {
+                                    "value": "common",
+                                    "text": "Tenancy in Common"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "text",
+                            "name": "landCommonPercent",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'n' and {panel.landOwnershipType} = 'common'",
+                            "title": "What % of {address} did deceased own? (how many sig figs for 1/3 = 33.33%?)",
+                            "description": "usually specified in the Land Title. If not, assume an equal split with other Tenants in Common"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "landJointAlive",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint'",
+                            "title": "Are any of the other registered owners alive?"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "landJointAliveYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'y'",
+                            "title": "Because another joint tenant of {panel.landAddress} is alive, this land or building passes to them automatically and you do not need to manage it as part of {deceasedName}'s estate.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "landJointDiedAfter",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n'",
+                            "title": "Did any other registered owners of {panel.address} die after {deceasedDateOfDeathPlus4}?"
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "landJointDiedAfterFAQ",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n'",
+                            "title": "Why does this date matter?",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "landJointDiedAfterYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = y",
+                            "title": "Because one or more joint tenants of {panel.landAddress} has died after {deceased}, this land or building passed to them automatically and you do not need to manage it as part of {deceasedName}'s estate.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "question325",
+                            "visible": false,
+                            "title": "[If there was a will - maybe include this is the blue info box by duplicating info boxes for will vs no will] Was this {address} listed in {decasedName}'s Will as a gift?"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "question335",
+                            "title": "is this still part of {deceasedName}'s estate?",
+                            "description": "yes - still include in P10 but say \"this asset is dealt with outside of their estate\";\nno - P10 text \"this asset was not in their estate at time of death\""
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "landJointDiedAfterNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n'",
+                            "title": "Because {decasedName} is considered the last surviving joint tenant of {panel.landAddress}, it needs to be managed as part of {deceasedName}'s estate.",
+                            "isRequired": true,
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "question361",
+                            "title": "registered owners that died within 4 days, how many? divide the P10 value by amount of owners (add note saying, deceased owned 50% of $20,000 car)",
+                            "titleLocation": "hidden",
+                            "messageStyle": "error"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "landNameMatch",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "On the land title for {panel.address}, is {deceasedName}'s name written exactly as {deceasedName}?"
+                        },
+                        {
+                            "type": "text",
+                            "name": "landAlias",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0))) and {panel.landNameMatch} = 'n'",
+                            "title": "full name if not a match"
+                        },
+                        {
+                            "type": "text",
+                            "name": "landPID",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "Please enter the parcel identifier (PID) of the real estate.",
+                            "description": "3 x 3-digit boxes"
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "question317",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "Where can I go to find this information?",
+                            "titleLocation": "hidden",
+                            "body": "You can find the legal description in the land title under the section Description of Land beneath the parcel identifier. Another way to find this is to enter the address of the real estate into the BC assessment website."
+                        },
+                        {
+                            "type": "comment",
+                            "name": "landLegalDescription",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "Please enter the legal description of the real estate."
+                        },
+                        {
+                            "type": "radiogroup",
+                            "name": "landValue",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "How much was this place worth on {deceasedDateOfDeath}?",
+                            "hasOther": true,
+                            "choices": [
+                                {
+                                    "value": "item3",
+                                    "text": "I don't know right now but I can get it later"
+                                }
+                            ],
+                            "otherText": "value is :"
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "landValueFAQ",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "How do I value the house?",
+                            "titleLocation": "hidden",
+                            "body": "Fact 1: Probate fees amount X%. Fact 2: Capital gains is your regular income tax bracket for 50% of the earnings on top of what it was worth. \nVariable 1: capital gains may not matter if the people inheriting the house are planning on moving in and declaring it their primary residence. \nyou might want to get professional advice?"
+                        },
+                        {
+                            "type": "radiogroup",
+                            "name": "landValueMethod",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "method of valuation",
+                            "hasOther": true,
+                            "choices": [
+                                {
+                                    "value": "item1",
+                                    "text": "bc assessment"
+                                },
+                                {
+                                    "value": "item2",
+                                    "text": "property appraiser"
+                                },
+                                {
+                                    "value": "item3",
+                                    "text": "realtor"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "radiogroup",
+                            "name": "question330",
+                            "title": " What is the value of the furniture and other household items at {address}?",
+                            "hasOther": true,
+                            "choices": [
+                                {
+                                    "value": "item1",
+                                    "text": "no resale value"
+                                }
+                            ],
+                            "otherText": "value"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "landMortgageExists",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "Mortgage? (in deceased's name)",
+                            "description": "Mortgage lenders don't want to be notified (they don't feel the need to object to the application)"
+                        },
+                        {
+                            "type": "paneldynamic",
+                            "name": "landMortgageInfoPanel",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0))) and {panel.landMortgageExists} = 'y'",
+                            "templateElements": [
+                                {
+                                    "type": "text",
+                                    "name": "landMortgageLenderName",
+                                    "title": "who is the mortgage lender? (who are the payments going to?)",
+                                    "description": "financial institution or full name of private mortgage lender"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "landMortgageLenderAddress",
+                                    "title": "mortgage lender's address"
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "landMortgageLenderAddressFAQ",
+                                    "title": "There are many different addresses? Which one should I use?",
+                                    "titleLocation": "hidden",
+                                    "body": "Look for any statements the deceased may have received about the mortgage. The statements usually include an address which you can enter here."
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landMortgageNumber",
+                                    "title": "mortgage registration number"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "question3",
+                                    "title": "date reigstered??",
+                                    "inputType": "datetime"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "landMortgageNameMatch",
+                                    "title": "On mortgage # {mortgagenumber}, is {deceasedName}'s name written exactly as {deceasedName}?"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landMortgageAlias",
+                                    "visible": false,
+                                    "title": "name on mortgage"
+                                },
+                                {
+                                    "type": "radiogroup",
+                                    "name": "landMortgageValue",
+                                    "title": "How much was this mortgage worth on {deceasedDateOfDeath}? For [street address] on [Mortgage #]",
+                                    "description": "This is tricky. Ask mortgage lender for the actual date of death, not simply was is on the closest statement to date of the death - Maybe DDRs can relax this??",
+                                    "hasOther": true,
+                                    "choices": [
+                                        {
+                                            "value": "item3",
+                                            "text": "I don't know right now but I can get it later"
+                                        },
+                                        {
+                                            "value": "item4",
+                                            "text": "the mortgage lender will not give me this information"
+                                        }
+                                    ],
+                                    "otherText": "value is :"
+                                }
+                            ],
+                            "panelCount": 1,
+                            "minPanelCount": 1
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "landTaxExists",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "Is there Property tax deferment? ",
+                            "description": "must be formal agreement, not just late taxes."
+                        },
+                        {
+                            "type": "paneldynamic",
+                            "name": "landTaxInfoPanel",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0))) and {panel.landTaxExists} = 'y'",
+                            "templateElements": [
+                                {
+                                    "type": "text",
+                                    "name": "landTaxCity",
+                                    "title": "what is the city that the property tax is owed [can we auto-detect city by address?]",
+                                    "description": "municipality"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "landTaxAddress",
+                                    "title": "municipality's [city hall] address"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landTaxNumber",
+                                    "title": "property tax agreement number [Provincial or municipality?]"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "question4",
+                                    "title": "date started? do we need this? do we need a range?",
+                                    "inputType": "datetime"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "landTaxNameMatch",
+                                    "title": "On property tax deferment # {propertytaxnumber}, is {deceasedName}'s name written exactly as {deceasedName}?"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landTaxAlias",
+                                    "visible": false,
+                                    "title": "name on property tax agreement"
+                                },
+                                {
+                                    "type": "radiogroup",
+                                    "name": "landTaxValue",
+                                    "title": "How much was this property tax worth on {deceasedDateOfDeath}? For [street address] on [Mortgage #]",
+                                    "description": "interest is probably charged annually? so pick the last \"statement\" before they died.",
+                                    "hasOther": true,
+                                    "choices": [
+                                        {
+                                            "value": "item3",
+                                            "text": "I don't know right now but I can get it later"
+                                        },
+                                        {
+                                            "value": "item4",
+                                            "text": "the {city/municipality} will not give me this information"
+                                        }
+                                    ],
+                                    "otherText": "value is :"
+                                }
+                            ],
+                            "panelCount": 1,
+                            "minPanelCount": 1
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "landLienExists",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "Builders lien?",
+                            "description": "name and address; registration# number, value (same as mortgage); add another"
+                        },
+                        {
+                            "type": "paneldynamic",
+                            "name": "landLienInfoPanel",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0))) and {panel.landLienExists} = 'y'",
+                            "templateElements": [
+                                {
+                                    "type": "text",
+                                    "name": "landLienHolder",
+                                    "title": "who is the builder? (who are the payments going to?)",
+                                    "description": "financial institution or full name of lien holder?"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "landLienAddress",
+                                    "title": "lien holder's address"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landLienNumber",
+                                    "title": "lien registration number",
+                                    "description": "where do you get this?"
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "landLienNumberFAQ",
+                                    "title": "where do I find this info?",
+                                    "titleLocation": "hidden",
+                                    "body": "Land title"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "landLienNameMatch",
+                                    "title": "On lien # {liennumber}, is {deceasedName}'s name written exactly as {deceasedName}?"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landLienAlias",
+                                    "visible": false,
+                                    "title": "{deceasedName} on lien"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "question20",
+                                    "title": "when was lien registered",
+                                    "description": "Can we accept liens dated after deceased died?",
+                                    "inputType": "datetime"
+                                },
+                                {
+                                    "type": "radiogroup",
+                                    "name": "landLienValue",
+                                    "title": "How much was this lien worth on {deceasedDateOfDeath}? For [street address] on [lien #]",
+                                    "description": "Is this on the Land Title or do you have to call?",
+                                    "hasOther": true,
+                                    "choices": [
+                                        {
+                                            "value": "item3",
+                                            "text": "I don't know right now but I can get it later"
+                                        },
+                                        {
+                                            "value": "item4",
+                                            "text": "the mortgage lender will not give me this information"
+                                        }
+                                    ],
+                                    "otherText": "value is :"
+                                }
+                            ],
+                            "panelCount": 1,
+                            "minPanelCount": 1
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "landJudgmentExists",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "Judgments registered against land",
+                            "description": "name and address; registration number#, value (same as mortgage); add another"
+                        },
+                        {
+                            "type": "paneldynamic",
+                            "name": "landJudgementInfoPanel",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0))) and {panel.landJudgmentExists} = y",
+                            "templateElements": [
+                                {
+                                    "type": "text",
+                                    "name": "landJudgementHolder",
+                                    "title": "who is the judgment holder? (who are the payments going to?)",
+                                    "description": "financial institution or full name of lien holder?"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "landJudgmentAddress",
+                                    "title": "judgment holder's address"
+                                },
+                                {
+                                    "type": "radiogroup",
+                                    "name": "landJudgmentDetail",
+                                    "title": "Any additional judgement info??",
+                                    "choices": [
+                                        "item1",
+                                        "item2",
+                                        "item3"
+                                    ]
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "landJudgmentDetailFAQ",
+                                    "title": "where do I find this info?",
+                                    "titleLocation": "hidden",
+                                    "body": "Land title"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landJudgmentNumber",
+                                    "title": "judgement ID number??"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "landJudgementNameMatch",
+                                    "title": "On judgement # {landJudgementNumber}, is {deceasedName}'s name written exactly as {deceasedName}?"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landJudgmentAlias",
+                                    "visible": false,
+                                    "title": "{deceasedName} on judgment"
+                                },
+                                {
+                                    "type": "radiogroup",
+                                    "name": "landJudgmentValue",
+                                    "title": "How much was this judgment worth on {deceasedDateOfDeath}? For [street address] on [lien #]",
+                                    "description": "Is this on the Land Title or do you have to call?",
+                                    "hasOther": true,
+                                    "choices": [
+                                        {
+                                            "value": "item3",
+                                            "text": "I don't know right now but I can get it later"
+                                        },
+                                        {
+                                            "value": "item4",
+                                            "text": "the judgment holder will not give me this information"
+                                        }
+                                    ],
+                                    "otherText": "value is :"
+                                }
+                            ],
+                            "panelCount": 1,
+                            "minPanelCount": 1
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "landOtherDebtExists",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0)))",
+                            "title": "Any other money owing registered against the house?",
+                            "description": "must be registered on the land title?? "
+                        },
+                        {
+                            "type": "paneldynamic",
+                            "name": "landOtherDebtInfoPanel",
+                            "visible": false,
+                            "visibleIf": "{panel.landSoleOwner} = 'y' or ({panel.landSoleOwner} = 'n' and \n({panel.landOwnershipType} = 'common' \nor ({panel.landOwnershipType} = 'joint' and {panel.landJointAlive} = 'n' and {panel.landJointDiedAfter} = 'n' and {panel.landJointDiedAfterNoExplanation} >0))) and {panel.landOtherDebtExists} = 'y'",
+                            "templateElements": [
+                                {
+                                    "type": "text",
+                                    "name": "landOtherDebtDescription",
+                                    "title": "describe the debt (must be a registered debt)",
+                                    "description": "financial institution or full name of lien holder?"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landOtherDebtHolder",
+                                    "title": "who is this money going to? (who are the payments going to?)",
+                                    "description": "financial institution or full name of lien holder?"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "landOtherDebtAddress",
+                                    "title": "receipient's address"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landOtherDebtNumber",
+                                    "title": "registration number??"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "landOtherDebtNameMatch",
+                                    "title": "On DebtNumber # {landOtherDebtNumber}, is {deceasedName}'s name written exactly as {deceasedName}?"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "landOtherDebtAlias",
+                                    "visible": false,
+                                    "title": "{deceasedName} on debt"
+                                },
+                                {
+                                    "type": "radiogroup",
+                                    "name": "landOtherDebtValue",
+                                    "title": "How much was this debt worth on {deceasedDateOfDeath}? For [street address] on [lien #]",
+                                    "description": "Is this on the Land Title or do you have to call?",
+                                    "hasOther": true,
+                                    "choices": [
+                                        {
+                                            "value": "item3",
+                                            "text": "I don't know right now but I can get it later"
+                                        },
+                                        {
+                                            "value": "item4",
+                                            "text": "the judgment holder will not give me this information"
+                                        }
+                                    ],
+                                    "otherText": "value is :"
+                                }
+                            ],
+                            "panelCount": 1,
+                            "minPanelCount": 1
+                        }
+                    ],
+                    "panelCount": 1,
+                    "minPanelCount": 1,
+                    "panelAddText": "Add a land or building",
+                    "panelRemoveText": "Remove a land or building"
+                },
+                {
+                    "type": "infotext",
+                    "name": "question272",
+                    "visible": false,
+                    "title": "Mar 8 2021 interest in land other than ownership?",
+                    "titleLocation": "hidden"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question271",
+                    "title": "Interest in land other than ownership?",
+                    "description": "lent money and hold a mortgage. or right to buy land for less than market value",
+                    "visible": false,
+                    "isRequired": true,
+                    "visibleIf": "{landIntroExplanation} > 0"
+                },
+                {
+                    "type": "yesno",
+                    "name": "landCompleted",
+                    "title": "Is this all the land?",
+                    "visible": false,
+                    "visibleIf": "{landExists} = 'y' and {landExistsYesExplanation} > 0"
+                },
+                {
+                    "type": "infotext",
+                    "name": "landCompletedNoError",
+                    "title": "Add all the land",
+                    "titleLocation": "hidden",
+                    "messageStyle": "error",
+                    "visible": false,
+                    "visibleIf": "({landExists} = 'y') and ({landExistsYesExplanation} > 0) and {landCompleted} = 'n'"
+                },
+                {
+                    "type": "yesno",
+                    "name": "question394",
+                    "visible": false,
+                    "visibleIf": "{landExists} = 'y' and {landExistsYesExplanation} > 0",
+                    "title": "Secured line of credit? [Dani says yes - Tyler says applicable for all other things as well]"
+                },
+                {
+                    "type": "infotext",
+                    "name": "question340",
+                    "visible": false,
+                    "visibleIf": "{landExists} = 'y' and {landExistsYesExplanation} > 0",
+                    "title": "Understanding land title certificates\n<br>\nA land title certificate contains a lot of information about a real estate. Here are some of the areas you may find useful for completing the questions.\n\n\n\nRegistered Owner in Fee Simple\n\nShows the owner(s) of the real estate.\n\n\n\nTaxation Authority\n<br>\nThe one receiving property taxes on the real estate\n<br>\nDescription of Land\n<br>\nContains legal description about the real estate.\n<br>\nCharges, Liens and Interests\n<br>\nLists any mortgages, liens or money owing on the property.",
+                    "titleLocation": "hidden"
+                }
+            ],
+            "title": "About Land or Buildings"
+        }
+    ],
+    "showQuestionNumbers": "off",
+    "requiredText": ""
+}
