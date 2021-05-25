@@ -8,6 +8,7 @@ class UserBase(AbstractUser):
 
     # Siteminder headers
     universal_id = models.CharField(max_length=500, blank=True, null=True)
+    idir_userid = models.CharField(max_length=500, blank=True, null=True)
     authorization_id = models.CharField(max_length=500, blank=True, null=True)
     authorization_guid = models.UUIDField(unique=True, default=None, null=True)
     authorization_directory = models.CharField(max_length=100, blank=True,
