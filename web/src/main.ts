@@ -45,8 +45,10 @@ const router = new VueRouter({
     }
 });
 
-// Redirect to /family-law-act/
-history.pushState({page: "home"}, "", process.env.BASE_URL)
+// Redirect to /family-law-act/ if not sandbox route
+//console.log(location.pathname)
+if(!location.pathname.includes('/sandbox') && !location.pathname.includes('/surveyeditor'))
+    history.pushState({page: "home"}, "", process.env.BASE_URL)
 
 SessionManager.redirectIfQuickExitCookie();
 
