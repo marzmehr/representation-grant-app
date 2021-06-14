@@ -9,6 +9,13 @@ import TermsConditions from "@/components/status/TermsConditions.vue"
 import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue"
 import { SessionManager } from "@/components/utils/utils";
 import VueResource from 'vue-resource'
+
+import SurveySandBox1 from "@/sandbox/ControlFiles/SurveySandBox1.vue"
+import SurveySandBox2 from "@/sandbox/ControlFiles/SurveySandBox2.vue"
+import SurveySandBox3 from "@/sandbox/ControlFiles/SurveySandBox3.vue"
+import SurveySandBox4 from "@/sandbox/ControlFiles/SurveySandBox4.vue"
+import SurveySandBox5 from "@/sandbox/ControlFiles/SurveySandBox5.vue"
+
 import store from "@/store"
 
 
@@ -72,7 +79,38 @@ const routes = [
   {
     path: "/surveyeditor",
     name: "surveyeditor",
+    beforeEnter: authGuard,
     component: SurveyCreatorForm
+  },
+  {
+    path: "/sandbox1",
+    name: "sandbox1",
+    beforeEnter: authGuard,
+    component: SurveySandBox1
+  },
+  {
+    path: "/sandbox2",
+    name: "sandbox2",
+    beforeEnter: authGuard,
+    component: SurveySandBox2
+  },
+  {
+    path: "/sandbox3",
+    name: "sandbox3",
+    beforeEnter: authGuard,
+    component: SurveySandBox3
+  },
+  {
+    path: "/sandbox4",
+    name: "sandbox4",
+    beforeEnter: authGuard,
+    component: SurveySandBox4
+  },
+  {
+    path: "/sandbox5",
+    name: "sandbox5",
+    beforeEnter: authGuard,
+    component: SurveySandBox5
   }
 ];
 

@@ -5,6 +5,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
+import { namespace } from "vuex-class";   
+
+import "@/store/modules/common";
+const commonState = namespace("Common");
 
 import * as SurveyCreator from "survey-creator";
 import "survey-creator/survey-creator.css"
@@ -16,9 +20,15 @@ import * as SurveyKO from "survey-knockout";
 
 @Component
 export default class SurveyCreatorForm extends Vue {
+
+    @commonState.Action
+    public UpdateHideHeaderFooter!: (newHideHeaderFooter) => void
+
     editor: SurveyCreator.SurveyCreator;
     mounted()
     {
+        this.UpdateHideHeaderFooter(true)
+
         this.initSurvey();
         widgets.inputmask(SurveyKO);
         addQuestionTypes(SurveyKO);
@@ -33,6 +43,8 @@ export default class SurveyCreatorForm extends Vue {
             "surveyCreatorContainer",
             editorOptions
         ));
+
+        editor.haveCommercialLicense = true
             
         addToolboxOptions(editor);
     }
@@ -84,7 +96,7 @@ export default class SurveyCreatorForm extends Vue {
         editorThemeColors["$primary-text-color"] = textColor;
         editorThemeColors["$selection-border-color"] = mainColor;
 
-        SurveyCreator.StylesManager.applySurveyTheme = () => null; // disable editor's reference to survey theme
+        // SurveyCreator.StylesManager.applySurveyTheme = () => null; // disable editor's reference to survey theme
         SurveyKO.StylesManager.applyTheme("bootstrap");
         SurveyCreator.StylesManager.applyTheme("bootstrap");        
     }
