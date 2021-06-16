@@ -18,11 +18,14 @@
      "type": "infotext",
      "name": "question2",
      "title": "page 2",
-     "titleLocation": "hidden"
+     "titleLocation": "hidden",
+     "isRequired": true
     }
    ],
    "visible": false,
    "visibleIf": "{question1} = 'y'"
   }
- ]
+ ],
+ "showQuestionNumbers": "off",
+ "requiredText": ""
 }
