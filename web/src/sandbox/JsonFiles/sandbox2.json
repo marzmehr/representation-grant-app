@@ -6,7 +6,8 @@
     {
      "type": "yesno",
      "name": "question1",
-     "title": "show page 2?"
+     "title": "show page 2?",
+     "isRequired": true
     }
    ]
   },
