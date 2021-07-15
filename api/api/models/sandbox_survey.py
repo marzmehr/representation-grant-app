@@ -1,8 +1,11 @@
-
 from django.db import models
-class SandboxSurvey(models.Model):
-    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    updated = models.DateTimeField(auto_now=True, blank=True, null=True)
 
-    name = models.CharField(max_length=100)
-    data = models.JSONField(blank=True)
+
+class SandboxSurvey(models.Model):
+    id = models.AutoField(
+        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+    )
+    create_timestamp = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_timestamp = models.DateTimeField(auto_now=True, blank=True, null=True)
+    sandbox_name = models.CharField(max_length=100)
+    sandbox_data = models.TextField(blank=True)

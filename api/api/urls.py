@@ -32,6 +32,7 @@ from api.views import (
     EFilingSubmitView,
     SurveyPdfView,
     UserView,
+    SandboxSurveyView
 )
 
 
@@ -59,7 +60,8 @@ urlpatterns = [
     path("user-info/", UserView.as_view()),
     path("efiling/document-types/", EFilingDocumentTypesView.as_view()),
     path("efiling/locations/", EFilingLocationView.as_view()),
-    #path("efiling/<int:application_id>/submit/", EFilingSubmitView.as_view()),
+    # path("efiling/<int:application_id>/submit/", EFilingSubmitView.as_view()),
+    path("sandbox-survey/", SandboxSurveyView.as_view()),
 ]
 
 if settings.OIDC_ENABLED:
