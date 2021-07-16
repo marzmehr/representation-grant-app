@@ -15,7 +15,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 import * as SurveyVue from "survey-vue";
-import surveyJson1 from "../JsonFiles/sandbox3.json";
+
 import * as surveyEnv from "./survey-glossary";
 
 import SandboxSidebar from "./SandboxSidebar.vue";
@@ -44,8 +44,6 @@ export default class SurveySandBox extends Vue {
     }
   }
 
-  // ASYNC AWAIT is causing issues. make sure the left panel is yellow.
-
   loadSurveyData = this.loadSurveyDataFromDatabase();
   survey = new SurveyVue.Model(this.loadSurveyData);
   updatedKey = 0;
@@ -57,37 +55,32 @@ export default class SurveySandBox extends Vue {
   }
 
   async mounted() {
-    await this.initializeSurvey();
+    this.survey = new SurveyVue.Model(await this.loadSurveyData);
+    this.initializeSurvey();
     this.addSurveyListener();
-    // this.reloadPageInformation();
   }
 
-  public async initializeSurvey() {
-    this.survey = new SurveyVue.Model(await this.loadSurveyData);
+  public initializeSurvey() {
     this.survey.commentPrefix = "Comment";
     this.survey.showQuestionNumbers = "off";
-    // this.survey.showNavigationButtons = false;
     surveyEnv.setGlossaryMarkdown(this.survey);
   }
 
   public addSurveyListener() {
-    this.survey.onValueChanged.add((sender, options) => {
-      //console.log(options)
-      //console.log(this.survey)
+    this.survey.onAfterRenderSurvey.add((sender, options) => {
       this.updatedKey++;
-      //this.survey.currentPageNo =3;
+    });
+
+    this.survey.onValueChanged.add((sender, options) => {
+      this.updatedKey++;
     });
 
     this.survey.onCurrentPageChanged.add((sender, options) => {
       this.updatedKey++;
-      //Vue.nextTick(()=> window.scrollTo(0,0))
       Vue.nextTick(() => {
         const el = document.getElementById("sidebar-title");
         if (el) el.scrollIntoView();
-        //scrollTo(0,0);
-        //console.log(el)
       });
-      // , 1000)
     });
   }
 }

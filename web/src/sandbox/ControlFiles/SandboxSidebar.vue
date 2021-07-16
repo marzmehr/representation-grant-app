@@ -1,99 +1,95 @@
 <template>
-    <div v-if="dataReady" class="sidebar-container">
-        <div id="sidebar-title" class="sidebar-title"><h3>{{title}}</h3></div>
-
-        <ul class="links">
-            <li v-for="link,inx in links" :key="inx"            
-                :class="{current: link.current, disabled: link.disabled, separate: link.separate}" 
-                @keydown="keyDown($event, link)" 
-                @click="activateLink(link)" 
-                :tabindex="link.disabled ? '-1' : '0'">
-                <div class="link-icon">{{link.textIndex}}</div>
-                <div class="link-label">{{link.title}}</div>
-            </li>
-        </ul>
-
+  <div v-if="dataReady" class="sidebar-container">
+    <div id="sidebar-title" class="sidebar-title">
+      <h3>{{ title }}</h3>
     </div>
+
+    <ul class="links">
+      <li
+        v-for="(link, inx) in links"
+        :key="inx"
+        :class="{
+          current: link.current,
+          disabled: link.disabled,
+          separate: link.separate
+        }"
+        @keydown="keyDown($event, link)"
+        @click="activateLink(link)"
+        :tabindex="link.disabled ? '-1' : '0'"
+      >
+        <div class="link-icon">{{ link.textIndex }}</div>
+        <div class="link-label">{{ link.title }}</div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 
 @Component
 export default class SandboxSidebar extends Vue {
+  @Prop({ required: true })
+  survey!: any;
 
-    @Prop({required: true})
-    survey!: any;
+  @Prop({ required: true })
+  changed!: number;
 
-    @Prop({required: true})
-    changed!: number;
+  title = "";
+  links = [];
 
-    title = '';
-    links = [];
-    
-    dataReady = false
+  dataReady = false;
 
-    @Watch('changed')
-    pageIndexChange(newVal) 
-    {
-        //console.log(this.changed)  
-        this.updateContent()  
-          
+  @Watch("changed")
+  pageIndexChange(newVal) {
+    console.log(newVal);
+    this.updateContent();
+  }
+
+  mounted() {
+    this.dataReady = false;
+    this.updateContent();
+    this.dataReady = true;
+  }
+
+  public updateContent() {
+    if (this.survey) {
+      this.title = "Application Steps"; // model.title;
+      const links = [];
+      this.survey.visiblePages.forEach((page, idx) => {
+        links.push({
+          disabled: false,
+          index: idx,
+          textIndex: "" + (idx + 1),
+          title: page.processedTitle || page.name,
+          current: idx === this.survey.currentPageNo
+        });
+      });
+      this.links = links;
     }
+  }
 
-    mounted() {
-        this.dataReady = false
+  public changePage(pageNo: number) {
+    this.survey.currentPageNo = pageNo;
+    this.updateContent();
+  }
 
-        this.updateContent()
-        // this.survey.onPageUpdate.subscribe(survey => {
-        //     this.updateContent(survey, this.survey.surveyCompleted, this.survey.surveyMode);
-        // });
-        
-        this.dataReady = true
+  public activateLink(link: any) {
+    if (link && !link.disabled) {
+      if (link.special) this.survey.changeMode(link.special);
+      else this.changePage(link.index);
     }
+  }
 
-
-    public updateContent() {
-        if(this.survey) {
-            this.title = 'Application Steps'; // model.title;
-            let links = [];
-            this.survey.visiblePages.forEach( (page, idx) => {
-                links.push({
-                disabled: false,
-                index: idx,
-                textIndex: '' + (idx + 1),
-                title: page.processedTitle || page.name,
-                current: idx === this.survey.currentPageNo});
-            });
-        
-            this.links = links;           
-        }
-    }
-
-    public changePage(pageNo: number) {
-        this.survey.currentPageNo = pageNo;
-        this.updateContent()
-    }
-
-    public activateLink(link: any) {
-        if(link && ! link.disabled) {
-        if(link.special)
-            this.survey.changeMode(link.special);
-        else
-            this.changePage(link.index);
-        }
-    }
-
-    keyDown(event, link) {
-        // allow space or enter to activate page
-        if(event && (event.keyCode === 13 || event.keyCode === 32))
-        this.activateLink(link);
-    }
+  keyDown(event, link) {
+    // allow space or enter to activate page
+    if (event && (event.keyCode === 13 || event.keyCode === 32))
+      this.activateLink(link);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
 @import "../../styles/common";
 
 /* // outer sidebar */
@@ -140,10 +136,10 @@ $link-disabled-color: #777;
   li {
     cursor: pointer;
     display: flex;
-    flex-flow: row ;
+    flex-flow: row;
     list-style-type: none;
     margin: 0;
-    padding: .15rem 1em 0.75rem 1em;
+    padding: 0.15rem 1em 0.75rem 1em;
     &.disabled {
       cursor: not-allowed;
     }
@@ -230,5 +226,4 @@ $link-disabled-color: #777;
   padding-top: 5px;
   transition: color 0.1s linear;
 }
-
 </style>
