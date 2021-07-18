@@ -42,7 +42,6 @@ export default class SandboxSidebar extends Vue {
 
   @Watch("changed")
   pageIndexChange(newVal) {
-    console.log(newVal);
     this.updateContent();
   }
 

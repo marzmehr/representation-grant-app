@@ -75,60 +75,65 @@ const routes = [
   {
     path: "/sandbox1",
     component: SurveySandBox,
+    beforeEnter: authGuard,
     props: { sandboxName: "sandbox1" }
   },
   {
     path: "/sandbox2",
     component: SurveySandBox,
+    beforeEnter: authGuard,
     props: { sandboxName: "sandbox2" }
   },
   {
     path: "/sandbox3",
     component: SurveySandBox,
+    beforeEnter: authGuard,
     props: { sandboxName: "sandbox3" }
   },
   {
     path: "/sandbox4",
     component: SurveySandBox,
+    beforeEnter: authGuard,
     props: { sandboxName: "sandbox4" }
   },
   {
     path: "/sandbox5",
     component: SurveySandBox,
+    beforeEnter: authGuard,
     props: { sandboxName: "sandbox5" }
   },
   {
     path: "/surveyeditor1",
     name: "surveyeditor1",
-    //beforeEnter: authGuard,
+    beforeEnter: authGuard,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox1" }
   },
   {
     path: "/surveyeditor2",
     name: "surveyeditor2",
-    //beforeEnter: authGuard,
+    beforeEnter: authGuard,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox2" }
   },
   {
     path: "/surveyeditor3",
     name: "surveyeditor3",
-    //beforeEnter: authGuard,
+    beforeEnter: authGuard,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox3" }
   },
   {
     path: "/surveyeditor4",
     name: "surveyeditor4",
-    //beforeEnter: authGuard,
+    beforeEnter: authGuard,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox4" }
   },
   {
     path: "/surveyeditor5",
     name: "surveyeditor5",
-    //beforeEnter: authGuard,
+    beforeEnter: authGuard,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox5" }
   }
