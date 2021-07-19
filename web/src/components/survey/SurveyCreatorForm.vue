@@ -47,7 +47,7 @@ export default class SurveyCreatorForm extends Vue {
       const response = await Axios.get(
         `/sandbox-survey/?sandbox_name=${this.sandboxName}`
       );
-      editor.changeText(response.data.sandbox_data);
+      editor.changeText(JSON.parse(response.data.sandbox_data));
     } catch (error) {
       console.log(
         "loadSurveyDataFromDatabase(): Loading JSON to JSON Editor failed\n",

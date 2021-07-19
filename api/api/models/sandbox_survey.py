@@ -7,5 +7,5 @@ class SandboxSurvey(models.Model):
     )
     create_timestamp = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     update_timestamp = models.DateTimeField(auto_now=True, blank=True, null=True)
-    sandbox_name = models.CharField(max_length=100)
+    sandbox_name = models.CharField(max_length=100, unique=True)
     sandbox_data = models.TextField(blank=True)

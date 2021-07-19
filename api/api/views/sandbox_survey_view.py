@@ -1,51 +1,40 @@
+from django.http.response import Http404, JsonResponse
 from django.utils import timezone
 from rest_framework import permissions, generics
 from rest_framework.response import Response
 from api.models.sandbox_survey import SandboxSurvey
 from django.http import HttpResponseBadRequest
+from api.serializers import SandboxSurveySerializer
+from core.utils.json_message_response import JsonMessageResponse
 import json
 
 
 class SandboxSurveyView(generics.GenericAPIView):
-    # permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+
+    def get_sandbox_list(self, name):
+        try:
+            return SandboxSurvey.objects.get(sandbox_name=name)
+        except SandboxSurvey.DoesNotExist:
+            raise Http404
 
     def get(self, request):
         name = request.GET["sandbox_name"]
-        sandbox = SandboxSurvey.objects.get(sandbox_name=name)
-        data = {
-            "id": sandbox.id,
-            "create_timestamp": sandbox.create_timestamp,
-            "update_timestamp": sandbox.update_timestamp,
-            "sandbox_name": sandbox.sandbox_name,
-            "sandbox_data": sandbox.sandbox_data
-        }
-        return Response(data)
+        sandbox = self.get_sandbox_list(name)
+        serializer = SandboxSurveySerializer(sandbox)
+        return Response(serializer.data)
 
     def put(self, request):
         body = request.data
         if not body:
             return HttpResponseBadRequest("Missing request body")
 
-        name = body.get("sandbox_name")
-        sandbox_data = body.get("sandbox_data")
-
-        sandbox = SandboxSurvey.objects.filter(sandbox_name=name).exists()
-        if not sandbox:
-            db = SandboxSurvey(
-                create_timestamp=timezone.now(),
-                update_timestamp=timezone.now(),
-                sandbox_name=name,
-                sandbox_data=json.dumps(sandbox_data)
-            )
-            db.save()
-            return Response("success")
-
-        db = SandboxSurvey.objects.get(sandbox_name=name)
-
-        db.update_timestamp = timezone.now()
-        db.sandbox_name = name
-        db.sandbox_data = sandbox_data
-
+        db, _ = SandboxSurvey.objects.update_or_create(
+            sandbox_name=body.get("sandbox_name"),
+            defaults={
+                "update_timestamp": timezone.now(),
+                "sandbox_data": json.dumps(body.get("sandbox_data")),
+            },
+        )
         db.save()
-
-        return Response("success")
+        return JsonMessageResponse("Successfully inserted data to Database", status=201)
