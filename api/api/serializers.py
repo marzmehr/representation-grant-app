@@ -18,7 +18,7 @@
 """
 from rest_framework import serializers
 
-from api.models import SurveyResult, User, Application
+from api.models import SurveyResult, User, Application, SandboxSurvey
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -58,4 +58,16 @@ class SurveySerializer(serializers.ModelSerializer):
             "survey_type",
             "result",
             "user_id",
+        ]
+
+
+class SandboxSurveySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SandboxSurvey
+        fields = [
+            "id",
+            "create_timestamp",
+            "update_timestamp",
+            "sandbox_name",
+            "sandbox_data",
         ]

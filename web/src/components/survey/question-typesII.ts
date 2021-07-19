@@ -306,8 +306,9 @@ function initInfoText(Survey: any) {
         if (!question.isRequired) {
           el.getElementsByClassName("row accept-row").forEach(e => e.remove());
         }
-        else
+        else {
           showContinueButton();
+        }
       });
 
       el.appendChild(outer);
