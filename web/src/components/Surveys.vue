@@ -37,7 +37,7 @@ import NoWillNotifyStep from "./steps/noWillNotify/NoWillNotifyStep.vue";
 import OverviewStep from "./steps/overview/OverviewStep.vue";
 import Submit from "./steps/submit/StepSubmit.vue";
 
-import * as surveyEnv from "@/components/survey/survey-glossary.ts"
+import * as surveyEnv from "@/components/survey/survey-glossary"
 import { stepInfoType } from '@/types/Application';
 
 @Component({
