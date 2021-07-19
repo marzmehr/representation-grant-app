@@ -85,7 +85,7 @@ build-web() {
     --copy \
     -e WEB_BASE_HREF=${WEB_BASE_HREF} \
     '../web' \
-    'centos/nodejs-10-centos7:10' \
+    'centos/nodejs-12-centos7' \
     ${COMPOSE_PROJECT_NAME}'-web-artifacts'
   echo -e "===================================================================================================="
 
