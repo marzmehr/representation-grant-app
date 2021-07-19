@@ -27,12 +27,11 @@ class SandboxSurveyView(generics.GenericAPIView):
     def put(self, request):
         body = request.data
         if not body:
-            return HttpResponseBadRequest("Missing request body")
+            return JsonMessageResponse("Missing request body", status=400)
 
         db, _ = SandboxSurvey.objects.update_or_create(
             sandbox_name=body.get("sandbox_name"),
             defaults={
-                "update_timestamp": timezone.now(),
                 "sandbox_data": json.dumps(body.get("sandbox_data")),
             },
         )
