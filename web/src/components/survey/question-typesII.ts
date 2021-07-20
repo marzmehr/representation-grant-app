@@ -1257,6 +1257,9 @@ export function addQuestionTypes(Survey) {
 
 export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
+    title: "---Custom---",
+  });
+  editor.toolbox.addItem({
     name: "yesno",
     title: "Yes/No Choice",
     //category: "Custom",
