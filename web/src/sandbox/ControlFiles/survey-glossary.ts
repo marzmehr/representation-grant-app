@@ -1,5 +1,5 @@
 import * as showdown from "showdown";
-import { addQuestionTypes } from "@/components/survey/question-types.ts";
+import { addQuestionTypes } from "@/components/survey/question-types";
 const util = require("@/components/survey/js/util");
 const glossaryJson = require('../JsonFiles/glossary.json')
 
