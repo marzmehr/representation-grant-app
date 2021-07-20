@@ -1259,7 +1259,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "yesno",
     title: "Yes/No Choice",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-radiogroup",
     json: {
@@ -1269,7 +1269,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "helptext",
     title: "Expanding FAQ",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-panel",
     json: {
@@ -1280,7 +1280,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "infotext",
     title: "Message Text",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-panel",
     json: {
@@ -1291,7 +1291,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "personname",
     title: "Name Input",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
@@ -1301,7 +1301,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "address",
     title: "Postal Address",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
@@ -1311,7 +1311,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "contactinfo",
     title: "Contact Information",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
