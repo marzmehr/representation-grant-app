@@ -26,7 +26,7 @@ export default class SurveyCreatorForm extends Vue {
   @commonState.Action
   public UpdateHideHeaderFooter!: (newHideHeaderFooter) => void;
 
-  public async saveSurveyDataToDatabase(jsonData) {
+  public async saveSurveyDataToDatabase(jsonData: string) {
     try {
       await Axios.put("/sandbox-survey/", {
         sandbox_name: this.sandboxName,
@@ -63,26 +63,29 @@ export default class SurveyCreatorForm extends Vue {
     widgets.inputmask(SurveyKO);
     addQuestionTypes(SurveyKO);
 
+    const saveSurveyData = this.saveSurveyDataToDatabase;
+    const sandboxName = this.sandboxName;
+
     const editorOptions = {
       isAutoSave: true,
-      showLogicTab: true,
-      // showTestSurveyTab: false,
-      // showPropertyGrid: "right",
-      showToolbox: "right"
+      showLogicTab: true
+      /* Keep the following editor options in here in case user needs to re-arrange the
+      look of the editor 
+        showPropertyGrid: "right",
+        showToolbox: "right"
+      */
     };
 
     const editor = new SurveyCreator.SurveyCreator(
       "surveyCreatorContainer",
       editorOptions
     );
-
     await this.loadSurveyDataFromDatabase(editor);
-    const saveSurveyData = this.saveSurveyDataToDatabase;
 
     editor.toolbarItems.push({
-      id: "save-json",
+      id: "save-test",
       visible: true,
-      title: "Save JSON",
+      title: "Save Test",
       action: async function() {
         await saveSurveyData(editor.text);
       }
@@ -91,9 +94,9 @@ export default class SurveyCreatorForm extends Vue {
     editor.toolbarItems.push({
       id: "copy-link",
       visible: true,
-      title: "Copy Link",
+      title: "Copy Test URL",
       action: function() {
-        const copyToClipboard = str => {
+        const copyToClipboard = (str: string) => {
           const el = document.createElement("textarea");
           el.value = str;
           document.body.appendChild(el);
@@ -104,6 +107,25 @@ export default class SurveyCreatorForm extends Vue {
         const url = window.location.href;
         copyToClipboard(url.replace("surveyeditor", "sandbox"));
         alert("Copied");
+      }
+    });
+
+    editor.toolbarItems.push({
+      id: "download-json",
+      visible: true,
+      title: "Download JSON",
+      action: function() {
+        const download = (fileData: string, fileName: string) => {
+          const el = document.createElement("a");
+          el.setAttribute(
+            "href",
+            "data:application/json;charset=utf-8," +
+              encodeURIComponent(fileData)
+          );
+          el.setAttribute("download", fileName);
+          el.click();
+        };
+        download(editor.text, `SurveyEditor${sandboxName.slice(-1)}.json`);
       }
     });
 
