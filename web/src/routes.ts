@@ -10,11 +10,7 @@ import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue"
 import { SessionManager } from "@/components/utils/utils";
 import VueResource from 'vue-resource'
 
-import SurveySandBox1 from "@/sandbox/ControlFiles/SurveySandBox1.vue"
-import SurveySandBox2 from "@/sandbox/ControlFiles/SurveySandBox2.vue"
-import SurveySandBox3 from "@/sandbox/ControlFiles/SurveySandBox3.vue"
-import SurveySandBox4 from "@/sandbox/ControlFiles/SurveySandBox4.vue"
-import SurveySandBox5 from "@/sandbox/ControlFiles/SurveySandBox5.vue"
+import SurveySandBox from "@/sandbox/ControlFiles/SurveySandBox.vue"
 
 import store from "@/store"
 
@@ -33,7 +29,7 @@ const routes = [
     component: LandingPage
   },
   {
-    path: "/representation-grant", 
+    path: "/representation-grant",
     component: LandingPage
   },
   {
@@ -59,7 +55,7 @@ const routes = [
   //   name: "result-page",
   //   component: ResultPage,
   // },
-  { 
+  {
     path: "/survey",
     name: "surveys",
     beforeEnter: authGuard,
@@ -77,40 +73,69 @@ const routes = [
     component: TermsConditions
   },
   {
-    path: "/surveyeditor",
-    name: "surveyeditor",
-    beforeEnter: authGuard,
-    component: SurveyCreatorForm
-  },
-  {
     path: "/sandbox1",
-    name: "sandbox1",
+    component: SurveySandBox,
     beforeEnter: authGuard,
-    component: SurveySandBox1
+    props: { sandboxName: "sandbox1" }
   },
   {
     path: "/sandbox2",
-    name: "sandbox2",
+    component: SurveySandBox,
     beforeEnter: authGuard,
-    component: SurveySandBox2
+    props: { sandboxName: "sandbox2" }
   },
   {
     path: "/sandbox3",
-    name: "sandbox3",
+    component: SurveySandBox,
     beforeEnter: authGuard,
-    component: SurveySandBox3
+    props: { sandboxName: "sandbox3" }
   },
   {
     path: "/sandbox4",
-    name: "sandbox4",
+    component: SurveySandBox,
     beforeEnter: authGuard,
-    component: SurveySandBox4
+    props: { sandboxName: "sandbox4" }
   },
   {
     path: "/sandbox5",
-    name: "sandbox5",
+    component: SurveySandBox,
     beforeEnter: authGuard,
-    component: SurveySandBox5
+    props: { sandboxName: "sandbox5" }
+  },
+  {
+    path: "/surveyeditor1",
+    name: "surveyeditor1",
+    beforeEnter: authGuard,
+    component: SurveyCreatorForm,
+    props: { sandboxName: "sandbox1" }
+  },
+  {
+    path: "/surveyeditor2",
+    name: "surveyeditor2",
+    beforeEnter: authGuard,
+    component: SurveyCreatorForm,
+    props: { sandboxName: "sandbox2" }
+  },
+  {
+    path: "/surveyeditor3",
+    name: "surveyeditor3",
+    beforeEnter: authGuard,
+    component: SurveyCreatorForm,
+    props: { sandboxName: "sandbox3" }
+  },
+  {
+    path: "/surveyeditor4",
+    name: "surveyeditor4",
+    beforeEnter: authGuard,
+    component: SurveyCreatorForm,
+    props: { sandboxName: "sandbox4" }
+  },
+  {
+    path: "/surveyeditor5",
+    name: "surveyeditor5",
+    beforeEnter: authGuard,
+    component: SurveyCreatorForm,
+    props: { sandboxName: "sandbox5" }
   }
 ];
 

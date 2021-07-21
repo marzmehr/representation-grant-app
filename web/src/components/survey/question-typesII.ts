@@ -217,7 +217,7 @@ function initHelpText(Survey) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
-function initInfoText(Survey) {
+function initInfoText(Survey: any) {
   const widget = {
     name: "infotext",
     title: "Message Text",
@@ -225,10 +225,10 @@ function initInfoText(Survey) {
     widgetIsLoaded: function() {
       return true;
     },
-    isFit: function(question) {
+    isFit: function (question: any) {
       return question.getType() === "infotext";
     },
-    activatedByChanged: function(activatedBy) {
+    activatedByChanged: function(activatedBy: any) {
       Survey.JsonObject.metaData.addClass("infotext", [], null, "empty");
       Survey.JsonObject.metaData.addProperties("infotext", [
         {
@@ -242,7 +242,7 @@ function initInfoText(Survey) {
       ]);
     },
     htmlTemplate: "<div></div>",
-    afterRender: function(question, el) {
+    afterRender: function (question: any, el: any) {
       while (el.childNodes.length) el.removeChild(el.childNodes[0]);
 
       const outer = document.createElement("div");
@@ -280,24 +280,36 @@ function initInfoText(Survey) {
         outer.appendChild(body);
       }
 
-      if (question.isRequired && !question.value) {
-        const acceptRow = document.createElement("div");
-        acceptRow.className = "row accept-row";
-        const cell = document.createElement("div");
-        cell.className = "col-sm-12";
-        const acceptBtn = document.createElement("button");
-        acceptBtn.className = "btn btn-primary";
-        const acceptLbl = document.createElement("span");
-        acceptLbl.appendChild(document.createTextNode("Continue"));
-        acceptBtn.appendChild(acceptLbl);
-        acceptBtn.addEventListener("click", () => {
-          question.value = 1;
-          acceptRow.style.display = "none";
-        });
-        cell.appendChild(acceptBtn);
-        acceptRow.appendChild(cell);
-        outer.appendChild(acceptRow);
+      const showContinueButton = () => {
+        if (question.isRequired && !question.value) {
+          const acceptRow = document.createElement("div");
+          acceptRow.className = "row accept-row";
+          const cell = document.createElement("div");
+          cell.className = "col-sm-12";
+          const acceptBtn = document.createElement("button");
+          acceptBtn.className = "btn btn-primary";
+          const acceptLbl = document.createElement("span");
+          acceptLbl.appendChild(document.createTextNode("Continue"));
+          acceptBtn.appendChild(acceptLbl);
+          acceptBtn.addEventListener("click", () => {
+            question.value = 1;
+            acceptRow.style.display = "none";
+          });
+          cell.appendChild(acceptBtn);
+          acceptRow.appendChild(cell);
+          outer.appendChild(acceptRow);
+        }
       }
+      showContinueButton();
+
+      question.registerFunctionOnPropertyValueChanged("isRequired", () => {
+        if (!question.isRequired) {
+          el.getElementsByClassName("row accept-row").forEach(e => e.remove());
+        }
+        else {
+          showContinueButton();
+        }
+      });
 
       el.appendChild(outer);
 
@@ -1245,9 +1257,12 @@ export function addQuestionTypes(Survey) {
 
 export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
+    title: "---Custom---",
+  });
+  editor.toolbox.addItem({
     name: "yesno",
     title: "Yes/No Choice",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-radiogroup",
     json: {
@@ -1257,7 +1272,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "helptext",
     title: "Expanding FAQ",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-panel",
     json: {
@@ -1268,7 +1283,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "infotext",
     title: "Message Text",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-panel",
     json: {
@@ -1279,7 +1294,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "personname",
     title: "Name Input",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
@@ -1289,7 +1304,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "address",
     title: "Postal Address",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
@@ -1299,7 +1314,7 @@ export function addToolboxOptions(editor) {
   editor.toolbox.addItem({
     name: "contactinfo",
     title: "Contact Information",
-    category: "Custom",
+    //category: "Custom",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
