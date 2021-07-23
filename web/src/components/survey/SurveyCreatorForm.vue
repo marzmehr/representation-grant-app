@@ -16,6 +16,7 @@ import "survey-creator/survey-creator.css";
 import { addToolboxOptions, addQuestionTypes } from "./question-typesII";
 import * as widgets from "surveyjs-widgets";
 import * as SurveyKO from "survey-knockout";
+import * as ace from "ace-builds";
 
 import Axios from "axios";
 
@@ -66,6 +67,7 @@ export default class SurveyCreatorForm extends Vue {
     const saveSurveyData = this.saveSurveyDataToDatabase;
     const sandboxName = this.sandboxName;
 
+    ace.edit("surveyCreatorContainer", {});
     const editorOptions = {
       isAutoSave: true,
       showLogicTab: true
