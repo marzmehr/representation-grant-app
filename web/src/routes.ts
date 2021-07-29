@@ -5,22 +5,32 @@ import UnQualified from "@/components/home/UnQualified.vue";
 // import ResultPage from "@/components/home/ResultPage.vue";
 import Surveys from "@/components/Surveys.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
-import TermsConditions from "@/components/status/TermsConditions.vue"
-import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue"
+import TermsConditions from "@/components/status/TermsConditions.vue";
+import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue";
 import { SessionManager } from "@/components/utils/utils";
-import VueResource from 'vue-resource'
+import VueResource from "vue-resource";
 
-import SurveySandBox from "@/sandbox/ControlFiles/SurveySandBox.vue"
+import SurveySandBox from "@/sandbox/ControlFiles/SurveySandBox.vue";
 
-import store from "@/store"
-
+import store from "@/store";
 
 async function authGuard(to: any, from: any, next: any) {
   var result = await SessionManager.getUserInfo(store);
-  if (result.userId)
+  if (result.userId) {
     next();
-  else if (result.loginUrl)
+  } else if (result.loginUrl) {
     location.replace(result.loginUrl);
+  }
+}
+
+async function authGuardAdmin(to: any, from: any, next: any) {
+  var result = await SessionManager.getUserInfo(store);
+  if (result.isStaff) {
+    next();
+  } else {
+    location.replace("/");
+    window.alert("You are not an Admin");
+  }
 }
 
 const routes = [
@@ -36,19 +46,19 @@ const routes = [
     path: "/qualify",
     name: "pre-qualification",
     // beforeEnter: authGuard,
-    component: PreQualification,
+    component: PreQualification
   },
   {
     path: "/qualified",
     name: "qualified",
     // beforeEnter: authGuard,
-    component: Qualified,
+    component: Qualified
   },
   {
     path: "/unqualified",
     name: "unqualified",
     // beforeEnter: authGuard,
-    component: UnQualified,
+    component: UnQualified
   },
   // {
   //   path: "/results/:result",
@@ -75,65 +85,65 @@ const routes = [
   {
     path: "/sandbox1",
     component: SurveySandBox,
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox1" }
   },
   {
     path: "/sandbox2",
     component: SurveySandBox,
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox2" }
   },
   {
     path: "/sandbox3",
     component: SurveySandBox,
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox3" }
   },
   {
     path: "/sandbox4",
     component: SurveySandBox,
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox4" }
   },
   {
     path: "/sandbox5",
     component: SurveySandBox,
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox5" }
   },
   {
     path: "/surveyeditor1",
     name: "surveyeditor1",
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox1" }
   },
   {
     path: "/surveyeditor2",
     name: "surveyeditor2",
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox2" }
   },
   {
     path: "/surveyeditor3",
     name: "surveyeditor3",
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox3" }
   },
   {
     path: "/surveyeditor4",
     name: "surveyeditor4",
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox4" }
   },
   {
     path: "/surveyeditor5",
     name: "surveyeditor5",
-    beforeEnter: authGuard,
+    beforeEnter: authGuardAdmin,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox5" }
   }
