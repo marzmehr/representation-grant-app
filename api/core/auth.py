@@ -51,7 +51,7 @@ def sync_keycloak_user(oidc_user: OIDCUser, claims: dict):
     oidc_user.user.save()
 
 
-def build_get_user_object(logged_in, request):
+def build_get_user_object(logged_in, parsed_url, request):
     return {
         "accepted_terms_at": logged_in and request.user.accepted_terms_at or None,
         "user_id": logged_in and request.user.authorization_id or None,
@@ -61,7 +61,7 @@ def build_get_user_object(logged_in, request):
         "display_name": logged_in and request.user.display_name or None,
         "is_staff": logged_in and request.user.is_staff,
         "universal_id": logged_in and request.user.universal_id,
-        "login_uri": get_login_uri(request),
+        "login_uri": get_login_uri(request, next=parsed_url.path),
         "logout_uri": get_logout_uri(request)
     }
 
