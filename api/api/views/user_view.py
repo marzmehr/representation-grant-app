@@ -1,8 +1,6 @@
-from django.conf.urls import url
 from django.http import (
     HttpResponseForbidden
 )
-from django.http.request import HttpRequest
 from django.middleware.csrf import get_token
 from rest_framework.request import Request
 from rest_framework.response import Response
