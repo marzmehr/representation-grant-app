@@ -74,7 +74,7 @@ const routes = [
   {
     path: "/survey",
     name: "surveys",
-    beforeEnter: authGuardAdmin,
+    beforeEnter: authGuard,
     component: Surveys
   },
   {
