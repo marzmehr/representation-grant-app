@@ -21,10 +21,8 @@ class UserView(APIView):
         return Response(status=204)
 
     def get(self, request: Request):
-        http_host = request.META.get('HTTP_REFERER')
-        parsed_url = urlparse(http_host)
         logged_in = isinstance(request.user, User)
-        info = build_get_user_object(logged_in, parsed_url, request)
+        info = build_get_user_object(logged_in, request)
         info["location"] = logged_in and request.user.location
         ret = Response(info)
         ret.set_cookie("csrftoken", get_token(request))
