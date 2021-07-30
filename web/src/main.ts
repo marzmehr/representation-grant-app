@@ -1,11 +1,20 @@
 import Vue from "vue";
 import App from "@/App.vue";
-import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserEdit, faUserTie, faCoins, faEnvelopeOpenText, faUsers, faChild, faPaperPlane, faBook } from '@fortawesome/free-solid-svg-icons'
+import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faUserEdit,
+  faUserTie,
+  faCoins,
+  faEnvelopeOpenText,
+  faUsers,
+  faChild,
+  faPaperPlane,
+  faBook
+} from "@fortawesome/free-solid-svg-icons";
 import VueRouter from "vue-router";
-import VueCookies from "vue-cookies"
+import VueCookies from "vue-cookies";
 import routes from "@/routes";
 import store from "@/store";
 import http from "./plugins/http";
@@ -26,7 +35,7 @@ library.add(faEnvelopeOpenText);
 library.add(faUsers);
 library.add(faChild);
 library.add(faPaperPlane);
-library.add(faBook)
+library.add(faBook);
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
@@ -34,27 +43,22 @@ Vue.use(BootstrapVueIcons);
 Vue.use(VueRouter);
 Vue.use(VueCookies);
 Vue.use(http);
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 const router = new VueRouter({
-    routes: routes, 
-    mode: "history", 
-    base: process.env.BASE_URL,
-    scrollBehavior(to, from, savedPosotion) { 
-        return { x: 0, y: 0 }
-    }
+  routes: routes,
+  mode: "history",
+  base: process.env.BASE_URL,
+  scrollBehavior(to, from, savedPosotion) {
+    return { x: 0, y: 0 };
+  }
 });
-
-// Redirect to /family-law-act/ if not sandbox route
-//console.log(location.pathname)
-if(!location.pathname.includes('/sandbox') && !location.pathname.includes('/surveyeditor'))
-    history.pushState({page: "home"}, "", process.env.BASE_URL)
 
 SessionManager.redirectIfQuickExitCookie();
 
 new Vue({
-    router: router,
-    render: (h) => h(App),
-    store: store,
-    data: {},
+  router: router,
+  render: h => h(App),
+  store: store,
+  data: {}
 }).$mount("#app");

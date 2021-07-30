@@ -23,6 +23,7 @@ export const SessionManager = {
             var response = await Axios.get('/user-info/');
             const userId = response.data.user_id;
             const loginUrl = response.data.login_uri;
+            const isStaff = response.data.is_staff;
             const userLocation = response.data.location;
             if (userId) {
                 const universalId = response.data.universal_id;
@@ -35,7 +36,7 @@ export const SessionManager = {
                 store.commit("Common/setUserLocation",userLocation)
                 store.commit("Common/setUserName", userName);
             }
-            return { userId, loginUrl };
+            return { userId, loginUrl, isStaff };
         }
         catch (error) {
             console.log(error);  
