@@ -21,7 +21,7 @@ async function authGuard(to: any, from: any, next: any) {
   } else if (result.loginUrl) {
     location.replace(result.loginUrl);
   } else {
-    location.replace("/");
+    window.location.replace(process.env.BASE_URL);
   }
 }
 
@@ -32,10 +32,10 @@ async function authGuardAdmin(to: any, from: any, next: any) {
   } else if (result.isStaff) {
     next();
   } else if (result.userId) {
-    location.replace("/status");
+    window.location.replace(`${process.env.BASE_URL}status`);
     window.alert("You are not an Admin");
   } else {
-    location.replace("/");
+    window.location.replace(process.env.BASE_URL);
   }
 }
 
