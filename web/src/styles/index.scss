@@ -252,3 +252,108 @@ $indicator-thickness: 0.2em;
 //   width: 100%;
 //   height: 3.5rem; /* Footer height */
 // }
+
+
+// Below are the styles for the survey editor
+$font-size: 11px;
+
+.svd_container.sv_bootstrap_css .svd-tabs {
+  font-size: $font-size;
+  line-height: 1em;
+  border-bottom: 1px solid lightgray;
+  padding: 1px 0px 0px 1px;
+}
+
+.svd_container .svd_content {
+  padding: 0px 0px 2px 0px;
+}
+
+.svd-toolbar-dropdown__select {
+  font-size: $font-size;
+}
+
+.svd_container .svd_toolbar {
+  font-size: $font-size;
+  margin-bottom: 2px;
+}
+
+.svd_container svd-pages-editor .svd-page {
+  font-size: $font-size;
+  height: 35px;
+  padding: 0.6em 1em;
+  border: 1px solid lightgrey;
+  border-bottom: 0px;
+}
+
+.svd_container svd-pages-editor .svd-page-scroller-arrow {
+  height: 2.3em;
+  padding-top: 0em;
+}
+
+.svd_container svd-pages-editor .svd-page-selector {
+  height: 35px;
+  margin-bottom: 0px;
+}
+
+.svd_container .svd_content .svd_survey_designer .svd_editors {
+  padding: 0 3px;
+}
+
+.svd-designer-container--left-side {
+  font-size: $font-size;
+  width: 20%;
+  max-width: 20%;
+  flex-basis: 20%;
+  .svd_toolbox_item {
+    padding: 5px 1px 5px 8px;
+  }
+}
+
+.svd-designer-container--right-side {
+  font-size: $font-size;
+  width: 25%;
+  max-width: 25%;
+  flex-basis: 25%;
+  .svd_object_selector {
+    padding: 1px;
+  }
+  .svd-accordion-tab-header {
+    font-size: $font-size;
+  }
+  .svd_object_editor {
+    font-size: $font-size;
+    padding: 1px;
+    .form-control {
+      font-size: $font-size;
+    }
+  }
+}
+
+.svd_container .svd_content .svd_survey_designer .svd_editors .svd_questions_editor {
+  padding-top: 1px;
+  border-radius: 8px;
+  .panel-body .svd_question, .svd_container .svd_content .svd_survey_designer .svd_editors .svd_questions_editor .card-block .svd_question {
+    -webkit-box-shadow: 0px 0px 2px lightgrey;
+    box-shadow: 0px 0px 2px lightgrey;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 10px 5px;
+    font-size: $font-size;
+  }
+}
+
+.sv_main .sv_q_title {
+  margin-bottom: 0px;
+}
+
+.svd_page > .description_editable {
+  margin: 0px 0px 20px 10px;
+}
+
+.sv_main h4.sv_page_title {
+  margin: 0px 0px 0px 10px;
+}
+
+.sv_main .sv_q_description {
+  margin-bottom: 13px;
+}
