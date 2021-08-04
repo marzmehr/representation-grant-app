@@ -296,11 +296,11 @@ $font-size: 11px;
 
 .svd-designer-container--left-side {
   font-size: $font-size;
-  width: 12%;
-  max-width: 12%;
-  flex-basis: 12%;
+  width: 20%;
+  max-width: 20%;
+  flex-basis: 20%;
   .svd_toolbox_item {
-    padding: 4px 1px 4px 8px;
+    padding: 5px 1px 5px 8px;
   }
 }
 
@@ -337,10 +337,20 @@ $font-size: 11px;
   }
 }
 
+.sv_main .sv_q_title {
+  font-size: 16px;
+  line-height: 0px;
+  margin-bottom: 0px;
+}
+
 .svd_page > .description_editable {
   margin: 0px 0px 20px 10px;
 }
 
 .sv_main h4.sv_page_title {
   margin: 0px 0px 0px 10px;
+}
+
+.sv_main .sv_q_description {
+  margin-bottom: 13px;
 }
