@@ -257,6 +257,10 @@ $indicator-thickness: 0.2em;
 // Below are the styles for the survey editor
 $font-size: 11px;
 
+main.app-content.fill-body {
+  height: 766px;
+}
+
 .svd_container.sv_bootstrap_css .svd-tabs {
   font-size: $font-size;
   line-height: 1em;
@@ -265,7 +269,8 @@ $font-size: 11px;
 }
 
 .svd_container .svd_content {
-  padding: 0px 0px 2px 0px;
+  padding: 0px 15px 1px 15px;
+  height: 766px;
 }
 
 .svd-toolbar-dropdown__select {
@@ -281,8 +286,6 @@ $font-size: 11px;
   font-size: $font-size;
   height: 35px;
   padding: 0.6em 1em;
-  border: 1px solid lightgrey;
-  border-bottom: 0px;
 }
 
 .svd_container svd-pages-editor .svd-page-scroller-arrow {
@@ -301,11 +304,11 @@ $font-size: 11px;
 
 .svd-designer-container--left-side {
   font-size: $font-size;
-  width: 20%;
-  max-width: 20%;
-  flex-basis: 20%;
+  width: 21%;
+  max-width: 21%;
+  flex-basis: 21%;
   .svd_toolbox_item {
-    padding: 5px 1px 5px 8px;
+    padding: 3px 1px 3px 0px;
   }
 }
 
@@ -322,21 +325,23 @@ $font-size: 11px;
   }
   .svd_object_editor {
     font-size: $font-size;
-    padding: 1px;
+    padding: 1px 5px 1px 1px;
     .form-control {
       font-size: $font-size;
     }
+  }
+  textarea {
+    height: 8em !important;
   }
 }
 
 .svd_container .svd_content .svd_survey_designer .svd_editors .svd_questions_editor {
   padding-top: 1px;
-  border-radius: 8px;
   .panel-body .svd_question, .svd_container .svd_content .svd_survey_designer .svd_editors .svd_questions_editor .card-block .svd_question {
     -webkit-box-shadow: 0px 0px 2px lightgrey;
     box-shadow: 0px 0px 2px lightgrey;
-    border-radius: 8px;
-    padding: 8px;
+    border-radius: 4px;
+    padding: 4px;
     margin: 10px 5px;
     font-size: $font-size;
   }

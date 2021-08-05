@@ -202,7 +202,11 @@ function initHelpText(Survey) {
       };
       question.titleChangedCallback = updateContent;
       updateContent();
-
+      
+      question.registerFunctionOnPropertyValueChanged("title", () => {
+        updateContent();
+      });
+      
       question.valueChangedCallback = function() {
         outer.className = outerCls + (question.value ? " expanded" : "");
         expander.className =
@@ -210,6 +214,8 @@ function initHelpText(Survey) {
           (question.value ? "fa fa-chevron-up" : "fa fa-chevron-down");
       };
       question.valueChangedCallback();
+
+      
     },
     willUnmount: function(question, el) {}
   };
@@ -325,8 +331,12 @@ function initInfoText(Survey: any) {
           else body.innerText = question.getProcessedHtml(bodyContent);
         }
       };
-      question.titleChangedCallback = updateContent;
+      //question.titleChangedCallback = updateContent;
       updateContent();
+
+      question.registerFunctionOnPropertyValueChanged("title", () => {
+        updateContent();
+      });
     },
     willUnmount: function(question, el) {}
   };
