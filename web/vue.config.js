@@ -18,7 +18,6 @@ module.exports = {
   // crossorigin: "anonymous",
   chainWebpack: config => {
     config.module.rules.delete("eslint");
-    config.plugin('fork-ts-checker')
     config.module
       .rule("ts")
       .test(/\.ts$/)
