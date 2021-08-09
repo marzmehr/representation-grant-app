@@ -258,7 +258,7 @@ $indicator-thickness: 0.2em;
 $font-size: 11px;
 
 main.app-content.fill-body {
-  height: 766px;
+  height: 740px;
 }
 
 .svd_container.sv_bootstrap_css .svd-tabs {
@@ -269,8 +269,8 @@ main.app-content.fill-body {
 }
 
 .svd_container .svd_content {
-  padding: 0px 15px 1px 15px;
-  height: 766px;
+  padding: 0px 0px 1px 5px;
+  height: 740px;
 }
 
 .svd-toolbar-dropdown__select {
@@ -325,13 +325,14 @@ main.app-content.fill-body {
   }
   .svd_object_editor {
     font-size: $font-size;
+    margin-right: 8px;
     padding: 1px 5px 1px 1px;
     .form-control {
       font-size: $font-size;
     }
   }
   textarea {
-    height: 8em !important;
+    min-height: 8em;
   }
 }
 
@@ -366,4 +367,9 @@ main.app-content.fill-body {
 // Hide toolbar in JSON Editor
 survey-json-editor .svd_toolbar {
   display: none;
+}
+
+// Show the expanding faq description
+.svd_editors .survey-expander .panel-body {
+  display: -webkit-box;
 }

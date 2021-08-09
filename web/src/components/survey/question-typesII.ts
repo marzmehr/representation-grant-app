@@ -185,26 +185,42 @@ function initHelpText(Survey) {
       header.appendChild(lbl);
       outer.appendChild(header);
 
-      const body = document.createElement("div");
-      body.className = "panel-body";
-      outer.appendChild(body);
+      let body = null;
+      const createUpdateBody = () => {
+        if (body) {
+          const bodyContent = question.body || "";
+          const bodyHtml = question.getMarkdownHtml(bodyContent);
+          if (bodyHtml !== null)
+            body.innerHTML = question.getProcessedHtml(bodyHtml);
+          else body.innerText = question.getProcessedHtml(bodyContent);
+        }
+        else {
+          body = document.createElement("div");
+          body.className = "panel-body";
+          outer.appendChild(body);
+          createUpdateBody();
+        }
+      }
+      if (question.body) 
+        createUpdateBody();
+
       el.appendChild(outer);
 
-      const updateContent = () => {
+      const updateTitle = () => {
         const titleContent = question.fullTitle;
         title.innerHTML = titleContent;
-
-        const bodyContent = question.body || "";
-        const bodyHtml = question.getMarkdownHtml(bodyContent);
-        if (bodyHtml !== null)
-          body.innerHTML = question.getProcessedHtml(bodyHtml);
-        else body.innerText = question.getProcessedHtml(bodyContent);
       };
-      question.titleChangedCallback = updateContent;
-      updateContent();
+      question.titleChangedCallback = updateTitle;
+      updateTitle();
       
-      question.registerFunctionOnPropertyValueChanged("title", () => {
-        updateContent();
+      question.registerFunctionOnPropertyValueChanged("title", updateTitle());
+      question.registerFunctionOnPropertyValueChanged("body", () => {
+        if (!question.body) {
+          el.getElementsByClassName("panel-body").forEach(e => e.remove());
+          body = null;
+        }
+        else
+          createUpdateBody();
       });
       
       question.valueChangedCallback = function() {
@@ -214,8 +230,6 @@ function initHelpText(Survey) {
           (question.value ? "fa fa-chevron-up" : "fa fa-chevron-down");
       };
       question.valueChangedCallback();
-
-      
     },
     willUnmount: function(question, el) {}
   };
@@ -280,11 +294,23 @@ function initInfoText(Survey: any) {
       outer.appendChild(header);
 
       let body = null;
-      if (question.body) {
-        body = document.createElement("div");
-        body.className = "panel-body";
-        outer.appendChild(body);
+      const createUpdateBody = () => {
+        if (body) {
+          const bodyContent = question.body || "";
+          const bodyHtml = question.getMarkdownHtml(bodyContent);
+          if (bodyHtml !== null)
+            body.innerHTML = question.getProcessedHtml(bodyHtml);
+          else body.innerText = question.getProcessedHtml(bodyContent);
+        }
+        else {
+          body = document.createElement("div");
+          body.className = "panel-body";
+          outer.appendChild(body);
+          createUpdateBody();
+        }
       }
+      if (question.body)
+        createUpdateBody();
 
       const showContinueButton = () => {
         if (question.isRequired && !question.value) {
@@ -319,23 +345,21 @@ function initInfoText(Survey: any) {
 
       el.appendChild(outer);
 
-      const updateContent = () => {
+      const updateTitle = () => {
         const titleContent = question.fullTitle;
         title.innerHTML = titleContent;
-
-        if (body) {
-          const bodyContent = question.body || "";
-          const bodyHtml = question.getMarkdownHtml(bodyContent);
-          if (bodyHtml !== null)
-            body.innerHTML = question.getProcessedHtml(bodyHtml);
-          else body.innerText = question.getProcessedHtml(bodyContent);
-        }
       };
-      //question.titleChangedCallback = updateContent;
-      updateContent();
+      question.titleChangedCallback = updateTitle;
+      updateTitle();
 
-      question.registerFunctionOnPropertyValueChanged("title", () => {
-        updateContent();
+      question.registerFunctionOnPropertyValueChanged("title", updateTitle());
+      question.registerFunctionOnPropertyValueChanged("body", () => {
+        if (!question.body) {
+          el.getElementsByClassName("panel-body").forEach(e => e.remove());
+          body = null;
+        }
+        else
+          createUpdateBody();
       });
     },
     willUnmount: function(question, el) {}
