@@ -213,7 +213,9 @@ function initHelpText(Survey) {
       question.titleChangedCallback = updateTitle;
       updateTitle();
       
-      question.registerFunctionOnPropertyValueChanged("title", updateTitle());
+      question.registerFunctionOnPropertyValueChanged("title", () => {
+        updateTitle()
+      });
       question.registerFunctionOnPropertyValueChanged("body", () => {
         if (!question.body) {
           el.getElementsByClassName("panel-body").forEach(e => e.remove());
@@ -352,7 +354,9 @@ function initInfoText(Survey: any) {
       question.titleChangedCallback = updateTitle;
       updateTitle();
 
-      question.registerFunctionOnPropertyValueChanged("title", updateTitle());
+      question.registerFunctionOnPropertyValueChanged("title", () => {
+        updateTitle()
+      });
       question.registerFunctionOnPropertyValueChanged("body", () => {
         if (!question.body) {
           el.getElementsByClassName("panel-body").forEach(e => e.remove());
