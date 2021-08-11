@@ -269,7 +269,7 @@ main.app-content.fill-body {
 }
 
 .svd_container .svd_content {
-  padding: 0px 0px 1px 5px;
+  padding: 0px 15px 1px 15px;
   height: 740px;
 }
 
@@ -325,8 +325,8 @@ main.app-content.fill-body {
   }
   .svd_object_editor {
     font-size: $font-size;
-    margin-right: 8px;
-    padding: 1px 5px 1px 1px;
+    margin-right: 13px;
+    padding: 0px 0px 0px 1px;
     .form-control {
       font-size: $font-size;
     }
