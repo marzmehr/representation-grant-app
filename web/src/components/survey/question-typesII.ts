@@ -337,12 +337,10 @@ function initInfoText(Survey: any) {
       showContinueButton();
 
       question.registerFunctionOnPropertyValueChanged("isRequired", () => {
-        if (!question.isRequired) {
+        if (!question.isRequired)
           el.getElementsByClassName("row accept-row").forEach(e => e.remove());
-        }
-        else {
+        else
           showContinueButton();
-        }
       });
 
       el.appendChild(outer);
@@ -364,6 +362,17 @@ function initInfoText(Survey: any) {
         }
         else
           createUpdateBody();
+      });
+      question.registerFunctionOnPropertyValueChanged("messageStyle", () => {
+        el.getElementsByClassName("panel panel-default").forEach(e => {
+          let outerCls = "panel panel-default ";
+          if (question.messageStyle === "error")
+            outerCls += "survey-infotext error";
+          else if (question.messageStyle === "inline")
+            outerCls += "survey-inlinetext";
+          else outerCls += "survey-infotext";
+          outer.className = outerCls;
+        });
       });
     },
     willUnmount: function(question, el) {}
@@ -1309,7 +1318,7 @@ export function addToolboxOptions(editor) {
   });
   editor.toolbox.addItem({
     name: "helptext",
-    title: "Expanding FAQ",
+    title: "Dropdown FAQ",
     //category: "Custom",
     isCopied: true,
     iconName: "icon-panel",
