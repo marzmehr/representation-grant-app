@@ -136,7 +136,9 @@ function initHelpText(Survey) {
       Survey.JsonObject.metaData.addClass("helptext", [], null, "empty");
       Survey.JsonObject.metaData.addProperties("helptext", [
         {
-          name: "body:text"
+          name: "body:text",
+          category: "general", // move the custom property in the general category
+          visibleIndex: 3 // Moves the property at index 3 within the category
         }
       ]);
     },
@@ -254,12 +256,16 @@ function initInfoText(Survey: any) {
       Survey.JsonObject.metaData.addClass("infotext", [], null, "empty");
       Survey.JsonObject.metaData.addProperties("infotext", [
         {
-          name: "body:text"
+          name: "body:text",
+          category: "general",
+          visibleIndex: 3
         },
         {
           name: "messageStyle",
           default: "info",
-          choices: ["info", "inline", "error"]
+          choices: ["info", "inline", "error"],
+          category: "general",
+          visibleIndex: 4
         }
       ]);
     },
