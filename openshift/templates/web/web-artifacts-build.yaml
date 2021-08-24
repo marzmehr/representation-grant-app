@@ -90,7 +90,7 @@ parameters:
   displayName: Web Base Href
   description: The application host path (Web Base Href).
   required: true
-  value: /representation-grant/
+  value: /represent-someone-who-died/
 - name: CPU_LIMIT
   displayName: Resources CPU Limit
   description: The resources CPU limit (in cores) for this build.
