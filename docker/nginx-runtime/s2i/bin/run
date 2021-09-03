@@ -38,6 +38,18 @@ read -r -d '' _CONFIG_SECTION << EOF
             proxy_pass ${apiBaseUrl}${apiPath}/static/;
         }
 		
+    location /admin {
+        ${API_RATE_LIMIT}
+        limit_except OPTIONS {
+            ${HTTP_BASIC}
+        }
+        ${_FORWARDED_HEADERS}
+        proxy_pass ${apiBaseUrl}/admin;
+        proxy_buffer_size       128k;
+        proxy_buffers           4 256k;
+        proxy_busy_buffers_size 256k;
+    }
+    
     location /api {
             ${API_RATE_LIMIT}
             limit_except OPTIONS {
