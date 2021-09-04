@@ -146,11 +146,12 @@ build-schema-spy() {
 build-api() {
   #
   # api
-  #
+  # DATABASE_SERVICE_NAME needs to be included, so it defaults to Postgres not SQLLite for the static file generation.
   echo -e "\n\n===================================================================================================="
   echo -e "Building ${COMPOSE_PROJECT_NAME}-api image using s2i ..."
   echo -e "----------------------------------------------------------------------------------------------------"
   ${S2I_EXE} build \
+    --env 'DATABASE_SERVICE_NAME=${DATABASE_SERVICE_NAME}' \
     --copy \
     '../api' \
     'centos/python-36-centos7' \
