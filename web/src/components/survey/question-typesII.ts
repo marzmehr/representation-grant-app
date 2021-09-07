@@ -371,13 +371,16 @@ function initInfoText(Survey: any) {
       });
       question.registerFunctionOnPropertyValueChanged("messageStyle", () => {
         el.getElementsByClassName("panel panel-default").forEach(e => {
-          let outerCls = "panel panel-default ";
-          if (question.messageStyle === "error")
-            outerCls += "survey-infotext error";
-          else if (question.messageStyle === "inline")
-            outerCls += "survey-inlinetext";
-          else outerCls += "survey-infotext";
-          outer.className = outerCls;
+          switch (question.messageStyle) {
+            case "error":
+              outer.className = "panel panel-default survey-infotext error";
+              break;
+            case "inline":
+              outer.className = "panel panel-default survey-inlinetext";
+              break;
+            default:
+              outer.className = "panel panel-default survey-infotext";
+          }
         });
       });
     },
@@ -1296,6 +1299,14 @@ function isChild(params) {
   else return "e";
 }
 
+function addDays(params) {
+  if (!Array.isArray(params) || params.length !== 2) return 0;
+  if(!params[0] || !params[1]) return 0;
+  var date = new Date(params[0]);
+  date.setDate(date.getDate() + params[1]);
+  return date;
+}
+
 export function addQuestionTypes(Survey) {
   // fixCheckboxes(Survey);
   initYesNo(Survey);
@@ -1306,6 +1317,7 @@ export function addQuestionTypes(Survey) {
   initContactInfoBlock(Survey);
   initCustomDate(Survey);
   Survey.FunctionFactory.Instance.register("isChild", isChild);
+  Survey.FunctionFactory.Instance.register("addDays", addDays);
 }
 
 export function addToolboxOptions(editor) {
