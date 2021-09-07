@@ -45,7 +45,7 @@ const routes = [
     component: LandingPage
   },
   {
-    path: "/representation-grant",
+    path: "/represent-someone-who-died",
     component: LandingPage
   },
   {
