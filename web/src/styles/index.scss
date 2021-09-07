@@ -266,7 +266,13 @@ $font-size: 11px;
 
 .svd_container .svd_content {
   padding: 0px 15px 1px 15px;
+  height: 100%;
 }
+
+main.app-content.fill-body {
+  height: 100%;
+}
+
 
 .svd-toolbar-dropdown__select {
   font-size: $font-size;
