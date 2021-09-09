@@ -2,6 +2,8 @@ const webBaseHref = process.env.WEB_BASE_HREF || '/';
 module.exports = {
   publicPath: webBaseHref,
   devServer: {
+    host: "localhost",
+    port: 8080,
     proxy: {
       "/api": {
         target: "http://localhost:8081",
