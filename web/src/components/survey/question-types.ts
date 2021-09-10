@@ -1,13 +1,3 @@
-import Vue from "vue";
-
-import AddressInfo from "./components/AddressInfo.vue";
-import ContactInfo from "./components/ContactInfo.vue";
-import CustomDate from "./components/CustomDate.vue";
-import HelpText from "./components/HelpText.vue";
-import InfoText from "./components/InfoText.vue";
-import PersonName from "./components/PersonName.vue";
-import YesNo from "./components/YesNo.vue";
-
 function fixCheckboxes(Survey: any) {
   const widget = {
     name: "fixchecks",
@@ -157,8 +147,6 @@ function initHelpText(Survey: any) {
       ]);
     }
   };
-
-  Vue.component("HelpText", HelpText);
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
@@ -187,8 +175,6 @@ function initInfoText(Survey: any) {
       ]);
     }
   };
-
-  Vue.component("InfoText", InfoText);
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
@@ -208,8 +194,6 @@ function initYesNo(Survey: any) {
       Survey.JsonObject.metaData.addClass("yesno", [], null, "empty");
     }
   };
-
-  Vue.component("YesNo", YesNo);
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
@@ -237,8 +221,6 @@ function initAddressBlock(Survey: any) {
       );
     }
   };
-
-  Vue.component("AddressInfo", AddressInfo);
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
@@ -293,8 +275,6 @@ function initPersonName(Survey: any) {
       return question.defaultSubstitution;
     }
   };
-
-  Vue.component("PersonName", PersonName);
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
@@ -328,8 +308,6 @@ function initContactInfoBlock(Survey: any) {
       );
     }
   };
-
-  Vue.component("ContactInfo", ContactInfo);
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
@@ -357,8 +335,6 @@ function initCustomDate(Survey: any) {
       ]);
     }
   };
-
-  Vue.component("CustomDate", CustomDate);
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "property");
 }
 

@@ -1,5 +1,5 @@
 import * as showdown from "showdown";
-import { addQuestionTypes } from "./question-types";
+import { addQuestionTypesVue } from "./vue-question-types";
 const util = require('./js/util');
 const glossaryJson = require('./glossary.json')
 
@@ -82,7 +82,7 @@ function formatHtml(content) {
 //   }
 
 export function setCss(Survey) {
-    addQuestionTypes(Survey);
+    addQuestionTypesVue(Survey);
     Survey.defaultBootstrapCss.page.root = "sv_page";
     Survey.defaultBootstrapCss.pageDescription = "sv_page_description";
     Survey.defaultBootstrapCss.page.description = "sv_page_description";
