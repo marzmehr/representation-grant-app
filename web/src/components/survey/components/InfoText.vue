@@ -2,10 +2,13 @@
   <div
     class="panel panel-default"
     :class="{
-      error: question.messageStyle === 'error' || question.messageStyle === 'redinfo',
+      error:
+        question.messageStyle === 'error' ||
+        question.messageStyle === 'redinfo',
       'survey-infotext': question.messageStyle !== 'inline',
       'survey-inlinetext': question.messageStyle === 'inline'
     }"
+    :key="key"
   >
     <div class="panel-heading">
       <label class="panel-title">
@@ -35,14 +38,15 @@
 </template>
 
 <script>
-import { Question } from "survey-vue";
-
+import { Question } from "survey-core";
 export default {
   props: {
-    question: Question
+    question: Question,
+    isSurveyEditor: Boolean
   },
   data() {
     return {
+      key: 0,
       bodyHtml: null,
       titleHtml: null,
       value: this.question.value
@@ -66,6 +70,7 @@ export default {
         // FIXME should use v-text not v-html for this one?
         this.bodyHtml = q.getProcessedHtml(bodyContent);
       }
+      this.key++;
     }
   },
   mounted() {
@@ -73,9 +78,29 @@ export default {
     q.titleChangedCallback = () => {
       this.updateContent();
     };
+
     q.valueChangedCallback = () => {
       this.value = q.value;
     };
+
+    //Hooks for SurveyEditor KO.
+    if (this.isSurveyEditor) {
+      q.registerFunctionOnPropertyValueChanged("title", () => {
+        this.updateContent();
+      });
+
+      q.registerFunctionOnPropertyValueChanged("body", () => {
+        this.updateContent();
+      });
+
+      q.registerFunctionOnPropertyValueChanged("isRequired", () => {
+        this.updateContent();
+      });
+
+      q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
+        this.updateContent();
+      });
+    }
     this.updateContent();
   }
 };

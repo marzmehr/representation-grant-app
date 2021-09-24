@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { Question } from "survey-vue";
+import { Question } from "survey-core";
 
 export default {
   props: {

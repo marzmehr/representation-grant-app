@@ -1,3 +1,13 @@
+import { Question } from "survey-vue";
+import Vue from "vue";
+import AddressInfo from "./components/AddressInfo.vue";
+import ContactInfo from "./components/ContactInfo.vue";
+import CustomDate from "./components/CustomDate.vue";
+import HelpText from "./components/HelpText.vue";
+import InfoText from "./components/InfoText.vue";
+import PersonName from "./components/PersonName.vue";
+import YesNo from "./components/YesNo.vue";
+
 function fixCheckboxes(Survey: any) {
   const widget = {
     name: "fixchecks",
@@ -142,9 +152,20 @@ function initHelpText(Survey: any) {
       Survey.JsonObject.metaData.addClass("helptext", [], null, "empty");
       Survey.JsonObject.metaData.addProperties("helptext", [
         {
-          name: "body:text"
+          name: "body:text",
+          category: "general", // move the custom property in the general category
+          visibleIndex: 3 // Moves the property at index 3 within the category
         }
       ]);
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(HelpText);
+      const card = new ComponentClass({
+        propsData: { question: question, isSurveyEditor: true }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
@@ -165,14 +186,27 @@ function initInfoText(Survey: any) {
       Survey.JsonObject.metaData.addClass("infotext", [], null, "empty");
       Survey.JsonObject.metaData.addProperties("infotext", [
         {
-          name: "body:text"
+          name: "body:text",
+          category: "general",
+          visibleIndex: 3
         },
         {
           name: "messageStyle",
           default: "info",
-          choices: ["info", "inline", "error","redinfo"]
+          choices: ["info", "inline", "error"],
+          category: "general",
+          visibleIndex: 4
         }
       ]);
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(InfoText);
+      const card = new ComponentClass({
+        propsData: { question: question, isSurveyEditor: true }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
@@ -192,6 +226,15 @@ function initYesNo(Survey: any) {
     },
     activatedByChanged: function(activatedBy: any) {
       Survey.JsonObject.metaData.addClass("yesno", [], null, "empty");
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(YesNo);
+      const card = new ComponentClass({
+        propsData: { question: question }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
@@ -219,6 +262,15 @@ function initAddressBlock(Survey: any) {
         null,
         "empty"
       );
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(AddressInfo);
+      const card = new ComponentClass({
+        propsData: { question: question }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
@@ -273,6 +325,15 @@ function initPersonName(Survey: any) {
           .filter(p => p)
           .join(" ");
       return question.defaultSubstitution;
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(PersonName);
+      const card = new ComponentClass({
+        propsData: { question: question }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
@@ -289,6 +350,7 @@ function initContactInfoBlock(Survey: any) {
     isFit: function(question: any) {
       return question.getType() === "contactinfo";
     },
+    htmlTemplate: "<div></div>",
     activatedByChanged: function(activatedBy: any) {
       Survey.JsonObject.metaData.addClass(
         "contactinfo",
@@ -306,6 +368,14 @@ function initContactInfoBlock(Survey: any) {
         null,
         "empty"
       );
+    },
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(ContactInfo);
+      const card = new ComponentClass({
+        propsData: { question: question, isSurveyEditor: true }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
@@ -322,6 +392,7 @@ function initCustomDate(Survey: any) {
     isFit: function(question: any) {
       return question.inputType === "date";
     },
+    htmlTemplate: "<div></div>",
     activatedByChanged: function(activatedBy: any) {
       Survey.JsonObject.metaData.addProperties("text", [
         {
@@ -333,6 +404,14 @@ function initCustomDate(Survey: any) {
           default: 100
         }
       ]);
+    },
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(CustomDate);
+      const card = new ComponentClass({
+        propsData: { question: question }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "property");
@@ -391,6 +470,9 @@ export function addQuestionTypes(Survey: any) {
 }
 
 export function addToolboxOptions(editor: any) {
+  editor.toolbox.addItem({
+    title: "---Custom---",
+  });
   editor.toolbox.addItem({
     name: "yesno",
     title: "Yes/No Choice",

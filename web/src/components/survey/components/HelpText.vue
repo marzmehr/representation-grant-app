@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import { Question } from "survey-vue";
-
+import { Question } from "survey-core";
 export default {
   props: {
-    question: Question
+    question: Question,
+    isSurveyEditor: Boolean
   },
   data() {
     return {
@@ -68,6 +68,17 @@ export default {
     q.valueChangedCallback = () => {
       this.value = q.value;
     };
+
+    //Hooks for SurveyEditor KO.
+    if (this.isSurveyEditor) {
+      q.registerFunctionOnPropertyValueChanged("title", () => {
+        this.updateContent();
+      });
+      q.registerFunctionOnPropertyValueChanged("body", () => {
+        this.updateContent();
+      });
+    }
+
     this.updateContent();
   }
 };

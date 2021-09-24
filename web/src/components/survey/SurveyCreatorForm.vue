@@ -13,7 +13,7 @@ const commonState = namespace("Common");
 import * as SurveyCreator from "survey-creator";
 import "survey-creator/survey-creator.css";
 
-import { addToolboxOptions, addQuestionTypes } from "./question-typesII";
+import { addToolboxOptions, addQuestionTypes } from "./question-types";
 import * as widgets from "surveyjs-widgets";
 import * as SurveyKO from "survey-knockout";
 import * as ace from "ace-builds";
