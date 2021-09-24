@@ -8,7 +8,7 @@
       'survey-infotext': question.messageStyle !== 'inline',
       'survey-inlinetext': question.messageStyle === 'inline'
     }"
-    :key="key"
+    :key="state.key"
   >
     <div class="panel-heading">
       <label class="panel-title">
@@ -23,11 +23,11 @@
             'fa-info-circle': question.messageStyle === 'info'
           }"
         ></span>
-        <span class="title-text" v-html="titleHtml"></span>
+        <span class="title-text" v-html="state.titleHtml"></span>
       </label>
     </div>
-    <div class="panel-body" v-if="bodyHtml" v-html="bodyHtml"></div>
-    <div class="row accept-row" v-if="question.isRequired && !value">
+    <div class="panel-body" v-if="state.bodyHtml" v-html="state.bodyHtml"></div>
+    <div class="row accept-row" v-if="question.isRequired && !state.value">
       <div class="col-sm-12">
         <button class="btn btn-primary" type="button" @click="toggle">
           <span>Continue</span>
@@ -37,71 +37,80 @@
   </div>
 </template>
 
-<script>
-import { Question } from "survey-core";
-export default {
+<script language="ts">
+import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+export default defineComponent({
+  name: "infotext",
   props: {
-    question: Question,
+    question: Object,
     isSurveyEditor: Boolean
   },
-  data() {
+  setup(props) {
+    const question = props.question;
+    const state = reactive({
+      key: 1,
+      bodyHtml: "",
+      titleHtml: "",
+      value: ""
+    });
+
+    const updateContent = () => {
+      const q = question;
+      state.titleHtml = q.fullTitle;
+      const bodyContent = q.body || "";
+      const bodyHtmlT = q.getMarkdownHtml(bodyContent);
+      if (bodyHtmlT !== null) {
+        state.bodyHtml = q.getProcessedHtml(bodyHtmlT);
+      } else {
+        // FIXME should use v-text not v-html for this one?
+        state.bodyHtml = q.getProcessedHtml(bodyContent);
+      }
+      state.key++;
+    };
+
+    onMounted(() => {
+      const q = props.question;
+      q.titleChangedCallback = () => {
+        updateContent();
+      };
+
+      q.valueChangedCallback = () => {
+        state.value = q.value;
+      };
+
+      //Hooks for SurveyEditor KO.
+      if (props.isSurveyEditor) {
+        q.registerFunctionOnPropertyValueChanged("title", () => {
+          updateContent();
+        });
+
+        q.registerFunctionOnPropertyValueChanged("body", () => {
+          updateContent();
+        });
+
+        q.registerFunctionOnPropertyValueChanged("isRequired", () => {
+          updateContent();
+        });
+
+        q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
+          updateContent();
+        });
+      }
+      updateContent();
+    });
     return {
-      key: 0,
-      bodyHtml: null,
-      titleHtml: null,
-      value: this.question.value
+      state
     };
   },
   methods: {
     setValue(val) {
+      //TODO needs work
       this.question.value = val;
     },
     toggle() {
+      //TODO needs work
       this.question.value = !this.question.value;
-    },
-    updateContent() {
-      const q = this.question;
-      this.titleHtml = q.fullTitle;
-      const bodyContent = q.body || "";
-      const bodyHtml = q.getMarkdownHtml(bodyContent);
-      if (bodyHtml !== null) {
-        this.bodyHtml = q.getProcessedHtml(bodyHtml);
-      } else {
-        // FIXME should use v-text not v-html for this one?
-        this.bodyHtml = q.getProcessedHtml(bodyContent);
-      }
-      this.key++;
     }
-  },
-  mounted() {
-    const q = this.question;
-    q.titleChangedCallback = () => {
-      this.updateContent();
-    };
-
-    q.valueChangedCallback = () => {
-      this.value = q.value;
-    };
-
-    //Hooks for SurveyEditor KO.
-    if (this.isSurveyEditor) {
-      q.registerFunctionOnPropertyValueChanged("title", () => {
-        this.updateContent();
-      });
-
-      q.registerFunctionOnPropertyValueChanged("body", () => {
-        this.updateContent();
-      });
-
-      q.registerFunctionOnPropertyValueChanged("isRequired", () => {
-        this.updateContent();
-      });
-
-      q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
-        this.updateContent();
-      });
-    }
-    this.updateContent();
   }
-};
+});
 </script>

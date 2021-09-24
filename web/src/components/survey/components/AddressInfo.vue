@@ -93,11 +93,9 @@
 </template>
 
 <script>
-import { Question } from "survey-vue";
-
 export default {
   props: {
-    question: Question
+    question: Object
   },
   data() {
     return {

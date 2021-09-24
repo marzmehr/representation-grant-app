@@ -47,11 +47,9 @@
 </template>
 
 <script>
-import { Question } from "survey-core";
-
 export default {
   props: {
-    question: Question
+    question: Object
   },
   data() {
     return {
