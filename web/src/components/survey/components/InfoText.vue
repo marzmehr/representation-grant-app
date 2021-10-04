@@ -10,6 +10,7 @@
     }"
     :key="state.key"
   >
+    {{ state.q2 }}
     <div class="panel-heading">
       <label class="panel-title">
         <span
@@ -39,6 +40,7 @@
 
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+
 export default defineComponent({
   name: "infotext",
   props: {
@@ -78,6 +80,14 @@ export default defineComponent({
         state.value = q.value;
       };
 
+      const q2 = q.getSurvey().getQuestionByName("question1");
+      if (q2) {
+        q2.valueToDataCallback = v => {
+          state.q2 = v;
+          updateContent();
+        };
+      }
+
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {
@@ -93,6 +103,10 @@ export default defineComponent({
         });
 
         q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
+          updateContent();
+        });
+
+        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
           updateContent();
         });
       }

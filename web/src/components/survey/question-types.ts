@@ -1,4 +1,3 @@
-import { Question } from "survey-vue";
 import Vue from "vue";
 import AddressInfo from "./components/AddressInfo.vue";
 import ContactInfo from "./components/ContactInfo.vue";
@@ -196,6 +195,12 @@ function initInfoText(Survey: any) {
           choices: ["info", "inline", "error"],
           category: "general",
           visibleIndex: 4
+        },
+        {
+          name: "displayTextBasedOffArrayQuestion",
+          default: "",
+          category: "general",
+          visibleIndex: 5
         }
       ]);
     },
@@ -203,7 +208,10 @@ function initInfoText(Survey: any) {
     afterRender: function(question, el) {
       const ComponentClass = Vue.extend(InfoText);
       const card = new ComponentClass({
-        propsData: { question: question, isSurveyEditor: true }
+        propsData: {
+          question: question,
+          isSurveyEditor: true
+        }
       });
       card.$mount();
       el.appendChild(card.$el);
@@ -471,7 +479,7 @@ export function addQuestionTypes(Survey: any) {
 
 export function addToolboxOptions(editor: any) {
   editor.toolbox.addItem({
-    title: "---Custom---",
+    title: "---Custom---"
   });
   editor.toolbox.addItem({
     name: "yesno",
