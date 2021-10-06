@@ -15,18 +15,18 @@ import SurveySandBox from "@/sandbox/ControlFiles/SurveySandBox.vue";
 import store from "@/store";
 
 async function authGuard(to: any, from: any, next: any) {
-  var result = await SessionManager.getUserInfo(store);
+  const result = await SessionManager.getUserInfo(store);
   if (result.userId) {
     next();
   } else if (result.loginUrl) {
-    window.location.replace(result.loginUrl);
+    window.location.replace(`${result.loginUrl}&next=${process.env.BASE_URL}${to.fullPath.slice(1)}`);
   } else {
     window.location.replace(process.env.BASE_URL);
   }
 }
 
 async function authGuardAdmin(to: any, from: any, next: any) {
-  var result = await SessionManager.getUserInfo(store);
+  const result = await SessionManager.getUserInfo(store);
   if (!result.userId && result.loginUrl) {
     window.location.replace(`${result.loginUrl}&next=${window.location.href}`);
   } else if (result.isStaff) {
