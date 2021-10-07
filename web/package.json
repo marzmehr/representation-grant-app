@@ -26,6 +26,7 @@
     "bootstrap-vue": "^2.15.0",
     "core-js": "^3.6.4",
     "jquery": "^3.6.0",
+    "jsep": "^1.1.0",
     "moment-timezone": "^0.5.32",
     "node-sass": "^4.13.1",
     "popper.js": "^1.16.1",

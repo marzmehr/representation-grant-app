@@ -19,7 +19,9 @@ async function authGuard(to: any, from: any, next: any) {
   if (result.userId) {
     next();
   } else if (result.loginUrl) {
-    window.location.replace(`${result.loginUrl}&next=${process.env.BASE_URL}${to.fullPath.slice(1)}`);
+    window.location.replace(
+      `${result.loginUrl}&next=${process.env.BASE_URL}${to.fullPath.slice(1)}`
+    );
   } else {
     window.location.replace(process.env.BASE_URL);
   }
