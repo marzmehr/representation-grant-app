@@ -50,9 +50,6 @@ export default {
   },
   mounted() {
     const q = this.question;
-    q.valueChangedCallback = () => {
-      this.value = q.value;
-    };
   }
 };
 </script>

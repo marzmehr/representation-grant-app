@@ -1,4 +1,6 @@
+import { addDays, getDay } from "date-fns";
 import Vue from "vue";
+import { DayOfWeek, HolidayHelper } from "../utils/holiday";
 import AddressInfo from "./components/AddressInfo.vue";
 import ContactInfo from "./components/ContactInfo.vue";
 import CustomDate from "./components/CustomDate.vue";
@@ -6,6 +8,8 @@ import HelpText from "./components/HelpText.vue";
 import InfoText from "./components/InfoText.vue";
 import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
+import FormDownloadButton from "./components/FormDownloadButton.vue";
+import { addCustomExpressions } from "./survey-expressions";
 
 function fixCheckboxes(Survey: any) {
   const widget = {
@@ -220,6 +224,39 @@ function initInfoText(Survey: any) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
+function initFormDownloadButton(Survey: any) {
+  const widget = {
+    name: "FormDownloadButton",
+    title: "Form Download/Print Button",
+    iconName: "icon-radiogroup",
+    isDefaultRender: true,
+    widgetIsLoaded: function() {
+      return true;
+    },
+    isFit: function(question: any) {
+      return question.getType() === "formdownloadbutton";
+    },
+    activatedByChanged: function(activatedBy: any) {
+      Survey.JsonObject.metaData.addClass(
+        "formdownloadbutton",
+        [],
+        null,
+        "empty"
+      );
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(FormDownloadButton);
+      const card = new ComponentClass({
+        propsData: { question: question }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
+    }
+  };
+  Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
+}
+
 function initYesNo(Survey: any) {
   const widget = {
     name: "YesNo",
@@ -425,48 +462,9 @@ function initCustomDate(Survey: any) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "property");
 }
 
-// Returns 'y' or 'n', or 'u' for undefined and 'e' for error
-function isChild(params: any) {
-  if (!params && !params.length) return "u";
-  const DOB = params[0];
-  const MinorOrAdult = params[1];
-  let dobReturn;
-  let maReturn;
-  const minYears = 19;
-
-  if (DOB) {
-    const now = new Date();
-    const cmp = new Date(DOB);
-    if (isNaN(cmp.getTime())) {
-      dobReturn = "e";
-    } else {
-      dobReturn = "y";
-      const yearDiff = now.getFullYear() - cmp.getFullYear();
-      if (yearDiff > minYears) dobReturn = "n";
-      else if (yearDiff === minYears) {
-        if (cmp.getMonth() < now.getMonth()) dobReturn = "n";
-        else if (
-          cmp.getMonth() === now.getMonth() &&
-          cmp.getDate() < now.getDate()
-        )
-          dobReturn = "n";
-      }
-    }
-  }
-
-  if (MinorOrAdult) {
-    maReturn = MinorOrAdult === "Minor" ? "y" : "n";
-  }
-
-  if (!dobReturn && !maReturn) return "n";
-  else if (dobReturn && !maReturn) return dobReturn;
-  else if (!dobReturn && maReturn) return maReturn;
-  else if (dobReturn === maReturn) return dobReturn;
-  else return "e";
-}
-
 export function addQuestionTypes(Survey: any) {
   // fixCheckboxes(Survey);
+  initFormDownloadButton(Survey);
   initYesNo(Survey);
   initInfoText(Survey);
   initHelpText(Survey);
@@ -474,7 +472,7 @@ export function addQuestionTypes(Survey: any) {
   initAddressBlock(Survey);
   initContactInfoBlock(Survey);
   initCustomDate(Survey);
-  Survey.FunctionFactory.Instance.register("isChild", isChild);
+  addCustomExpressions(Survey);
 }
 
 export function addToolboxOptions(editor: any) {
@@ -484,7 +482,6 @@ export function addToolboxOptions(editor: any) {
   editor.toolbox.addItem({
     name: "yesno",
     title: "Yes/No Choice",
-    //category: "Custom",
     isCopied: true,
     iconName: "icon-radiogroup",
     json: {
@@ -494,7 +491,6 @@ export function addToolboxOptions(editor: any) {
   editor.toolbox.addItem({
     name: "helptext",
     title: "Expanding FAQ",
-    //category: "Custom",
     isCopied: true,
     iconName: "icon-panel",
     json: {
@@ -505,7 +501,6 @@ export function addToolboxOptions(editor: any) {
   editor.toolbox.addItem({
     name: "infotext",
     title: "Message Text",
-    //category: "Custom",
     isCopied: true,
     iconName: "icon-panel",
     json: {
@@ -516,7 +511,6 @@ export function addToolboxOptions(editor: any) {
   editor.toolbox.addItem({
     name: "personname",
     title: "Name Input",
-    //category: "Custom",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
@@ -526,7 +520,6 @@ export function addToolboxOptions(editor: any) {
   editor.toolbox.addItem({
     name: "address",
     title: "Postal Address",
-    //category: "Custom",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
@@ -536,11 +529,19 @@ export function addToolboxOptions(editor: any) {
   editor.toolbox.addItem({
     name: "contactinfo",
     title: "Contact Information",
-    //category: "Custom",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
       type: "contactinfo"
+    }
+  });
+  editor.toolbox.addItem({
+    name: "formdownloadbutton",
+    title: "Form Download/Print button",
+    isCopied: true,
+    iconName: "icon-multipletext",
+    json: {
+      type: "formdownloadbutton"
     }
   });
 }

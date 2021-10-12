@@ -2,14 +2,11 @@ import LandingPage from "@/components/home/LandingPage.vue";
 import PreQualification from "@/components/home/PreQualification.vue";
 import Qualified from "@/components/home/Qualified.vue";
 import UnQualified from "@/components/home/UnQualified.vue";
-// import ResultPage from "@/components/home/ResultPage.vue";
 import Surveys from "@/components/Surveys.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
 import TermsConditions from "@/components/status/TermsConditions.vue";
 import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue";
 import { SessionManager } from "@/components/utils/utils";
-import VueResource from "vue-resource";
-
 import SurveySandBox from "@/sandbox/ControlFiles/SurveySandBox.vue";
 
 import store from "@/store";

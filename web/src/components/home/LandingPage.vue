@@ -121,6 +121,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { SessionManager } from "@/components/utils/utils";
 import Tooltip from "@/components/survey/Tooltip.vue";
 
+
 @Component({
   components: {
     Tooltip

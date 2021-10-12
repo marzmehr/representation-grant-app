@@ -10,7 +10,6 @@
     }"
     :key="state.key"
   >
-    {{ state.q2 }}
     <div class="panel-heading">
       <label class="panel-title">
         <span
@@ -24,11 +23,11 @@
             'fa-info-circle': question.messageStyle === 'info'
           }"
         ></span>
-        <span class="title-text" v-html="state.titleHtml"></span>
+        <span class="title-text" v-html="question.fullTitle"></span>
       </label>
     </div>
-    <div class="panel-body" v-if="state.bodyHtml" v-html="state.bodyHtml"></div>
-    <div class="row accept-row" v-if="question.isRequired && !state.value">
+    <div class="panel-body" v-if="question.body" v-html="question.body"></div>
+    <div class="row accept-row" v-if="question.isRequired && !question.value">
       <div class="col-sm-12">
         <button class="btn btn-primary" type="button" @click="toggle">
           <span>Continue</span>
@@ -48,69 +47,33 @@ export default defineComponent({
     isSurveyEditor: Boolean
   },
   setup(props) {
-    const question = props.question;
     const state = reactive({
-      key: 1,
-      bodyHtml: "",
-      titleHtml: "",
-      value: ""
+      key: 1
     });
-
-    const updateContent = () => {
-      const q = question;
-      state.titleHtml = q.fullTitle;
-      const bodyContent = q.body || "";
-      const bodyHtmlT = q.getMarkdownHtml(bodyContent);
-      if (bodyHtmlT !== null) {
-        state.bodyHtml = q.getProcessedHtml(bodyHtmlT);
-      } else {
-        // FIXME should use v-text not v-html for this one?
-        state.bodyHtml = q.getProcessedHtml(bodyContent);
-      }
-      state.key++;
-    };
-
     onMounted(() => {
       const q = props.question;
-      q.titleChangedCallback = () => {
-        updateContent();
-      };
-
-      q.valueChangedCallback = () => {
-        state.value = q.value;
-      };
-
-      const q2 = q.getSurvey().getQuestionByName("question1");
-      if (q2) {
-        q2.valueToDataCallback = v => {
-          state.q2 = v;
-          updateContent();
-        };
-      }
-
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {
-          updateContent();
+          state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("body", () => {
-          updateContent();
+          state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("isRequired", () => {
-          updateContent();
+          state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
-          updateContent();
+          state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
-          updateContent();
+          state.key++;
         });
       }
-      updateContent();
     });
     return {
       state

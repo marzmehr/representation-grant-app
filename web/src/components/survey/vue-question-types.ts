@@ -8,6 +8,7 @@ import HelpText from "./components/HelpText.vue";
 import InfoText from "./components/InfoText.vue";
 import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
+import FormDownloadButton from "./components/FormDownloadButton.vue";
 
 export function addQuestionTypesVue(Survey: any) {
   Vue.component("HelpText", HelpText);
@@ -17,5 +18,6 @@ export function addQuestionTypesVue(Survey: any) {
   Vue.component("PersonName", PersonName);
   Vue.component("ContactInfo", ContactInfo);
   Vue.component("CustomDate", CustomDate);
+  Vue.component("FormDownloadButton", FormDownloadButton);
   addQuestionTypes(Survey);
 }
