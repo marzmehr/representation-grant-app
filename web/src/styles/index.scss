@@ -257,10 +257,6 @@ $indicator-thickness: 0.2em;
 // Below are the styles for the survey editor
 $font-size: 11px;
 
-main.app-content.fill-body {
-  height: 740px;
-}
-
 .svd_container.sv_bootstrap_css .svd-tabs {
   font-size: $font-size;
   line-height: 1em;
@@ -270,8 +266,13 @@ main.app-content.fill-body {
 
 .svd_container .svd_content {
   padding: 0px 15px 1px 15px;
-  height: 740px;
+  height: 766px;
 }
+
+main.app-content.fill-body {
+  height: 766px;
+}
+
 
 .svd-toolbar-dropdown__select {
   font-size: $font-size;

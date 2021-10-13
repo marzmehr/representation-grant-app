@@ -70,7 +70,8 @@ export default class SurveyCreatorForm extends Vue {
     ace.edit("surveyCreatorContainer", {});
     const editorOptions = {
       isAutoSave: true,
-      showLogicTab: true
+      showLogicTab: true,
+      designerHeight: "766px"
       /* Keep the following editor options in here in case user needs to re-arrange the
       look of the editor 
         showPropertyGrid: "right",
