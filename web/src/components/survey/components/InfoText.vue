@@ -2,10 +2,13 @@
   <div
     class="panel panel-default"
     :class="{
-      error: question.messageStyle === 'error' || question.messageStyle === 'redinfo',
+      error:
+        question.messageStyle === 'error' ||
+        question.messageStyle === 'redinfo',
       'survey-infotext': question.messageStyle !== 'inline',
       'survey-inlinetext': question.messageStyle === 'inline'
     }"
+    :key="state.key"
   >
     <div class="panel-heading">
       <label class="panel-title">
@@ -20,11 +23,11 @@
             'fa-info-circle': question.messageStyle === 'info'
           }"
         ></span>
-        <span class="title-text" v-html="titleHtml"></span>
+        <span class="title-text" v-html="question.fullTitle"></span>
       </label>
     </div>
-    <div class="panel-body" v-if="bodyHtml" v-html="bodyHtml"></div>
-    <div class="row accept-row" v-if="question.isRequired && !value">
+    <div class="panel-body" v-if="question.body" v-html="question.body"></div>
+    <div class="row accept-row" v-if="question.isRequired && !question.value">
       <div class="col-sm-12">
         <button class="btn btn-primary" type="button" @click="toggle">
           <span>Continue</span>
@@ -34,49 +37,57 @@
   </div>
 </template>
 
-<script>
-import { Question } from "survey-vue";
+<script language="ts">
+import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 
-export default {
+export default defineComponent({
+  name: "infotext",
   props: {
-    question: Question
+    question: Object,
+    isSurveyEditor: Boolean
   },
-  data() {
+  setup(props) {
+    const state = reactive({
+      key: 1
+    });
+    onMounted(() => {
+      const q = props.question;
+      //Hooks for SurveyEditor KO.
+      if (props.isSurveyEditor) {
+        q.registerFunctionOnPropertyValueChanged("title", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("body", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("isRequired", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
+          state.key++;
+        });
+      }
+    });
     return {
-      bodyHtml: null,
-      titleHtml: null,
-      value: this.question.value
+      state
     };
   },
   methods: {
     setValue(val) {
+      //TODO needs work
       this.question.value = val;
     },
     toggle() {
+      //TODO needs work
       this.question.value = !this.question.value;
-    },
-    updateContent() {
-      const q = this.question;
-      this.titleHtml = q.fullTitle;
-      const bodyContent = q.body || "";
-      const bodyHtml = q.getMarkdownHtml(bodyContent);
-      if (bodyHtml !== null) {
-        this.bodyHtml = q.getProcessedHtml(bodyHtml);
-      } else {
-        // FIXME should use v-text not v-html for this one?
-        this.bodyHtml = q.getProcessedHtml(bodyContent);
-      }
     }
-  },
-  mounted() {
-    const q = this.question;
-    q.titleChangedCallback = () => {
-      this.updateContent();
-    };
-    q.valueChangedCallback = () => {
-      this.value = q.value;
-    };
-    this.updateContent();
   }
-};
+});
 </script>

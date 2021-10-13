@@ -6,7 +6,7 @@
         <select class="form-control ml-2" ref="copyFrom">
           <option value="">(Select Address)</option>
           <option
-            v-for="(opt,inx) in selOptions"
+            v-for="(opt, inx) in selOptions"
             :key="inx"
             :value="opt.value"
             >{{ opt.label }}</option
@@ -93,81 +93,79 @@
 </template>
 
 <script>
-import { Question } from "survey-vue";
-
 export default {
   props: {
-    question: Question,
+    question: Object
   },
   data() {
     return {
       provinceOptions: [
         {
           value: "AB",
-          text: "Alberta",
+          text: "Alberta"
         },
         {
           value: "BC",
-          text: "British Columbia",
+          text: "British Columbia"
         },
         {
           value: "MB",
-          text: "Manitoba",
+          text: "Manitoba"
         },
         {
           value: "NB",
-          text: "New Brunswick",
+          text: "New Brunswick"
         },
         {
           value: "NF",
-          text: "Newfoundland and Labrador",
+          text: "Newfoundland and Labrador"
         },
         {
           value: "NT",
-          text: "Northwest Territories",
+          text: "Northwest Territories"
         },
         {
           value: "NS",
-          text: "Nova Scotia",
+          text: "Nova Scotia"
         },
         {
           value: "NU",
-          text: "Nunavut",
+          text: "Nunavut"
         },
         {
           value: "ON",
-          text: "Ontario",
+          text: "Ontario"
         },
         {
           value: "PE",
-          text: "Prince Edward Island",
+          text: "Prince Edward Island"
         },
         {
           value: "QC",
-          text: "Quebec",
+          text: "Quebec"
         },
         {
           value: "SK",
-          text: "Saskatchewan",
+          text: "Saskatchewan"
         },
         {
           value: "YT",
-          text: "Yukon",
-        },
+          text: "Yukon"
+        }
       ],
       countryOptions: [
         {
           value: "CAN",
-          text: "Canada",
+          text: "Canada"
         },
         {
           value: "USA",
-          text: "USA",
-        },
+          text: "USA"
+        }
       ],
       selOptions: [],
       pendingValue: this.loadValue(this.question.value),
-      value: this.question.value,
+      value: this.question.value
     };
   },
   methods: {
@@ -190,18 +188,18 @@ export default {
               otherQVal.city,
               otherQVal.state,
               otherQVal.country,
-              otherQVal.postcode,
+              otherQVal.postcode
             ];
             const lbl = parts
-              .map((p) => p.trim())
-              .filter((p) => p)
+              .map(p => p.trim())
+              .filter(p => p)
               .join(", ");
             if (lbl && !seen[lbl]) {
               seen[lbl] = 1;
               addrs.push({
                 name: otherQ.name,
                 label: lbl, // otherQ.referLabel,
-                value: Object.assign({}, otherQ.value),
+                value: Object.assign({}, otherQ.value)
               });
             }
           }
@@ -228,10 +226,10 @@ export default {
         city: val.city || "",
         state: val.state || "BC",
         country: val.country || "CAN",
-        postcode: val.postcode || "",
+        postcode: val.postcode || ""
       };
       return pending;
-    },
+    }
   },
   mounted() {
     const q = this.question;
@@ -242,6 +240,6 @@ export default {
       this.selOptions = this.prevAddrOptions();
     };
     this.selOptions = this.prevAddrOptions();
-  },
+  }
 };
 </script>

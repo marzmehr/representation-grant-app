@@ -23,11 +23,9 @@
 </template>
 
 <script>
-import { Question } from "survey-vue";
-
 export default {
   props: {
-    question: Question
+    question: Object
   },
   data() {
     return {
@@ -52,9 +50,6 @@ export default {
   },
   mounted() {
     const q = this.question;
-    q.valueChangedCallback = () => {
-      this.value = q.value;
-    };
   }
 };
 </script>

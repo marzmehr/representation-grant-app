@@ -13,7 +13,8 @@ const commonState = namespace("Common");
 import * as SurveyCreator from "survey-creator";
 import "survey-creator/survey-creator.css";
 
-import { addToolboxOptions, addQuestionTypes } from "./question-typesII";
+import { addToolboxOptions, addQuestionTypes } from "./question-types";
+import { addCustomTemplating } from "./survey-templating";
 import * as widgets from "surveyjs-widgets";
 import * as SurveyKO from "survey-knockout";
 import * as ace from "ace-builds";
@@ -63,7 +64,6 @@ export default class SurveyCreatorForm extends Vue {
     this.initSurvey();
     widgets.inputmask(SurveyKO);
     addQuestionTypes(SurveyKO);
-
     const saveSurveyData = this.saveSurveyDataToDatabase;
     const sandboxName = this.sandboxName;
 
@@ -83,7 +83,26 @@ export default class SurveyCreatorForm extends Vue {
       "surveyCreatorContainer",
       editorOptions
     );
+
+    editor.onSurveyInstanceCreated.add(function(sender, options) {
+      if (options.reason == "test") {
+        addCustomTemplating(options.survey);
+      }
+    });
+
     await this.loadSurveyDataFromDatabase(editor);
+
+    if (window.location.href.includes("localhost")) {
+      document.querySelector<HTMLElement>(
+        "main.app-content.fill-body"
+      ).style.height = "100vh";
+      document.querySelector<HTMLElement>(
+        ".svd_container .svd_content"
+      ).style.height = "100vh";
+      document.querySelector<HTMLElement>(
+        "#surveyCreatorContainer div"
+      ).style.height = "100vh";
+    }
 
     editor.toolbarItems.push({
       id: "save-test",

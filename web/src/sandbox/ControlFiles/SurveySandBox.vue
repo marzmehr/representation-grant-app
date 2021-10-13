@@ -13,14 +13,11 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-
 import * as SurveyVue from "survey-vue";
-
 import * as surveyEnv from "./survey-glossary";
-
 import SandboxSidebar from "./SandboxSidebar.vue";
-
 import Axios from "axios";
+import { addCustomTemplating } from "@/components/survey/survey-templating";
 
 @Component({
   components: {
@@ -56,6 +53,7 @@ export default class SurveySandBox extends Vue {
 
   async mounted() {
     this.survey = new SurveyVue.Model(await this.loadSurveyData);
+    console.log("mounted surveySandbox.");
     this.initializeSurvey();
     this.addSurveyListener();
   }
@@ -67,6 +65,7 @@ export default class SurveySandBox extends Vue {
   }
 
   public addSurveyListener() {
+    addCustomTemplating(this.survey);
     this.survey.onAfterRenderSurvey.add((sender, options) => {
       this.updatedKey++;
     });
