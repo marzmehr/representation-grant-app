@@ -46,10 +46,6 @@ export default defineComponent({
     onMounted(() => {
       const q = props.question;
 
-      q.survey.getAllQuestions().forEach(function(question) {
-        console.log(question);
-      });
-
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {
