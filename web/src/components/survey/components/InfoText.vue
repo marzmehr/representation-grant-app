@@ -86,11 +86,9 @@ export default defineComponent({
   },
   methods: {
     setValue(val) {
-      //TODO needs work
       this.question.value = val;
     },
     toggle() {
-      //TODO needs work
       this.question.value = !this.question.value;
     }
   }
