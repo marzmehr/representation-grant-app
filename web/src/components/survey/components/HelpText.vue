@@ -4,39 +4,73 @@
     :class="{
       'survey-helptext': question.messageStyle === 'box',
       'survey-inlinetext': question.messageStyle !== 'box',
-      expanded: value
+      expanded: question.value
     }"
+    :key="state.key"
   >
     <div class="panel-heading">
       <label class="panel-title" tabindex="0" @keydown.space.prevent="toggle">
         <input
           type="checkbox"
-          :checked="value"
+          :checked="question.value"
           @click="setValue($event.target.checked)"
         />
         <span class="heading-icon fa fa-question-circle"></span>
-        <span class="title-text" v-html="titleHtml"></span>
+        <span class="title-text" v-html="question.fullTitle"></span>
         <span
           class="heading-expand fa"
-          :class="value ? 'fa-chevron-up' : 'fa-chevron-down'"
+          :class="question.value ? 'fa-chevron-up' : 'fa-chevron-down'"
         ></span>
       </label>
     </div>
-    <div class="panel-body" v-html="bodyHtml"></div>
+    <div
+      class="panel-body"
+      v-if="question.body"
+      v-html="question.getProcessedHtml(question.body)"
+    ></div>
   </div>
 </template>
 
-<script>
-export default {
+<script language="ts">
+import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+
+export default defineComponent({
   props: {
     question: Object,
     isSurveyEditor: Boolean
   },
-  data() {
+  setup(props) {
+    const state = reactive({
+      key: 1
+    });
+    onMounted(() => {
+      const q = props.question;
+
+      //Hooks for SurveyEditor KO.
+      if (props.isSurveyEditor) {
+        q.registerFunctionOnPropertyValueChanged("title", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("body", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("isRequired", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
+          state.key++;
+        });
+      }
+    });
     return {
-      bodyHtml: null,
-      titleHtml: null,
-      value: this.question.value
+      state
     };
   },
   methods: {
@@ -45,42 +79,9 @@ export default {
     },
     toggle() {
       this.question.value = !this.question.value;
-    },
-    updateContent() {
-      const q = this.question;
-      this.titleHtml = q.fullTitle;
-      const bodyContent = q.body || "";
-      const bodyHtml = q.getMarkdownHtml(bodyContent);
-      if (bodyHtml !== null) {
-        this.bodyHtml = q.getProcessedHtml(bodyHtml);
-      } else {
-        // FIXME should use v-text not v-html for this one?
-        this.bodyHtml = q.getProcessedHtml(bodyContent);
-      }
     }
-  },
-  mounted() {
-    const q = this.question;
-    q.titleChangedCallback = () => {
-      this.updateContent();
-    };
-    q.valueChangedCallback = () => {
-      this.value = q.value;
-    };
-
-    //Hooks for SurveyEditor KO.
-    if (this.isSurveyEditor) {
-      q.registerFunctionOnPropertyValueChanged("title", () => {
-        this.updateContent();
-      });
-      q.registerFunctionOnPropertyValueChanged("body", () => {
-        this.updateContent();
-      });
-    }
-
-    this.updateContent();
   }
-};
+});
 </script>
 
 <style type="css" scoped>
