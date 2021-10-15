@@ -1,3 +1,4 @@
+import showdown from "showdown";
 //This is the regular instance, not SurveyKO module.
 export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onProcessTextValue.add(function(sender, options) {
@@ -24,5 +25,14 @@ export function addCustomTemplating(surveyRuntime: any) {
       options.value = JSON.stringify(panelData);
       options.isExists = true;
     }
+  });
+
+  //This templates HTML in the TestSurvey.
+  const converter = new showdown.Converter();
+  surveyRuntime.onTextMarkdown.add(function(survey, options) {
+    let str = converter.makeHtml(options.text);
+    str = str.substring(3);
+    str = str.substring(0, str.length - 4);
+    options.html = str;
   });
 }
