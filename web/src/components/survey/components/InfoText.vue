@@ -26,7 +26,11 @@
         <span class="title-text" v-html="question.fullTitle"></span>
       </label>
     </div>
-    <div class="panel-body" v-if="question.body" v-html="question.body"></div>
+    <div
+      class="panel-body"
+      v-if="question.body"
+      v-html="question.getProcessedHtml(question.body)"
+    ></div>
     <div class="row accept-row" v-if="question.isRequired && !question.value">
       <div class="col-sm-12">
         <button class="btn btn-primary" type="button" @click="toggle">
@@ -52,6 +56,7 @@ export default defineComponent({
     });
     onMounted(() => {
       const q = props.question;
+
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {

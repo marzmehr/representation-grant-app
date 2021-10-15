@@ -6,6 +6,7 @@
       'survey-inlinetext': question.messageStyle !== 'box',
       expanded: question.value
     }"
+    :key="state.key"
   >
     <div class="panel-heading">
       <label class="panel-title" tabindex="0" @keydown.space.prevent="toggle">
@@ -22,14 +23,18 @@
         ></span>
       </label>
     </div>
-    <div class="panel-body" v-html="question.body"></div>
+    <div
+      class="panel-body"
+      v-if="question.body"
+      v-html="question.getProcessedHtml(question.body)"
+    ></div>
   </div>
 </template>
 
-<script>
+<script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 
-export default {
+export default defineComponent({
   props: {
     question: Object,
     isSurveyEditor: Boolean
@@ -80,7 +85,7 @@ export default {
       this.question.value = !this.question.value;
     }
   }
-};
+});
 </script>
 
 <style type="css" scoped>
