@@ -9,6 +9,7 @@ import InfoText from "./components/InfoText.vue";
 import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
+import ReviewYourAnswers from "./components/ReviewYourAnswers.vue"
 import { addCustomExpressions } from "./survey-expressions";
 
 function fixCheckboxes(Survey: any) {
@@ -462,8 +463,42 @@ function initCustomDate(Survey: any) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "property");
 }
 
+function initReviewYourAnswers(Survey: any) {
+  const widget = {
+    name: "ReviewYourAnswers",
+    title: "Review Your Answers button",
+    iconName: "icon-radiogroup",
+    isDefaultRender: true,
+    widgetIsLoaded: function() {
+      return true;
+    },
+    isFit: function(question: any) {
+      return question.getType() === "reviewyouranswers";
+    },
+    activatedByChanged: function(activatedBy: any) {
+      Survey.JsonObject.metaData.addClass(
+        "reviewyouranswers",
+        [],
+        null,
+        "empty"
+      );
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(ReviewYourAnswers);
+      const card = new ComponentClass({
+        propsData: { question: question }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
+    }
+  };
+  Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
+}
+
 export function addQuestionTypes(Survey: any) {
   // fixCheckboxes(Survey);
+  initReviewYourAnswers(Survey)
   initFormDownloadButton(Survey);
   initYesNo(Survey);
   initInfoText(Survey);
@@ -542,6 +577,15 @@ export function addToolboxOptions(editor: any) {
     iconName: "icon-multipletext",
     json: {
       type: "formdownloadbutton"
+    }
+  });
+  editor.toolbox.addItem({
+    name: "reviewyouranswers",
+    title: "Review Your Answers button",
+    isCopied: true,
+    iconName: "icon-multipletext",
+    json: {
+      type: "reviewyouranswers"
     }
   });
 }

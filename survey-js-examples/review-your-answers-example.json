@@ -1,0 +1,70 @@
+{
+ "pages": [
+  {
+   "name": "page1",
+   "elements": [
+    {
+     "type": "personname",
+     "name": "question2",
+     "title": "Enter your name",
+     "defaultValue": {
+      "first": "John",
+      "middle": "H.",
+      "last": "Doe"
+     }
+    },
+    {
+     "type": "contactinfo",
+     "name": "question1",
+     "title": "Add your contact information",
+     "defaultValue": {
+      "phone": "2505555555",
+      "email": "jdoe@mail.ca",
+      "fax": "7785555555"
+     }
+    },
+    {
+     "type": "address",
+     "name": "question3",
+     "title": "Input your postal address",
+     "defaultValue": {
+      "street": "555 Some Street",
+      "city": "Victoria",
+      "state": "BC",
+      "country": "CAN",
+      "postcode": "V5V 5V5"
+     }
+    },
+    {
+     "type": "yesno",
+     "name": "question6",
+     "title": "Are you a Canadian citizen?",
+     "defaultValue": "y"
+    },
+    {
+     "type": "yesno",
+     "name": "question5",
+     "title": "Are you working in Canada?",
+     "defaultValue": "n"
+    },
+    {
+     "type": "file",
+     "name": "question7",
+     "title": "Add file",
+     "maxSize": 0
+    },
+    {
+     "type": "signaturepad",
+     "name": "question8",
+     "title": "Sign to confirm something important"
+    },
+    {
+     "type": "reviewyouranswers",
+     "name": "question4",
+     "title": "Before submitting, would you like to review your answers?"
+    }
+   ],
+   "title": "Review Your Answers Example"
+  }
+ ]
+}
