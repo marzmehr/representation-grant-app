@@ -79,7 +79,7 @@ export default class SurveyCreatorForm extends Vue {
       });
     });
 
-    const reportWindowSize = event => {
+    const resizeIfLargeEnoughScreen = () => {
       if (window.innerHeight > 800) {
         document.querySelector<HTMLElement>("main.app-content.fill-body").style.height = "100vh";
         document.querySelector<HTMLElement>(".svd_container .svd_content").style.height = "100vh";
@@ -87,7 +87,8 @@ export default class SurveyCreatorForm extends Vue {
       }
     };
 
-    window.addEventListener("resize", reportWindowSize);
+    resizeIfLargeEnoughScreen();
+    window.addEventListener("resize", resizeIfLargeEnoughScreen);
 
     editor.toolbarItems.push({
       id: "save-test",
