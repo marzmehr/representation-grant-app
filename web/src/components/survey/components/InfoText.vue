@@ -2,9 +2,7 @@
   <div
     class="panel panel-default"
     :class="{
-      error:
-        question.messageStyle === 'error' ||
-        question.messageStyle === 'redinfo',
+      error: question.messageStyle === 'error' || question.messageStyle === 'redinfo',
       'survey-infotext': question.messageStyle !== 'inline',
       'survey-inlinetext': question.messageStyle === 'inline'
     }"
@@ -14,10 +12,7 @@
       <label class="panel-title">
         <span
           class="heading-icon fa"
-          v-if="
-            question.messageStyle === 'error' ||
-              question.messageStyle === 'info'
-          "
+          v-if="question.messageStyle === 'error' || question.messageStyle === 'info'"
           :class="{
             'fa-ban': question.messageStyle === 'error',
             'fa-info-circle': question.messageStyle === 'info'
