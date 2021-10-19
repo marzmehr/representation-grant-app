@@ -54,7 +54,7 @@ export default class SurveyCreatorForm extends Vue {
     const saveSurveyData = this.saveSurveyDataToDatabase;
     const sandboxName = this.sandboxName;
 
-    ace.edit("surveyCreatorContainer", {});
+    //ace.edit("surveyCreatorContainer", {});
     const editorOptions = {
       isAutoSave: true,
       showLogicTab: true,
