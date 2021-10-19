@@ -3,23 +3,18 @@
 </template>
 
 <script lang="ts">
+import Axios from "axios";
 import { Component, Vue, Prop } from "vue-property-decorator";
-
 import { namespace } from "vuex-class";
-
 import "@/store/modules/common";
 const commonState = namespace("Common");
-
 import * as SurveyCreator from "survey-creator";
 import "survey-creator/survey-creator.css";
-
 import { addToolboxOptions, addQuestionTypes } from "./question-types";
 import { addCustomTemplating } from "./survey-templating";
 import * as widgets from "surveyjs-widgets";
 import * as SurveyKO from "survey-knockout";
 import * as ace from "ace-builds";
-
-import Axios from "axios";
 
 @Component
 export default class SurveyCreatorForm extends Vue {
@@ -36,25 +31,17 @@ export default class SurveyCreatorForm extends Vue {
       });
       alert("Saved");
     } catch (error) {
-      console.log(
-        "saveSurveyData(jsonData): saving JSON data to database failed\n",
-        error
-      );
+      console.log("saveSurveyData(jsonData): saving JSON data to database failed\n", error);
       alert("Failed to Save");
     }
   }
 
   public async loadSurveyDataFromDatabase(editor) {
     try {
-      const response = await Axios.get(
-        `/sandbox-survey/?sandbox_name=${this.sandboxName}`
-      );
+      const response = await Axios.get(`/sandbox-survey/?sandbox_name=${this.sandboxName}`);
       editor.changeText(JSON.parse(response.data.sandbox_data));
     } catch (error) {
-      console.log(
-        "loadSurveyDataFromDatabase(): Loading JSON to JSON Editor failed\n",
-        error
-      );
+      console.log("loadSurveyDataFromDatabase(): Loading JSON to JSON Editor failed\n", error);
     }
   }
 
@@ -79,29 +66,23 @@ export default class SurveyCreatorForm extends Vue {
       */
     };
 
-    const editor = new SurveyCreator.SurveyCreator(
-      "surveyCreatorContainer",
-      editorOptions
-    );
+    const editor = new SurveyCreator.SurveyCreator("surveyCreatorContainer", editorOptions);
 
     editor.onSurveyInstanceCreated.add(function(sender, options) {
       if (options.reason == "test") {
         addCustomTemplating(options.survey);
       }
+
+      (window as any).surveyInstance = options.survey;
+      options.survey.onValueChanged.add((sender, options) => {
+        this.updatedKey++;
+      });
     });
 
-    await this.loadSurveyDataFromDatabase(editor);
-
     if (window.location.href.includes("localhost")) {
-      document.querySelector<HTMLElement>(
-        "main.app-content.fill-body"
-      ).style.height = "100vh";
-      document.querySelector<HTMLElement>(
-        ".svd_container .svd_content"
-      ).style.height = "100vh";
-      document.querySelector<HTMLElement>(
-        "#surveyCreatorContainer div"
-      ).style.height = "100vh";
+      document.querySelector<HTMLElement>("main.app-content.fill-body").style.height = "100vh";
+      document.querySelector<HTMLElement>(".svd_container .svd_content").style.height = "100vh";
+      document.querySelector<HTMLElement>("#surveyCreatorContainer div").style.height = "100vh";
     }
 
     editor.toolbarItems.push({
@@ -141,8 +122,7 @@ export default class SurveyCreatorForm extends Vue {
           const el = document.createElement("a");
           el.setAttribute(
             "href",
-            "data:application/json;charset=utf-8," +
-              encodeURIComponent(fileData)
+            "data:application/json;charset=utf-8," + encodeURIComponent(fileData)
           );
           el.setAttribute("download", fileName);
           el.click();
@@ -154,6 +134,8 @@ export default class SurveyCreatorForm extends Vue {
     editor.haveCommercialLicense = true;
 
     addToolboxOptions(editor);
+
+    await this.loadSurveyDataFromDatabase(editor);
   }
 
   initSurvey() {
@@ -191,12 +173,9 @@ export default class SurveyCreatorForm extends Vue {
     surveyThemeColors["$text-color"] = textColor;
     surveyThemeColors["$header-color"] = headerColor;
     surveyThemeColors["$header-background-color"] = headerBackgroundColor;
-    surveyThemeColors[
-      "$body-container-background-color"
-    ] = bodyContainerBackgroundColor;
+    surveyThemeColors["$body-container-background-color"] = bodyContainerBackgroundColor;
 
-    const editorThemeColors =
-      SurveyCreator.StylesManager.ThemeColors["default"];
+    const editorThemeColors = SurveyCreator.StylesManager.ThemeColors["default"];
     editorThemeColors["$primary-color"] = mainColor;
     editorThemeColors["$secondary-color"] = mainColor;
     editorThemeColors["$primary-border-color"] = borderColor;

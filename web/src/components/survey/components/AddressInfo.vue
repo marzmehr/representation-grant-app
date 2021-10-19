@@ -211,7 +211,7 @@ export default {
     //updateValue(_evt) {
     updateValue() {
       const value = Object.assign({}, this.pendingValue);
-      for (let k in value) {
+      for (const k in value) {
         if (value[k] !== undefined && value[k].length) {
           this.question.value = value;
           return;

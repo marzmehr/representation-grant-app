@@ -42,7 +42,7 @@
 </template>
 
 <script language="ts">
-import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+import { onMounted, defineComponent, reactive, watch } from "@vue/composition-api";
 
 export default defineComponent({
   name: "infotext",

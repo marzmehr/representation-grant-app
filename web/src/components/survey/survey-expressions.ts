@@ -1,4 +1,5 @@
 import { addDays, getDay } from "date-fns";
+import { ExpressionRunner, FunctionFactory } from "survey-core";
 import { DayOfWeek, HolidayHelper } from "../utils/holiday";
 
 export function addCustomExpressions(Survey: any) {
@@ -22,10 +23,7 @@ export function addCustomExpressions(Survey: any) {
         if (yearDiff > minYears) dobReturn = "n";
         else if (yearDiff === minYears) {
           if (cmp.getMonth() < now.getMonth()) dobReturn = "n";
-          else if (
-            cmp.getMonth() === now.getMonth() &&
-            cmp.getDate() < now.getDate()
-          )
+          else if (cmp.getMonth() === now.getMonth() && cmp.getDate() < now.getDate())
             dobReturn = "n";
         }
       }
@@ -42,6 +40,59 @@ export function addCustomExpressions(Survey: any) {
     else return "e";
   }
 
+  function listExcept(params) {
+    if (!params && params.length < 2) return false;
+    if (!params[0]) return [];
+    if (!params[1]) return [];
+    return params[0].filter(value => !params[1].includes(value));
+  }
+
+  function listIntersect(params) {
+    if (!params && params.length < 2) return false;
+    if (!params[0]) return [];
+    if (!params[1]) return [];
+    return params[0].filter(value => params[1].includes(value));
+  }
+
+  function listUnion(params) {
+    if (!params && params.length < 2) return false;
+    if (!params[0]) return [];
+    if (!params[1]) return [];
+    return params[0].concat(params[1]);
+  }
+
+  function panelFilter(params) {
+    if (!params && params.length < 2) return false;
+    let target = params[0];
+    for (let i = 1; i < params.length; i++) {
+      const key = params[i].split(" ")[0];
+      const operation = params[i].split(" ")[1];
+      const value = params[i].split(" ")[2];
+      console.log(`Key: ${key}`);
+      console.log(`Operation: ${operation}`);
+      console.log(`Value: ${value}`);
+      switch (operation) {
+        case "<":
+          target = target?.filter(e => e[key] && e[key] < value);
+          break;
+        case ">":
+          target = target?.filter(e => e[key] && e[key] > value);
+          break;
+        case "=":
+        case "==":
+          target = target?.filter(e => e[key] && e[key] == value);
+          break;
+        case "!=":
+          target = target?.filter(e => e[key] && e[key] != value);
+          break;
+        case "in":
+          target = target?.filter(e => e[key] && value.includes(e[key]));
+          break;
+      }
+    }
+    return target;
+  }
+
   //targetDate:date, days:number, dayType = 'calendar' || 'business'
   function getDateFromQuestionAndAddDays(params) {
     if (!params && params.length < 3) return false;
@@ -55,9 +106,7 @@ export function addCustomExpressions(Survey: any) {
       let movedBusinessDays = 0;
       const statsForYears = [];
       for (let i = -100; i < 100; i++)
-        statsForYears.concat(
-          HolidayHelper.bcStats(targetDate.getFullYear() + i)
-        );
+        statsForYears.concat(HolidayHelper.bcStats(targetDate.getFullYear() + i));
       const direction = days > 0 ? 1 : -1;
       let newDay = new Date();
       while (Math.abs(days) > movedBusinessDays) {
@@ -78,6 +127,21 @@ export function addCustomExpressions(Survey: any) {
     "getDateFromQuestionAndAddDays",
     getDateFromQuestionAndAddDays
   );
+  //Add this so ExpressionRunner can access it.
+  FunctionFactory.Instance.register("listIntersect", listIntersect);
+  Survey.FunctionFactory.Instance.register("listIntersect", listIntersect);
+
+  //Add this so ExpressionRunner can access it.
+  FunctionFactory.Instance.register("listExcept", listExcept);
+  Survey.FunctionFactory.Instance.register("listExcept", listExcept);
+
+  //Add this so ExpressionRunner can access it.
+  FunctionFactory.Instance.register("listUnion", listUnion);
+  Survey.FunctionFactory.Instance.register("listUnion", listUnion);
+
+  //Add this so ExpressionRunner can access it.
+  FunctionFactory.Instance.register("panelFilter", panelFilter);
+  Survey.FunctionFactory.Instance.register("panelFilter", panelFilter);
 
   Survey.FunctionFactory.Instance.register("isChild", isChild);
 }

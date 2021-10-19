@@ -72,6 +72,7 @@ export default class SurveySandBox extends Vue {
 
     this.survey.onValueChanged.add((sender, options) => {
       this.updatedKey++;
+      //TODO add in a hook here for combiners.
     });
 
     this.survey.onCurrentPageChanged.add((sender, options) => {
