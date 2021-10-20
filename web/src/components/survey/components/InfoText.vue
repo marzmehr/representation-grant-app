@@ -19,7 +19,10 @@
           }"
         ></span>
         <!-- question.fullTitle seemed to be causing an infinite loop -->
-        <span class="title-text" v-html="question.locTitle.htmlValues.default"></span>
+        <span
+          class="title-text"
+          v-html="question.locTitle.htmlValues.default || question.locTitle.renderedText"
+        ></span>
       </label>
     </div>
     <div
