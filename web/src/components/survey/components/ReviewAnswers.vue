@@ -1,10 +1,10 @@
 <template>
-  <div v-if="getAnswers">
+  <div>
     <div 
       class="card-body"
       style="margin: 0.5rem 1rem; color: rgb(80, 80, 170); font-size: 16px; font-weight: bold;">
       <b-table hover head-variant="dark" 
-        :items="results" 
+        :items="state.results" 
         :fields="fields"
         style="white-space: pre-line;">
         <template v-slot:cell(actions)="">
@@ -26,16 +26,108 @@ export default defineComponent({
   },
   data() {
     return {
-      fields: ["question", "answer", "actions"],
-      results: []
+      fields: ["question", "answer", "actions"]
     }
   },
   setup(props) {
     const state = reactive({
-      key: 1
+      key: 1,
+      results: []
     });
+
     onMounted(() => {
       const q = props.question;
+
+      const firstCharToUpper = (string) => {
+        let firstChar = string.charAt(0).toUpperCase();
+        if (string.length > 1) {
+          return firstChar + string.slice(1);
+        } else if (string.length === 1) {
+          return firstChar;
+        }
+      }
+
+      const checkForSignature = (question) => {
+        if (question.value) {
+          return "Signed";
+        } else if (!question.value) {
+          return "";
+        }
+      }
+
+      const filterOutFileAttributes = (item) => {
+        // The special filtering below is to prevent too much stuff
+        // being printed from the `File` component.
+        let ret = "";
+        for (let key in item) {
+          if (key === "name") {
+            ret += item[key];
+          } else if (key !== "type" && key !== "content") {
+            ret += firstCharToUpper(key) + ": " + formatObject(item[key]);
+          }
+        }
+        return ret;
+      }
+
+      const formatObject = (item) => {
+        // Base case for recursion
+        if (item !== Object(item)) {
+          return item + '\n';
+        } else if (item === Object(item)) {
+          return filterOutFileAttributes(item);
+        }
+      }
+
+      const formatArray = (arr) => {
+        let ret = "";
+        arr.forEach(element => {
+          if (element === Object(element)) {
+            ret += formatObject(element);
+          } else {
+            ret += element + "\n";
+          }
+        });
+        return ret;
+      }
+
+      const processAndFormatAnswers = (question) => {
+        let answer = question.value;
+
+        if (!answer) {
+          return "";
+        } else if (question.signaturePad) {
+          return checkForSignature(question);
+        } else if (Array.isArray(answer)) {
+          return formatArray(answer);
+        } else if (answer === Object(answer)) {
+          return formatObject(answer);
+        } else if (typeof answer === "string") {
+          return firstCharToUpper(answer);
+        } else if (typeof answer === "number" || typeof answer === "boolean") {
+          return answer;
+        }
+      }
+
+      const getAnswers = () => {
+        let questions = q.survey.getAllQuestions();
+        let toInclude = []; 
+        
+        if (q.reviewQuestions) {
+          toInclude = q.reviewQuestions;
+        }
+        
+        for (let i = 0; i < questions.length - 1; i++) {
+          if (toInclude.includes(questions[i].name)) {
+            state.results.push({
+              question: questions[i].title,
+              answer: processAndFormatAnswers(questions[i])
+            });
+          }
+        }
+      }
+
+      getAnswers();
+
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {
@@ -71,86 +163,6 @@ export default defineComponent({
     toggle() {
       //TODO needs work
       this.question.value = !this.question.value;
-    },
-    firstCharToUpper(string) {
-      let firstChar = string.charAt(0).toUpperCase();
-      if (string.length > 1) {
-        return firstChar + string.slice(1);
-      } else if (string.length === 1) {
-        return firstChar;
-      }
-    },
-    checkForSignature(question) {
-      if (question.value) {
-        return "Signed";
-      } else if (!question.value) {
-        return "";
-      }
-    },
-    filterOutFileAttributes(item) {
-      // The special filtering below is to prevent too much stuff
-      // being printed from the `File` component.
-      let ret = "";
-      for (let key in item) {
-        if (key === "name") {
-          ret += item[key];
-        } else if (key !== "type" && key !== "content") {
-          ret += this.firstCharToUpper(key) + ": " + this.formatObject(item[key]);
-        }
-      }
-      return ret;
-    },
-    formatObject(item) {
-      // Base case for recursion
-      if (item !== Object(item)) {
-        return item + '\n';
-      } else if (item === Object(item)) {
-        return this.filterOutFileAttributes(item);
-      }
-    },
-    formatArray(arr) {
-      let ret = "";
-      arr.forEach(element => {
-        if (element === Object(element)) {
-          ret += this.formatObject(element);
-        } else {
-          ret += element + "\n";
-        }
-      });
-      return ret;
-    },
-    processAndFormatAnswers(question) {
-      let answer = question.value;
-
-      if (!answer) {
-        return "";
-      } else if (question.signaturePad) {
-        return this.checkForSignature(question);
-      } else if (Array.isArray(answer)) {
-        return this.formatArray(answer);
-      } else if (answer === Object(answer)) {
-        return this.formatObject(answer);
-      } else if (typeof answer === "string") {
-        return this.firstCharToUpper(answer);
-      } else if (typeof answer === "number" || typeof answer === "boolean") {
-        return answer;
-      }
-    }
-  },
-  computed: {
-    getAnswers: function () {
-      let questions = this.question.survey.getAllQuestions();
-      let toInclude = this.question.reviewQuestions;
-      
-      for (let i = 0; i < questions.length - 1; i++) {
-        if (toInclude.includes(questions[i].name)) {
-          this.results.push({
-            question: questions[i].title,
-            answer: this.processAndFormatAnswers(questions[i])
-          });
-        }
-      }
-      return this.results;
     }
   }
 });
