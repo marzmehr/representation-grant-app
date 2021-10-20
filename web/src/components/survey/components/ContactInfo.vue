@@ -35,7 +35,7 @@ export default {
     pendingValue: {
       handler(val) {
         const curVal = this.question.value || {};
-        let updVal = {};
+        const updVal = {};
         let empty = true;
         let changed = false;
         for (const field of this.fields) {
@@ -71,7 +71,6 @@ export default {
           id: q.inputId + "-fax",
           desc: q.descFax
         }
-        
       ];
       return fields;
     }

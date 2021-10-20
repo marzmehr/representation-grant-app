@@ -7,7 +7,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "report": "vue-cli-service build --report",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "production-serve": "vue-cli-service serve --mode production"
   },
   "resolutions": {
     "normalize-url": "^4.5.1",
@@ -28,7 +29,6 @@
     "core-js": "^3.6.4",
     "date-fns": "^2.25.0",
     "jquery": "^3.6.0",
-    "jsep": "^1.1.0",
     "moment-timezone": "^0.5.32",
     "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",

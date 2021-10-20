@@ -2,9 +2,7 @@
   <div
     class="panel panel-default"
     :class="{
-      error:
-        question.messageStyle === 'error' ||
-        question.messageStyle === 'redinfo',
+      error: question.messageStyle === 'error' || question.messageStyle === 'redinfo',
       'survey-infotext': question.messageStyle !== 'inline',
       'survey-inlinetext': question.messageStyle === 'inline'
     }"
@@ -14,16 +12,21 @@
       <label class="panel-title">
         <span
           class="heading-icon fa"
-          v-if="
-            question.messageStyle === 'error' ||
-              question.messageStyle === 'info'
-          "
+          v-if="question.messageStyle === 'error' || question.messageStyle === 'info'"
           :class="{
             'fa-ban': question.messageStyle === 'error',
             'fa-info-circle': question.messageStyle === 'info'
           }"
         ></span>
-        <span class="title-text" v-html="question.fullTitle"></span>
+        <!-- question.fullTitle seemed to be causing an infinite loop -->
+        <span
+          class="title-text"
+          v-html="
+            isSurveyEditor
+              ? question.locTitle.htmlValues.default || question.locTitle.renderedText
+              : question.title
+          "
+        ></span>
       </label>
     </div>
     <div
@@ -42,7 +45,7 @@
 </template>
 
 <script language="ts">
-import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+import { onMounted, defineComponent, reactive, computed } from "@vue/composition-api";
 
 export default defineComponent({
   name: "infotext",
@@ -51,12 +54,13 @@ export default defineComponent({
     isSurveyEditor: Boolean
   },
   setup(props) {
+    //const title = computed(() => props.question.fullTitle);
     const state = reactive({
       key: 1
     });
+
     onMounted(() => {
       const q = props.question;
-
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {

@@ -1,0 +1,56 @@
+{
+    "pages": [
+     {
+      "name": "page1",
+      "elements": [
+       {
+        "type": "yesno",
+        "name": "question1",
+        "title": "question1"
+       },
+       {
+        "type": "checkbox",
+        "name": "question2",
+        "title": "question2",
+        "choices": [
+         "item1",
+         "item2",
+         "item3"
+        ]
+       },
+       {
+        "type": "checkbox",
+        "name": "question4",
+        "title": "question4",
+        "choices": [
+         "item1",
+         "item2",
+         "item3"
+        ]
+       },
+       {
+        "type": "paneldynamic",
+        "name": "panel3",
+        "templateElements": [
+         {
+          "type": "text",
+          "name": "panel3Age"
+         },
+         {
+          "type": "yesno",
+          "name": "panel3Alive"
+         }
+        ]
+       },
+       {
+        "type": "questioncombiner",
+        "name": "combiner",
+        "title": "Combiner",
+        "inputExpression1": "listUnion(listIntersect({question2},{question4}),['EXTRA ADDED']) IF {question1} = 'y'",
+        "inputExpression2": "panelFilter({panel3}, 'panel3Age > 20', 'panel3Alive > 50') IF {question1} = 'n'",
+        "inputExpression3": "listUnion(listIntersect({question2},{question4}),['55'])"
+       }
+      ]
+     }
+    ]
+   }

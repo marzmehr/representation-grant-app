@@ -3,24 +3,26 @@ import showdown from "showdown";
 export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onProcessTextValue.add(function(sender, options) {
     //Description: Print bulleted list from array.
-    //Usage: bullet(<questionName/panel>.<fieldname>)
-    if (options.name.includes("bullet(")) {
-      const data = `${options.name.replace("bullet(", "").replace(")", "")}`;
+    //Usage: bullets(<panel>.<fieldname>)
+    if (options.name.includes("bullets(")) {
+      const data = `${options.name.replace("bullets(", "").replace(")", "")}`;
       const targetName = data.split(".")[0];
       const key = data.split(".")[1];
-      const bullets = [];
-      sender.getQuestionByName(targetName).value.forEach(function(element) {
-        bullets.push(`<li>${key.length > 0 ? element[key] : element}</li>`);
-      });
-      options.value = bullets.join("\r\n");
+      if (sender.getQuestionByName(targetName)?.value) {
+        const bullets = [];
+        sender.getQuestionByName(targetName).value.forEach(function(element) {
+          bullets.push(`<li>${key?.length > 0 ? element[key] : element}</li>`);
+        });
+        options.value = bullets.join("\r\n");
+      } else {
+        options.value = "";
+      }
       options.isExists = true;
     }
     //Description: Print out entire panel content.
     //Usage: printPanel(panelName)
     if (options.name.includes("printPanel(")) {
-      const targetName = `${options.name
-        .replace("printPanel(", "")
-        .replace(")", "")}`;
+      const targetName = `${options.name.replace("printPanel(", "").replace(")", "")}`;
       const panelData = sender.getQuestionByName(targetName).value;
       options.value = JSON.stringify(panelData);
       options.isExists = true;

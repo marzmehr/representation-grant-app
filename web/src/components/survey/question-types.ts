@@ -10,20 +10,17 @@ import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
 import ReviewAnswers from "./components/ReviewAnswers.vue"
+import QuestionCombiner from "./components/QuestionCombiner.vue";
 import { addCustomExpressions } from "./survey-expressions";
 import { GeneratedIdentifierFlags } from "typescript";
+import { VueSurveyModel } from "survey-vue";
 
 function fixCheckboxes(Survey: any) {
   const widget = {
     name: "fixchecks",
     isFit: function(question: any) {
       const t = question.getType();
-      return (
-        t === "radiogroup" ||
-        t === "checkbox" ||
-        t === "matrix" ||
-        t === "boolean"
-      );
+      return t === "radiogroup" || t === "checkbox" || t === "matrix" || t === "boolean";
     },
     isDefaultRender: true,
     afterRender: function(question: any, el: any) {
@@ -55,8 +52,7 @@ function fixCheckboxes(Survey: any) {
             }
           }
         }
-        if (question.getType() !== "boolean" && label)
-          label = label.children[0];
+        if (question.getType() !== "boolean" && label) label = label.children[0];
         let wrap = contain;
         if (wrap.tagName.toLowerCase() !== "div") {
           wrap = document.createElement("div");
@@ -78,11 +74,7 @@ function fixCheckboxes(Survey: any) {
           const target = <HTMLInputElement>event.target;
           if (question.getType() === "matrix") {
             if (target.checked) {
-              question.generatedVisibleRows.forEach(function(
-                row: any,
-                index: any,
-                rows: any
-              ) {
+              question.generatedVisibleRows.forEach(function(row: any, index: any, rows: any) {
                 if (row.fullName === target.name) {
                   row.value = target.value;
                 }
@@ -116,18 +108,11 @@ function fixCheckboxes(Survey: any) {
             inputElts[i].checked = values.indexOf(inputElts[i].value) >= 0;
           }
         } else {
-          question.generatedVisibleRows.forEach(function(
-            row: any,
-            index: any,
-            rows: any
-          ) {
+          question.generatedVisibleRows.forEach(function(row: any, index: any, rows: any) {
             if (row.value) {
               const inputElts = el.getElementsByTagName("input");
               for (let i = 0; i < inputElts.length; i++) {
-                if (
-                  inputElts[i].name === row.fullName &&
-                  inputElts[i].value === row.value
-                ) {
+                if (inputElts[i].name === row.fullName && inputElts[i].value === row.value) {
                   inputElts[i].checked = true;
                 }
               }
@@ -165,6 +150,7 @@ function initHelpText(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.className == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(HelpText);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
@@ -212,6 +198,7 @@ function initInfoText(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(InfoText);
       const card = new ComponentClass({
         propsData: {
@@ -239,18 +226,88 @@ function initFormDownloadButton(Survey: any) {
       return question.getType() === "formdownloadbutton";
     },
     activatedByChanged: function(activatedBy: any) {
-      Survey.JsonObject.metaData.addClass(
+      Survey.JsonObject.metaData.addClass("formdownloadbutton", [], null, "empty");
+      Survey.JsonObject.metaData.addProperties(
         "formdownloadbutton",
-        [],
+        [
+          {
+            name: "buttonTitle",
+            default: "",
+            category: "general",
+            visibleIndex: 2
+          },
+          {
+            name: "pdfType",
+            default: "",
+            category: "general",
+            visibleIndex: 3
+          }
+        ],
         null,
         "empty"
       );
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(FormDownloadButton);
       const card = new ComponentClass({
-        propsData: { question: question }
+        propsData: { question: question, isSurveyEditor: true }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
+    }
+  };
+  Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
+}
+
+function initQuestionCombiner(Survey: any) {
+  const widget = {
+    name: "QuestionCombiner",
+    title: "Question Combiner",
+    iconName: "icon-radiogroup",
+    isDefaultRender: true,
+    widgetIsLoaded: function() {
+      return true;
+    },
+    isFit: function(question: any) {
+      return question.getType() === "questioncombiner";
+    },
+    activatedByChanged: function(activatedBy: any) {
+      Survey.JsonObject.metaData.addClass(
+        "questioncombiner",
+        [
+          {
+            name: "inputExpression1",
+            category: "general"
+          },
+          {
+            name: "inputExpression2",
+            category: "general"
+          },
+          {
+            name: "inputExpression3",
+            category: "general"
+          },
+          {
+            name: "inputExpression4",
+            category: "general"
+          },
+          {
+            name: "inputExpression5",
+            category: "general"
+          }
+        ],
+        null,
+        "empty"
+      );
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
+      const ComponentClass = Vue.extend(QuestionCombiner);
+      const card = new ComponentClass({
+        propsData: { question: question, isSurveyEditor: true }
       });
       card.$mount();
       el.appendChild(card.$el);
@@ -276,6 +333,7 @@ function initYesNo(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(YesNo);
       const card = new ComponentClass({
         propsData: { question: question }
@@ -312,6 +370,7 @@ function initAddressBlock(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(AddressInfo);
       const card = new ComponentClass({
         propsData: { question: question }
@@ -375,6 +434,7 @@ function initPersonName(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(PersonName);
       const card = new ComponentClass({
         propsData: { question: question }
@@ -417,6 +477,7 @@ function initContactInfoBlock(Survey: any) {
       );
     },
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(ContactInfo);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
@@ -453,6 +514,7 @@ function initCustomDate(Survey: any) {
       ]);
     },
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(CustomDate);
       const card = new ComponentClass({
         propsData: { question: question }
@@ -515,6 +577,7 @@ export function addQuestionTypes(Survey: any) {
   initAddressBlock(Survey);
   initContactInfoBlock(Survey);
   initCustomDate(Survey);
+  initQuestionCombiner(Survey);
   addCustomExpressions(Survey);
 }
 
@@ -594,6 +657,15 @@ export function addToolboxOptions(editor: any) {
     iconName: "icon-checkbox",
     json: {
       type: "reviewanswers"
+    }
+  });
+  editor.toolbox.addItem({
+    name: "questioncombiner",
+    title: "Question Combiner",
+    isCopied: true,
+    iconName: "icon-multipletext",
+    json: {
+      type: "questioncombiner"
     }
   });
 }
