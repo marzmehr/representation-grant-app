@@ -54,7 +54,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import { addQuestionTypesVue } from "../vue-question-types";
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/components/survey/survey-glossary";
 import surveyJson from "./forms/survey-qualify.json";
