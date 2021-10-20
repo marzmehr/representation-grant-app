@@ -1,9 +1,8 @@
 <template>
-  <div>
+  <div v-if="getAnswers">
     <div 
       class="card-body"
-      style="margin: 0.5rem 1rem; color: rgb(80, 80, 170); font-size: 16px; font-weight: bold;"
-      v-if="isHidden">
+      style="margin: 0.5rem 1rem; color: rgb(80, 80, 170); font-size: 16px; font-weight: bold;">
       <b-table hover head-variant="dark" 
         :items="results" 
         :fields="fields"
@@ -12,25 +11,7 @@
           <span><b-btn>Edit</b-btn></span>
         </template>
       </b-table>
-      <button
-        type="button"
-        class="btn btn-success"
-        style="margin: 0.25rem 1rem;"
-        v-on:click="updateAnswers()"
-      >
-        Update
-      </button>
     </div>
-    
-    <button
-      type="button"
-      class="btn btn-success"
-      style="margin: 0.25rem 1rem;"
-      v-if="!isHidden"
-      v-on:click="getAnswers()"
-    >
-      Generate Review
-    </button>
   </div>
 </template>
 
@@ -38,14 +19,13 @@
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "reviewyouranswers",
+  name: "reviewanswers",
   props: {
     question: Object,
     isSurveyEditor: Boolean
   },
   data() {
     return {
-      isHidden: false,
       fields: ["question", "answer", "actions"],
       results: []
     }
@@ -155,20 +135,22 @@ export default defineComponent({
       } else if (typeof answer === "number" || typeof answer === "boolean") {
         return answer;
       }
-    },
-    getAnswers() {
-      this.isHidden = true;
-      let questions = this.question.survey.getAllQuestions()
+    }
+  },
+  computed: {
+    getAnswers: function () {
+      let questions = this.question.survey.getAllQuestions();
+      let toInclude = this.question.reviewQuestions;
+      
       for (let i = 0; i < questions.length - 1; i++) {
-        this.results.push({
-          question: questions[i].title,
-          answer: this.processAndFormatAnswers(questions[i])
-        });
+        if (toInclude.includes(questions[i].name)) {
+          this.results.push({
+            question: questions[i].title,
+            answer: this.processAndFormatAnswers(questions[i])
+          });
+        }
       }
-    },
-    updateAnswers() {
-      this.results.splice(0)
-      this.getAnswers()
+      return this.results;
     }
   }
 });
