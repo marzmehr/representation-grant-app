@@ -11,6 +11,7 @@ import ReviewAnswers from "./components/ReviewAnswers.vue";
 import SurveyText from "./components/outer-question/SurveyText.vue";
 import Expression from "./components/outer-question/Expression.vue";
 import EarliestSubmissionDate from "./components/EarliestSubmissionDate.vue";
+import DateMath from "./components/DateMath.vue";
 import { addCustomExpressions } from "./survey-expressions";
 
 function initHelpText(Survey: any) {
@@ -491,11 +492,45 @@ const addToInputText = Survey => {
   );
 };
 
+function initDateMath(Survey: any) {
+  const widget = {
+    name: "DateMath",
+    title: "Date Math",
+    iconName: "icon-checkbox",
+    isDefaultRender: true,
+    widgetIsLoaded: function() {
+      return true;
+    },
+    isFit: function(question: any) {
+      return question.getType() === "datemath";
+    },
+    activatedByChanged: function(activatedBy: any) {
+      Survey.JsonObject.metaData.addClass(
+        "datemath",
+        [],
+        null,
+        "empty"
+      );
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(DateMath);
+      const card = new ComponentClass({
+        propsData: { question: question, isSurveyEditor: true }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
+    }
+  };
+  Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
+}
+
 export function addQuestionTypes(Survey: any) {
   // fixCheckboxes(Survey);
   addToInputText(Survey);
   fixExpression(Survey);
   initReviewAnswers(Survey);
+  initDateMath(Survey);
   initFormDownloadButton(Survey);
   initYesNo(Survey);
   initInfoText(Survey);
@@ -602,6 +637,15 @@ export function addToolboxOptions(editor: any) {
     iconName: "icon-multipletext",
     json: {
       type: "customdate"
+    }
+  });
+  editor.toolbox.addItem({
+    name: "datemath",
+    title: "Date Math",
+    isCopied: true,
+    iconName: "icon-checkbox",
+    json: {
+      type: "datemath"
     }
   });
 }
