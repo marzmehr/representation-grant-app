@@ -22,9 +22,7 @@ export function addCustomTemplating(surveyRuntime: any) {
     //Description: Print out entire panel content.
     //Usage: printPanel(panelName)
     if (options.name.includes("printPanel(")) {
-      const targetName = `${options.name
-        .replace("printPanel(", "")
-        .replace(")", "")}`;
+      const targetName = `${options.name.replace("printPanel(", "").replace(")", "")}`;
       const panelData = sender.getQuestionByName(targetName).value;
       options.value = JSON.stringify(panelData);
       options.isExists = true;

@@ -54,7 +54,6 @@ export default class SurveyCreatorForm extends Vue {
     const saveSurveyData = this.saveSurveyDataToDatabase;
     const sandboxName = this.sandboxName;
 
-    //ace.edit("surveyCreatorContainer", {});
     const editorOptions = {
       isAutoSave: true,
       showLogicTab: true,
@@ -67,6 +66,8 @@ export default class SurveyCreatorForm extends Vue {
     };
 
     const editor = new SurveyCreator.SurveyCreator("surveyCreatorContainer", editorOptions);
+
+    ace.edit(document.getElementsByName("survey-json-editor")[0], {});
 
     editor.onSurveyInstanceCreated.add(function(sender, options) {
       if (options.reason == "test") {

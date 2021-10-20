@@ -18,7 +18,8 @@
             'fa-info-circle': question.messageStyle === 'info'
           }"
         ></span>
-        <span class="title-text" v-html="question.fullTitle"></span>
+        <!-- question.fullTitle seemed to be causing an infinite loop -->
+        <span class="title-text" v-html="question.locTitle.htmlValues.default"></span>
       </label>
     </div>
     <div
@@ -37,7 +38,7 @@
 </template>
 
 <script language="ts">
-import { onMounted, defineComponent, reactive, watch } from "@vue/composition-api";
+import { onMounted, defineComponent, reactive, computed } from "@vue/composition-api";
 
 export default defineComponent({
   name: "infotext",
@@ -46,14 +47,17 @@ export default defineComponent({
     isSurveyEditor: Boolean
   },
   setup(props) {
+    //const title = computed(() => props.question.fullTitle);
     const state = reactive({
       key: 1
     });
+
     onMounted(() => {
       const q = props.question;
 
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
+        debugger;
         q.registerFunctionOnPropertyValueChanged("title", () => {
           state.key++;
         });
