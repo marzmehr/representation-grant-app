@@ -21,7 +21,11 @@
         <!-- question.fullTitle seemed to be causing an infinite loop -->
         <span
           class="title-text"
-          v-html="question.locTitle.htmlValues.default || question.locTitle.renderedText"
+          v-html="
+            isSurveyEditor
+              ? question.locTitle.htmlValues.default || question.locTitle.renderedText
+              : question.title
+          "
         ></span>
       </label>
     </div>
@@ -57,10 +61,8 @@ export default defineComponent({
 
     onMounted(() => {
       const q = props.question;
-
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
-        debugger;
         q.registerFunctionOnPropertyValueChanged("title", () => {
           state.key++;
         });

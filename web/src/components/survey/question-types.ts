@@ -11,6 +11,7 @@ import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
 import QuestionCombiner from "./components/QuestionCombiner.vue";
 import { addCustomExpressions } from "./survey-expressions";
+import { VueSurveyModel } from "survey-vue";
 
 function fixCheckboxes(Survey: any) {
   const widget = {
@@ -147,6 +148,7 @@ function initHelpText(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.className == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(HelpText);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
@@ -194,6 +196,7 @@ function initInfoText(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(InfoText);
       const card = new ComponentClass({
         propsData: {
@@ -244,6 +247,7 @@ function initFormDownloadButton(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(FormDownloadButton);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
@@ -298,6 +302,7 @@ function initQuestionCombiner(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(QuestionCombiner);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
@@ -326,6 +331,7 @@ function initYesNo(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(YesNo);
       const card = new ComponentClass({
         propsData: { question: question }
@@ -362,6 +368,7 @@ function initAddressBlock(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(AddressInfo);
       const card = new ComponentClass({
         propsData: { question: question }
@@ -425,6 +432,7 @@ function initPersonName(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(PersonName);
       const card = new ComponentClass({
         propsData: { question: question }
@@ -467,6 +475,7 @@ function initContactInfoBlock(Survey: any) {
       );
     },
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(ContactInfo);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
@@ -503,6 +512,7 @@ function initCustomDate(Survey: any) {
       ]);
     },
     afterRender: function(question, el) {
+      if (question.survey.constructor.name == "VueSurveyModel") return;
       const ComponentClass = Vue.extend(CustomDate);
       const card = new ComponentClass({
         propsData: { question: question }
