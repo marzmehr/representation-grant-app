@@ -5,7 +5,7 @@
       style="margin: 0.5rem 1rem; color: rgb(80, 80, 170); font-size: 16px; font-weight: bold;">
       <b-table hover head-variant="dark" 
         :items="state.results" 
-        :fields="fields"
+        :fields="state.fields"
         style="white-space: pre-line;">
         <template v-slot:cell(actions)="">
           <span><b-btn>Edit</b-btn></span>
@@ -24,16 +24,22 @@ export default defineComponent({
     question: Object,
     isSurveyEditor: Boolean
   },
-  data() {
-    return {
-      fields: ["question", "answer", "actions"]
-    }
-  },
   setup(props) {
     const state = reactive({
       key: 1,
+      fields: ["question", "answer", "actions"],
       results: []
     });
+
+    const setValue = (val) => {
+      //TODO needs work
+      this.question.value = val;
+    }
+
+    const toggle = () => {
+      //TODO needs work
+      this.question.value = !this.question.value;
+    }
 
     onMounted(() => {
       const q = props.question;
@@ -151,19 +157,12 @@ export default defineComponent({
         });
       }
     });
+
     return {
-      state
+      state,
+      setValue,
+      toggle
     };
-  },
-  methods: {
-    setValue(val) {
-      //TODO needs work
-      this.question.value = val;
-    },
-    toggle() {
-      //TODO needs work
-      this.question.value = !this.question.value;
-    }
   }
 });
 </script>
