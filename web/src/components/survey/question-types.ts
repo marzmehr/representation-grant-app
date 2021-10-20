@@ -9,8 +9,10 @@ import InfoText from "./components/InfoText.vue";
 import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
+import ReviewAnswers from "./components/ReviewAnswers.vue"
 import QuestionCombiner from "./components/QuestionCombiner.vue";
 import { addCustomExpressions } from "./survey-expressions";
+import { GeneratedIdentifierFlags } from "typescript";
 import { VueSurveyModel } from "survey-vue";
 
 function fixCheckboxes(Survey: any) {
@@ -524,8 +526,49 @@ function initCustomDate(Survey: any) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "property");
 }
 
+function initReviewAnswers(Survey: any) {
+  const widget = {
+    name: "ReviewAnswers",
+    title: "Review Answers",
+    iconName: "icon-radiogroup",
+    isDefaultRender: true,
+    widgetIsLoaded: function() {
+      return true;
+    },
+    isFit: function(question: any) {
+      return question.getType() === "reviewanswers";
+    },
+    activatedByChanged: function(activatedBy: any) {
+      Survey.JsonObject.metaData.addClass(
+        "reviewanswers",
+        [],
+        null,
+        "empty"
+      );
+      Survey.JsonObject.metaData.addProperties("reviewanswers", [
+        {
+          name: "reviewQuestions:text",
+          category: "general",
+          visibleIndex: 3
+        },
+      ]);
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(ReviewAnswers);
+      const card = new ComponentClass({
+        propsData: { question: question, isSurveyEditor: true }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
+    }
+  };
+  Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
+}
+
 export function addQuestionTypes(Survey: any) {
   // fixCheckboxes(Survey);
+  initReviewAnswers(Survey);
   initFormDownloadButton(Survey);
   initYesNo(Survey);
   initInfoText(Survey);
@@ -605,6 +648,15 @@ export function addToolboxOptions(editor: any) {
     iconName: "icon-multipletext",
     json: {
       type: "formdownloadbutton"
+    }
+  });
+  editor.toolbox.addItem({
+    name: "reviewanswers",
+    title: "Review Answers",
+    isCopied: true,
+    iconName: "icon-checkbox",
+    json: {
+      type: "reviewanswers"
     }
   });
   editor.toolbox.addItem({

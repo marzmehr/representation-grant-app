@@ -9,6 +9,7 @@ import InfoText from "./components/InfoText.vue";
 import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
+import ReviewAnswers from "./components/ReviewAnswers.vue"
 import QuestionCombiner from "./components/QuestionCombiner.vue";
 
 export function addQuestionTypesVue(Survey: any) {
@@ -20,6 +21,7 @@ export function addQuestionTypesVue(Survey: any) {
   Vue.component("ContactInfo", ContactInfo);
   Vue.component("CustomDate", CustomDate);
   Vue.component("FormDownloadButton", FormDownloadButton);
+  Vue.component("ReviewAnswers", ReviewAnswers);
   Vue.component("QuestionCombiner", QuestionCombiner);
   addQuestionTypes(Survey);
 }
