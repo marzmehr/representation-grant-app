@@ -34,13 +34,7 @@ export function setGlossaryMarkdown(survey) {
     str = str.replace(/<code>(.*?)<\/code>/g, (wholeMatch, m1) => {
       if (hasTerm(m1)) {
         //       // note: m1 is already html format
-        return (
-          '<a href="#" class="glossary-link" data-glossary="' +
-          m1 +
-          '">' +
-          m1 +
-          "</a>"
-        );
+        return '<a href="#" class="glossary-link" data-glossary="' + m1 + '">' + m1 + "</a>";
       }
       if (showMissingTerms) {
         return "<code>" + m1 + "</code>";
@@ -81,7 +75,6 @@ function formatHtml(content) {
 //   }
 
 export function setCss(Survey) {
-  addQuestionTypes(Survey);
   Survey.defaultBootstrapCss.page.root = "sv_page";
   Survey.defaultBootstrapCss.pageDescription = "sv_page_description";
   Survey.defaultBootstrapCss.page.description = "sv_page_description";

@@ -82,8 +82,7 @@ export default class SandboxSidebar extends Vue {
 
   keyDown(event, link) {
     // allow space or enter to activate page
-    if (event && (event.keyCode === 13 || event.keyCode === 32))
-      this.activateLink(link);
+    if (event && (event.keyCode === 13 || event.keyCode === 32)) this.activateLink(link);
   }
 }
 </script>
