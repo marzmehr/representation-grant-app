@@ -53,7 +53,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/components/survey/survey-glossary";
 import surveyJson from "./forms/survey-qualify.json";
@@ -87,16 +86,12 @@ export default class PreQualification extends Vue {
   mounted() {
     this.showDisclaimer = false;
     this.displayButton = false;
-    this.initializeSurvey();
-    this.addSurveyListener();
-  }
-
-  public initializeSurvey() {
     this.survey = new SurveyVue.Model(surveyJson);
     this.survey.commentPrefix = "Comment";
     this.survey.showQuestionNumbers = "off";
     this.survey.showNavigationButtons = false;
     surveyEnv.setGlossaryMarkdown(this.survey);
+    this.addSurveyListener();
   }
 
   public onSubmit(evt) {
@@ -131,10 +126,6 @@ export default class PreQualification extends Vue {
         this.displayButton = false;
       }
     });
-  }
-
-  beforeDestroy() {
-    console.log(this.survey.data);
   }
 }
 </script>
