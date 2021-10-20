@@ -106,18 +106,20 @@ export default defineComponent({
 
       const getAnswers = () => {
         let questions = q.survey.getAllQuestions();
-        let toInclude = []; 
+        let selected = []; 
         
         if (q.reviewQuestions) {
-          toInclude = q.reviewQuestions;
+          selected = q.reviewQuestions.split(",");
         }
-        
-        for (let i = 0; i < questions.length - 1; i++) {
-          if (toInclude.includes(questions[i].name)) {
-            state.results.push({
-              question: questions[i].title,
-              answer: processAndFormatAnswers(questions[i])
-            });
+        console.log(selected);
+        for (let i = 0; i < selected.length; i++) {
+          for (let j = 0; j < questions.length - 1; j++) {
+            if(selected[i].includes(questions[j].name)) {
+              state.results.push({
+                question: questions[j].title,
+                answer: processAndFormatAnswers(questions[j])
+              });
+            }
           }
         }
       }
