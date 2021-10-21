@@ -94,11 +94,30 @@ export default defineComponent({
         }
       }
 
+      const fileAnswerHandler = (answer) => {
+        let ret = "";
+        let suffix = "\n";
+
+        if (answer.length <= 1) {
+          suffix = "";
+        }
+
+        for (let i = 0; i < answer.length; i++) {
+          ret += answer[i].name + suffix;
+        }
+
+        return ret;
+      }
+
       const processAndFormatAnswers = (question) => {
         let answer = question.value;
-
         if (!answer) {
+          // Handles questions that don't have input yet
           return "";
+        }
+
+        if (question.constructor.name === "QuestionFile") {
+          return fileAnswerHandler(answer);
         } else if (question.signaturePad) {
           return checkForSignature(question);
         } else if (Array.isArray(answer)) {
@@ -106,8 +125,7 @@ export default defineComponent({
         } else if (answer === Object(answer)) {
           return formatObject(answer);
         } else if (typeof answer === "string" && question.customWidgetValue.name === "YesNo") {
-          return yesnoHandler
-  (answer);
+          return yesnoHandler(answer);
         } else if (typeof answer === "string") {
           return firstCharToUpper(answer);
         } else if (typeof answer === "number" || typeof answer === "boolean") {
