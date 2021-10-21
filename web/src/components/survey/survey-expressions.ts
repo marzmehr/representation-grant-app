@@ -1,5 +1,5 @@
 import { addDays, getDay } from "date-fns";
-import { ExpressionRunner, FunctionFactory } from "survey-core";
+import { ExpressionRunner, FunctionFactory } from "survey-vue";
 import { DayOfWeek, HolidayHelper } from "../utils/holiday";
 
 export function addCustomExpressions(Survey: any) {
@@ -42,22 +42,19 @@ export function addCustomExpressions(Survey: any) {
 
   function listExcept(params) {
     if (!params && params.length < 2) return false;
-    if (!params[0]) return [];
-    if (!params[1]) return [];
+    if (!params[0] || !params[1]) return [];
     return params[0].filter(value => !params[1].includes(value));
   }
 
   function listIntersect(params) {
     if (!params && params.length < 2) return false;
-    if (!params[0]) return [];
-    if (!params[1]) return [];
+    if (!params[0] || !params[1]) return [];
     return params[0].filter(value => params[1].includes(value));
   }
 
   function listUnion(params) {
     if (!params && params.length < 2) return false;
-    if (!params[0]) return [];
-    if (!params[1]) return [];
+    if (!params[0] || !params[1]) return [];
     return params[0].concat(params[1]);
   }
 
@@ -87,6 +84,9 @@ export function addCustomExpressions(Survey: any) {
           break;
         case "in":
           target = target?.filter(e => e[key] && value.includes(e[key]));
+          break;
+        case "not in":
+          target = target?.filter(e => e[key] && !value.includes(e[key]));
           break;
       }
     }
@@ -123,25 +123,21 @@ export function addCustomExpressions(Survey: any) {
     }
   }
 
+  //Add this so ExpressionRunner can access it.
+  FunctionFactory.Instance.register("listIntersect", listIntersect);
+  FunctionFactory.Instance.register("listExcept", listExcept);
+  FunctionFactory.Instance.register("listUnion", listUnion);
+  FunctionFactory.Instance.register("panelFilter", panelFilter);
+  FunctionFactory.Instance.register("isChild", isChild);
+  FunctionFactory.Instance.register("getDateFromQuestionAndAddDays", getDateFromQuestionAndAddDays);
+
+  Survey.FunctionFactory.Instance.register("listIntersect", listIntersect);
+  Survey.FunctionFactory.Instance.register("listExcept", listExcept);
+  Survey.FunctionFactory.Instance.register("listUnion", listUnion);
+  Survey.FunctionFactory.Instance.register("panelFilter", panelFilter);
+  Survey.FunctionFactory.Instance.register("isChild", isChild);
   Survey.FunctionFactory.Instance.register(
     "getDateFromQuestionAndAddDays",
     getDateFromQuestionAndAddDays
   );
-  //Add this so ExpressionRunner can access it.
-  FunctionFactory.Instance.register("listIntersect", listIntersect);
-  Survey.FunctionFactory.Instance.register("listIntersect", listIntersect);
-
-  //Add this so ExpressionRunner can access it.
-  FunctionFactory.Instance.register("listExcept", listExcept);
-  Survey.FunctionFactory.Instance.register("listExcept", listExcept);
-
-  //Add this so ExpressionRunner can access it.
-  FunctionFactory.Instance.register("listUnion", listUnion);
-  Survey.FunctionFactory.Instance.register("listUnion", listUnion);
-
-  //Add this so ExpressionRunner can access it.
-  FunctionFactory.Instance.register("panelFilter", panelFilter);
-  Survey.FunctionFactory.Instance.register("panelFilter", panelFilter);
-
-  Survey.FunctionFactory.Instance.register("isChild", isChild);
 }

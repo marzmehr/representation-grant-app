@@ -4,7 +4,7 @@ export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onProcessTextValue.add(function(sender, options) {
     //Description: Print bulleted list from array.
     //Usage: bullets(<panel>.<fieldname>)
-    if (options.name.includes("bullets(")) {
+    if (options.name?.includes("bullets(")) {
       const data = `${options.name.replace("bullets(", "").replace(")", "")}`;
       const targetName = data.split(".")[0];
       const key = data.split(".")[1];
@@ -21,7 +21,7 @@ export function addCustomTemplating(surveyRuntime: any) {
     }
     //Description: Print out entire panel content.
     //Usage: printPanel(panelName)
-    if (options.name.includes("printPanel(")) {
+    if (options.name?.includes("printPanel(")) {
       const targetName = `${options.name.replace("printPanel(", "").replace(")", "")}`;
       const panelData = sender.getQuestionByName(targetName).value;
       options.value = JSON.stringify(panelData);

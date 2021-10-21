@@ -1,8 +1,6 @@
 import * as showdown from "showdown";
-import { addQuestionTypes } from "@/components/survey/question-types";
 const util = require("@/components/survey/js/util");
 const glossaryJson = require("../JsonFiles/glossary.json");
-
 const terms = {};
 var markdownConverter = new showdown.Converter({
   noHeaderId: true

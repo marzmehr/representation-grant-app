@@ -1,4 +1,4 @@
-import * as Survey from "survey-core";
+import * as Survey from "survey-vue";
 import { readFileSync, writeFileSync } from "fs";
 import { addQuestionTypes } from "../src/components/survey/question-types";
 const json = readFileSync(
