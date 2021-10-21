@@ -9,7 +9,7 @@
 <script language="ts">
 import { onMounted, defineComponent, reactive, onBeforeUnmount } from "@vue/composition-api";
 
-import { ExpressionRunner } from "survey-core";
+import { ExpressionRunner } from "survey-vue";
 
 export default defineComponent({
   props: {
