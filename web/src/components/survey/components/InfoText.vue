@@ -51,8 +51,7 @@ export default defineComponent({
   },
   setup(props) {
     const state = reactive({
-      key: 1,
-      bodyText: ""
+      key: 1
     });
 
     //Need to bind to this to be reactive.
