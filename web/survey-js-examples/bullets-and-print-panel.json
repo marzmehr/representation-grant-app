@@ -1,47 +1,45 @@
 {
     "pages": [
-     {
-      "name": "page1",
-      "elements": [
-       {
-        "type": "paneldynamic",
-        "name": "panel1",
-        "templateElements": [
-         {
-          "type": "text",
-          "name": "question1",
-          "title": "{printPanel(panel1)}"
-         },
-         {
-          "type": "text",
-          "name": "question2"
-         }
-        ]
-       },
-       {
-        "type": "infotext",
-        "name": "question4",
-        "title": "Bind to Panel.Question2",
-        "titleLocation": "hidden",
-        "body": "{bullets(panel1.question2)}"
-       },
-       {
-        "type": "checkbox",
-        "name": "question5",
-        "choices": [
-         "item1",
-         "item2",
-         "item3"
-        ]
-       },
-       {
-        "type": "infotext",
-        "name": "question3",
-        "title": "Bind to Question5",
-        "titleLocation": "hidden",
-        "body": "{bullets(question5)}"
-       }
-      ]
-     }
+        {
+            "name": "page1",
+            "elements": [
+                {
+                    "type": "paneldynamic",
+                    "name": "panel1",
+                    "templateElements": [
+                        {
+                            "type": "text",
+                            "name": "question1",
+                            "title": "{printPanel(panel1)}"
+                        },
+                        {
+                            "type": "text",
+                            "name": "question2"
+                        }
+                    ]
+                },
+                {
+                    "type": "infotext",
+                    "name": "question4",
+                    "title": "{bullets(panel1.question2)}",
+                    "titleLocation": "hidden"
+                },
+                {
+                    "type": "checkbox",
+                    "name": "question5",
+                    "choices": [
+                        "item1",
+                        "item2",
+                        "item3"
+                    ]
+                },
+                {
+                    "type": "infotext",
+                    "name": "question3",
+                    "title": "{bullets(question5)}",
+                    "titleLocation": "hidden"
+                }
+            ]
+        }
     ]
-   }
+}

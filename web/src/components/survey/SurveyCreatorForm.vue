@@ -58,11 +58,6 @@ export default class SurveyCreatorForm extends Vue {
       isAutoSave: true,
       showLogicTab: true,
       designerHeight: "766px"
-      /* Keep the following editor options in here in case user needs to re-arrange the
-      look of the editor 
-        showPropertyGrid: "right",
-        showToolbox: "right"
-      */
     };
 
     const editor = new SurveyCreator.SurveyCreator("surveyCreatorContainer", editorOptions);
@@ -70,12 +65,11 @@ export default class SurveyCreatorForm extends Vue {
     ace.edit(document.getElementsByName("survey-json-editor")[0], {});
 
     editor.onSurveyInstanceCreated.add(function(sender, options) {
+      window.surveyInstance = options.survey;
       if (options.reason == "test") {
-        addCustomTemplating(options.survey);
+        addCustomTemplating(window.surveyInstance);
       }
-
-      (window as any).surveyInstance = options.survey;
-      options.survey.onValueChanged.add((sender, options) => {
+      window.surveyInstance.onValueChanged.add((sender, options) => {
         this.updatedKey++;
       });
     });

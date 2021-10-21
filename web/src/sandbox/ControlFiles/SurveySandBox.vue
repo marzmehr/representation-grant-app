@@ -12,6 +12,7 @@
 </template>
 
 <script lang="ts">
+
 import { Vue, Component, Prop } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "./survey-glossary";
@@ -56,9 +57,10 @@ export default class SurveySandBox extends Vue {
     }
   }
 
+
   public addSurveyListener() {
-    (window as any).surveyInstance = this.survey;
-    addCustomTemplating(this.survey);
+    window.surveyInstance = this.survey;
+    addCustomTemplating(window.surveyInstance);
     /*this.survey.onAfterRenderSurvey.add((sender, options) => {
       this.updatedKey++;
     });*/

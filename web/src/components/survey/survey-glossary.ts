@@ -4,14 +4,14 @@ const util = require("./js/util");
 const glossaryJson = require("./glossary.json");
 
 const terms = {};
-var markdownConverter = new showdown.Converter({
+let markdownConverter = new showdown.Converter({
   noHeaderId: true
 });
 
 export function loadGlossary() {
   const glossary = glossaryJson;
-  for (let k in glossary) {
-    for (let term of k.split("/")) {
+  for (const k in glossary) {
+    for (const term of k.split("/")) {
       terms[term.trim().toLowerCase()] = glossary[k];
     }
   }
@@ -23,9 +23,9 @@ export function loadGlossary() {
 export function setGlossaryMarkdown(survey) {
   survey.onTextMarkdown.add((sender, options) => {
     let str = markdownConverter.makeHtml(options.text);
-    let showMissingTerms = true;
+    const showMissingTerms = true;
 
-    let m = str.match(/^<p>(.*)<\/p>$/);
+    const m = str.match(/^<p>(.*)<\/p>$/);
     str = str.substring(3);
     if (m) {
       str = m[1];
@@ -34,13 +34,7 @@ export function setGlossaryMarkdown(survey) {
     str = str.replace(/<code>(.*?)<\/code>/g, (wholeMatch, m1) => {
       if (hasTerm(m1)) {
         //       // note: m1 is already html format
-        return (
-          '<a href="#" class="glossary-link" data-glossary="' +
-          m1 +
-          '">' +
-          m1 +
-          "</a>"
-        );
+        return '<a href="#" class="glossary-link" data-glossary="' + m1 + '">' + m1 + "</a>";
       }
       if (showMissingTerms) {
         return "<code>" + m1 + "</code>";
@@ -76,10 +70,6 @@ function formatHtml(content) {
   return content;
 }
 
-//  function getAllTerms() {
-//     return Object.assign({}, this.terms);
-//   }
-
 export function setCss(Survey) {
   addQuestionTypesVue(Survey);
   Survey.defaultBootstrapCss.page.root = "sv_page";
@@ -105,14 +95,14 @@ export function setCss(Survey) {
 
 function doRegisterTargets(container?: HTMLElement) {
   if (!container) container = document.body;
-  let targets = container.querySelectorAll("[data-glossary]");
+  const targets = container.querySelectorAll("[data-glossary]");
   for (let idx = 0; idx < targets.length; idx++) {
-    let elt = targets[idx];
-    let reg = elt.getAttribute("data-glossary-reg");
+    const elt = targets[idx];
+    const reg = elt.getAttribute("data-glossary-reg");
     if (!reg) {
       elt.setAttribute("data-glossary-reg", "1");
-      let term = elt.getAttribute("data-glossary");
-      let content = getTerm(term, true);
+      const term = elt.getAttribute("data-glossary");
+      const content = getTerm(term, true);
       if (content && window["addTooltip"]) {
         window["addTooltip"](elt, content, { extClass: "glossary-popup" });
       }

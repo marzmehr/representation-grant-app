@@ -5,12 +5,9 @@
         <label class="survey-sublabel">Copy from:</label>
         <select class="form-control ml-2" ref="copyFrom">
           <option value="">(Select Address)</option>
-          <option
-            v-for="(opt, inx) in selOptions"
-            :key="inx"
-            :value="opt.value"
-            >{{ opt.label }}</option
-          >
+          <option v-for="(opt, inx) in selOptions" :key="inx" :value="opt.value">{{
+            opt.label
+          }}</option>
         </select>
       </div>
     </div>
@@ -27,9 +24,7 @@
     </div>
     <div class="row survey-address-line">
       <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-city'"
-          >City / Town</label
-        >
+        <label class="survey-sublabel" :for="question.inputId + '-city'">City / Town</label>
         <input
           class="form-control"
           :id="question.inputId + '-city'"
@@ -48,20 +43,15 @@
           @change="updateValue"
         >
           <option value="">(Select)</option>
-          <option
-            v-for="prov of provinceOptions"
-            :key="prov.value"
-            :value="prov.value"
-            >{{ prov.text }}</option
-          >
+          <option v-for="prov of provinceOptions" :key="prov.value" :value="prov.value">{{
+            prov.text
+          }}</option>
         </select>
       </div>
     </div>
     <div class="row survey-address-line pb-1">
       <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-country'"
-          >Country</label
-        >
+        <label class="survey-sublabel" :for="question.inputId + '-country'">Country</label>
         <select
           class="form-control"
           v-model="pendingValue['country']"
@@ -69,18 +59,13 @@
           @change="updateValue"
         >
           <option value="">(Select)</option>
-          <option
-            v-for="coun of countryOptions"
-            :key="coun.value"
-            :value="coun.value"
-            >{{ coun.text }}</option
-          >
+          <option v-for="coun of countryOptions" :key="coun.value" :value="coun.value">{{
+            coun.text
+          }}</option>
         </select>
       </div>
       <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-postcode'"
-          >Postal Code</label
-        >
+        <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code</label>
         <input
           class="form-control"
           :id="question.inputId + '-postcode'"

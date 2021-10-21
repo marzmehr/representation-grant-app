@@ -29,11 +29,7 @@
         ></span>
       </label>
     </div>
-    <div
-      class="panel-body"
-      v-if="question.body"
-      v-html="question.getProcessedHtml(question.body)"
-    ></div>
+    <div class="panel-body" v-if="question.body" v-html="question.body"></div>
     <div class="row accept-row" v-if="question.isRequired && !question.value">
       <div class="col-sm-12">
         <button class="btn btn-primary" type="button" @click="toggle">
@@ -45,7 +41,7 @@
 </template>
 
 <script language="ts">
-import { onMounted, defineComponent, reactive, computed } from "@vue/composition-api";
+import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 
 export default defineComponent({
   name: "infotext",
@@ -54,7 +50,6 @@ export default defineComponent({
     isSurveyEditor: Boolean
   },
   setup(props) {
-    //const title = computed(() => props.question.fullTitle);
     const state = reactive({
       key: 1
     });
