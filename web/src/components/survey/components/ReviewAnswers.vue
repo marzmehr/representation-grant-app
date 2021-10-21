@@ -43,7 +43,7 @@ export default defineComponent({
         }
       }
 
-      const checkForSignature = (question) => {
+      const signatureHandler = (question) => {
         if (question.value) {
           return "Signed";
         } else if (!question.value) {
@@ -110,16 +110,20 @@ export default defineComponent({
       }
 
       const processAndFormatAnswers = (question) => {
+        console.log(question);
+        console.log(question.value);
         let answer = question.value;
         if (!answer) {
           // Handles questions that don't have input yet
           return "";
         }
 
-        if (question.constructor.name === "QuestionFile") {
+        let questionClass = question.constructor.name;
+
+        if (questionClass === "QuestionFile") {
           return fileAnswerHandler(answer);
-        } else if (question.signaturePad) {
-          return checkForSignature(question);
+        } else if (questionClass === "QuestionSignaturePad") {
+          return signatureHandler(question);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
         } else if (answer === Object(answer)) {
@@ -142,7 +146,7 @@ export default defineComponent({
         }
         for (let i = 0; i < selected.length; i++) {
           for (let j = 0; j < questions.length - 1; j++) {
-            if(selected[i].includes(questions[j].name && questions[j].isVisible)) {
+            if(selected[i].includes(questions[j].name) && questions[j].isVisible) {
               state.results.push({
                 question: questions[j].title,
                 answer: processAndFormatAnswers(questions[j])
