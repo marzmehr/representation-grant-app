@@ -1,0 +1,68 @@
+{
+    "pages": [
+     {
+      "name": "page1",
+      "elements": [
+       {
+        "type": "paneldynamic",
+        "name": "dynamicPanel1",
+        "title": "This is meant to show how to use the expression \"isContainerReady\" for dynamic panels.",
+        "description": "This documentation was created by Jack Sam on Sep 8 2021.",
+        "templateElements": [
+         {
+          "type": "boolean",
+          "name": "dynamicPanel1q1",
+          "title": "Questions need to be set to required in order for \"isContainerReady\" to work.",
+          "isRequired": true
+         },
+         {
+          "type": "text",
+          "name": "dynamicPanel1q2",
+          "visible": false,
+          "visibleIf": "{panel.dynamicPanel1q1} = false",
+          "description": "Only the \"visible\" and \"required\" questions will count towards completion of a template.",
+          "isRequired": true
+         },
+         {
+          "type": "text",
+          "name": "dynamicPanel1q3",
+          "visible": false,
+          "visibleIf": "{panel.dynamicPanel1q1} = true",
+          "description": "Only the \"visible\" and \"required\" questions will count towards completion of a template.",
+          "isRequired": true
+         },
+         {
+          "type": "expression",
+          "name": "isSpecificPanelReady",
+          "description": "'panelIndex' (with squiggly brackets) can be used inside of a template to check if a specific template is complete instead of the combined totality of all templates. Try just completing 1 template instead of both.",
+          "expression": "isContainerReady('dynamicPanel1', {panelIndex})"
+         }
+        ],
+        "templateTitle": "template1",
+        "panelCount": 2,
+        "minPanelCount": 1
+       },
+       {
+        "type": "expression",
+        "name": "isEntireDynamicPanelReadyExpression",
+        "description": "This will turn true if all \"visible\" templates are complete.",
+        "expression": "isContainerReady('dynamicPanel1')"
+       },
+       {
+        "type": "text",
+        "name": "question1",
+        "visible": false,
+        "visibleIf": "isContainerReady('dynamicPanel1') = \"true\"",
+        "title": "This question becomes visible when dynamicPanel1 is ready"
+       },
+       {
+        "type": "expression",
+        "name": "stateOfSpecificPanel",
+        "description": "I'm not sure if this is the best way to access this but you can see the state of a specific template. In this case, the 2nd template is referenced by \"[1]\".",
+        "expression": "{dynamicPanel1[1].isSpecificPanelReady}"
+       }
+      ]
+     }
+    ],
+    "textUpdateMode": "onTyping"
+   }
