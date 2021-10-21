@@ -86,6 +86,14 @@ export default defineComponent({
         return ret;
       }
 
+      const yesNoHandler = (answer) => {
+        if (answer === "y") {
+          return "Yes";
+        } else {
+          return "No";
+        }
+      }
+
       const processAndFormatAnswers = (question) => {
         let answer = question.value;
 
@@ -97,6 +105,9 @@ export default defineComponent({
           return formatArray(answer);
         } else if (answer === Object(answer)) {
           return formatObject(answer);
+        } else if (typeof answer === "string" && question.customWidgetValue.name === "YesNo") {
+          return yesnoHandler
+  (answer);
         } else if (typeof answer === "string") {
           return firstCharToUpper(answer);
         } else if (typeof answer === "number" || typeof answer === "boolean") {
@@ -111,7 +122,6 @@ export default defineComponent({
         if (q.reviewQuestions) {
           selected = q.reviewQuestions.split(",");
         }
-        console.log(selected);
         for (let i = 0; i < selected.length; i++) {
           for (let j = 0; j < questions.length - 1; j++) {
             if(selected[i].includes(questions[j].name)) {
