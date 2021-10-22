@@ -48,7 +48,7 @@ export default defineComponent({
         } else if (item === Object(item)) {
           let ret = "";
           for (let key in item) {
-            ret += key + separator(key) + formatObject(item[key]);
+            ret += firstCharToUpper(key) + separator(key) + formatObject(item[key]);
           }
           return ret;
         }
@@ -99,7 +99,7 @@ export default defineComponent({
 
           for (let key in answer) {
             let title = nestedQuestions[idx].title;
-            let formattedAnswer = formatSwitchboard(answer[key], answer[key].constructor.name, getName(question.templateValue.elements[idx].customWidget), undefined);
+            let formattedAnswer = formatSwitchboard(undefined, answer[key], answer[key].constructor.name, getName(question.templateValue.elements[idx].customWidget));
             ret += title + separator(title) + formattedAnswer + "\n";
             idx++;
           }
@@ -112,21 +112,31 @@ export default defineComponent({
 
         return ret;
       }
-
-      const personNameHandler = (question) => {
-        let labels = [question.labelFirstName, question.labelMiddleName, question.labelLastName];
-        console.log(labels);
+      
+      const customLabelHandler = (answer, labels) => {
+        // let labels = [question.labelPhone, question.labelEmail, question.labelFax];
+        // console.log(labels);
         let ret = "";
         let idx = 0;
-        for (let key in question.value) {
-          let title = labels[idx] || key;
-          ret += title + separator(title) + question.value[key] + "\n";
+
+        for (let key in answer) {
+          let title = labels[idx] || firstCharToUpper(key);
+          ret += title + separator(title) + answer[key] + "\n";
           idx++;
         }
         return ret;
       }
 
-      const formatSwitchboard = (answer, questionClass, customWidgetName, question) => {
+      const firstCharToUpper = (str) => {
+        let firstChar = str.charAt(0).toUpperCase();
+        if (str.length > 1) {
+          return firstChar + str.slice(1);
+        } else if (str.length === 1) {
+          return firstChar;
+        }
+      }
+
+      const formatSwitchboard = (question, answer, questionClass, customWidgetName) => {
         console.log(customWidgetName);
         if (!answer) {
           return "";
@@ -137,7 +147,9 @@ export default defineComponent({
         } else if (customWidgetName === "YesNo") {
           return yesNoHandler(answer);
         } else if (customWidgetName === "PersonName") {
-          return personNameHandler(question);
+          return customLabelHandler(answer, [question.labelFirstName, question.labelMiddleName, question.labelLastName]);
+        } else if (customWidgetName === "ContactInfo") {
+          return customLabelHandler(answer, [question.labelPhone, question.labelEmail, question.labelFax]);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
         } else if (answer === Object(answer)) {
@@ -174,7 +186,7 @@ export default defineComponent({
         if (questionClass === "QuestionPanelDynamic") {
           return dynamicPanelHandler(question);
         } else {
-          return formatSwitchboard(answer, questionClass, customWidgetName, question);
+          return formatSwitchboard(question, answer, questionClass, customWidgetName);
         }
       }
 
