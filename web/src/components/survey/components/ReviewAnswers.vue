@@ -34,6 +34,7 @@ export default defineComponent({
     onMounted(() => {
       const q = props.question;
 
+      // Helpful utility methods
       const signatureHandler = (answer) => {
         if (answer) {
           return "Signed";
@@ -41,6 +42,27 @@ export default defineComponent({
         return "";
       }
 
+      const getName = (toCheck) => {
+        if (toCheck) {
+          return toCheck.name;
+        } else {
+          return "";
+        }
+      }
+
+      const separator = (str) => {
+        if (str.includes("?")) {
+          return " ";
+        } else {
+          return ": ";
+        }
+      }
+
+      const removeBackticks = (str) => {
+        return str.split("`").join("");
+      }
+
+      // Formatters
       const formatObject = (item) => {
         // Base case for recursion
         if (item !== Object(item)) {
@@ -62,6 +84,20 @@ export default defineComponent({
         return ret;
       }
 
+      const formatKey = (str) => {
+        let firstChar = str.charAt(0).toUpperCase();
+        let capitalized = "";
+
+        if (str.length > 1) {
+          capitalized = firstChar + str.slice(1);
+        } else if (str.length === 1) {
+          capitalized = firstChar;
+        }
+
+        return removeBackticks(capitalized);
+      }
+
+      // Special case handlers
       const yesNoHandler = (answer) => {
         if (answer === "y") {
           return "Yes";
@@ -79,6 +115,18 @@ export default defineComponent({
         }
         for (let i = 0; i < answer.length; i++) {
           ret += answer[i].name + suffix;
+        }
+        return ret;
+      }
+
+      const customLabelHandler = (answer, labels) => {
+        let ret = "";
+        let idx = 0;
+
+        for (let key in answer) {
+          let title = labels[idx] || formatKey(key);
+          ret += title + separator(title) + answer[key] + "\n";
+          idx++;
         }
         return ret;
       }
@@ -112,35 +160,6 @@ export default defineComponent({
 
         return ret;
       }
-      
-      const customLabelHandler = (answer, labels) => {
-        let ret = "";
-        let idx = 0;
-
-        for (let key in answer) {
-          let title = labels[idx] || formatKey(key);
-          ret += title + separator(title) + answer[key] + "\n";
-          idx++;
-        }
-        return ret;
-      }
-
-      const removeBackticks = (str) => {
-        return str.split("`").join("");
-      }
-
-      const formatKey = (str) => {
-        let firstChar = str.charAt(0).toUpperCase();
-        let capitalized = "";
-
-        if (str.length > 1) {
-          capitalized = firstChar + str.slice(1);
-        } else if (str.length === 1) {
-          capitalized = firstChar;
-        }
-
-        return removeBackticks(capitalized);
-      }
 
       const formatSwitchboard = (question, answer, questionClass, customWidgetName) => {
         if (!answer) {
@@ -164,22 +183,6 @@ export default defineComponent({
         }
       }
 
-      const getName = (toCheck) => {
-        if (toCheck) {
-          return toCheck.name;
-        } else {
-          return "";
-        }
-      }
-
-      const separator = (str) => {
-        if (str.includes("?")) {
-          return " ";
-        } else {
-          return ": ";
-        }
-      }
-
       const formatAnswers = (question) => {
         let answer = question.value;
         let questionClass = question.constructor.name;
@@ -193,7 +196,7 @@ export default defineComponent({
         }
       }
 
-      const getAnswers = () => {
+      const buildQuestionAnswerTable = () => {
         let questions = q.survey.getAllQuestions();
         let selected = []; 
         
@@ -213,7 +216,7 @@ export default defineComponent({
         }
       }
 
-      getAnswers();
+      buildQuestionAnswerTable();
 
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
