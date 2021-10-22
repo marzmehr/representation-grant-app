@@ -48,7 +48,7 @@ export default defineComponent({
         } else if (item === Object(item)) {
           let ret = "";
           for (let key in item) {
-            ret += key + ": " + formatObject(item[key]);
+            ret += key + separator(key) + formatObject(item[key]);
           }
           return ret;
         }
@@ -92,7 +92,7 @@ export default defineComponent({
 
         let nestedQuestions = question.templateValue.elements;
         let ret = "";
-        
+
         for (let i = 0; i < answers.length; i++) {
           let answer = answers[i];
           let idx = 0;
@@ -100,7 +100,7 @@ export default defineComponent({
           for (let key in answer) {
             let title = nestedQuestions[idx].title;
             let formattedAnswer = formatSwitchboard(answer[key], answer[key].constructor.name, getName(question.templateValue.elements[idx].customWidget));
-            ret += title + ": " + formattedAnswer + "\n";
+            ret += title + separator(title) + formattedAnswer + "\n";
             idx++;
           }
 
@@ -136,6 +136,14 @@ export default defineComponent({
           return toCheck.name;
         } else {
           return "";
+        }
+      }
+
+      const separator = (str) => {
+        if (str.includes("?")) {
+          return " ";
+        } else {
+          return ": ";
         }
       }
 
