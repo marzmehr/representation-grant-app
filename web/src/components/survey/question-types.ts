@@ -9,8 +9,9 @@ import InfoText from "./components/InfoText.vue";
 import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
-import ReviewAnswers from "./components/ReviewAnswers.vue"
+import ReviewAnswers from "./components/ReviewAnswers.vue";
 import QuestionCombiner from "./components/QuestionCombiner.vue";
+import SurveyText from "./components/SurveyText.vue";
 import { addCustomExpressions } from "./survey-expressions";
 import { GeneratedIdentifierFlags } from "typescript";
 import { VueSurveyModel } from "survey-vue";
@@ -539,18 +540,13 @@ function initReviewAnswers(Survey: any) {
       return question.getType() === "reviewanswers";
     },
     activatedByChanged: function(activatedBy: any) {
-      Survey.JsonObject.metaData.addClass(
-        "reviewanswers",
-        [],
-        null,
-        "empty"
-      );
+      Survey.JsonObject.metaData.addClass("reviewanswers", [], null, "empty");
       Survey.JsonObject.metaData.addProperties("reviewanswers", [
         {
           name: "reviewQuestions:text",
           category: "general",
           visibleIndex: 3
-        },
+        }
       ]);
     },
     htmlTemplate: "<div></div>",
@@ -566,8 +562,44 @@ function initReviewAnswers(Survey: any) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
+//This hijacks the text, which we've copied over from SurveyLibrary/src/vue. 
+const addToInputText = Survey => {
+  Survey.JsonObject.metaData.addProperties("text", [
+    {
+      name: "defaultSubstitution:text",
+      category: "general", // move the custom property in the general category
+      visibleIndex: 3 // Moves the property at index 3 within the category
+    }
+  ]);
+
+  Survey.CustomWidgetCollection.Instance.addCustomWidget(
+    {
+      name: "textImprovements",
+      isDefaultRender: true,
+      isFit: question => {
+        return question.getType() === "text";
+      },
+      widgetIsLoaded: function() {
+        return true;
+      },
+      htmlTemplate: "<div></div>",
+      afterRender: function(question, el) {
+        if (question.survey.platformName == "vue") return;
+        const ComponentClass = Vue.extend(SurveyText);
+        const card = new ComponentClass({
+          propsData: { question: question }
+        });
+        card.$mount();
+        el.parentNode.appendChild(card.$el);
+        el.parentNode.removeChild(el);
+      }
+    },
+    "type"
+  );
+};
 export function addQuestionTypes(Survey: any) {
   // fixCheckboxes(Survey);
+  addToInputText(Survey);
   initReviewAnswers(Survey);
   initFormDownloadButton(Survey);
   initYesNo(Survey);
