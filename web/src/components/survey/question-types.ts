@@ -562,13 +562,13 @@ function initReviewAnswers(Survey: any) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
-//This hijacks the text, which we've copied over from SurveyLibrary/src/vue. 
+//This hijacks the text, which we've copied over from SurveyLibrary/src/vue.
 const addToInputText = Survey => {
   Survey.JsonObject.metaData.addProperties("text", [
     {
       name: "defaultSubstitution:text",
-      category: "general", // move the custom property in the general category
-      visibleIndex: 3 // Moves the property at index 3 within the category
+      category: "general",
+      visibleIndex: 3
     }
   ]);
 
