@@ -48,7 +48,7 @@ export default defineComponent({
         } else if (item === Object(item)) {
           let ret = "";
           for (let key in item) {
-            ret += firstCharToUpper(key) + separator(key) + formatObject(item[key]);
+            ret += formatKey(key) + separator(key) + formatObject(item[key]);
           }
           return ret;
         }
@@ -114,30 +114,35 @@ export default defineComponent({
       }
       
       const customLabelHandler = (answer, labels) => {
-        // let labels = [question.labelPhone, question.labelEmail, question.labelFax];
-        // console.log(labels);
         let ret = "";
         let idx = 0;
 
         for (let key in answer) {
-          let title = labels[idx] || firstCharToUpper(key);
+          let title = labels[idx] || formatKey(key);
           ret += title + separator(title) + answer[key] + "\n";
           idx++;
         }
         return ret;
       }
 
-      const firstCharToUpper = (str) => {
+      const removeBackticks = (str) => {
+        return str.split("`").join("");
+      }
+
+      const formatKey = (str) => {
         let firstChar = str.charAt(0).toUpperCase();
+        let capitalized = "";
+
         if (str.length > 1) {
-          return firstChar + str.slice(1);
+          capitalized = firstChar + str.slice(1);
         } else if (str.length === 1) {
-          return firstChar;
+          capitalized = firstChar;
         }
+
+        return removeBackticks(capitalized);
       }
 
       const formatSwitchboard = (question, answer, questionClass, customWidgetName) => {
-        console.log(customWidgetName);
         if (!answer) {
           return "";
         } else if (questionClass === "QuestionFile") {
@@ -180,8 +185,6 @@ export default defineComponent({
         let questionClass = question.constructor.name;
         let customWidgetName = getName(question.customWidgetValue);
 
-        console.log(question);
-
         // special check we need to do for nested items
         if (questionClass === "QuestionPanelDynamic") {
           return dynamicPanelHandler(question);
@@ -202,7 +205,7 @@ export default defineComponent({
           for (let j = 0; j < questions.length - 1; j++) {
             if(selected[i].includes(questions[j].name) && questions[j].isVisible) {
               state.results.push({
-                question: questions[j].title,
+                question: removeBackticks(questions[j].title),
                 answer: formatAnswers(questions[j])
               });
             }
