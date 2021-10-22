@@ -99,7 +99,7 @@ export default defineComponent({
 
           for (let key in answer) {
             let title = nestedQuestions[idx].title;
-            let formattedAnswer = formatSwitchboard(answer[key], answer[key].constructor.name, getName(question.templateValue.elements[idx].customWidget));
+            let formattedAnswer = formatSwitchboard(answer[key], answer[key].constructor.name, getName(question.templateValue.elements[idx].customWidget), undefined);
             ret += title + separator(title) + formattedAnswer + "\n";
             idx++;
           }
@@ -113,7 +113,21 @@ export default defineComponent({
         return ret;
       }
 
-      const formatSwitchboard = (answer, questionClass, customWidgetName) => {
+      const personNameHandler = (question) => {
+        let labels = [question.labelFirstName, question.labelMiddleName, question.labelLastName];
+        console.log(labels);
+        let ret = "";
+        let idx = 0;
+        for (let key in question.value) {
+          let title = labels[idx] || key;
+          ret += title + separator(title) + question.value[key] + "\n";
+          idx++;
+        }
+        return ret;
+      }
+
+      const formatSwitchboard = (answer, questionClass, customWidgetName, question) => {
+        console.log(customWidgetName);
         if (!answer) {
           return "";
         } else if (questionClass === "QuestionFile") {
@@ -122,6 +136,8 @@ export default defineComponent({
           return signatureHandler(answer);
         } else if (customWidgetName === "YesNo") {
           return yesNoHandler(answer);
+        } else if (customWidgetName === "PersonName") {
+          return personNameHandler(question);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
         } else if (answer === Object(answer)) {
@@ -152,11 +168,13 @@ export default defineComponent({
         let questionClass = question.constructor.name;
         let customWidgetName = getName(question.customWidgetValue);
 
+        console.log(question);
+
         // special check we need to do for nested items
         if (questionClass === "QuestionPanelDynamic") {
           return dynamicPanelHandler(question);
         } else {
-          return formatSwitchboard(answer, questionClass, customWidgetName);
+          return formatSwitchboard(answer, questionClass, customWidgetName, question);
         }
       }
 
