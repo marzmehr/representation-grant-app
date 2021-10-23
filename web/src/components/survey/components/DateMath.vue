@@ -1,41 +1,44 @@
 <template>
-  <div
-    class="panel panel-default"
-    :class="{
-      error:
-        question.messageStyle === 'error' ||
-        question.messageStyle === 'redinfo',
-      'survey-infotext': question.messageStyle !== 'inline',
-      'survey-inlinetext': question.messageStyle === 'inline'
-    }"
-    :key="state.key"
-  >
-    <div class="panel-heading">
-      <label class="panel-title">
-        <span
-          class="heading-icon fa"
-          v-if="
-            question.messageStyle === 'error' ||
-              question.messageStyle === 'info'
-          "
-          :class="{
-            'fa-ban': question.messageStyle === 'error',
-            'fa-info-circle': question.messageStyle === 'info'
-          }"
-        ></span>
-        <span class="title-text" v-html="question.fullTitle"></span>
-      </label>
-    </div>
-    <div
-      class="panel-body"
-      v-if="question.body"
-      v-html="question.getProcessedHtml(question.body)"
-    ></div>
-    <div class="row accept-row" v-if="question.isRequired && !question.value">
-      <div class="col-sm-12">
-        <button class="btn btn-primary" type="button" @click="toggle">
-          <span>Continue</span>
-        </button>
+  <div class="form-inline date-select">
+    <div class="row">
+      <div class="col-sm-12 pb-1">
+        <select
+          ref="year"
+          class="form-control date-select-year mr-1"
+          :id="question.inputId"
+          v-model="this.thisYear"
+          @change="updated('year')"
+        >
+          <option v-for="year of yearOptions" :key="year" :value="year">{{
+            year
+          }}</option>
+        </select>
+        <select
+          ref="month"
+          class="form-control date-select-month mr-1"
+          :id="question.inputId + '-month'"
+          v-model="this.thisMonth"
+          @change="updated('month')"
+        >
+          <option
+            v-for="(monthname, monthidx) of monthOptions"
+            :key="monthidx"
+            :value="'' + (monthidx + 1)"
+            >{{ monthname }}</option
+          >
+        </select>
+        <select
+          ref="day"
+          class="form-control date-select-day mr-1"
+          :id="question.inputId + '-day'"
+          v-model="pendingValue['day']"
+          @change="updated('day')"
+        >
+          <option value="">{{ this.today }}</option>
+          <option v-for="day of dayOptions" :key="day" :value="day">{{
+            day
+          }}</option>
+        </select>
       </div>
     </div>
   </div>
@@ -45,52 +48,110 @@
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "infotext",
+  name: "datemath",
   props: {
-    question: Object,
-    isSurveyEditor: Boolean
+    question: Object
   },
-  setup(props) {
-    const state = reactive({
-      key: 1
-    });
-    onMounted(() => {
-      const q = props.question;
-
-      //Hooks for SurveyEditor KO.
-      if (props.isSurveyEditor) {
-        q.registerFunctionOnPropertyValueChanged("title", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("body", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("isRequired", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
-          state.key++;
-        });
-      }
-    });
+  data() {
     return {
-      state
+      pendingValue: this.parseValue(this.question.value),
+      monthOptions: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      value: this.question.value
     };
   },
-  methods: {
-    setValue(val) {
-      this.question.value = val;
+  computed: {
+    thisYear() {
+      return new Date().getFullYear();
     },
-    toggle() {
-      this.question.value = !this.question.value;
+    thisMonth() {
+      return new Date().getMonth() + 1;
+    },
+    today() {
+      // return new Date().getDate();
+      let day = new Date().getDate();
+      console.log(day);
+      return "" + day;
+    },
+    yearOptions() {
+      const q = this.question || {};
+      let curYear = new Date().getFullYear();
+      const firstYear = curYear - (q.dateYearsBehind || 20);
+      curYear += q.dateYearsAhead || 20;
+      const opts = [];
+      for (let yr = curYear; yr >= firstYear; yr--) {
+        opts.push("" + yr);
+      }
+      return opts;
+    },
+    dayOptions() {
+      const p = this.pendingValue;
+      const opts = [];
+      if (p && p.year && p.month) {
+        const lastDay = new Date(
+          parseInt(p.year, 10),
+          parseInt(p.month, 10),
+          0
+        ).getDate();
+        for (let day = 1; day <= lastDay; day++) {
+          opts.push("" + day);
+        }
+      }
+      console.log("day options");
+      console.log(opts);
+      return opts;
     }
+  },
+  methods: {
+    parseValue(val) {
+      const pending = { year: "", month: "", day: "" };
+      if (val) {
+        const m = ("" + val).match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+        const dt = m ? new Date(m[1], m[2] - 1, m[3]) : null;
+        if (dt) {
+          pending.year = "" + dt.getFullYear();
+          pending.month = "" + (dt.getMonth() + 1);
+          pending.day = "" + dt.getDate();
+        }
+      }
+      return pending;
+    },
+    updated(field) {
+      const p = this.pendingValue;
+      if (p.day && this.dayOptions.indexOf(p.day) === -1) p.day = "";
+      if (p.year && p.month && p.day) {
+        let dt = "" + p.year + "-";
+        dt += (p.month.length < 2 ? "0" : "") + p.month;
+        dt += "-" + (p.day.length < 2 ? "0" : "") + p.day;
+        this.question.value = dt;
+      } else {
+        this.question.value = null;
+        if (field === "year") this.$refs.month.focus();
+        else if (field === "month") this.$refs.day.focus();
+      }
+    }
+  },
+  mounted() {
+    const q = this.question;
+    q.valueChangedCallback = () => {
+      const pending = this.parseValue(q.value);
+      if (pending.year) {
+        this.pendingValue = pending;
+      }
+      this.value = pending;
+    };
   }
 });
 </script>
