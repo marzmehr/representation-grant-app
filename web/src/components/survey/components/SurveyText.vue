@@ -40,7 +40,8 @@ import Vue from "vue";
 export class SurveyText extends Vue {
   @Prop() question;
   mounted() {
-    this.question.value = this.question.defaultSubstitution;
+    if (!this.question.value && this.question.defaultSubstitution)
+      this.question.value = this.question.defaultSubstitution;
   }
   setValue(value) {
     if (value == "" && this.question.defaultSubstitution) {
