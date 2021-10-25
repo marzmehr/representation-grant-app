@@ -36,8 +36,9 @@
                 {
                     "type": "infotext",
                     "name": "question3",
-                    "title": "{bullets(question5)}",
-                    "titleLocation": "hidden"
+                    "title": "List of peeps: {bullets(question5)}\nThis is the list -^",
+                    "titleLocation": "hidden",
+                    "body": "{bullets(question5)}"
                 }
             ]
         }
