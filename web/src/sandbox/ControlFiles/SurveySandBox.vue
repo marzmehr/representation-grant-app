@@ -76,15 +76,15 @@ export default class SurveySandBox extends Vue {
     });
 
     addCustomTemplating(window.surveyInstance);
-    this.survey.onAfterRenderSurvey.add((sender, options) => {
+    window.surveyInstance.onAfterRenderSurvey.add((sender, options) => {
       this.updatedKey++;
     });
 
-    this.survey.onValueChanged.add((sender, options) => {
+    window.surveyInstance.onValueChanged.add((sender, options) => {
       this.updatedKey++;
     });
 
-    this.survey.onCurrentPageChanged.add((sender, options) => {
+    window.surveyInstance.onCurrentPageChanged.add((sender, options) => {
       this.updatedKey++;
       Vue.nextTick(() => {
         const el = document.getElementById("sidebar-title");

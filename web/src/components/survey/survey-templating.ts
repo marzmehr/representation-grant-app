@@ -15,7 +15,8 @@ export function addCustomTemplating(surveyRuntime: any) {
       if (sender.getQuestionByName(targetName)?.value) {
         const bullets = [];
         sender.getQuestionByName(targetName).value.forEach(function(element) {
-          bullets.push(`<li>${key?.length > 0 ? element[key] : element}</li>`);
+          const value = `${key?.length > 0 ? element[key] : element}`;
+          if (value) bullets.push(`<li>${value}</li>`);
         });
         options.value = bullets.join("\r\n");
       } else {
@@ -44,9 +45,9 @@ export function addCustomTemplating(surveyRuntime: any) {
         const startIndex = options.text?.indexOf("displayIf(");
         const endIndex = options.text.indexOf(")}");
         const displayIfLength = "displayIf(".length;
-        const params = `${options.text.substring(startIndex + displayIfLength, endIndex)}`.split(
-          ","
-        );
+        const targetString = `${options.text.substring(startIndex + displayIfLength, endIndex)}`;
+        const index = targetString.indexOf(",");
+        const params = [targetString.slice(0, index), targetString.slice(index + 1)];
         const value = new ExpressionRunner(params[0]).run({});
         options.text =
           options.text.slice(0, startIndex - 1) +
