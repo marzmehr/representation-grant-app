@@ -1,23 +1,19 @@
 <template>
-  <div
-    class="card"
-    style="margin: 1rem 0px; border-radius: 10px; border: 2px solid rgb(221, 238, 255);"
-    :key="state.key"
-  >
+  <div class="card" style="margin: 1rem 0px; border-radius: 0px; border: 0px" :key="state.key">
     <div class="card-body">
-      <div
-        style="float: left; margin: 0.5rem 1rem; color: rgb(80, 80, 170); font-size: 16px; font-weight: bold;"
-        v-html="question.fullTitle"
-      ></div>
       <button
         type="button"
-        class="btn btn-danger"
-        style="float: right; margin: 0.25rem 1rem;"
+        class="btn btn-primary"
+        style="float: left; margin: 0.25rem 1rem; font-size: 16px;"
         @click="navigateToUrl()"
       >
         <span class="fa fa-print btn-icon-left"></span>
         {{ question.buttonTitle }}
       </button>
+      <div
+        style="margin: 0.5rem 1rem;color: rgb(56 89 138); font-size: 16px; font-weight: bold;"
+        v-html="question.fullTitle"
+      ></div>
     </div>
   </div>
 </template>
