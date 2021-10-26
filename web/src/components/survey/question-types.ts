@@ -384,11 +384,12 @@ function initCustomDate(Survey: any) {
       return true;
     },
     isFit: function(question: any) {
-      return question.inputType === "date";
+      return question.getType() === "customdate";
     },
     htmlTemplate: "<div></div>",
     activatedByChanged: function(activatedBy: any) {
-      Survey.JsonObject.metaData.addProperties("text", [
+      Survey.JsonObject.metaData.addClass("customdate", [], null, "empty");
+      Survey.JsonObject.metaData.addProperties("customdate", [
         {
           name: "dateYearsAhead:number",
           default: 0
@@ -635,6 +636,15 @@ export function addToolboxOptions(editor: any) {
     iconName: "icon-multipletext",
     json: {
       type: "longestdatefrompanel"
+    }
+  });
+  editor.toolbox.addItem({
+    name: "customdate",
+    title: "Custom Date",
+    isCopied: true,
+    iconName: "icon-multipletext",
+    json: {
+      type: "customdate"
     }
   });
 }

@@ -10,9 +10,7 @@
           @change="updated('year')"
         >
           <option value="">(Year)</option>
-          <option v-for="year of yearOptions" :key="year" :value="year">{{
-            year
-          }}</option>
+          <option v-for="year of yearOptions" :key="year" :value="year">{{ year }}</option>
         </select>
         <select
           ref="month"
@@ -37,9 +35,7 @@
           @change="updated('day')"
         >
           <option value="">(Day)</option>
-          <option v-for="day of dayOptions" :key="day" :value="day">{{
-            day
-          }}</option>
+          <option v-for="day of dayOptions" :key="day" :value="day">{{ day }}</option>
         </select>
       </div>
     </div>
@@ -87,11 +83,7 @@ export default {
       const p = this.pendingValue;
       const opts = [];
       if (p && p.year && p.month) {
-        const lastDay = new Date(
-          parseInt(p.year, 10),
-          parseInt(p.month, 10),
-          0
-        ).getDate();
+        const lastDay = new Date(parseInt(p.year, 10), parseInt(p.month, 10), 0).getDate();
         for (let day = 1; day <= lastDay; day++) {
           opts.push("" + day);
         }
