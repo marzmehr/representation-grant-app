@@ -56,6 +56,7 @@ export default defineComponent({
 
     //Need to bind to this to be reactive.
     const body = props.question.createLocalizableString("body", this);
+    props.question.setLocalizableStringText("body", props.question.body);
     const handleBodyTemplate = () => {
       return props.isSurveyEditor ? body.renderedText : body.renderedHtml;
     };
