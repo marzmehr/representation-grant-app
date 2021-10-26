@@ -14,7 +14,8 @@ import { addToolboxOptions, addQuestionTypes } from "./question-types";
 import { addCustomTemplating } from "./survey-templating";
 import * as widgets from "surveyjs-widgets";
 import * as SurveyKO from "survey-knockout";
-import * as ace from "ace-builds";
+import ace from "ace-builds";
+import "ace-builds/webpack-resolver";
 
 @Component
 export default class SurveyCreatorForm extends Vue {
