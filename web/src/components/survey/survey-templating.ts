@@ -38,7 +38,6 @@ export function addCustomTemplating(surveyRuntime: any) {
   //Also fills in displayIf.
   surveyRuntime.onTextMarkdown.add(function(survey, options) {
     if (options.text.includes("displayIf(")) {
-      debugger;
       const displayIfRegex = /displayIf\((.*?)\)/g;
       let matches;
       const originalText = options.text;
@@ -46,10 +45,9 @@ export function addCustomTemplating(surveyRuntime: any) {
         const startIndex = options.text?.indexOf("displayIf(");
         const endIndex = options.text.indexOf(")}");
         const displayIfLength = "displayIf(".length;
-        const params = `${options.text.substring(startIndex + displayIfLength, endIndex)}`.split(
-          ",",
-          1
-        );
+        const targetString = `${options.text.substring(startIndex + displayIfLength, endIndex)}`;
+        const index = targetString.indexOf(",");
+        const params = [targetString.slice(0, index), targetString.slice(index + 1)];
         const value = new ExpressionRunner(params[0]).run({});
         options.text =
           options.text.slice(0, startIndex - 1) +
