@@ -15,7 +15,8 @@ export function addCustomTemplating(surveyRuntime: any) {
       if (sender.getQuestionByName(targetName)?.value) {
         const bullets = [];
         sender.getQuestionByName(targetName).value.forEach(function(element) {
-          bullets.push(`<li>${key?.length > 0 ? element[key] : element}</li>`);
+          const value = `${key?.length > 0 ? element[key] : element}`;
+          if (value) bullets.push(`<li>${value}</li>`);
         });
         options.value = bullets.join("\r\n");
       } else {
@@ -37,6 +38,7 @@ export function addCustomTemplating(surveyRuntime: any) {
   //Also fills in displayIf.
   surveyRuntime.onTextMarkdown.add(function(survey, options) {
     if (options.text.includes("displayIf(")) {
+      debugger;
       const displayIfRegex = /displayIf\((.*?)\)/g;
       let matches;
       const originalText = options.text;
@@ -45,7 +47,8 @@ export function addCustomTemplating(surveyRuntime: any) {
         const endIndex = options.text.indexOf(")}");
         const displayIfLength = "displayIf(".length;
         const params = `${options.text.substring(startIndex + displayIfLength, endIndex)}`.split(
-          ","
+          ",",
+          1
         );
         const value = new ExpressionRunner(params[0]).run({});
         options.text =

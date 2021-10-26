@@ -10,7 +10,7 @@ import FormDownloadButton from "./components/FormDownloadButton.vue";
 import ReviewAnswers from "./components/ReviewAnswers.vue";
 import QuestionCombiner from "./components/QuestionCombiner.vue";
 import SurveyText from "./components/SurveyText.vue";
-import LongestDateFromPanel from "./components/LongestDateFromPanel.vue";
+import EarliestSubmissionDate from "./components/EarliestSubmissionDate.vue";
 import { addCustomExpressions } from "./survey-expressions";
 
 function initHelpText(Survey: any) {
@@ -448,9 +448,9 @@ function initReviewAnswers(Survey: any) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
-const initLongestDateFromPanel = (Survey: any) => {
+const initEarliestSubmissionDate = (Survey: any) => {
   const widget = {
-    name: "longestdatefrompanel",
+    name: "earliestsubmissiondate",
     title: "Longest Date From Panel",
     iconName: "icon-radiogroup",
     isDefaultRender: true,
@@ -458,11 +458,11 @@ const initLongestDateFromPanel = (Survey: any) => {
       return true;
     },
     isFit: function(question: any) {
-      return question.getType() === "longestdatefrompanel";
+      return question.getType() === "earliestsubmissiondate";
     },
     activatedByChanged: function(activatedBy: any) {
-      Survey.JsonObject.metaData.addClass("longestdatefrompanel", [], null, "empty");
-      Survey.JsonObject.metaData.addProperties("longestdatefrompanel", [
+      Survey.JsonObject.metaData.addClass("earliestsubmissiondate", [], null, "empty");
+      Survey.JsonObject.metaData.addProperties("earliestsubmissiondate", [
         {
           name: "panelName:string",
           category: "general",
@@ -477,7 +477,7 @@ const initLongestDateFromPanel = (Survey: any) => {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
-      const ComponentClass = Vue.extend(LongestDateFromPanel);
+      const ComponentClass = Vue.extend(EarliestSubmissionDate);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
       });
@@ -538,7 +538,7 @@ export function addQuestionTypes(Survey: any) {
   initContactInfoBlock(Survey);
   initCustomDate(Survey);
   initQuestionCombiner(Survey);
-  initLongestDateFromPanel(Survey);
+  initEarliestSubmissionDate(Survey);
   addCustomExpressions(Survey);
 }
 
@@ -630,12 +630,12 @@ export function addToolboxOptions(editor: any) {
     }
   });
   editor.toolbox.addItem({
-    name: "longestdatefrompanel",
+    name: "earliestsubmissiondate",
     title: "Longest Date from Panel",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
-      type: "longestdatefrompanel"
+      type: "earliestsubmissiondate"
     }
   });
   editor.toolbox.addItem({
