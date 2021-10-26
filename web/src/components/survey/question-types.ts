@@ -1,6 +1,4 @@
-import { addDays, getDay } from "date-fns";
 import Vue from "vue";
-import { DayOfWeek, HolidayHelper } from "../utils/holiday";
 import AddressInfo from "./components/AddressInfo.vue";
 import ContactInfo from "./components/ContactInfo.vue";
 import CustomDate from "./components/CustomDate.vue";
@@ -12,121 +10,8 @@ import FormDownloadButton from "./components/FormDownloadButton.vue";
 import ReviewAnswers from "./components/ReviewAnswers.vue";
 import QuestionCombiner from "./components/QuestionCombiner.vue";
 import SurveyText from "./components/SurveyText.vue";
+import LongestDateFromPanel from "./components/LongestDateFromPanel.vue";
 import { addCustomExpressions } from "./survey-expressions";
-import { GeneratedIdentifierFlags } from "typescript";
-import { VueSurveyModel } from "survey-vue";
-
-function fixCheckboxes(Survey: any) {
-  const widget = {
-    name: "fixchecks",
-    isFit: function(question: any) {
-      const t = question.getType();
-      return t === "radiogroup" || t === "checkbox" || t === "matrix" || t === "boolean";
-    },
-    isDefaultRender: true,
-    afterRender: function(question: any, el: any) {
-      // if(1) return;
-      const elts = el.getElementsByTagName("input");
-      for (let idx = 0; idx < elts.length; idx++) {
-        const input = elts[idx];
-        if (input.type !== "radio" && input.type !== "checkbox") continue;
-        const newInput = document.createElement("input");
-        for (const k of input.getAttributeNames()) {
-          newInput.setAttribute(k, input.getAttribute(k));
-        }
-        if (!newInput.id) {
-          newInput.id = (newInput.name || question.name) + "-" + idx;
-        }
-        newInput.checked = input.checked;
-        const outer = input.parentNode;
-        const contain = outer.parentNode;
-        let label = undefined;
-        for (const child of outer.children) {
-          if (child.tagName.toLowerCase() === "span") {
-            if (
-              child.className.indexOf("circle") < 0 &&
-              child.className.indexOf("check") < 0 &&
-              child.className.indexOf("checkbox-material") < 0
-            ) {
-              label = child;
-              break;
-            }
-          }
-        }
-        if (question.getType() !== "boolean" && label) label = label.children[0];
-        let wrap = contain;
-        if (wrap.tagName.toLowerCase() !== "div") {
-          wrap = document.createElement("div");
-          if (question.getType() !== "boolean") wrap.className = newInput.type;
-          contain.insertBefore(wrap, outer);
-          wrap.appendChild(outer);
-        }
-        wrap.insertBefore(newInput, outer);
-        const newLabel = document.createElement("label");
-        newLabel.setAttribute("for", newInput.id);
-        if (label) {
-          label.style.marginLeft = "0.3em";
-          newLabel.appendChild(label);
-        }
-        wrap.insertBefore(newLabel, outer);
-        wrap.removeChild(outer);
-
-        newInput.addEventListener("click", event => {
-          const target = <HTMLInputElement>event.target;
-          if (question.getType() === "matrix") {
-            if (target.checked) {
-              question.generatedVisibleRows.forEach(function(row: any, index: any, rows: any) {
-                if (row.fullName === target.name) {
-                  row.value = target.value;
-                }
-              });
-            }
-          } else if (question.getType() === "checkbox") {
-            const oldValue = question.value || [];
-            const index = oldValue.indexOf(target.value);
-            if (index >= 0) {
-              if (!target.checked) {
-                oldValue.splice(index, 1);
-                question.value = oldValue;
-              }
-            } else if (target.checked) {
-              question.value = oldValue.concat([target.value]);
-            }
-          } else if (target.checked) {
-            question.value = target.value;
-          }
-        });
-      }
-
-      question.valueChangedCallback = function() {
-        if (question.getType() !== "matrix") {
-          let values = question.value || [];
-          if (!Array.isArray(values)) {
-            values = [values];
-          }
-          const inputElts = el.getElementsByTagName("input");
-          for (let i = 0; i < inputElts.length; i++) {
-            inputElts[i].checked = values.indexOf(inputElts[i].value) >= 0;
-          }
-        } else {
-          question.generatedVisibleRows.forEach(function(row: any, index: any, rows: any) {
-            if (row.value) {
-              const inputElts = el.getElementsByTagName("input");
-              for (let i = 0; i < inputElts.length; i++) {
-                if (inputElts[i].name === row.fullName && inputElts[i].value === row.value) {
-                  inputElts[i].checked = true;
-                }
-              }
-            }
-          });
-        }
-      };
-    },
-    willUnmount: function(question: any, el: any) {}
-  };
-
-  Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
-}
 
 function initHelpText(Survey: any) {
   const widget = {
@@ -562,7 +447,48 @@ function initReviewAnswers(Survey: any) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 }
 
-//This hijacks the text, which we've copied over from SurveyLibrary/src/vue.
+const initLongestDateFromPanel = (Survey: any) => {
+  const widget = {
+    name: "longestdatefrompanel",
+    title: "Longest Date From Panel",
+    iconName: "icon-radiogroup",
+    isDefaultRender: true,
+    widgetIsLoaded: function() {
+      return true;
+    },
+    isFit: function(question: any) {
+      return question.getType() === "longestdatefrompanel";
+    },
+    activatedByChanged: function(activatedBy: any) {
+      Survey.JsonObject.metaData.addClass("longestdatefrompanel", [], null, "empty");
+      Survey.JsonObject.metaData.addProperties("longestdatefrompanel", [
+        {
+          name: "panelName:string",
+          category: "general",
+          visibleIndex: 3
+        },
+        {
+          name: "panelField:string",
+          category: "general",
+          visibleIndex: 4
+        }
+      ]);
+    },
+    htmlTemplate: "<div></div>",
+    afterRender: function(question, el) {
+      const ComponentClass = Vue.extend(LongestDateFromPanel);
+      const card = new ComponentClass({
+        propsData: { question: question, isSurveyEditor: true }
+      });
+      card.$mount();
+      el.appendChild(card.$el);
+    }
+  };
+  Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
+};
+
+// This hijacks the text, which we've copied over from SurveyLibrary/src/vue.
+// These text improvements, allow for default Substitution.
 const addToInputText = Survey => {
   Survey.JsonObject.metaData.addProperties("text", [
     {
@@ -597,6 +523,7 @@ const addToInputText = Survey => {
     "type"
   );
 };
+
 export function addQuestionTypes(Survey: any) {
   // fixCheckboxes(Survey);
   addToInputText(Survey);
@@ -610,6 +537,7 @@ export function addQuestionTypes(Survey: any) {
   initContactInfoBlock(Survey);
   initCustomDate(Survey);
   initQuestionCombiner(Survey);
+  initLongestDateFromPanel(Survey);
   addCustomExpressions(Survey);
 }
 
@@ -698,6 +626,15 @@ export function addToolboxOptions(editor: any) {
     iconName: "icon-multipletext",
     json: {
       type: "questioncombiner"
+    }
+  });
+  editor.toolbox.addItem({
+    name: "longestdatefrompanel",
+    title: "Longest Date from Panel",
+    isCopied: true,
+    iconName: "icon-multipletext",
+    json: {
+      type: "longestdatefrompanel"
     }
   });
 }

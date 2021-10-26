@@ -1,0 +1,27 @@
+{
+    "pages": [
+        {
+            "name": "childPage",
+            "elements": [
+                {
+                    "type": "paneldynamic",
+                    "name": "question2",
+                    "templateElements": [
+                        {
+                            "type": "text",
+                            "name": "question3"
+                        }
+                    ],
+                    "panelCount": 2
+                },
+                {
+                    "type": "infotext",
+                    "name": "question1",
+                    "title": "Static - {displayIf({question2-count} = 1,One displayed)}\n{displayIf({question2-count} = 2,2 displayed)}\n{displayIf({question2-count} = 3,3 displayed)}\n",
+                    "titleLocation": "hidden"
+                }
+            ]
+        }
+    ],
+    "textUpdateMode": "onTyping"
+}
