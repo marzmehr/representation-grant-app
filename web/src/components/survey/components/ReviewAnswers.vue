@@ -164,9 +164,9 @@ export default defineComponent({
       const formatSwitchboard = (question, answer, questionClass, customWidgetName) => {
         if (!answer) {
           return "";
-        } else if (questionClass === "QuestionFile") {
+        } else if (questionClass === "QuestionFile" || questionClass === "QuestionFileModel") {
           return fileAnswerHandler(answer);
-        } else if (questionClass === "QuestionSignaturePad") {
+        } else if (questionClass === "QuestionSignaturePad" || questionClass === "QuestionSignaturePadModel") {
           return signatureHandler(answer);
         } else if (customWidgetName === "YesNo") {
           return yesNoHandler(answer);
@@ -189,7 +189,7 @@ export default defineComponent({
         let customWidgetName = getName(question.customWidgetValue);
 
         // special check we need to do for nested items
-        if (questionClass === "QuestionPanelDynamic") {
+        if (questionClass === "QuestionPanelDynamic" || questionClass === "QuestionPanelDynamicModel") {
           return dynamicPanelHandler(question);
         } else {
           return formatSwitchboard(question, answer, questionClass, customWidgetName);
