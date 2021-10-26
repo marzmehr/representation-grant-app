@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts">
-
 import { Vue, Component, Prop } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "./survey-glossary";
@@ -57,15 +56,31 @@ export default class SurveySandBox extends Vue {
     }
   }
 
-
   public addSurveyListener() {
     window.surveyInstance = this.survey;
-    addCustomTemplating(window.surveyInstance);
-    /*this.survey.onAfterRenderSurvey.add((sender, options) => {
-      this.updatedKey++;
-    });*/
 
-    /*this.survey.onValueChanged.add((sender, options) => {
+    //These need to be here to keep track of panel counts.
+    window.surveyInstance
+      .getAllQuestions()
+      .filter(x => x.getType() === "paneldynamic")
+      .forEach(element => {
+        window.surveyInstance.setVariable(`${element.name}-count`, element.panelCount);
+      });
+
+    window.surveyInstance.onDynamicPanelAdded.add((sender, options) => {
+      sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
+    });
+
+    window.surveyInstance.onDynamicPanelRemoved.add((sender, options) => {
+      sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
+    });
+
+    addCustomTemplating(window.surveyInstance);
+    this.survey.onAfterRenderSurvey.add((sender, options) => {
+      this.updatedKey++;
+    });
+
+    this.survey.onValueChanged.add((sender, options) => {
       this.updatedKey++;
     });
 
@@ -75,7 +90,7 @@ export default class SurveySandBox extends Vue {
         const el = document.getElementById("sidebar-title");
         if (el) el.scrollIntoView();
       });
-    });*/
+    });
   }
 }
 </script>

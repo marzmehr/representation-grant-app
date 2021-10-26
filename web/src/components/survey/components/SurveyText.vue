@@ -34,7 +34,6 @@
 
 <script lang="ts">
 import { Component, Prop } from "vue-property-decorator";
-import { Question, QuestionText } from "survey-vue";
 import Vue from "vue";
 @Component
 export class SurveyText extends Vue {

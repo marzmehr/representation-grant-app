@@ -24,7 +24,7 @@
           v-html="
             isSurveyEditor
               ? question.locTitle.htmlValues.default || question.locTitle.renderedText
-              : question.fullTitle
+              : question.locTitle.renderedHtml
           "
         ></span>
       </label>
@@ -41,7 +41,7 @@
 </template>
 
 <script language="ts">
-import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+import { onMounted, onBeforeUnmount, defineComponent, reactive } from "@vue/composition-api";
 
 export default defineComponent({
   name: "infotext",
@@ -60,12 +60,29 @@ export default defineComponent({
       return props.isSurveyEditor ? body.renderedText : body.renderedHtml;
     };
 
+    //Used to re-render panel when panel count changes.
+    //May need to revisit for performance issues.
+    const onDynamicPanelAdded = (sender, options) => {
+      state.key++;
+    };
+
+    onBeforeUnmount(() => {
+      window.surveyInstance.onValueChanged.remove(onDynamicPanelAdded);
+    });
+
     onMounted(() => {
       //Need this to assign our new body.
       body.onGetTextCallback = text => {
         text = window.surveyInstance.getTextProcessor().processText(props.question.body, true);
         return text;
       };
+
+      //We need these, so it re-renders the panel counts.
+      if (window.surveyInstance.onDynamicPanelAdded)
+        window.surveyInstance.onDynamicPanelAdded.add(onDynamicPanelAdded);
+
+      if (window.surveyInstance.onDynamicPanelRemoved)
+        window.surveyInstance.onDynamicPanelRemoved.add(onDynamicPanelAdded);
 
       const q = props.question;
       //Hooks for SurveyEditor KO.

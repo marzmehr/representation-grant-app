@@ -1,7 +1,11 @@
 import showdown from "showdown";
+import { ExpressionRunner } from "survey-vue";
 //This is the regular instance, not SurveyKO module.
 export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onProcessTextValue.add(function(sender, options) {
+    // Note: I tried displayIf here, but since one of the parameters can be a question,
+    // it didn't seem to handle nested {{}} inside of functions.
+
     //Description: Print bulleted list from array.
     //Usage: bullets(<panel>.<fieldname>)
     if (options.name?.includes("bullets(")) {
@@ -30,11 +34,30 @@ export function addCustomTemplating(surveyRuntime: any) {
   });
 
   //This templates HTML in the TestSurvey.
-  const converter = new showdown.Converter();
+  //Also fills in displayIf.
   surveyRuntime.onTextMarkdown.add(function(survey, options) {
-    let str = converter.makeHtml(options.text);
+    if (options.text.includes("displayIf(")) {
+      const displayIfRegex = /displayIf\((.*?)\)/g;
+      let matches;
+      const originalText = options.text;
+      while ((matches = displayIfRegex.exec(originalText))) {
+        const startIndex = options.text?.indexOf("displayIf(");
+        const endIndex = options.text.indexOf(")}");
+        const displayIfLength = "displayIf(".length;
+        const params = `${options.text.substring(startIndex + displayIfLength, endIndex)}`.split(
+          ","
+        );
+        const value = new ExpressionRunner(params[0]).run({});
+        options.text =
+          options.text.slice(0, startIndex - 1) +
+          (value !== false ? params[1] : "") +
+          options.text.substring(endIndex + 2, options.text.length);
+      }
+    }
+    let str = new showdown.Converter().makeHtml(options.text);
     str = str.substring(3);
     str = str.substring(0, str.length - 4);
+    // Sometimes if there is no text, it will display the default.
     options.html = str;
   });
 }

@@ -12,6 +12,7 @@ import FormDownloadButton from "./components/FormDownloadButton.vue";
 import ReviewAnswers from "./components/ReviewAnswers.vue";
 import QuestionCombiner from "./components/QuestionCombiner.vue";
 import SurveyText from "./components/SurveyText.vue";
+import LongestDateFromPanel from "./components/LongestDateFromPanel.vue";
 
 export function addQuestionTypesVue(Survey: any) {
   Vue.component("HelpText", HelpText);
@@ -24,6 +25,7 @@ export function addQuestionTypesVue(Survey: any) {
   Vue.component("FormDownloadButton", FormDownloadButton);
   Vue.component("ReviewAnswers", ReviewAnswers);
   Vue.component("QuestionCombiner", QuestionCombiner);
+  Vue.component("LongestDateFromPanel", LongestDateFromPanel);
   Vue.component("survey-text", SurveyText);
   addQuestionTypes(Survey);
 }
