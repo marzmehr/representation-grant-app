@@ -117,7 +117,7 @@ export default defineComponent({
 
         for (let key in answer) {
           let title = labels[idx] || formatKey(key);
-          ret += title + separator(title) + answer[key] + "\n";
+          ret += removeBackticks(title) + separator(title) + answer[key] + "\n";
           idx++;
         }
         return ret;
@@ -131,15 +131,15 @@ export default defineComponent({
         }
 
         let nestedQuestions = question.templateValue.elements;
-
+        let panels = question?.panels;
         let ret = "";
         for (let i = 0; i < answers.length; i++) {
           let answer = answers[i];
 
           for (let j = 0; j < nestedQuestions.length; j++) {
-            let visibility = question?.panels[i].questions[j].isVisible;
+            let visibility = panels[i].questions[j].isVisible;
             if (visibility) {
-              let title = nestedQuestions[j].title;
+              let title = panels[i].questions[j].locTitle.htmlValues.default;
               let key = nestedQuestions[j].name;
 
               let formattedAnswer = formatSwitchboard(
@@ -149,7 +149,7 @@ export default defineComponent({
                 question.templateValue.elements[j].customWidget?.name
               );
 
-              ret += title + separator(title) + formattedAnswer + "\n";
+              ret += removeBackticks(title) + separator(title) + formattedAnswer + "\n";
             }
           }
 
