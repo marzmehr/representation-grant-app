@@ -58,7 +58,7 @@ export default defineComponent({
     const body = props.question.createLocalizableString("body", this);
     props.question.setLocalizableStringText("body", props.question.body);
     const handleBodyTemplate = () => {
-      return props.isSurveyEditor ? body.renderedText : body.renderedHtml;
+      return body.renderedHtml;
     };
 
     //Used to re-render panel when panel count changes.
