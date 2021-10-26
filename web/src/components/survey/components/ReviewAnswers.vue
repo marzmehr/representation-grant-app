@@ -42,14 +42,6 @@ export default defineComponent({
         return "";
       }
 
-      const getName = (toCheck) => {
-        if (toCheck) {
-          return toCheck.name;
-        } else {
-          return "";
-        }
-      }
-
       const separator = (str) => {
         if (str.includes("?")) {
           return " ";
@@ -133,23 +125,30 @@ export default defineComponent({
 
       const dynamicPanelHandler = (question) => {
         // This does not handle nested panels, assumes you stop at one.
+        
         let answers = question.value;
         if (!answers) {
           return "";
         }
 
         let nestedQuestions = question.templateValue.elements;
-        let ret = "";
 
+        let ret = "";
         for (let i = 0; i < answers.length; i++) {
           let answer = answers[i];
-          let idx = 0;
 
-          for (let key in answer) {
-            let title = nestedQuestions[idx].title;
-            let formattedAnswer = formatSwitchboard(undefined, answer[key], answer[key].constructor.name, getName(question.templateValue.elements[idx].customWidget));
+          for (let j = 0; j < nestedQuestions.length; j++) {
+            let title = nestedQuestions[j].title;
+            let key = nestedQuestions[j].name;
+
+            let formattedAnswer = formatSwitchboard(
+              undefined,
+              answer[key],
+              answer[key]?.constructor.name,
+              question.templateValue.elements[j].customWidget?.name
+            );
+
             ret += title + separator(title) + formattedAnswer + "\n";
-            idx++;
           }
 
           // Ensure we don't add too many newlines
@@ -186,7 +185,7 @@ export default defineComponent({
       const formatAnswers = (question) => {
         let answer = question.value;
         let questionClass = question.constructor.name;
-        let customWidgetName = getName(question.customWidgetValue);
+        let customWidgetName = question.customWidgetValue?.name;
 
         // special check we need to do for nested items
         if (questionClass === "QuestionPanelDynamic" || questionClass === "QuestionPanelDynamicModel") {
