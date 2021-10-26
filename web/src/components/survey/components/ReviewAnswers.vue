@@ -125,7 +125,6 @@ export default defineComponent({
 
       const dynamicPanelHandler = (question) => {
         // This does not handle nested panels, assumes you stop at one.
-        
         let answers = question.value;
         if (!answers) {
           return "";
@@ -138,17 +137,20 @@ export default defineComponent({
           let answer = answers[i];
 
           for (let j = 0; j < nestedQuestions.length; j++) {
-            let title = nestedQuestions[j].title;
-            let key = nestedQuestions[j].name;
+            let visibility = question?.panels[i].questions[j].isVisible;
+            if (visibility) {
+              let title = nestedQuestions[j].title;
+              let key = nestedQuestions[j].name;
 
-            let formattedAnswer = formatSwitchboard(
-              undefined,
-              answer[key],
-              answer[key]?.constructor.name,
-              question.templateValue.elements[j].customWidget?.name
-            );
+              let formattedAnswer = formatSwitchboard(
+                undefined,
+                answer[key],
+                answer[key]?.constructor.name,
+                question.templateValue.elements[j].customWidget?.name
+              );
 
-            ret += title + separator(title) + formattedAnswer + "\n";
+              ret += title + separator(title) + formattedAnswer + "\n";
+            }
           }
 
           // Ensure we don't add too many newlines
