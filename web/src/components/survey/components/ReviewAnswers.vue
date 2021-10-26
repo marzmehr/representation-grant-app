@@ -206,7 +206,7 @@ export default defineComponent({
 
         for (let i = 0; i < selected.length; i++) {
           for (let j = 0; j < questions.length - 1; j++) {
-            if(selected[i].includes(questions[j].name) && questions[j].isVisible) {
+            if(selected[i] === questions[j].name && questions[j].isVisible) {
               state.results.push({
                 question: removeBackticks(questions[j].title),
                 answer: formatAnswers(questions[j])
