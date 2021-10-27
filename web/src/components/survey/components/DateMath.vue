@@ -1,17 +1,15 @@
 <template>
   <div>
     <div>
-      <input id="selectDate" type="radio" name="buttonVal" :value="true" v-model="buttonVal"/>
+      <input id="selectDate" type="radio" name="inputDevice" :value="true" v-model="inputDevice"/>
       <label for="selectDate">Select Date</label>
-    </div>
-    <div>
-      <input id="nameOfVariable" type="radio" name="buttonVal" :value="false" v-model="buttonVal"/>
+      <input id="nameOfVariable" type="radio" name="inputDevice" :value="false" v-model="inputDevice"/>
       <label for="nameOfVariable">Name of Variable</label>
     </div>
     <div>
-      <textarea v-if="!buttonVal" class="form-control"></textarea>
+      <input placeholder="{name of varible}" v-if="!inputDevice"/>
     </div>
-    <div class="form-inline date-select" v-show="buttonVal">
+    <div class="form-inline date-select" v-show="inputDevice">
       <div class="row">
         <div class="col-sm-12 pb-1">
           <select
@@ -53,6 +51,19 @@
         </div>
       </div>
     </div>
+    <div>
+      <span>Days to Offset</span>
+      <input placeholder="number">
+    </div>
+    <div>
+      <input id="calendarDays" type="radio" name="typeOfDays" :value="true" v-model="typeOfDays"/>
+      <label for="calendarDays">Calendar Days</label>
+      <input id="businessDays" type="radio" name="typeOfDays" :value="false" v-model="typeOfDays"/>
+      <label for="businessDays">Business Days</label>
+    </div>
+    <div>
+      <input v-bind:readonly="true">
+    </div>
   </div>
 </template>
 
@@ -79,7 +90,8 @@ export default {
         "December"
       ],
       value: this.question.value,
-      buttonVal: true
+      inputDevice: true,
+      typeOfDays: true
     };
   },
   computed: {
