@@ -61,6 +61,7 @@ export function addCustomExpressions(Survey: any) {
   function panelFilter(params) {
     if (!params && params.length < 2) return false;
     let target = params[0];
+    if (!target) return target;
     for (let i = 1; i < params.length; i++) {
       const key = params[i].split(" ")[0];
       const operation = params[i].split(" ")[1];
