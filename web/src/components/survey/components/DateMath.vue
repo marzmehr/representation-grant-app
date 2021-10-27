@@ -6,7 +6,7 @@
           ref="year"
           class="form-control date-select-year mr-1"
           :id="question.inputId"
-          v-model="this.thisYear"
+          v-model="pendingValue['year']"
           @change="updated('year')"
         >
           <option v-for="year of yearOptions" :key="year" :value="year">{{
@@ -17,7 +17,7 @@
           ref="month"
           class="form-control date-select-month mr-1"
           :id="question.inputId + '-month'"
-          v-model="this.thisMonth"
+          v-model="pendingValue['month']"
           @change="updated('month')"
         >
           <option
@@ -34,7 +34,6 @@
           v-model="pendingValue['day']"
           @change="updated('day')"
         >
-          <option value="">{{ this.today }}</option>
           <option v-for="day of dayOptions" :key="day" :value="day">{{
             day
           }}</option>
@@ -44,11 +43,8 @@
   </div>
 </template>
 
-<script language="ts">
-import { onMounted, defineComponent, reactive } from "@vue/composition-api";
-
-export default defineComponent({
-  name: "datemath",
+<script>
+export default {
   props: {
     question: Object
   },
@@ -73,18 +69,6 @@ export default defineComponent({
     };
   },
   computed: {
-    thisYear() {
-      return new Date().getFullYear();
-    },
-    thisMonth() {
-      return new Date().getMonth() + 1;
-    },
-    today() {
-      // return new Date().getDate();
-      let day = new Date().getDate();
-      console.log(day);
-      return "" + day;
-    },
     yearOptions() {
       const q = this.question || {};
       let curYear = new Date().getFullYear();
@@ -109,8 +93,6 @@ export default defineComponent({
           opts.push("" + day);
         }
       }
-      console.log("day options");
-      console.log(opts);
       return opts;
     }
   },
@@ -130,6 +112,7 @@ export default defineComponent({
     },
     updated(field) {
       const p = this.pendingValue;
+      console.log(p);
       if (p.day && this.dayOptions.indexOf(p.day) === -1) p.day = "";
       if (p.year && p.month && p.day) {
         let dt = "" + p.year + "-";
@@ -145,6 +128,21 @@ export default defineComponent({
   },
   mounted() {
     const q = this.question;
+
+    const thisYear = () => {
+      let year = new Date().getFullYear();
+      return "" + year;
+    }
+    
+    const thisMonth = () => {
+      let month = new Date().getMonth() + 1;
+      return "" + month;
+    }
+    const today = () => {
+      let day = new Date().getDate();
+      return "" + day;
+    }
+
     q.valueChangedCallback = () => {
       const pending = this.parseValue(q.value);
       if (pending.year) {
@@ -152,6 +150,13 @@ export default defineComponent({
       }
       this.value = pending;
     };
+
+    // set up pending
+    this.pendingValue = {
+      "year": thisYear(),
+      "month": thisMonth(),
+      "day": today()
+    }
   }
-});
+};
 </script>
