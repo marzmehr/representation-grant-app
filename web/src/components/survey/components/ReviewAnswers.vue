@@ -42,14 +42,6 @@ export default defineComponent({
         return "";
       }
 
-      const getName = (toCheck) => {
-        if (toCheck) {
-          return toCheck.name;
-        } else {
-          return "";
-        }
-      }
-
       const separator = (str) => {
         if (str.includes("?")) {
           return " ";
@@ -60,6 +52,19 @@ export default defineComponent({
 
       const removeBackticks = (str) => {
         return str.split("`").join("");
+      }
+
+      const getReviewQuestions = (reviewQuestions) => {
+        let selected = new Set();
+        if (!reviewQuestions) {
+          return selected;
+        } else {
+          let questions = reviewQuestions.split(",");
+          for (let idx in questions) {
+            selected.add(questions[idx]);
+          }
+          return selected;
+        }
       }
 
       // Formatters
@@ -125,7 +130,7 @@ export default defineComponent({
 
         for (let key in answer) {
           let title = labels[idx] || formatKey(key);
-          ret += title + separator(title) + answer[key] + "\n";
+          ret += removeBackticks(title) + separator(title) + answer[key] + "\n";
           idx++;
         }
         return ret;
@@ -139,17 +144,25 @@ export default defineComponent({
         }
 
         let nestedQuestions = question.templateValue.elements;
+        let panels = question?.panels;
         let ret = "";
-
         for (let i = 0; i < answers.length; i++) {
           let answer = answers[i];
-          let idx = 0;
+          
+          for (let j = 0; j < nestedQuestions.length; j++) {
+            if (panels[i].questions[j].isVisible) {
+              let title = panels[i].questions[j].locTitle.htmlValues.default;
+              let key = nestedQuestions[j].name;
 
-          for (let key in answer) {
-            let title = nestedQuestions[idx].title;
-            let formattedAnswer = formatSwitchboard(undefined, answer[key], answer[key].constructor.name, getName(question.templateValue.elements[idx].customWidget));
-            ret += title + separator(title) + formattedAnswer + "\n";
-            idx++;
+              let formattedAnswer = formatSwitchboard(
+                undefined,
+                answer[key],
+                answer[key]?.constructor.name,
+                question.templateValue.elements[j].customWidget?.name
+              );
+
+              ret += removeBackticks(title) + separator(title) + formattedAnswer + "\n";
+            }
           }
 
           // Ensure we don't add too many newlines
@@ -164,9 +177,9 @@ export default defineComponent({
       const formatSwitchboard = (question, answer, questionClass, customWidgetName) => {
         if (!answer) {
           return "";
-        } else if (questionClass === "QuestionFile") {
+        } else if (questionClass === "QuestionFile" || questionClass === "QuestionFileModel") {
           return fileAnswerHandler(answer);
-        } else if (questionClass === "QuestionSignaturePad") {
+        } else if (questionClass === "QuestionSignaturePad" || questionClass === "QuestionSignaturePadModel") {
           return signatureHandler(answer);
         } else if (customWidgetName === "YesNo") {
           return yesNoHandler(answer);
@@ -186,10 +199,10 @@ export default defineComponent({
       const formatAnswers = (question) => {
         let answer = question.value;
         let questionClass = question.constructor.name;
-        let customWidgetName = getName(question.customWidgetValue);
+        let customWidgetName = question.customWidgetValue?.name;
 
         // special check we need to do for nested items
-        if (questionClass === "QuestionPanelDynamic") {
+        if (questionClass === "QuestionPanelDynamic" || questionClass === "QuestionPanelDynamicModel") {
           return dynamicPanelHandler(question);
         } else {
           return formatSwitchboard(question, answer, questionClass, customWidgetName);
@@ -198,15 +211,11 @@ export default defineComponent({
 
       const buildQuestionAnswerTable = () => {
         let questions = q.survey.getAllQuestions();
-        let selected = []; 
-        
-        if (q.reviewQuestions) {
-          selected = q.reviewQuestions.split(",");
-        }
+        let selected = getReviewQuestions(q.reviewQuestions);
 
-        for (let i = 0; i < selected.length; i++) {
+        for (let select of selected) {
           for (let j = 0; j < questions.length - 1; j++) {
-            if(selected[i].includes(questions[j].name) && questions[j].isVisible) {
+            if(select === questions[j].name && questions[j].isVisible) {
               state.results.push({
                 question: removeBackticks(questions[j].title),
                 answer: formatAnswers(questions[j])
