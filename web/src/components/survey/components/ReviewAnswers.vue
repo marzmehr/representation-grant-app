@@ -34,95 +34,198 @@ export default defineComponent({
     onMounted(() => {
       const q = props.question;
 
-      const firstCharToUpper = (string) => {
-        let firstChar = string.charAt(0).toUpperCase();
-        if (string.length > 1) {
-          return firstChar + string.slice(1);
-        } else if (string.length === 1) {
-          return firstChar;
-        }
-      }
-
-      const checkForSignature = (question) => {
-        if (question.value) {
+      // Helpful utility methods
+      const signatureHandler = (answer) => {
+        if (answer) {
           return "Signed";
-        } else if (!question.value) {
-          return "";
+        }
+        return "";
+      }
+
+      const separator = (str) => {
+        if (str.includes("?")) {
+          return " ";
+        } else {
+          return ": ";
         }
       }
 
-      const filterOutFileAttributes = (item) => {
-        // The special filtering below is to prevent too much stuff
-        // being printed from the `File` component.
-        let ret = "";
-        for (let key in item) {
-          if (key === "name") {
-            ret += item[key];
-          } else if (key !== "type" && key !== "content") {
-            ret += firstCharToUpper(key) + ": " + formatObject(item[key]);
+      const removeBackticks = (str) => {
+        return str.split("`").join("");
+      }
+
+      const getReviewQuestions = (reviewQuestions) => {
+        let selected = new Set();
+        if (!reviewQuestions) {
+          return selected;
+        } else {
+          let questions = reviewQuestions.split(",");
+          for (let idx in questions) {
+            selected.add(questions[idx]);
           }
+          return selected;
         }
-        return ret;
       }
 
+      // Formatters
       const formatObject = (item) => {
         // Base case for recursion
         if (item !== Object(item)) {
           return item + '\n';
         } else if (item === Object(item)) {
-          return filterOutFileAttributes(item);
+          let ret = "";
+          for (let key in item) {
+            ret += formatKey(key) + separator(key) + formatObject(item[key]);
+          }
+          return ret;
         }
       }
 
       const formatArray = (arr) => {
         let ret = "";
         arr.forEach(element => {
-          if (element === Object(element)) {
-            ret += formatObject(element);
-          } else {
-            ret += element + "\n";
-          }
+          ret += formatObject(element)
         });
         return ret;
       }
 
-      const processAndFormatAnswers = (question) => {
-        let answer = question.value;
+      const formatKey = (str) => {
+        let firstChar = str.charAt(0).toUpperCase();
+        let capitalized = "";
 
+        if (str.length > 1) {
+          capitalized = firstChar + str.slice(1);
+        } else if (str.length === 1) {
+          capitalized = firstChar;
+        }
+
+        return removeBackticks(capitalized);
+      }
+
+      // Special case handlers
+      const yesNoHandler = (answer) => {
+        if (answer === "y") {
+          return "Yes";
+        } else {
+          return "No";
+        }
+      }
+
+      const fileAnswerHandler = (answer) => {
+        let ret = "";
+        let suffix = "\n";
+
+        if (answer.length <= 1) {
+          suffix = "";
+        }
+        for (let i = 0; i < answer.length; i++) {
+          ret += answer[i].name + suffix;
+        }
+        return ret;
+      }
+
+      const customLabelHandler = (answer, labels) => {
+        let ret = "";
+        let idx = 0;
+
+        for (let key in answer) {
+          let title = labels[idx] || formatKey(key);
+          ret += removeBackticks(title) + separator(title) + answer[key] + "\n";
+          idx++;
+        }
+        return ret;
+      }
+
+      const dynamicPanelHandler = (question) => {
+        // This does not handle nested panels, assumes you stop at one.
+        let answers = question.value;
+        if (!answers) {
+          return "";
+        }
+
+        let nestedQuestions = question.templateValue.elements;
+        let panels = question?.panels;
+        let ret = "";
+        for (let i = 0; i < answers.length; i++) {
+          let answer = answers[i];
+          
+          for (let j = 0; j < nestedQuestions.length; j++) {
+            if (panels[i].questions[j].isVisible) {
+              let title = panels[i].questions[j].locTitle.htmlValues.default;
+              let key = nestedQuestions[j].name;
+
+              let formattedAnswer = formatSwitchboard(
+                undefined,
+                answer[key],
+                answer[key]?.constructor.name,
+                question.templateValue.elements[j].customWidget?.name
+              );
+
+              ret += removeBackticks(title) + separator(title) + formattedAnswer + "\n";
+            }
+          }
+
+          // Ensure we don't add too many newlines
+          if (i < answers.length - 1) {
+            ret += "\n";
+          }
+        }
+
+        return ret;
+      }
+
+      const formatSwitchboard = (question, answer, questionClass, customWidgetName) => {
         if (!answer) {
           return "";
-        } else if (question.signaturePad) {
-          return checkForSignature(question);
+        } else if (questionClass === "QuestionFile" || questionClass === "QuestionFileModel") {
+          return fileAnswerHandler(answer);
+        } else if (questionClass === "QuestionSignaturePad" || questionClass === "QuestionSignaturePadModel") {
+          return signatureHandler(answer);
+        } else if (customWidgetName === "YesNo") {
+          return yesNoHandler(answer);
+        } else if (customWidgetName === "PersonName") {
+          return customLabelHandler(answer, [question.labelFirstName, question.labelMiddleName, question.labelLastName]);
+        } else if (customWidgetName === "ContactInfo") {
+          return customLabelHandler(answer, [question.labelPhone, question.labelEmail, question.labelFax]);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
         } else if (answer === Object(answer)) {
           return formatObject(answer);
-        } else if (typeof answer === "string") {
-          return firstCharToUpper(answer);
-        } else if (typeof answer === "number" || typeof answer === "boolean") {
+        } else {
           return answer;
         }
       }
 
-      const getAnswers = () => {
-        let questions = q.survey.getAllQuestions();
-        let toInclude = []; 
-        
-        if (q.reviewQuestions) {
-          toInclude = q.reviewQuestions;
+      const formatAnswers = (question) => {
+        let answer = question.value;
+        let questionClass = question.constructor.name;
+        let customWidgetName = question.customWidgetValue?.name;
+
+        // special check we need to do for nested items
+        if (questionClass === "QuestionPanelDynamic" || questionClass === "QuestionPanelDynamicModel") {
+          return dynamicPanelHandler(question);
+        } else {
+          return formatSwitchboard(question, answer, questionClass, customWidgetName);
         }
-        
-        for (let i = 0; i < questions.length - 1; i++) {
-          if (toInclude.includes(questions[i].name)) {
-            state.results.push({
-              question: questions[i].title,
-              answer: processAndFormatAnswers(questions[i])
-            });
+      }
+
+      const buildQuestionAnswerTable = () => {
+        let questions = q.survey.getAllQuestions();
+        let selected = getReviewQuestions(q.reviewQuestions);
+
+        for (let select of selected) {
+          for (let j = 0; j < questions.length - 1; j++) {
+            if(select === questions[j].name && questions[j].isVisible) {
+              state.results.push({
+                question: removeBackticks(questions[j].title),
+                answer: formatAnswers(questions[j])
+              });
+            }
           }
         }
       }
 
-      getAnswers();
+      buildQuestionAnswerTable();
 
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {

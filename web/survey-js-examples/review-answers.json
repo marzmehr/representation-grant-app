@@ -1,0 +1,112 @@
+{
+    "pages": [
+     {
+      "name": "page1",
+      "elements": [
+       {
+        "type": "contactinfo",
+        "name": "question1",
+        "title": "Add your contact information",
+        "defaultValue": {
+         "phone": "2505555555",
+         "email": "jdoe@mail.ca",
+         "fax": "7785555555"
+        },
+        "labelEmail": "Electronic mailing address",
+        "labelFax": "Fax (if applicable)",
+        "labelPhone": "Home Phone Number"
+       },
+       {
+        "type": "personname",
+        "name": "question2",
+        "title": "Enter your name",
+        "defaultValue": {
+         "first": "John",
+         "middle": "Herbert",
+         "last": "Doe"
+        },
+        "labelFirstName": "First Name (Given Name)",
+        "labelMiddleName": "Middle Name(s)",
+        "labelLastName": "Surname"
+       },
+       {
+        "type": "personname",
+        "name": "question3",
+        "title": "Enter the name of your `spouse`",
+        "defaultValue": {
+         "first": "Jane",
+         "middle": "Dorothy",
+         "last": "Doe"
+        }
+       },
+       {
+        "type": "address",
+        "name": "question4",
+        "title": "Input your postal address",
+        "defaultValue": {
+         "street": "555 Some Street",
+         "city": "Victoria",
+         "state": "BC",
+         "country": "CAN",
+         "postcode": "V5V 5V5"
+        }
+       },
+       {
+        "type": "yesno",
+        "name": "question5",
+        "title": "Are you a Canadian citizen?",
+        "defaultValue": "y"
+       },
+       {
+        "type": "yesno",
+        "name": "question6",
+        "title": "Have you worked in Canada in the last 5 years?",
+        "defaultValue": "n"
+       },
+       {
+        "type": "paneldynamic",
+        "name": "question7",
+        "title": "Add any `children`",
+        "templateElements": [
+         {
+          "type": "text",
+          "name": "question8",
+          "title": "Name of child",
+          "defaultValue": "Doug Doe"
+         },
+         {
+          "type": "yesno",
+          "name": "question10",
+          "title": "Is child an adult?",
+          "defaultValue": "n"
+         }
+        ]
+       },
+       {
+        "type": "file",
+        "name": "question11",
+        "title": "Add files",
+        "allowMultiple": true,
+        "maxSize": 0
+       },
+       {
+        "type": "signaturepad",
+        "name": "question12",
+        "title": "Sign to confirm"
+       }
+      ],
+      "title": "Review Your Answers Example"
+     },
+     {
+      "name": "page2",
+      "elements": [
+       {
+        "type": "reviewanswers",
+        "name": "question9",
+        "title": "Please review your answers",
+        "reviewQuestions": "question1,question2,question3,question4,question5,question6,question7,question11,question12"
+       }
+      ]
+     }
+    ]
+   }
