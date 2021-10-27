@@ -142,7 +142,7 @@ export default defineComponent({
         if (!answers) {
           return "";
         }
-        
+
         let panels = question?.panels;
         let ret = "";
         for (let i = 0; i < answers.length; i++) {
@@ -151,7 +151,7 @@ export default defineComponent({
 
           for (let j = 0; j < currPanel.questions.length; j++) {
             let currQuestion = currPanel.questions[j];
-            
+
             if (currQuestion.isVisible) {
 
               let formattedAnswer = formatSwitchboard(
