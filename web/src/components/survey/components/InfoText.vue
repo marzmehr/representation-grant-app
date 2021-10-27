@@ -92,6 +92,10 @@ export default defineComponent({
           state.key++;
         });
 
+        q.registerFunctionOnPropertyValueChanged("value", () => {
+          state.key++;
+        });
+
         q.registerFunctionOnPropertyValueChanged("body", () => {
           state.key++;
         });
