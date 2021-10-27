@@ -38,11 +38,9 @@ export function addCustomTemplating(surveyRuntime: any) {
   //Also fills in displayIf.
   surveyRuntime.onTextMarkdown.add(function(survey, options) {
     if (options.text.includes("displayIf(")) {
-      const displayIfRegex = /displayIf\((.*?)\)/g;
-      let matches;
-      const originalText = options.text;
-      while ((matches = displayIfRegex.exec(originalText))) {
-        const startIndex = options.text?.indexOf("displayIf(");
+      const split = options.text.match(/displayIf/g);
+      for (let i = 0; i < split.length; i++) {
+        const startIndex = options.text.indexOf("displayIf(");
         const endIndex = options.text.indexOf(")}");
         const displayIfLength = "displayIf(".length;
         const targetString = `${options.text.substring(startIndex + displayIfLength, endIndex)}`;
