@@ -54,6 +54,19 @@ export default defineComponent({
         return str.split("`").join("");
       }
 
+      const getReviewQuestions = (reviewQuestions) => {
+        let selected = new Set();
+        if (!reviewQuestions) {
+          return selected;
+        } else {
+          let questions = reviewQuestions.split(",");
+          for (let idx in questions) {
+            selected.add(questions[idx]);
+          }
+          return selected;
+        }
+      }
+
       // Formatters
       const formatObject = (item) => {
         // Base case for recursion
@@ -199,15 +212,11 @@ export default defineComponent({
 
       const buildQuestionAnswerTable = () => {
         let questions = q.survey.getAllQuestions();
-        let selected = []; 
-        
-        if (q.reviewQuestions) {
-          selected = q.reviewQuestions.split(",");
-        }
+        let selected = getReviewQuestions(q.reviewQuestions);
 
-        for (let i = 0; i < selected.length; i++) {
+        for (let select of selected) {
           for (let j = 0; j < questions.length - 1; j++) {
-            if(selected[i] === questions[j].name && questions[j].isVisible) {
+            if(select === questions[j].name && questions[j].isVisible) {
               state.results.push({
                 question: removeBackticks(questions[j].title),
                 answer: formatAnswers(questions[j])
