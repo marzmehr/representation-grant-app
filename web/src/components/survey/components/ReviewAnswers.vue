@@ -150,7 +150,7 @@ export default defineComponent({
           let answer = answers[i];
           
           for (let j = 0; j < nestedQuestions.length; j++) {
-            if (panels[i].questions[j].isVisible;) {
+            if (panels[i].questions[j].isVisible) {
               let title = panels[i].questions[j].locTitle.htmlValues.default;
               let key = nestedQuestions[j].name;
 
