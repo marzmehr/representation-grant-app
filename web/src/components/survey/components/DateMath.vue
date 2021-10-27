@@ -1,43 +1,56 @@
 <template>
-  <div class="form-inline date-select">
-    <div class="row">
-      <div class="col-sm-12 pb-1">
-        <select
-          ref="year"
-          class="form-control date-select-year mr-1"
-          :id="question.inputId"
-          v-model="pendingValue['year']"
-          @change="updated('year')"
-        >
-          <option v-for="year of yearOptions" :key="year" :value="year">{{
-            year
-          }}</option>
-        </select>
-        <select
-          ref="month"
-          class="form-control date-select-month mr-1"
-          :id="question.inputId + '-month'"
-          v-model="pendingValue['month']"
-          @change="updated('month')"
-        >
-          <option
-            v-for="(monthname, monthidx) of monthOptions"
-            :key="monthidx"
-            :value="'' + (monthidx + 1)"
-            >{{ monthname }}</option
+  <div>
+    <div>
+      <input id="selectDate" type="radio" name="buttonVal" :value="true" v-model="buttonVal"/>
+      <label for="selectDate">Select Date</label>
+    </div>
+    <div>
+      <input id="nameOfVariable" type="radio" name="buttonVal" :value="false" v-model="buttonVal"/>
+      <label for="nameOfVariable">Name of Variable</label>
+    </div>
+    <div>
+      <textarea v-if="!buttonVal" class="form-control"></textarea>
+    </div>
+    <div class="form-inline date-select" v-show="buttonVal">
+      <div class="row">
+        <div class="col-sm-12 pb-1">
+          <select
+            ref="year"
+            class="form-control date-select-year mr-1"
+            :id="question.inputId"
+            v-model="pendingValue['year']"
+            @change="updated('year')"
           >
-        </select>
-        <select
-          ref="day"
-          class="form-control date-select-day mr-1"
-          :id="question.inputId + '-day'"
-          v-model="pendingValue['day']"
-          @change="updated('day')"
-        >
-          <option v-for="day of dayOptions" :key="day" :value="day">{{
-            day
-          }}</option>
-        </select>
+            <option v-for="year of yearOptions" :key="year" :value="year">{{
+              year
+            }}</option>
+          </select>
+          <select
+            ref="month"
+            class="form-control date-select-month mr-1"
+            :id="question.inputId + '-month'"
+            v-model="pendingValue['month']"
+            @change="updated('month')"
+          >
+            <option
+              v-for="(monthname, monthidx) of monthOptions"
+              :key="monthidx"
+              :value="'' + (monthidx + 1)"
+              >{{ monthname }}</option
+            >
+          </select>
+          <select
+            ref="day"
+            class="form-control date-select-day mr-1"
+            :id="question.inputId + '-day'"
+            v-model="pendingValue['day']"
+            @change="updated('day')"
+          >
+            <option v-for="day of dayOptions" :key="day" :value="day">{{
+              day
+            }}</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
@@ -65,7 +78,8 @@ export default {
         "November",
         "December"
       ],
-      value: this.question.value
+      value: this.question.value,
+      buttonVal: true
     };
   },
   computed: {
