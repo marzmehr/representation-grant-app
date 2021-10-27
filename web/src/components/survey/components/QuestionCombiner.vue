@@ -83,10 +83,24 @@ export default defineComponent({
       return value;
     };
 
+    const runConditionalExpression = filterExpression => {
+      //Split and run the IF condition first.
+      if (filterExpression.includes("IF")) {
+        const value = runExpression(filterExpression.split("IF")[1]);
+        if (value != true) return;
+      }
+      const value = runExpression(filterExpression.split("IF")[0]);
+      return value;
+    };
+
     const questionsAndPanelsToWatch = getQuestionsAndPanelsToWatch();
     console.log("Input Expressions: ");
-    for (let i = 0; i < inputExpressions.length; i++)
+    const filteredData = [];
+    for (let i = 0; i < inputExpressions.filter(f => f).length; i++) {
       if (inputExpressions[i]) console.log(`filterExpression${i + 1}: ${inputExpressions[i]}`);
+      filteredData.push(runExpression(inputExpressions[i]));
+    }
+    props.question.value = filteredData.flat();
     const allQuestionsForWatch = questionsAndPanelsToWatch.flat();
     console.log("Watching Questions/Panels for inputExpression: ");
     console.log(allQuestionsForWatch);
@@ -100,13 +114,7 @@ export default defineComponent({
       //Going the recalculate route for now.
       questionsAndPanelsToWatch.forEach((qp, index) => {
         if (!qp.includes(options.name)) return;
-        const filterExpression = inputExpressions[index];
-        //Split and run the IF condition first.
-        if (filterExpression.includes("IF")) {
-          const value = runExpression(filterExpression.split("IF")[1]);
-          if (value != true) return;
-        }
-        const value = runExpression(filterExpression.split("IF")[0]);
+        const value = runConditionalExpression(inputExpressions[index]);
         filteredData.push(value);
       });
 
