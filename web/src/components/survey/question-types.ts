@@ -73,12 +73,6 @@ function initInfoText(Survey: any) {
           choices: ["info", "inline", "error"],
           category: "general",
           visibleIndex: 4
-        },
-        {
-          name: "displayTextBasedOffArrayQuestion",
-          default: "",
-          category: "general",
-          visibleIndex: 5
         }
       ]);
     },
