@@ -7,6 +7,9 @@
         :items="state.results" 
         :fields="fields"
         style="white-space: pre-line;">
+        <template v-slot:cell(question)="value">
+          <v-runtime-template :template="`<div>${value.item.question}</div>`"></v-runtime-template>
+        </template>
         <template v-slot:cell(actions)="">
           <span><b-btn>Edit</b-btn></span>
         </template>
@@ -17,9 +20,12 @@
 
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
-
+import VRuntimeTemplate from "v-runtime-template";
 export default defineComponent({
   name: "reviewanswers",
+  components: {
+    VRuntimeTemplate
+  },
   props: {
     question: Object,
     isSurveyEditor: Boolean
