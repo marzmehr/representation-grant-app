@@ -515,7 +515,7 @@ function initDateMath(Survey: any) {
           visibleIndex: 3
         },
         {
-          name: "referenceYear",
+          name: "year",
           category: "general",
           dependsOn: "dateType",
           visibleIf: function(obj: any) {
@@ -536,7 +536,7 @@ function initDateMath(Survey: any) {
           visibleIndex: 4
         },
         {
-          name: "referenceMonth",
+          name: "month",
           category: "general",
           dependsOn: "dateType",
           visibleIf: function(obj: any) {
@@ -561,7 +561,7 @@ function initDateMath(Survey: any) {
           visibleIndex: 5
         },
         {
-          name: "referenceDay",
+          name: "day",
           category: "general",
           dependsOn: "dateType",
           visibleIf: function(obj: any) {
@@ -604,6 +604,7 @@ function initDateMath(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.platformName == "vue") return;
       const ComponentClass = Vue.extend(DateMath);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
