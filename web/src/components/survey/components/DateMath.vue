@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input v-bind:readonly="true">
+    <input v-bind:readonly="true" />
   </div>
 </template>
 
@@ -47,11 +47,7 @@ export default {
       const p = this.pendingValue;
       const opts = [];
       if (p && p.year && p.month) {
-        const lastDay = new Date(
-          parseInt(p.year, 10),
-          parseInt(p.month, 10),
-          0
-        ).getDate();
+        const lastDay = new Date(parseInt(p.year, 10), parseInt(p.month, 10), 0).getDate();
         for (let day = 1; day <= lastDay; day++) {
           opts.push("" + day);
         }
@@ -93,18 +89,18 @@ export default {
     const q = this.question;
 
     const thisYear = () => {
-      let year = new Date().getFullYear();
+      const year = new Date().getFullYear();
       return "" + year;
-    }
-    
-    const thisMonth = () => {
-      let month = new Date().getMonth() + 1;
+    };
+
+    function thisMonth() {
+      const month = new Date().getMonth() + 1;
       return "" + month;
     }
     const today = () => {
-      let day = new Date().getDate();
+      const day = new Date().getDate();
       return "" + day;
-    }
+    };
 
     q.valueChangedCallback = () => {
       const pending = this.parseValue(q.value);
@@ -116,10 +112,10 @@ export default {
 
     // set up pending
     this.pendingValue = {
-      "year": thisYear(),
-      "month": thisMonth(),
-      "day": today()
-    }
+      year: thisYear(),
+      month: thisMonth(),
+      day: today()
+    };
   }
 };
 </script>

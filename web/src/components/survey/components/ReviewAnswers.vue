@@ -165,7 +165,7 @@ export default defineComponent({
             let currQuestion = currPanel.questions[j];
 
             if (currQuestion.isVisible) {
-              let formattedAnswer = formatSwitchboard(
+              const formattedAnswer = formatSwitchboard(
                 undefined,
                 currAnswer[currQuestion.name],
                 currQuestion.getType()
