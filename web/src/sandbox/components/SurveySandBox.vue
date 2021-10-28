@@ -54,34 +54,32 @@ export default class SurveySandBox extends Vue {
 
   //TODO SurveyCreatorForm.vue should combine with this.
   public addSurveyListener() {
-    window.surveyInstance = this.survey;
-
     //These need to be here to keep track of panel counts.
-    window.surveyInstance
+    this.survey
       .getAllQuestions()
       .filter(x => x.getType() === "paneldynamic")
       .forEach(element => {
-        window.surveyInstance.setVariable(`${element.name}-count`, element.panelCount);
+        this.survey.setVariable(`${element.name}-count`, element.panelCount);
       });
 
-    window.surveyInstance.onDynamicPanelAdded.add((sender, options) => {
+    this.survey.onDynamicPanelAdded.add((sender, options) => {
       sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
     });
 
-    window.surveyInstance.onDynamicPanelRemoved.add((sender, options) => {
+    this.survey.onDynamicPanelRemoved.add((sender, options) => {
       sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
     });
 
-    addCustomTemplating(window.surveyInstance);
-    window.surveyInstance.onAfterRenderSurvey.add((sender, options) => {
+    addCustomTemplating(this.survey);
+    this.survey.onAfterRenderSurvey.add((sender, options) => {
       this.updatedKey++;
     });
 
-    window.surveyInstance.onValueChanged.add((sender, options) => {
+    this.survey.onValueChanged.add((sender, options) => {
       this.updatedKey++;
     });
 
-    window.surveyInstance.onCurrentPageChanged.add((sender, options) => {
+    this.survey.onCurrentPageChanged.add((sender, options) => {
       this.updatedKey++;
       Vue.nextTick(() => {
         const el = document.getElementById("sidebar-title");

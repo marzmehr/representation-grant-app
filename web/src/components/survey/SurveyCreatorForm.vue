@@ -66,28 +66,26 @@ export default class SurveyCreatorForm extends Vue {
     ace.edit(document.getElementsByName("survey-json-editor")[0], {});
 
     editor.onSurveyInstanceCreated.add(function(sender, options) {
-      window.surveyInstance = options.survey;
-
       //These need to be here to keep track of panel counts.
-      window.surveyInstance
+      options.survey
         .getAllQuestions()
         .filter(x => x.getType() === "paneldynamic")
         .forEach(element => {
-          window.surveyInstance.setVariable(`${element.name}-count`, element.panelCount);
+          options.survey.setVariable(`${element.name}-count`, element.panelCount);
         });
 
-      window.surveyInstance.onDynamicPanelAdded.add((sender, options) => {
+      options.survey.onDynamicPanelAdded.add((sender, options) => {
         sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
       });
 
-      window.surveyInstance.onDynamicPanelRemoved.add((sender, options) => {
+      options.survey.onDynamicPanelRemoved.add((sender, options) => {
         sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
       });
 
       if (options.reason == "test") {
-        addCustomTemplating(window.surveyInstance);
+        addCustomTemplating(options.survey);
       }
-      window.surveyInstance.onValueChanged.add((sender, options) => {
+      options.survey.onValueChanged.add((sender, options) => {
         this.updatedKey++;
       });
     });

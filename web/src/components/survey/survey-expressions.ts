@@ -1,5 +1,5 @@
 import { addDays, getDay } from "date-fns";
-import { ExpressionRunner, FunctionFactory } from "survey-vue";
+import { FunctionFactory } from "survey-vue";
 import { DayOfWeek, HolidayHelper } from "../utils/holiday";
 
 export function addCustomExpressions(Survey: any) {

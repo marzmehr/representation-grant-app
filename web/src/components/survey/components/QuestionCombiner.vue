@@ -65,7 +65,7 @@ export default defineComponent({
       //Handle question names and expressions {xx}
       const templateValues = templates.map(template => {
         const target = template.includes(".") ? template.split(".")[0] : template;
-        return window.surveyInstance.getQuestionByName(target)?.value;
+        return props.question.survey.getQuestionByName(target)?.value;
       });
       const expressionValues = {};
       for (let i = 0; i < templates.length; i++) {
@@ -123,14 +123,14 @@ export default defineComponent({
     };
 
     onBeforeUnmount(() => {
-      window.surveyInstance.onValueChanged.remove(onValueChanged);
+      props.question.survey.onValueChanged.remove(onValueChanged);
     });
 
     onMounted(() => {
       const q = props.question;
 
-      if (window.surveyInstance.onValueChanged)
-        window.surveyInstance.onValueChanged.add(onValueChanged);
+      if (props.question.survey.onValueChanged)
+        props.question.survey.onValueChanged.add(onValueChanged);
 
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {

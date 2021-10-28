@@ -12,7 +12,9 @@
       <label class="panel-title" tabindex="0" @keydown.space.prevent="toggle">
         <input type="checkbox" :checked="question.value" @click="setValue($event.target.checked)" />
         <span class="heading-icon fa fa-question-circle"></span>
-        <span class="title-text" v-html="question.fullTitle"></span>
+        <span class="title-text">
+          <v-runtime-template :template="handleTitleTemplate()"></v-runtime-template>
+        </span>
         <span
           class="heading-expand fa"
           :class="question.value ? 'fa-chevron-up' : 'fa-chevron-down'"
@@ -49,10 +51,18 @@ export default defineComponent({
       return `<div>${body.renderedHtml}</div>`;
     };
 
+    const handleTitleTemplate = () => {
+      return `<div>${
+        props.isSurveyEditor
+          ? props.question.locTitle.htmlValues.default || props.question.locTitle.renderedText
+          : props.question.locTitle.renderedHtml
+      }</div>`;
+    };
+
     onMounted(() => {
       //Need this to assign our new body.
       body.onGetTextCallback = text => {
-        text = window.surveyInstance.getTextProcessor().processText(props.question.body, true);
+        text = props.question.survey.getTextProcessor().processText(props.question.body, true);
         return text;
       };
 
@@ -82,7 +92,8 @@ export default defineComponent({
     });
     return {
       state,
-      handleBodyTemplate
+      handleBodyTemplate,
+      handleTitleTemplate
     };
   },
   methods: {
