@@ -30,14 +30,14 @@ export default defineComponent({
     };
 
     onBeforeUnmount(() => {
-      window.surveyInstance.onValueChanged.remove(onValueChanged);
+      props.question.survey.onValueChanged.remove(onValueChanged);
     });
 
     onMounted(() => {
       const q = props.question;
 
-      if (window.surveyInstance.onValueChanged)
-        window.surveyInstance.onValueChanged.add(onValueChanged);
+      if (props.question.survey.onValueChanged)
+        props.question.survey.onValueChanged.add(onValueChanged);
 
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {

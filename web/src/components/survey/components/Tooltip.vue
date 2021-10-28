@@ -1,8 +1,11 @@
 <template>
-  <div class="customtooltip">
-    {{ title }}
-    <b-badge :id="title + index" class="custombadge">? </b-badge>
-    <b-tooltip :target="title + index" placement="right">
+  <div
+    :id="title + index"
+    style="display: inline"
+    :class="description ? 'customtooltip' : 'text-danger'"
+  >
+    {{ title || description }}<b-badge v-if="description" class="custombadge">? </b-badge>
+    <b-tooltip v-if="description" :target="title + index" placement="right">
       <div style="text-align: justify;" v-html="description" />
     </b-tooltip>
   </div>
@@ -23,7 +26,8 @@ export default class Tooltip extends Vue {
 
   mounted() {
     this.index = v4();
-    this.description = glossaryJson[this.title.toLowerCase()];
+    this.description =
+      this.title.toLowerCase() in glossaryJson ? glossaryJson[this.title.toLowerCase()] : null;
   }
 }
 Vue.component("tooltip", Tooltip);

@@ -30,13 +30,6 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import "font-awesome/css/font-awesome.min.css";
 import { SessionManager } from "@/components/utils/utils";
 
-declare global {
-  interface Window {
-      surveyInstance:any;
-  }
-}
-
-
 library.add(faUserTie);
 library.add(faUserEdit);
 library.add(faCoins);

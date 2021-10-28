@@ -19,14 +19,8 @@
           }"
         ></span>
         <!-- question.fullTitle seemed to be causing an infinite loop when in the survey editor. -->
-        <span
-          class="title-text"
-          v-html="
-            isSurveyEditor
-              ? question.locTitle.htmlValues.default || question.locTitle.renderedText
-              : question.locTitle.renderedHtml
-          "
-        >
+        <span class="title-text">
+          <v-runtime-template :template="handleTitleTemplate()"></v-runtime-template>
         </span>
       </label>
     </div>
@@ -68,6 +62,13 @@ export default defineComponent({
       return `<div>${body.renderedHtml}</div>`;
     };
 
+    const handleTitleTemplate = () => {
+      return `<div>${
+        props.isSurveyEditor
+          ? props.question.locTitle.htmlValues.default || props.question.locTitle.renderedText
+          : props.question.locTitle.renderedHtml
+      }</div>`;
+    };
     //Used to re-render panel when panel count changes.
     //May need to revisit for performance issues.
     const onDynamicPanelAdded = (sender, options) => {
@@ -75,22 +76,22 @@ export default defineComponent({
     };
 
     onBeforeUnmount(() => {
-      window.surveyInstance.onValueChanged.remove(onDynamicPanelAdded);
+      props.question.survey.onValueChanged.remove(onDynamicPanelAdded);
     });
 
     onMounted(() => {
       //Need this to assign our new body.
       body.onGetTextCallback = text => {
-        text = window.surveyInstance.getTextProcessor().processText(props.question.body, true);
+        text = props.question.survey.getTextProcessor().processText(props.question.body, true);
         return text;
       };
 
       //We need these, so it re-renders the panel counts.
-      if (window.surveyInstance.onDynamicPanelAdded)
-        window.surveyInstance.onDynamicPanelAdded.add(onDynamicPanelAdded);
+      if (props.question.survey.onDynamicPanelAdded)
+        props.question.survey.onDynamicPanelAdded.add(onDynamicPanelAdded);
 
-      if (window.surveyInstance.onDynamicPanelRemoved)
-        window.surveyInstance.onDynamicPanelRemoved.add(onDynamicPanelAdded);
+      if (props.question.survey.onDynamicPanelRemoved)
+        props.question.survey.onDynamicPanelRemoved.add(onDynamicPanelAdded);
 
       const q = props.question;
       //Hooks for SurveyEditor KO.
@@ -122,7 +123,8 @@ export default defineComponent({
     });
     return {
       state,
-      handleBodyTemplate
+      handleBodyTemplate,
+      handleTitleTemplate
     };
   },
   methods: {

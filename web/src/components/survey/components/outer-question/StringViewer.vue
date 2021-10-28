@@ -5,7 +5,9 @@
 <template>
   <span style="position: static">
     <span class="sv-string-viewer" style="position: static" v-if="locString.hasHtml">
-      <v-runtime-template :template="`<div>${locString.renderedHtml}</div>`"></v-runtime-template>
+      <v-runtime-template
+        :template="`<div style='display:inline'>${locString.renderedHtml}</div>`"
+      ></v-runtime-template>
     </span>
     <span class="sv-string-viewer" style="position: static" v-else>
       {{ locString.renderedHtml }}</span
@@ -26,6 +28,10 @@ import VRuntimeTemplate from "v-runtime-template";
 })
 export class SurveyStringViewer extends Vue {
   @Prop() locString: LocalizableString;
+
+  mounted() {
+    console.log(this.locString.renderedHtml);
+  }
 }
 
 Vue.component(LocalizableString.defaultRenderer, SurveyStringViewer);
