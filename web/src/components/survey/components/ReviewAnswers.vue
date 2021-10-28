@@ -143,24 +143,24 @@ export default defineComponent({
           return "";
         }
 
-        let nestedQuestions = question.templateValue.elements;
         let panels = question?.panels;
         let ret = "";
         for (let i = 0; i < answers.length; i++) {
-          let answer = answers[i];
-          
-          for (let j = 0; j < nestedQuestions.length; j++) {
-            if (panels[i].questions[j].isVisible) {
-              let title = panels[i].questions[j].locTitle.htmlValues.default;
-              let key = nestedQuestions[j].name;
+          let currAnswer = answers[i];
+          let currPanel = panels[i];
+
+          for (let j = 0; j < currPanel.questions.length; j++) {
+            let currQuestion = currPanel.questions[j];
+
+            if (currQuestion.isVisible) {
 
               let formattedAnswer = formatSwitchboard(
                 undefined,
-                answer[key],
-                answer[key]?.constructor.name,
-                question.templateValue.elements[j].customWidget?.name
+                currAnswer[currQuestion.name],
+                currQuestion.getType()
               );
 
+              let title = currQuestion.locTitle.htmlValues.default;
               ret += removeBackticks(title) + separator(title) + formattedAnswer + "\n";
             }
           }
@@ -174,18 +174,18 @@ export default defineComponent({
         return ret;
       }
 
-      const formatSwitchboard = (question, answer, questionClass, customWidgetName) => {
+      const formatSwitchboard = (question, answer, questionType) => {
         if (!answer) {
           return "";
-        } else if (questionClass === "QuestionFile" || questionClass === "QuestionFileModel") {
+        } else if (questionType === "file") {
           return fileAnswerHandler(answer);
-        } else if (questionClass === "QuestionSignaturePad" || questionClass === "QuestionSignaturePadModel") {
+        } else if (questionType === "signaturepad") {
           return signatureHandler(answer);
-        } else if (customWidgetName === "YesNo") {
+        } else if (questionType === "yesno") {
           return yesNoHandler(answer);
-        } else if (customWidgetName === "PersonName") {
+        } else if (questionType === "personname") {
           return customLabelHandler(answer, [question.labelFirstName, question.labelMiddleName, question.labelLastName]);
-        } else if (customWidgetName === "ContactInfo") {
+        } else if (questionType === "address") {
           return customLabelHandler(answer, [question.labelPhone, question.labelEmail, question.labelFax]);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
@@ -198,14 +198,13 @@ export default defineComponent({
 
       const formatAnswers = (question) => {
         let answer = question.value;
-        let questionClass = question.constructor.name;
-        let customWidgetName = question.customWidgetValue?.name;
+        let questionType = question.getType();
 
         // special check we need to do for nested items
-        if (questionClass === "QuestionPanelDynamic" || questionClass === "QuestionPanelDynamicModel") {
+        if (questionType === "paneldynamic") {
           return dynamicPanelHandler(question);
         } else {
-          return formatSwitchboard(question, answer, questionClass, customWidgetName);
+          return formatSwitchboard(question, answer, questionType);
         }
       }
 

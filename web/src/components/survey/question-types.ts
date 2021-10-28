@@ -431,6 +431,7 @@ function initReviewAnswers(Survey: any) {
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
+      if (question.survey.platformName == "vue") return;
       const ComponentClass = Vue.extend(ReviewAnswers);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
