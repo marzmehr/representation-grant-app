@@ -56,6 +56,11 @@ export function addCustomTemplating(surveyRuntime: any) {
     let str = new showdown.Converter().makeHtml(options.text);
     str = str.substring(3);
     str = str.substring(0, str.length - 4);
+    // convert <code> into glossary tags
+    str = str.replace(/<code>(.*?)<\/code>/g, (wholeMatch, m1) => {
+      return `<tooltip title=${m1} />`;
+    });
+
     // Sometimes if there is no text, it will display the default.
     options.html = str;
   });

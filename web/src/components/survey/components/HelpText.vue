@@ -10,11 +10,7 @@
   >
     <div class="panel-heading">
       <label class="panel-title" tabindex="0" @keydown.space.prevent="toggle">
-        <input
-          type="checkbox"
-          :checked="question.value"
-          @click="setValue($event.target.checked)"
-        />
+        <input type="checkbox" :checked="question.value" @click="setValue($event.target.checked)" />
         <span class="heading-icon fa fa-question-circle"></span>
         <span class="title-text" v-html="question.fullTitle"></span>
         <span
@@ -23,11 +19,11 @@
         ></span>
       </label>
     </div>
-    <div
-      class="panel-body"
-      v-if="question.body"
-      v-html="question.getProcessedHtml(question.body)"
-    ></div>
+    <div class="panel-body" v-if="question.body">
+      <v-runtime-template
+        :template="`<div>${question.getProcessedHtml(question.body)}</div>`"
+      ></v-runtime-template>
+    </div>
   </div>
 </template>
 

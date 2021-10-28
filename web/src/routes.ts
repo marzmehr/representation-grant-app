@@ -7,7 +7,7 @@ import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
 import TermsConditions from "@/components/status/TermsConditions.vue";
 import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue";
 import { SessionManager } from "@/components/utils/utils";
-import SurveySandBox from "@/sandbox/ControlFiles/SurveySandBox.vue";
+import SurveySandBox from "@/sandbox/components/SurveySandBox.vue";
 
 import store from "@/store";
 

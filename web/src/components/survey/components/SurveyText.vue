@@ -27,7 +27,7 @@
       :aria-describedby="question.ariaDescribedBy"
     />
     <datalist v-if="question.dataListId" :id="question.dataListId">
-      <option v-for="item in question.dataList" :value="item"></option>
+      <option v-for="item in question.dataList" :value="item" :key="item"></option>
     </datalist>
   </div>
 </template>
