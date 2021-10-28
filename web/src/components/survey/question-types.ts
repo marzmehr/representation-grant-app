@@ -505,12 +505,14 @@ function initDateMath(Survey: any) {
       return question.getType() === "datemath";
     },
     activatedByChanged: function(activatedBy: any) {
-      Survey.JsonObject.metaData.addClass(
-        "datemath",
-        [],
-        null,
-        "empty"
-      );
+      Survey.JsonObject.metaData.addClass("datemath", [], null, "empty");
+      Survey.JsonObject.metaData.addProperties("datemath", [
+        {
+          name: "datemath:dropdown",
+          category: "general",
+          visibleIndex: 3
+        }
+      ]);
     },
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
