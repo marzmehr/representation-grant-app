@@ -447,7 +447,7 @@ class Application extends VuexModule {
 
         this.steps.push(s);
 
-        //console.log(this.steps)
+        
         //Submit STOP
 
     }
@@ -1044,7 +1044,6 @@ class Application extends VuexModule {
 
     @Mutation
     public loadBankAccountInfo(): void{
-        console.log(this.steps[5].result)       
 
         if(this.steps[5].result && this.steps[5].result["bankAccountsSurvey"] && this.steps[5].result["bankAccountsSurvey"].data){
 
@@ -1122,8 +1121,6 @@ class Application extends VuexModule {
     @Mutation
     public loadNotifyInfo(): void{
 
-        //console.log(this.steps[4].result["notifySurvey"].data)
-
         if(this.steps[4].result && this.steps[4].result["notifySurvey"]){
             const notifySurvey = this.steps[4].result["notifySurvey"].data;
             
@@ -1171,8 +1168,6 @@ class Application extends VuexModule {
 
     get getNextStepPage(): { nextStep: number; nextPage: number } {
 
-        //console.log("nextStep")
-
         let nextStepPage: { nextStep: number; nextPage: number };
         let sIndex = this.currentStep;
         let pIndex = this.steps[sIndex].currentPage + 1;
@@ -1196,7 +1191,6 @@ class Application extends VuexModule {
                 pIndex = 0;
             }
         }
-        //console.log(nextStepPage)
         return nextStepPage;
     }
 

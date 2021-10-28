@@ -812,8 +812,8 @@ export default class FormP5 extends Vue {
     for (let i = 1; i < 9; i++) {
       const stepResults = this.$store.state.Application.steps[i].result;
       for (const stepResult in stepResults) {
-        //console.log(stepResults[stepResult])
-        //console.log(stepResults[stepResult].data)
+        
+        
         result[stepResult] = stepResults[stepResult].data;
       }
     }
@@ -825,8 +825,8 @@ export default class FormP5 extends Vue {
     const applicationLocation = this.$store.state.Application
       .applicationLocation;
     const userLocation = this.$store.state.Common.userLocation;
-    //console.log(applicationLocation)
-    //console.log(userLocation)
+    
+    
     if (applicationLocation)
       Object.assign(result, result, {
         applicationLocation: applicationLocation

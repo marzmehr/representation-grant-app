@@ -16,5 +16,3 @@ survey.getAllQuestions().forEach(function(question) {
   //survey.setValue(question.name, "test"); This is slow, but generates the correct model.
   console.log(`${question.name} - ${question.getType()}`);
 });
-
-//console.log(JSON.stringify(survey.data, null, "\t"));

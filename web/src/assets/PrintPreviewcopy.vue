@@ -168,10 +168,8 @@ export default class PrintPreview extends Vue {
 
     public onPrint() {
 
-        console.log("print") 
         const el= document.getElementById("print");
 
-        console.log(el)
         const applicationId = this.$store.state.Application.id;
 
         const url = '/survey-print/'+applicationId+'/?name=application-about-a-protection-order'
@@ -191,7 +189,6 @@ export default class PrintPreview extends Vue {
 		// 		`td {height: 2.5rem;border: 3px solid;}`
 
         //     ]
-        // console.log(styles)
         const body = [`<!DOCTYPE html>
                         <html lang="en">
                         <head>
@@ -228,7 +225,6 @@ export default class PrintPreview extends Vue {
             "Content-Type": "application/json",
             }
         }  
-        console.log(body)
         this.$http.post(url,body, options)
         .then(res => {
             const blob = res.data;
@@ -252,8 +248,6 @@ export default class PrintPreview extends Vue {
         for(let i=1;i<9; i++){
             const stepResults = this.$store.state.Application.steps[i].result
             for(const stepResult in stepResults){
-                //console.log(stepResults[stepResult])
-                //console.log(stepResults[stepResult].data)
                 result[stepResult]=stepResults[stepResult].data; 
             }
         }
@@ -262,13 +256,10 @@ export default class PrintPreview extends Vue {
         
         const applicationLocation = this.$store.state.Application.applicationLocation;
         const userLocation = this.$store.state.Common.userLocation;
-        //console.log(applicationLocation)
-        //console.log(userLocation)
         if(applicationLocation)
             Object.assign(result, result,{applicationLocation: applicationLocation}); 
         else
             Object.assign(result, result,{applicationLocation: userLocation});
-        console.log(result)
         return result;
     }
 

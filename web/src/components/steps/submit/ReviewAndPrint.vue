@@ -133,7 +133,7 @@ export default class ReviewAndPrint extends Vue {
        
         let location = this.$store.state.Application.applicationLocation
         if(!location) location = this.$store.state.Common.userLocation
-        //console.log(location)
+        
 
         if(location == 'Victoria'){
             this.applicationLocation = {name:'Victoria Law Courts', address:'850 Burdett Avenue', cityStatePostcode:'Victoria, B.C.  V8W 9J2', email:'Victoria.CourtScheduling@gov.bc.ca'}
@@ -161,7 +161,7 @@ export default class ReviewAndPrint extends Vue {
     public isFormReviewed(){
         for(const form of this.formsList)
             if(!this.generatedForms.includes(form.name)){
-                //console.log(form)
+                
                 return false
             }
         return true
@@ -179,7 +179,7 @@ export default class ReviewAndPrint extends Vue {
                         this.$store.commit("Application/setCurrentStepPage", {currentStep: step.id, currentPage: page.key });
                         const nextChildGroup = document.getElementById(this.getStepGroupId(step.id));
                         //const currPage = document.getElementById(this.getStepPageId(step.id, page.key));
-                        //console.log(nextChildGroup)
+                        
                         // if(nextChildGroup){
                         //     if(Number(step.id)==8){
                         //         nextChildGroup.style.display = "none";
@@ -219,7 +219,7 @@ export default class ReviewAndPrint extends Vue {
             "Content-Type": "application/json",
             }
         }
-        //console.log(body)
+        
         this.$http.post(url,body, options)
         .then(res => {
             const blob = res.data;
@@ -289,8 +289,8 @@ export default class ReviewAndPrint extends Vue {
         
         var applicationLocation = this.$store.state.Application.applicationLocation;
         var userLocation = this.$store.state.Common.userLocation;
-        //console.log(applicationLocation)
-        //console.log(userLocation)
+        
+        
         if(applicationLocation)
             Object.assign(result, result,{applicationLocation: applicationLocation}); 
         else

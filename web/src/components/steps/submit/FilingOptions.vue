@@ -51,7 +51,7 @@ export default class FilingOptions extends Vue {
         this.initializeSurvey();
         this.addSurveyListener();
         this.reloadPageInformation()
-        //console.log(this.step)
+        
     }
 
     public initializeSurvey(){
@@ -62,7 +62,7 @@ export default class FilingOptions extends Vue {
     }
 
     public reloadPageInformation() {
-        //console.log(this.step.result)
+        
         if (this.step.result && this.step.result["filingOptions"]){
             this.survey.data = this.step.result["filingOptions"];
         }

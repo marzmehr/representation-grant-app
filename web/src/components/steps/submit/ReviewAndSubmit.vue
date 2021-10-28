@@ -423,8 +423,8 @@ export default class ReviewAndSubmit extends Vue {
     this.submitEnable = true;
     const progress = 50;
 
-    //console.log(this.currentStep)
-    //console.log(this.steps[this.currentStep])
+    
+    
     this.UpdatePageProgress({
       currentStep: this.currentStep,
       currentPage: this.steps[this.currentStep].currentPage,
@@ -596,9 +596,9 @@ export default class ReviewAndSubmit extends Vue {
   public onSubmit() {
     for (const form of this.formsList)
       if (!this.generatedForms.includes(form.name)) {
-        //console.log(form)
+        
         const el = document.getElementById("formslist");
-        //console.log(el)
+        
         if (el) el.scrollIntoView();
 
         return;

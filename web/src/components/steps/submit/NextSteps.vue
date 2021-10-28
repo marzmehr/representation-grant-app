@@ -82,7 +82,7 @@
         mounted(){
             this.currentStep = this.$store.state.Application.currentStep;
             this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
-            //console.log(this.currentPage)
+            
             Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, 100, false);
         }
 
