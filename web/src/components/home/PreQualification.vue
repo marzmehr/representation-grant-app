@@ -54,9 +54,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
-import * as surveyEnv from "@/components/survey/survey-glossary";
+import * as SurveyInit from "@/components/survey/survey-init";
 import surveyJson from "./forms/survey-qualify.json";
-import Tooltip from "@/components/survey/Tooltip.vue";
+import Tooltip from "@/components/survey/components/Tooltip.vue";
 
 import { namespace } from "vuex-class";
 import "@/store/modules/common";
@@ -79,8 +79,7 @@ export default class PreQualification extends Vue {
 
   beforeCreate() {
     const Survey = SurveyVue;
-    surveyEnv.setCss(Survey);
-    surveyEnv.loadGlossary();
+    SurveyInit.loadQuestionTypesVueAndSetCss(Survey);
   }
 
   mounted() {
@@ -90,7 +89,6 @@ export default class PreQualification extends Vue {
     this.survey.commentPrefix = "Comment";
     this.survey.showQuestionNumbers = "off";
     this.survey.showNavigationButtons = false;
-    surveyEnv.setGlossaryMarkdown(this.survey);
     this.addSurveyListener();
   }
 

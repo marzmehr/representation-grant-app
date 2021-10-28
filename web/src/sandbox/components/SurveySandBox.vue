@@ -14,11 +14,10 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
-import * as surveyEnv from "./survey-glossary";
+import * as SurveyInit from "@/components/survey/survey-init";
 import SandboxSidebar from "./SandboxSidebar.vue";
 import Axios from "axios";
 import { addCustomTemplating } from "@/components/survey/survey-templating";
-import { addQuestionTypesVue } from "@/components/survey/vue-question-types";
 
 @Component({
   components: {
@@ -33,9 +32,7 @@ export default class SurveySandBox extends Vue {
 
   beforeCreate() {
     const Survey = SurveyVue;
-    addQuestionTypesVue(Survey);
-    surveyEnv.setCss(Survey);
-    surveyEnv.loadGlossary();
+    SurveyInit.loadQuestionTypesVueAndSetCss(Survey);
   }
 
   async mounted() {
@@ -43,7 +40,6 @@ export default class SurveySandBox extends Vue {
     this.survey = new SurveyVue.Model(data);
     this.survey.commentPrefix = "Comment";
     this.survey.showQuestionNumbers = "off";
-    surveyEnv.setGlossaryMarkdown(this.survey);
     this.addSurveyListener();
   }
 
@@ -56,6 +52,7 @@ export default class SurveySandBox extends Vue {
     }
   }
 
+  //TODO SurveyCreatorForm.vue should combine with this.
   public addSurveyListener() {
     window.surveyInstance = this.survey;
 

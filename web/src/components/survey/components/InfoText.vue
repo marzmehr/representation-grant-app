@@ -26,10 +26,13 @@
               ? question.locTitle.htmlValues.default || question.locTitle.renderedText
               : question.locTitle.renderedHtml
           "
-        ></span>
+        >
+        </span>
       </label>
     </div>
-    <div class="panel-body" v-if="question.body" v-html="handleBodyTemplate()"></div>
+    <div class="panel-body" v-if="question.body">
+      <v-runtime-template :template="handleBodyTemplate()"></v-runtime-template>
+    </div>
     <div class="row accept-row" v-if="question.isRequired && !question.value">
       <div class="col-sm-12">
         <button class="btn btn-primary" type="button" @click="toggle">
@@ -42,9 +45,13 @@
 
 <script language="ts">
 import { onMounted, onBeforeUnmount, defineComponent, reactive } from "@vue/composition-api";
+import Tooltip from "@/components/survey/components/Tooltip.vue";
 
 export default defineComponent({
   name: "infotext",
+  components: {
+    Tooltip
+  },
   props: {
     question: Object,
     isSurveyEditor: Boolean
@@ -58,7 +65,7 @@ export default defineComponent({
     const body = props.question.createLocalizableString("body", this);
     props.question.setLocalizableStringText("body", props.question.body);
     const handleBodyTemplate = () => {
-      return body.renderedHtml;
+      return '<div><tooltip :index="0" title="Representation Grant" />' + body.renderedHtml + "</div>"
     };
 
     //Used to re-render panel when panel count changes.
@@ -89,6 +96,10 @@ export default defineComponent({
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("value", () => {
           state.key++;
         });
 

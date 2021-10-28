@@ -2,7 +2,6 @@
   <div class="customtooltip">
     {{ title }}
     <b-badge :id="title + index" class="custombadge">? </b-badge>
-
     <b-tooltip :target="title + index" placement="right">
       <div style="text-align: justify;" v-html="description" />
     </b-tooltip>
@@ -11,24 +10,23 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-
-const glossaryJson = require("./glossary.json");
+import { v4 } from "uuid";
+import glossaryJson from "../glossary.json";
 
 @Component
 export default class Tooltip extends Vue {
   @Prop({ required: true })
   title!: string;
 
-  @Prop({ required: true })
-  index!: string;
-
   description = "";
+  index = "";
 
   mounted() {
+    this.index = v4();
     this.description = glossaryJson[this.title.toLowerCase()];
-    // console.log(this.description)
   }
 }
+Vue.component("tooltip", Tooltip);
 </script>
 
 <style scoped>

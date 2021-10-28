@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { Component, Vue} from 'vue-property-decorator';
-import Tooltip from "@/components/survey/Tooltip.vue"
+import Tooltip from "@/components/survey/components/Tooltip.vue";
 
 @Component({
     components:{

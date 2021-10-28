@@ -18,26 +18,14 @@
         v-if="getCurrentStepIndex() == 3"
         v-bind:step="getStep(3)"
       ></applicant-info-step>
-      <notify-step
-        v-if="getCurrentStepIndex() == 4"
-        v-bind:step="getStep(4)"
-      ></notify-step>
-      <belongings-step
-        v-if="getCurrentStepIndex() == 5"
-        v-bind:step="getStep(5)"
-      ></belongings-step>
+      <notify-step v-if="getCurrentStepIndex() == 4" v-bind:step="getStep(4)"></notify-step>
+      <belongings-step v-if="getCurrentStepIndex() == 5" v-bind:step="getStep(5)"></belongings-step>
       <no-will-notify-step
         v-if="getCurrentStepIndex() == 6"
         v-bind:step="getStep(6)"
       ></no-will-notify-step>
-      <overview-step
-        v-if="getCurrentStepIndex() == 7"
-        v-bind:step="getStep(7)"
-      ></overview-step>
-      <submit
-        v-if="getCurrentStepIndex() == 8"
-        v-bind:step="getStep(8)"
-      ></submit>
+      <overview-step v-if="getCurrentStepIndex() == 7" v-bind:step="getStep(7)"></overview-step>
+      <submit v-if="getCurrentStepIndex() == 8" v-bind:step="getStep(8)"></submit>
     </main>
   </div>
 </template>
@@ -55,7 +43,6 @@ const commonState = namespace("Common");
 import NavigationSidebar from "./NavigationSidebar.vue";
 import Submit from "./steps/submit/StepSubmit.vue";
 
-import * as surveyEnv from "@/components/survey/survey-glossary";
 import { stepInfoType } from "@/types/Application";
 
 @Component({
@@ -75,7 +62,7 @@ export default class Surveys extends Vue {
   public currentStep!: number;
 
   @commonState.State
-  public existingApplication!: Boolean;
+  public existingApplication!: boolean;
 
   @applicationState.Action
   public UpdateApplicationId!: (newApplicationId) => void;
@@ -86,10 +73,7 @@ export default class Surveys extends Vue {
   error = "";
   surveyInitiated = false;
 
-  beforeCreate() {
-    surveyEnv.loadGlossary();
-    console.log("here in survey");
-  }
+  beforeCreate() {}
 
   mounted() {
     this.surveyInitiated = false;

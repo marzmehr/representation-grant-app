@@ -114,7 +114,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import * as SurveyVue from "survey-vue";  
-import * as surveyEnv from "@/components/survey/survey-glossary";
+import * as surveyEnv from "@/components/survey/survey-init";
 import moment from 'moment-timezone';
 import {applicationInfoType} from "@/types/Application"
 
@@ -132,7 +132,7 @@ export default class ApplicationStatus extends Vue {
     public userId!: string;
 
     @commonState.State
-    public existingApplication!: Boolean;
+    public existingApplication!: boolean;
 
     @commonState.State
     public locationsInfo!: any[];
@@ -311,7 +311,7 @@ export default class ApplicationStatus extends Vue {
 
     beforeCreate() {
         const Survey = SurveyVue;
-        surveyEnv.setCss(Survey);
+        surveyEnv.loadQuestionTypesVueAndSetCss(Survey);
     }
 };
 </script>

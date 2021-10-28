@@ -8,11 +8,7 @@
         :key="field.name"
       >
         <label class="survey-sublabel" :for="field.id">{{ field.label }}</label>
-        <input
-          class="form-control"
-          :id="field.id"
-          v-model="pendingValue[field.name]"
-        />
+        <input class="form-control" :id="field.id" v-model="pendingValue[field.name]" />
         <p v-if="field.desc" class="survey-desc small">{{ field.desc }}</p>
       </div>
     </div>

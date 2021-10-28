@@ -40,6 +40,8 @@
     "to-string-loader": "^1.1.6",
     "ts-loader": "^6.2.1",
     "underscore": "^1.10.2",
+    "uuid": "^8.3.2",
+    "v-runtime-template": "^1.10.0",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.5",
     "vue-class-component": "6.3.2",
