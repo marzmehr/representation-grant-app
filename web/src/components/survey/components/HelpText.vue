@@ -20,28 +20,43 @@
       </label>
     </div>
     <div class="panel-body" v-if="question.body">
-      <v-runtime-template
-        :template="`<div>${question.getProcessedHtml(question.body)}</div>`"
-      ></v-runtime-template>
+      <v-runtime-template :template="handleBodyTemplate()"></v-runtime-template>
     </div>
   </div>
 </template>
 
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+import VRuntimeTemplate from "v-runtime-template";
 
 export default defineComponent({
   props: {
     question: Object,
     isSurveyEditor: Boolean
   },
+  components: {
+    VRuntimeTemplate
+  },
   setup(props) {
     const state = reactive({
       key: 1
     });
-    onMounted(() => {
-      const q = props.question;
 
+    //Need to bind to this to be reactive.
+    const body = props.question.createLocalizableString("body", this);
+    props.question.setLocalizableStringText("body", props.question.body);
+    const handleBodyTemplate = () => {
+      return `<div>${body.renderedHtml}</div>`;
+    };
+
+    onMounted(() => {
+      //Need this to assign our new body.
+      body.onGetTextCallback = text => {
+        text = window.surveyInstance.getTextProcessor().processText(props.question.body, true);
+        return text;
+      };
+
+      const q = props.question;
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {
@@ -66,7 +81,8 @@ export default defineComponent({
       }
     });
     return {
-      state
+      state,
+      handleBodyTemplate
     };
   },
   methods: {

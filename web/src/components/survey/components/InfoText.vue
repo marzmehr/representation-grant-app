@@ -45,12 +45,12 @@
 
 <script language="ts">
 import { onMounted, onBeforeUnmount, defineComponent, reactive } from "@vue/composition-api";
-import Tooltip from "@/components/survey/components/Tooltip.vue";
+import VRuntimeTemplate from "v-runtime-template";
 
 export default defineComponent({
   name: "infotext",
   components: {
-    Tooltip
+    VRuntimeTemplate
   },
   props: {
     question: Object,
@@ -65,7 +65,7 @@ export default defineComponent({
     const body = props.question.createLocalizableString("body", this);
     props.question.setLocalizableStringText("body", props.question.body);
     const handleBodyTemplate = () => {
-      return '<div><tooltip :index="0" title="Representation Grant" />' + body.renderedHtml + "</div>"
+      return `<div>${body.renderedHtml}</div>`;
     };
 
     //Used to re-render panel when panel count changes.
