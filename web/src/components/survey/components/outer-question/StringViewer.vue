@@ -17,8 +17,13 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { LocalizableString } from "survey-vue";
+import VRuntimeTemplate from "v-runtime-template";
 
-@Component
+@Component({
+  components: {
+    VRuntimeTemplate
+  }
+})
 export class SurveyStringViewer extends Vue {
   @Prop() locString: LocalizableString;
 }
