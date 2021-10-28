@@ -90,8 +90,6 @@ export default class Surveys extends Vue {
 
   public getStep(stepIndex) {
     const step = this.steps[stepIndex];
-    console.log(stepIndex);
-    console.log(step);
     return step;
   }
 

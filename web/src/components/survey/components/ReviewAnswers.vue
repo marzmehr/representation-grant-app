@@ -1,12 +1,16 @@
 <template>
   <div>
-    <div 
+    <div
       class="card-body"
-      style="margin: 0.5rem 1rem; color: rgb(80, 80, 170); font-size: 16px; font-weight: bold;">
-      <b-table hover head-variant="dark" 
-        :items="state.results" 
+      style="margin: 0.5rem 1rem; color: rgb(80, 80, 170); font-size: 16px; font-weight: bold;"
+    >
+      <b-table
+        hover
+        head-variant="dark"
+        :items="state.results"
         :fields="fields"
-        style="white-space: pre-line;">
+        style="white-space: pre-line;"
+      >
         <template v-slot:cell(question)="value">
           <v-runtime-template :template="`<div>${value.item.question}</div>`"></v-runtime-template>
         </template>
@@ -41,26 +45,29 @@ export default defineComponent({
       const q = props.question;
 
       // Helpful utility methods
-      const signatureHandler = (answer) => {
+      const signatureHandler = answer => {
         if (answer) {
           return "Signed";
         }
         return "";
-      }
+      };
 
-      const separator = (str) => {
+      const separator = str => {
         if (str.includes("?")) {
           return " ";
         } else {
           return ": ";
         }
-      }
+      };
 
-      const removeBackticks = (str) => {
-        return str.split("`").join("");
-      }
+      const removeBackticks = str => {
+        // convert ` into glossary tags
+        return str.replace(/`(.*?)`/g, (wholeMatch, m1) => {
+          return `<tooltip title='${m1}'/>`;
+        });
+      };
 
-      const getReviewQuestions = (reviewQuestions) => {
+      const getReviewQuestions = reviewQuestions => {
         let selected = new Set();
         if (!reviewQuestions) {
           return selected;
@@ -71,13 +78,13 @@ export default defineComponent({
           }
           return selected;
         }
-      }
+      };
 
       // Formatters
-      const formatObject = (item) => {
+      const formatObject = item => {
         // Base case for recursion
         if (item !== Object(item)) {
-          return item + '\n';
+          return item + "\n";
         } else if (item === Object(item)) {
           let ret = "";
           for (let key in item) {
@@ -85,17 +92,17 @@ export default defineComponent({
           }
           return ret;
         }
-      }
+      };
 
-      const formatArray = (arr) => {
+      const formatArray = arr => {
         let ret = "";
         arr.forEach(element => {
-          ret += formatObject(element)
+          ret += formatObject(element);
         });
         return ret;
-      }
+      };
 
-      const formatKey = (str) => {
+      const formatKey = str => {
         let firstChar = str.charAt(0).toUpperCase();
         let capitalized = "";
 
@@ -106,18 +113,18 @@ export default defineComponent({
         }
 
         return removeBackticks(capitalized);
-      }
+      };
 
       // Special case handlers
-      const yesNoHandler = (answer) => {
+      const yesNoHandler = answer => {
         if (answer === "y") {
           return "Yes";
         } else {
           return "No";
         }
-      }
+      };
 
-      const fileAnswerHandler = (answer) => {
+      const fileAnswerHandler = answer => {
         let ret = "";
         let suffix = "\n";
 
@@ -128,7 +135,7 @@ export default defineComponent({
           ret += answer[i].name + suffix;
         }
         return ret;
-      }
+      };
 
       const customLabelHandler = (answer, labels) => {
         let ret = "";
@@ -140,9 +147,9 @@ export default defineComponent({
           idx++;
         }
         return ret;
-      }
+      };
 
-      const dynamicPanelHandler = (question) => {
+      const dynamicPanelHandler = question => {
         // This does not handle nested panels, assumes you stop at one.
         let answers = question.value;
         if (!answers) {
@@ -159,7 +166,6 @@ export default defineComponent({
             let currQuestion = currPanel.questions[j];
 
             if (currQuestion.isVisible) {
-
               let formattedAnswer = formatSwitchboard(
                 undefined,
                 currAnswer[currQuestion.name],
@@ -178,7 +184,7 @@ export default defineComponent({
         }
 
         return ret;
-      }
+      };
 
       const formatSwitchboard = (question, answer, questionType) => {
         if (!answer) {
@@ -190,9 +196,17 @@ export default defineComponent({
         } else if (questionType === "yesno") {
           return yesNoHandler(answer);
         } else if (questionType === "personname") {
-          return customLabelHandler(answer, [question.labelFirstName, question.labelMiddleName, question.labelLastName]);
+          return customLabelHandler(answer, [
+            question.labelFirstName,
+            question.labelMiddleName,
+            question.labelLastName
+          ]);
         } else if (questionType === "address") {
-          return customLabelHandler(answer, [question.labelPhone, question.labelEmail, question.labelFax]);
+          return customLabelHandler(answer, [
+            question.labelPhone,
+            question.labelEmail,
+            question.labelFax
+          ]);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
         } else if (answer === Object(answer)) {
@@ -200,9 +214,9 @@ export default defineComponent({
         } else {
           return answer;
         }
-      }
+      };
 
-      const formatAnswers = (question) => {
+      const formatAnswers = question => {
         let answer = question.value;
         let questionType = question.getType();
 
@@ -212,7 +226,7 @@ export default defineComponent({
         } else {
           return formatSwitchboard(question, answer, questionType);
         }
-      }
+      };
 
       const buildQuestionAnswerTable = () => {
         let questions = q.survey.getAllQuestions();
@@ -220,7 +234,7 @@ export default defineComponent({
 
         for (let select of selected) {
           for (let j = 0; j < questions.length - 1; j++) {
-            if(select === questions[j].name && questions[j].isVisible) {
+            if (select === questions[j].name && questions[j].isVisible) {
               state.results.push({
                 question: removeBackticks(questions[j].title),
                 answer: formatAnswers(questions[j])
@@ -228,7 +242,7 @@ export default defineComponent({
             }
           }
         }
-      }
+      };
 
       buildQuestionAnswerTable();
 

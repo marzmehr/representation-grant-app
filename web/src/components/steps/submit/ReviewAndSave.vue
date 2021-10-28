@@ -157,7 +157,7 @@ export default class ReviewAndSave extends Vue {
            
         let location = this.$store.state.Application.applicationLocation
         if(!location) location = this.$store.state.Common.userLocation
-        //console.log(location)
+        
 
         if(location == 'Victoria'){
             this.applicationLocation = {name:'Victoria Law Courts', address:'850 Burdett Avenue', cityStatePostcode:'Victoria, B.C.  V8W 9J2', email:'Victoria.CourtScheduling@gov.bc.ca'}
@@ -228,8 +228,8 @@ export default class ReviewAndSave extends Vue {
         for(var i=1;i<9; i++){
             const stepResults = this.$store.state.Application.steps[i].result
             for(const stepResult in stepResults){
-                //console.log(stepResults[stepResult])
-                //console.log(stepResults[stepResult].data)
+                
+                
                 result[stepResult]=stepResults[stepResult].data; 
                 //Object.assign(result, result,{$stepResult: stepResults[stepResult].data});  
             }
@@ -243,13 +243,13 @@ export default class ReviewAndSave extends Vue {
         
         var applicationLocation = this.$store.state.Application.applicationLocation
         var userLocation = this.$store.state.Common.userLocation
-        //console.log(applicationLocation)
-        //console.log(userLocation)
+        
+        
         if(applicationLocation)
             Object.assign(result, result,{applicationLocation: applicationLocation}); 
         else
             Object.assign(result, result,{applicationLocation: userLocation});
-        //console.log(result)
+        
         return result;
     }
 

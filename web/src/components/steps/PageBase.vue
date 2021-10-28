@@ -73,19 +73,18 @@ export default class PageBase extends Vue {
         if (this.$listeners && this.$listeners.onComplete) {  
             this.$emit('onComplete');
         } else {
-            //console.log("PageBase.onComplete default action.");
             this.$store.commit("Application/setAllCompleted", true);
         }
     }
 
     public hasPrevStepPage() {
-        //console.log("has previous")
+        
         return this.$store.getters["Application/getPrevStepPage"] != null;
     }
 
     public hasNextStepPage() {
         
-        //console.log("has next")
+        
         return this.$store.getters["Application/getNextStepPage"] != null;
        
     }
@@ -113,7 +112,6 @@ export default class PageBase extends Vue {
 
         this.$http.put("/app/"+ applicationId + "/", application, header)
         .then(res => {
-            //console.log(res.data);
             this.error = "";
         }, err => {
             console.error(err);

@@ -197,9 +197,9 @@ export default class ApplicationStatus extends Vue {
             }
             this.extractFilingLocations();
 
-            //console.log(this.previousApplications)       
+                   
         },(err) => {            
-            //console.log(err)
+            
             this.error = err;        
         });
     }
@@ -253,7 +253,7 @@ export default class ApplicationStatus extends Vue {
         .then((response) => {
             const applicationData = response.data
 
-            //console.log(applicationData)
+            
             
             this.currentApplication.id = applicationId;
             this.currentApplication.allCompleted = applicationData.allCompleted;
@@ -276,7 +276,7 @@ export default class ApplicationStatus extends Vue {
 
             this.$router.push({name: "surveys" })        
         }, err => {
-            //console.log(err)
+            
             this.error = err;        
         });
     }   
@@ -293,14 +293,14 @@ export default class ApplicationStatus extends Vue {
     public confirmRemoveApplication() {
         this.$http.delete('/app/'+ this.applicationToDelete['id'] + '/')
         .then((response) => {
-            //console.log(response.data)
+            
             
             var indexToDelete = this.previousApplications.findIndex((app) =>{if(app.id == this.applicationToDelete['id'])return true});
             if(indexToDelete>=0)this.previousApplications.splice(indexToDelete, 1);  
             
         },err => {
             const errMsg = err.response.data.error;
-                    //console.log(err.response)
+                    
             this.deleteErrorMsg = errMsg.slice(0,60) + (errMsg.length>60?' ...':'');
             this.deleteErrorMsgDesc = errMsg;
             this.deleteError = true;            

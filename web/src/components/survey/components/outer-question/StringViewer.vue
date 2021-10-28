@@ -28,10 +28,6 @@ import VRuntimeTemplate from "v-runtime-template";
 })
 export class SurveyStringViewer extends Vue {
   @Prop() locString: LocalizableString;
-
-  mounted() {
-    console.log(this.locString.renderedHtml);
-  }
 }
 
 Vue.component(LocalizableString.defaultRenderer, SurveyStringViewer);

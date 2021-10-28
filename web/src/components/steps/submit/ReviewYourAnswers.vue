@@ -93,11 +93,11 @@ export default class ReviewYourAnswers extends Vue {
         this.reloadPageInformation();
         this.determineHiddenErrors();
         
-        //console.log(this.step)
+        
     }
 
     public beautifyQuestion(question){
-        //console.log(question)        
+                
         let adjQuestion = question
         adjQuestion = adjQuestion.replace(/{deceasedName}/g, Vue.filter('getFullName')(this.$store.state.Application.deceasedName));
         adjQuestion = adjQuestion.replace(/<br>/g,'');
@@ -107,8 +107,8 @@ export default class ReviewYourAnswers extends Vue {
     }
 
     public beautifyResponse(value, dataItem){
-        //console.log(value)
-        //console.log(dataItem)
+        
+        
         const inputType = dataItem?dataItem['inputType']:""
         const inputName = dataItem?dataItem['name']:""
 
@@ -125,7 +125,7 @@ export default class ReviewYourAnswers extends Vue {
         }
         else if(Array.isArray(value))
         {
-            //console.log(value)
+            
             if((typeof value[0] =='string' || value[0] instanceof String) && value[0].includes('relatedPerson[')) return this.getRelatedPeopleNames(value)
             if(value[0].spouseName)return this.getSpouseInfo(value)
             if(value[0].childName)return this.getChildrenInfo(value)
@@ -209,8 +209,8 @@ export default class ReviewYourAnswers extends Vue {
     public edit(section, data){
         console.log(data)
         console.log(section)
-        //console.log(data.index)
-        //console.log(this.bankNamesIndex)
+        
+        
         
         //change scroll element Index if Bank Account
         let elementIndex = 0;
@@ -256,7 +256,7 @@ export default class ReviewYourAnswers extends Vue {
                 }
                 else if(value && (value['currentPage'] || value['currentPage']==0)){ 
                     const isPageActive = step.pages[value['currentPage']]? step.pages[value['currentPage']].active : false; 
-                    //console.log(isPageActive)
+                    
                     //value['sortOrder']=  (value['currentStep']*100+value['currentPage']);                   
                     if(value['questions'] && isPageActive){
                         this.questionResults.push(value);
@@ -267,13 +267,13 @@ export default class ReviewYourAnswers extends Vue {
 
                     for (const inx in value['questions']){
                         const question = value['questions'][inx]
-                        //console.log(inx)
-                        //console.log(question.name=="bankName")
+                        
+                        
                         if(question.name=="bankName")
                             this.bankNamesIndex.push(Number(inx))
                     }
                     //console.warn(key)
-                    //console.log(value['questions'])
+                    
 
                 }
             }
@@ -363,7 +363,7 @@ export default class ReviewYourAnswers extends Vue {
     }
 
     public onNext() {
-       //console.log(this.pageHasError)
+       
         this.UpdateGotoNextStepPage()       
     }
 

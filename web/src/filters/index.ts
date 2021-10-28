@@ -61,8 +61,7 @@ Vue.filter("beautify-date-weekday", function(date) {
 });
 
 Vue.filter("scrollToLocation", function(locationName) {
-  //console.log(locationName)
-  //console.log(locationName.slice(1).indexOf('_'))
+
   if (locationName) {
     Vue.nextTick(() => {
       let elementName = locationName;
@@ -75,7 +74,7 @@ Vue.filter("scrollToLocation", function(locationName) {
         elementName = locationName.slice(
           locationName.slice(1).indexOf("_") + 2
         );
-        //console.log(elementName)
+        
       }
       const el = document.getElementsByName(elementName);
       console.log(el);
@@ -147,10 +146,6 @@ Vue.filter("getSurveyResults", function(
   currentPage: number
 ) {
   //____________________________________________________________________
-  //console.log(survey)if(question.titleLocation!="hidden" && question.title != " " && question.title != "" && question.isVisible)
-  // console.log(survey.currentPage.title)
-  // console.log(survey.currentPage.questions)
-  // console.log(survey.data)
   const questionResults: {
     name: string;
     value: any;
@@ -240,18 +235,16 @@ Vue.filter("getSurveyResults", function(
 });
 
 Vue.filter("extractRequiredDocuments", function(questions) {
-  //console.log(questions)
   const requiredDocuments = [];
   //		requiredDocuments.push("Copy of the existing written agreements or court order(s) about the child(ren) concerning parenting arrangements, child support, contact with a child or guardianship of a child");
   // 	}transform: scale(0.6);transform-origin: 0 0;
   // }size: 15.5in 16.17in;margin: 3rem 3rem 4rem 3rem;
-  //console.log(requiredDocuments)<link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" >
 
   return requiredDocuments;
 });
 
 Vue.filter("printPdf", function(html, pageFooterLeft, pageFooterRight) {
-  //console.log(customCss)
+  
   const body = [
     `<!DOCTYPE html>
 		<html lang="en">

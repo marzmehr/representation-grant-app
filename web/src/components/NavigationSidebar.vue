@@ -173,7 +173,6 @@ export default class NavigationSidebar extends Vue {
 
         this.$http.put("/app/"+ this.id + "/", application, header)
         .then(res => {
-            //console.log(res.data); 
             this.error = "";
         }, err => {
             console.error(err);
