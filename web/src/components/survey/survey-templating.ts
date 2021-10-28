@@ -1,5 +1,6 @@
 import showdown from "showdown";
 import { ExpressionRunner } from "survey-vue";
+import { convertCodeMarkupToToolTip } from "../utils/utils";
 //This is the regular instance, not SurveyKO module.
 export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onProcessTextValue.add(function(sender, options) {
@@ -61,12 +62,8 @@ export function addCustomTemplating(surveyRuntime: any) {
       str = m[1];
     }
     if (survey.platformName === "vue") {
-      // convert <code> into glossary tags
-      str = str.replace(/<code>(.*?)<\/code>/g, (wholeMatch, m1) => {
-        return `<tooltip title='${m1}'/>`;
-      });
+      str = convertCodeMarkupToToolTip(str);
     }
-
     // Sometimes if there is no text, it will display the default.
     options.html = str;
   });

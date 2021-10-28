@@ -25,6 +25,7 @@
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import VRuntimeTemplate from "v-runtime-template";
+import { convertTicksToToolTip } from "@/components/utils/utils";
 export default defineComponent({
   name: "reviewanswers",
   components: {
@@ -62,9 +63,7 @@ export default defineComponent({
 
       const removeBackticks = str => {
         // convert ` into glossary tags
-        return str.replace(/`(.*?)`/g, (wholeMatch, m1) => {
-          return `<tooltip title='${m1}'/>`;
-        });
+        return convertTicksToToolTip(str);
       };
 
       const getReviewQuestions = reviewQuestions => {

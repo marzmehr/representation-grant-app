@@ -29,6 +29,7 @@
 
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+import { convertTicksToToolTip } from "@/components/utils/utils";
 import VRuntimeTemplate from "v-runtime-template";
 
 export default defineComponent({
@@ -63,6 +64,7 @@ export default defineComponent({
       //Need this to assign our new body.
       body.onGetTextCallback = text => {
         text = props.question.survey.getTextProcessor().processText(props.question.body, true);
+        text = convertTicksToToolTip(text);
         return text;
       };
 
@@ -70,6 +72,10 @@ export default defineComponent({
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("value", () => {
           state.key++;
         });
 
@@ -82,10 +88,6 @@ export default defineComponent({
         });
 
         q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
           state.key++;
         });
       }
