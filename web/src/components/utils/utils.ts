@@ -1,6 +1,19 @@
 import Axios, { AxiosInstance } from "axios";
 import Vue from "vue";
 
+//These are used inside of our components to convert from code and ` to a vue component.
+export const convertCodeMarkupToToolTip = (str: string) => {
+  return str.replace(/<code>(.*?)<\/code>/g, (wholeMatch, m1) => {
+    return `<tooltip title='${m1}'/>`;
+  });
+};
+
+export const convertTicksToToolTip = (str: string) => {
+  return str.replace(/`(.*?)`/g, (wholeMatch, m1) => {
+    return `<tooltip title='${m1}'/>`;
+  });
+};
+
 export const SessionManager = {
   logoutAndRedirect: async function(store) {
     store.commit("Application/init");
@@ -31,8 +44,7 @@ export const SessionManager = {
           this.logout(store);
         }
         const userName =
-          response.data.display_name ||
-          response.data.first_name + " " + response.data.last_name;
+          response.data.display_name || response.data.first_name + " " + response.data.last_name;
         store.commit("Application/setUserName", userName);
         store.commit("Common/setUserId", userId);
         store.commit("Common/setUserLocation", userLocation);
