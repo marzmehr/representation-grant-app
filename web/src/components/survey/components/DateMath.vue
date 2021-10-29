@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <span>{{ state.result }}</span>
-  </div>
+  <div :class="question.cssClasses.text">{{ state.result }}</div>
 </template>
 
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 export default defineComponent({
-  name: "dateMath",
   props: {
     question: Object,
     isSurveyEditor: Boolean
@@ -19,8 +16,7 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      const q = this.question;
-
+      const q = props.question;
       const getDate = (year, monthName, day) => {
         const months = [
           "January",
@@ -40,30 +36,78 @@ export default defineComponent({
         return new Date(year, month, day);
       };
 
-      const calcFromReferenceDate = (year, month, day, offset, daysType) => {
-        const date = getDate(year, month, day);
+      const calcBusinessDays = (date, offset) => {
+        console.log("in calc");
         console.log(date);
-        date.setDate(date.getDate() + offset);
-        console.log(date);
+        let daysAdded = 0;
+
+        while (daysAdded < offset) {
+          const dayOfWeek = date.getDay();
+          // We'll need to account for BC holidays somehow?
+          if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+            date.setDate(date.getDate() + 1);
+            daysAdded++;
+          }
+        }
         return date;
       };
 
-      const dateMath = q => {
+      const calcFromReferenceDate = (year, month, day, offset, daysType) => {
+        const date = getDate(year, month, day);
+        console.log(date);
+
+        if (daysType === "Calendar Days") {
+          const ret = date.setDate(date.getDate() + offset);
+          console.log(ret);
+          return ret;
+        } else if (daysType === "Business Days") {
+          const ret = calcBusinessDays(date, offset);
+          console.log(ret);
+          return ret;
+        }
+      };
+
+      const dateFormatter = date => {
+        return date.toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" });
+      };
+
+      const dateMath = () => {
         const dateType = q.dateType;
         const offset = q.daysToOffset;
         const daysType = q.typeOfDays;
 
-        console.log(dateType);
-        console.log(offset);
-        console.log(daysType);
-
         if (dateType === "Reference Date") {
-          return calcFromReferenceDate(q.year, q.month, q.day, offset, daysType);
+          return dateFormatter(calcFromReferenceDate(q.year, q.month, q.day, offset, daysType));
+        } else if (dateType === "Name of Variable") {
+          // have to evaulate the var
+          return "";
         }
-        return 0;
       };
 
-      dateMath(q);
+      state.result = dateMath();
+
+      //Hooks for SurveyEditor KO.
+      if (props.isSurveyEditor) {
+        q.registerFunctionOnPropertyValueChanged("title", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("body", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("isRequired", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
+          state.key++;
+        });
+      }
     });
 
     return {

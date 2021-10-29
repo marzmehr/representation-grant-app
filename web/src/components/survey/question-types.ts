@@ -591,6 +591,7 @@ function initDateMath(Survey: any) {
         {
           name: "daysToOffset:number",
           category: "general",
+          default: 0,
           visibleIndex: 8
         },
         {
