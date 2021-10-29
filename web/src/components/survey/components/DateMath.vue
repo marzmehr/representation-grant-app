@@ -108,6 +108,24 @@ export default defineComponent({
           return holidates;
         };
 
+        const victoriaDayHandler = (year, month, day, range) => {
+          const holidates = [];
+
+          for (let i = -range; i <= range; i++) {
+            const start = new Date(year + i, month, day);
+            let dayOfWeek = start.getDay();
+
+            while (dayOfWeek !== 1) {
+              start.setDate(start.getDate() - 1);
+              dayOfWeek = start.getDay();
+            }
+
+            holidates.push(start);
+          }
+          console.log(holidates);
+          return holidates;
+        };
+
         // for now lets just have a steady default range
         const range = 2;
 
@@ -116,7 +134,7 @@ export default defineComponent({
           family_day: dateByRule(year, { month: 1, week: 2, dayOfWeek: 1 }, range),
           good_friday: easterRelatedHoliday(year, 5, range),
           easter_monday: easterRelatedHoliday(year, 1, range),
-          victoria_day: [],
+          victoria_day: victoriaDayHandler(year, 4, 25, range),
           canada_day: dateFactory(year, 6, 1, range),
           bc_day: dateByRule(year, { month: 7, week: 0, dayOfWeek: 1 }, range),
           labour_day: dateByRule(year, { month: 8, week: 0, dayOfWeek: 1 }, range),
