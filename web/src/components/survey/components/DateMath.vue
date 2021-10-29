@@ -65,6 +65,17 @@ export default defineComponent({
           return holidates;
         };
 
+        const truthAndRecHandler = (year, month, day, range) => {
+          // helper function to calc a series of holidays
+          const holidates = [];
+          for (let i = -range; i <= range; i++) {
+            if (year + i >= 2021) {
+              holidates.push(new Date(year + i, month, day));
+            }
+          }
+          return holidates;
+        };
+
         // for now lets just have a steady default range
         const range = 2;
 
@@ -76,8 +87,8 @@ export default defineComponent({
           victoria_day: [],
           canada_day: dateFactory(year, 6, 1, range),
           bc_day: dateByRule(year, { month: 7, week: 0, dayOfWeek: 1 }, range),
-          labour_day: dateByRule( year, { month: 8, week: 0, dayOfWeek: 1 }, range),
-          truth_and_rec: dateFactory(year, 8, 30, range),
+          labour_day: dateByRule(year, { month: 8, week: 0, dayOfWeek: 1 }, range),
+          truth_and_rec: truthAndRecHandler(year, 8, 30, range),
           thanksgiving: dateByRule(year, { month: 9, week: 1, dayOfWeek: 1 }, range),
           remember_day: dateFactory(year, 10, 11, range),
           christmas: dateFactory(year, 11, 25, range)
