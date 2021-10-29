@@ -45,9 +45,9 @@ export default defineComponent({
           const dayOfWeek = date.getDay();
           // We'll need to account for BC holidays somehow?
           if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-            date.setDate(date.getDate() + 1);
             daysAdded++;
           }
+          date.setDate(date.getDate() + 1);
         }
         return date;
       };
@@ -57,11 +57,13 @@ export default defineComponent({
         console.log(date);
 
         if (daysType === "Calendar Days") {
-          const ret = date.setDate(date.getDate() + offset);
-          console.log(ret);
-          return ret;
+          date.setDate(date.getDate() + offset);
+          console.log("calendar");
+          console.log(date);
+          return date;
         } else if (daysType === "Business Days") {
           const ret = calcBusinessDays(date, offset);
+          console.log("business");
           console.log(ret);
           return ret;
         }
