@@ -36,17 +36,79 @@ export default defineComponent({
         return new Date(year, month, day);
       };
 
+      const calcHolidays = year => {
+        const dateFactory = (year, month, day, range) => {
+          // helper function to calc a series of holidays
+          const holidates = [];
+          for (let i = -range; i <= range; i++) {
+            holidates.push(new Date(year + i, month, day));
+          }
+          return holidates;
+        };
+
+        const dateByRule = (year, rule, range) => {
+          // Evaluate rules and send off to factory for creation
+          const holidates = [];
+          for (let i = -range; i <= range; i++) {
+            const temp = new Date(year + i, rule.month, 1);
+            let dayOfWeek = temp.getDay();
+
+            while (dayOfWeek !== rule.dayOfWeek) {
+              temp.setDate(temp.getDate() + 1);
+              dayOfWeek = temp.getDay();
+            }
+
+            temp.setDate(temp.getDate() + 7 * rule.week);
+
+            holidates.push(temp);
+          }
+          return holidates;
+        };
+
+        // for now lets just have a steady default range
+        const range = 2;
+
+        const holidates = {
+          new_year: dateFactory(year, 0, 1, range),
+          family_day: dateByRule(year, { month: 1, week: 2, dayOfWeek: 1 }, range),
+          good_friday: [],
+          easter_monday: [],
+          victoria_day: [],
+          canada_day: dateFactory(year, 6, 1, range),
+          bc_day: dateByRule(year, { month: 7, week: 0, dayOfWeek: 1 }, range),
+          labour_day: dateByRule( year, { month: 8, week: 0, dayOfWeek: 1 }, range),
+          truth_and_rec: dateFactory(year, 8, 30, range),
+          thanksgiving: dateByRule(year, { month: 9, week: 1, dayOfWeek: 1 }, range),
+          remember_day: dateFactory(year, 10, 11, range),
+          christmas: dateFactory(year, 11, 25, range)
+        };
+
+        let ret = [];
+        for (const holiday in holidates) {
+          ret = ret.concat(holidates[holiday]);
+        }
+        return ret;
+      };
+
       const calcBusinessDays = (date, offset) => {
-        console.log("in calc");
-        console.log(date);
+        const holidates = calcHolidays(date.getFullYear());
         let daysAdded = 0;
 
         while (daysAdded < offset) {
           const dayOfWeek = date.getDay();
-          // We'll need to account for BC holidays somehow?
-          if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+          let holiday = false;
+
+          for (const idx in holidates) {
+            if (date.getTime() === holidates[idx].getTime()) {
+              holiday = true;
+              break;
+            }
+          }
+
+          if (dayOfWeek >= 1 && dayOfWeek <= 5 && !holiday) {
             daysAdded++;
           }
+
           date.setDate(date.getDate() + 1);
         }
         return date;
@@ -54,17 +116,12 @@ export default defineComponent({
 
       const calcFromReferenceDate = (year, month, day, offset, daysType) => {
         const date = getDate(year, month, day);
-        console.log(date);
 
         if (daysType === "Calendar Days") {
           date.setDate(date.getDate() + offset);
-          console.log("calendar");
-          console.log(date);
           return date;
         } else if (daysType === "Business Days") {
           const ret = calcBusinessDays(date, offset);
-          console.log("business");
-          console.log(ret);
           return ret;
         }
       };
