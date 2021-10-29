@@ -494,9 +494,9 @@ const addToInputText = Survey => {
 
 function initDateMath(Survey: any) {
   const widget = {
-    name: "DateMath",
+    name: "datemath",
     title: "Date Math",
-    iconName: "icon-checkbox",
+    iconName: "icon-radiogroup",
     isDefaultRender: true,
     widgetIsLoaded: function() {
       return true;

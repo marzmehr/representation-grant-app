@@ -6,12 +6,8 @@
 
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
-import VRuntimeTemplate from "v-runtime-template";
 export default defineComponent({
   name: "dateMath",
-  components: {
-    VRuntimeTemplate
-  },
   props: {
     question: Object,
     isSurveyEditor: Boolean
@@ -68,29 +64,6 @@ export default defineComponent({
       };
 
       dateMath(q);
-
-      //Hooks for SurveyEditor KO.
-      if (props.isSurveyEditor) {
-        q.registerFunctionOnPropertyValueChanged("title", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("body", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("isRequired", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
-          state.key++;
-        });
-      }
     });
 
     return {
