@@ -125,9 +125,33 @@ export const addCustomExpressions = (Survey: any) => {
     return nonParticipants;
   }
 
+  //Parameters: {questionName} for rows.
   const determineEarliestSubmissionDate = params => {
-    return 100;
-    //this.question
+    if (!params) return false;
+    if (!params[0]) return false;
+    const rows = params[0];
+    const calculatedDates = [];
+    Object.entries(rows).forEach(([key, value]) => {
+      if (!value["Date Served"] || !value["Method"]) return;
+      debugger;
+      const method = value["Method"];
+      const dateServed = new Date(value["Date Served"]);
+      let extraNoticeDays = 21;
+      switch (method) {
+        case "In-Person":
+          break;
+        case "Electronic":
+          break;
+        case "Mail":
+          extraNoticeDays += 5;
+          break;
+      }
+      dateServed.setDate(dateServed.getDate() + extraNoticeDays);
+      calculatedDates.push(dateServed);
+    });
+    if (calculatedDates.length == 0) return false;
+    const earliestSubmissionDate = new Date(Math.min.apply(null, calculatedDates));
+    return earliestSubmissionDate;
   };
 
   //Add this so ExpressionRunner can access it.
