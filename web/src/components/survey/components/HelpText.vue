@@ -49,7 +49,9 @@ export default defineComponent({
     const body = props.question.createLocalizableString("body", this);
     props.question.setLocalizableStringText("body", props.question.body);
     const handleBodyTemplate = () => {
-      return `<div>${body.renderedHtml}</div>`;
+      return `<div>${
+        props.isSurveyEditor ? body.htmlValues.default || body.renderedText : body.renderedHtml
+      }</div>`;
     };
 
     const handleTitleTemplate = () => {
