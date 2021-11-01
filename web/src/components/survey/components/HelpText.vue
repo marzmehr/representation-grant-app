@@ -65,7 +65,10 @@ export default defineComponent({
     onMounted(() => {
       //Need this to assign our new body.
       body.onGetTextCallback = text => {
-        text = props.question.survey.getTextProcessor().processText(props.question.body, true);
+        const textProcessor = props.question?.parent?.getType().includes("panel")
+          ? props.question.parent.textProcessorValue
+          : props.question.survey.getTextProcessor();
+        text = textProcessor.processText(props.question.body, true);
         text = convertTicksToToolTip(text);
         return text;
       };
