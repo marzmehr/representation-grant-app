@@ -53,12 +53,12 @@
     {
      "type": "expression",
      "name": "participants",
-     "expression": "getParticipants({spouseInfoPanel}, {childInfoPanel})"
+     "expression": "getParticipants({spouseInfoPanel}, {childInfoPanel}, question2)"
     },
     {
      "type": "expression",
      "name": "non-participants",
-     "expression": "getNonParticipants({spouseInfoPanel}, {childInfoPanel})"
+     "expression": "getNonParticipants({spouseInfoPanel}, {childInfoPanel}, question2)"
     },
     {
      "type": "matrixdropdown",

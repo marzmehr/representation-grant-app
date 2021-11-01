@@ -89,38 +89,68 @@ export const addCustomExpressions = (Survey: any) => {
   };
 
   //Needs to be function, otherwise this context wont work.
+  //Parameters: {spousePanel}, {childPanel}, <questionName for column choices>
   function getParticipants(params) {
     if (!params) return false;
+    if (params.length < 3) return false;
     const spousePanel = (params[0] || [])
       .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "y")
       .map(s => s.spouseName);
     const childPanel = (params[1] || [])
       .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
       .map(s => s.childName);
+    const targetQuestion = params[2];
     const participants = [spousePanel, childPanel].flat();
     //Update the column choices.
-    this.question.survey.getQuestionByName("question2").columns[0].choices = participants;
+    this.question.survey.getQuestionByName(targetQuestion).columns[0].choices = participants;
     return participants;
   }
 
+  //Parameters: {spousePanel}, {childPanel}, <questionName for rows>
   function getNonParticipants(params) {
+    if (!params) return false;
+    if (params.length < 3) return false;
     const spousePanel = (params[0] || [])
       .filter(s => s.spouseIsAlive == "n" || s.spouseIsAdult == "n" || s.spouseIsCompetent == "n")
       .map(s => s.spouseName);
     const childPanel = (params[1] || [])
       .filter(s => s.childIsAlive == "n" || s.childIsAdult == "n" || s.childIsCompetent == "n")
       .map(s => s.childName);
+    const targetQuestion = params[2];
     const nonParticipants = [spousePanel, childPanel].flat();
     //Update the rows of the table.
-    this.question.survey.getQuestionByName("question2").rows = nonParticipants.map(
+    this.question.survey.getQuestionByName(targetQuestion).rows = nonParticipants.map(
       s => new ItemValue(s)
     );
     return nonParticipants;
   }
 
+  //Parameters: {questionName} for rows.
   const determineEarliestSubmissionDate = params => {
-    return 100;
-    //this.question
+    if (!params) return false;
+    if (!params[0]) return false;
+    const rows = params[0];
+    const calculatedDates = [];
+    Object.entries(rows).forEach(([key, value]) => {
+      if (!value["Date Served"] || !value["Method"]) return;
+      const method = value["Method"];
+      const dateServed = new Date(value["Date Served"]);
+      let extraNoticeDays = 21;
+      switch (method) {
+        case "In-Person":
+          break;
+        case "Electronic":
+          break;
+        case "Mail":
+          extraNoticeDays += 5;
+          break;
+      }
+      dateServed.setDate(dateServed.getDate() + extraNoticeDays);
+      calculatedDates.push(dateServed);
+    });
+    if (calculatedDates.length == 0) return false;
+    const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
+    return earliestSubmissionDate;
   };
 
   //Add this so ExpressionRunner can access it.
