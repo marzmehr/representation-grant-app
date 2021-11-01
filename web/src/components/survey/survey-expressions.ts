@@ -133,7 +133,6 @@ export const addCustomExpressions = (Survey: any) => {
     const calculatedDates = [];
     Object.entries(rows).forEach(([key, value]) => {
       if (!value["Date Served"] || !value["Method"]) return;
-      debugger;
       const method = value["Method"];
       const dateServed = new Date(value["Date Served"]);
       let extraNoticeDays = 21;
@@ -150,7 +149,7 @@ export const addCustomExpressions = (Survey: any) => {
       calculatedDates.push(dateServed);
     });
     if (calculatedDates.length == 0) return false;
-    const earliestSubmissionDate = new Date(Math.min.apply(null, calculatedDates));
+    const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
     return earliestSubmissionDate;
   };
 
