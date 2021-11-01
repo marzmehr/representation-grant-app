@@ -89,30 +89,37 @@ export const addCustomExpressions = (Survey: any) => {
   };
 
   //Needs to be function, otherwise this context wont work.
+  //Parameters: {spousePanel}, {childPanel}, <questionName for column choices>
   function getParticipants(params) {
     if (!params) return false;
+    if (params.length < 3) return false;
     const spousePanel = (params[0] || [])
       .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "y")
       .map(s => s.spouseName);
     const childPanel = (params[1] || [])
       .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
       .map(s => s.childName);
+    const targetQuestion = params[2];
     const participants = [spousePanel, childPanel].flat();
     //Update the column choices.
-    this.question.survey.getQuestionByName("question2").columns[0].choices = participants;
+    this.question.survey.getQuestionByName(targetQuestion).columns[0].choices = participants;
     return participants;
   }
 
+  //Parameters: {spousePanel}, {childPanel}, <questionName for rows>
   function getNonParticipants(params) {
+    if (!params) return false;
+    if (params.length < 3) return false;
     const spousePanel = (params[0] || [])
       .filter(s => s.spouseIsAlive == "n" || s.spouseIsAdult == "n" || s.spouseIsCompetent == "n")
       .map(s => s.spouseName);
     const childPanel = (params[1] || [])
       .filter(s => s.childIsAlive == "n" || s.childIsAdult == "n" || s.childIsCompetent == "n")
       .map(s => s.childName);
+    const targetQuestion = params[2];
     const nonParticipants = [spousePanel, childPanel].flat();
     //Update the rows of the table.
-    this.question.survey.getQuestionByName("question2").rows = nonParticipants.map(
+    this.question.survey.getQuestionByName(targetQuestion).rows = nonParticipants.map(
       s => new ItemValue(s)
     );
     return nonParticipants;
