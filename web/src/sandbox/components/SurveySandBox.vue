@@ -54,6 +54,7 @@ export default class SurveySandBox extends Vue {
 
   //TODO SurveyCreatorForm.vue should combine with this.
   public addSurveyListener() {
+    (window as any).surveyInstance = this.survey;
     //These need to be here to keep track of panel counts.
     this.survey
       .getAllQuestions()

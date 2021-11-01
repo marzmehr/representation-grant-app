@@ -1,10 +1,11 @@
 import { addDays, getDay } from "date-fns";
-import { FunctionFactory } from "survey-vue";
+import { FunctionFactory, ItemValue } from "survey-vue";
 import { DayOfWeek, HolidayHelper } from "../utils/holiday";
 
-export function addCustomExpressions(Survey: any) {
+//Note function allows this. to
+export const addCustomExpressions = (Survey: any) => {
   // Returns 'y' or 'n', or 'u' for undefined and 'e' for error
-  function isChild(params: any) {
+  const isChild = (params: any) => {
     if (!params && !params.length) return "u";
     const DOB = params[0];
     const MinorOrAdult = params[1];
@@ -38,64 +39,27 @@ export function addCustomExpressions(Survey: any) {
     else if (!dobReturn && maReturn) return maReturn;
     else if (dobReturn === maReturn) return dobReturn;
     else return "e";
-  }
+  };
 
-  function listExcept(params) {
+  const listExcept = params => {
     if (!params && params.length < 2) return false;
     if (!params[0] || !params[1]) return [];
     return params[0].filter(value => !params[1].includes(value));
-  }
+  };
 
-  function listIntersect(params) {
+  const listIntersect = params => {
     if (!params && params.length < 2) return false;
     if (!params[0] || !params[1]) return [];
     return params[0].filter(value => params[1].includes(value));
-  }
+  };
 
-  function listUnion(params) {
+  const listUnion = params => {
     if (!params && params.length < 2) return false;
-    if (!params[0] || !params[1]) return [];
-    return params[0].concat(params[1]);
-  }
-
-  function panelFilter(params) {
-    if (!params && params.length < 2) return false;
-    let target = params[0];
-    if (!target) return target;
-    for (let i = 1; i < params.length; i++) {
-      const key = params[i].split(" ")[0];
-      const operation = params[i].split(" ")[1];
-      const value = params[i].split(" ")[2];
-      console.log(`Key: ${key}`);
-      console.log(`Operation: ${operation}`);
-      console.log(`Value: ${value}`);
-      switch (operation) {
-        case "<":
-          target = target?.filter(e => e[key] && e[key] < value);
-          break;
-        case ">":
-          target = target?.filter(e => e[key] && e[key] > value);
-          break;
-        case "=":
-        case "==":
-          target = target?.filter(e => e[key] && e[key] == value);
-          break;
-        case "!=":
-          target = target?.filter(e => e[key] && e[key] != value);
-          break;
-        case "in":
-          target = target?.filter(e => e[key] && value.includes(e[key]));
-          break;
-        case "not in":
-          target = target?.filter(e => e[key] && !value.includes(e[key]));
-          break;
-      }
-    }
-    return target;
-  }
+    return (params[0] || []).concat(params[1] || []);
+  };
 
   //targetDate:date, days:number, dayType = 'calendar' || 'business'
-  function getDateFromQuestionAndAddDays(params) {
+  const getDateFromQuestionAndAddDays = params => {
     if (!params && params.length < 3) return false;
     const targetDate = params[0];
     const days = params[1];
@@ -122,23 +86,68 @@ export function addCustomExpressions(Survey: any) {
         newDay = addDays(startingDate, 1);
       }
     }
+  };
+
+  //Needs to be function, otherwise this context wont work.
+  function getParticipants(params) {
+    if (!params) return false;
+    const spousePanel = (params[0] || [])
+      .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "y")
+      .map(s => s.spouseName);
+    const childPanel = (params[1] || [])
+      .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
+      .map(s => s.childName);
+    const participants = [spousePanel, childPanel].flat();
+    //Update the column choices.
+    this.question.survey.getQuestionByName("question2").columns[0].choices = participants;
+    return participants;
   }
+
+  function getNonParticipants(params) {
+    const spousePanel = (params[0] || [])
+      .filter(s => s.spouseIsAlive == "n" || s.spouseIsAdult == "n" || s.spouseIsCompetent == "n")
+      .map(s => s.spouseName);
+    const childPanel = (params[1] || [])
+      .filter(s => s.childIsAlive == "n" || s.childIsAdult == "n" || s.childIsCompetent == "n")
+      .map(s => s.childName);
+    const nonParticipants = [spousePanel, childPanel].flat();
+    //Update the rows of the table.
+    this.question.survey.getQuestionByName("question2").rows = nonParticipants.map(
+      s => new ItemValue(s)
+    );
+    return nonParticipants;
+  }
+
+  const determineEarliestSubmissionDate = params => {
+    return 100;
+    //this.question
+  };
 
   //Add this so ExpressionRunner can access it.
   FunctionFactory.Instance.register("listIntersect", listIntersect);
   FunctionFactory.Instance.register("listExcept", listExcept);
   FunctionFactory.Instance.register("listUnion", listUnion);
-  FunctionFactory.Instance.register("panelFilter", panelFilter);
   FunctionFactory.Instance.register("isChild", isChild);
   FunctionFactory.Instance.register("getDateFromQuestionAndAddDays", getDateFromQuestionAndAddDays);
+  FunctionFactory.Instance.register(
+    "determineEarliestSubmissionDate",
+    determineEarliestSubmissionDate
+  );
+  FunctionFactory.Instance.register("getParticipants", getParticipants);
+  FunctionFactory.Instance.register("getNonParticipants", getNonParticipants);
 
   Survey.FunctionFactory.Instance.register("listIntersect", listIntersect);
   Survey.FunctionFactory.Instance.register("listExcept", listExcept);
   Survey.FunctionFactory.Instance.register("listUnion", listUnion);
-  Survey.FunctionFactory.Instance.register("panelFilter", panelFilter);
   Survey.FunctionFactory.Instance.register("isChild", isChild);
   Survey.FunctionFactory.Instance.register(
     "getDateFromQuestionAndAddDays",
     getDateFromQuestionAndAddDays
   );
-}
+  Survey.FunctionFactory.Instance.register(
+    "determineEarliestSubmissionDate",
+    determineEarliestSubmissionDate
+  );
+  Survey.FunctionFactory.Instance.register("getParticipants", getParticipants);
+  Survey.FunctionFactory.Instance.register("getNonParticipants", getNonParticipants);
+};

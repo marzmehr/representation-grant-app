@@ -8,8 +8,8 @@ import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
 import ReviewAnswers from "./components/ReviewAnswers.vue";
-import QuestionCombiner from "./components/QuestionCombiner.vue";
-import SurveyText from "./components/SurveyText.vue";
+import SurveyText from "./components/outer-question/SurveyText.vue";
+import Expression from "./components/outer-question/Expression.vue";
 import EarliestSubmissionDate from "./components/EarliestSubmissionDate.vue";
 import { addCustomExpressions } from "./survey-expressions";
 
@@ -131,61 +131,6 @@ function initFormDownloadButton(Survey: any) {
     afterRender: function(question, el) {
       if (question.survey.platformName == "vue") return;
       const ComponentClass = Vue.extend(FormDownloadButton);
-      const card = new ComponentClass({
-        propsData: { question: question, isSurveyEditor: true }
-      });
-      card.$mount();
-      el.appendChild(card.$el);
-    }
-  };
-  Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
-}
-
-function initQuestionCombiner(Survey: any) {
-  const widget = {
-    name: "QuestionCombiner",
-    title: "Question Combiner",
-    iconName: "icon-radiogroup",
-    isDefaultRender: true,
-    widgetIsLoaded: function() {
-      return true;
-    },
-    isFit: function(question: any) {
-      return question.getType() === "questioncombiner";
-    },
-    activatedByChanged: function(activatedBy: any) {
-      Survey.JsonObject.metaData.addClass(
-        "questioncombiner",
-        [
-          {
-            name: "inputExpression1",
-            category: "general"
-          },
-          {
-            name: "inputExpression2",
-            category: "general"
-          },
-          {
-            name: "inputExpression3",
-            category: "general"
-          },
-          {
-            name: "inputExpression4",
-            category: "general"
-          },
-          {
-            name: "inputExpression5",
-            category: "general"
-          }
-        ],
-        null,
-        "empty"
-      );
-    },
-    htmlTemplate: "<div></div>",
-    afterRender: function(question, el) {
-      if (question.survey.platformName == "vue") return;
-      const ComponentClass = Vue.extend(QuestionCombiner);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
       });
@@ -483,6 +428,32 @@ const initEarliestSubmissionDate = (Survey: any) => {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
 };
 
+const fixExpression = Survey => {
+  Survey.CustomWidgetCollection.Instance.addCustomWidget(
+    {
+      name: "expressionFix",
+      isDefaultRender: true,
+      isFit: question => {
+        return question.getType() === "expression";
+      },
+      widgetIsLoaded: function() {
+        return true;
+      },
+      htmlTemplate: "<div></div>",
+      afterRender: function(question, el) {
+        if (question.survey.platformName == "vue") return;
+        const ComponentClass = Vue.extend(Expression);
+        const card = new ComponentClass({
+          propsData: { question: question }
+        });
+        card.$mount();
+        el.parentNode.appendChild(card.$el);
+        el.parentNode.removeChild(el);
+      }
+    },
+    "type"
+  );
+};
 // This hijacks the text, which we've copied over from SurveyLibrary/src/vue.
 // These text improvements, allow for default Substitution.
 const addToInputText = Survey => {
@@ -523,6 +494,7 @@ const addToInputText = Survey => {
 export function addQuestionTypes(Survey: any) {
   // fixCheckboxes(Survey);
   addToInputText(Survey);
+  fixExpression(Survey);
   initReviewAnswers(Survey);
   initFormDownloadButton(Survey);
   initYesNo(Survey);
@@ -532,7 +504,6 @@ export function addQuestionTypes(Survey: any) {
   initAddressBlock(Survey);
   initContactInfoBlock(Survey);
   initCustomDate(Survey);
-  initQuestionCombiner(Survey);
   initEarliestSubmissionDate(Survey);
   addCustomExpressions(Survey);
 }
@@ -613,15 +584,6 @@ export function addToolboxOptions(editor: any) {
     iconName: "icon-checkbox",
     json: {
       type: "reviewanswers"
-    }
-  });
-  editor.toolbox.addItem({
-    name: "questioncombiner",
-    title: "Question Combiner",
-    isCopied: true,
-    iconName: "icon-multipletext",
-    json: {
-      type: "questioncombiner"
     }
   });
   editor.toolbox.addItem({
