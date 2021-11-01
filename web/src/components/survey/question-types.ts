@@ -579,7 +579,7 @@ function initDateMath(Survey: any) {
           visibleIndex: 6
         },
         {
-          name: "nameOfVariable",
+          name: "nameOfVariable:text",
           category: "general",
           dependsOn: "dateType",
           visibleIf: function(obj: any) {

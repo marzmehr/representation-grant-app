@@ -1,9 +1,10 @@
 <template>
-  <div :class="question.cssClasses.text">{{ state.result }}</div>
+  <div :key="state.key" :class="question.cssClasses.text">{{ state.result }}</div>
 </template>
 
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+import { convertTicksToToolTip } from "@/components/utils/utils";
 export default defineComponent({
   props: {
     question: Object,
@@ -15,8 +16,25 @@ export default defineComponent({
       result: 0
     });
 
+    //Need to bind to this to be reactive.
+    const nameOfVariable = props.question.createLocalizableString("nameOfVariable", this);
+    props.question.setLocalizableStringText("nameOfVariable", props.question.nameOfVariable);
+    const handleNameOfVariableTemplate = () => {
+      return `<div>${nameOfVariable.renderedHtml}</div>`;
+    };
+
     onMounted(() => {
       const q = props.question;
+
+      //Need this to assign our new body.
+      nameOfVariable.onGetTextCallback = text => {
+        text = props.question.survey
+          .getTextProcessor()
+          .processText(props.question.nameOfVariable, true);
+        text = convertTicksToToolTip(text);
+        return text;
+      };
+
       const getDate = (year, monthName, day) => {
         const months = [
           "January",
@@ -122,7 +140,6 @@ export default defineComponent({
 
             holidates.push(start);
           }
-          console.log(holidates);
           return holidates;
         };
 
@@ -175,17 +192,26 @@ export default defineComponent({
         return date;
       };
 
-      const calcFromReferenceDate = (year, month, day, offset, daysType) => {
-        const date = getDate(year, month, day);
-
+      const calcWithDaysType = (date, offset, daysType) => {
         if (daysType === "Calendar Days") {
           date.setDate(date.getDate() + offset);
           return date;
         } else if (daysType === "Business Days") {
-          const ret = calcBusinessDays(date, offset);
-          return ret;
+          return calcBusinessDays(date, offset);
         }
       };
+
+      function dateFromNameOfVariable(stringDate) {
+        if (stringDate.includes("{") || stringDate.includes("}")) {
+          // just a dummy return to keep things moving
+          return new Date();
+        }
+
+        const date = new Date(stringDate);
+        // for some reason the date is one short, add it in
+        date.setDate(date.getDate() + 1);
+        return date;
+      }
 
       const dateFormatter = date => {
         return date.toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" });
@@ -197,10 +223,15 @@ export default defineComponent({
         const daysType = q.typeOfDays;
 
         if (dateType === "Reference Date") {
-          return dateFormatter(calcFromReferenceDate(q.year, q.month, q.day, offset, daysType));
+          return dateFormatter(calcWithDaysType(getDate(q.year, q.month, q.day), offset, daysType));
         } else if (dateType === "Name of Variable") {
-          // have to evaulate the var
-          return "";
+          return dateFormatter(
+            calcWithDaysType(
+              dateFromNameOfVariable(q.localizableStrings.nameOfVariable.renderedHtml),
+              offset,
+              daysType
+            )
+          );
         }
       };
 
@@ -227,11 +258,16 @@ export default defineComponent({
         q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
           state.key++;
         });
+
+        q.registerFunctionOnPropertyValueChanged("nameOfVariable", () => {
+          state.key++;
+        });
       }
     });
 
     return {
-      state
+      state,
+      handleNameOfVariableTemplate
     };
   }
 });
