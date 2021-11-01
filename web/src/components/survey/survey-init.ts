@@ -10,11 +10,11 @@ import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
 import ReviewAnswers from "./components/ReviewAnswers.vue";
-import QuestionCombiner from "./components/QuestionCombiner.vue";
-import SurveyText from "./components/SurveyText.vue";
+
 import EarliestSubmissionDate from "./components/EarliestSubmissionDate.vue";
 import VRuntimeTemplate from "v-runtime-template";
 import StringViewer from "./components/outer-question/StringViewer.vue";
+import SurveyText from "./components/outer-question/SurveyText.vue";
 
 export function addQuestionTypesVue(Survey: any) {
   Vue.component("HelpText", HelpText);
@@ -26,13 +26,15 @@ export function addQuestionTypesVue(Survey: any) {
   Vue.component("CustomDate", CustomDate);
   Vue.component("FormDownloadButton", FormDownloadButton);
   Vue.component("ReviewAnswers", ReviewAnswers);
-  Vue.component("QuestionCombiner", QuestionCombiner);
   Vue.component("EarliestSubmissionDate", EarliestSubmissionDate);
   //These override existing components:
   //https://github.com/surveyjs/survey-library/tree/master/src/vue
   Vue.component("survey-text", SurveyText);
+  //SurveyJS components here, customized.
   Vue.component("sv-string-viewer", StringViewer);
+  //Library template function, that creates Vue components from string.
   Vue.component("v-runtime-template", VRuntimeTemplate);
+
   addQuestionTypes(Survey);
 }
 

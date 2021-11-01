@@ -1,4 +1,5 @@
-// This overrides the current SurveyText.
+<!-- This overrides the current SurveyText. This was done to allow for the defaultSubstition field.
+-->
 <template>
   <div>
     <!-- 
