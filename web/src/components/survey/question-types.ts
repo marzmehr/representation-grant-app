@@ -600,6 +600,12 @@ function initDateMath(Survey: any) {
           choices: ["Business Days", "Calendar Days"],
           default: "Calendar Days",
           visibleIndex: 9
+        },
+        {
+          name: "calculatedResult",
+          readOnly: true,
+          category: "general",
+          visibleIndex: 10
         }
       ]);
     },

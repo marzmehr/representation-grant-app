@@ -141,12 +141,14 @@ export default defineComponent({
             )
           );
           q.value = state.result;
+          q.calculatedResult = state.result;
         }
         return text;
       };
 
       state.result = dateMath();
       q.value = state.result;
+      q.calculatedResult = state.result;
 
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
