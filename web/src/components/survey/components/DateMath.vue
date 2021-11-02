@@ -6,14 +6,9 @@
 
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
-import VRuntimeTemplate from "v-runtime-template";
 import { convertTicksToToolTip } from "@/components/utils/utils";
 import { HolidayHelper } from "@/components/utils/holiday";
 export default defineComponent({
-  name: "datemath",
-  components: {
-    VRuntimeTemplate
-  },
   props: {
     question: Object,
     isSurveyEditor: Boolean
@@ -30,9 +25,8 @@ export default defineComponent({
     const handleNameOfVariableTemplate = () => {
       return `<div>${nameOfVariable.renderedHtml}</div>`;
     };
-    
+
     onMounted(() => {
-      debugger;
       const q = props.question;
 
       const getDate = (year, monthName, day) => {
@@ -115,7 +109,7 @@ export default defineComponent({
         return date.toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" });
       };
 
-      const dateMath = () => {
+      const calcDate = () => {
         const dateType = q.dateType;
         const offset = q.daysToOffset;
         const daysType = q.typeOfDays;
@@ -154,7 +148,7 @@ export default defineComponent({
         return text;
       };
 
-      state.result = dateMath();
+      state.result = calcDate();
       q.value = state.result;
       q.calculatedResult = state.result;
 

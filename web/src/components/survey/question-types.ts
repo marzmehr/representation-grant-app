@@ -14,9 +14,25 @@ import EarliestSubmissionDate from "./components/EarliestSubmissionDate.vue";
 import DateMath from "./components/DateMath.vue";
 import { addCustomExpressions } from "./survey-expressions";
 
+export enum WidgetValueName {
+  HelpText = "HelpText",
+  InfoText = "InfoText",
+  FormDownloadButton = "FormDownloadButton",
+  YesNo = "YesNo",
+  AddressInfo = "AddressInfo",
+  PersonName = "PersonName",
+  ContactInfo = "ContactInfo",
+  CustomDate = "CustomDate",
+  ReviewAnswers = "ReviewAnswers",
+  EarliestSubmissionDate = "EarliestSubmissionDate",
+  expressionFix = "expressionFix",
+  textImprovements = "textImprovements",
+  DateMath = "DateMath"
+}
+
 function initHelpText(Survey: any) {
   const widget = {
-    name: "HelpText",
+    name: WidgetValueName.HelpText,
     title: "Expanding FAQ",
     iconName: "icon-panel",
     widgetIsLoaded: function() {
@@ -51,7 +67,7 @@ function initHelpText(Survey: any) {
 
 function initInfoText(Survey: any) {
   const widget = {
-    name: "InfoText",
+    name: WidgetValueName.InfoText,
     title: "Message Text",
     iconName: "icon-panel",
     widgetIsLoaded: function() {
@@ -96,7 +112,7 @@ function initInfoText(Survey: any) {
 
 function initFormDownloadButton(Survey: any) {
   const widget = {
-    name: "FormDownloadButton",
+    name: WidgetValueName.FormDownloadButton,
     title: "Form Download/Print Button",
     iconName: "icon-radiogroup",
     isDefaultRender: true,
@@ -144,7 +160,7 @@ function initFormDownloadButton(Survey: any) {
 
 function initYesNo(Survey: any) {
   const widget = {
-    name: "YesNo",
+    name: WidgetValueName.YesNo,
     title: "Yes/No",
     iconName: "icon-radiogroup",
     isDefaultRender: true,
@@ -173,7 +189,7 @@ function initYesNo(Survey: any) {
 
 function initAddressBlock(Survey: any) {
   const widget = {
-    name: "AddressInfo",
+    name: WidgetValueName.AddressInfo,
     title: "Postal Address",
     iconName: "icon-multipletext",
     widgetIsLoaded: function() {
@@ -210,7 +226,7 @@ function initAddressBlock(Survey: any) {
 
 function initPersonName(Survey: any) {
   const widget = {
-    name: "PersonName",
+    name: WidgetValueName.PersonName,
     title: "Person Name",
     iconName: "icon-multipletext",
     widgetIsLoaded: function() {
@@ -274,7 +290,7 @@ function initPersonName(Survey: any) {
 
 function initContactInfoBlock(Survey: any) {
   const widget = {
-    name: "ContactInfo",
+    name: WidgetValueName.ContactInfo,
     title: "Contact Info",
     iconName: "icon-multipletext",
     widgetIsLoaded: function() {
@@ -317,7 +333,7 @@ function initContactInfoBlock(Survey: any) {
 
 function initCustomDate(Survey: any) {
   const widget = {
-    name: "CustomDate",
+    name: WidgetValueName.CustomDate,
     title: "Date Input",
     iconName: "icon-date",
     widgetIsLoaded: function() {
@@ -355,7 +371,7 @@ function initCustomDate(Survey: any) {
 
 function initReviewAnswers(Survey: any) {
   const widget = {
-    name: "ReviewAnswers",
+    name: WidgetValueName.ReviewAnswers,
     title: "Review Answers",
     iconName: "icon-radiogroup",
     isDefaultRender: true,
@@ -391,7 +407,7 @@ function initReviewAnswers(Survey: any) {
 
 const initEarliestSubmissionDate = (Survey: any) => {
   const widget = {
-    name: "earliestsubmissiondate",
+    name: WidgetValueName.EarliestSubmissionDate,
     title: "Longest Date From Panel",
     iconName: "icon-radiogroup",
     isDefaultRender: true,
@@ -432,7 +448,7 @@ const initEarliestSubmissionDate = (Survey: any) => {
 const fixExpression = Survey => {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(
     {
-      name: "expressionFix",
+      name: WidgetValueName.expressionFix,
       isDefaultRender: true,
       isFit: question => {
         return question.getType() === "expression";
@@ -468,7 +484,7 @@ const addToInputText = Survey => {
 
   Survey.CustomWidgetCollection.Instance.addCustomWidget(
     {
-      name: "textImprovements",
+      name: WidgetValueName.textImprovements,
       isDefaultRender: true,
       isFit: question => {
         return question.getType() === "text";
@@ -494,7 +510,7 @@ const addToInputText = Survey => {
 
 function initDateMath(Survey: any) {
   const widget = {
-    name: "datemath",
+    name: WidgetValueName.DateMath,
     title: "Date Math",
     iconName: "icon-radiogroup",
     isDefaultRender: true,
