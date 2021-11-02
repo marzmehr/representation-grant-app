@@ -1,6 +1,9 @@
 <template>
-  <div :key="state.key" :class="question.cssClasses.text">
-    <span>{{ state.result }}</span>
+  <div
+    :key="question.localizableStrings.nameOfVariable.renderedHtml"
+    :class="question.cssClasses.text"
+  >
+    <span>{{ state.value }}</span>
   </div>
 </template>
 
@@ -16,15 +19,12 @@ export default defineComponent({
   setup(props) {
     const state = reactive({
       key: 1,
-      result: ""
+      value: ""
     });
 
     //Need to bind to this to be reactive.
     const nameOfVariable = props.question.createLocalizableString("nameOfVariable", this);
     props.question.setLocalizableStringText("nameOfVariable", props.question.nameOfVariable);
-    const handleNameOfVariableTemplate = () => {
-      return `<div>${nameOfVariable.renderedHtml}</div>`;
-    };
 
     onMounted(() => {
       const q = props.question;
@@ -133,24 +133,25 @@ export default defineComponent({
           .processText(props.question.nameOfVariable, true);
         text = convertTicksToToolTip(text);
 
-        // We want to update result if we get here.
+        // We want to update value if we get here.
         if (props.question.dateType === "Name of Variable") {
-          state.result = dateFormatter(
+          state.value = dateFormatter(
             calcWithDaysType(
               dateFromNameOfVariable(text),
               props.question.daysToOffset,
               props.question.typeOfDays
             )
           );
-          q.value = state.result;
-          q.calculatedResult = state.result;
+          q.value = state.value;
+          q.calculatedResult = state.value;
         }
         return text;
       };
 
-      state.result = calcDate();
-      q.value = state.result;
-      q.calculatedResult = state.result;
+      state.value = calcDate();
+      q.value = state.value;
+      q.calculatedResult = state.value;
+
 
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
@@ -181,8 +182,7 @@ export default defineComponent({
     });
 
     return {
-      state,
-      handleNameOfVariableTemplate
+      state
     };
   }
 });
