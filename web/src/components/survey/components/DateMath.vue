@@ -3,7 +3,7 @@
 </template>
 
 <script language="ts">
-import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+import { onMounted, onBeforeUnmount, defineComponent, reactive } from "@vue/composition-api";
 import { convertTicksToToolTip } from "@/components/utils/utils";
 import { HolidayHelper } from "@/components/utils/holiday";
 export default defineComponent({
@@ -14,7 +14,7 @@ export default defineComponent({
   setup(props) {
     const state = reactive({
       key: 1,
-      result: 0
+      result: ""
     });
 
     //Need to bind to this to be reactive.
@@ -26,15 +26,6 @@ export default defineComponent({
 
     onMounted(() => {
       const q = props.question;
-
-      //Need this to assign our new body.
-      nameOfVariable.onGetTextCallback = text => {
-        text = props.question.survey
-          .getTextProcessor()
-          .processText(props.question.nameOfVariable, true);
-        text = convertTicksToToolTip(text);
-        return text;
-      };
 
       const getDate = (year, monthName, day) => {
         const months = [
@@ -78,7 +69,6 @@ export default defineComponent({
           if (dayOfWeek >= 1 && dayOfWeek <= 5 && !holiday) {
             daysAdded++;
           }
-
           date.setDate(date.getDate() + 1);
         }
         return date;
@@ -94,14 +84,22 @@ export default defineComponent({
       };
 
       function dateFromNameOfVariable(stringDate) {
-        if (stringDate.includes("{") || stringDate.includes("}")) {
-          // just a dummy return to keep things moving
-          return new Date();
+        if ((stringDate.includes("{") && stringDate.includes("}")) || !stringDate) {
+          // If we don't have the value set yet, then just default to today for now.
+          // Extra steps are to ensure time is at midnight for holiday matching.
+          const today = new Date();
+          return new Date(today.getFullYear(), today.getMonth(), today.getDate());
         }
 
-        const date = new Date(stringDate);
-        // for some reason the date is one short, add it in
-        date.setDate(date.getDate() + 1);
+        // For some reason the date is one short, add it in.
+        // Also taking the date from the string causes issues with time,
+        // which is why we have to reset it afterwards.
+        const dateFromStr = new Date(stringDate);
+        const date = new Date(
+          dateFromStr.getFullYear(),
+          dateFromStr.getMonth(),
+          dateFromStr.getDate() + 1
+        );
         return date;
       }
 
@@ -125,6 +123,25 @@ export default defineComponent({
             )
           );
         }
+      };
+
+      nameOfVariable.onGetTextCallback = text => {
+        text = props.question.survey
+          .getTextProcessor()
+          .processText(props.question.nameOfVariable, true);
+        text = convertTicksToToolTip(text);
+
+        // We want to update result if we get here.
+        if (props.question.dateType === "Name of Variable") {
+          state.result = dateFormatter(
+            calcWithDaysType(
+              dateFromNameOfVariable(text),
+              props.question.daysToOffset,
+              props.question.typeOfDays
+            )
+          );
+        }
+        return text;
       };
 
       state.result = dateMath();
