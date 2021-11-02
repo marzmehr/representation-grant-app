@@ -10,6 +10,7 @@ import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
 import ReviewAnswers from "./components/ReviewAnswers.vue";
+import DateMath from "./components/DateMath.vue";
 
 import EarliestSubmissionDate from "./components/EarliestSubmissionDate.vue";
 import VRuntimeTemplate from "v-runtime-template";
@@ -26,6 +27,7 @@ export function addQuestionTypesVue(Survey: any) {
   Vue.component("CustomDate", CustomDate);
   Vue.component("FormDownloadButton", FormDownloadButton);
   Vue.component("ReviewAnswers", ReviewAnswers);
+  Vue.component("DateMath", DateMath);
   Vue.component("EarliestSubmissionDate", EarliestSubmissionDate);
   //These override existing components:
   //https://github.com/surveyjs/survey-library/tree/master/src/vue

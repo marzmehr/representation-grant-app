@@ -1,12 +1,19 @@
 <template>
-  <div :key="state.key" :class="question.cssClasses.text">{{ state.result }}</div>
+  <div :key="state.key" :class="question.cssClasses.text">
+    <span>{{ state.result }}</span>
+  </div>
 </template>
 
 <script language="ts">
-import { onMounted, onBeforeUnmount, defineComponent, reactive } from "@vue/composition-api";
+import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+import VRuntimeTemplate from "v-runtime-template";
 import { convertTicksToToolTip } from "@/components/utils/utils";
 import { HolidayHelper } from "@/components/utils/holiday";
 export default defineComponent({
+  name: "datemath",
+  components: {
+    VRuntimeTemplate
+  },
   props: {
     question: Object,
     isSurveyEditor: Boolean
@@ -23,8 +30,9 @@ export default defineComponent({
     const handleNameOfVariableTemplate = () => {
       return `<div>${nameOfVariable.renderedHtml}</div>`;
     };
-
+    
     onMounted(() => {
+      debugger;
       const q = props.question;
 
       const getDate = (year, monthName, day) => {
