@@ -140,11 +140,13 @@ export default defineComponent({
               props.question.typeOfDays
             )
           );
+          q.value = state.result;
         }
         return text;
       };
 
       state.result = dateMath();
+      q.value = state.result;
 
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
