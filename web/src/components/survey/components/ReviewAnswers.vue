@@ -27,7 +27,6 @@ import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import VRuntimeTemplate from "v-runtime-template";
 import { convertTicksToToolTip } from "@/components/utils/utils";
 export default defineComponent({
-  name: "reviewanswers",
   components: {
     VRuntimeTemplate
   },
@@ -67,12 +66,12 @@ export default defineComponent({
       };
 
       const getReviewQuestions = reviewQuestions => {
-        let selected = new Set();
+        const selected = new Set();
         if (!reviewQuestions) {
           return selected;
         } else {
-          let questions = reviewQuestions.split(",");
-          for (let idx in questions) {
+          const questions = reviewQuestions.split(",");
+          for (const idx in questions) {
             selected.add(questions[idx]);
           }
           return selected;
@@ -86,7 +85,7 @@ export default defineComponent({
           return item + "\n";
         } else if (item === Object(item)) {
           let ret = "";
-          for (let key in item) {
+          for (const key in item) {
             ret += formatKey(key) + separator(key) + formatObject(item[key]);
           }
           return ret;
@@ -102,7 +101,7 @@ export default defineComponent({
       };
 
       const formatKey = str => {
-        let firstChar = str.charAt(0).toUpperCase();
+        const firstChar = str.charAt(0).toUpperCase();
         let capitalized = "";
 
         if (str.length > 1) {
@@ -140,8 +139,8 @@ export default defineComponent({
         let ret = "";
         let idx = 0;
 
-        for (let key in answer) {
-          let title = labels[idx] || formatKey(key);
+        for (const key in answer) {
+          const title = labels[idx] || formatKey(key);
           ret += removeBackticks(title) + separator(title) + answer[key] + "\n";
           idx++;
         }
@@ -150,19 +149,20 @@ export default defineComponent({
 
       const dynamicPanelHandler = question => {
         // This does not handle nested panels, assumes you stop at one.
+        // eslint-disable-next-line prefer-const
         let answers = question.value;
         if (!answers) {
           return "";
         }
 
-        let panels = question?.panels;
+        const panels = question?.panels;
         let ret = "";
         for (let i = 0; i < answers.length; i++) {
-          let currAnswer = answers[i];
-          let currPanel = panels[i];
+          const currAnswer = answers[i];
+          const currPanel = panels[i];
 
           for (let j = 0; j < currPanel.questions.length; j++) {
-            let currQuestion = currPanel.questions[j];
+            const currQuestion = currPanel.questions[j];
 
             if (currQuestion.isVisible) {
               const formattedAnswer = formatSwitchboard(
@@ -171,7 +171,7 @@ export default defineComponent({
                 currQuestion.getType()
               );
 
-              let title = currQuestion.locTitle.htmlValues.default;
+              const title = currQuestion.locTitle.htmlValues.default;
               ret += removeBackticks(title) + separator(title) + formattedAnswer + "\n";
             }
           }
@@ -216,8 +216,8 @@ export default defineComponent({
       };
 
       const formatAnswers = question => {
-        let answer = question.value;
-        let questionType = question.getType();
+        const answer = question.value;
+        const questionType = question.getType();
 
         // special check we need to do for nested items
         if (questionType === "paneldynamic") {
@@ -228,10 +228,10 @@ export default defineComponent({
       };
 
       const buildQuestionAnswerTable = () => {
-        let questions = q.survey.getAllQuestions();
-        let selected = getReviewQuestions(q.reviewQuestions);
+        const questions = q.survey.getAllQuestions();
+        const selected = getReviewQuestions(q.reviewQuestions);
 
-        for (let select of selected) {
+        for (const select of selected) {
           for (let j = 0; j < questions.length - 1; j++) {
             if (select === questions[j].name && questions[j].isVisible) {
               state.results.push({
