@@ -14,6 +14,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { v4 } from "uuid";
+import showdown from "showdown";
 import glossaryJson from "../glossary.json";
 
 @Component
@@ -27,7 +28,9 @@ export default class Tooltip extends Vue {
   mounted() {
     this.index = v4();
     this.description =
-      this.title.toLowerCase() in glossaryJson ? glossaryJson[this.title.toLowerCase()] : null;
+      this.title.toLowerCase() in glossaryJson
+        ? new showdown.Converter().makeHtml(glossaryJson[this.title.toLowerCase()])
+        : null;
   }
 }
 Vue.component("tooltip", Tooltip);
