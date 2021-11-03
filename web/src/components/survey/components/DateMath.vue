@@ -49,9 +49,9 @@ export default defineComponent({
       };
 
       const calcBusinessDays = (date, offset) => {
-        const range = 2; // some day we may want to make this more flexible
+        const yearRange = 2; // some day we may want to make this more flexible
         let holidays = {};
-        for (let i = -range; i <= range; i++) {
+        for (let i = -yearRange; i <= yearRange; i++) {
           holidays = Object.assign({}, holidays, HolidayHelper.bcStats(date.getFullYear() + i));
         }
 
