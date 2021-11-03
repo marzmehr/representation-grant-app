@@ -15,19 +15,19 @@ import DateMath from "./components/DateMath.vue";
 import { addCustomExpressions } from "./survey-expressions";
 
 export enum WidgetValueName {
-  HelpText = "HelpText",
-  InfoText = "InfoText",
-  FormDownloadButton = "FormDownloadButton",
-  YesNo = "YesNo",
-  AddressInfo = "AddressInfo",
-  PersonName = "PersonName",
-  ContactInfo = "ContactInfo",
-  CustomDate = "CustomDate",
-  ReviewAnswers = "ReviewAnswers",
-  EarliestSubmissionDate = "EarliestSubmissionDate",
-  expressionFix = "expressionFix",
-  textImprovements = "textImprovements",
-  DateMath = "DateMath"
+  HelpText,
+  InfoText,
+  FormDownloadButton,
+  YesNo,
+  AddressInfo,
+  PersonName,
+  ContactInfo,
+  CustomDate,
+  ReviewAnswers,
+  EarliestSubmissionDate,
+  expressionFix,
+  textImprovements,
+  DateMath
 }
 
 function initHelpText(Survey: any) {
