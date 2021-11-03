@@ -10,7 +10,7 @@ import "@/store/modules/common";
 const commonState = namespace("Common");
 import * as SurveyCreator from "survey-creator";
 import "survey-creator/survey-creator.css";
-import { addToolboxOptions, addQuestionTypes } from "./question-types";
+import { addToolboxOptions, addQuestionTypes } from "./question-types/question-types";
 import { addCustomTemplating } from "./survey-templating";
 import * as widgets from "surveyjs-widgets";
 import * as SurveyKO from "survey-knockout";

@@ -38,9 +38,7 @@ export const HolidayHelper = {
       [`${HolidayHelper.canadaDay(year)}`]: "Canada Day",
       [`${HolidayHelper.bcDay(year)}`]: "BC Day",
       [`${HolidayHelper.labourDay(year)}`]: "Labour Day",
-      [`${HolidayHelper.truthReconciliationDay(
-        year
-      )}`]: "Truth and Reconciliation Day",
+      [`${HolidayHelper.truthReconciliationDay(year)}`]: "Truth and Reconciliation Day",
       [`${HolidayHelper.thanksgiving(year)}`]: "Thanksgiving",
       [`${HolidayHelper.remembranceDay(year)}`]: "Remembrance Day",
       [`${HolidayHelper.christmasDay(year)}`]: "Christmas Day",
@@ -85,8 +83,7 @@ export const HolidayHelper = {
   // Monday before May 25.  (18th - 24th)
   victoriaDay: function(year: number) {
     let victoriaDay = new Date(year, MonthOfYear.May, 18);
-    while (getDay(victoriaDay) != DayOfWeek.Monday)
-      victoriaDay = addDays(victoriaDay, 1);
+    while (getDay(victoriaDay) != DayOfWeek.Monday) victoriaDay = addDays(victoriaDay, 1);
 
     return victoriaDay;
   },
@@ -143,10 +140,7 @@ export const HolidayHelper = {
     i =
       i -
       Math.floor(i / 28) *
-        (1 -
-          Math.floor(i / 28) *
-            Math.floor(29 / (i + 1)) *
-            Math.floor((21 - n) / 11));
+        (1 - Math.floor(i / 28) * Math.floor(29 / (i + 1)) * Math.floor((21 - n) / 11));
     let j = year + Math.floor(year / 4) + i + 2 - c + Math.floor(c / 4);
     j = j - 7 * Math.floor(j / 7);
     const l = i - j;
