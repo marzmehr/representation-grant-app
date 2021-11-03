@@ -18,17 +18,17 @@ import StringViewer from "./components/outer-question/StringViewer.vue";
 import SurveyText from "./components/outer-question/SurveyText.vue";
 
 export function addQuestionTypesVue(Survey: any) {
-  Vue.component(WidgetValueName.HelpText, HelpText);
-  Vue.component(WidgetValueName.InfoText, InfoText);
-  Vue.component(WidgetValueName.YesNo, YesNo);
-  Vue.component(WidgetValueName.AddressInfo, AddressInfo);
-  Vue.component(WidgetValueName.PersonName, PersonName);
-  Vue.component(WidgetValueName.ContactInfo, ContactInfo);
-  Vue.component(WidgetValueName.CustomDate, CustomDate);
-  Vue.component(WidgetValueName.FormDownloadButton, FormDownloadButton);
-  Vue.component(WidgetValueName.ReviewAnswers, ReviewAnswers);
-  Vue.component(WidgetValueName.DateMath, DateMath);
-  Vue.component(WidgetValueName.EarliestSubmissionDate, EarliestSubmissionDate);
+  Vue.component(WidgetValueName[WidgetValueName.HelpText], HelpText);
+  Vue.component(WidgetValueName[WidgetValueName.InfoText], InfoText);
+  Vue.component(WidgetValueName[WidgetValueName.YesNo], YesNo);
+  Vue.component(WidgetValueName[WidgetValueName.AddressInfo], AddressInfo);
+  Vue.component(WidgetValueName[WidgetValueName.PersonName], PersonName);
+  Vue.component(WidgetValueName[WidgetValueName.ContactInfo], ContactInfo);
+  Vue.component(WidgetValueName[WidgetValueName.CustomDate], CustomDate);
+  Vue.component(WidgetValueName[WidgetValueName.FormDownloadButton], FormDownloadButton);
+  Vue.component(WidgetValueName[WidgetValueName.ReviewAnswers], ReviewAnswers);
+  Vue.component(WidgetValueName[WidgetValueName.DateMath], DateMath);
+  Vue.component(WidgetValueName[WidgetValueName.EarliestSubmissionDate], EarliestSubmissionDate);
   //These override existing components:
   //https://github.com/surveyjs/survey-library/tree/master/src/vue
   Vue.component("survey-text", SurveyText);
