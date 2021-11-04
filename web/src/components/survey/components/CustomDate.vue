@@ -20,12 +20,7 @@
           @change="updated('month')"
         >
           <option value="">(Month)</option>
-          <option
-            v-for="(monthname, monthidx) of monthOptions"
-            :key="monthidx"
-            :value="'' + (monthidx + 1)"
-            >{{ monthname }}</option
-          >
+          <option v-for="month of monthOptions" :key="month" :value="month">{{ month }}</option>
         </select>
         <select
           ref="day"
@@ -51,20 +46,6 @@ export default {
   data() {
     return {
       pendingValue: this.parseValue(this.question.value),
-      monthOptions: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ],
       value: this.question.value
     };
   },
@@ -113,6 +94,50 @@ export default {
         opts.push("" + yr);
       }
       return opts;
+    },
+    monthOptions() {
+      const q = this.question || {};
+      const p = this.pendingValue;
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ];
+      const opts = [];
+
+      if (p && p.year) {
+        let start = 0;
+        let end = 11;
+
+        if (q.pastDateHandler === "Earliest Date") {
+          const dateItems = q.earliestDate.split("-");
+          const earliestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
+          if (p.year == earliestDate.getFullYear()) {
+            start = earliestDate.getMonth();
+          }
+        }
+
+        if (q.futureDateHandler === "Latest Date") {
+          const dateItems = q.latestDate.split("-");
+          const latestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
+          if (p.year == latestDate.getFullYear()) {
+            end = latestDate.getMonth() + 1;
+          }
+        }
+
+        return months.slice(start, end);
+      }
+
+      return months;
     },
     dayOptions() {
       const p = this.pendingValue;
