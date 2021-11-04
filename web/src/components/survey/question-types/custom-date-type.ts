@@ -1,3 +1,4 @@
+import { GeneratedIdentifierFlags } from "typescript";
 import Vue from "vue";
 import CustomDate from "../components/CustomDate.vue";
 import { WidgetValueName } from "./question-types";
@@ -18,12 +19,62 @@ export function initCustomDate(Survey: any) {
       Survey.JsonObject.metaData.addClass("customdate", [], null, "empty");
       Survey.JsonObject.metaData.addProperties("customdate", [
         {
-          name: "dateYearsAhead:number",
-          default: 0
+          name: "futureDateHandler",
+          choices: ["Years Ahead", "Latest Date", "Future Reference Variable"]
         },
         {
-          name: "dateYearsBehind:number",
-          default: 100
+          name: "yearsAhead:number",
+          default: 0,
+          dependsOn: "futureDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.futureDateHandler === "Years Ahead";
+          }
+        },
+        {
+          name: "latestDate:datetime",
+          dependsOn: "futureDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.futureDateHandler === "Latest Date";
+          }
+        },
+        {
+          name: "futureReferenceVariable:text",
+          dependsOn: "futureDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.futureDateHandler === "Future Reference Variable";
+          }
+        },
+        {
+          name: "pastDateHandler",
+          choices: ["Years Behind", "Earliest Date", "Past Reference Variable"]
+        },
+        {
+          name: "yearsBehind:number",
+          default: 0,
+          dependsOn: "pastDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.pastDateHandler === "Years Behind";
+          }
+        },
+        {
+          name: "earliestDate:datetime",
+          dependsOn: "pastDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.pastDateHandler === "Earliest Date";
+          }
+        },
+        {
+          name: "pastReferenceVariable:text",
+          dependsOn: "pastDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.pastDateHandler === "Past Reference Variable";
+          }
         }
       ]);
     },
