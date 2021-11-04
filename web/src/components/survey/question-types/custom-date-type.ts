@@ -1,4 +1,3 @@
-import { GeneratedIdentifierFlags } from "typescript";
 import Vue from "vue";
 import CustomDate from "../components/CustomDate.vue";
 import { WidgetValueName } from "./question-types";
@@ -18,42 +17,6 @@ export function initCustomDate(Survey: any) {
     activatedByChanged: function(activatedBy: any) {
       Survey.JsonObject.metaData.addClass("customdate", [], null, "empty");
       Survey.JsonObject.metaData.addProperties("customdate", [
-        {
-          name: "futureDateHandler",
-          category: "general",
-          choices: ["Years Ahead", "Latest Date", "Future Reference Variable"]
-        },
-        {
-          name: "yearsAhead:number",
-          category: "general",
-          default: 0,
-          dependsOn: "futureDateHandler",
-          visibleIf: function(obj: any) {
-            if (!obj) return false;
-            return obj.futureDateHandler === "Years Ahead";
-          }
-        },
-        {
-          name: "latestDate",
-          category: "general",
-          dependsOn: "futureDateHandler",
-          visibleIf: function(obj: any) {
-            if (!obj) return false;
-            return obj.futureDateHandler === "Latest Date";
-          },
-          onPropertyEditorUpdate: function(obj: any, propertyEditor: any) {
-            propertyEditor.inputType = "date";
-          }
-        },
-        {
-          name: "futureReferenceVariable:text",
-          category: "general",
-          dependsOn: "futureDateHandler",
-          visibleIf: function(obj: any) {
-            if (!obj) return false;
-            return obj.futureDateHandler === "Future Reference Variable";
-          }
-        },
         {
           name: "pastDateHandler",
           category: "general",
@@ -88,6 +51,42 @@ export function initCustomDate(Survey: any) {
           visibleIf: function(obj: any) {
             if (!obj) return false;
             return obj.pastDateHandler === "Past Reference Variable";
+          }
+        },
+        {
+          name: "futureDateHandler",
+          category: "general",
+          choices: ["Years Ahead", "Latest Date", "Future Reference Variable"]
+        },
+        {
+          name: "yearsAhead:number",
+          category: "general",
+          default: 0,
+          dependsOn: "futureDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.futureDateHandler === "Years Ahead";
+          }
+        },
+        {
+          name: "latestDate",
+          category: "general",
+          dependsOn: "futureDateHandler",
+          visibileIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.futureDateHandler === "Latest Date";
+          },
+          onPropertyEditorUpdate: function(obj: any, propertyEditor: any) {
+            propertyEditor.inputType = "date";
+          }
+        },
+        {
+          name: "futureReferenceVariable:text",
+          category: "general",
+          dependsOn: "futureDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.futureDateHandler === "Future Reference Variable";
           }
         }
       ]);

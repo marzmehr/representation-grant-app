@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { first } from 'underscore';
 export default {
   props: {
     question: Object
@@ -70,28 +71,8 @@ export default {
   computed: {
     yearOptions() {
       const q = this.question || {};
-      console.log(q);
       let curYear = new Date().getFullYear();
       let firstYear = curYear;
-
-      // check selected cases
-      switch (q.futureDateHandler) {
-        case "Years Ahead":
-          console.log("using years ahead");
-          curYear += q.yearsAhead;
-          break;
-
-        case "Latest Date":
-          console.log("using latest date");
-          console.log(q.lastestDate);
-          curYear += q.latestDate.split("-")[0];
-          break;
-
-        case "Future Reference Variable":
-          console.log("using future reference variable");
-          console.log(q.futureReferenceVariable);
-          break;
-      }
 
       switch (q.pastDateHandler) {
         case "Years Behind":
@@ -101,12 +82,29 @@ export default {
 
         case "Earliest Date":
           console.log("using earliest date");
-          console.log(q.earliestDate);
+          firstYear = parseInt(q.earliestDate.split("-")[0]);
           break;
 
         case "Past Reference Variable":
           console.log("using past reference variable");
           console.log(q.pastReferenceVariable);
+          break;
+      }
+
+      switch (q.futureDateHandler) {
+        case "Years Ahead":
+          console.log("using years ahead");
+          curYear += q.yearsAhead;
+          break;
+
+        case "Latest Date":
+          console.log("using latest date");
+          curYear = parseInt(q.latestDate.split("-")[0]);
+          break;
+
+        case "Future Reference Variable":
+          console.log("using future reference variable");
+          console.log(q.futureReferenceVariable);
           break;
       }
 
