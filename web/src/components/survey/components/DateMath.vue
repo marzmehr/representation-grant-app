@@ -30,6 +30,10 @@ export default defineComponent({
       const q = props.question;
 
       const calcBusinessDays = (date, offset) => {
+        if (offset === 0) {
+          return date;
+        }
+
         const yearRange = 2; // some day we may want to make this more flexible
         let holidays = {};
         for (let i = -yearRange; i <= yearRange; i++) {
@@ -38,8 +42,9 @@ export default defineComponent({
 
         let daysCounted = 0;
         const crement = offset >= 0 ? 1 : -1;
+
         while (daysCounted !== offset) {
-          // debugger;
+          date.setDate(date.getDate() + crement);
           const dayOfWeek = date.getDay();
           let holiday = false;
 
@@ -54,7 +59,6 @@ export default defineComponent({
           if (dayOfWeek >= 1 && dayOfWeek <= 5 && !holiday) {
             daysCounted += crement;
           }
-          date.setDate(date.getDate() + crement);
         }
         return date;
       };
