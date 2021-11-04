@@ -70,9 +70,46 @@ export default {
   computed: {
     yearOptions() {
       const q = this.question || {};
+      console.log(q);
       let curYear = new Date().getFullYear();
-      const firstYear = curYear - (q.dateYearsBehind || 0);
-      curYear += q.dateYearsAhead || 0;
+      let firstYear = curYear;
+
+      // check selected cases
+      switch (q.futureDateHandler) {
+        case "Years Ahead":
+          console.log("using years ahead");
+          curYear += q.yearsAhead;
+          break;
+
+        case "Latest Date":
+          console.log("using latest date");
+          console.log(q.lastestDate);
+          curYear += q.latestDate.split("-")[0];
+          break;
+
+        case "Future Reference Variable":
+          console.log("using future reference variable");
+          console.log(q.futureReferenceVariable);
+          break;
+      }
+
+      switch (q.pastDateHandler) {
+        case "Years Behind":
+          console.log("using years behind");
+          firstYear -= q.yearsBehind;
+          break;
+
+        case "Earliest Date":
+          console.log("using earliest date");
+          console.log(q.earliestDate);
+          break;
+
+        case "Past Reference Variable":
+          console.log("using past reference variable");
+          console.log(q.pastReferenceVariable);
+          break;
+      }
+
       const opts = [];
       for (let yr = curYear; yr >= firstYear; yr--) {
         opts.push("" + yr);

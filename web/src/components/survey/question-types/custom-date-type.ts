@@ -20,10 +20,12 @@ export function initCustomDate(Survey: any) {
       Survey.JsonObject.metaData.addProperties("customdate", [
         {
           name: "futureDateHandler",
+          category: "general",
           choices: ["Years Ahead", "Latest Date", "Future Reference Variable"]
         },
         {
           name: "yearsAhead:number",
+          category: "general",
           default: 0,
           dependsOn: "futureDateHandler",
           visibleIf: function(obj: any) {
@@ -32,15 +34,20 @@ export function initCustomDate(Survey: any) {
           }
         },
         {
-          name: "latestDate:datetime",
+          name: "latestDate",
+          category: "general",
           dependsOn: "futureDateHandler",
           visibleIf: function(obj: any) {
             if (!obj) return false;
             return obj.futureDateHandler === "Latest Date";
+          },
+          onPropertyEditorUpdate: function(obj: any, propertyEditor: any) {
+            propertyEditor.inputType = "date";
           }
         },
         {
           name: "futureReferenceVariable:text",
+          category: "general",
           dependsOn: "futureDateHandler",
           visibleIf: function(obj: any) {
             if (!obj) return false;
@@ -49,10 +56,12 @@ export function initCustomDate(Survey: any) {
         },
         {
           name: "pastDateHandler",
+          category: "general",
           choices: ["Years Behind", "Earliest Date", "Past Reference Variable"]
         },
         {
           name: "yearsBehind:number",
+          category: "general",
           default: 0,
           dependsOn: "pastDateHandler",
           visibleIf: function(obj: any) {
@@ -61,15 +70,20 @@ export function initCustomDate(Survey: any) {
           }
         },
         {
-          name: "earliestDate:datetime",
+          name: "earliestDate",
+          category: "general",
           dependsOn: "pastDateHandler",
           visibleIf: function(obj: any) {
             if (!obj) return false;
             return obj.pastDateHandler === "Earliest Date";
+          },
+          onPropertyEditorUpdate: function(obj: any, propertyEditor: any) {
+            propertyEditor.inputType = "date";
           }
         },
         {
           name: "pastReferenceVariable:text",
+          category: "general",
           dependsOn: "pastDateHandler",
           visibleIf: function(obj: any) {
             if (!obj) return false;
