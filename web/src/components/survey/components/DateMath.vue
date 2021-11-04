@@ -1,6 +1,6 @@
 <template>
   <div
-    :key="question.localizableStrings.nameOfVariable.renderedHtml"
+    :key="question.localizableStrings.referenceVariable.renderedHtml"
     :class="question.cssClasses.text"
   >
     <span>{{ state.value }}</span>
@@ -23,30 +23,11 @@ export default defineComponent({
     });
 
     //Need to bind to this to be reactive.
-    const nameOfVariable = props.question.createLocalizableString("nameOfVariable", this);
-    props.question.setLocalizableStringText("nameOfVariable", props.question.nameOfVariable);
+    const referenceVariable = props.question.createLocalizableString("referenceVariable", this);
+    props.question.setLocalizableStringText("referenceVariable", props.question.referenceVariable);
 
     onMounted(() => {
       const q = props.question;
-
-      const getDate = (year, monthName, day) => {
-        const months = [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December"
-        ];
-        const month = months.indexOf(monthName);
-        return new Date(year, month, day);
-      };
 
       const calcBusinessDays = (date, offset) => {
         const yearRange = 2; // some day we may want to make this more flexible
@@ -55,8 +36,10 @@ export default defineComponent({
           holidays = Object.assign({}, holidays, HolidayHelper.bcStats(date.getFullYear() + i));
         }
 
-        let daysAdded = 0;
-        while (daysAdded < offset) {
+        let daysCounted = 0;
+        const crement = offset >= 0 ? 1 : -1;
+        while (daysCounted !== offset) {
+          // debugger;
           const dayOfWeek = date.getDay();
           let holiday = false;
 
@@ -69,34 +52,22 @@ export default defineComponent({
 
           // calc for weekends
           if (dayOfWeek >= 1 && dayOfWeek <= 5 && !holiday) {
-            daysAdded++;
+            daysCounted += crement;
           }
-          date.setDate(date.getDate() + 1);
+          date.setDate(date.getDate() + crement);
         }
         return date;
       };
 
-      const calcWithDaysType = (date, offset, daysType) => {
-        if (daysType === "Calendar Days") {
-          date.setDate(date.getDate() + offset);
-          return date;
-        } else if (daysType === "Business Days") {
-          return calcBusinessDays(date, offset);
-        }
-      };
-
-      function dateFromNameOfVariable(stringDate) {
-        if ((stringDate.includes("{") && stringDate.includes("}")) || !stringDate) {
-          // If we don't have the value set yet, then just default to today for now.
-          // Extra steps are to ensure time is at midnight for holiday matching.
-          const today = new Date();
-          return new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      function dateFromNameOfVariable(dateString) {
+        if ((dateString.includes("{") && dateString.includes("}")) || !dateString) {
+          return;
         }
 
         // For some reason the date is one short, add it in.
         // Also taking the date from the string causes issues with time,
         // which is why we have to reset it afterwards.
-        const dateFromStr = new Date(stringDate);
+        const dateFromStr = new Date(dateString);
         const date = new Date(
           dateFromStr.getFullYear(),
           dateFromStr.getMonth(),
@@ -109,49 +80,38 @@ export default defineComponent({
         return date.toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" });
       };
 
-      const calcDate = () => {
-        const dateType = q.dateType;
+      const calcDate = dateString => {
+        const date = dateFromNameOfVariable(dateString);
         const offset = q.daysToOffset;
         const daysType = q.typeOfDays;
 
-        if (dateType === "Reference Date") {
-          return dateFormatter(calcWithDaysType(getDate(q.year, q.month, q.day), offset, daysType));
-        } else if (dateType === "Name of Variable") {
-          return dateFormatter(
-            calcWithDaysType(
-              dateFromNameOfVariable(q.localizableStrings.nameOfVariable.renderedHtml),
-              offset,
-              daysType
-            )
-          );
+        if (!date) {
+          return "";
         }
-      };
 
-      nameOfVariable.onGetTextCallback = text => {
+        if (daysType === "Calendar Days") {
+          date.setDate(date.getDate() + offset);
+          return dateFormatter(date);
+        } else if (daysType === "Business Days") {
+          return dateFormatter(calcBusinessDays(date, offset));
+        }
+      }
+
+      referenceVariable.onGetTextCallback = text => {
         text = props.question.survey
           .getTextProcessor()
-          .processText(props.question.nameOfVariable, true);
+          .processText(props.question.referenceVariable, true);
         text = convertTicksToToolTip(text);
 
         // We want to update value if we get here.
-        if (props.question.dateType === "Name of Variable") {
-          state.value = dateFormatter(
-            calcWithDaysType(
-              dateFromNameOfVariable(text),
-              props.question.daysToOffset,
-              props.question.typeOfDays
-            )
-          );
-          q.value = state.value;
-          q.calculatedResult = state.value;
-        }
+        state.value = dateFormatter(calcDate(text));
+        q.value = state.value;
+
         return text;
       };
 
-      state.value = calcDate();
+      state.value = calcDate(q.localizableStrings.referenceVariable.renderedHtml);
       q.value = state.value;
-      q.calculatedResult = state.value;
-
 
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
@@ -175,7 +135,7 @@ export default defineComponent({
           state.key++;
         });
 
-        q.registerFunctionOnPropertyValueChanged("nameOfVariable", () => {
+        q.registerFunctionOnPropertyValueChanged("referenceVariable", () => {
           state.key++;
         });
       }
