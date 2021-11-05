@@ -51,7 +51,9 @@ export default {
   data() {
     return {
       pendingValue: this.parseValue(this.question.value),
-      value: this.question.value
+      value: this.question.value,
+      pastDate: "",
+      futureDate: ""
     };
   },
   computed: {
@@ -70,8 +72,7 @@ export default {
           break;
 
         case "Past Reference Variable":
-          console.log("using past reference variable");
-          console.log(q.pastReferenceVariable);
+          firstYear = parseInt(this.pastDate.split("-")[0]) || firstYear;
           break;
       }
 
@@ -85,8 +86,7 @@ export default {
           break;
 
         case "Future Reference Variable":
-          console.log("using future reference variable");
-          console.log(q.futureReferenceVariable);
+          curYear = parseInt(this.futureDate.split("-")[0]) || curYear;
           break;
       }
 
@@ -210,6 +210,26 @@ export default {
   },
   mounted() {
     const q = this.question;
+
+    //Need to bind to these to be reactive.
+    const pastReferenceVariable = q.createLocalizableString("pastReferenceVariable", this);
+    const futureReferenceVariable = q.createLocalizableString("futureReferenceVariable", this);
+
+    q.setLocalizableStringText("pastReferenceVariable", q.pastReferenceVariable);
+    q.setLocalizableStringText("futureReferenceVariable", q.futureReferenceVariable);
+
+    pastReferenceVariable.onGetTextCallback = text => {
+      text = q.survey.getTextProcessor().processText(q.pastReferenceVariable, true);
+      this.pastDate = text;
+      return text;
+    };
+
+    futureReferenceVariable.onGetTextCallback = text => {
+      text = q.survey.getTextProcessor().processText(q.futureReferenceVariable, true);
+      this.futureDate = text;
+      return text;
+    };
+
     q.valueChangedCallback = () => {
       const pending = this.parseValue(q.value);
       if (pending.year) {

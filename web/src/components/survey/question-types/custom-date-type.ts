@@ -48,6 +48,7 @@ export function initCustomDate(Survey: any) {
           name: "pastReferenceVariable:text",
           category: "general",
           dependsOn: "pastDateHandler",
+          localized: true,
           visibleIf: function(obj: any) {
             if (!obj) return false;
             return obj.pastDateHandler === "Past Reference Variable";
@@ -72,7 +73,7 @@ export function initCustomDate(Survey: any) {
           name: "latestDate",
           category: "general",
           dependsOn: "futureDateHandler",
-          visibileIf: function(obj: any) {
+          visibleIf: function(obj: any) {
             if (!obj) return false;
             return obj.futureDateHandler === "Latest Date";
           },
