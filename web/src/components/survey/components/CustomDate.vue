@@ -20,7 +20,12 @@
           @change="updated('month')"
         >
           <option value="">(Month)</option>
-          <option v-for="month of monthOptions" :key="month" :value="month">{{ month }}</option>
+          <option
+            v-for="(monthname, monthidx) of monthOptions"
+            :key="monthidx"
+            :value="'' + monthidx"
+            >{{ monthname }}</option
+          >
         </select>
         <select
           ref="day"
@@ -57,12 +62,10 @@ export default {
 
       switch (q.pastDateHandler) {
         case "Years Behind":
-          console.log("using years behind");
           firstYear -= q.yearsBehind;
           break;
 
         case "Earliest Date":
-          console.log("using earliest date");
           firstYear = parseInt(q.earliestDate.split("-")[0]);
           break;
 
@@ -74,12 +77,10 @@ export default {
 
       switch (q.futureDateHandler) {
         case "Years Ahead":
-          console.log("using years ahead");
           curYear += q.yearsAhead;
           break;
 
         case "Latest Date":
-          console.log("using latest date");
           curYear = parseInt(q.latestDate.split("-")[0]);
           break;
 
@@ -98,20 +99,20 @@ export default {
     monthOptions() {
       const q = this.question || {};
       const p = this.pendingValue;
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ];
+      const months = {
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December"
+      };
       const opts = [];
 
       if (p && p.year) {
@@ -134,20 +135,47 @@ export default {
           }
         }
 
-        return months.slice(start, end);
+        // this is to maintain the key-value pair such that we can use them later
+        const calculatedMonths = {};
+        for (const month of Object.entries(months).slice(start, end)) {
+          calculatedMonths[month[0]] = month[1];
+        }
+
+        return calculatedMonths;
       }
 
       return months;
     },
     dayOptions() {
+      const q = this.question || {};
       const p = this.pendingValue;
       const opts = [];
+
       if (p && p.year && p.month) {
-        const lastDay = new Date(parseInt(p.year, 10), parseInt(p.month, 10), 0).getDate();
-        for (let day = 1; day <= lastDay; day++) {
+        let start = 1;
+        let end = new Date(parseInt(p.year), parseInt(p.month), 0).getDate();
+
+        if (q.pastDateHandler === "Earliest Date") {
+          const dateItems = q.earliestDate.split("-");
+          const earliestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
+          if (p.year == earliestDate.getFullYear() && p.month == earliestDate.getMonth() + 1) {
+            start = earliestDate.getDate();
+          }
+        }
+
+        if (q.futureDateHandler === "Latest Date") {
+          const dateItems = q.latestDate.split("-");
+          const latestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
+          if (p.year == latestDate.getFullYear() && p.month == latestDate.getMonth() + 1) {
+            end = latestDate.getDate();
+          }
+        }
+
+        for (let day = start; day <= end; day++) {
           opts.push("" + day);
         }
       }
+
       return opts;
     }
   },
