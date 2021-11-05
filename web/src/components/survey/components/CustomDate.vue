@@ -52,8 +52,12 @@ export default {
     return {
       pendingValue: this.parseValue(this.question.value),
       value: this.question.value,
-      pastDate: "",
-      futureDate: ""
+      pastDate: this.question.survey
+        .getTextProcessor()
+        .processText(this.question.pastReferenceVariable, true),
+      futureDate: this.question.survey
+        .getTextProcessor()
+        .processText(this.question.futureReferenceVariable, true)
     };
   },
   computed: {
@@ -119,16 +123,28 @@ export default {
         let start = 0;
         let end = 11;
 
-        if (q.pastDateHandler === "Earliest Date") {
-          const dateItems = q.earliestDate.split("-");
+        if (
+          q.pastDateHandler === "Earliest Date" ||
+          q.pastDateHandler === "Past Reference Variable"
+        ) {
+          const dateItems =
+            q.pastDateHandler === "Earliest Date"
+              ? q.earliestDate.split("-")
+              : this.pastDate.split("-");
           const earliestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
           if (p.year == earliestDate.getFullYear()) {
             start = earliestDate.getMonth();
           }
         }
 
-        if (q.futureDateHandler === "Latest Date") {
-          const dateItems = q.latestDate.split("-");
+        if (
+          q.futureDateHandler === "Latest Date" ||
+          q.futureDateHandler === "Future Reference Variable"
+        ) {
+          const dateItems =
+            q.futureDateHandler === "Lastest Date"
+              ? q.lastest.split("-")
+              : this.futureDate.split("-");
           const latestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
           if (p.year == latestDate.getFullYear()) {
             end = latestDate.getMonth() + 1;
@@ -155,16 +171,28 @@ export default {
         let start = 1;
         let end = new Date(parseInt(p.year), parseInt(p.month), 0).getDate();
 
-        if (q.pastDateHandler === "Earliest Date") {
-          const dateItems = q.earliestDate.split("-");
+        if (
+          q.pastDateHandler === "Earliest Date" ||
+          q.pastDateHandler === "Past Reference Variable"
+        ) {
+          const dateItems =
+            q.pastDateHandler === "Earliest Date"
+              ? q.earliestDate.split("-")
+              : this.pastDate.split("-");
           const earliestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
           if (p.year == earliestDate.getFullYear() && p.month == earliestDate.getMonth() + 1) {
             start = earliestDate.getDate();
           }
         }
 
-        if (q.futureDateHandler === "Latest Date") {
-          const dateItems = q.latestDate.split("-");
+        if (
+          q.futureDateHandler === "Latest Date" ||
+          q.futureDateHandler === "Future Reference Variable"
+        ) {
+          const dateItems =
+            q.futureDateHandler === "Lastest Date"
+              ? q.lastest.split("-")
+              : this.futureDate.split("-");
           const latestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
           if (p.year == latestDate.getFullYear() && p.month == latestDate.getMonth() + 1) {
             end = latestDate.getDate();
