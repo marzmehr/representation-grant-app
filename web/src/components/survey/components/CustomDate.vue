@@ -42,39 +42,11 @@
   </div>
 </template>
 
-<script language="ts">
-import { onMounted, defineComponent, reactive } from "@vue/composition-api";
-export default defineComponent({
+<script>
+import { first } from 'underscore';
+export default {
   props: {
     question: Object
-  },
-  setup(props) {
-    const state = reactive({
-      key: 1
-    });
-    const q = props.question;
-
-    //Need to bind to these to be reactive.
-    const pastReferenceVariable = props.question.createLocalizableString(
-      "pastReferenceVariable",
-      this
-    );
-    props.question.setLocalizableStringText(
-      "pastReferenceVariable",
-      props.question.pastReferenceVariable
-    );
-    const futureReferenceVariable = props.question.createLocalizableString(
-      "futureReferenceVariable",
-      this
-    );
-    props.question.setLocalizableStringText(
-      "futureReferenceVariable",
-      props.question.nameOfVariable
-    );
-
-    return {
-      state
-    };
   },
   data() {
     return {
@@ -98,7 +70,8 @@ export default defineComponent({
           break;
 
         case "Past Reference Variable":
-          // you were going to start work on this stuff
+          console.log("using past reference variable");
+          console.log(q.pastReferenceVariable);
           break;
       }
 
@@ -112,6 +85,8 @@ export default defineComponent({
           break;
 
         case "Future Reference Variable":
+          console.log("using future reference variable");
+          console.log(q.futureReferenceVariable);
           break;
       }
 
@@ -231,17 +206,17 @@ export default defineComponent({
         if (field === "year") this.$refs.month.focus();
         else if (field === "month") this.$refs.day.focus();
       }
-    },
-    mount() {
-      const q = this.question;
-      q.valueChangedCallback = () => {
-        const pending = this.parseValue(q.value);
-        if (pending.year) {
-          this.pendingValue = pending;
-        }
-        this.value = pending;
-      };
     }
+  },
+  mounted() {
+    const q = this.question;
+    q.valueChangedCallback = () => {
+      const pending = this.parseValue(q.value);
+      if (pending.year) {
+        this.pendingValue = pending;
+      }
+      this.value = pending;
+    };
   }
-});
+};
 </script>
