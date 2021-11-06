@@ -20,7 +20,8 @@ export function initCustomDate(Survey: any) {
         {
           name: "pastDateHandler",
           category: "general",
-          choices: ["Years Behind", "Earliest Date", "Past Reference Variable"]
+          choices: ["Years Behind", "Earliest Date", "Past Reference Variable"],
+          default: "Years Behind"
         },
         {
           name: "yearsBehind:number",
@@ -57,7 +58,8 @@ export function initCustomDate(Survey: any) {
         {
           name: "futureDateHandler",
           category: "general",
-          choices: ["Years Ahead", "Latest Date", "Future Reference Variable"]
+          choices: ["Years Ahead", "Latest Date", "Future Reference Variable"],
+          default: "Years Ahead"
         },
         {
           name: "yearsAhead:number",
