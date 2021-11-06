@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import { first } from 'underscore';
 export default {
   props: {
     question: Object
@@ -66,32 +65,20 @@ export default {
       let curYear = new Date().getFullYear();
       let firstYear = curYear;
 
-      switch (q.pastDateHandler) {
-        case "Years Behind":
-          firstYear -= q.yearsBehind;
-          break;
-
-        case "Earliest Date":
-          firstYear = parseInt(q.earliestDate.split("-")[0]);
-          break;
-
-        case "Past Reference Variable":
-          firstYear = parseInt(this.pastDate.split("-")[0]) || firstYear;
-          break;
+      if (q.pastDateHandler === "Years Behind") {
+        firstYear -= q.yearsBehind;
+      } else if (q.pastDateHandler === "Earliest Date") {
+        firstYear = parseInt(q.earliestDate.split("-")[0]);
+      } else if (q.pastDateHandler === "Past Reference Variable") {
+        firstYear = parseInt(this.pastDate.split("-")[0]) || firstYear;
       }
 
-      switch (q.futureDateHandler) {
-        case "Years Ahead":
-          curYear += q.yearsAhead;
-          break;
-
-        case "Latest Date":
-          curYear = parseInt(q.latestDate.split("-")[0]);
-          break;
-
-        case "Future Reference Variable":
-          curYear = parseInt(this.futureDate.split("-")[0]) || curYear;
-          break;
+      if (q.futureDateHandler === "Years Ahead") {
+        curYear += q.yearsAhead;
+      } else if (q.futureDateHandler === "Latest Date") {
+        curYear = parseInt(q.latestDate.split("-")[0]);
+      } else if (q.futureDateHandler === "Future Reference Variable") {
+        curYear = parseInt(this.futureDate.split("-")[0]) || curYear;
       }
 
       const opts = [];
@@ -117,91 +104,82 @@ export default {
         11: "November",
         12: "December"
       };
-      const opts = [];
 
-      if (p && p.year) {
-        let start = 0;
-        let end = 11;
-
-        if (
-          q.pastDateHandler === "Earliest Date" ||
-          q.pastDateHandler === "Past Reference Variable"
-        ) {
-          const dateItems =
-            q.pastDateHandler === "Earliest Date"
-              ? q.earliestDate.split("-")
-              : this.pastDate.split("-");
-          const earliestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
-          if (p.year == earliestDate.getFullYear()) {
-            start = earliestDate.getMonth();
-          }
-        }
-
-        if (
-          q.futureDateHandler === "Latest Date" ||
-          q.futureDateHandler === "Future Reference Variable"
-        ) {
-          const dateItems =
-            q.futureDateHandler === "Lastest Date"
-              ? q.lastest.split("-")
-              : this.futureDate.split("-");
-          const latestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
-          if (p.year == latestDate.getFullYear()) {
-            end = latestDate.getMonth() + 1;
-          }
-        }
-
-        // this is to maintain the key-value pair such that we can use them later
-        const calculatedMonths = {};
-        for (const month of Object.entries(months).slice(start, end)) {
-          calculatedMonths[month[0]] = month[1];
-        }
-
-        return calculatedMonths;
+      if (!p || !p.year) {
+        return months;
       }
 
-      return months;
+      let startMonth = 0;
+      let endMonth = 12;
+
+      if (q.pastDateHandler !== "Years Behind") {
+        const pastDateItems = {
+          "Earliest Date": q.earliestDate.split("-"),
+          "Past Reference Variable": this.pastDate.split("-")
+        }[q.pastDateHandler];
+
+        const earliestDate = new Date(pastDateItems[0], pastDateItems[1] - 1, pastDateItems[2]);
+        startMonth = p.year == earliestDate.getFullYear() ? earliestDate.getMonth() : startMonth;
+      }
+
+      if (q.futureDateHandler !== "Years Ahead") {
+        const futureDateItems = {
+          "Latest Date": q.latestDate.split("-"),
+          "Future Reference Variable": this.futureDate.split("-")
+        }[q.futureDateHandler];
+
+        const latestDate = new Date(futureDateItems[0], futureDateItems[1] - 1, futureDateItems[2]);
+        endMonth = p.year == latestDate.getFullYear() ? latestDate.getMonth() + 1 : endMonth;
+      }
+
+      // this is to maintain the key-value pair such that we can use them later
+      const calculatedMonths = {};
+      for (const month of Object.entries(months).slice(startMonth, endMonth)) {
+        calculatedMonths[month[0]] = month[1];
+      }
+
+      return calculatedMonths;
     },
     dayOptions() {
       const q = this.question || {};
       const p = this.pendingValue;
       const opts = [];
 
-      if (p && p.year && p.month) {
-        let start = 1;
-        let end = new Date(parseInt(p.year), parseInt(p.month), 0).getDate();
+      if (!p || !p.year || !p.month) {
+        return opts;
+      }
 
-        if (
-          q.pastDateHandler === "Earliest Date" ||
-          q.pastDateHandler === "Past Reference Variable"
-        ) {
-          const dateItems =
-            q.pastDateHandler === "Earliest Date"
-              ? q.earliestDate.split("-")
-              : this.pastDate.split("-");
-          const earliestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
-          if (p.year == earliestDate.getFullYear() && p.month == earliestDate.getMonth() + 1) {
-            start = earliestDate.getDate();
-          }
-        }
+      let startDay = 1;
+      let endDay = new Date(parseInt(p.year), parseInt(p.month), 0).getDate();
 
-        if (
-          q.futureDateHandler === "Latest Date" ||
-          q.futureDateHandler === "Future Reference Variable"
-        ) {
-          const dateItems =
-            q.futureDateHandler === "Lastest Date"
-              ? q.lastest.split("-")
-              : this.futureDate.split("-");
-          const latestDate = new Date(dateItems[0], dateItems[1] - 1, dateItems[2]);
-          if (p.year == latestDate.getFullYear() && p.month == latestDate.getMonth() + 1) {
-            end = latestDate.getDate();
-          }
-        }
+      if (q.pastDateHandler !== "Years Behind") {
+        const pastDateItems = {
+          "Earliest Date": q.earliestDate.split("-"),
+          "Past Reference Variable": this.pastDate.split("-")
+        }[q.pastDateHandler];
 
-        for (let day = start; day <= end; day++) {
-          opts.push("" + day);
-        }
+        const earliestDate = new Date(pastDateItems[0], pastDateItems[1] - 1, pastDateItems[2]);
+        startDay =
+          p.year == earliestDate.getFullYear() && p.month == earliestDate.getMonth() + 1
+            ? earliestDate.getDate()
+            : startDay;
+      }
+
+      if (q.futureDateHandler !== "Years Ahead") {
+        const futureDateItems = {
+          "Latest Date": q.latestDate.split("-"),
+          "Future Reference Variable": this.futureDate.split("-")
+        }[q.futureDateHandler];
+
+        const latestDate = new Date(futureDateItems[0], futureDateItems[1] - 1, futureDateItems[2]);
+        endDay =
+          p.year == latestDate.getFullYear() && p.month == latestDate.getMonth() + 1
+            ? latestDate.getDate()
+            : endDay;
+      }
+
+      for (let day = startDay; day <= endDay; day++) {
+        opts.push("" + day);
       }
 
       return opts;
