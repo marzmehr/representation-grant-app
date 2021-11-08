@@ -1,0 +1,36 @@
+{
+  "pages": [
+   {
+    "name": "page1",
+    "elements": [
+     {
+      "type": "text",
+      "name": "earliestDate",
+      "title": "Earliest date",
+      "inputType": "date"
+     },
+     {
+      "type": "text",
+      "name": "latestDate",
+      "title": "Latest date",
+      "inputType": "date"
+     },
+     {
+      "type": "customdate",
+      "name": "question1",
+      "title": "Custom Date",
+      "pastDateHandler": "Past Reference Variable",
+      "yearsBehind": 5,
+      "earliestDate": "2021-04-12",
+      "pastReferenceVariable": "{earliestDate}",
+      "futureDateHandler": "Future Reference Variable",
+      "yearsAhead": 5,
+      "latestDate": "2021-11-21",
+      "futureReferenceVariable": "{latestDate}"
+     }
+    ],
+    "title": "Custom Date (Updated)"
+   }
+  ],
+  "textUpdateMode": "onTyping"
+ }
