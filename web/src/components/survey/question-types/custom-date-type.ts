@@ -18,12 +18,79 @@ export function initCustomDate(Survey: any) {
       Survey.JsonObject.metaData.addClass("customdate", [], null, "empty");
       Survey.JsonObject.metaData.addProperties("customdate", [
         {
-          name: "dateYearsAhead:number",
-          default: 0
+          name: "pastDateHandler",
+          category: "general",
+          choices: ["Years Behind", "Earliest Date", "Past Reference Variable"],
+          default: "Years Behind"
         },
         {
-          name: "dateYearsBehind:number",
-          default: 100
+          name: "yearsBehind:number",
+          category: "general",
+          default: 0,
+          dependsOn: "pastDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.pastDateHandler === "Years Behind";
+          }
+        },
+        {
+          name: "earliestDate",
+          category: "general",
+          dependsOn: "pastDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.pastDateHandler === "Earliest Date";
+          },
+          onPropertyEditorUpdate: function(obj: any, propertyEditor: any) {
+            propertyEditor.inputType = "date";
+          }
+        },
+        {
+          name: "pastReferenceVariable:text",
+          category: "general",
+          dependsOn: "pastDateHandler",
+          localized: true,
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.pastDateHandler === "Past Reference Variable";
+          }
+        },
+        {
+          name: "futureDateHandler",
+          category: "general",
+          choices: ["Years Ahead", "Latest Date", "Future Reference Variable"],
+          default: "Years Ahead"
+        },
+        {
+          name: "yearsAhead:number",
+          category: "general",
+          default: 0,
+          dependsOn: "futureDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.futureDateHandler === "Years Ahead";
+          }
+        },
+        {
+          name: "latestDate",
+          category: "general",
+          dependsOn: "futureDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.futureDateHandler === "Latest Date";
+          },
+          onPropertyEditorUpdate: function(obj: any, propertyEditor: any) {
+            propertyEditor.inputType = "date";
+          }
+        },
+        {
+          name: "futureReferenceVariable:text",
+          category: "general",
+          dependsOn: "futureDateHandler",
+          visibleIf: function(obj: any) {
+            if (!obj) return false;
+            return obj.futureDateHandler === "Future Reference Variable";
+          }
         }
       ]);
     },
