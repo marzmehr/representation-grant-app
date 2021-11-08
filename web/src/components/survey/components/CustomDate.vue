@@ -1,7 +1,13 @@
 <template>
-  <div class="form-inline date-select">
+  <div
+    :key="question.localizableStrings.pastReferenceVariable.renderedHtml"
+    class="form-inline date-select"
+  >
     <div class="row">
-      <div class="col-sm-12 pb-1">
+      <div
+        :key="question.localizableStrings.futureReferenceVariable.renderedHtml"
+        class="col-sm-12 pb-1"
+      >
         <select
           ref="year"
           class="form-control date-select-year mr-1"
@@ -46,6 +52,41 @@
 export default {
   props: {
     question: Object
+  },
+  setup(props) {
+    const q = props.question;
+
+    //Need to bind to these to be reactive.
+    q.createLocalizableString("pastReferenceVariable", this);
+    q.createLocalizableString("futureReferenceVariable", this);
+
+    q.setLocalizableStringText("pastReferenceVariable", q.pastReferenceVariable);
+    q.setLocalizableStringText("futureReferenceVariable", q.futureReferenceVariable);
+  },
+  mounted() {
+    const q = this.question;
+    const pastReferenceVariable = q.localizableStrings.pastReferenceVariable;
+    const futureReferenceVariable = q.localizableStrings.futureReferenceVariable;
+
+    pastReferenceVariable.onGetTextCallback = text => {
+      text = q.survey.getTextProcessor().processText(q.pastReferenceVariable, true);
+      this.pastDate = text;
+      return text;
+    };
+
+    futureReferenceVariable.onGetTextCallback = text => {
+      text = q.survey.getTextProcessor().processText(q.futureReferenceVariable, true);
+      this.futureDate = text;
+      return text;
+    };
+
+    q.valueChangedCallback = () => {
+      const pending = this.parseValue(q.value);
+      if (pending.year) {
+        this.pendingValue = pending;
+      }
+      this.value = pending;
+    };
   },
   data() {
     return {
@@ -213,36 +254,6 @@ export default {
         else if (field === "month") this.$refs.day.focus();
       }
     }
-  },
-  mounted() {
-    const q = this.question;
-
-    //Need to bind to these to be reactive.
-    const pastReferenceVariable = q.createLocalizableString("pastReferenceVariable", this);
-    const futureReferenceVariable = q.createLocalizableString("futureReferenceVariable", this);
-
-    q.setLocalizableStringText("pastReferenceVariable", q.pastReferenceVariable);
-    q.setLocalizableStringText("futureReferenceVariable", q.futureReferenceVariable);
-
-    pastReferenceVariable.onGetTextCallback = text => {
-      text = q.survey.getTextProcessor().processText(q.pastReferenceVariable, true);
-      this.pastDate = text;
-      return text;
-    };
-
-    futureReferenceVariable.onGetTextCallback = text => {
-      text = q.survey.getTextProcessor().processText(q.futureReferenceVariable, true);
-      this.futureDate = text;
-      return text;
-    };
-
-    q.valueChangedCallback = () => {
-      const pending = this.parseValue(q.value);
-      if (pending.year) {
-        this.pendingValue = pending;
-      }
-      this.value = pending;
-    };
   }
 };
 </script>
