@@ -44,7 +44,6 @@ export default defineComponent({
     onMounted(() => {
       const q = props.question;
 
-      // Helpful utility methods
       const signatureHandler = answer => {
         if (answer) {
           return "Signed";
@@ -60,11 +59,6 @@ export default defineComponent({
         }
       };
 
-      const removeBackticks = str => {
-        // convert ` into glossary tags
-        return convertTicksToToolTip(str);
-      };
-
       const getReviewQuestions = reviewQuestions => {
         const selected = new Set();
         if (!reviewQuestions) {
@@ -78,7 +72,19 @@ export default defineComponent({
         }
       };
 
-      // Formatters
+      const formatKey = str => {
+        const firstChar = str.charAt(0).toUpperCase();
+        let capitalized = "";
+
+        if (str.length > 1) {
+          capitalized = firstChar + str.slice(1);
+        } else if (str.length === 1) {
+          capitalized = firstChar;
+        }
+
+        return convertTicksToToolTip(capitalized);
+      };
+
       const formatObject = item => {
         // Base case for recursion
         if (item !== Object(item)) {
@@ -100,20 +106,6 @@ export default defineComponent({
         return ret;
       };
 
-      const formatKey = str => {
-        const firstChar = str.charAt(0).toUpperCase();
-        let capitalized = "";
-
-        if (str.length > 1) {
-          capitalized = firstChar + str.slice(1);
-        } else if (str.length === 1) {
-          capitalized = firstChar;
-        }
-
-        return removeBackticks(capitalized);
-      };
-
-      // Special case handlers
       const yesNoHandler = answer => {
         if (answer === "y") {
           return "Yes";
@@ -141,47 +133,9 @@ export default defineComponent({
 
         for (const key in answer) {
           const title = labels[idx] || formatKey(key);
-          ret += removeBackticks(title) + separator(title) + answer[key] + "\n";
+          ret += convertTicksToToolTip(title) + separator(title) + answer[key] + "\n";
           idx++;
         }
-        return ret;
-      };
-
-      const dynamicPanelHandler = question => {
-        // This does not handle nested panels, assumes you stop at one.
-        // eslint-disable-next-line prefer-const
-        let answers = question.value;
-        if (!answers) {
-          return "";
-        }
-
-        const panels = question?.panels;
-        let ret = "";
-        for (let i = 0; i < answers.length; i++) {
-          const currAnswer = answers[i];
-          const currPanel = panels[i];
-
-          for (let j = 0; j < currPanel.questions.length; j++) {
-            const currQuestion = currPanel.questions[j];
-
-            if (currQuestion.isVisible) {
-              const formattedAnswer = formatSwitchboard(
-                undefined,
-                currAnswer[currQuestion.name],
-                currQuestion.getType()
-              );
-
-              const title = currQuestion.locTitle.htmlValues.default;
-              ret += removeBackticks(title) + separator(title) + formattedAnswer + "\n";
-            }
-          }
-
-          // Ensure we don't add too many newlines
-          if (i < answers.length - 1) {
-            ret += "\n";
-          }
-        }
-
         return ret;
       };
 
@@ -215,6 +169,44 @@ export default defineComponent({
         }
       };
 
+      const dynamicPanelHandler = question => {
+        // This does not handle nested panels, assumes you stop at one.
+        // eslint-disable-next-line prefer-const
+        let answers = question.value;
+        if (!answers) {
+          return "";
+        }
+
+        const panels = question?.panels;
+        let ret = "";
+        for (let i = 0; i < answers.length; i++) {
+          const currAnswer = answers[i];
+          const currPanel = panels[i];
+
+          for (let j = 0; j < currPanel.questions.length; j++) {
+            const currQuestion = currPanel.questions[j];
+
+            if (currQuestion.isVisible) {
+              const formattedAnswer = formatSwitchboard(
+                undefined,
+                currAnswer[currQuestion.name],
+                currQuestion.getType()
+              );
+
+              const title = currQuestion.locTitle.htmlValues.default;
+              ret += convertTicksToToolTip(title) + separator(title) + formattedAnswer + "\n";
+            }
+          }
+
+          // Ensure we don't add too many newlines
+          if (i < answers.length - 1) {
+            ret += "\n";
+          }
+        }
+
+        return ret;
+      };
+
       const formatAnswers = question => {
         const answer = question.value;
         const questionType = question.getType();
@@ -235,7 +227,7 @@ export default defineComponent({
           for (let j = 0; j < questions.length - 1; j++) {
             if (select === questions[j].name && questions[j].isVisible) {
               state.results.push({
-                question: removeBackticks(questions[j].title),
+                question: convertTicksToToolTip(questions[j].title),
                 answer: formatAnswers(questions[j])
               });
             }
