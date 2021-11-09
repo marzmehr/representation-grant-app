@@ -153,6 +153,22 @@ export const addCustomExpressions = (Survey: any) => {
     return earliestSubmissionDate;
   };
 
+  //Parameters: {questionName} for date.
+  const dateFormatter = params => {
+    if (!params) return "";
+    if (!params[0]) return "";
+
+    const temp = new Date(params[0]);
+    // plugging in date is one day short for some reason,
+    // need to add back the extra
+    const date = new Date(temp.getFullYear(), temp.getMonth(), temp.getDate() + 1);
+    return date.toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+  };
+
   //Add this so ExpressionRunner can access it.
   FunctionFactory.Instance.register("listIntersect", listIntersect);
   FunctionFactory.Instance.register("listExcept", listExcept);
@@ -165,6 +181,7 @@ export const addCustomExpressions = (Survey: any) => {
   );
   FunctionFactory.Instance.register("getParticipants", getParticipants);
   FunctionFactory.Instance.register("getNonParticipants", getNonParticipants);
+  FunctionFactory.Instance.register("dateFormatter", dateFormatter);
 
   Survey.FunctionFactory.Instance.register("listIntersect", listIntersect);
   Survey.FunctionFactory.Instance.register("listExcept", listExcept);
@@ -180,4 +197,5 @@ export const addCustomExpressions = (Survey: any) => {
   );
   Survey.FunctionFactory.Instance.register("getParticipants", getParticipants);
   Survey.FunctionFactory.Instance.register("getNonParticipants", getNonParticipants);
+  Survey.FunctionFactory.Instance.register("dateFormatter", dateFormatter);
 };
