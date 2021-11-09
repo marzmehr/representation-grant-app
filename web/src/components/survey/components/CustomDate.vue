@@ -109,17 +109,18 @@ export default {
       if (q.pastDateHandler === "Years Behind") {
         firstYear -= q.yearsBehind;
       } else if (q.pastDateHandler === "Earliest Date") {
-        firstYear = parseInt(q.earliestDate.split("-")[0]);
+        console.log(q.earliestDate);
+        firstYear = q.earliestDate ? parseInt(q.earliestDate.split("-")[0]) : firstYear;
       } else if (q.pastDateHandler === "Past Reference Variable") {
-        firstYear = parseInt(this.pastDate.split("-")[0]) || firstYear;
+        firstYear = this.pastDate ? parseInt(this.pastDate.split("-")[0]) : firstYear;
       }
 
       if (q.futureDateHandler === "Years Ahead") {
         curYear += q.yearsAhead;
       } else if (q.futureDateHandler === "Latest Date") {
-        curYear = parseInt(q.latestDate.split("-")[0]);
+        curYear = q.latestDate ? parseInt(q.latestDate.split("-")[0]) : curYear;
       } else if (q.futureDateHandler === "Future Reference Variable") {
-        curYear = parseInt(this.futureDate.split("-")[0]) || curYear;
+        curYear = this.futureDate ? parseInt(this.futureDate.split("-")[0]) : curYear;
       }
 
       const opts = [];
@@ -155,8 +156,8 @@ export default {
 
       if (q.pastDateHandler !== "Years Behind") {
         const pastDateItems = {
-          "Earliest Date": q.earliestDate.split("-"),
-          "Past Reference Variable": this.pastDate.split("-")
+          "Earliest Date": q.earliestDate ? q.earliestDate.split("-") : "",
+          "Past Reference Variable": this.pastDate ? this.pastDate.split("-") : ""
         }[q.pastDateHandler];
 
         const earliestDate = new Date(pastDateItems[0], pastDateItems[1] - 1, pastDateItems[2]);
@@ -165,8 +166,8 @@ export default {
 
       if (q.futureDateHandler !== "Years Ahead") {
         const futureDateItems = {
-          "Latest Date": q.latestDate.split("-"),
-          "Future Reference Variable": this.futureDate.split("-")
+          "Latest Date": q.latestDate ? q.latestDate.split("-") : "",
+          "Future Reference Variable": this.futureDate ? this.futureDate.split("-") : ""
         }[q.futureDateHandler];
 
         const latestDate = new Date(futureDateItems[0], futureDateItems[1] - 1, futureDateItems[2]);
@@ -195,8 +196,8 @@ export default {
 
       if (q.pastDateHandler !== "Years Behind") {
         const pastDateItems = {
-          "Earliest Date": q.earliestDate.split("-"),
-          "Past Reference Variable": this.pastDate.split("-")
+          "Earliest Date": q.earliestDate ? q.earliestDate.split("-") : "",
+          "Past Reference Variable": this.pastDate ? this.pastDate.split("-") : ""
         }[q.pastDateHandler];
 
         const earliestDate = new Date(pastDateItems[0], pastDateItems[1] - 1, pastDateItems[2]);
@@ -208,8 +209,8 @@ export default {
 
       if (q.futureDateHandler !== "Years Ahead") {
         const futureDateItems = {
-          "Latest Date": q.latestDate.split("-"),
-          "Future Reference Variable": this.futureDate.split("-")
+          "Latest Date": q.latestDate ? q.latestDate.split("-") : "",
+          "Future Reference Variable": this.futureDate ? this.futureDate.split("-") : ""
         }[q.futureDateHandler];
 
         const latestDate = new Date(futureDateItems[0], futureDateItems[1] - 1, futureDateItems[2]);
