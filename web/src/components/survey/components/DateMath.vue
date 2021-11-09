@@ -64,7 +64,7 @@ export default defineComponent({
       };
 
       function dateFromNameOfVariable(dateString) {
-        if ((dateString.includes("{") && dateString.includes("}")) || !dateString) {
+        if (!dateString || (dateString.includes("{") && dateString.includes("}"))) {
           return;
         }
 
@@ -80,10 +80,6 @@ export default defineComponent({
         return date;
       }
 
-      const dateFormatter = date => {
-        return date.toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" });
-      };
-
       const calcDate = dateString => {
         const date = dateFromNameOfVariable(dateString);
         const offset = q.daysToOffset;
@@ -95,9 +91,9 @@ export default defineComponent({
 
         if (daysType === "Calendar Days") {
           date.setDate(date.getDate() + offset);
-          return dateFormatter(date);
+          return date;
         } else if (daysType === "Business Days") {
-          return dateFormatter(calcBusinessDays(date, offset));
+          return calcBusinessDays(date, offset);
         }
       }
 
@@ -108,7 +104,7 @@ export default defineComponent({
         text = convertTicksToToolTip(text);
 
         // We want to update value if we get here.
-        state.value = dateFormatter(calcDate(text));
+        state.value = calcDate(text);
         q.value = state.value;
 
         return text;
