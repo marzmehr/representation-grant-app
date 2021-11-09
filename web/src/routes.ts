@@ -8,6 +8,8 @@ import TermsConditions from "@/components/status/TermsConditions.vue";
 import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue";
 import { SessionManager } from "@/components/utils/utils";
 import SurveySandBox from "@/sandbox/components/SurveySandBox.vue";
+import FormP1 from "@/components/steps/submit/pdf/FormP1.vue";
+import FormP9 from "@/components/steps/submit/pdf/FormP9.vue";
 
 import store from "@/store";
 
@@ -86,6 +88,16 @@ const routes = [
     path: "/terms",
     name: "terms",
     component: TermsConditions
+  },
+  {
+    path: "/formp1",
+    component: FormP1,
+    beforeEnter: authGuardAdmin
+  },
+  {
+    path: "/formp9",
+    component: FormP9,
+    beforeEnter: authGuardAdmin
   },
   {
     path: "/sandbox1",
