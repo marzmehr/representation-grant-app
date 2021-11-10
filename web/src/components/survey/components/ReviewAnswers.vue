@@ -14,8 +14,8 @@
         <template v-slot:cell(question)="value">
           <v-runtime-template :template="`<div>${value.item.question}</div>`"></v-runtime-template>
         </template>
-        <template v-slot:cell(actions)="">
-          <span><b-btn v-on:click="navigateToQuestion()">Edit</b-btn></span>
+        <template v-slot:cell(actions)="value">
+          <span><b-btn v-on:click="navigateToQuestion(value.item.question, value.item.answer)">Edit</b-btn></span>
         </template>
       </b-table>
     </div>
@@ -267,9 +267,25 @@ export default defineComponent({
     };
   },
   methods: {
-    navigateToQuestion: function() {
-      this.question.survey.currentPageNo = 1;
-      this.question.survey.questions[2].focus();
+    navigateToQuestion: function(question, answer) {
+      console.log(question);
+      console.log(answer);
+
+      const questions = this.question.survey.getAllQuestions();
+
+      console.log("in loop");
+      for (const i in questions) {
+        console.log(questions[i]);
+        console.log(questions[i].title);
+        console.log(questions[i].value);
+        if (questions[i].title === question && questions[i].value === answer) {
+          console.log("we matched");
+          console.log(questions[i]);
+        }
+      }
+      // this.question.survey.currentPageNo = 0;
+    //   const questions = this.question.survey.getAllQuestions();
+    //   questions[3].focus();
     }
   }
 });
