@@ -1,0 +1,40 @@
+{
+  "pages": [
+   {
+    "name": "page1",
+    "elements": [
+     {
+      "type": "customdate",
+      "name": "question1",
+      "title": "Custom Date",
+      "pastDateHandler": "Earliest Date",
+      "earliestDate": "2014-03-31",
+      "yearsAhead": 15
+     },
+     {
+      "type": "datemath",
+      "name": "question2",
+      "title": "Date Math, +10 calendar days",
+      "referenceVariable": "{question1}",
+      "daysToOffset": 10
+     },
+     {
+      "type": "expression",
+      "name": "question3",
+      "visible": false,
+      "title": "Formatting for readability",
+      "expression": "dateFormatter({question2})"
+     },
+     {
+      "type": "customdate",
+      "name": "question4",
+      "title": "Using Date Math calc in Custom Date (earliest date is {question3})",
+      "pastDateHandler": "Past Reference Variable",
+      "pastReferenceVariable": "{question2}",
+      "yearsAhead": 15
+     }
+    ],
+    "title": "Date Widgets Example usage"
+   }
+  ]
+ }
