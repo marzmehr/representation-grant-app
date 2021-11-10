@@ -80,6 +80,14 @@ export default defineComponent({
         return date;
       }
 
+      function dateFormatter(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+
+        return year + "-" + month + "-" + day;
+      }
+
       const calcDate = dateString => {
         const date = dateFromNameOfVariable(dateString);
         const offset = q.daysToOffset;
@@ -91,9 +99,9 @@ export default defineComponent({
 
         if (daysType === "Calendar Days") {
           date.setDate(date.getDate() + offset);
-          return date;
+          return dateFormatter(date);
         } else if (daysType === "Business Days") {
-          return calcBusinessDays(date, offset);
+          return dateFormatter(calcBusinessDays(date, offset));
         }
       }
 

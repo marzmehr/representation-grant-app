@@ -109,7 +109,6 @@ export default {
       if (q.pastDateHandler === "Years Behind") {
         firstYear -= q.yearsBehind;
       } else if (q.pastDateHandler === "Earliest Date") {
-        console.log(q.earliestDate);
         firstYear = q.earliestDate ? parseInt(q.earliestDate.split("-")[0]) : firstYear;
       } else if (q.pastDateHandler === "Past Reference Variable") {
         firstYear = this.pastDate ? parseInt(this.pastDate.split("-")[0]) : firstYear;

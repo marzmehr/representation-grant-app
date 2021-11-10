@@ -158,15 +158,23 @@ export const addCustomExpressions = (Survey: any) => {
     if (!params) return "";
     if (!params[0]) return "";
 
-    const temp = new Date(params[0]);
-    // plugging in date is one day short for some reason,
-    // need to add back the extra
-    const date = new Date(temp.getFullYear(), temp.getMonth(), temp.getDate() + 1);
-    return date.toLocaleString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
+    const date = new Date(params[0]);
+    enum Months {
+      January,
+      February,
+      March,
+      April,
+      May,
+      June,
+      July,
+      August,
+      September,
+      October,
+      November,
+      December
+    }
+
+    return Months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
   };
 
   //Add this so ExpressionRunner can access it.
