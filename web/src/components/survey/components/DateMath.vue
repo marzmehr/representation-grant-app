@@ -85,7 +85,11 @@ export default defineComponent({
         const month = date.getMonth() + 1;
         const day = date.getDate();
 
-        return year + "-" + month + "-" + day;
+        let dt = year + "-";
+        dt += (month < 10 ? "0" : "") + month;
+        dt += "-" + (day < 10 ? "0" : "") + day;
+
+        return dt;
       }
 
       const calcDate = dateString => {

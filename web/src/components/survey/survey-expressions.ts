@@ -174,7 +174,7 @@ export const addCustomExpressions = (Survey: any) => {
       December
     }
 
-    return Months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+    return Months[date.getMonth()] + " " + (date.getDate() + 1) + ", " + date.getFullYear();
   };
 
   //Add this so ExpressionRunner can access it.
