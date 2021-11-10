@@ -1,36 +1,18 @@
 <template>
   <div>
-    <b-form-group>
-      <label style="display:inline-block; margin: 0 1rem 0 0;"
-        >Example of filled Form for:</label
-      >
-      <b-form-radio-group
-        style="display:inline-block"
-        v-model="multipleApplicant"
-        :options="[
-          { value: false, text: 'Single Applicant' },
-          { value: true, text: '10 (Multiple) Applicants' }
-        ]"
-        @change="changeApplicantList()"
-      ></b-form-radio-group>
-    </b-form-group>
     <b-button
       style="transform:translate(500px,0px)"
       variant="success"
       @click="onPrint()"
     >
-      Save
     </b-button>
-
     <b-card
       id="print"
       style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;"
       bg-variant="white"
       class="mt-4 mb-3"
     >
-      <div
-        style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;"
-      >
+      <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">
         FORM P9 (RULE 25-3 (2) )
       </div>
 
@@ -88,9 +70,7 @@
         </div>
       </div>
 
-      <div
-        style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;"
-      >
+      <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;">
         <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
       </div>
       <div style="display:inline-block; text-indent: 5px;">
@@ -105,16 +85,11 @@
       <div style="display:inline-block; text-indent: 5px;">
         <i>, deceased</i>
       </div>
-      <div
-        style="text-align:center;margin:2rem 0 2rem -1.3rem;font-weight: 600;font-size:20px;"
-      >
+      <div style="text-align:center;margin:2rem 0 2rem -1.3rem;font-weight: 600;font-size:20px;">
         AFFIDAVIT OF DELIVERY
       </div>
 
-      <div
-        v-if="applicantList.length > 1"
-        style="display:inline-block; text-indent: 5px;"
-      >
+      <div v-if="applicantList.length > 1" style="display:inline-block; text-indent: 5px;">
         We
       </div>
       <div v-else style="display:inline-block; text-indent: 5px;">I</div>
@@ -150,10 +125,7 @@
       >
         SWEAR (OR AFFIRM) JOINTLY THAT:
       </div>
-      <div
-        v-else
-        style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"
-      >
+      <div v-else style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">
         SWEAR (OR AFFIRM) THAT:
       </div>
 
@@ -161,8 +133,8 @@
         <!-- <1> -->
         <li class="mt-4 text-justify">
           <div style="display:inline;">
-            Attached to this affidavit and marked as Exhibit A is a copy of a
-            notice of proposed application in Form P1 (the "notice").
+            Attached to this affidavit and marked as Exhibit A is a copy of a notice of proposed
+            application in Form P1 (the "notice").
           </div>
         </li>
 
@@ -320,18 +292,15 @@
             text="I will retain a copy of those acknowledgements until the personal representative of the deceased is"
           />
           <div style="margin:0 0rem 0 4.5rem;">
-            discharged and will produce those acknowledgements promptly after
-            being requested to do so by the registrar.
+            discharged and will produce those acknowledgements promptly after being requested to do
+            so by the registrar.
           </div>
         </li>
 
         <!-- <3> -->
+        <!-- Keep this here for now.
         <li class="mt-4">
-          <div
-            class="mt-3"
-            v-for="(successor, i) in successorsRep"
-            :key="i + 200"
-          >
+          <div class="mt-3" v-for="(successor, i) in successorsRep" :key="i + 200">
             <underline-form
               v-if="applicantList.length > 1"
               style="display:inline-block;"
@@ -367,21 +336,19 @@
             />
           </div>
         </li>
-
-        <div v-if="applicantList.length < 2" class="new-page"></div>
+        -->
 
         <!-- <4> -->
+        <!-- Keep this here for now.
         <li class="mt-4 text-justify">
           <div v-if="applicantList.length > 1" style="display:inline;">
-            In accordance with Rule 25-2, we delivered a copy of the document(s)
-            referred to in section 2 to the Public Guardian and Trustee as
-            follows:
+            In accordance with Rule 25-2, we delivered a copy of the document(s) referred to in
+            section 2 to the Public Guardian and Trustee as follows:
           </div>
 
           <div v-else style="display:inline;">
-            In accordance with Rule 25-2, I delivered a copy of the document(s)
-            referred to in section 2 to the Public Guardian and Trustee as
-            follows:
+            In accordance with Rule 25-2, I delivered a copy of the document(s) referred to in
+            section 2 to the Public Guardian and Trustee as follows:
           </div>
           <check-box
             shift="0"
@@ -403,21 +370,15 @@
                     other electronic means to that person."
           />
         </li>
+        -->
       </ol>
 
       <div class="mt-5 row">
         <div class="col-6">
-          <div
-            style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;"
-          >
+          <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">
             SWORN (OR AFFIRMED) BEFORE ME
           </div>
-          <underline-form
-            textwidth="15rem"
-            beforetext="at"
-            hint="Commissioner City"
-            text="Victoria"
-          />
+          <underline-form textwidth="15rem" beforetext="at" hint="Commissioner City" text="" />
           <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
             , British Columbia
           </div>
@@ -427,7 +388,7 @@
             textwidth="24rem"
             beforetext="on"
             hint="Swear/Affirm Date"
-            text="20 Apr 2020"
+            text=""
           />
           <underline-form
             style="margin:0.5rem 0 ;"
@@ -520,214 +481,33 @@ export default class FormP9 extends Vue {
   };
 
   mounted() {
-    this.getRepGrantResultData();
     this.changeApplicantList();
   }
 
-  multipleApplicant = false;
   public changeApplicantList() {
     this.applicantList = [];
-    if (this.multipleApplicant) {
-      this.applicantList.push(
-        {
-          fullName: "Its first Son",
-          first: "Its",
-          middle: "first",
-          last: "Son",
-          address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "",
-          differentMail: "yes",
-          differentAddress: "New York, USA",
-          occupation: "worker",
-          city: "Victoria",
-          state: "BC",
-          country: "Canada",
-          section130: "(b)"
-        },
-        {
-          fullName: "Its first Daughter",
-          first: "Its",
-          middle: "first",
-          last: "Daughter",
-          address: "1-123 st, Victoria, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: "",
-          occupation: "work",
-          city: "Seattle",
-          state: "WA",
-          country: "USA",
-          section130: "(a)"
-        },
-        {
-          fullName: "Its second Son",
-          first: "Its",
-          middle: "second",
-          last: "Son",
-          address: "0000 st, Vancouver, BC, Canada V0v 0v0",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: "",
-          lawyer: "Its good lawyer",
-          occupation: "working",
-          city: "Seattle",
-          state: "WA",
-          country: "USA",
-          section130: "(c)"
-        },
-        {
-          fullName: "Its second Daughter",
-          first: "Its",
-          middle: "second",
-          last: "Daughter",
-          address: "1111 st, Vancouver, BC, Canada V0v 0v0",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: "",
-          occupation: "worker",
-          city: "Vancouver",
-          state: "BC",
-          country: "Canada",
-          section130: "(d)"
-        },
-        {
-          fullName: "Its third Son",
-          first: "Its",
-          middle: "third",
-          last: "Son",
-          address: "43-123 st, Victoria, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "",
-          differentMail: "yes",
-          differentAddress: "New York, USA",
-          occupation: "work",
-          city: "Seattle",
-          state: "WA",
-          country: "USA",
-          section130: "(d)"
-        },
-        {
-          fullName: "Its third Daughter",
-          first: "Its",
-          middle: "third",
-          last: "Daughter",
-          address: "100-123 st, Victoria, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: "",
-          occupation: "worker",
-          city: "Victoria",
-          state: "BC",
-          country: "Canada",
-          section130: "(e)"
-        },
-        {
-          fullName: "Its fourth Son",
-          first: "Its",
-          middle: "fourth",
-          last: "Son",
-          address: "7777 st, Vancouver, BC, Canada V0v 0v0",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: "",
-          lawyer: "Its good lawyer",
-          occupation: "work",
-          city: "Victoria",
-          state: "BC",
-          country: "Canada",
-          section130: "(f)"
-        },
-        {
-          fullName: "Its fourth Daughter",
-          first: "Its",
-          middle: "fourth",
-          last: "Daughter",
-          address: "9999 st, Vancouver, BC, Canada V0v 0v0",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: "",
-          occupation: "working",
-          city: "Seattle",
-          state: "WA",
-          country: "USA",
-          section130: "(f)"
-        },
-        {
-          fullName: "Its fifth Son",
-          first: "Its",
-          middle: "fifth",
-          last: "Son",
-          address: "80-123 st, Vancouver, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "",
-          differentMail: "yes",
-          differentAddress: "New York, USA",
-          occupation: "worker",
-          city: "Seattle",
-          state: "WA",
-          country: "USA",
-          section130: "(f)"
-        },
-        {
-          fullName: "Its fifth Daughter",
-          first: "Its",
-          middle: "fifth",
-          last: "Daughter",
-          address: "780-123 st, Vancouver, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: "",
-          occupation: "work",
-          city: "Victoria",
-          state: "BC",
-          country: "Canada",
-          section130: "(a)"
-        }
-      );
-    } else {
-      this.applicantList.push({
-        fullName: "Its first Son",
-        first: "Its",
-        middle: "first",
-        last: "Son",
-        address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-        notIndividual: "",
-        individual: "yes",
-        sameMail: "",
-        differentMail: "yes",
-        differentAddress: "New York, USA",
-        occupation: "work",
-        city: "Victoria",
-        state: "BC",
-        country: "Canada",
-        section130: "(a)"
-      });
-    }
+    this.applicantList.push({
+      fullName: "Its first Son",
+      first: "Its",
+      middle: "first",
+      last: "Son",
+      address: "0-123 st, Victoria, BC, Canada V0i 8i8",
+      notIndividual: "",
+      individual: "yes",
+      sameMail: "",
+      differentMail: "yes",
+      differentAddress: "New York, USA",
+      occupation: "work",
+      city: "Victoria",
+      state: "BC",
+      country: "Canada",
+      section130: "(a)"
+    });
   }
 
   public getSignatureMargin() {
     let margin = Number(10 / this.applicantList.length);
-    // console.log(margin)
     if (margin < 1.0) margin = 1;
-    // console.log(margin)
     return margin + "rem";
   }
 
@@ -744,12 +524,8 @@ export default class FormP9 extends Vue {
     console.log(el);
     const applicationId = this.$store.state.Application.id;
 
-    const url =
-      "/survey-print/" + applicationId + "/?name=representation-grant";
-    const body = Vue.filter("printPdf")(
-      el.innerHTML,
-      `"SCCRPF  02/2021 \a         Form P9";`
-    );
+    const url = "/survey-print/" + applicationId + "/?name=representation-grant";
+    const body = Vue.filter("printPdf")(el.innerHTML, `"SCCRPF  02/2021 \a         Form P9";`);
     const options = {
       responseType: "blob",
       headers: {
@@ -771,35 +547,6 @@ export default class FormP9 extends Vue {
         console.error(err);
       }
     );
-  }
-
-  public getRepGrantResultData() {
-    let result = this.$store.state.Application.steps[0].result;
-    for (let i = 1; i < 9; i++) {
-      const stepResults = this.$store.state.Application.steps[i].result;
-      for (const stepResult in stepResults) {
-        
-        
-        result[stepResult] = stepResults[stepResult].data;
-      }
-    }
-    const protectedPartyName = {
-      protectedPartyName: this.$store.state.Application.protectedPartyName
-    };
-    Object.assign(result, result, protectedPartyName);
-
-    const applicationLocation = this.$store.state.Application
-      .applicationLocation;
-    const userLocation = this.$store.state.Common.userLocation;
-    
-    
-    if (applicationLocation)
-      Object.assign(result, result, {
-        applicationLocation: applicationLocation
-      });
-    else Object.assign(result, result, { applicationLocation: userLocation });
-    console.log(result);
-    return result;
   }
 }
 </script>
