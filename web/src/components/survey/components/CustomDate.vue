@@ -1,7 +1,13 @@
 <template>
-  <div class="form-inline date-select">
+  <div
+    :key="question.localizableStrings.pastReferenceVariable.renderedHtml"
+    class="form-inline date-select"
+  >
     <div class="row">
-      <div class="col-sm-12 pb-1">
+      <div
+        :key="question.localizableStrings.futureReferenceVariable.renderedHtml"
+        class="col-sm-12 pb-1"
+      >
         <select
           ref="year"
           class="form-control date-select-year mr-1"
@@ -23,7 +29,7 @@
           <option
             v-for="(monthname, monthidx) of monthOptions"
             :key="monthidx"
-            :value="'' + (monthidx + 1)"
+            :value="'' + monthidx"
             >{{ monthname }}</option
           >
         </select>
@@ -47,47 +53,176 @@ export default {
   props: {
     question: Object
   },
+  setup(props) {
+    const q = props.question;
+
+    //Need to bind to these to be reactive.
+    q.createLocalizableString("pastReferenceVariable", this);
+    q.createLocalizableString("futureReferenceVariable", this);
+
+    q.setLocalizableStringText("pastReferenceVariable", q.pastReferenceVariable);
+    q.setLocalizableStringText("futureReferenceVariable", q.futureReferenceVariable);
+  },
+  mounted() {
+    const q = this.question;
+    const pastReferenceVariable = q.localizableStrings.pastReferenceVariable;
+    const futureReferenceVariable = q.localizableStrings.futureReferenceVariable;
+
+    pastReferenceVariable.onGetTextCallback = text => {
+      text = q.survey.getTextProcessor().processText(q.pastReferenceVariable, true);
+      this.pastDate = text;
+      return text;
+    };
+
+    futureReferenceVariable.onGetTextCallback = text => {
+      text = q.survey.getTextProcessor().processText(q.futureReferenceVariable, true);
+      this.futureDate = text;
+      return text;
+    };
+
+    q.valueChangedCallback = () => {
+      const pending = this.parseValue(q.value);
+      if (pending.year) {
+        this.pendingValue = pending;
+      }
+      this.value = pending;
+    };
+  },
   data() {
     return {
       pendingValue: this.parseValue(this.question.value),
-      monthOptions: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ],
-      value: this.question.value
+      value: this.question.value,
+      pastDate: this.question.survey
+        .getTextProcessor()
+        .processText(this.question.pastReferenceVariable, true),
+      futureDate: this.question.survey
+        .getTextProcessor()
+        .processText(this.question.futureReferenceVariable, true)
     };
   },
   computed: {
     yearOptions() {
       const q = this.question || {};
       let curYear = new Date().getFullYear();
-      const firstYear = curYear - (q.dateYearsBehind || 0);
-      curYear += q.dateYearsAhead || 0;
+      let firstYear = curYear;
+
+      if (q.pastDateHandler === "Years Behind") {
+        firstYear -= q.yearsBehind;
+      } else if (q.pastDateHandler === "Earliest Date") {
+        firstYear = q.earliestDate ? parseInt(q.earliestDate.split("-")[0]) : firstYear;
+      } else if (q.pastDateHandler === "Past Reference Variable") {
+        firstYear = this.pastDate ? parseInt(this.pastDate.split("-")[0]) : firstYear;
+      }
+
+      if (q.futureDateHandler === "Years Ahead") {
+        curYear += q.yearsAhead;
+      } else if (q.futureDateHandler === "Latest Date") {
+        curYear = q.latestDate ? parseInt(q.latestDate.split("-")[0]) : curYear;
+      } else if (q.futureDateHandler === "Future Reference Variable") {
+        curYear = this.futureDate ? parseInt(this.futureDate.split("-")[0]) : curYear;
+      }
+
       const opts = [];
       for (let yr = curYear; yr >= firstYear; yr--) {
         opts.push("" + yr);
       }
       return opts;
     },
+    monthOptions() {
+      const q = this.question || {};
+      const p = this.pendingValue;
+      const months = {
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December"
+      };
+
+      if (!p || !p.year) {
+        return months;
+      }
+
+      let startMonth = 0;
+      let endMonth = 12;
+
+      if (q.pastDateHandler !== "Years Behind") {
+        const pastDateItems = {
+          "Earliest Date": q.earliestDate ? q.earliestDate.split("-") : "",
+          "Past Reference Variable": this.pastDate ? this.pastDate.split("-") : ""
+        }[q.pastDateHandler];
+
+        const earliestDate = new Date(pastDateItems[0], pastDateItems[1] - 1, pastDateItems[2]);
+        startMonth = p.year == earliestDate.getFullYear() ? earliestDate.getMonth() : startMonth;
+      }
+
+      if (q.futureDateHandler !== "Years Ahead") {
+        const futureDateItems = {
+          "Latest Date": q.latestDate ? q.latestDate.split("-") : "",
+          "Future Reference Variable": this.futureDate ? this.futureDate.split("-") : ""
+        }[q.futureDateHandler];
+
+        const latestDate = new Date(futureDateItems[0], futureDateItems[1] - 1, futureDateItems[2]);
+        endMonth = p.year == latestDate.getFullYear() ? latestDate.getMonth() + 1 : endMonth;
+      }
+
+      // this is to maintain the key-value pair such that we can use them later
+      const calculatedMonths = {};
+      for (const month of Object.entries(months).slice(startMonth, endMonth)) {
+        calculatedMonths[month[0]] = month[1];
+      }
+
+      return calculatedMonths;
+    },
     dayOptions() {
+      const q = this.question || {};
       const p = this.pendingValue;
       const opts = [];
-      if (p && p.year && p.month) {
-        const lastDay = new Date(parseInt(p.year, 10), parseInt(p.month, 10), 0).getDate();
-        for (let day = 1; day <= lastDay; day++) {
-          opts.push("" + day);
-        }
+
+      if (!p || !p.year || !p.month) {
+        return opts;
       }
+
+      let startDay = 1;
+      let endDay = new Date(parseInt(p.year), parseInt(p.month), 0).getDate();
+
+      if (q.pastDateHandler !== "Years Behind") {
+        const pastDateItems = {
+          "Earliest Date": q.earliestDate ? q.earliestDate.split("-") : "",
+          "Past Reference Variable": this.pastDate ? this.pastDate.split("-") : ""
+        }[q.pastDateHandler];
+
+        const earliestDate = new Date(pastDateItems[0], pastDateItems[1] - 1, pastDateItems[2]);
+        startDay =
+          p.year == earliestDate.getFullYear() && p.month == earliestDate.getMonth() + 1
+            ? earliestDate.getDate()
+            : startDay;
+      }
+
+      if (q.futureDateHandler !== "Years Ahead") {
+        const futureDateItems = {
+          "Latest Date": q.latestDate ? q.latestDate.split("-") : "",
+          "Future Reference Variable": this.futureDate ? this.futureDate.split("-") : ""
+        }[q.futureDateHandler];
+
+        const latestDate = new Date(futureDateItems[0], futureDateItems[1] - 1, futureDateItems[2]);
+        endDay =
+          p.year == latestDate.getFullYear() && p.month == latestDate.getMonth() + 1
+            ? latestDate.getDate()
+            : endDay;
+      }
+
+      for (let day = startDay; day <= endDay; day++) {
+        opts.push("" + day);
+      }
+
       return opts;
     }
   },
@@ -119,16 +254,6 @@ export default {
         else if (field === "month") this.$refs.day.focus();
       }
     }
-  },
-  mounted() {
-    const q = this.question;
-    q.valueChangedCallback = () => {
-      const pending = this.parseValue(q.value);
-      if (pending.year) {
-        this.pendingValue = pending;
-      }
-      this.value = pending;
-    };
   }
 };
 </script>
