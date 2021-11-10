@@ -15,7 +15,7 @@
           <v-runtime-template :template="`<div>${value.item.question}</div>`"></v-runtime-template>
         </template>
         <template v-slot:cell(actions)="value">
-          <span><b-btn v-on:click="navigateToQuestion(value.item.question, value.item.answer)">Edit</b-btn></span>
+          <span><b-btn v-on:click="navigateToQuestion(value.item.question, value.item.answer, value)">Edit</b-btn></span>
         </template>
       </b-table>
     </div>
@@ -267,25 +267,43 @@ export default defineComponent({
     };
   },
   methods: {
-    navigateToQuestion: function(question, answer) {
-      console.log(question);
-      console.log(answer);
+    navigateToQuestion: function(question, answer, value) {
+      console.log(value);
+      const survey = this.question.survey;
+      const questions = survey.getAllQuestions();
+      const pages = survey.pages;
+      let target;
 
-      const questions = this.question.survey.getAllQuestions();
-
-      console.log("in loop");
       for (const i in questions) {
-        console.log(questions[i]);
-        console.log(questions[i].title);
-        console.log(questions[i].value);
-        if (questions[i].title === question && questions[i].value === answer) {
-          console.log("we matched");
+        if (convertTicksToToolTip(questions[i].title) === question) {
+          target = questions[i];
+          console.log("got it");
+          console.log("Target question:", question);
+          console.log("Title in question:", convertTicksToToolTip(questions[i].title));
+          console.log("Target answer:", answer);
+          console.log("Answer in question:", questions[i].value);
+          console.log("question stuff");
           console.log(questions[i]);
+          console.log("--------------------")
+          break;
         }
       }
-      // this.question.survey.currentPageNo = 0;
-    //   const questions = this.question.survey.getAllQuestions();
-    //   questions[3].focus();
+
+      let pageNum;
+      for (const page in pages) {
+        const quesOnPage = pages[page].questions;
+        for (const ques in quesOnPage) {
+          if (quesOnPage[ques] === target) {
+            pageNum = page;
+            break;
+          }
+        }
+      }
+
+      if (target && pageNum) {
+        this.question.survey.currentPageNo = pageNum;
+        target.focus();
+      }
     }
   }
 });
