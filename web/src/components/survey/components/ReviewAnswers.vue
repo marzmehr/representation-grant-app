@@ -15,7 +15,7 @@
           <v-runtime-template :template="`<div>${value.item.question}</div>`"></v-runtime-template>
         </template>
         <template v-slot:cell(actions)="">
-          <span><b-btn>Edit</b-btn></span>
+          <span><b-btn v-on:click="navigateToQuestion()">Edit</b-btn></span>
         </template>
       </b-table>
     </div>
@@ -265,6 +265,12 @@ export default defineComponent({
       state,
       fields
     };
+  },
+  methods: {
+    navigateToQuestion: function() {
+      this.question.survey.currentPageNo = 1;
+      this.question.survey.questions[2].focus();
+    }
   }
 });
 </script>
