@@ -302,7 +302,12 @@ export default defineComponent({
 
       if (target && pageNum) {
         this.question.survey.currentPageNo = pageNum;
-        target.focus();
+        if (target?.panels) {
+          target.panels[0].focusFirstQuestion();
+        } else {
+          console.log(target.panels);
+          target.focus();
+        }
       }
     }
   }
