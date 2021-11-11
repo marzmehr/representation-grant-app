@@ -102,7 +102,7 @@
         "type": "expression",
         "name": "total",
         "title": "Earliest Submission Date",
-        "expression": "formatDate(determineEarliestSubmissionDate({question2}))"
+        "expression": "determineEarliestSubmissionDate({question2})"
        }
       ]
      }
