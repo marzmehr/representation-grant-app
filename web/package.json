@@ -17,7 +17,6 @@
     "trim-newlines": "^3.0.1",
     "glob-parent": ">=5.1.2",
     "tar": ">=4.4.18",
-    "ansi-regex": ">=5.0.1",
     "set-value": ">=4.0.1",
     "nth-check": ">=2.0.1"
   },
