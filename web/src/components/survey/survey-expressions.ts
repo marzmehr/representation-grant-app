@@ -231,8 +231,8 @@ const dateFormatter = params => {
     November,
     December
   }
-
-  return Months[date.getMonth()] + " " + (date.getDate() + 1) + ", " + date.getFullYear();
+  
+  return Months[monthIndex] + " " + day + ", " + year;
 };
 
 export const addCustomExpressions = (Survey: any) => {
