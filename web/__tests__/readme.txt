@@ -1,0 +1,1 @@
+These are JEST tests, just help out with testing some javascript, without having the need to open up Chrome and/or Survey.

@@ -1,101 +1,110 @@
 {
- "pages": [
-  {
-   "name": "page1",
-   "elements": [
-    {
-     "type": "paneldynamic",
-     "name": "spouseInfoPanel",
-     "templateElements": [
-      {
-       "type": "text",
-       "name": "spouseName"
-      },
-      {
-       "type": "yesno",
-       "name": "spouseIsAlive"
-      },
-      {
-       "type": "yesno",
-       "name": "spouseIsAdult"
-      },
-      {
-       "type": "yesno",
-       "name": "spouseIsCompetent"
-      }
-     ]
-    },
-    {
-     "type": "paneldynamic",
-     "name": "childInfoPanel",
-     "templateElements": [
-      {
-       "type": "text",
-       "name": "childName"
-      },
-      {
-       "type": "yesno",
-       "name": "childIsAlive",
-       "title": "childIsAlive"
-      },
-      {
-       "type": "yesno",
-       "name": "childIsAdult",
-       "title": "childIsAdult"
-      },
-      {
-       "type": "yesno",
-       "name": "childIsCompetent",
-       "title": "childIsCompetent"
-      }
-     ]
-    },
-    {
-     "type": "expression",
-     "name": "participants",
-     "expression": "getParticipants({spouseInfoPanel}, {childInfoPanel}, question2)"
-    },
-    {
-     "type": "expression",
-     "name": "non-participants",
-     "expression": "getNonParticipants({spouseInfoPanel}, {childInfoPanel}, question2)"
-    },
-    {
-     "type": "matrixdropdown",
-     "name": "question2",
-     "title": "How did {recipient} blah blah blah",
-     "columns": [
-      {
-       "name": "Name of Server",
-       "cellType": "radiogroup",
-       "choicesFromQuestion": "participants"
-      },
-      {
-       "name": "Method",
-       "cellType": "radiogroup",
-       "choices": [
-        "In-Person",
-        "Mail",
-        "Electronic"
-       ]
-      },
-      {
-       "name": "Date Served",
-       "cellType": "customdate"
-      }
-     ],
-     "rows": [
-      "Non Applicant 1",
-      "Non Applicant 2"
-     ]
-    },
-    {
-     "type": "expression",
-     "name": "total",
-     "title": "Earliest Submission Date",
-     "expression": "determineEarliestSubmissionDate({question2})"
-    }
-   ]
-  }
- ]
-}
+    "pages": [
+     {
+      "name": "page1",
+      "elements": [
+       {
+        "type": "paneldynamic",
+        "name": "spouseInfoPanel",
+        "templateElements": [
+         {
+          "type": "text",
+          "name": "spouseName"
+         },
+         {
+          "type": "yesno",
+          "name": "spouseIsAlive"
+         },
+         {
+          "type": "yesno",
+          "name": "spouseIsAdult"
+         },
+         {
+          "type": "yesno",
+          "name": "spouseIsCompetent"
+         }
+        ]
+       },
+       {
+        "type": "paneldynamic",
+        "name": "childInfoPanel",
+        "templateElements": [
+         {
+          "type": "text",
+          "name": "childName"
+         },
+         {
+          "type": "yesno",
+          "name": "childIsAlive",
+          "title": "childIsAlive"
+         },
+         {
+          "type": "yesno",
+          "name": "childIsAdult",
+          "title": "childIsAdult"
+         },
+         {
+          "type": "yesno",
+          "name": "childIsCompetent",
+          "title": "childIsCompetent"
+         }
+        ]
+       },
+       {
+        "type": "expression",
+        "name": "Applicants",
+        "expression": "getApplicants({spouseInfoPanel}, {childInfoPanel}, question2)"
+       },
+       {
+        "type": "expression",
+        "name": "Recipients",
+        "expression": "getRecipients({spouseInfoPanel}, {childInfoPanel}, question2)"
+       },
+       {
+        "type": "matrixdropdown",
+        "name": "question2",
+        "title": "How did {recipient} blah blah blah",
+        "columns": [
+         {
+          "name": "Name of Server",
+          "cellType": "radiogroup",
+          "choicesFromQuestion": "participants"
+         },
+         {
+          "name": "Method",
+          "cellType": "radiogroup",
+          "choices": [
+           "In-Person",
+           "Mail",
+           "Electronic"
+          ]
+         },
+         {
+          "name": "Date Served",
+          "cellType": "customdate"
+         },
+         {
+          "name": "Time Of Day",
+          "cellType": "radiogroup",
+          "visibleIf": "{row.Method} = 'Mail'",
+          "choices": [
+           "Before 4pm",
+           "After 4pm"
+          ]
+         }
+        ],
+        "rows": [
+         "Non Applicant 1",
+         "Non Applicant 2"
+        ]
+       },
+       {
+        "type": "expression",
+        "name": "total",
+        "title": "Earliest Submission Date",
+        "expression": "formatDate(determineEarliestSubmissionDate({question2}))"
+       }
+      ]
+     }
+    ]
+   }

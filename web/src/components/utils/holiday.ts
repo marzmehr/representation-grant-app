@@ -1,4 +1,4 @@
-import { addDays, getDay } from "date-fns";
+import { addDays, getDay, format } from "date-fns";
 
 //This is Day of the week for Date() type.
 export enum DayOfWeek {
@@ -28,8 +28,15 @@ export enum MonthOfYear {
 }
 
 export const HolidayHelper = {
+  //This has no timezone affiliated to it, and is just the yyyy-MM-dd.
+  bcStatsDates: function(year: number) {
+    const statsByString = []
+    for (let [k, v] of Object.entries(HolidayHelper.bcStats(year))) 
+      statsByString[format(Date.parse(k), "yyyy-MM-dd")] = v;
+    return statsByString;
+  },
   bcStats: function(year: number) {
-    const stats = {
+    return {
       [`${HolidayHelper.newYearsDay(year)}`]: "New Years Day " + year,
       [`${HolidayHelper.familyDay(year)}`]: "BC Family Day",
       [`${HolidayHelper.goodFriday(year)}`]: "Good Friday",
@@ -45,7 +52,6 @@ export const HolidayHelper = {
       [`${HolidayHelper.boxingDay(year)}`]: "Boxing Day",
       [`${HolidayHelper.newYearsDay(year + 1)}`]: "New Years Day " + (year + 1)
     };
-    return stats;
   },
   dateOrFollowingMonday: function(year: number, month: number, day: number) {
     const specificDate = new Date(year, month, day);
