@@ -1,10 +1,6 @@
 <template>
   <div>
-    <b-button
-      style="transform:translate(500px,0px)"
-      variant="success"
-      @click="onPrint()"
-    >
+    <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
     </b-button>
     <b-card
       id="print"
