@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { addDays, format, getDay, parseISO } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
-=======
-import { addDays, getDay } from "date-fns";
-import format from "date-fns/format";
->>>>>>> 44764c6 (Use formatting function)
 import { FunctionFactory, ItemValue } from "survey-vue";
 import { DayOfWeek, HolidayHelper } from "../utils/holiday";
 
@@ -218,16 +213,10 @@ export function determineEarliestSubmissionDate(params) {
 
 //Parameters: {questionName} for date.
 const dateFormatter = params => {
-  const dateItems = params[0].split("-");
-  const year = dateItems[0];
-  const month = dateItems[1].includes("0")
-    ? parseInt(dateItems[1].split("0")[1]) - 1
-    : parseInt(dateItems[1]) - 1;
-  const day = dateItems[2].includes("0")
-    ? parseInt(dateItems[2].split("0")[1])
-    : parseInt(dateItems[2]);
+  if (!params) return "";
+  if (!params[0]) return "";
 
-  return format(new Date(year, month, day), "MMMM d, yyyy");
+  return format(parseISO(params[0] + "T08:00:00Z"), "MMMM d, yyyy");
 };
 
 export const addCustomExpressions = (Survey: any) => {
