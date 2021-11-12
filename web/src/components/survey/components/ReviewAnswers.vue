@@ -302,10 +302,15 @@ export default defineComponent({
 
       if (target && pageNum) {
         this.question.survey.currentPageNo = pageNum;
+        console.log(target.signaturePad);
         if (target?.panels) {
+          console.log("panel");
           target.panels[0].focusFirstQuestion();
+        } else if (target?.signaturePad) {
+          console.log("siggy");
+          target.signaturePad.focus();
         } else {
-          console.log(target.panels);
+          console.log("base");
           target.focus();
         }
       }
