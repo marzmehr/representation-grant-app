@@ -15,7 +15,7 @@
           <v-runtime-template :template="`<div>${value.item.question}</div>`"></v-runtime-template>
         </template>
         <template v-slot:cell(actions)="value">
-          <span><b-btn v-on:click="navigateToQuestion(value.item.question, value.item.answer, value)">Edit</b-btn></span>
+          <span><b-btn v-on:click="navigateToQuestion(value.item.question)">Edit</b-btn></span>
         </template>
       </b-table>
     </div>
@@ -267,8 +267,7 @@ export default defineComponent({
     };
   },
   methods: {
-    navigateToQuestion: function(question, answer, value) {
-      console.log(value);
+    navigateToQuestion: function(question) {
       const survey = this.question.survey;
       const questions = survey.getAllQuestions();
       const pages = survey.pages;
@@ -277,14 +276,6 @@ export default defineComponent({
       for (const i in questions) {
         if (convertTicksToToolTip(questions[i].title) === question) {
           target = questions[i];
-          console.log("got it");
-          console.log("Target question:", question);
-          console.log("Title in question:", convertTicksToToolTip(questions[i].title));
-          console.log("Target answer:", answer);
-          console.log("Answer in question:", questions[i].value);
-          console.log("question stuff");
-          console.log(questions[i]);
-          console.log("--------------------")
           break;
         }
       }
@@ -300,19 +291,11 @@ export default defineComponent({
         }
       }
 
-      if (target && pageNum) {
-        this.question.survey.currentPageNo = pageNum;
-        console.log(target.signaturePad);
-        if (target?.panels) {
-          console.log("panel");
-          target.panels[0].focusFirstQuestion();
-        } else if (target?.signaturePad) {
-          console.log("siggy");
-          target.signaturePad.focus();
-        } else {
-          console.log("base");
-          target.focus();
-        }
+      survey.currentPageNo = pageNum;
+      if (target?.panels) {
+        target.panels[0].focusFirstQuestion();
+      } else {
+        target.focus();
       }
     }
   }
