@@ -89,7 +89,7 @@ const getDateFromQuestionAndAddDays = params => {
 
 //Needs to be function, otherwise this context wont work.
 //Parameters: {spousePanel}, {childPanel}, <questionName for column choices>
-function getApplicants(params) {
+function getPotentialApplicants(params) {
   if (!params) return false;
   if (params.length < 3) return false;
   const spousePanel = (params[0] || [])
@@ -101,8 +101,17 @@ function getApplicants(params) {
   const targetQuestion = params[2];
   const participants = [spousePanel, childPanel].flat();
   //Update the column choices.
-  this.question.survey.getQuestionByName(targetQuestion).columns[0].choices = participants;
+  this.question.survey.getQuestionByName(targetQuestion).choices = participants;
   return participants;
+}
+
+function populateTableColumnChoices(params) {
+  if (!params) return false;
+  if (params.length < 2) return false;
+  const values = params[0];
+  const targetQuestion = params[1];
+  this.question.survey.getQuestionByName(targetQuestion).columns[0].choices = values;
+  return values;
 }
 
 //Parameters: {spousePanel}, {childPanel}, <questionName for rows>
@@ -133,7 +142,7 @@ export function determineEarliestSubmissionDate(params) {
   Object.entries(rows).forEach(([key, value]) => {
     if (!value["Date Served"] || !value["Method"]) return;
     const method = value["Method"];
-    let dateServed = parseISO(value["Date Served"] + "T08:00:00Z"); //8 should be fine.
+    let dateServed = parseISO(value["Date Served"]); 
     const timeOfDay = value["Time Of Day"];
     let extraNoticeDays = 21;
     switch (method) {
@@ -230,12 +239,15 @@ export const addCustomExpressions = (Survey: any) => {
     "determineEarliestSubmissionDate",
     determineEarliestSubmissionDate
   );
-  FunctionFactory.Instance.register("getApplicants", getApplicants);
+  FunctionFactory.Instance.register("getPotentialApplicants", getPotentialApplicants);
   FunctionFactory.Instance.register("getRecipients", getRecipients);
   FunctionFactory.Instance.register("dateFormatter", dateFormatter);
+  FunctionFactory.Instance.register("populateTableColumnChoices", populateTableColumnChoices);
 
   //For unit testing.
   if (!Survey) return;
+
+  //It might be possible to get the registered functions below in our survey instance, versus the static instance.
   Survey.FunctionFactory.Instance.register("listIntersect", listIntersect);
   Survey.FunctionFactory.Instance.register("listExcept", listExcept);
   Survey.FunctionFactory.Instance.register("listUnion", listUnion);
@@ -248,7 +260,8 @@ export const addCustomExpressions = (Survey: any) => {
     "determineEarliestSubmissionDate",
     determineEarliestSubmissionDate
   );
-  Survey.FunctionFactory.Instance.register("getApplicants", getApplicants);
+  Survey.FunctionFactory.Instance.register("getPotentialApplicants", getPotentialApplicants);
   Survey.FunctionFactory.Instance.register("getRecipients", getRecipients);
   Survey.FunctionFactory.Instance.register("dateFormatter", dateFormatter);
+  Survey.FunctionFactory.Instance.register("populateTableColumnChoices", populateTableColumnChoices);
 };
