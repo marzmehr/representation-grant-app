@@ -216,23 +216,7 @@ const dateFormatter = params => {
   if (!params) return "";
   if (!params[0]) return "";
 
-  const date = new Date(params[0]);
-  enum Months {
-    January,
-    February,
-    March,
-    April,
-    May,
-    June,
-    July,
-    August,
-    September,
-    October,
-    November,
-    December
-  }
-
-  return Months[date.getMonth()] + " " + (date.getDate() + 1) + ", " + date.getFullYear();
+  return format(parseISO(params[0] + "T08:00:00Z"), "MMMM d, yyyy");
 };
 
 export const addCustomExpressions = (Survey: any) => {
