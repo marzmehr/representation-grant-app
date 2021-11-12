@@ -52,13 +52,26 @@
        },
        {
         "type": "expression",
-        "name": "Applicants",
-        "expression": "getApplicants({spouseInfoPanel}, {childInfoPanel}, question2)"
+        "name": "potentialApplicants",
+        "expression": "getPotentialApplicants({spouseInfoPanel}, {childInfoPanel}, applicants)"
        },
        {
         "type": "expression",
         "name": "Recipients",
         "expression": "getRecipients({spouseInfoPanel}, {childInfoPanel}, question2)"
+       },
+       {
+        "type": "checkbox",
+        "name": "applicants",
+        "choices": [
+         "applicant1",
+         "applicant2"
+        ]
+       },
+       {
+        "type": "expression",
+        "name": "tableColumnPopulator",
+        "expression": "populateTableColumnChoices({applicants}, question2)"
        },
        {
         "type": "matrixdropdown",

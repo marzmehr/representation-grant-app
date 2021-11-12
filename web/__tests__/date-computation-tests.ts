@@ -34,7 +34,7 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
     expect(stats[boxingDay.toString()]).toBeDefined();
   });
 
-  it("Mail - Submission Date Conditions", () => {
+  it("REPGRANT-153 - Mail - Submission Date Conditions", () => {
     const saturdayDate = determineEarliestSubmissionDate([
       {
         row: {
@@ -65,7 +65,7 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
     expect(holidayDate).toBe("2021-12-03");
   });
 
-  it("In-Person - Submission Date Conditions", () => {
+  it("REPGRANT-153 - In-Person - Submission Date Conditions", () => {
     const inPersonDate = determineEarliestSubmissionDate([
       {
         row: {
@@ -78,7 +78,7 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
     expect(inPersonDate).toBe("2020-01-22");
   });
 
-  it("Electronic - Submission Date Conditions", () => {
+  it("REPGRANT-153 - Electronic - Submission Date Conditions", () => {
     expect(determineEarliestSubmissionDate([
       {
         row: {
