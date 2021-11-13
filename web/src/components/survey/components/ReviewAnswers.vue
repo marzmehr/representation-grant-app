@@ -14,8 +14,8 @@
         <template v-slot:cell(question)="value">
           <v-runtime-template :template="`<div>${value.item.question}</div>`"></v-runtime-template>
         </template>
-        <template v-slot:cell(actions)="">
-          <span><b-btn>Edit</b-btn></span>
+        <template v-slot:cell(actions)="value">
+          <span><b-btn v-on:click="navigateToQuestion(value.item.question)">Edit</b-btn></span>
         </template>
       </b-table>
     </div>
@@ -265,6 +265,39 @@ export default defineComponent({
       state,
       fields
     };
+  },
+  methods: {
+    navigateToQuestion: function(question) {
+      const survey = this.question.survey;
+      const questions = survey.getAllQuestions();
+      const pages = survey.pages;
+      let target;
+
+      for (const i in questions) {
+        if (convertTicksToToolTip(questions[i].title) === question) {
+          target = questions[i];
+          break;
+        }
+      }
+
+      let pageNum;
+      for (const page in pages) {
+        const quesOnPage = pages[page].questions;
+        for (const ques in quesOnPage) {
+          if (quesOnPage[ques] === target) {
+            pageNum = page;
+            break;
+          }
+        }
+      }
+
+      survey.currentPageNo = pageNum;
+      if (target?.panels) {
+        target.panels[0].focusFirstQuestion();
+      } else {
+        target.focus();
+      }
+    }
   }
 });
 </script>

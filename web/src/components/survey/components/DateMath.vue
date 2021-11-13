@@ -11,6 +11,7 @@
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import { convertTicksToToolTip } from "@/components/utils/utils";
 import { HolidayHelper } from "@/components/utils/holiday";
+import { format } from 'date-fns';
 export default defineComponent({
   props: {
     question: Object,
@@ -81,15 +82,7 @@ export default defineComponent({
       }
 
       function dateFormatter(date) {
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-
-        let dt = year + "-";
-        dt += (month < 10 ? "0" : "") + month;
-        dt += "-" + (day < 10 ? "0" : "") + day;
-
-        return dt;
+        return format(date, "yyyy-MM-dd");
       }
 
       const calcDate = dateString => {
@@ -107,7 +100,7 @@ export default defineComponent({
         } else if (daysType === "Business Days") {
           return dateFormatter(calcBusinessDays(date, offset));
         }
-      }
+      };
 
       referenceVariable.onGetTextCallback = text => {
         text = props.question.survey
