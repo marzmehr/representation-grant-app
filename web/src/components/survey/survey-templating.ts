@@ -13,9 +13,10 @@ export function addCustomTemplating(surveyRuntime: any) {
       const data = `${options.name.replace("bullets(", "").replace(")", "")}`;
       const targetName = data.split(".")[0];
       const key = data.split(".")[1];
-      if (sender.getQuestionByName(targetName)?.value) {
+      const question = sender.getQuestionByName(targetName)?.value;
+      if (question) {
         const bullets = [];
-        sender.getQuestionByName(targetName).value.forEach(function(element) {
+        question.forEach(function(element) {
           const value = `${key?.length > 0 ? element[key] : element}`;
           if (value) bullets.push(`<li>${value}</li>`);
         });
