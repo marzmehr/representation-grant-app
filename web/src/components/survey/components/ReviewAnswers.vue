@@ -250,14 +250,6 @@ export default defineComponent({
         q.registerFunctionOnPropertyValueChanged("isRequired", () => {
           state.key++;
         });
-
-        q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
-          state.key++;
-        });
       }
     });
 
