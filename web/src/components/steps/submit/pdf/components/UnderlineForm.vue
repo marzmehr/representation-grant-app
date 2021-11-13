@@ -39,7 +39,7 @@ export default class UnderlineForm extends Vue {
   beforetext!: string;
   @Prop({ required: true })
   text!: string;
-  @Prop({ required: true })
+  @Prop()
   hint!: string;
   @Prop({ required: true })
   textwidth!: string;

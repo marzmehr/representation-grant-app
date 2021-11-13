@@ -24,7 +24,7 @@
     >
       <div style="text-align:center;">
         <div style="margin:5rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">
-          FORM P1 (RULE 25-2 (3) )
+          FORM P1 (RULE 25-2 (3))
         </div>
         <div style="margin:1rem 0 0 -1.3rem;font-weight: 600;font-size:24px;">
           <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>

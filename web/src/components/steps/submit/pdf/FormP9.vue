@@ -9,7 +9,7 @@
       class="mt-4 mb-3"
     >
       <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">
-        FORM P9 (RULE 25-3 (2) )
+        FORM P9 (RULE 25-3 (2))
       </div>
 
       <div class="mt-3 m-0 p-0 row">
@@ -75,7 +75,6 @@
       <underline-form
         textwidth="37rem"
         beforetext=""
-        hint="Deceased’s Legal Name"
         :text="deceased.fullName"
       />
       <div style="display:inline-block; text-indent: 5px;">
@@ -98,19 +97,16 @@
         <underline-form
           textwidth="20rem"
           beforetext=""
-          hint="Full Name of Applicant(s)"
           :text="name.fullName"
         />
         <underline-form
           textwidth="25rem"
           beforetext=", of"
-          hint="Street, City/Town, Province, Country and Postal Code"
           :text="name.address"
         />
         <underline-form
           textwidth="10.5rem"
           beforetext=", "
-          hint="Occupation"
           :text="name.occupation"
         />
         <div style="display:inline-block;">,</div>
@@ -136,19 +132,8 @@
 
         <!-- <2> -->
         <li class="mt-4 text-justify ">
-          <div v-if="applicantList.length > 1">
-            We delivered a copy of the notice, along with
-          </div>
-          <div v-else>I delivered a copy of the notice, along with</div>
+          <div>I delivered a copy of the notice
 
-          <underline-form
-            style="margin:0.5rem 0 0 0 ;display:inline-block;"
-            textwidth="40rem"
-            beforetext=""
-            hint=""
-            text=""
-          />
-          <div style="margin:0.5rem  0 0 0 ; display:inline; text-indent: 5px;">
             to the following persons as follows:
           </div>
 
@@ -170,7 +155,6 @@
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
             textwidth="15rem"
             beforetext="on"
-            hint="Mailed Date"
             text="January 3, 2021"
           />
           <underline-form
@@ -184,7 +168,6 @@
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
             textwidth="15rem"
             beforetext="on"
-            hint="Mailed Date"
             text="January 3, 2021"
           />
 
@@ -193,7 +176,7 @@
             shift="0"
             shiftmark="0"
             :check="check2"
-            text="by handing it/them to and leaving it/them with the following persons as follows:"
+            text="by handing it/them to and leaving it/them with the following persons:"
           />
           <underline-form
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
@@ -206,7 +189,6 @@
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
             textwidth="15rem"
             beforetext="on"
-            hint="Served Date"
             text="January 3, 2021"
           />
           <underline-form
@@ -220,7 +202,6 @@
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
             textwidth="15rem"
             beforetext="on"
-            hint="Served Date"
             text="January 3, 2021"
           />
 
@@ -229,7 +210,7 @@
             shift="0"
             shiftmark="0"
             :check="check2"
-            text="by sending it/them to the following persons by e-mail, fax or other electronic means to that person"
+            text="by sending it/them to the following persons by e-mail, fax or other electronic means to that person:"
           />
           <underline-form
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
@@ -242,7 +223,6 @@
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
             textwidth="15rem"
             beforetext="on"
-            hint="Served Date"
             text="January 3, 2021"
           />
           <underline-form
@@ -256,7 +236,6 @@
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
             textwidth="15rem"
             beforetext="on"
-            hint="Served Date"
             text="January 3, 2021"
           />
 
@@ -292,81 +271,6 @@
             so by the registrar.
           </div>
         </li>
-
-        <!-- <3> -->
-        <!-- Keep this here for now.
-        <li class="mt-4">
-          <div class="mt-3" v-for="(successor, i) in successorsRep" :key="i + 200">
-            <underline-form
-              v-if="applicantList.length > 1"
-              style="display:inline-block;"
-              textwidth="31rem"
-              beforetext="We delivered the document(s) referred to in section 2 to "
-              hint="Name of Personal Rep/Parent/Committee/etc"
-              :text="successor.repName"
-            />
-            <underline-form
-              v-else
-              style="display:inline-block;"
-              textwidth="32.2rem"
-              beforetext="I delivered the document(s) referred to in section 2 to "
-              hint="Name of Personal Rep/Parent/Committee/etc"
-              :text="successor.repName"
-            />
-            <div style="display:inline-block; text-indent: 5px;">
-              in his/her capacity as the
-            </div>
-            <underline-form
-              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-              textwidth="18rem"
-              beforetext=""
-              hint="(Personal Rep/Parent/Committee/etc)"
-              :text="successor.repType"
-            />
-            <underline-form
-              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-              textwidth="25.85rem"
-              beforetext="of"
-              hint="Successor Name"
-              :text="successor.successorName"
-            />
-          </div>
-        </li>
-        -->
-
-        <!-- <4> -->
-        <!-- Keep this here for now.
-        <li class="mt-4 text-justify">
-          <div v-if="applicantList.length > 1" style="display:inline;">
-            In accordance with Rule 25-2, we delivered a copy of the document(s) referred to in
-            section 2 to the Public Guardian and Trustee as follows:
-          </div>
-
-          <div v-else style="display:inline;">
-            In accordance with Rule 25-2, I delivered a copy of the document(s) referred to in
-            section 2 to the Public Guardian and Trustee as follows:
-          </div>
-          <check-box
-            shift="0"
-            shiftmark="0"
-            :check="check2"
-            text="by mailing it/them to the Public Guardian and Trustee by ordinary mail."
-          />
-          <check-box
-            shift="0"
-            shiftmark="0"
-            :check="check2"
-            text="by handing it/them to and leaving it/them with the Public Guardian and Trustee."
-          />
-          <check-box
-            shift="0"
-            shiftmark="0"
-            :check="check2"
-            text="by sending it/them to the Public Guardian and Trustee by-mail, fax or 
-                    other electronic means to that person."
-          />
-        </li>
-        -->
       </ol>
 
       <div class="mt-5 row">
@@ -374,7 +278,7 @@
           <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">
             SWORN (OR AFFIRMED) BEFORE ME
           </div>
-          <underline-form textwidth="15rem" beforetext="at" hint="Commissioner City" text="" />
+          <underline-form textwidth="15rem" beforetext="at" text="" hint="Commissioner City" />
           <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
             , British Columbia
           </div>
@@ -383,18 +287,18 @@
             style="margin:0.75rem 0 ;"
             textwidth="24rem"
             beforetext="on"
-            hint="Swear/Affirm Date"
             text=""
+            hint="Swear/Affirm Date"
           />
           <underline-form
             style="margin:0.5rem 0 ;"
             textwidth="25rem"
             beforetext=""
-            hint="Commissioner Signature"
             text=""
+            hint="A commissioner for taking affidavits for British Columbia"
           />
           <div style="margin:0.5rem 0 ;font-size:14px; ">
-            A commissioner for taking affidavits for British Columbia
+
           </div>
           <underline-form
             style="margin:.5rem 0 ;"
