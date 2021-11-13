@@ -160,6 +160,11 @@ const routes = [
     beforeEnter: authGuardAdmin,
     component: SurveyCreatorForm,
     props: { sandboxName: "sandbox5" }
+  },
+  {
+    path: "/feedback",
+    name: "feedback",
+    component: Feedback
   }
 ];
 
