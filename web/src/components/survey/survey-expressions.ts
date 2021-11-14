@@ -88,7 +88,7 @@ const getDateFromQuestionAndAddDays = params => {
 };
 
 //Needs to be function, otherwise this context wont work.
-//Parameters: {spousePanel}, {childPanel}, <questionName for column choices>
+//Parameters: {spousePanel}, {childPanel}, <question name for column choices>
 function getPotentialApplicants(params) {
   if (!params) return false;
   if (params.length < 3) return false;
@@ -98,24 +98,24 @@ function getPotentialApplicants(params) {
   const childPanel = (params[1] || [])
     .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
     .map(s => s.childName);
-  const targetQuestion = params[2];
-  const participants = [spousePanel, childPanel].flat();
-  //Update the column choices.
-  this.question.survey.getQuestionByName(targetQuestion).choices = participants;
+  const targetQuestionName = params[2];
+  const participants = [
+    spousePanel.map((sp, index) => ({ applicantRole: "spouse", applicantName: sp, key: `s${index}`})),
+    childPanel.map((c, index) => ({ applicantRole: "child", applicantName: c, key: `c${index}`}))
+  ].flat();
+  const targetQuestion = this.question.survey.getQuestionByName(targetQuestionName);
+  targetQuestion.choices = participants.map(
+    (p) =>
+      new ItemValue(
+        `${p.key}`,
+        `${p.applicantName}`
+      )
+  );
   return participants;
 }
 
-function populateTableColumnChoices(params) {
-  if (!params) return false;
-  if (params.length < 2) return false;
-  const values = params[0];
-  const targetQuestion = params[1];
-  this.question.survey.getQuestionByName(targetQuestion).columns[0].choices = values;
-  return values;
-}
-
-//Parameters: {spousePanel}, {childPanel}, <questionName for rows>
-export function getRecipients(params) {
+//Parameters: {spousePanel}, {childPanel}, <question name for rows>
+export function getRecipients(params: any[]) {
   if (!params) return false;
   if (params.length < 3) return false;
   const spousePanel = (params[0] || [])
@@ -124,17 +124,30 @@ export function getRecipients(params) {
   const childPanel = (params[1] || [])
     .filter(s => s.childIsAlive == "n" || s.childIsAdult == "n" || s.childIsCompetent == "n")
     .map(s => s.childName);
-  const targetQuestion = params[2];
-  const nonParticipants = [spousePanel, childPanel].flat();
-  //Update the rows of the table.
-  this.question.survey.getQuestionByName(targetQuestion).rows = nonParticipants.map(
-    s => new ItemValue(s)
-  );
-  return nonParticipants;
+  const targetQuestionName = params[2];
+  const recipients = [
+    spousePanel.map((sp, index) => ({ recipientRole: "spouse", recipientName: sp, key: `s${index}` })),
+    childPanel.map((c, index) => ({ recipientRole: "child", recipientName: c, key: `c${index}` }))
+  ].flat();
+  //Update panel.
+  //const targetPanel =  this.question.survey.getQuestionByName(targetQuestionName);
+  //targetPanel.value = recipients;
+  return recipients;
+}
+
+//Parameters: {applicant}, {potentialApplicants}, <question name for applicationInfoPanel>
+export function populateApplicantInfoPanel(params: any[]) {
+  if (!params) return false;
+  if (params.length < 3) return false;
+  const applicants = params[0] || [];
+  const potentialApplicants = params[1] || [];
+  const targetQuestionText = params[2];
+  const targetPanel = this.question.survey.getQuestionByName(targetQuestionText);
+  targetPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
 }
 
 //Parameters: {questionName} for rows.
-export function determineEarliestSubmissionDate(params) {
+export function determineEarliestSubmissionDate(params: any[]) {
   if (!params) return false;
   if (!params[0]) return false;
   const rows = params[0];
@@ -142,7 +155,7 @@ export function determineEarliestSubmissionDate(params) {
   Object.entries(rows).forEach(([key, value]) => {
     if (!value["Date Served"] || !value["Method"]) return;
     const method = value["Method"];
-    let dateServed = parseISO(value["Date Served"]); 
+    let dateServed = parseISO(value["Date Served"]);
     const timeOfDay = value["Time Of Day"];
     let extraNoticeDays = 21;
     switch (method) {
@@ -242,7 +255,7 @@ export const addCustomExpressions = (Survey: any) => {
   FunctionFactory.Instance.register("getPotentialApplicants", getPotentialApplicants);
   FunctionFactory.Instance.register("getRecipients", getRecipients);
   FunctionFactory.Instance.register("dateFormatter", dateFormatter);
-  FunctionFactory.Instance.register("populateTableColumnChoices", populateTableColumnChoices);
+  FunctionFactory.Instance.register("populateApplicantInfoPanel", populateApplicantInfoPanel);
 
   //For unit testing.
   if (!Survey) return;
@@ -263,5 +276,9 @@ export const addCustomExpressions = (Survey: any) => {
   Survey.FunctionFactory.Instance.register("getPotentialApplicants", getPotentialApplicants);
   Survey.FunctionFactory.Instance.register("getRecipients", getRecipients);
   Survey.FunctionFactory.Instance.register("dateFormatter", dateFormatter);
-  Survey.FunctionFactory.Instance.register("populateTableColumnChoices", populateTableColumnChoices);
+  Survey.FunctionFactory.Instance.register(
+    "populateApplicantInfoPanel",
+    populateApplicantInfoPanel
+  );
 };
+

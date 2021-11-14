@@ -1,6 +1,12 @@
 <!-- Needed :key added, because it wouldn't update on value change. -->
 <template>
-  <div :key="key" :class="question.cssClasses.text">{{ question.displayValue }}</div>
+  <div :key="key" :class="question.cssClasses.text">
+    {{
+      question.displayValue.includes("[object Object]")
+        ? JSON.stringify(question.value)
+        : question.displayValue
+    }}
+  </div>
 </template>
 
 <script lang="ts">

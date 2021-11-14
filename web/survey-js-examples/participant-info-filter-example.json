@@ -53,7 +53,7 @@
        {
         "type": "expression",
         "name": "potentialApplicants",
-        "expression": "getPotentialApplicants({spouseInfoPanel}, {childInfoPanel}, applicants)"
+        "expression": "getPotentialApplicants({spouseInfoPanel}, {childInfoPanel}, applicant)"
        },
        {
         "type": "expression",
@@ -62,7 +62,7 @@
        },
        {
         "type": "checkbox",
-        "name": "applicants",
+        "name": "applicant",
         "choices": [
          "applicant1",
          "applicant2"
@@ -70,46 +70,405 @@
        },
        {
         "type": "expression",
-        "name": "tableColumnPopulator",
-        "expression": "populateTableColumnChoices({applicants}, question2)"
+        "name": "populateApplicantInfoPanel",
+        "expression": "populateApplicantInfoPanel({applicant}, {potentialApplicants}, applicantInfoPanel)"
        },
        {
-        "type": "matrixdropdown",
-        "name": "question2",
-        "title": "How did {recipient} blah blah blah",
-        "columns": [
+        "type": "paneldynamic",
+        "name": "applicantInfoPanel",
+        "templateElements": [
          {
-          "name": "Name of Server",
-          "cellType": "radiogroup",
-          "choicesFromQuestion": "participants"
+          "type": "infotext",
+          "name": "question238",
+          "visible": false,
+          "titleLocation": "hidden",
+          "body": "[JIRA] Starts off panel with info we know so far: Name, relationship maybe? ie. executor\n<br><br>\nOXD prototype:\n<li>Can collapse/expand accordions\n<li>Order of accordion items same as in previous question\n<li>Remove accordion according to who is removed in previous question\n<li>Show this question only if there is input from previous question</li>"
          },
          {
-          "name": "Method",
-          "cellType": "radiogroup",
+          "type": "text",
+          "name": "applicantNewName",
+          "visible": false,
+          "title": "Please enter the name of the other applicant.",
+          "description": "If you are applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`, enter your name here. This service will ask for your organization's name in a later question."
+         },
+         {
+          "type": "infotext",
+          "name": "applicantNewSomethingSomethingBookmark",
+          "titleLocation": "hidden",
+          "messageStyle": "inline"
+         },
+         {
+          "type": "infotext",
+          "name": "question42",
+          "visible": false,
+          "titleLocation": "hidden",
+          "body": "[note] for new applicants we don't know anything a about, no need to ask if over 19 nor mentally competent - leave it up to notice of dispute to find that out. low likelihood that this would happen"
+         },
+         {
+          "type": "radiogroup",
+          "name": "applicantNewType",
+          "visible": false,
           "choices": [
-           "In-Person",
-           "Mail",
-           "Electronic"
+           {
+            "value": "item1",
+            "text": "I am a regular person applying to manage {deceasedName}'s 'assets' (in my own name instead of regular person?)"
+           },
+           {
+            "value": "item2",
+            "text": "I am a professional applying, in my own name, to manage {deceasedName}'s `assets`"
+           },
+           {
+            "value": "item3",
+            "text": "I am a professional applying on behalf of an organization that has been asked to manage {deceasedName}'s `assets`"
+           },
+           {
+            "value": "item4",
+            "text": "I am a lawyer who is helping a client complete these documents"
+           }
           ]
          },
          {
-          "name": "Date Served",
-          "cellType": "customdate"
+          "type": "infotext",
+          "name": "question44",
+          "visible": false,
+          "title": "If there is 1 applicant on behalf of an organization, use organization address as service address.",
+          "titleLocation": "hidden"
          },
          {
-          "name": "Time Of Day",
-          "cellType": "radiogroup",
-          "visibleIf": "{row.Method} = 'Mail'",
+          "type": "yesno",
+          "name": "applicantNewPartOfOrg",
+          "visible": false,
+          "title": "[Obsolete? - Mar 8 2021]<br>\nIs {panel.applicantNewName} applying on behalf of an organization that has been asked to manage {deceasedName}'s `estate`",
+          "defaultValue": "n"
+         },
+         {
+          "type": "text",
+          "name": "applicantOrgName",
+          "visible": false,
+          "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+          "title": "Organization Name"
+         },
+         {
+          "type": "radiogroup",
+          "name": "applicantOrgType",
+          "visible": false,
+          "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+          "title": "What type of organization is {applicantOrgName}?",
           "choices": [
-           "Before 4pm",
-           "After 4pm"
+           {
+            "value": "item1",
+            "text": "Law Firm"
+           },
+           {
+            "value": "item2",
+            "text": "Accountants"
+           },
+           {
+            "value": "item3",
+            "text": "Bank or Credit Union"
+           },
+           {
+            "value": "item4",
+            "text": "Trust Company"
+           }
+          ],
+          "hasOther": true
+         },
+         {
+          "type": "address",
+          "name": "applicantOrgAddress",
+          "visible": false,
+          "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+          "title": "organization address"
+         },
+         {
+          "type": "text",
+          "name": "applicantOrgPhone",
+          "visible": false,
+          "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+          "title": "Organization Phone Number",
+          "inputType": "tel"
+         },
+         {
+          "type": "text",
+          "name": "applicantOrgEmail",
+          "visible": false,
+          "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+          "title": "Organization Email",
+          "inputType": "email"
+         },
+         {
+          "type": "text",
+          "name": "applicantOrgFax",
+          "visible": false,
+          "visibleIf": "{panel.applicantNewPartOfCo} = \"y\"",
+          "title": "Organization Fax",
+          "inputType": "tel"
+         },
+         {
+          "type": "infotext",
+          "name": "applicantPersonQuestionSomethingBookmark",
+          "visible": false,
+          "title": "Regular Applicant Questions [rename this]",
+          "titleLocation": "hidden",
+          "messageStyle": "inline"
+         },
+         {
+          "type": "text",
+          "name": "applicantOccupation",
+          "title": "What is {panel.applicantName}'s job or profession?",
+          "description": "For example: Nurse, Homemaker, Carpenter, Accountant, etc."
+         },
+         {
+          "type": "address",
+          "name": "applicantOrdinaryAddress",
+          "title": "Where does {panel.applicantName} normally live?",
+          "isRequired": true
+         },
+         {
+          "type": "helptext",
+          "name": "applicantOrdinaryAddressFAQ1",
+          "title": "What if {panel.applicantName} is homeless?",
+          "titleLocation": "hidden",
+          "body": "If {panel.applicantName} is homeless\n<ul>\n<li>write \"no fixed address\" for the street number and street name</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantOrdinaryAddressReceiveMail",
+          "title": "Does {panel.applicantName} receive mail at this address?",
+          "isRequired": true
+         },
+         {
+          "type": "address",
+          "name": "applicantMailingAddress",
+          "visible": false,
+          "visibleIf": "{panel.applicantOrdinaryAddressReceiveMail} = 'n'",
+          "title": "Where does {panel.applicantName} receive mail?"
+         },
+         {
+          "type": "infotext",
+          "name": "applicantAWOWQuestionsBookmark",
+          "visible": false,
+          "title": "AWOW Questions",
+          "titleLocation": "hidden",
+          "messageStyle": "inline"
+         },
+         {
+          "type": "infotext",
+          "name": "applicantSpouseListLogic",
+          "visible": false,
+          "title": "DO we even need this?",
+          "titleLocation": "hidden",
+          "body": "Is it good enough just drop a link to WESA 130 here?",
+          "messageStyle": "error"
+         },
+         {
+          "type": "infotext",
+          "name": "applicantSpouseListLogic2",
+          "visible": false,
+          "title": "Notes about 130 and 131 from Google Sheets - Copied Nov 4 2021",
+          "titleLocation": "hidden",
+          "body": "If Applicant has support of spouse, give them 130a. If there is a more than 1 spouse, if anyone of these spouses nominates the child, that is enough to get them 130a even if some other spouses don't support the child.\n<br><br>\nIf Child does not have a spouse's support, but they reaches majority of support of all the living children, give them 130b\n<br><br>\nIf Applicant (non-spouse, non-child) does not have the support of the spouse, but reaches majority of support of all the living children, give them 130c\n<br><br>\nIf Child does not have a spouse's support nor does not reach majority of support of all living children, give them 130d\n<br><br>\nWe will skip 130e and 130f for now until we take in information for other intestate successors.\n<br><br>\nIf Applicant (non-spouse, non-child) does not have a spouse's support nor any support of any living child, give them 130g\n<br><br>\n-----\n<br><br>\nWESA 130 (b) a child of the deceased person having the consent of a majority of the children of the deceased person;\n<br><br>\nwhat if multiple child applicants on same applicant; and they support each other? probably should be fine.\n<br><br>\nDo we need consent from a personal rep? No. Only living children have a \"vote\".\n<br><br>\nWhat if the personal rep is a person rep for more than 1 person? Does their vote count as more than 1? No votes for personal reps. Only living children. So if the living child is also a personal rep for 2 other children of the deceased, they only get 1 vote, not 3.",
+          "messageStyle": "error"
+         },
+         {
+          "type": "infotext",
+          "name": "jiraRepGrant205a",
+          "visible": false,
+          "visibleIf": "{applicant} = [\"item1\"]",
+          "titleLocation": "hidden",
+          "requiredErrorText": "Please press Continue",
+          "body": "[JIRA-REPGRANT-205a]\nThe following questions are dynamic based on the person's role.\n<br><br>\n{applicantExplanationSpouseOnly} shows up if the applicant is a spouse.\n<br><br>\n{applicantNominatedBySpouse} should show up if the applicant is a child."
+         },
+         {
+          "type": "infotext",
+          "name": "applicantExplanationSpouseOnly",
+          "visibleIf": "{applicant} = [\"item1\"]",
+          "title": "Because you, {applicantName}, are {deceasedName}'s `spouse`, you have the highest right to represent {deceasedName}.",
+          "titleLocation": "hidden",
+          "isRequired": true,
+          "requiredErrorText": "Please press Continue"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantNominatedBySpouse",
+          "visible": false,
+          "title": "Are you a nominee of spouse(s)? \n<br>\n[only ask if there is a living spouse (even if the applicant is a child)]\n<br>\n[possibly make this invisible if a living spouse is applying]\n<br>\n[What if there are multiple spouses? Do we ask this question for each spouse?]",
+          "description": "yes - 130a"
+         },
+         {
+          "type": "helptext",
+          "name": "applicantNominatedBySpouseFAQ1",
+          "visible": false,
+          "title": "[Needs updating] Do I need anything in writing if a relative agrees with me applying?\n",
+          "titleLocation": "hidden",
+          "body": "You do not need anything in writing from <Deceased Name]'s relative to file with the Supreme Court of British Columbia, but you may want to get this. Deceased Name's relatives will have a fair chance to tell the court that they disagree with you applying."
+         },
+         {
+          "type": "infotext",
+          "name": "applicantNominatedBySpouseNoExplanation",
+          "title": "[Tyler and Jack wonder if we can assume that if there is a spouse and children applying together, we can assume 130a for all applicants]\ncan't use this service at this time. passing over requires different forms\n",
+          "titleLocation": "hidden",
+          "messageStyle": "error"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantChildConsent",
+          "visible": false,
+          "title": "select all other living children of deceased who support your application - ask everyone",
+          "description": ">50% & child - 130b; >50% & not child - 130c;  =<50% & child - 130d; =<50% & not child - continue to next question"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantIntestateConsent",
+          "visible": false,
+          "title": "select from all other living successors who support your application - ask intestate and new applicants",
+          "description": "calculate gift % per person - >50% gift & intestate - 130e; >50% gift & new applicant - 130e.1;  =<50% gift & intestate - 130f; =<50% gift & new applicant - 130g"
+         },
+         {
+          "type": "infotext",
+          "name": "applicant130gExplanation",
+          "visible": false,
+          "title": "If there are no qualified relatives to give \"support\" and they get g, display:\n<br><br>\n\"Although there are no relatives of Deceased Name> to agree with you applying to represent them, you can still apply. There will be one additional step. This service will give you instructions for this step later.\"\n<br><br>\nIf answer = None of the above (e.g. there are qualified relatives to give \"support\" BUT none of them agree) and they get g, display:\n<br><br>\n\"Although the relatives of Deceased Name> do not agree with you applying to represent Deceased Name>, you can still apply. There will be one additional step. This service will give you instructions for this step later.\"",
+          "titleLocation": "hidden"
+         },
+         {
+          "type": "infotext",
+          "name": "applicantExecutorQuestionsBookmark",
+          "visible": false,
+          "title": "Executor Questions",
+          "titleLocation": "hidden",
+          "messageStyle": "inline"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantExecutorNameMatch",
+          "visible": false,
+          "visibleIf": "{panel.applicantIndividual} = 'person' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'y' ",
+          "title": "[Will only] - Does {thisApplicant} name's currently match {executorName}?",
+          "description": "Alternate approach - Did they change their name?"
+         },
+         {
+          "type": "text",
+          "name": "applicantExecutorAlias",
+          "visible": false,
+          "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantExecutorNameMatch} = 'n' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'y' ",
+          "title": "Enter name as it appears on their primary ID. "
+         },
+         {
+          "type": "comment",
+          "name": "applicantExecutorAliasEvidence",
+          "visible": false,
+          "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantExecutorNameMatch} = 'n' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'y' ",
+          "title": "Check with DDRs - Explain and give evidence to support that this is the same person. ",
+          "description": "for example, got married, changed name. here is marriage certificate."
+         },
+         {
+          "type": "infotext",
+          "name": "applicantAWWQuestionsBookmark",
+          "visible": false,
+          "title": "AWW Questions",
+          "titleLocation": "hidden",
+          "messageStyle": "inline"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantAWWBeneficiary",
+          "visible": false,
+          "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantExecutorNameMatch} = 'n' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'n' ",
+          "title": "is this person getting a gift (beneficiary) from the will?"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantAWWMajorityConsent",
+          "visible": false,
+          "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantAWWBeneficiary} = 'y' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'n' ",
+          "title": "131 (a) if getting a gift, do you have support of the people, when combined with your own gift, who are getting the most stuff from the will (over 51%)",
+          "description": "not the amount of beneficiaries, but the group of people who are getting the most.\nyes - 131 (a), no - 131 (b)"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantAWWNominee",
+          "visible": false,
+          "visibleIf": "{panel.applicantIndividual} = 'person' and {panel.applicantAWWBeneficiary} = 'n' and {applicantTestWillExists} = 'y' and {applicantTestExecutor} = 'n' ",
+          "title": "not getting a gift, do you have majority-gift support?",
+          "description": "yes, (a.1). no, (c)"
+         },
+         {
+          "type": "infotext",
+          "name": "applicantCitationQuestionsBookmark",
+          "visible": false,
+          "title": "Citation Questions",
+          "titleLocation": "hidden",
+          "messageStyle": "inline"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantCited",
+          "visible": false,
+          "visibleIf": "{applicantInfoPanel[0].applicantExplanationSpouseOnly} > 0",
+          "title": "Did {applicantName} receive a `citation`?",
+          "description": "How to prevent notifying the same person more than once"
+         },
+         {
+          "type": "infotext",
+          "name": "applicantCitedReviewCheck",
+          "visible": false,
+          "title": "1. display alive names (but not the active applicants? maybe need to display them all in case current applicant was past citor and now joined forces)\n2. display dead names separately\n3. say, don't include these people in either of these lists answering next question",
+          "titleLocation": "hidden",
+          "isRequired": true,
+          "requiredErrorText": "Please press Continue"
+         },
+         {
+          "type": "yesno",
+          "name": "applicantCitorNew",
+          "visible": false,
+          "visibleIf": "{applicantInfoPanel[0].applicantExplanationSpouseOnly} > 0",
+          "title": "is there 1 or more citor not on the above list?",
+          "description": "cuz you're already going to notify them"
+         },
+         {
+          "type": "paneldynamic",
+          "name": "applicantCitorInfoPanel",
+          "visible": false,
+          "templateElements": [
+           {
+            "type": "text",
+            "name": "applicantCitedByName",
+            "visible": false,
+            "visibleIf": "{panel.applicantCited} = \"y\"",
+            "title": "Please enter the name of the person from whom {applicantName} received a citation.",
+            "description": "put the information as it appears on the `citation`"
+           },
+           {
+            "type": "yesno",
+            "name": "applicantCitorAlive",
+            "visible": false,
+            "visibleIf": "{applicantInfoPanel[0].applicantExplanationSpouseOnly} > 0",
+            "title": "are they alive?"
+           },
+           {
+            "type": "infotext",
+            "name": "applicantCitorAliveNoExplanation",
+            "title": "citation is person to the citor. you don't need to notify them if they're dead",
+            "titleLocation": "hidden"
+           }
           ]
+         },
+         {
+          "type": "yesno",
+          "name": "applicantCitorComplete",
+          "title": "include all the citors (not already listed above)?"
+         },
+         {
+          "type": "infotext",
+          "name": "applicantCitorCompleteNoError",
+          "title": "go back and include them all.",
+          "titleLocation": "hidden",
+          "messageStyle": "error"
          }
         ],
-        "rows": [
-         "Non Applicant 1",
-         "Non Applicant 2"
-        ]
+        "allowAddPanel": false
        },
        {
         "type": "expression",

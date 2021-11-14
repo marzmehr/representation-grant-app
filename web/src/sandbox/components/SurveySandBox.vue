@@ -52,16 +52,17 @@ export default class SurveySandBox extends Vue {
     }
   }
 
-  //TODO SurveyCreatorForm.vue should combine with this.
   public addSurveyListener() {
     (window as any).surveyInstance = this.survey;
     //These need to be here to keep track of panel counts.
+
+    /* This causes terrible performance. 
     this.survey
       .getAllQuestions()
       .filter(x => x.getType() === "paneldynamic")
       .forEach(element => {
         this.survey.setVariable(`${element.name}-count`, element.panelCount);
-      });
+      });*/
 
     this.survey.onDynamicPanelAdded.add((sender, options) => {
       sender.setVariable(`${options.question.name}-count`, options.question.panelCount);

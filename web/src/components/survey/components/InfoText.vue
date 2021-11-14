@@ -72,7 +72,7 @@ export default defineComponent({
 
     const handleBodyTemplate = () => {
       return `<div>${props.isSurveyEditor
-          ? body.htmlValues.default || body.calculatedText
+          ? body.htmlValues.default || body.renderedText
           : body.renderedHtml}</div>`;
     };
 
@@ -113,8 +113,8 @@ export default defineComponent({
         });
 
         q.registerFunctionOnPropertyValueChanged("body", () => {
+          props.question.setLocalizableStringText("body", props.question.body);
           state.key++;
-          debugger;
         });
 
         q.registerFunctionOnPropertyValueChanged("isRequired", () => {
