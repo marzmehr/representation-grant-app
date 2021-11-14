@@ -86,6 +86,7 @@ export default defineComponent({
         });
 
         q.registerFunctionOnPropertyValueChanged("body", () => {
+          props.question.setLocalizableStringText("body", props.question.body);
           state.key++;
         });
 

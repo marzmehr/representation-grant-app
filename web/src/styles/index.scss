@@ -385,3 +385,7 @@ survey-json-editor .svd_toolbar {
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
 }
+
+.sv-paneldynamic__add-btn {
+  float: left !important;
+}
