@@ -143,7 +143,9 @@ export function populateApplicantInfoPanel(params: any[]) {
   const potentialApplicants = params[1] || [];
   const targetQuestionText = params[2];
   const targetPanel = this.question.survey.getQuestionByName(targetQuestionText);
-  targetPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
+  if (applicants.length != targetPanel?.value?.length) {
+    targetPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
+  }
 }
 
 //Parameters: {questionName} for rows.
