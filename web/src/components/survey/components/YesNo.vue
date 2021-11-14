@@ -57,10 +57,6 @@ export default defineComponent({
         q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
           state.key++;
         });
-
-        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
-          state.key++;
-        });
       }
     });
     return {

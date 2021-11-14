@@ -9,7 +9,6 @@ import { initFormDownloadButton } from "./form-download-button-type";
 import { initReviewAnswers } from "./review-answers-type";
 import { fixExpression } from "./fix-expression-type";
 import { addToInputText } from "./add-to-input-text-type";
-import { initEarliestSubmissionDate } from "./earliest-submission-date-type";
 import { initDateMath } from "./date-math-type";
 import { addCustomExpressions } from "../survey-expressions";
 
@@ -43,7 +42,6 @@ export function addQuestionTypes(Survey: any) {
   initAddressBlock(Survey);
   initContactInfoBlock(Survey);
   initCustomDate(Survey);
-  initEarliestSubmissionDate(Survey);
   addCustomExpressions(Survey);
 }
 

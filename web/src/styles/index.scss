@@ -375,7 +375,8 @@ survey-json-editor .svd_toolbar {
   display: -webkit-box;
 }
 
-.sv-checkbox-label {
+// Don't allow selection
+.sv-checkbox-label, .link-label {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
    -khtml-user-select: none; /* Konqueror HTML */

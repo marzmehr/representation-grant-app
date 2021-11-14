@@ -48,6 +48,17 @@ export default defineComponent({
     //Need to bind to this to be reactive.
     const body = props.question.createLocalizableString("body", this);
     props.question.setLocalizableStringText("body", props.question.body);
+
+    //Need this to assign our new body.
+    body.onGetTextCallback = text => {
+      const textProcessor = props.question?.parent?.getType().includes("panel")
+        ? props.question.parent.textProcessorValue
+        : props.question.survey.getTextProcessor();
+      text = textProcessor.processText(props.question.body, true);
+      text = convertTicksToToolTip(text);
+      return text;
+    };
+
     const handleBodyTemplate = () => {
       return `<div>${
         props.isSurveyEditor ? body.htmlValues.default || body.renderedText : body.renderedHtml
@@ -63,16 +74,6 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      //Need this to assign our new body.
-      body.onGetTextCallback = text => {
-        const textProcessor = props.question?.parent?.getType().includes("panel")
-          ? props.question.parent.textProcessorValue
-          : props.question.survey.getTextProcessor();
-        text = textProcessor.processText(props.question.body, true);
-        text = convertTicksToToolTip(text);
-        return text;
-      };
-
       const q = props.question;
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {

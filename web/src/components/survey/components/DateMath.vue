@@ -132,14 +132,6 @@ export default defineComponent({
           state.key++;
         });
 
-        q.registerFunctionOnPropertyValueChanged("messageStyle", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("arraySourceQuestion", () => {
-          state.key++;
-        });
-
         q.registerFunctionOnPropertyValueChanged("referenceVariable", () => {
           state.key++;
         });
