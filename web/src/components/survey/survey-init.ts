@@ -10,11 +10,12 @@ import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
 import ReviewAnswers from "./components/ReviewAnswers.vue";
-import DateMath from "./components/DateMath.vue";
 
 import VRuntimeTemplate from "v-runtime-template";
 import StringViewer from "./components/outer-question/StringViewer.vue";
 import SurveyText from "./components/outer-question/SurveyText.vue";
+
+import { HolidayHelper } from "../utils/holiday";
 
 export function addQuestionTypesVue(Survey: any) {
   Vue.component(WidgetValueName[WidgetValueName.HelpText], HelpText);
@@ -26,7 +27,6 @@ export function addQuestionTypesVue(Survey: any) {
   Vue.component(WidgetValueName[WidgetValueName.CustomDate], CustomDate);
   Vue.component(WidgetValueName[WidgetValueName.FormDownloadButton], FormDownloadButton);
   Vue.component(WidgetValueName[WidgetValueName.ReviewAnswers], ReviewAnswers);
-  Vue.component(WidgetValueName[WidgetValueName.DateMath], DateMath);
   //These override existing components:
   //https://github.com/surveyjs/survey-library/tree/master/src/vue
   Vue.component("survey-text", SurveyText);
@@ -60,3 +60,15 @@ export function loadQuestionTypesVueAndSetCss(Survey) {
   Survey.defaultBootstrapCss.radiogroup.materialDecorator = "";
   Survey.StylesManager.applyTheme("bootstrap");
 }
+
+function calcHolidays() {
+  let date = new Date();
+  const yearRange = 100; // some day we may want to make this more flexible
+  let holidays = {};
+  for (let i = -yearRange; i <= yearRange; i++) {
+    holidays = Object.assign({}, holidays, HolidayHelper.bcStats(date.getFullYear() + i));
+  }
+  return holidays
+}
+
+export const holidays = calcHolidays();
