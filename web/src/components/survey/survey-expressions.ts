@@ -1,5 +1,4 @@
 import { addDays, format, getDay, parseISO } from "date-fns";
-import { zonedTimeToUtc } from "date-fns-tz";
 import { FunctionFactory, ItemValue } from "survey-vue";
 import { DayOfWeek, HolidayHelper } from "../utils/holiday";
 
@@ -104,13 +103,15 @@ function getPotentialApplicants(params) {
     childPanel.map((c, index) => ({ applicantRole: "child", applicantName: c, key: `c${index}`}))
   ].flat();
   const targetQuestion = this.question.survey.getQuestionByName(targetQuestionName);
-  targetQuestion.choices = participants.map(
-    (p) =>
-      new ItemValue(
-        `${p.key}`,
-        `${p.applicantName}`
-      )
-  );
+  if (targetQuestion.choices.length != participants.length) {
+    targetQuestion.choices = participants.map(
+      (p) =>
+        new ItemValue(
+          `${p.key}`,
+          `${p.applicantName}`
+        )
+    );
+  }
   return participants;
 }
 
