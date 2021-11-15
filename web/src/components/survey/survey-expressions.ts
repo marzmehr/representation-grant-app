@@ -130,9 +130,10 @@ export function getRecipients(params: any[]) {
     spousePanel.map((sp, index) => ({ recipientRole: "spouse", recipientName: sp, key: `s${index}` })),
     childPanel.map((c, index) => ({ recipientRole: "child", recipientName: c, key: `c${index}` }))
   ].flat();
-  //Update panel.
-  //const targetPanel =  this.question.survey.getQuestionByName(targetQuestionName);
-  //targetPanel.value = recipients;
+  const targetPanel = this.question.survey.getQuestionByName(targetQuestionName);
+  if (targetPanel && recipients.length != targetPanel?.value?.length) {
+    targetPanel.value = recipients;
+  }
   return recipients;
 }
 
@@ -144,7 +145,7 @@ export function populateApplicantInfoPanel(params: any[]) {
   const potentialApplicants = params[1] || [];
   const targetQuestionText = params[2];
   const targetPanel = this.question.survey.getQuestionByName(targetQuestionText);
-  if (applicants.length != targetPanel?.value?.length) {
+  if (targetPanel && applicants.length != targetPanel?.value?.length) {
     targetPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
   }
 }
