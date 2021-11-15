@@ -245,6 +245,73 @@ const dateFormatter = params => {
   return format(parseISO(params[0] + "T08:00:00Z"), "MMMM d, yyyy");
 };
 
+//Parameters: {questionName}, offset, dateType
+export function dateMath(params: any[]) {
+  if (!params) return false;
+  if (params.length < 3) return false;
+  
+  const calcBusinessDays = (date, offset) => {
+    if (offset === 0) {
+      return date;
+    }
+
+    const yearRange = 2; // some day we may want to make this more flexible
+    let holidays = {};
+    for (let i = -yearRange; i <= yearRange; i++) {
+      holidays = Object.assign({}, holidays, HolidayHelper.bcStats(date.getFullYear() + i));
+    }
+
+    let daysCounted = 0;
+    const crement = offset >= 0 ? 1 : -1;
+
+    while (daysCounted !== offset) {
+      date.setDate(date.getDate() + crement);
+      const dayOfWeek = date.getDay();
+      let holiday = false;
+
+      for (const holidate in holidays) {
+        if (date == holidate) {
+          holiday = true;
+          break;
+        }
+      }
+
+      // calc for weekends
+      if (dayOfWeek >= 1 && dayOfWeek <= 5 && !holiday) {
+        daysCounted += crement;
+      }
+    }
+    return date;
+  };
+
+  function dateFormatter(date) {
+    return format(date, "yyyy-MM-dd");
+  }
+
+  const calcDate = (referenceDate, offset, daysType) => {
+    console.log(referenceDate);
+    console.log(offset);
+    console.log(daysType);
+
+    if (!referenceDate) {
+      return "";
+    }
+
+    if (daysType === "Calendar Days") {
+      referenceDate.setDate(referenceDate.getDate() + offset);
+      return dateFormatter(referenceDate);
+    } else if (daysType === "Business Days") {
+      return dateFormatter(calcBusinessDays(referenceDate, offset));
+    }
+  };
+
+  const referenceDate = params[0];
+  const offset = params[1];
+  const daysType = params[2];
+
+  return calcDate(referenceDate, offset, daysType);
+}
+
 export const addCustomExpressions = (Survey: any) => {
   //Add this so ExpressionRunner can access it.
   FunctionFactory.Instance.register("listIntersect", listIntersect);
