@@ -1,31 +1,29 @@
 {
-    "pages": [
+  "pages": [
+   {
+    "name": "page1",
+    "elements": [
      {
-      "name": "page1",
-      "elements": [
-       {
-        "type": "customdate",
-        "name": "passAwayDate",
-        "title": "Enter the date the person passed away"
-       },
-       {
-        "type": "datemath",
-        "name": "calcDate",
-        "title": "Calculated date",
-        "dateType": "Name of Variable",
-        "nameOfVariable": "{passAwayDate}",
-        "daysToOffset": 5,
-        "typeOfDays": "Business Days"
-       },
-       {
-        "type": "infotext",
-        "name": "test",
-        "title": "Package won't arrive until {calcDate}",
-        "titleLocation": "hidden"
-       }
-      ],
-      "title": "Date Math Example"
+      "type": "customdate",
+      "name": "orderDate",
+      "title": "Package order date"
+     },
+     {
+      "type": "expression",
+      "name": "calcDate",
+      "visible": false,
+      "title": "Date Math Example",
+      "expression": "dateMath({orderDate}, 5, 'business')"
+     },
+     {
+      "type": "infotext",
+      "name": "test",
+      "title": "Package won't arrive until {calcDate}",
+      "titleLocation": "hidden"
      }
     ],
-    "textUpdateMode": "onTyping"
+    "title": "Date Math Example"
    }
+  ],
+  "textUpdateMode": "onTyping"
+ }

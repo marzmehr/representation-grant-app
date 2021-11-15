@@ -9,7 +9,6 @@ import { initFormDownloadButton } from "./form-download-button-type";
 import { initReviewAnswers } from "./review-answers-type";
 import { fixExpression } from "./fix-expression-type";
 import { addToInputText } from "./add-to-input-text-type";
-import { initDateMath } from "./date-math-type";
 import { addCustomExpressions } from "../survey-expressions";
 
 export enum WidgetValueName {
@@ -33,7 +32,6 @@ export function addQuestionTypes(Survey: any) {
   addToInputText(Survey);
   fixExpression(Survey);
   initReviewAnswers(Survey);
-  initDateMath(Survey);
   initFormDownloadButton(Survey);
   initYesNo(Survey);
   initInfoText(Survey);

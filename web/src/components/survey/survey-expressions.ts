@@ -1,6 +1,7 @@
 import { addDays, format, getDay, parseISO } from "date-fns";
 import { FunctionFactory, ItemValue } from "survey-vue";
 import { DayOfWeek, HolidayHelper } from "../utils/holiday";
+import { holidays } from "./survey-init";
 
 // Returns 'y' or 'n', or 'u' for undefined and 'e' for error
 const isChild = (params: any) => {
@@ -245,6 +246,55 @@ const dateFormatter = params => {
   return format(parseISO(params[0] + "T08:00:00Z"), "MMMM d, yyyy");
 };
 
+//Parameters: {questionName}, offset, dateType
+export function dateMath(params: any[]) {
+  if (!params) return false;
+  if (params.length < 3) return false;
+  
+  const calcBusinessDays = (date, offset) => {
+    if (offset === 0) {
+      return date;
+    }
+
+    let daysCounted = 0;
+    const crement = offset >= 0 ? 1 : -1;
+
+    while (daysCounted !== offset) {
+      date.setDate(date.getDate() + crement);
+      const dayOfWeek = date.getDay();
+      let holiday = false;
+
+      for (const holidate in holidays) {
+        if (date == holidate) {
+          holiday = true;
+          break;
+        }
+      }
+
+      // calc for weekends
+      if (dayOfWeek >= 1 && dayOfWeek <= 5 && !holiday) {
+        daysCounted += crement;
+      }
+    }
+    return date;
+  };
+
+  const referenceDate = params[0] ? new Date(params[0].replace(/-/g, '\/')) : null;
+  const offset = params[1];
+  const daysType = params[2];
+
+  if (!referenceDate) {
+    return "";
+  }
+
+  if (daysType === "calendar") {
+    referenceDate.setDate(referenceDate.getDate() + offset);
+    return format(referenceDate, "yyyy-MM-dd");
+  } else if (daysType === "business") {
+    return format(calcBusinessDays(referenceDate, offset), "yyyy-MM-dd");
+  }
+}
+
 export const addCustomExpressions = (Survey: any) => {
   //Add this so ExpressionRunner can access it.
   FunctionFactory.Instance.register("listIntersect", listIntersect);
@@ -260,6 +310,7 @@ export const addCustomExpressions = (Survey: any) => {
   FunctionFactory.Instance.register("getRecipients", getRecipients);
   FunctionFactory.Instance.register("dateFormatter", dateFormatter);
   FunctionFactory.Instance.register("populateApplicantInfoPanel", populateApplicantInfoPanel);
+  FunctionFactory.Instance.register("dateMath", dateMath);
 
   //For unit testing.
   if (!Survey) return;
@@ -284,5 +335,6 @@ export const addCustomExpressions = (Survey: any) => {
     "populateApplicantInfoPanel",
     populateApplicantInfoPanel
   );
+  Survey.FunctionFactory.Instance.register("dateMath", dateMath);
 };
 

@@ -12,16 +12,14 @@
       "yearsAhead": 15
      },
      {
-      "type": "datemath",
+      "type": "expression",
       "name": "question2",
       "title": "Date Math, +10 calendar days",
-      "referenceVariable": "{question1}",
-      "daysToOffset": 10
+      "expression": "dateMath({question1}, 10, 'calendar')"
      },
      {
       "type": "expression",
       "name": "question3",
-      "visible": false,
       "title": "Formatting for readability",
       "expression": "dateFormatter({question2})"
      },

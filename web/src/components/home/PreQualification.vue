@@ -54,7 +54,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
-import * as SurveyInit from "@/components/survey/question-types/survey-init";
+import * as SurveyInit from "@/components/survey/survey-init";
 import surveyJson from "./forms/survey-qualify.json";
 import Tooltip from "@/components/survey/components/Tooltip.vue";
 
