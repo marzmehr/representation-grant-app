@@ -16,6 +16,7 @@ import * as widgets from "surveyjs-widgets";
 import * as SurveyKO from "survey-knockout";
 import ace from "ace-builds";
 import "ace-builds/src-noconflict/ext-searchbox";
+import { onValueChanged } from "./survey-on-value-change";
 
 @Component
 export default class SurveyCreatorForm extends Vue {
@@ -51,6 +52,7 @@ export default class SurveyCreatorForm extends Vue {
     this.UpdateHideHeaderFooter(true);
     this.initSurvey();
     widgets.inputmask(SurveyKO);
+
     addQuestionTypes(SurveyKO);
     const saveSurveyData = this.saveSurveyDataToDatabase;
     const sandboxName = this.sandboxName;
@@ -88,6 +90,7 @@ export default class SurveyCreatorForm extends Vue {
         addCustomTemplating(options.survey);
       }
       options.survey.onValueChanged.add((sender, options) => {
+        onValueChanged(sender,options);
         this.updatedKey++;
       });
     });

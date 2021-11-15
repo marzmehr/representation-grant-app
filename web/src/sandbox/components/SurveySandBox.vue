@@ -14,10 +14,11 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
-import * as SurveyInit from "@/components/survey/question-types/survey-init";
+import * as SurveyInit from "@/components/survey/survey-init";
 import SandboxSidebar from "./SandboxSidebar.vue";
 import Axios from "axios";
 import { addCustomTemplating } from "@/components/survey/survey-templating";
+import { onValueChanged } from "@/components/survey/survey-on-value-change";
 
 @Component({
   components: {
@@ -78,6 +79,7 @@ export default class SurveySandBox extends Vue {
     });
 
     this.survey.onValueChanged.add((sender, options) => {
+      onValueChanged(sender,options);
       this.updatedKey++;
     });
 

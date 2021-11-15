@@ -8,7 +8,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
 import * as SurveyVue from "survey-vue";
-import * as SurveyInit from "@/components/survey/question-types/survey-init";
+import * as SurveyInit from "@/components/survey/survey-init";
 import surveyJson from "./forms/filingOptions.json";
 
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
