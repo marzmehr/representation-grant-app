@@ -284,32 +284,21 @@ export function dateMath(params: any[]) {
     return date;
   };
 
-  function dateFormatter(date) {
-    return format(date, "yyyy-MM-dd");
-  }
-
-  const calcDate = (referenceDate, offset, daysType) => {
-    console.log(referenceDate);
-    console.log(offset);
-    console.log(daysType);
-
-    if (!referenceDate) {
-      return "";
-    }
-
-    if (daysType === "Calendar Days") {
-      referenceDate.setDate(referenceDate.getDate() + offset);
-      return dateFormatter(referenceDate);
-    } else if (daysType === "Business Days") {
-      return dateFormatter(calcBusinessDays(referenceDate, offset));
-    }
-  };
-
-  const referenceDate = params[0];
+  console.log(params[0]);
+  const referenceDate = params[0] ? new Date(params[0].replace(/-/g, '\/')) : null;
   const offset = params[1];
   const daysType = params[2];
 
-  return calcDate(referenceDate, offset, daysType);
+  if (!referenceDate) {
+    return "";
+  }
+
+  if (daysType === "calendar") {
+    referenceDate.setDate(referenceDate.getDate() + offset);
+    return format(referenceDate, "yyyy-MM-dd");
+  } else if (daysType === "business") {
+    return format(calcBusinessDays(referenceDate, offset), "yyyy-MM-dd");
+  }
 }
 
 export const addCustomExpressions = (Survey: any) => {
@@ -327,6 +316,7 @@ export const addCustomExpressions = (Survey: any) => {
   FunctionFactory.Instance.register("getRecipients", getRecipients);
   FunctionFactory.Instance.register("dateFormatter", dateFormatter);
   FunctionFactory.Instance.register("populateApplicantInfoPanel", populateApplicantInfoPanel);
+  FunctionFactory.Instance.register("dateMath", dateMath);
 
   //For unit testing.
   if (!Survey) return;
@@ -351,5 +341,6 @@ export const addCustomExpressions = (Survey: any) => {
     "populateApplicantInfoPanel",
     populateApplicantInfoPanel
   );
+  Survey.FunctionFactory.Instance.register("dateMath", dateMath);
 };
 
