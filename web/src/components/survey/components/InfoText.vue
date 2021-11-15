@@ -88,7 +88,8 @@ export default defineComponent({
     };
 
     onBeforeUnmount(() => {
-      props.question.survey.onValueChanged.remove(onDynamicPanelAdded);
+      props.question.survey.onDynamicPanelAdded.remove(onDynamicPanelAdded);
+      props.question.survey.onDynamicPanelRemoved.remove(onDynamicPanelAdded);
     });
 
     onMounted(() => {
