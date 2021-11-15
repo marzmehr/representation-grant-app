@@ -15,6 +15,8 @@ import VRuntimeTemplate from "v-runtime-template";
 import StringViewer from "./components/outer-question/StringViewer.vue";
 import SurveyText from "./components/outer-question/SurveyText.vue";
 
+import { HolidayHelper } from "../utils/holiday";
+
 export function addQuestionTypesVue(Survey: any) {
   Vue.component(WidgetValueName[WidgetValueName.HelpText], HelpText);
   Vue.component(WidgetValueName[WidgetValueName.InfoText], InfoText);
@@ -58,3 +60,15 @@ export function loadQuestionTypesVueAndSetCss(Survey) {
   Survey.defaultBootstrapCss.radiogroup.materialDecorator = "";
   Survey.StylesManager.applyTheme("bootstrap");
 }
+
+function calcHolidays() {
+  let date = new Date();
+  const yearRange = 100; // some day we may want to make this more flexible
+  let holidays = {};
+  for (let i = -yearRange; i <= yearRange; i++) {
+    holidays = Object.assign({}, holidays, HolidayHelper.bcStats(date.getFullYear() + i));
+  }
+  return holidays
+}
+
+export const holidays = calcHolidays();

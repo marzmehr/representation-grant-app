@@ -1,6 +1,7 @@
 import { addDays, format, getDay, parseISO } from "date-fns";
 import { FunctionFactory, ItemValue } from "survey-vue";
 import { DayOfWeek, HolidayHelper } from "../utils/holiday";
+import { holidays } from "./survey-init";
 
 // Returns 'y' or 'n', or 'u' for undefined and 'e' for error
 const isChild = (params: any) => {
@@ -255,12 +256,6 @@ export function dateMath(params: any[]) {
       return date;
     }
 
-    const yearRange = 2; // some day we may want to make this more flexible
-    let holidays = {};
-    for (let i = -yearRange; i <= yearRange; i++) {
-      holidays = Object.assign({}, holidays, HolidayHelper.bcStats(date.getFullYear() + i));
-    }
-
     let daysCounted = 0;
     const crement = offset >= 0 ? 1 : -1;
 
@@ -284,7 +279,6 @@ export function dateMath(params: any[]) {
     return date;
   };
 
-  console.log(params[0]);
   const referenceDate = params[0] ? new Date(params[0].replace(/-/g, '\/')) : null;
   const offset = params[1];
   const daysType = params[2];
