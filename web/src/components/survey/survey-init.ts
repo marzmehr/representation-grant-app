@@ -1,5 +1,6 @@
-import { addQuestionTypes, WidgetValueName } from "./question-types/question-types";
 import Vue from "vue";
+import { addQuestionTypes, WidgetValueName } from "./question-types/question-types";
+
 
 import AddressInfo from "./components/AddressInfo.vue";
 import ContactInfo from "./components/ContactInfo.vue";

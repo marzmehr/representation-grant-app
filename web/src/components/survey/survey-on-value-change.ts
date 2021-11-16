@@ -1,5 +1,6 @@
 //Needs to be function, otherwise this context wont work.
 import { ItemValue } from "survey-vue";
+import { getPotentialApplicants, setPotentialApplicants } from "./survey-state";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
 const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string) => {
@@ -13,7 +14,7 @@ const populateApplicantInfoPanel = (sender, options) => {
   if (!questionNamesToWatch.includes(options.name)) return;
   const targetPanel = sender.getQuestionByName("applicantInfoPanel");
   const applicants = sender.getQuestionByName("applicant")?.value || [];
-  const potentialApplicants = sender.getVariable("potentialApplicants") || []; //If this doesn't work out, use Vuex
+  const potentialApplicants = getPotentialApplicants.value || [];
   targetPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
   console.log(`populateApplicantInfoPanel - Value: ${JSON.stringify(targetPanel.value)}`);
 };
@@ -46,7 +47,7 @@ const combinePotentialApplicants = (sender, options) => {
   ];
   const applicant = sender.getQuestionByName("applicant");
   applicant.choices = applicants.map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
-  sender.setVariable("potentialApplicants", applicants); //If this doesn't work out, use Vuex
+  setPotentialApplicants(applicants);
   console.log(
     `combinePotentialApplicants - Applicant choices: ${JSON.stringify(applicant.choices)}`
   );
