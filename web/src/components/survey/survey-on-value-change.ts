@@ -9,14 +9,25 @@ const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string)
     : sender.getQuestionByName(questionName)?.value;
 };
 
-const populateApplicantInfoPanel = (sender, options) => {
+const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
   const questionNamesToWatch = ["applicant"];
   if (!questionNamesToWatch.includes(options.name)) return;
   const targetPanel = sender.getQuestionByName("applicantInfoPanel");
   const applicants = sender.getQuestionByName("applicant")?.value || [];
   const potentialApplicants = getPotentialApplicants.value || [];
   targetPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
-  console.log(`populateApplicantInfoPanel - Value: ${JSON.stringify(targetPanel.value)}`);
+  const p1DeliveryInfoPanel = sender.getQuestionByName("p1DeliveryInfoPanel");
+  for (const panel of p1DeliveryInfoPanel.panels) {
+    for (const question of panel.questions) {
+      if (question.name != "p1DelivererName") continue;
+      question.choices = potentialApplicants.map(
+        p => new ItemValue(`${p.key}`, `${p.applicantName}`)
+      );
+    }
+  }
+  console.log(
+    `populateApplicantInfoPanel+p1DeliveryInfoPanel - Value: ${JSON.stringify(targetPanel.value)}`
+  );
 };
 
 const combinePotentialApplicants = (sender, options) => {
@@ -64,7 +75,7 @@ const combineRecipients = (sender, options) => {
     .filter(s => s.spouseIsAlive == "n" || s.spouseIsAdult == "n" || s.spouseIsCompetent == "n")
     .map(s => s.spouseName);
   childPanel = childPanel
-    .filter(s => s.spouseIsAlive == "n" || s.spouseIsAdult == "n" || s.spouseIsCompetent == "n")
+    .filter(s => s.childIsAlive == "n" || s.childIsAdult == "n" || s.childIsCompetent == "n")
     .map(s => s.childName);
 
   const recipients = [
@@ -89,7 +100,7 @@ const combineRecipients = (sender, options) => {
 };
 
 export function onValueChanged(sender, options) {
-  populateApplicantInfoPanel(sender, options);
+  populateApplicantInfoPanelAndP1DeliveryInfoPanel(sender, options);
   combinePotentialApplicants(sender, options);
   combineRecipients(sender, options);
 }
