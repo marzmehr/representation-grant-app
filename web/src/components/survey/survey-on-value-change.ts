@@ -158,6 +158,12 @@ const determineEarliestSubmissionDate = (sender, options) => {
     dateServed = addDays(dateServed, extraNoticeDays);
     calculatedDates.push(dateServed);
   });
+<<<<<<< HEAD
+=======
+  if (calculatedDates.length == 0) return false;
+  if (!earliestSubmissionDateQuestion) return;
+  const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
+>>>>>>> 8cde9a2 (In progress)
   const earliestSubmissionDateQuestion = sender.getQuestionByName("p1earliestSubmissionDate");
   if (calculatedDates.length == 0) {
     earliestSubmissionDateQuestion.visible = false;
