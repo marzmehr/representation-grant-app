@@ -380,6 +380,26 @@ export default class FormP9 extends Vue {
     date: "20 March 2020"
   };
 
+/* 
+Fields of interest from surveyJS:
+These fields will have to be put together from a bunch of different places. 
+They will need to be transformed I believe.. as an applicantPanel doesn't exist (it takes it from different places).
+The responsbility of this component isn't to transform the data, it's simply to display the data.
+
+applicantInfoPanel:
+  applicantCourthouse
+  applicantOrdinaryAddress
+  applicantOccupation
+
+p1DeliveryInfoPanel
+  p1DeliveryMethod
+  p1DeliveryDate
+  p1DeliveryElectronicReceipt
+  p1DeliveryElectronicReceiptRetain
+
+deceasedName
+*/
+
   mounted() {
     this.changeApplicantList();
   }
