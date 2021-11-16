@@ -28,43 +28,54 @@ export default defineComponent({
 
       function collectDataFormP9(q) {
         const targets = {
-          "applicantInfoPanel": {
-            // "applicantCourthouse": "",
-            "applicantOrdinaryAddress": "",
-            "applicantOccupation": ""
-          },
-          "p1DeliveryInfoPanel": {
-            "p1DeliveryMethod": "",
-            "p1DeliveryDate": "",
-            "p1DeliveryElectronicReceipt": "",
-            "p1DeliveryElectronicReceiptRetain": ""
-          },
-          "deceasedName": ""
+          "applicantInfoPanel": [
+            // "applicantCourthouse",
+            "applicantOrdinaryAddress",
+            "applicantOccupation"
+          ],
+          "p1DeliveryInfoPanel": [
+            "p1DeliveryMethod",
+            "p1DeliveryDate",
+            "p1DeliveryElectronicReceipt",
+            "p1DeliveryElectronicReceiptRetain"
+          ],
+          // "deceasedName": ""
         }
 
         const allQuestions = q.survey.getAllQuestions();
+        const keys = Object.keys(targets);
+        console.log(keys);
 
-        for (const question in allQuestions) {
-          const currQuestion = allQuestions[question];
+        let results = [];
+        for (const i in allQuestions) {
+          const currQuestion = allQuestions[i];
+
           if (currQuestion.name === "applicantInfoPanel") {
             console.log("Found the applicant info panel");
             console.log(currQuestion);
-            targets["applicantInfoPanel"]["applicantOrdinaryAddress"] = allQuestions[question].value[0].applicantOrdinaryAddress;
-            targets["applicantInfoPanel"]["applicantOccupation"] = allQuestions[question].value[0].applicantOccupation;
+            for (let i = 0; i < currQuestion.value.length; i++) {
+              let result = {};
+              result["applicantOrdinaryAddress"] = currQuestion.value[i].applicantOrdinaryAddress;
+              result["applicantOccupation"] = currQuestion.value[i].applicantOccupation;
+              results.push(result);
+            }
           } else if (currQuestion.name === "p1DeliveryInfoPanel") {
             console.log("Found the delivery info panel");
             console.log(currQuestion);
-            targets["p1DeliveryInfoPanel"]["p1DeliveryMethod"] = allQuestions[question].value[0].p1DeliveryMethod;
-            targets["p1DeliveryInfoPanel"]["p1DeliveryDate"] = allQuestions[question].value[0].p1DeliveryDate;
-            targets["p1DeliveryInfoPanel"]["p1DeliveryElectronicReceipt"] = allQuestions[question].value[0].p1DeliveryElectronicReceipt;
-            targets["p1DeliveryInfoPanel"]["p1DeliveryElectronicReceiptRetain"] = allQuestions[question].value[0].p1DeliveryElectronicReceiptRetain[0];
-          } else if (currQuestion.name === "deceasedName") {
-            console.log("Found the deceased name");
-            console.log(currQuestion);
-            targets["deceasedName"] = currQuestion.value;
+            for (let i = 0; i < currQuestion.value.length; i++) {         
+              results[i]["p1DeliveryMethod"] = currQuestion.value[i].p1DeliveryMethod;
+              results[i]["p1DeliveryDate"] = currQuestion.value[i].p1DeliveryDate;
+              results[i]["p1DeliveryElectronicReceipt"] = currQuestion.value[i].p1DeliveryElectronicReceipt;
+              results[i]["p1DeliveryElectronicReceiptRetain"] = currQuestion.value[i].p1DeliveryElectronicReceiptRetain[0];
+            }
           }
+          // } else if (currQuestion.name === "deceasedName") {
+          //   console.log("Found the deceased name");
+          //   console.log(currQuestion);
+          //   targets["deceasedName"] = currQuestion.value;
+          // }
         }
-        console.log(targets);
+        console.log(results);
       }
 
       if (state.component === "FormP9") {
