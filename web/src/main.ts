@@ -1,6 +1,6 @@
 import Vue from "vue";
-import VueCompositionAPI from "@vue/composition-api";
 
+import "@/components/survey/survey-state";
 import App from "@/App.vue";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -40,7 +40,6 @@ library.add(faPaperPlane);
 library.add(faBook);
 
 Vue.config.productionTip = false;
-Vue.use(VueCompositionAPI);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.use(VueRouter);
