@@ -1,11 +1,21 @@
 <template>
   <div
-    :key="question.localizableStrings.pastReferenceVariable.renderedHtml"
+    :key="
+      isSurveyEditor
+        ? question.localizableStrings.pastReferenceVariable.htmlValues.default ||
+          question.localizableStrings.pastReferenceVariable.renderedText
+        : question.localizableStrings.pastReferenceVariable.renderedHtml
+    "
     class="form-inline date-select"
   >
     <div class="row">
       <div
-        :key="question.localizableStrings.futureReferenceVariable.renderedHtml"
+        :key="
+          isSurveyEditor
+            ? question.localizableStrings.futureReferenceVariable.htmlValues.default ||
+              question.localizableStrings.futureReferenceVariable.renderedText
+            : question.localizableStrings.futureReferenceVariable.renderedHtml
+        "
         class="col-sm-12 pb-1"
       >
         <select
@@ -51,7 +61,8 @@
 <script>
 export default {
   props: {
-    question: Object
+    question: Object,
+    isSurveyEditor: Boolean
   },
   setup(props) {
     const q = props.question;
