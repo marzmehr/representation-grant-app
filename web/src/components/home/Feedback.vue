@@ -1,47 +1,82 @@
 <template>
   <div class="row mt-4 mt-md-5">
     <div class="col-lg-8" id="feedback">
-      <h2>Give feedback for "Apply to Represent Someone Who Died (also know as Probate)"</h2>
-      <p>If you have already submitted something then don't worry about it, or call 1-800-555-1234.</p>
-    
+
+      <h2 tabindex="-1">Give Feedback for "Apply to Represent Someone Who Died (also know as Probate)"</h2>
+
+      <p>If you have already submitted your stuff and you want to change it, call the help thingy at 1-800-555-1234.</p>
+
+      <div class="alert alert-success alert-dismissible" id="alert-success" role="alert" tabindex="0" v-if="sent">
+        <h3 class="h5 my-0">Feedback Sent</h3>
+        Thank you, your feedback has been submitted.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="sent=false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="alert alert-warning alert-dismissible" id="alert-required" role="alert" tabindex="0"
+        v-if="feedback.invalid">
+        <h3 class="h5 my-0">Required Field(s)</h3>
+        One or more fields are missing from the feedback form.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="feedback.invalid=false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="alert alert-danger alert-dismissible" id="alert-error" role="alert" tabindex="0" v-if="failed">
+        <h3 class="h5 my-0">Error sending feedback</h3>
+        Your request could not be completed at this time, try again later.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="failed=false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
       <div class="row form-group mt-2">
         <div class="col">
           <label class="control-label mb-0">Type of Feedback</label>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="reason" value="problem" id="reason_problem">
+            <input class="form-check-input" type="radio" name="reason" value="problem" id="reason_problem" required
+              v-model="feedback.reason">
             <label class="form-check-label" for="reason_problem">Report a problem with this service</label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="reason" value="positive" id="reason_positive">
+            <input class="form-check-input" type="radio" name="reason" value="positive" id="reason_positive" required
+              v-model="feedback.reason">
             <label class="form-check-label" for="reason_positive">Give positive feedback for this service</label>
           </div>
         </div>
       </div>
 
-       <div class="row form-group">
+      <div class="row form-group">
         <div class="col">
           <label class="control-label mb-0">Name</label>
-          <input class="form-control" size="30" name="from_name" type="text">
+          <input class="form-control" size="30" name="name" type="text" required v-model="feedback.name">
         </div>
       </div>
 
       <div class="row form-group">
         <div class="col">
           <label class="control-label mb-0">Email address</label>
-          <input class="form-control" size="30" name="from_email" type="email">
+          <input class="form-control" size="30" name="email" type="email" required v-model="feedback.email">
         </div>
       </div>
 
       <div class="row form-group">
         <div class="col">
           <label class="control-label mb-0">Feedback</label>
-          <textarea class="form-control" name="comments" rows="6" cols="40"></textarea>
+          <textarea class="form-control" name="comments" rows="6" cols="40" v-model="feedback.comments"></textarea>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col">
+          <re-captcha v-if="recaptchaKey" name="captcha" (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
         </div>
       </div>
 
       <div class="row form-group">
         <div class="col text-left">
-          <button type="submit" class="btn btn-bcgold">
+          <button type="submit" class="btn btn-bcgold" @click="sendFeedback($event)" v-bind:class="{ loading: sending }" :disabled="sending || !canSend">
             <span class="fa fa-paper-plane left"></span> Send Feedback
           </button>
         </div>
@@ -51,19 +86,106 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue} from 'vue-property-decorator';
+
+import { Component, Vue } from "vue-property-decorator";
 import Tooltip from "@/components/survey/components/Tooltip.vue";
 
 @Component({
-  components:{
+  components: {
     Tooltip
   }
 })
-export default class terms extends Vue {
-	public navigate() {
-    this.$router.push({ name: "applicant-status" });      
+
+export default class Feedback extends Vue {
+  public loading = true;
+  private _loginRedirect: string = null;
+  public recaptchaKey: string;
+  public recaptchaResponse: string;
+  public inited = true;
+  public feedback = { reason: '', name: '', email: '', comments: '', invalid: null };
+  public maxCommentLength: number = 160;
+  public failed = false;
+  public sending = false;
+  public sent = false;
+  
+  get canSend(): boolean {
+    return !this.recaptchaRequired || !!this.recaptchaResponse;
   }
-};
+
+  get recaptchaRequired(): boolean {
+    return !!this.recaptchaKey;
+  }
+
+  checkFeedback(fb) {
+    if (!fb.reason || !fb.name || !fb.email)
+      return false;
+    return true;
+  }
+
+
+  focusAlert(id) {
+    setTimeout(() => {
+      let alert = document.getElementById(id);
+      if (alert) alert.focus();
+    }, 50);
+  }
+
+  resolvedCaptcha(captchaResponse: string) {
+    this.recaptchaResponse = captchaResponse;
+  }
+
+  sendingComplete() {
+    this.sending = false;
+    grecaptcha.reset();
+    this.recaptchaResponse ="";
+  }
+
+  sendFeedback(evt) {
+    if (evt) evt.preventDefault();
+    if (this.sending) return;
+    this.sending = true;
+    this.sent = false;
+
+    const fb = this.feedback;
+    const valid = this.checkFeedback(fb);
+    fb.invalid = valid ? null : 'required';
+    if (!valid) {
+      this.focusAlert('alert-required');
+      this.sending = false;
+      return;
+    }
+
+    const url = this.dataService.getApiUrl('feedback/');
+    const opts = this.recaptchaResponse
+      ? { headers: { "X-CAPTCHA-RESPONSE": this.recaptchaResponse } }
+      : undefined;
+    this.http
+      .post(url, fb,{ responseType: "json", ...opts })
+      .toPromise()
+      .then(
+        (rs) => {
+          if (rs && rs["status"] == "sent") {
+            console.log(" feedback sent successfully", rs);
+            this.focusAlert('alert-success');
+            this.sent = true;
+            this.feedback = { reason: '', name: '', email: '', comments: '', invalid: null };
+          }
+          else {
+            console.log("feedback submission failed", rs);
+            this.focusAlert('alert-error');
+            this.failed = true;
+          }
+          this.sendingComplete();
+        },
+        (err) => {
+          console.log("Error: feedback not submitted", err);
+          this.failed = true;
+          this.sendingComplete();
+          this.focusAlert('alert-error');
+        }
+      );
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -74,5 +196,4 @@ export default class terms extends Vue {
   max-width: 950px;
   color: black;
 }
-
 </style>
