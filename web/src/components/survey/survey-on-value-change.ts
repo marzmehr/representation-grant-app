@@ -15,10 +15,11 @@ const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string)
 const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
   const questionNamesToWatch = ["applicant"];
   if (!questionNamesToWatch.includes(options.name)) return;
-  const targetPanel = sender.getQuestionByName("applicantInfoPanel");
   const applicants = sender.getQuestionByName("applicant")?.value || [];
   const potentialApplicants = getPotentialApplicants.value || [];
-  targetPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
+  const applicantInfoPanel = sender.getQuestionByName("applicantInfoPanel");
+  applicantInfoPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
+  applicantInfoPanel.visible = applicants.length > 0;
   const p1DeliveryInfoPanel = sender.getQuestionByName("p1DeliveryInfoPanel");
   for (const panel of p1DeliveryInfoPanel.panels) {
     for (const question of panel.questions) {
@@ -29,7 +30,9 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
     }
   }
   console.log(
-    `populateApplicantInfoPanel+p1DeliveryInfoPanel - Value: ${JSON.stringify(targetPanel.value)}`
+    `populateApplicantInfoPanel+p1DeliveryInfoPanel - Value: ${JSON.stringify(
+      applicantInfoPanel.value
+    )}`
   );
 };
 
@@ -155,11 +158,20 @@ const determineEarliestSubmissionDate = (sender, options) => {
     dateServed = addDays(dateServed, extraNoticeDays);
     calculatedDates.push(dateServed);
   });
-  if (calculatedDates.length == 0) return false;
-  const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
   const earliestSubmissionDateQuestion = sender.getQuestionByName("p1earliestSubmissionDate");
-  earliestSubmissionDateQuestion.title = earliestSubmissionDateQuestion.title.replace("[insert date here]", format(earliestSubmissionDate, "yyyy-MM-dd"));
-  earliestSubmissionDateQuestion.visible = true;
+  if (calculatedDates.length == 0) {
+    earliestSubmissionDateQuestion.visible = false;
+  } else {
+    const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
+    sender.setVariable("earliestSubmissionDate", format(earliestSubmissionDate, "yyyy-MM-dd"));
+    earliestSubmissionDateQuestion.visible = true;
+    console.log(
+      `determineEarliestSubmissionDate - earliestSubmissionDate: ${format(
+        earliestSubmissionDate,
+        "yyyy-MM-dd"
+      )}`
+    );
+  }
 };
 
 export function onValueChanged(sender, options) {
