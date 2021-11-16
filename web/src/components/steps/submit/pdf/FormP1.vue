@@ -40,7 +40,7 @@
 
       <underline-form
         textwidth="36rem"
-        beforetext="takeNoticedTitle"
+        :beforetext="takeNoticeTitle"
         hint="Full Name of Applicant(s)"
         :text="getAllApplicants"
       />
@@ -533,13 +533,13 @@ export default class FormP1 extends Vue {
 
   get takeNoticeTitle() {
     const applicantList = this.applicantList;
-    if (applicantList.length == 1) return `The applicant ${applicantList[0]} proposes:`;
+    if (applicantList.length == 1) return `The applicant ${applicantList[0].fullName} proposes:`;
     if (applicantList.length == 2)
-      return `The applicants (${applicantList[0]} and ${applicantList[1]}) propose:`;
+      return `The applicants (${applicantList[0].fullName} and ${applicantList[1].fullName}) propose:`;
     if (applicantList.length >= 3)
-      return `The applicants (${applicantList
+      return `The applicants (${applicantList.map(a => a.fullName)
         .slice(0, -1)
-        .join(" ")} and ${applicantList.pop()}) propose:`;
+        .join(" ")} and ${applicantList.pop().fullName}) propose:`;
   }
 
   get getAllApplicants() {

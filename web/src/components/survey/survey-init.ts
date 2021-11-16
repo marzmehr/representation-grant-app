@@ -72,4 +72,15 @@ function calcHolidays() {
   return holidays
 }
 
+function calcHolidaysByDate() {
+  let date = new Date();
+  const yearRange = 100; // some day we may want to make this more flexible
+  let holidays = {};
+  for (let i = -yearRange; i <= yearRange; i++) {
+    holidays = Object.assign({}, holidays, HolidayHelper.bcStatsDates(date.getFullYear() + i));
+  }
+  return holidays
+}
+
 export const holidays = calcHolidays();
+export const holidaysByDate = calcHolidaysByDate();
