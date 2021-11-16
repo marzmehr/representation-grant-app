@@ -70,7 +70,7 @@
 
       <div class="row form-group">
         <div class="col">
-          <re-captcha v-if="recaptchaKey" name="captcha" (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+          <vue-recaptcha siteKey="your key here"></vue-recaptcha>
         </div>
       </div>
 
@@ -89,6 +89,7 @@
 
 import { Component, Vue } from "vue-property-decorator";
 import Tooltip from "@/components/survey/components/Tooltip.vue";
+import VueRecaptcha from "vue-recaptcha";
 
 @Component({
   components: {
@@ -99,22 +100,13 @@ import Tooltip from "@/components/survey/components/Tooltip.vue";
 export default class Feedback extends Vue {
   public loading = true;
   private _loginRedirect: string = null;
-  public recaptchaKey: string;
-  public recaptchaResponse: string;
   public inited = true;
   public feedback = { reason: '', name: '', email: '', comments: '', invalid: null };
   public maxCommentLength: number = 160;
   public failed = false;
   public sending = false;
   public sent = false;
-  
-  get canSend(): boolean {
-    return !this.recaptchaRequired || !!this.recaptchaResponse;
-  }
 
-  get recaptchaRequired(): boolean {
-    return !!this.recaptchaKey;
-  }
 
   checkFeedback(fb) {
     if (!fb.reason || !fb.name || !fb.email)
@@ -128,16 +120,6 @@ export default class Feedback extends Vue {
       let alert = document.getElementById(id);
       if (alert) alert.focus();
     }, 50);
-  }
-
-  resolvedCaptcha(captchaResponse: string) {
-    this.recaptchaResponse = captchaResponse;
-  }
-
-  sendingComplete() {
-    this.sending = false;
-    grecaptcha.reset();
-    this.recaptchaResponse ="";
   }
 
   sendFeedback(evt) {
@@ -155,12 +137,9 @@ export default class Feedback extends Vue {
       return;
     }
 
-    const url = this.dataService.getApiUrl('feedback/');
-    const opts = this.recaptchaResponse
-      ? { headers: { "X-CAPTCHA-RESPONSE": this.recaptchaResponse } }
-      : undefined;
+    const url = this.dataService.getApiUrl('/feedback');
     this.http
-      .post(url, fb,{ responseType: "json", ...opts })
+      .post(url, fb,{ responseType: "json"})
       .toPromise()
       .then(
         (rs) => {
@@ -175,12 +154,10 @@ export default class Feedback extends Vue {
             this.focusAlert('alert-error');
             this.failed = true;
           }
-          this.sendingComplete();
         },
         (err) => {
           console.log("Error: feedback not submitted", err);
           this.failed = true;
-          this.sendingComplete();
           this.focusAlert('alert-error');
         }
       );
