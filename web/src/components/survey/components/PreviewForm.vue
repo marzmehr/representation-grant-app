@@ -27,55 +27,63 @@ export default defineComponent({
       state.component = q.formSelect;
 
       function collectDataFormP9(q) {
-        const targets = {
-          "applicantInfoPanel": [
-            // "applicantCourthouse",
-            "applicantOrdinaryAddress",
-            "applicantOccupation"
-          ],
-          "p1DeliveryInfoPanel": [
-            "p1DeliveryMethod",
-            "p1DeliveryDate",
-            "p1DeliveryElectronicReceipt",
-            "p1DeliveryElectronicReceiptRetain"
-          ],
-          // "deceasedName": ""
-        }
-
         const allQuestions = q.survey.getAllQuestions();
-        const keys = Object.keys(targets);
-        console.log(keys);
 
-        let results = [];
+        let applicantList = [];
+        let deceased = {
+          fullName: "",
+          first: "",
+          middle: "",
+          last: "",
+          address: ""
+        };
         for (const i in allQuestions) {
           const currQuestion = allQuestions[i];
 
           if (currQuestion.name === "applicantInfoPanel") {
-            console.log("Found the applicant info panel");
-            console.log(currQuestion);
-            for (let i = 0; i < currQuestion.value.length; i++) {
-              let result = {};
-              result["applicantOrdinaryAddress"] = currQuestion.value[i].applicantOrdinaryAddress;
-              result["applicantOccupation"] = currQuestion.value[i].applicantOccupation;
-              results.push(result);
+            for (let j = 0; i < currQuestion.value.length; i++) {
+              applicantList[i]["applicantOrdinaryAddress"] = currQuestion.value[j]?.applicantOrdinaryAddress;
+              applicantList[i]["applicantOccupation"] = currQuestion.value[j]?.applicantOccupation;
             }
           } else if (currQuestion.name === "p1DeliveryInfoPanel") {
-            console.log("Found the delivery info panel");
-            console.log(currQuestion);
-            for (let i = 0; i < currQuestion.value.length; i++) {         
-              results[i]["p1DeliveryMethod"] = currQuestion.value[i].p1DeliveryMethod;
-              results[i]["p1DeliveryDate"] = currQuestion.value[i].p1DeliveryDate;
-              results[i]["p1DeliveryElectronicReceipt"] = currQuestion.value[i].p1DeliveryElectronicReceipt;
-              results[i]["p1DeliveryElectronicReceiptRetain"] = currQuestion.value[i].p1DeliveryElectronicReceiptRetain[0];
+            for (let j = 0; i < currQuestion.value.length; i++) {    
+              applicantList[i]["p1DeliveryMethod"] = currQuestion.value[j]?.p1DeliveryMethod;
+              applicantList[i]["p1DeliveryDate"] = currQuestion.value[j]?.p1DeliveryDate;
+              applicantList[i]["p1DeliveryElectronicReceipt"] = currQuestion.value[j]?.p1DeliveryElectronicReceipt;
+              // applicantList[i]["p1DeliveryElectronicReceiptRetain"] = currQuestion.value[j]?.p1DeliveryElectronicReceiptRetain[0];
             }
+          } else if (currQuestion.name === "deceasedName") {
+            const first = currQuestion.value.first;
+            const middle = currQuestion.value.middle;
+            const last = currQuestion.value.last;
+            const full = first + " " + middle + " " + last;
+
+            deceased["first"] = first;
+            deceased["middle"] = middle;
+            deceased["last"] = last;
+            deceased["fullName"] = full;
+          } else if (currQuestion.name === "deceasedAddress") {
+            const city = currQuestion.value.city;
+            const country = currQuestion.value.country;
+            const postcode = currQuestion.value.postcode;
+            const state = currQuestion.value.state;
+            const street = currQuestion.value.street;
+
+            deceased["address"] = street + ", " + city + ", " + state + ", " + country + " " + postcode;
+          } else if (currQuestion.name === "applicant") {
+            const key = currQuestion.value;
+            for (const j in currQuestion.choices) {
+              if (currQuestion.choices[j].value == key) {
+                applicantList[i]["fullName"] = currQuestion.choices[j].text;
+                break;
+              }
+            }
+            applicant
+            console.log(currQuestion);
           }
-          // } else if (currQuestion.name === "deceasedName") {
-          //   console.log("Found the deceased name");
-          //   console.log(currQuestion);
-          //   targets["deceasedName"] = currQuestion.value;
-          // }
         }
-        console.log(results);
+        console.log(applicantList);
+        console.log(deceased);
       }
 
       if (state.component === "FormP9") {
