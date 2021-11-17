@@ -23,6 +23,10 @@ export const fixExpression = Survey => {
         card.$mount();
         el.parentNode.appendChild(card.$el);
         el.parentNode.removeChild(el);
+      },
+      willUnmount: function(question, el) {
+        if (question.survey.platformName == "vue") return;
+          el.children[0].__vue__.$destroy();
       }
     },
     "type"
