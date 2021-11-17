@@ -43,7 +43,11 @@ export function initContactInfoBlock(Survey: any) {
     },
     willUnmount: function(question, el) {
       if (question.survey.platformName == "vue") return;
-        el.children[0].__vue__.$destroy();
+      for (let i = 0; i < el.children.length; i++) {
+        if (el.children[i].__vue__) {
+          el.children[i].__vue__.$destroy();
+        }
+      }
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");

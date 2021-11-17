@@ -22,11 +22,15 @@ export const fixExpression = Survey => {
         });
         card.$mount();
         el.parentNode.appendChild(card.$el);
-        el.parentNode.removeChild(el);
+        el.style.display = "none"; //If we remove it, willUnmount will never be called.
       },
       willUnmount: function(question, el) {
         if (question.survey.platformName == "vue") return;
-          el.children[0].__vue__.$destroy();
+        for (let i = 0; i < el.parentNode.children.length; i++) {
+          if (el.parentNode.children[i].__vue__) {
+            el.parentNode.children[i].__vue__.$destroy();
+          }
+        }
       }
     },
     "type"
