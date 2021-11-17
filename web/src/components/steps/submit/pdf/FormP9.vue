@@ -477,26 +477,8 @@ export default class FormP9 extends Vue {
   */
   public populateApplicantListWithSurvey(survey) {
     const allQuestions = survey.getAllQuestions();
-    // this.applicantList.push({
-    //   fullName: "Its first Son",
-    //   first: "Its",
-    //   middle: "first",
-    //   last: "Son",
-    //   address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-    //   notIndividual: "",
-    //   individual: "yes",
-    //   sameMail: "",
-    //   differentMail: "yes",
-    //   differentAddress: "New York, USA",
-    //   occupation: "work",
-    //   city: "Victoria",
-    //   state: "BC",
-    //   country: "Canada",
-    //   section130: "(a)"
-    // });
 
     for (const i in allQuestions) {
-      const currQuestion = allQuestions[i];
       let applicant = {
         fullName: "",
         first: "",
@@ -518,6 +500,9 @@ export default class FormP9 extends Vue {
         deliveryElectronicReceipt: "",
         deliveryElectronicReceiptRetain: ""
       }
+      const currQuestion = allQuestions[i];
+      let updated = false;
+      
 
       switch(currQuestion.name) {
         case "applicantInfoPanel":
@@ -525,12 +510,14 @@ export default class FormP9 extends Vue {
 
           applicant.address = base.street + ", " + base.city + ", " + base.state + ", " + base.country + " " + base.postcode;;
           applicant.occupation = currQuestion.value[0]?.applicantOccupation;
+          updated = true;
         
         case "p1DeliveryInfoPanel":
           applicant.deliveryMethod = currQuestion.value[0]?.p1DeliveryMethod;
           applicant.deliveryDate = currQuestion.value[0]?.p1DeliveryDate;
           applicant.deliveryElectronicReceipt = currQuestion.value[0]?.p1DeliveryElectronicReceipt;
           applicant.deliveryElectronicReceiptRetain = currQuestion.value[0]?.p1DeliveryElectronicReceiptRetain[0];
+          updated = true;
 
         case "deceasedName":
           const first = currQuestion.value.first;
@@ -542,13 +529,20 @@ export default class FormP9 extends Vue {
           this.deceased["middle"] = middle;
           this.deceased["last"] = last;
           this.deceased["fullName"] = full;
+          updated = true;
         
         case "deceasedAddress":
           const value = currQuestion.value;
           this.deceased["address"] = value.street + ", " + value.city + ", " + value.state + ", " + value.country + " " + value.postcode;
-        
+          updated = true;
+
         case "applicant":
           applicant.fullName = currQuestion.choices[0].text;
+          updated = true;
+      }
+
+      if (updated) {
+        this.applicantList.push(applicant);
       }
     }
   }
