@@ -325,7 +325,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 
 import { namespace } from "vuex-class";
 import "@/store/modules/application";
@@ -341,6 +341,9 @@ import CheckBox from "./components/CheckBox.vue";
   }
 })
 export default class FormP9 extends Vue {
+  @Prop({ required: false })
+  survey;
+
   @applicationState.Action
   public UpdateGotoPrevStepPage!: () => void;
 
@@ -380,28 +383,12 @@ export default class FormP9 extends Vue {
     date: "20 March 2020"
   };
 
-/* 
-Fields of interest from surveyJS:
-These fields will have to be put together from a bunch of different places. 
-They will need to be transformed I believe.. as an applicantPanel doesn't exist (it takes it from different places).
-The responsbility of this component isn't to transform the data, it's simply to display the data.
-
-applicantInfoPanel:
-  applicantCourthouse
-  applicantOrdinaryAddress
-  applicantOccupation
-
-p1DeliveryInfoPanel
-  p1DeliveryMethod
-  p1DeliveryDate
-  p1DeliveryElectronicReceipt
-  p1DeliveryElectronicReceiptRetain
-
-deceasedName
-*/
-
   mounted() {
-    this.changeApplicantList();
+    if (this.survey) {
+      this.populateApplicantListWithSurvey(this.survey);
+    } else {
+      this.changeApplicantList();  
+    }
   }
 
   public changeApplicantList() {
@@ -467,6 +454,103 @@ deceasedName
         console.error(err);
       }
     );
+  }
+
+  /* 
+  Fields of interest from surveyJS:
+  These fields will have to be put together from a bunch of different places. 
+  They will need to be transformed I believe.. as an applicantPanel doesn't exist (it takes it from different places).
+  The responsbility of this component isn't to transform the data, it's simply to display the data.
+
+  applicantInfoPanel:
+    applicantCourthouse
+    applicantOrdinaryAddress
+    applicantOccupation
+
+  p1DeliveryInfoPanel
+    p1DeliveryMethod
+    p1DeliveryDate
+    p1DeliveryElectronicReceipt
+    p1DeliveryElectronicReceiptRetain
+
+  deceasedName
+  */
+  public populateApplicantListWithSurvey(survey) {
+    const allQuestions = survey.getAllQuestions();
+    // this.applicantList.push({
+    //   fullName: "Its first Son",
+    //   first: "Its",
+    //   middle: "first",
+    //   last: "Son",
+    //   address: "0-123 st, Victoria, BC, Canada V0i 8i8",
+    //   notIndividual: "",
+    //   individual: "yes",
+    //   sameMail: "",
+    //   differentMail: "yes",
+    //   differentAddress: "New York, USA",
+    //   occupation: "work",
+    //   city: "Victoria",
+    //   state: "BC",
+    //   country: "Canada",
+    //   section130: "(a)"
+    // });
+
+    for (const i in allQuestions) {
+      const currQuestion = allQuestions[i];
+      let applicant = {
+        fullName: "",
+        first: "",
+        middle: "",
+        last: "",
+        address: "",
+        notIndividual: "",
+        individual: "",
+        sameMail: "",
+        differentMail: "",
+        differentAddress: "",
+        occupation: "",
+        city: "",
+        state: "",
+        country: "",
+        section130: "",
+        deliveryMethod: "",
+        deliveryDate: "",
+        deliveryElectronicReceipt: "",
+        deliveryElectronicReceiptRetain: ""
+      }
+
+      switch(currQuestion.name) {
+        case "applicantInfoPanel":
+          const base = currQuestion.value[0]?.applicantOrdinaryAddress.value;
+
+          applicant.address = base.street + ", " + base.city + ", " + base.state + ", " + base.country + " " + base.postcode;;
+          applicant.occupation = currQuestion.value[0]?.applicantOccupation;
+        
+        case "p1DeliveryInfoPanel":
+          applicant.deliveryMethod = currQuestion.value[0]?.p1DeliveryMethod;
+          applicant.deliveryDate = currQuestion.value[0]?.p1DeliveryDate;
+          applicant.deliveryElectronicReceipt = currQuestion.value[0]?.p1DeliveryElectronicReceipt;
+          applicant.deliveryElectronicReceiptRetain = currQuestion.value[0]?.p1DeliveryElectronicReceiptRetain[0];
+
+        case "deceasedName":
+          const first = currQuestion.value.first;
+          const middle = currQuestion.value.middle;
+          const last = currQuestion.value.last;
+          const full = first + " " + middle + " " + last;
+
+          this.deceased["first"] = first;
+          this.deceased["middle"] = middle;
+          this.deceased["last"] = last;
+          this.deceased["fullName"] = full;
+        
+        case "deceasedAddress":
+          const value = currQuestion.value;
+          this.deceased["address"] = value.street + ", " + value.city + ", " + value.state + ", " + value.country + " " + value.postcode;
+        
+        case "applicant":
+          applicant.fullName = currQuestion.choices[0].text;
+      }
+    }
   }
 }
 </script>
