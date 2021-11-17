@@ -61,6 +61,10 @@ export function initPersonName(Survey: any) {
       });
       card.$mount();
       el.appendChild(card.$el);
+    },
+    willUnmount: function(question, el) {
+      if (question.survey.platformName == "vue") return;
+        el.children[0].__vue__.$destroy();
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
