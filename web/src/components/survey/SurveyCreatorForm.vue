@@ -68,7 +68,6 @@ export default class SurveyCreatorForm extends Vue {
     ace.edit(document.getElementsByName("survey-json-editor")[0], {});
 
     editor.onSurveyInstanceCreated.add(function(sender, options) {
-      (window as any).surveyInstance = options.survey;
       //These need to be here to keep track of panel counts.
       /* This causes bad performance up 5 second extra on survey start.
         options.survey
