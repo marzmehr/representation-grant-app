@@ -54,7 +54,6 @@ export default class SurveySandBox extends Vue {
   }
 
   public addSurveyListener() {
-    (window as any).surveyInstance = this.survey;
     //These need to be here to keep track of panel counts.
 
     /* This causes terrible performance. 
