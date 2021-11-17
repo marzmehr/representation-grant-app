@@ -233,7 +233,7 @@ export default defineComponent({
           for (let j = 0; j < questions.length - 1; j++) {
             if (select === questions[j].name && questions[j].isVisible) {
               state.results.push({
-                question: convertTicksToToolTip(questions[j].title),
+                question: convertTicksToToolTip(questions[j].localizableStrings.title.renderedHtml),
                 answer: formatAnswers(questions[j])
               });
             }
