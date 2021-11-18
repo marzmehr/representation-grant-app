@@ -155,7 +155,8 @@
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
             textwidth="15rem"
             beforetext="on"
-            text="January 3, 2021"
+            v-if="applicantList.length > 0"
+            :text="applicantList[0].p1DeliveryDate"
           />
           <underline-form
             style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
@@ -243,7 +244,7 @@
             style="margin-top:1rem;word-spacing:6.5px;text-align-last:justify;"
             shift="40"
             shiftmark="0"
-            :check="check2"
+            :check="false"
             text="Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing,"
           />
           <div style=" text-indent: 70px;">
@@ -356,6 +357,7 @@ export default class FormP9 extends Vue {
   check2 = "&#10003";
 
   applicantList = [];
+  recipientList = [];
   successorsRep = [
     { repName: "RIP mother", repType: "Parent", successorName: "RIP child" },
     {
@@ -383,7 +385,7 @@ export default class FormP9 extends Vue {
 
   mounted() {
     if (this.survey) {
-      this.populateApplicantListWithSurvey(this.survey);
+      this.populateForm(this.survey);
     } else {
       this.changeApplicantList();  
     }
@@ -461,21 +463,22 @@ export default class FormP9 extends Vue {
   }
 
   private buildInitialApplicantList(applicantQuestion) {
-    let template = {
-      courthouse: "",
-      address: "",
-      fullName: "",
-      occupation: "",
-      p1DeliveryMethod: "",
-      p1DeliveryDate: "",
-      p1DeliveryElectronicReceipt: "",
-      p1DeliveryElectronicReceiptRetain: "",
+    const template = [
+      "courthouse",
+      "address",
+      "fullName",
+      "occupation",
+      "p1DelivererName",
+      "p1DeliveryMethod",
+      "p1DeliveryDate",
+      "p1DeliveryElectronicReceipt",
+      "p1DeliveryElectronicReceiptRetain",
       // not sure about these items
-      individual: "",
-      sameMail: "",
-      differentMail: "",
-      differentAddress: "",
-    }
+      "individual",
+      "sameMail",
+      "differentMail",
+      "differentAddress",
+    ]
 
     const applicants = applicantQuestion.value;
     const choices = applicantQuestion.choices;
@@ -483,23 +486,108 @@ export default class FormP9 extends Vue {
     let count = 0;
     while (count < applicants.length) {
       let newApplicant = {};
-      for (const key of Object.keys(template)) {
-        newApplicant[key] = "";
+      for (const item of template) {
+        newApplicant[item] = "";
       }
       this.applicantList.push(newApplicant);
       count++;
     }
 
-    let indices = [];
     for (const a in applicants) {
       for (const c in choices) {
         if (applicants[a] === choices[c].value) {
-          indices.push(c);
           this.applicantList[a].fullName = applicantQuestion.choices[c].text;
         }
       }
     }
-    return indices;
+    return this.applicantList.length;
+  }
+
+  private getNumRecipients(allQuestions) {
+    const template = [
+      "p1DelivererName",
+      "p1DeliveryMethod",
+      "p1DeliveryDate",
+      "p1DeliveryElectronicReceipt",
+      "p1DeliveryElectronicReceiptRetain",
+    ]
+
+    const applicants = applicantQuestion.value;
+    const choices = applicantQuestion.choices;
+
+    let count = 0;
+    while (count < applicants.length) {
+      let newApplicant = {};
+      for (const item of template) {
+        newApplicant[item] = "";
+      }
+      this.applicantList.push(newApplicant);
+      count++;
+    }
+
+    for (const a in applicants) {
+      for (const c in choices) {
+        if (applicants[a] === choices[c].value) {
+          this.applicantList[a].fullName = applicantQuestion.choices[c].text;
+        }
+      }
+    }
+    return this.applicantList.length;
+  }
+
+  private buildRecipientList(allQuestions) {
+    const numRecipients = this.getNumRecipients(allQuestions);
+    for (const currQuestion of allQuestions) {
+      if (currQuestion.name === "p1DeliveryInfoPanel") {
+        console.log("we get in here");
+        console.log(currQuestion);
+        for (let idx = 0; idx < numRecipients; idx++) {
+          this.recipientList[idx].p1DelivererName = currQuestion.value[idx].p1DelivererName || "";
+          this.recipientList[idx].p1DeliveryMethod = currQuestion.value[idx].p1DeliveryMethod || "";
+          this.recipientList[idx].p1DeliveryDate = currQuestion.value[idx].p1DeliveryDate || "";
+          this.recipientList[idx].p1DeliveryElectronicReceipt = currQuestion.value[idx].p1DeliveryElectronicReceipt || "";
+          this.recipientList[idx].p1DeliveryElectronicReceiptRetain = currQuestion.value[idx].p1DeliveryElectronicReceiptRetain || "";
+        }
+      }
+    }
+    console.log(this.recipientList);
+  }
+
+  private getDeceasedName(allQuestions) {
+    for (const currQuestion of allQuestions) {
+      if (currQuestion.name === "deceasedName") {
+        const first = currQuestion.value.first || "";
+        const middle = currQuestion.value.middle || "";
+        const last = currQuestion.value.last || "";
+        this.deceased["fullName"] = first + " " + middle + " " + last;
+      }
+    }
+    console.log(this.deceased);
+  }
+
+  private buildApplicantList(allQuestions) {
+    const applicantQuestion = this.getApplicantQuestion(allQuestions);
+    const numApplicants = this.buildInitialApplicantList(applicantQuestion);
+    console.log(numApplicants);
+    console.log("prelim applicants");
+    console.log(this.applicantList);
+
+    for (const currQuestion of allQuestions) {
+      if (currQuestion.name === "applicantInfoPanel") {
+        for (let idx = 0; idx < numApplicants; idx++) {
+          console.log(currQuestion);
+          const base = currQuestion.value[idx]?.applicantOrdinaryAddress;
+          const street = base.street || "";
+          const city = base.city || "";
+          const state = base.state || "";
+          const country = base.country || "";
+          const postcode = base.postcode || "";
+          this.applicantList[idx].address = street + ", " + city + ", " + state + ", " + country + " " + postcode;
+          this.applicantList[idx].occupation = currQuestion.value[idx].applicantOccupation || "";
+        }
+      }
+      console.log(this.applicantList);
+    }  
   }
 
   /* 
@@ -514,6 +602,7 @@ export default class FormP9 extends Vue {
     applicantOccupation
 
   p1DeliveryInfoPanel
+    p1DelivererName
     p1DeliveryMethod
     p1DeliveryDate
     p1DeliveryElectronicReceipt
@@ -521,47 +610,11 @@ export default class FormP9 extends Vue {
 
   deceasedName
   */
-  public populateApplicantListWithSurvey(survey) {
+  public populateForm(survey) {
     const allQuestions = survey.getAllQuestions();
-
-    // figure out which applicants are selected.
-    
-    const applicantQuestion = this.getApplicantQuestion(allQuestions);
-    let indices = this.buildInitialApplicantList(applicantQuestion);
-    console.log(indices);
-    console.log("prelim applicants");
-    console.log(this.applicantList);
-
-    for (const currQuestion of allQuestions) {
-      if (currQuestion.name === "applicantInfoPanel") {
-        for (let idx in indices) {
-          const target = indices[idx];
-          const base = currQuestion.value[target]?.applicantOrdinaryAddress;
-          const street = base.street || "";
-          const city = base.city || "";
-          const state = base.state || "";
-          const country = base.country || "";
-          const postcode = base.postcode || "";
-          this.applicantList[idx].address = street + ", " + city + ", " + state + ", " + country + " " + postcode;
-          this.applicantList[idx].occupation = currQuestion.value[target].applicantOccupation || "";
-        }
-      } else if (currQuestion.name === "p1DeliveryInfoPanel") {
-        for (let idx in indices) {
-          const target = indices[idx];
-          this.applicantList[idx].deliveryMethod = currQuestion.value[target].p1DeliveryMethod || "";
-          this.applicantList[idx].deliveryDate = currQuestion.value[target].p1DeliveryDate || "";
-          this.applicantList[idx].deliveryElectronicReceipt = currQuestion.value[target].p1DeliveryElectronicReceipt || "";
-          this.applicantList[idx].deliveryElectronicReceiptRetain = currQuestion.value[target].p1DeliveryElectronicReceiptRetain || "";
-        }
-      } else if (currQuestion.name === "deceasedName") {
-        const first = currQuestion.value.first || "";
-        const middle = currQuestion.value.middle || "";
-        const last = currQuestion.value.last || "";
-        this.deceased["fullName"] = first + " " + middle + " " + last;
-      }
-    }
-    console.log(this.applicantList);
-    console.log(this.deceased);
+    this.buildApplicantList(allQuestions);
+    this.buildRecipientList(allQuestions);
+    this.getDeceasedName(allQuestions);
   }
 }
 </script>
