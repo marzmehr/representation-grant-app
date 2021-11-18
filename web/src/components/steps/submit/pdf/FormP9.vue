@@ -144,33 +144,23 @@
             :check="check2"
             text="by mailing it/them to the following persons by ordinary mail:"
           />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="41.5rem"
-            beforetext=""
-            hint=""
-            text="lawyer1"
-          />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="15rem"
-            beforetext="on"
-            v-if="applicantList.length > 0"
-            :text="applicantList[0].p1DeliveryDate"
-          />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="41.5rem"
-            beforetext=""
-            hint=""
-            text="lawyer2"
-          />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="15rem"
-            beforetext="on"
-            text="January 3, 2021"
-          />
+          <template v-for="recipient in recipientList">
+            <underline-form
+              :key="recipient"
+              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+              textwidth="41.5rem"
+              beforetext=""
+              hint=""
+              :text="recipient.p1DelivererName"
+            />
+            <underline-form
+              :key="recipient"
+              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+              textwidth="15rem"
+              beforetext="on"
+              :text="recipient.p1DeliveryDate"
+            />
+          </template>
 
           <check-box
             style="margin-top:1rem;"
@@ -179,32 +169,23 @@
             :check="check2"
             text="by handing it/them to and leaving it/them with the following persons:"
           />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="41.5rem"
-            beforetext=""
-            hint=""
-            text="lawyer1"
-          />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="15rem"
-            beforetext="on"
-            text="January 3, 2021"
-          />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="41.5rem"
-            beforetext=""
-            hint=""
-            text="lawyer2"
-          />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="15rem"
-            beforetext="on"
-            text="January 3, 2021"
-          />
+          <template v-for="recipient in recipientList">
+            <underline-form
+              :key="recipient"
+              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+              textwidth="41.5rem"
+              beforetext=""
+              hint=""
+              :text="recipient.p1DelivererName"
+            />
+            <underline-form
+              :key="recipient"
+              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+              textwidth="15rem"
+              beforetext="on"
+              :text="recipient.p1DeliveryDate"
+            />
+          </template>
 
           <check-box
             style="margin-top:1rem;"
@@ -213,32 +194,23 @@
             :check="check2"
             text="by sending it/them to the following persons by e-mail, fax or other electronic means to that person:"
           />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="41.5rem"
-            beforetext=""
-            hint=""
-            text="lawyer1"
-          />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="15rem"
-            beforetext="on"
-            text="January 3, 2021"
-          />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="41.5rem"
-            beforetext=""
-            hint=""
-            text="lawyer2"
-          />
-          <underline-form
-            style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-            textwidth="15rem"
-            beforetext="on"
-            text="January 3, 2021"
-          />
+          <template v-for="recipient in recipientList">
+            <underline-form
+              :key="recipient"
+              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+              textwidth="41.5rem"
+              beforetext=""
+              hint=""
+              :text="recipient.p1DelivererName"
+            />
+            <underline-form
+              :key="recipient"
+              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+              textwidth="15rem"
+              beforetext="on"
+              :text="recipient.p1DeliveryDate"
+            />
+          </template>
 
           <check-box
             style="margin-top:1rem;word-spacing:6.5px;text-align-last:justify;"
@@ -503,7 +475,7 @@ export default class FormP9 extends Vue {
     return this.applicantList.length;
   }
 
-  private getNumRecipients(allQuestions) {
+  private buildInitialRecipeintList(recipientQuestion) {
     const template = [
       "p1DelivererName",
       "p1DeliveryMethod",
@@ -511,45 +483,54 @@ export default class FormP9 extends Vue {
       "p1DeliveryElectronicReceipt",
       "p1DeliveryElectronicReceiptRetain",
     ]
+    console.log(recipientQuestion);
+    const recipients = recipientQuestion.value;
 
-    const applicants = applicantQuestion.value;
-    const choices = applicantQuestion.choices;
-
-    let count = 0;
-    while (count < applicants.length) {
-      let newApplicant = {};
+    for (const i in recipients) {
+      // use template to set up list item
+      let newRecipient = {};
       for (const item of template) {
-        newApplicant[item] = "";
+        newRecipient[item] = "";
       }
-      this.applicantList.push(newApplicant);
-      count++;
-    }
+      this.recipientList.push(newRecipient);
 
-    for (const a in applicants) {
-      for (const c in choices) {
-        if (applicants[a] === choices[c].value) {
-          this.applicantList[a].fullName = applicantQuestion.choices[c].text;
+      // gives us `s0` and we need to get the name from that
+      const target = recipients[i].p1DelivererName;
+
+      for (const question of recipientQuestion.panels[i].questions) {
+        if (question.name === "p1DelivererName") {
+          for (const choice of question.choices) {
+            if (target === choice.value) {
+              this.recipientList[i].p1DelivererName = choice.text;
+            }
+          }
         }
       }
     }
-    return this.applicantList.length;
+    
+    console.log("result");
+    console.log(this.recipientList);
+    return this.recipientList.length;
+  }
+
+  private getRecipientQuestion(questions) {
+    for (const question of questions) {
+      if (question.name === "p1DeliveryInfoPanel") {
+        return question;
+      }
+    }
   }
 
   private buildRecipientList(allQuestions) {
-    const numRecipients = this.getNumRecipients(allQuestions);
-    for (const currQuestion of allQuestions) {
-      if (currQuestion.name === "p1DeliveryInfoPanel") {
-        console.log("we get in here");
-        console.log(currQuestion);
-        for (let idx = 0; idx < numRecipients; idx++) {
-          this.recipientList[idx].p1DelivererName = currQuestion.value[idx].p1DelivererName || "";
-          this.recipientList[idx].p1DeliveryMethod = currQuestion.value[idx].p1DeliveryMethod || "";
-          this.recipientList[idx].p1DeliveryDate = currQuestion.value[idx].p1DeliveryDate || "";
-          this.recipientList[idx].p1DeliveryElectronicReceipt = currQuestion.value[idx].p1DeliveryElectronicReceipt || "";
-          this.recipientList[idx].p1DeliveryElectronicReceiptRetain = currQuestion.value[idx].p1DeliveryElectronicReceiptRetain || "";
-        }
-      }
+    const recipientQuestion = this.getRecipientQuestion(allQuestions);
+    const numRecipients = this.buildInitialRecipeintList(recipientQuestion);
+    for (let idx = 0; idx < numRecipients; idx++) {
+      this.recipientList[idx].p1DeliveryMethod = recipientQuestion.value[idx].p1DeliveryMethod || "";
+      this.recipientList[idx].p1DeliveryDate = recipientQuestion.value[idx].p1DeliveryDate || "";
+      this.recipientList[idx].p1DeliveryElectronicReceipt = recipientQuestion.value[idx].p1DeliveryElectronicReceipt || "";
+      this.recipientList[idx].p1DeliveryElectronicReceiptRetain = recipientQuestion.value[idx].p1DeliveryElectronicReceiptRetain ? recipientQuestion.value[idx].p1DeliveryElectronicReceiptRetain[0] : "";
     }
+    console.log("recipient list");
     console.log(this.recipientList);
   }
 
@@ -562,20 +543,15 @@ export default class FormP9 extends Vue {
         this.deceased["fullName"] = first + " " + middle + " " + last;
       }
     }
-    console.log(this.deceased);
   }
 
   private buildApplicantList(allQuestions) {
     const applicantQuestion = this.getApplicantQuestion(allQuestions);
     const numApplicants = this.buildInitialApplicantList(applicantQuestion);
-    console.log(numApplicants);
-    console.log("prelim applicants");
-    console.log(this.applicantList);
 
     for (const currQuestion of allQuestions) {
       if (currQuestion.name === "applicantInfoPanel") {
         for (let idx = 0; idx < numApplicants; idx++) {
-          console.log(currQuestion);
           const base = currQuestion.value[idx]?.applicantOrdinaryAddress;
           const street = base.street || "";
           const city = base.city || "";
@@ -586,7 +562,6 @@ export default class FormP9 extends Vue {
           this.applicantList[idx].occupation = currQuestion.value[idx].applicantOccupation || "";
         }
       }
-      console.log(this.applicantList);
     }  
   }
 
