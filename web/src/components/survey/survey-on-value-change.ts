@@ -3,7 +3,12 @@ import { addDays, format, getDay, parseISO } from "date-fns";
 import { ItemValue } from "survey-vue";
 import { DayOfWeek } from "../utils/holiday";
 import { holidaysByDate } from "./survey-init";
-import { getPotentialApplicants, setPotentialApplicants } from "./survey-state";
+import {
+  getPotentialApplicants,
+  setApplicants,
+  setPotentialApplicants,
+  setRecipients
+} from "./survey-state";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
 const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string) => {
@@ -13,30 +18,32 @@ const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string)
 };
 
 const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
-  const questionNamesToWatch = ["applicant"];
+  const questionNamesToWatch = ["applicant","spouseInfoPanel", "childInfoPanel"];
   if (!questionNamesToWatch.includes(options.name)) return;
   const applicants = sender.getQuestionByName("applicant")?.value || [];
   const potentialApplicants = getPotentialApplicants.value || [];
   const applicantInfoPanel = sender.getQuestionByName("applicantInfoPanel");
-  applicantInfoPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
-  applicantInfoPanel.visible = applicants.length > 0;
-  const p1DeliveryInfoPanel = sender.getQuestionByName("p1DeliveryInfoPanel");
-  for (const panel of p1DeliveryInfoPanel.panels) {
-    for (const question of panel.questions) {
-      if (question.name != "p1DelivererName") continue;
-      question.choices = potentialApplicants.map(
-        p => new ItemValue(`${p.key}`, `${p.applicantName}`)
-      );
-    }
+  if (applicantInfoPanel) {
+    applicantInfoPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
+    applicantInfoPanel.visible = applicants.length > 0;
+    console.log(`applicantInfoPanel - Value: ${JSON.stringify(applicantInfoPanel.value)}`);
   }
-  console.log(
-    `populateApplicantInfoPanel+p1DeliveryInfoPanel - Value: ${JSON.stringify(
-      applicantInfoPanel.value
-    )}`
-  );
+  const p1DeliveryInfoPanel = sender.getQuestionByName("p1DeliveryInfoPanel");
+  if (p1DeliveryInfoPanel) {
+    const choices = applicants
+      .map(a => potentialApplicants.find(pa => pa.key == a))
+      .map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
+    for (const panel of p1DeliveryInfoPanel.panels) {
+      for (const question of panel.questions) {
+        if (question.name != "p1DelivererName") continue;
+        question.choices = choices;
+      }
+    }
+    console.log(`populatep1DeliveryInfoPanel - Value: ${JSON.stringify(choices)}`);
+  }
 };
 
-const combinePotentialApplicants = (sender, options) => {
+const determinePotentialApplicants = (sender, options) => {
   const questionNamesToWatch = ["spouseInfoPanel", "childInfoPanel"];
   if (!questionNamesToWatch.includes(options.name)) return;
   let spousePanel =
@@ -50,7 +57,7 @@ const combinePotentialApplicants = (sender, options) => {
     .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
     .map(s => s.childName);
 
-  const applicants = [
+  const potentialApplicants = [
     ...spousePanel.map((sp, index) => ({
       applicantRole: "spouse",
       applicantName: sp,
@@ -63,45 +70,35 @@ const combinePotentialApplicants = (sender, options) => {
     }))
   ];
   const applicant = sender.getQuestionByName("applicant");
-  applicant.choices = applicants.map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
-  setPotentialApplicants(applicants);
+  applicant.choices = potentialApplicants.map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
+  setPotentialApplicants(potentialApplicants);
   console.log(
     `combinePotentialApplicants - Applicant choices: ${JSON.stringify(applicant.choices)}`
   );
 };
 
-const combineRecipients = (sender, options) => {
-  const questionNamesToWatch = ["spouseInfoPanel", "childInfoPanel"];
+const determineRecipients = (sender, options) => {
+  const questionNamesToWatch = ["applicant", "spouseInfoPanel", "childInfoPanel"];
   if (!questionNamesToWatch.includes(options.name)) return;
-  let spousePanel =
-    getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[0]) || [];
-  let childPanel = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[1]) || [];
 
-  spousePanel = spousePanel
-    .filter(s => s.spouseIsAlive == "n" || s.spouseIsAdult == "n" || s.spouseIsCompetent == "n")
-    .map(s => s.spouseName);
-  childPanel = childPanel
-    .filter(s => s.childIsAlive == "n" || s.childIsAdult == "n" || s.childIsCompetent == "n")
-    .map(s => s.childName);
-
-  const recipients = [
-    ...spousePanel.map((sp, index) => ({
-      recipientRole: "spouse",
-      recipientName: sp,
-      key: `s${index}`
-    })),
-    ...childPanel.map((c, index) => ({
-      recipientRole: "child",
-      recipientName: c,
-      key: `c${index}`
-    }))
-  ];
+  let selectedApplicants = getValueFromOptionsOrGetQuestion(sender, options, "applicant") || [];
+  const potentialApplicants = getPotentialApplicants.value;
+  const recipients = potentialApplicants
+    .filter(pa => !selectedApplicants.find(sa => sa == pa.key))
+    .map(pa => ({
+      recipientRole: pa.applicantRole,
+      recipientName: pa.applicantName,
+      key: pa.key
+    }));
+  setRecipients(recipients);
 
   //Going to have to combine objects here, not just replace.
   const targetPanel = sender.getQuestionByName("p1DeliveryInfoPanel");
-  targetPanel.value = recipients;
+  if (targetPanel) {
+    targetPanel.value = recipients;
+  }
   console.log(
-    `combineRecipients - p1DeliveryInfoPanel value: ${JSON.stringify(targetPanel.value)}`
+    `determineRecipients - p1DeliveryInfoPanel value: ${JSON.stringify(targetPanel.value)}`
   );
 };
 
@@ -115,6 +112,7 @@ const determineEarliestSubmissionDate = (sender, options) => {
     let dateServed = parseISO(value?.p1DeliveryDate);
     const timeOfDay = value?.p1DeliveryTime;
     if (!method || isNaN(dateServed.getTime())) return;
+    if (method == "electronic" && !timeOfDay) return;
     let extraNoticeDays = 21;
     switch (method) {
       case "inperson":
@@ -163,20 +161,20 @@ const determineEarliestSubmissionDate = (sender, options) => {
     earliestSubmissionDateQuestion.visible = false;
   } else {
     const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
-    sender.setVariable("earliestSubmissionDate", format(earliestSubmissionDate, "yyyy-MM-dd"));
+    sender.setVariable("earliestSubmissionDate", format(earliestSubmissionDate, "MMMM d, yyyy"));
     earliestSubmissionDateQuestion.visible = true;
     console.log(
       `determineEarliestSubmissionDate - earliestSubmissionDate: ${format(
         earliestSubmissionDate,
-        "yyyy-MM-dd"
+        "MMMM d, yyyy"
       )}`
     );
   }
 };
 
 export function onValueChanged(sender, options) {
+  determinePotentialApplicants(sender, options);
+  determineRecipients(sender, options);
   populateApplicantInfoPanelAndP1DeliveryInfoPanel(sender, options);
-  combinePotentialApplicants(sender, options);
-  combineRecipients(sender, options);
   determineEarliestSubmissionDate(sender, options);
 }
