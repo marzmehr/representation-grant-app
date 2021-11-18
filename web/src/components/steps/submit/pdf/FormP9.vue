@@ -137,79 +137,85 @@
             to the following persons as follows:
           </div>
 
-          <check-box
-            style="margin-top:1rem;"
-            shift="0"
-            shiftmark="0"
-            :check="check2"
-            text="by mailing it/them to the following persons by ordinary mail:"
-          />
-          <template v-for="recipient in recipientList">
-            <underline-form
-              :key="recipient"
-              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-              textwidth="41.5rem"
-              beforetext=""
-              hint=""
-              :text="recipient.p1DelivererName"
+          <template v-if="mailRecipients.length > 0">
+            <check-box
+              style="margin-top:1rem;"
+              shift="0"
+              shiftmark="0"
+              :check="check2"
+              text="by mailing it/them to the following persons by ordinary mail:"
             />
-            <underline-form
-              :key="recipient"
-              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-              textwidth="15rem"
-              beforetext="on"
-              :text="recipient.p1DeliveryDate"
-            />
+            <template v-for="recipient in mailRecipients">
+              <underline-form
+                :key="recipient"
+                style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                textwidth="41.5rem"
+                beforetext=""
+                hint=""
+                :text="recipient.p1DelivererName"
+              />
+              <underline-form
+                :key="recipient"
+                style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                textwidth="15rem"
+                beforetext="on"
+                :text="recipient.p1DeliveryDate"
+              />
+            </template>
           </template>
 
-          <check-box
-            style="margin-top:1rem;"
-            shift="0"
-            shiftmark="0"
-            :check="check2"
-            text="by handing it/them to and leaving it/them with the following persons:"
-          />
-          <template v-for="recipient in recipientList">
-            <underline-form
-              :key="recipient"
-              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-              textwidth="41.5rem"
-              beforetext=""
-              hint=""
-              :text="recipient.p1DelivererName"
+          <template v-if="inPersonRecipients.length > 0">
+            <check-box
+              style="margin-top:1rem;"
+              shift="0"
+              shiftmark="0"
+              :check="check2"
+              text="by handing it/them to and leaving it/them with the following persons:"
             />
-            <underline-form
-              :key="recipient"
-              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-              textwidth="15rem"
-              beforetext="on"
-              :text="recipient.p1DeliveryDate"
-            />
+            <template v-for="recipient in inPersonRecipients">
+              <underline-form
+                :key="recipient"
+                style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                textwidth="41.5rem"
+                beforetext=""
+                hint=""
+                :text="recipient.p1DelivererName"
+              />
+              <underline-form
+                :key="recipient"
+                style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                textwidth="15rem"
+                beforetext="on"
+                :text="recipient.p1DeliveryDate"
+              />
+            </template>
           </template>
 
-          <check-box
-            style="margin-top:1rem;"
-            shift="0"
-            shiftmark="0"
-            :check="check2"
-            text="by sending it/them to the following persons by e-mail, fax or other electronic means to that person:"
-          />
-          <template v-for="recipient in recipientList">
-            <underline-form
-              :key="recipient"
-              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-              textwidth="41.5rem"
-              beforetext=""
-              hint=""
-              :text="recipient.p1DelivererName"
+          <template v-if="electronicRecipients.length > 0">
+            <check-box
+              style="margin-top:1rem;"
+              shift="0"
+              shiftmark="0"
+              :check="check2"
+              text="by sending it/them to the following persons by e-mail, fax or other electronic means to that person:"
             />
-            <underline-form
-              :key="recipient"
-              style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-              textwidth="15rem"
-              beforetext="on"
-              :text="recipient.p1DeliveryDate"
-            />
+            <template v-for="recipient in electronicRecipients">
+              <underline-form
+                :key="recipient"
+                style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                textwidth="41.5rem"
+                beforetext=""
+                hint=""
+                :text="recipient.p1DelivererName"
+              />
+              <underline-form
+                :key="recipient"
+                style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                textwidth="15rem"
+                beforetext="on"
+                :text="recipient.p1DeliveryDate"
+              />
+            </template>
           </template>
 
           <check-box
@@ -590,6 +596,39 @@ export default class FormP9 extends Vue {
     this.buildApplicantList(allQuestions);
     this.buildRecipientList(allQuestions);
     this.getDeceasedName(allQuestions);
+  }
+
+  get mailRecipients() {
+    let mail = [];
+    for (const recipient of this.recipientList) {
+      if(recipient?.p1DeliveryMethod === "mail") {
+        mail.push(recipient);
+      }
+    }
+    console.log(mail);
+    return mail;
+  }
+
+  get inPersonRecipients() {
+    let inperson = [];
+    for (const recipient of this.recipientList) {
+      if(recipient?.p1DeliveryMethod === "inperson") {
+        inperson.push(recipient);
+      }
+    }
+    console.log(inperson);
+    return inperson;
+  }
+
+  get electronicRecipients() {
+    let electronic = [];
+    for (const recipient of this.recipientList) {
+      if(recipient?.p1DeliveryMethod === "electronic") {
+        electronic.push(recipient);
+      }
+    }
+    console.log(electronic);
+    return electronic;
   }
 }
 </script>
