@@ -222,7 +222,7 @@
             style="margin-top:1rem;word-spacing:6.5px;text-align-last:justify;"
             shift="40"
             shiftmark="0"
-            :check="false"
+            :check="recipientList[0]?.p1DeliveryElectronicReceipt === 'y'"
             text="Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing,"
           />
           <div style=" text-indent: 70px;">
