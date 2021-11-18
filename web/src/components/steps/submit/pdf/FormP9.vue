@@ -147,7 +147,7 @@
             />
             <template v-for="recipient in mailRecipients">
               <underline-form
-                :key="recipient"
+                :key="recipient.p1DelivererName"
                 style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
                 textwidth="41.5rem"
                 beforetext=""
@@ -155,7 +155,7 @@
                 :text="recipient.p1DelivererName"
               />
               <underline-form
-                :key="recipient"
+                :key="recipient.p1DeliveryDate"
                 style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
                 textwidth="15rem"
                 beforetext="on"
@@ -174,7 +174,7 @@
             />
             <template v-for="recipient in inPersonRecipients">
               <underline-form
-                :key="recipient"
+                :key="recipient.p1DelivererName"
                 style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
                 textwidth="41.5rem"
                 beforetext=""
@@ -182,7 +182,7 @@
                 :text="recipient.p1DelivererName"
               />
               <underline-form
-                :key="recipient"
+                :key="recipient.p1DeliveryDate"
                 style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
                 textwidth="15rem"
                 beforetext="on"
@@ -201,7 +201,7 @@
             />
             <template v-for="recipient in electronicRecipients">
               <underline-form
-                :key="recipient"
+                :key="recipient.p1DelivererName"
                 style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
                 textwidth="41.5rem"
                 beforetext=""
@@ -209,7 +209,7 @@
                 :text="recipient.p1DelivererName"
               />
               <underline-form
-                :key="recipient"
+                :key="recipient.p1DeliveryDate"
                 style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
                 textwidth="15rem"
                 beforetext="on"
