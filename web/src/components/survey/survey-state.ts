@@ -4,4 +4,12 @@ Vue.use(VueCompositionApi);
 
 const potentialApplicants = ref([]);
 export const getPotentialApplicants = computed(() => potentialApplicants.value);
-export const setPotentialApplicants = newApplicants => (potentialApplicants.value = newApplicants);
+export const setPotentialApplicants = newPotentialApplicants => (potentialApplicants.value = newPotentialApplicants);
+
+const applicants = ref([]);
+export const getApplicants = computed(() => applicants.value);
+export const setApplicants = newApplicants => (applicants.value = newApplicants);
+
+const recipients = ref([]);
+export const getRecipients = computed(() => recipients.value);
+export const setRecipients = recipients => (recipients.value = recipients);
