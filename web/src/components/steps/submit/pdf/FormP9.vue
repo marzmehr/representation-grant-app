@@ -326,6 +326,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import { getPotentialApplicants } from "@/components/survey/survey-state"
 
 import { namespace } from "vuex-class";
 import "@/store/modules/application";
@@ -363,11 +364,7 @@ export default class FormP9 extends Vue {
     }
   ];
   deceased = {
-    fullName: "Rest In Peace",
-    first: "Rest",
-    middle: "In",
-    last: "Peace",
-    address: "0-123 st, Victoria, BC, Canada V0i 8i8"
+    fullName: "Rest In Peace"
   };
   serviceContact = {
     address: "0-123 st, Victoria, BC, Canada V0i 8i8",
@@ -394,21 +391,19 @@ export default class FormP9 extends Vue {
   public changeApplicantList() {
     this.applicantList = [];
     this.applicantList.push({
-      fullName: "Its first Son",
-      first: "Its",
-      middle: "first",
-      last: "Son",
-      address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-      notIndividual: "",
+      courthouse: "The main courthouse",
+      address: "123 Some Street",
+      fullName: "Douglas W.R. Rodgers",
+      occupation: "Learned Doctor",
+      p1DeliveryMethod: "in person",
+      p1DeliveryDate: "2021-11-17",
+      p1DeliveryElectronicReceipt: "yes",
+      p1DeliveryElectronicReceiptRetain: "confirm",
+      // not sure about these items
       individual: "yes",
       sameMail: "",
-      differentMail: "yes",
-      differentAddress: "New York, USA",
-      occupation: "work",
-      city: "Victoria",
-      state: "BC",
-      country: "Canada",
-      section130: "(a)"
+      differentMail: "",
+      differentAddress: "",
     });
   }
 
@@ -477,74 +472,73 @@ export default class FormP9 extends Vue {
   */
   public populateApplicantListWithSurvey(survey) {
     const allQuestions = survey.getAllQuestions();
+    const numApplicants = getPotentialApplicants.value.length;
+    let applicant = {
+      courthouse: "",
+      address: "",
+      fullName: "",
+      occupation: "",
+      p1DeliveryMethop1D: "",
+      p1DeliveryDate: "",
+      p1DeliveryElectronicReceipt: "",
+      p1DeliveryElectronicReceiptRetain: "",
+      // not sure about these items
+      individual: "",
+      sameMail: "",
+      differentMail: "",
+      differentAddress: "",
+    }
+
+    // template for applicants
+    if (numApplicants === 0) {
+      return;
+    }
+
+    for (let i = 0; i < numApplicants; i++) {
+      this.applicantList.push(applicant);
+    }
 
     for (const i in allQuestions) {
-      let applicant = {
-        fullName: "",
-        first: "",
-        middle: "",
-        last: "",
-        address: "",
-        notIndividual: "",
-        individual: "",
-        sameMail: "",
-        differentMail: "",
-        differentAddress: "",
-        occupation: "",
-        city: "",
-        state: "",
-        country: "",
-        section130: "",
-        deliveryMethod: "",
-        deliveryDate: "",
-        deliveryElectronicReceipt: "",
-        deliveryElectronicReceiptRetain: ""
-      }
       const currQuestion = allQuestions[i];
-      let updated = false;
       
-
-      switch(currQuestion.name) {
-        case "applicantInfoPanel":
-          const base = currQuestion.value[0]?.applicantOrdinaryAddress.value;
-
-          applicant.address = base.street + ", " + base.city + ", " + base.state + ", " + base.country + " " + base.postcode;;
-          applicant.occupation = currQuestion.value[0]?.applicantOccupation;
-          updated = true;
-        
-        case "p1DeliveryInfoPanel":
-          applicant.deliveryMethod = currQuestion.value[0]?.p1DeliveryMethod;
-          applicant.deliveryDate = currQuestion.value[0]?.p1DeliveryDate;
-          applicant.deliveryElectronicReceipt = currQuestion.value[0]?.p1DeliveryElectronicReceipt;
-          applicant.deliveryElectronicReceiptRetain = currQuestion.value[0]?.p1DeliveryElectronicReceiptRetain[0];
-          updated = true;
-
-        case "deceasedName":
-          const first = currQuestion.value.first;
-          const middle = currQuestion.value.middle;
-          const last = currQuestion.value.last;
-          const full = first + " " + middle + " " + last;
-
-          this.deceased["first"] = first;
-          this.deceased["middle"] = middle;
-          this.deceased["last"] = last;
-          this.deceased["fullName"] = full;
-          updated = true;
-        
-        case "deceasedAddress":
-          const value = currQuestion.value;
-          this.deceased["address"] = value.street + ", " + value.city + ", " + value.state + ", " + value.country + " " + value.postcode;
-          updated = true;
-
-        case "applicant":
-          applicant.fullName = currQuestion.choices[0].text;
-          updated = true;
-      }
-
-      if (updated) {
-        this.applicantList.push(applicant);
+      if (currQuestion.name === "applicantInfoPanel") {
+        for (let j = 0; j < currQuestion.value.length; j++) {
+          const base = currQuestion.value[j].applicantOrdinaryAddress;
+          const street = base.street || "";
+          const city = base.city || "";
+          const state = base.state || "";
+          const country = base.country || "";
+          const postcode = base.postcode || "";
+          this.applicantList[j].address = street + ", " + city + ", " + state + ", " + country + " " + postcode;
+          this.applicantList[j].occupation = currQuestion.value[j].applicantOccupation || "";
+        }
+      } else if (currQuestion.name === "p1DeliveryInfoPanel") {
+        for (let j = 0; j < currQuestion.value.length; j++) {
+          this.applicantList[j].deliveryMethod = currQuestion.value[j].p1DeliveryMethod || "";
+          this.applicantList[j].deliveryDate = currQuestion.value[j].p1DeliveryDate || "";
+          this.applicantList[j].deliveryElectronicReceipt = currQuestion.value[j].p1DeliveryElectronicReceipt || "";
+          this.applicantList[j].deliveryElectronicReceiptRetain = currQuestion.value[j].p1DeliveryElectronicReceiptRetain || "";
+        }
+      } else if (currQuestion.name === "deceasedName") {
+        const first = currQuestion.value.first || "";
+        const middle = currQuestion.value.middle || "";
+        const last = currQuestion.value.last || "";
+        this.deceased["fullName"] = first + " " + middle + " " + last;
+      } else if (currQuestion.name === "applicant") {
+        console.log(currQuestion);
+        for (let j = 0; j < currQuestion.value.length; j++) {
+          for (let k = 0; k < currQuestion.choices.length; k++) {
+            if (currQuestion.value[j] === currQuestion.choices[k].value) {
+              console.log("we got a match");
+              console.log(currQuestion.choices[k].text);
+              this.applicantList[j].fullName = currQuestion.choices[k].text;
+            }
+          }
+        }
       }
     }
+    console.log(this.applicantList);
+    console.log(this.deceased);
   }
 }
 </script>
