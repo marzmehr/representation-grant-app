@@ -334,6 +334,7 @@ const applicationState = namespace("Application");
 
 import UnderlineForm from "./components/UnderlineForm.vue";
 import CheckBox from "./components/CheckBox.vue";
+import { all } from "underscore";
 
 @Component({
   components: {
@@ -451,6 +452,56 @@ export default class FormP9 extends Vue {
     );
   }
 
+  private getApplicantQuestion(questions) {
+    for (const question of questions) {
+      if (question.name === "applicant") {
+        return question;
+      }
+    }
+  }
+
+  private buildInitialApplicantList(applicantQuestion) {
+    let template = {
+      courthouse: "",
+      address: "",
+      fullName: "",
+      occupation: "",
+      p1DeliveryMethod: "",
+      p1DeliveryDate: "",
+      p1DeliveryElectronicReceipt: "",
+      p1DeliveryElectronicReceiptRetain: "",
+      // not sure about these items
+      individual: "",
+      sameMail: "",
+      differentMail: "",
+      differentAddress: "",
+    }
+
+    const applicants = applicantQuestion.value;
+    const choices = applicantQuestion.choices;
+
+    let count = 0;
+    while (count < applicants.length) {
+      let newApplicant = {};
+      for (const key of Object.keys(template)) {
+        newApplicant[key] = "";
+      }
+      this.applicantList.push(newApplicant);
+      count++;
+    }
+
+    let indices = [];
+    for (const a in applicants) {
+      for (const c in choices) {
+        if (applicants[a] === choices[c].value) {
+          indices.push(c);
+          this.applicantList[a].fullName = applicantQuestion.choices[c].text;
+        }
+      }
+    }
+    return indices;
+  }
+
   /* 
   Fields of interest from surveyJS:
   These fields will have to be put together from a bunch of different places. 
@@ -472,69 +523,41 @@ export default class FormP9 extends Vue {
   */
   public populateApplicantListWithSurvey(survey) {
     const allQuestions = survey.getAllQuestions();
-    const numApplicants = getPotentialApplicants.value.length;
-    let applicant = {
-      courthouse: "",
-      address: "",
-      fullName: "",
-      occupation: "",
-      p1DeliveryMethop1D: "",
-      p1DeliveryDate: "",
-      p1DeliveryElectronicReceipt: "",
-      p1DeliveryElectronicReceiptRetain: "",
-      // not sure about these items
-      individual: "",
-      sameMail: "",
-      differentMail: "",
-      differentAddress: "",
-    }
 
-    // template for applicants
-    if (numApplicants === 0) {
-      return;
-    }
+    // figure out which applicants are selected.
+    
+    const applicantQuestion = this.getApplicantQuestion(allQuestions);
+    let indices = this.buildInitialApplicantList(applicantQuestion);
+    console.log(indices);
+    console.log("prelim applicants");
+    console.log(this.applicantList);
 
-    for (let i = 0; i < numApplicants; i++) {
-      this.applicantList.push(applicant);
-    }
-
-    for (const i in allQuestions) {
-      const currQuestion = allQuestions[i];
-      
+    for (const currQuestion of allQuestions) {
       if (currQuestion.name === "applicantInfoPanel") {
-        for (let j = 0; j < currQuestion.value.length; j++) {
-          const base = currQuestion.value[j].applicantOrdinaryAddress;
+        for (let idx in indices) {
+          const target = indices[idx];
+          const base = currQuestion.value[target]?.applicantOrdinaryAddress;
           const street = base.street || "";
           const city = base.city || "";
           const state = base.state || "";
           const country = base.country || "";
           const postcode = base.postcode || "";
-          this.applicantList[j].address = street + ", " + city + ", " + state + ", " + country + " " + postcode;
-          this.applicantList[j].occupation = currQuestion.value[j].applicantOccupation || "";
+          this.applicantList[idx].address = street + ", " + city + ", " + state + ", " + country + " " + postcode;
+          this.applicantList[idx].occupation = currQuestion.value[target].applicantOccupation || "";
         }
       } else if (currQuestion.name === "p1DeliveryInfoPanel") {
-        for (let j = 0; j < currQuestion.value.length; j++) {
-          this.applicantList[j].deliveryMethod = currQuestion.value[j].p1DeliveryMethod || "";
-          this.applicantList[j].deliveryDate = currQuestion.value[j].p1DeliveryDate || "";
-          this.applicantList[j].deliveryElectronicReceipt = currQuestion.value[j].p1DeliveryElectronicReceipt || "";
-          this.applicantList[j].deliveryElectronicReceiptRetain = currQuestion.value[j].p1DeliveryElectronicReceiptRetain || "";
+        for (let idx in indices) {
+          const target = indices[idx];
+          this.applicantList[idx].deliveryMethod = currQuestion.value[target].p1DeliveryMethod || "";
+          this.applicantList[idx].deliveryDate = currQuestion.value[target].p1DeliveryDate || "";
+          this.applicantList[idx].deliveryElectronicReceipt = currQuestion.value[target].p1DeliveryElectronicReceipt || "";
+          this.applicantList[idx].deliveryElectronicReceiptRetain = currQuestion.value[target].p1DeliveryElectronicReceiptRetain || "";
         }
       } else if (currQuestion.name === "deceasedName") {
         const first = currQuestion.value.first || "";
         const middle = currQuestion.value.middle || "";
         const last = currQuestion.value.last || "";
         this.deceased["fullName"] = first + " " + middle + " " + last;
-      } else if (currQuestion.name === "applicant") {
-        console.log(currQuestion);
-        for (let j = 0; j < currQuestion.value.length; j++) {
-          for (let k = 0; k < currQuestion.choices.length; k++) {
-            if (currQuestion.value[j] === currQuestion.choices[k].value) {
-              console.log("we got a match");
-              console.log(currQuestion.choices[k].text);
-              this.applicantList[j].fullName = currQuestion.choices[k].text;
-            }
-          }
-        }
       }
     }
     console.log(this.applicantList);
