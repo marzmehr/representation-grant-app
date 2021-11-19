@@ -10,6 +10,7 @@ import { initReviewAnswers } from "./review-answers-type";
 import { fixExpression } from "./fix-expression-type";
 import { addToInputText } from "./add-to-input-text-type";
 import { addCustomExpressions } from "../survey-expressions";
+import { initPreviewForm } from "./preview-form-type";
 
 export enum WidgetValueName {
   HelpText,
@@ -24,7 +25,7 @@ export enum WidgetValueName {
   EarliestSubmissionDate,
   expressionFix,
   textImprovements,
-  DateMath
+  PreviewForm
 }
 
 export function addQuestionTypes(Survey: any) {
@@ -41,6 +42,7 @@ export function addQuestionTypes(Survey: any) {
   initContactInfoBlock(Survey);
   initCustomDate(Survey);
   addCustomExpressions(Survey);
+  initPreviewForm(Survey);
 }
 
 export function addToolboxOptions(editor: any) {
@@ -140,12 +142,12 @@ export function addToolboxOptions(editor: any) {
     }
   });
   editor.toolbox.addItem({
-    name: "datemath",
-    title: "Date Math",
+    name: "previewform",
+    title: "Preview Form",
     isCopied: true,
-    iconName: "icon-checkbox",
+    iconName: "icon-multipletext",
     json: {
-      type: "datemath"
+      type: "previewform"
     }
   });
 }
