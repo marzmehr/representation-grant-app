@@ -1,13 +1,11 @@
 <template>
   <component :is="state.component" :survey="question.survey"></component>
-  <!-- <form-p-9 :survey="question.survey"></form-p-9> -->
 </template>
 
 <script language="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import FormP9 from "@/components/steps/submit/pdf/FormP9.vue";
 import FormP1 from "@/components/steps/submit/pdf/FormP1.vue";
-import { BIconFileEarmarkArrowDownFill } from "bootstrap-vue";
 
 export default defineComponent({
   components: {

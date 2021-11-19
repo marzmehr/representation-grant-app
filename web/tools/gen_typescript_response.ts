@@ -1,6 +1,6 @@
 import * as Survey from "survey-vue";
 import { readFileSync, writeFileSync } from "fs";
-import { addQuestionTypes } from "../src/components/survey/question-types";
+import { addQuestionTypes } from "../src/components/survey/question-types/question-types";
 const json = readFileSync(
   "../src/components/steps/survey-primary.json"
 ).toString();
