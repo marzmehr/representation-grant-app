@@ -54,14 +54,6 @@ export default defineComponent({
       }
     });
 
-    const setValue = val => {
-      this.question.value = val;
-    };
-
-    const toggle = () => {
-      this.question.value = !this.question.value;
-    };
-
     const navigateToUrl = () => {
       const applicationId = props.question.survey.applicationId; //TODO wire this state up.
       const pdfType = props.question.pdfType;
@@ -90,8 +82,6 @@ export default defineComponent({
 
     return {
       state,
-      setValue,
-      toggle,
       navigateToUrl
     };
   }

@@ -7,7 +7,7 @@
         v-model="multipleApplicant"
         :options="[
           { value: false, text: 'Single Applicant' },
-          { value: true, text: '10 (Multiple) Applicants' }
+          { value: true, text: '3 (Multiple) Applicants' }
         ]"
         @change="changeApplicantList()"
       ></b-form-radio-group>
@@ -40,9 +40,9 @@
 
       <underline-form
         textwidth="36rem"
-        :beforetext="takeNoticeTitle"
+        :beforetext="takeNoticeTitle()"
         hint="Full Name of Applicant(s)"
-        :text="getAllApplicants"
+        :text="getAllApplicants()"
       />
       <div style="display:inline-block; text-indent: 5px;">
         propose(s) to apply, in the
@@ -192,27 +192,20 @@
 
         <check-box
           :check="name.individual"
-          text="This applicant is an individual and ordinarily lives"
+          text="This applicant is an individual and ordinarily lives at the mailing address noted above."
         />
 
         <check-box
-          shift="25"
-          shiftmark="0"
-          :check="name.sameMail"
-          text="at the mailing address noted above"
-        />
-        <check-box
           style="display:inline-block;"
-          shift="25"
           shiftmark="0"
           :check="name.differentMail"
-          text=""
+          text="This applicant is an individual and ordinarily lives in the following city and country:"
         />
         <underline-form
           style="text-indent: 26px;"
           class="mt-0"
           textwidth="30rem"
-          beforetext="in the following city and country:"
+          beforetext=""
           hint="City and Country"
           :text="name.differentAddress"
         />
@@ -308,44 +301,88 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { onMounted, defineComponent, reactive, ref } from "@vue/composition-api";
 import UnderlineForm from "./components/UnderlineForm.vue";
 import CheckBox from "./components/CheckBox.vue";
 import { format } from "date-fns";
+import axios, { AxiosRequestConfig } from "axios";
+import { getApplicants } from '@/components/survey/survey-state';
 
-@Component({
+export default defineComponent({
+  name: "FormP1",
+  props: {
+    question: Object,
+    isSurveyEditor: Boolean
+  },
   components: {
     UnderlineForm,
     CheckBox
-  }
-})
-export default class FormP1 extends Vue {
-  multipleApplicant = false;
+  },
+  setup(props) {
+    const multipleApplicant = ref(false);
 
-  check = ""; //"&#10003"
-  check2 = "&#10003";
+    const check = ""; //"&#10003"
+    const check2 = "&#10003";
 
-  surveyData = [];
+    let surveyData = [];
+    let applicantList = ref([]);
+    let deceased = {
+      first: "Rest",
+      middle: "In",
+      last: "Peace",
+      address: "0-123 st, Victoria, BC, Canada V0i 8i8"
+    };
+    let serviceContact = {
+      address: "0-123 st, Victoria, BC, Canada V0i 8i8",
+      phone: "+1 123 456 7890",
+      fax: "+1 123 456 7890",
+      email: "ABC@yahoo.ca"
+    };
 
-  applicantList = [];
-  deceased = {
-    first: "Rest",
-    middle: "In",
-    last: "Peace",
-    address: "0-123 st, Victoria, BC, Canada V0i 8i8"
-  };
-  serviceContact = {
-    address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-    phone: "+1 123 456 7890",
-    fax: "+1 123 456 7890",
-    email: "ABC@yahoo.ca"
-  };
-
-  public changeApplicantList() {
-    this.applicantList = [];
-    if (this.multipleApplicant) {
-      this.applicantList.push(
-        {
+    const changeApplicantList = () => {
+      applicantList.value = [];
+      if (multipleApplicant.value) {
+        applicantList.value.push(
+          {
+            fullName: "Its first Son",
+            first: "Its",
+            middle: "first",
+            last: "Son",
+            address: "0-123 st, Victoria, BC, Canada V0i 8i8",
+            notIndividual: "",
+            individual: "yes",
+            sameMail: "",
+            differentMail: "yes",
+            differentAddress: "New York, USA"
+          },
+          {
+            fullName: "Its first Daughter",
+            first: "Its",
+            middle: "first",
+            last: "Daughter",
+            address: "1-123 st, Victoria, BC, Canada V0i 8i8",
+            notIndividual: "",
+            individual: "yes",
+            sameMail: "yes",
+            differentMail: "",
+            differentAddress: ""
+          },
+          {
+            fullName: "Its second Son",
+            first: "Its",
+            middle: "second",
+            last: "Son",
+            address: "0000 st, Vancouver, BC, Canada V0v 0v0",
+            notIndividual: "",
+            individual: "yes",
+            sameMail: "yes",
+            differentMail: "",
+            differentAddress: "",
+            lawyer: "Its good lawyer"
+          }
+        );
+      } else {
+        applicantList.value.push({
           fullName: "Its first Son",
           first: "Its",
           middle: "first",
@@ -356,135 +393,11 @@ export default class FormP1 extends Vue {
           sameMail: "",
           differentMail: "yes",
           differentAddress: "New York, USA"
-        },
-        {
-          fullName: "Its first Daughter",
-          first: "Its",
-          middle: "first",
-          last: "Daughter",
-          address: "1-123 st, Victoria, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: ""
-        },
-        {
-          fullName: "Its second Son",
-          first: "Its",
-          middle: "second",
-          last: "Son",
-          address: "0000 st, Vancouver, BC, Canada V0v 0v0",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: "",
-          lawyer: "Its good lawyer"
-        },
-        {
-          fullName: "Its second Daughter",
-          first: "Its",
-          middle: "second",
-          last: "Daughter",
-          address: "1111 st, Vancouver, BC, Canada V0v 0v0",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: ""
-        },
-        {
-          fullName: "Its third Son",
-          first: "Its",
-          middle: "third",
-          last: "Son",
-          address: "43-123 st, Victoria, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "",
-          differentMail: "yes",
-          differentAddress: "New York, USA"
-        },
-        {
-          fullName: "Its third Daughter",
-          first: "Its",
-          middle: "third",
-          last: "Daughter",
-          address: "100-123 st, Victoria, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: ""
-        },
-        {
-          fullName: "Its fourth Son",
-          first: "Its",
-          middle: "fourth",
-          last: "Son",
-          address: "7777 st, Vancouver, BC, Canada V0v 0v0",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: "",
-          lawyer: "Its good lawyer"
-        },
-        {
-          fullName: "Its fourth Daughter",
-          first: "Its",
-          middle: "fourth",
-          last: "Daughter",
-          address: "9999 st, Vancouver, BC, Canada V0v 0v0",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: ""
-        },
-        {
-          fullName: "Its fifth Son",
-          first: "Its",
-          middle: "fifth",
-          last: "Son",
-          address: "80-123 st, Vancouver, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "",
-          differentMail: "yes",
-          differentAddress: "New York, USA"
-        },
-        {
-          fullName: "Its fifth Daughter",
-          first: "Its",
-          middle: "fifth",
-          last: "Daughter",
-          address: "780-123 st, Vancouver, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "yes",
-          differentMail: "",
-          differentAddress: ""
-        }
-      );
-    } else {
-      this.applicantList.push({
-        fullName: "Its first Son",
-        first: "Its",
-        middle: "first",
-        last: "Son",
-        address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-        notIndividual: "",
-        individual: "yes",
-        sameMail: "",
-        differentMail: "yes",
-        differentAddress: "New York, USA"
-      });
-    }
-  }
+        });
+      }
+    };
 
-  /* 
+    /* 
   Fields of interest from surveyJS:
   These fields will have to be put together from a bunch of different places. 
   They will need to be transformed I believe.. as an applicantPanel doesn't exist (it takes it from different places).
@@ -510,80 +423,92 @@ export default class FormP1 extends Vue {
   deceasedAddress
   */
 
-  mounted() {
-    this.changeApplicantList();
-  }
-
-  get applicationType() {
-    return "a Grant of Administration Without Will Annexed";
-  }
-
-  get deceasedDateOfDeath() {
-    const deceasedDateOfDeath = new Date();
-    return this.currentDayMonthYear(deceasedDateOfDeath);
-  }
-
-  get courtLocation() {
-    const applicantCourthouseClosest = "y";
-    const applicantCourtHouseDifferent = "applicantCourtHouseDifferent";
-    if (applicantCourthouseClosest == "y") return "Closest Courthouse";
-    if (applicantCourthouseClosest == "n") return applicantCourtHouseDifferent;
-    return "Court Location";
-  }
-
-  get takeNoticeTitle() {
-    const applicantList = this.applicantList;
-    if (applicantList.length == 1) return `The applicant ${applicantList[0].fullName} proposes:`;
-    if (applicantList.length == 2)
-      return `The applicants (${applicantList[0].fullName} and ${applicantList[1].fullName}) propose:`;
-    if (applicantList.length >= 3)
-      return `The applicants (${applicantList.map(a => a.fullName)
-        .slice(0, -1)
-        .join(" ")} and ${applicantList.pop().fullName}) propose:`;
-  }
-
-  get getAllApplicants() {
-    let result = "";
-    for (const name of this.applicantList) result += name.fullName + ", ";
-    result = result.slice(0, -2);
-    if (result.length > 70) result = result.slice(0, 70) + "...";
-    return result;
-  }
-
-  public currentDayMonthYear(date) {
-    return format(date, "MMMM dd, yyyy");
-  }
-
-  public onPrint() {
-    const el = document.getElementById("print");
-    console.log(el);
-    const applicationId = this.$store.state.Application.id;
-
-    const url = "/survey-print/" + applicationId + "/?name=representation-grant";
-    const body = Vue.filter("printPdf")(el.innerHTML, `"SCCRPF  02/2021 \a         Form P1";`);
-    const options = {
-      responseType: "blob",
-      headers: {
-        "Content-Type": "application/json"
-      }
+  
+    const survey = {};
+    const applicationType = () => {
+      return "a Grant of Administration Without Will Annexed";
     };
-    console.log(body);
-    this.$http.post(url, body, options).then(
-      res => {
-        const blob = res.data;
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        document.body.appendChild(link);
-        link.download = "FormP1.pdf";
-        link.click();
-        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-      },
-      err => {
-        console.error(err);
-      }
-    );
+
+    const deceasedDateOfDeath = () => {
+      const deceasedDateOfDeath = new Date();
+      return currentDayMonthYear(deceasedDateOfDeath);
+    };
+
+    const courtLocation = () => {
+      const applicantCourthouseClosest = "y";
+      const applicantCourtHouseDifferent = "applicantCourtHouseDifferent";
+      if (applicantCourthouseClosest == "y") return "Closest Courthouse";
+      if (applicantCourthouseClosest == "n") return applicantCourtHouseDifferent;
+      return "Court Location";
+    };
+
+    const takeNoticeTitle = () => {
+      if (applicantList.value.length == 1) return `The applicant ${applicantList.value[0].fullName} proposes:`;
+      if (applicantList.value.length == 2)
+        return `The applicants (${applicantList.value[0].fullName} and ${applicantList.value[1].fullName}) propose:`;
+      if (applicantList.value.length >= 3)
+        return `The applicants (${applicantList.value
+          .slice(0, -1)
+          .map(a => a.fullName)
+          .join(" ")} and ${applicantList.value.slice(-1)[0].fullName}) propose:`;
+    };
+
+    const getAllApplicants = () => {
+      let result = "";
+      for (const name of applicantList.value) result += name.fullName + ", ";
+      result = result.slice(0, -2);
+      if (result.length > 70) result = result.slice(0, 70) + "...";
+      return result;
+    };
+
+    const currentDayMonthYear = date => {
+      return format(date, "MMMM dd, yyyy");
+    };
+
+    onMounted(() => {
+      changeApplicantList();
+    });
+
+    const onPrint = () => {
+      const applicationId = props.question.survey.applicationId; //TODO wire this state up.
+      const pdfType = props.question.pdfType;
+      const url = `/survey-print/${applicationId}/?pdf_type=${pdfType}`;
+      const options = {
+        responseType: "blob",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      } as AxiosRequestConfig;
+      axios.get(url, options).then(
+        res => {
+          const blob = res.data;
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          document.body.appendChild(link);
+          link.download = `${pdfType}.pdf`;
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    };
+
+    return {
+      onPrint,
+      applicantList,
+      currentDayMonthYear,
+      changeApplicantList,
+      deceased,
+      serviceContact,
+      multipleApplicant,
+      takeNoticeTitle,
+      getAllApplicants,
+      getApplicants
+    };
   }
-}
+});
 </script>
 <style scoped>
 .table >>> th.border-dark {
