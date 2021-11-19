@@ -41,7 +41,7 @@
               textwidth="11rem"
               beforetext="and was made on"
               hint="Affidavit Date (dd mmm yyyy)"
-              :text="today"
+              text=""
             />
           </div>
           <div class="mt-2">
@@ -49,7 +49,7 @@
               textwidth="15rem"
               beforetext=""
               hint="Court Location (leave blank for Commissioner)"
-              :text="recipientList[0].courthouse"
+              text=""
             />
             <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
               Registry
@@ -305,7 +305,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { getPotentialApplicants } from "@/components/survey/survey-state"
+import { getApplicants, getRecipients } from "@/components/survey/survey-state"
 
 import { namespace } from "vuex-class";
 import "@/store/modules/application";
@@ -360,7 +360,6 @@ export default class FormP9 extends Vue {
     last: "Daughter",
     date: "20 March 2020"
   };
-  today = format(new Date(), "dd mm yyyy");
 
   mounted() {
     if (this.survey) {
@@ -509,8 +508,7 @@ export default class FormP9 extends Vue {
       "differentAddress",
     ]
 
-    const applicants = applicantQuestion.value;
-    const choices = applicantQuestion.choices;
+    const applicants = getApplicants.value;
 
     let count = 0;
     while (count < applicants.length) {
@@ -522,25 +520,28 @@ export default class FormP9 extends Vue {
       count++;
     }
 
-    for (const a in applicants) {
-      for (const c in choices) {
-        if (applicants[a] === choices[c].value) {
-          this.applicantList[a].fullName = applicantQuestion.choices[c].text;
-        }
-      }
+    let i = 0
+    for (const applicant of applicants) {
+      this.applicantList[i].fullName = applicant.applicantName;
+      i++;
     }
+
     return this.applicantList.length;
   }
 
   private buildInitialRecipeintList(recipientQuestion) {
     const template = [
+      "recipientName",
       "p1DelivererName",
       "p1DeliveryMethod",
       "p1DeliveryDate",
       "p1DeliveryElectronicReceipt",
       "p1DeliveryElectronicReceiptRetain",
     ]
-    const recipients = recipientQuestion.value;
+
+    const recipients = getRecipients;
+    console.log("these are the recipients");
+    console.log(recipients);
 
     for (const i in recipients) {
       // use template to set up list item
@@ -548,20 +549,9 @@ export default class FormP9 extends Vue {
       for (const item of template) {
         newRecipient[item] = "";
       }
+
       this.recipientList.push(newRecipient);
-
-      // gives us `s0` and we need to get the name from that
-      const target = recipients[i].p1DelivererName;
-
-      for (const question of recipientQuestion.panels[i].questions) {
-        if (question.name === "p1DelivererName") {
-          for (const choice of question.choices) {
-            if (target === choice.value) {
-              this.recipientList[i].p1DelivererName = choice.text;
-            }
-          }
-        }
-      }
+      this.recipientList[i].recipientName = recipients[i].recipientName;
     }
     return this.recipientList.length;
   }
@@ -574,10 +564,23 @@ export default class FormP9 extends Vue {
     }
   }
 
+  private getChoiceFromValue(target, choices) {
+    console.log("IN here");
+    console.log(target);
+    console.log(choices);
+    debugger;
+
+  }
+
   private buildRecipientList(allQuestions) {
+    console.log("building recipients");
     const recipientQuestion = this.getRecipientQuestion(allQuestions);
+    console.log("got the question");
     const numRecipients = this.buildInitialRecipeintList(recipientQuestion);
+    console.log("got num recipients");
+
     for (let idx = 0; idx < numRecipients; idx++) {
+      this.recipientList[idx].p1DelivererName = this.getChoiceFromValue(recipientQuestion.value[idx].p1DelivererName.value, recipientQuestion.value[idx]);
       this.recipientList[idx].p1DeliveryMethod = recipientQuestion.value[idx].p1DeliveryMethod || "";
       const date = new Date(recipientQuestion.value[idx].p1DeliveryDate.replace(/-/g, '\/'))
       this.recipientList[idx].p1DeliveryDate = format(new Date(recipientQuestion.value[idx].p1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") || "";
@@ -614,16 +617,8 @@ export default class FormP9 extends Vue {
           this.applicantList[idx].occupation = currQuestion.value[idx].applicantOccupation || "";
         }
       }
-      if (currQuestion.name === "applicantCourthouse") {
-        const answer = currQuestion.value || "s0";
-        const choices = currQuestion.choices;
-        for (const choice of choices) {
-          if (choice.value == answer) {
-            this.applicantList[0].courthouse = choice.text; 
-          }
-        }
-      }
-    }  
+    }
+    // console.log(this.applicantList);
   }
 
   /* 
@@ -650,7 +645,7 @@ export default class FormP9 extends Vue {
     const allQuestions = survey.getAllQuestions();
     this.buildApplicantList(allQuestions);
     this.buildRecipientList(allQuestions);
-    this.getDeceasedName(allQuestions);
+    // this.getDeceasedName(allQuestions);
   }
 }
 
