@@ -17,6 +17,7 @@ import * as SurveyKO from "survey-knockout";
 import ace from "ace-builds";
 import "ace-builds/src-noconflict/ext-searchbox";
 import { onValueChanged } from "./survey-on-value-change";
+import { getSurveyEnvironment } from "../utils/utils";
 
 @Component
 export default class SurveyCreatorForm extends Vue {
@@ -92,6 +93,7 @@ export default class SurveyCreatorForm extends Vue {
         onValueChanged(sender,options);
         this.updatedKey++;
       });
+      options.survey.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     });
 
     const resizeIfLargeEnoughScreen = () => {

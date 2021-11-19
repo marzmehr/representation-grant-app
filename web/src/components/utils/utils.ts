@@ -14,6 +14,19 @@ export const convertTicksToToolTip = (str: string) => {
   });
 };
 
+export const getSurveyEnvironment = () => {
+  const host = window.location.host;
+  const DEV = ["0.0.0.0", "localhost", "dev."];
+  const TEST = ['test.'];
+  if (DEV.some(s => host.includes(s))) {
+    return "DEV";
+  } else if (TEST.some(s => host.includes(s))) {
+    return "TEST";
+  } else {
+    return "PROD";
+  }
+};
+
 export const SessionManager = {
   logoutAndRedirect: async function(store) {
     store.commit("Application/init");

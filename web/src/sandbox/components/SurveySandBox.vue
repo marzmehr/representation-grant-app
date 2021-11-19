@@ -20,6 +20,7 @@ import Axios from "axios";
 import { addCustomTemplating } from "@/components/survey/survey-templating";
 import { onValueChanged } from "@/components/survey/survey-on-value-change";
 import { defineComponent, onMounted, ref, watch } from "@vue/composition-api";
+import { getSurveyEnvironment } from "@/components/utils/utils";
 
 export default defineComponent({
   name: "SurveySandBox",
@@ -81,6 +82,8 @@ export default defineComponent({
           if (el) el.scrollIntoView();
         });
       });
+    
+      survey.value.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     };
     return {
       survey,
