@@ -62,14 +62,18 @@ const dateFormatter = params => {
   if (!params) return "";
   if (!params[0]) return "";
 
-  return format(parseISO(params[0] + "T08:00:00Z"), "MMMM d, yyyy");
+  if (params[0] instanceof Date) {
+    return format(params[0], "MMMM d, yyyy");
+  } else {
+    return format(parseISO(params[0] + "T08:00:00Z"), "MMMM d, yyyy");
+  }
 };
 
 //Parameters: {questionName}, offset, dateType
 export function dateMath(params: any[]) {
   if (!params) return false;
   if (params.length < 3) return false;
-  
+
   const calcBusinessDays = (date, offset) => {
     if (offset === 0) {
       return date;
@@ -98,7 +102,7 @@ export function dateMath(params: any[]) {
     return date;
   };
 
-  const referenceDate = params[0] ? new Date(params[0].replace(/-/g, '\/')) : null;
+  const referenceDate = params[0] ? new Date(params[0].replace(/-/g, "/")) : null;
   const offset = params[1];
   const daysType = params[2];
 
@@ -135,4 +139,3 @@ export const addCustomExpressions = (Survey: any) => {
 
   Survey.FunctionFactory.Instance.register("dateMath", dateMath);
 };
-
