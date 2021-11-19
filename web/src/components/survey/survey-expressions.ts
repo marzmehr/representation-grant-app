@@ -57,69 +57,6 @@ const listUnion = params => {
   return (params[0] || []).concat(params[1] || []);
 };
 
-//Parameters: {questionName} for rows.
-export function determineEarliestSubmissionDate(params: any[]) {
-  console.log('determineEarliestSubmissionDate');
-  if (!params) return false;
-  if (!params[0]) return false;
-  const rows = params[0];
-  const calculatedDates = [];
-  Object.entries(rows).forEach(([key, value]) => {
-    if (!value["Date Served"] || !value["Method"]) return;
-    const method = value["Method"];
-    let dateServed = parseISO(value["Date Served"]);
-    const timeOfDay = value["Time Of Day"];
-    let extraNoticeDays = 21;
-    switch (method) {
-      case "In-Person":
-        break;
-      case "Electronic": 
-      case "Mail": 
-        /* For physical mail, it is + at least 7 days. 
-           If that 7th day from served date is a Saturday/Sunday/BC Holiday, 
-           needs to be calculating for the next BC business day, 
-           then +21 days on top of that for the countdown. */
-        /* 
-          For electronic/fax service:
-          Saturday/Sunday/BC holiday, date served = next BC business day, then add 21 days on top of that
-          Business day before 4pm, date served is the date served: +0 days, then +21 days on top of that for the countdown.
-          Business day after 4pm, date served = next BC business day, then add 21 days on top of that
-        */
-        let offsetDays = method == "Mail" ? 7 : 0;
-        const bcStats = {
-          ...HolidayHelper.bcStatsDates(dateServed.getFullYear()),
-          ...HolidayHelper.bcStatsDates(dateServed.getFullYear() + 1)
-        };
-        let resolvedDate = false;
-        while (!resolvedDate) {
-          let destinationDate = addDays(dateServed, offsetDays);
-          const destinationDayOfWeek = getDay(destinationDate) as DayOfWeek;
-          if (destinationDayOfWeek == DayOfWeek.Saturday) {
-            offsetDays += 2;
-            continue;
-          } else if (destinationDayOfWeek == DayOfWeek.Sunday) {
-            offsetDays += 1;
-            continue;
-          } else if (bcStats.hasOwnProperty(format(destinationDate, "yyyy-MM-dd"))) {
-            offsetDays += 1;
-            continue;
-          } else if (method == "Electronic" && timeOfDay == "After 4pm" && offsetDays == 0) {
-            offsetDays += 1;
-            continue;
-          }
-          resolvedDate = true;
-          extraNoticeDays += offsetDays;
-        }
-        break;
-    }
-    dateServed = addDays(dateServed, extraNoticeDays);
-    calculatedDates.push(dateServed);
-  });
-  if (calculatedDates.length == 0) return false;
-  const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
-  return format(earliestSubmissionDate, "yyyy-MM-dd");
-}
-
 //Parameters: {questionName} for date.
 const dateFormatter = params => {
   if (!params) return "";
@@ -183,10 +120,6 @@ export const addCustomExpressions = (Survey: any) => {
   FunctionFactory.Instance.register("listExcept", listExcept);
   FunctionFactory.Instance.register("listUnion", listUnion);
   FunctionFactory.Instance.register("isChild", isChild);
-  FunctionFactory.Instance.register(
-    "determineEarliestSubmissionDate",
-    determineEarliestSubmissionDate
-  );
   FunctionFactory.Instance.register("dateFormatter", dateFormatter);
   FunctionFactory.Instance.register("dateMath", dateMath);
 
@@ -198,10 +131,6 @@ export const addCustomExpressions = (Survey: any) => {
   Survey.FunctionFactory.Instance.register("listExcept", listExcept);
   Survey.FunctionFactory.Instance.register("listUnion", listUnion);
   Survey.FunctionFactory.Instance.register("isChild", isChild);
-  Survey.FunctionFactory.Instance.register(
-    "determineEarliestSubmissionDate",
-    determineEarliestSubmissionDate
-  );
   Survey.FunctionFactory.Instance.register("dateFormatter", dateFormatter);
 
   Survey.FunctionFactory.Instance.register("dateMath", dateMath);

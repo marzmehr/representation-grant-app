@@ -71,7 +71,6 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
         row: {
           "Date Served": "2020-01-01",
           "Method": "In-Person",
-          "Time Of Day": "After 4pm"
         }
       }
     ]);
@@ -84,7 +83,6 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
         row: {
           "Date Served": "2021-11-27",
           "Method": "Electronic",
-          "Time Of Day": "After 4pm"
         }
       }
     ])).toBe("2021-12-20");
@@ -93,7 +91,6 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
         row: {
           "Date Served": "2021-11-28",
           "Method": "Electronic",
-          "Time Of Day": "After 4pm"
         }
       }
     ]);
@@ -103,7 +100,6 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
         row: {
           "Date Served": "2025-12-25",
           "Method": "Electronic",
-          "Time Of Day": "After 4pm"
         }
       }
     ]);
@@ -113,30 +109,9 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
         row: {
           "Date Served": "2025-12-26",
           "Method": "Electronic",
-          "Time Of Day": "After 4pm"
         }
       }
     ]);
     expect(holidayDate2).toBe("2026-01-19");
-    const businessDayBeforeFour = determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2021-10-01",
-          "Method": "Electronic",
-          "Time Of Day": "Before 4pm"
-        }
-      }
-    ]);
-    expect(businessDayBeforeFour).toBe("2021-10-22");
-    const businessDayAfterFour = determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2021-10-01",
-          "Method": "Electronic",
-          "Time Of Day": "After 4pm"
-        }
-      }
-    ]);
-    expect(businessDayAfterFour).toBe("2021-10-25");
   });
 });

@@ -15,7 +15,11 @@ export const fixExpression = Survey => {
       },
       htmlTemplate: "<div></div>",
       afterRender: function(question, el) {
-        if (question.survey.platformName == "vue") return;
+        if (question.survey.platformName == "vue") {
+          //This needs to happen because if we make it invisible, it wont calculate the next question.
+          el.closest(".sv_row").style.display = "none";
+          return;
+        }
         const ComponentClass = Vue.extend(Expression);
         const card = new ComponentClass({
           propsData: { question: question }

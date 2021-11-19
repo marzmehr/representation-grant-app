@@ -18,7 +18,7 @@ const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string)
 };
 
 const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
-  const questionNamesToWatch = ["applicant","spouseInfoPanel", "childInfoPanel"];
+  const questionNamesToWatch = ["applicant", "spouseInfoPanel", "childInfoPanel"];
   if (!questionNamesToWatch.includes(options.name)) return;
   const applicants = sender.getQuestionByName("applicant")?.value || [];
   const potentialApplicants = getPotentialApplicants.value || [];
@@ -92,6 +92,9 @@ const determineRecipients = (sender, options) => {
     }));
   setRecipients(recipients);
 
+  const applicants = potentialApplicants.filter(pa => selectedApplicants.find(sa => sa == pa.key));
+  setApplicants(applicants);
+
   //Going to have to combine objects here, not just replace.
   const targetPanel = sender.getQuestionByName("p1DeliveryInfoPanel");
   if (targetPanel) {
@@ -110,9 +113,7 @@ const determineEarliestSubmissionDate = (sender, options) => {
   p1DeliveryInfoPanelValue.forEach(value => {
     const method = value?.p1DeliveryMethod;
     let dateServed = parseISO(value?.p1DeliveryDate);
-    const timeOfDay = value?.p1DeliveryTime;
     if (!method || isNaN(dateServed.getTime())) return;
-    if (method == "electronic" && !timeOfDay) return;
     let extraNoticeDays = 21;
     switch (method) {
       case "inperson":
@@ -144,9 +145,6 @@ const determineEarliestSubmissionDate = (sender, options) => {
           } else if (bcStats.hasOwnProperty(format(destinationDate, "yyyy-MM-dd"))) {
             offsetDays += 1;
             continue;
-          } else if (method == "electronic" && timeOfDay == "after4pm" && offsetDays == 0) {
-            offsetDays += 1;
-            continue;
           }
           resolvedDate = true;
           extraNoticeDays += offsetDays;
@@ -163,6 +161,8 @@ const determineEarliestSubmissionDate = (sender, options) => {
     const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
     sender.setVariable("earliestSubmissionDate", format(earliestSubmissionDate, "MMMM d, yyyy"));
     earliestSubmissionDateQuestion.visible = true;
+    //Have to give it a kick to re-render.
+    earliestSubmissionDateQuestion.title = earliestSubmissionDateQuestion.title + " "; 
     console.log(
       `determineEarliestSubmissionDate - earliestSubmissionDate: ${format(
         earliestSubmissionDate,
