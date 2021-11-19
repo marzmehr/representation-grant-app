@@ -305,7 +305,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { getApplicants, getRecipients } from "@/components/survey/survey-state"
+import { getApplicants, getRecipients } from "@/components/survey/survey-state";
+import { applicantInfoPanel, p1Panel } from "@/types/Application/index";
 
 import { namespace } from "vuex-class";
 import "@/store/modules/application";
@@ -314,6 +315,7 @@ const applicationState = namespace("Application");
 import UnderlineForm from "./components/UnderlineForm.vue";
 import CheckBox from "./components/CheckBox.vue";
 import { format } from 'date-fns'
+import { all } from "underscore";
 
 @Component({
   components: {
@@ -336,6 +338,10 @@ export default class FormP9 extends Vue {
 
   applicantList = [];
   recipientList = [];
+   deceased = {
+    fullName: "Rest In Peace"
+  };
+
   successorsRep = [
     { repName: "RIP mother", repType: "Parent", successorName: "RIP child" },
     {
@@ -344,9 +350,6 @@ export default class FormP9 extends Vue {
       successorName: "RIP second child"
     }
   ];
-  deceased = {
-    fullName: "Rest In Peace"
-  };
   serviceContact = {
     address: "0-123 st, Victoria, BC, Canada V0i 8i8",
     phone: "+1 123 456 7890",
@@ -363,84 +366,57 @@ export default class FormP9 extends Vue {
 
   mounted() {
     if (this.survey) {
-      this.populateForm(this.survey);
+      this.populateFromSurvey(this.survey);
     } else {
-      this.changeApplicantList();  
+      this.populateFromFakeData();  
     }
   }
 
-  get mailRecipients() {
-    let mail = [];
-    for (const recipient of this.recipientList) {
-      if(recipient?.p1DeliveryMethod === "mail") {
-        mail.push(recipient);
-      }
-    }
-    return mail;
+  public mailRecipients(applicants) {
+    return applicants.recipients.filter(r => r?.p1DeliveryMethod === "mail");
   }
 
-  get inPersonRecipients() {
-    let inperson = [];
-    for (const recipient of this.recipientList) {
-      if(recipient?.p1DeliveryMethod === "inperson") {
-        inperson.push(recipient);
-      }
-    }
-    return inperson;
+  public inPersonRecipients(applicants) {
+    return applicants.recipients.filter(r => r?.p1DeliveryMethod === "inperson");
   }
 
-  get electronicRecipients() {
-    let electronic = [];
-    for (const recipient of this.recipientList) {
-      if(recipient?.p1DeliveryMethod === "electronic") {
-        electronic.push(recipient);
-      }
-    }
-    return electronic;
+  public electronicRecipients(applicants) {
+    return applicants.recipients.filter(r => r?.p1DeliveryMethod === "electronic");
   }
 
-  get allP1DeliveryElectronicReceipt() {
-    for (const recipient of this.recipientList) {
-      if(recipient?.p1DeliveryElectronicReceipt !== "y") {
-        return false;
-      }
-    }
-    return true;
+  public allP1DeliveryElectronicReceipt(applicant) {
+    return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceipt !== "y");
   }
 
-  get allP1DeliveryElectronicReceiptRetain() {
-    for (const recipient of this.recipientList) {
-      if(recipient?.p1DeliveryElectronicReceiptRetain !== "confirmed") {
-        return false;
-      }
-    }
-    return true;
+  public allP1DeliveryElectronicReceiptRetain(applicant) {
+    return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceiptRetain !== "confirmed");
   }
 
-  public changeApplicantList() {
-    this.applicantList = [];
-    this.recipientList = [];
-    this.deceased.fullName = "Thomas Wayne";
-
-    this.applicantList.push({
-      courthouse: "Gotham",
+  public populateFromFakeData() {
+    this.deceased.fullName = "Peter P. Doe";
+    let fakeApplicant: applicantInfoPanel = {
+      courthouse: "Victoria Courthouse",
       address: "123 Road St.",
-      fullName: "Bruce Wayne",
-      occupation: "Billionaire",
-      // not sure about these items
+      fullName: "John H. Doe",
+      occupation: "Teacher",
       individual: "",
       sameMail: "",
       differentMail: "",
       differentAddress: "",
-    });
+      recipients: []
+    }
 
-    this.recipientList.push({
-      p1DelivererName: "Alfred",
+    const fakeRecipient: p1Panel = {
+      recipientName: "Jane P. Doe",
+      p1DelivererName: "John H. Doe",
       p1DeliveryMethod: "inperson",
-      p1DeliveryDate: "January 1, 2021",
+      p1DeliveryDate: "January 11, 2021",
       p1DeliveryElectronicReceipt: "",
-      p1DeliveryElectronicReceiptRetain: ""
-    });
+      p1DeliveryElectronicReceiptRetain: "",
+    }
+
+    fakeApplicant.recipients.push(fakeRecipient);
+    this.applicantList.push(fakeApplicant);
   }
 
   public getSignatureMargin() {
@@ -487,138 +463,108 @@ export default class FormP9 extends Vue {
     );
   }
 
-  private getApplicantQuestion(questions) {
+  // TODO: make this more generic 
+  private getChoiceFromValue(target, questions) {
     for (const question of questions) {
-      if (question.name === "applicant") {
-        return question;
-      }
-    }
-  }
-
-  private buildInitialApplicantList(applicantQuestion) {
-    const template = [
-      "courthouse",
-      "address",
-      "fullName",
-      "occupation",
-      // not sure about these items
-      "individual",
-      "sameMail",
-      "differentMail",
-      "differentAddress",
-    ]
-
-    const applicants = getApplicants.value;
-
-    let count = 0;
-    while (count < applicants.length) {
-      let newApplicant = {};
-      for (const item of template) {
-        newApplicant[item] = "";
-      }
-      this.applicantList.push(newApplicant);
-      count++;
-    }
-
-    let i = 0
-    for (const applicant of applicants) {
-      this.applicantList[i].fullName = applicant.applicantName;
-      i++;
-    }
-
-    return this.applicantList.length;
-  }
-
-  private buildInitialRecipeintList(recipientQuestion) {
-    const template = [
-      "recipientName",
-      "p1DelivererName",
-      "p1DeliveryMethod",
-      "p1DeliveryDate",
-      "p1DeliveryElectronicReceipt",
-      "p1DeliveryElectronicReceiptRetain",
-    ]
-
-    const recipients = getRecipients;
-    console.log("these are the recipients");
-    console.log(recipients);
-
-    for (const i in recipients) {
-      // use template to set up list item
-      let newRecipient = {};
-      for (const item of template) {
-        newRecipient[item] = "";
-      }
-
-      this.recipientList.push(newRecipient);
-      this.recipientList[i].recipientName = recipients[i].recipientName;
-    }
-    return this.recipientList.length;
-  }
-
-  private getRecipientQuestion(questions) {
-    for (const question of questions) {
-      if (question.name === "p1DeliveryInfoPanel") {
-        return question;
-      }
-    }
-  }
-
-  private getChoiceFromValue(target, choices) {
-    console.log("IN here");
-    console.log(target);
-    console.log(choices);
-    debugger;
-
-  }
-
-  private buildRecipientList(allQuestions) {
-    console.log("building recipients");
-    const recipientQuestion = this.getRecipientQuestion(allQuestions);
-    console.log("got the question");
-    const numRecipients = this.buildInitialRecipeintList(recipientQuestion);
-    console.log("got num recipients");
-
-    for (let idx = 0; idx < numRecipients; idx++) {
-      this.recipientList[idx].p1DelivererName = this.getChoiceFromValue(recipientQuestion.value[idx].p1DelivererName.value, recipientQuestion.value[idx]);
-      this.recipientList[idx].p1DeliveryMethod = recipientQuestion.value[idx].p1DeliveryMethod || "";
-      const date = new Date(recipientQuestion.value[idx].p1DeliveryDate.replace(/-/g, '\/'))
-      this.recipientList[idx].p1DeliveryDate = format(new Date(recipientQuestion.value[idx].p1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") || "";
-      this.recipientList[idx].p1DeliveryElectronicReceipt = recipientQuestion.value[idx].p1DeliveryElectronicReceipt || "";
-      this.recipientList[idx].p1DeliveryElectronicReceiptRetain = recipientQuestion.value[idx].p1DeliveryElectronicReceiptRetain ? recipientQuestion.value[idx].p1DeliveryElectronicReceiptRetain[0] : "";
-    }
-  }
-
-  private getDeceasedName(allQuestions) {
-    for (const currQuestion of allQuestions) {
-      if (currQuestion.name === "deceasedName") {
-        const first = currQuestion.value.first || "";
-        const middle = currQuestion.value.middle || "";
-        const last = currQuestion.value.last || "";
-        this.deceased["fullName"] = first + " " + middle + " " + last;
+      if (question.name === "p1DelivererName") {
+        const choices = question.choices;
+        for (const choice of choices) {
+          if (target === choice.value) {
+            return choice.text;
+          }
+        }
       }
     }
   }
 
   private buildApplicantList(allQuestions) {
-    const applicantQuestion = this.getApplicantQuestion(allQuestions);
-    const numApplicants = this.buildInitialApplicantList(applicantQuestion);
+    let resultList = [];
+    const applicants = getApplicants.value;
+    const applicantQuestion = allQuestions.find(q => q.name === "applicantInfoPanel");
 
-    for (const currQuestion of allQuestions) {
-      if (currQuestion.name === "applicantInfoPanel") {
-        for (let idx = 0; idx < numApplicants; idx++) {
-          const base = currQuestion.value[idx]?.applicantOrdinaryAddress;
-          const street = base.street || "";
-          const city = base.city || "";
-          const state = base.state || "";
-          const country = base.country || "";
-          const postcode = base.postcode || "";
-          this.applicantList[idx].address = street + ", " + city + ", " + state + ", " + country + " " + postcode;
-          this.applicantList[idx].occupation = currQuestion.value[idx].applicantOccupation || "";
+    for (const i in applicants) {
+      let applicant: applicantInfoPanel = {
+        courthouse: "",
+        address: "",
+        fullName: applicants[i].applicantName,
+        occupation: "",
+        individual: "",
+        sameMail: "",
+        differentMail: "",
+        differentAddress: "",
+        recipients: []
+      }
+
+      if (applicantQuestion) {
+        const base = applicantQuestion.value[i]?.applicantOrdinaryAddress;
+
+        const street = base.street || "";
+        const city = base.city || "";
+        const state = base.state || "";
+        const country = base.country || "";
+        const postcode = base.postcode || "";
+
+        applicant.address = `${street}, ${city}, ${state}, ${country} ${postcode}`;
+        applicant.occupation = applicantQuestion.value[i].applicantOccupation || "";
+      }
+
+      resultList.push(applicant);
+    }
+    return resultList;
+  }
+
+  private buildRecipientList(allQuestions) {
+    let resultList = [];
+    const recipients = getRecipients.value;
+    const recipientQuestion = allQuestions.find(q => q.name === "p1DeliveryInfoPanel");
+
+    for (const i in recipients) {
+      let recipient: p1Panel = {
+        recipientName: recipients[i].recipientName,
+        p1DelivererName: "",
+        p1DeliveryMethod: "",
+        p1DeliveryDate: "",
+        p1DeliveryElectronicReceipt: "",
+        p1DeliveryElectronicReceiptRetain: "",
+      }
+
+      if (recipientQuestion) {
+        const base = recipientQuestion.value[i];
+
+        recipient.p1DelivererName = this.getChoiceFromValue(base.p1DelivererName, recipientQuestion.panels[i].questions);
+        recipient.p1DeliveryMethod = base.p1DeliveryMethod || "";
+        recipient.p1DeliveryDate = format(new Date(base.p1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") || "";
+        recipient.p1DeliveryElectronicReceipt = base?.p1DeliveryElectronicReceipt || "";
+        recipient.p1DeliveryElectronicReceiptRetain = base?.p1DeliveryElectronicReceiptRetain ? base.p1DeliveryElectronicReceiptRetain[0] : "";
+      }
+      
+      resultList.push(recipient);
+    }
+    return resultList;
+  }
+
+  private getDeceasedName(allQuestions) {
+    const deceasedQuestion = allQuestions.find(q => q.name === "deceasedName");
+
+    if (deceasedQuestion) {
+      const first = deceasedQuestion.value.first || "";
+      const middle = deceasedQuestion.value.middle || "";
+      const last = deceasedQuestion.value.last || "";
+      return `${first}  ${middle} ${last}`;
+    }
+
+    return "";
+  }
+
+  private matchApplicantsAndRecipients(applicants, recipients) {
+    for (const applicant of applicants) {
+      for (const recipient of recipients) {
+        if (applicant.fullName === recipient.p1DelivererName) {
+          applicant.recipients.push(recipient);
         }
       }
     }
-    // console.log(this.applicantList);
+    return applicants;
   }
 
   /* 
@@ -641,11 +587,12 @@ export default class FormP9 extends Vue {
 
   deceasedName
   */
-  public populateForm(survey) {
+  public populateFromSurvey(survey) {
     const allQuestions = survey.getAllQuestions();
-    this.buildApplicantList(allQuestions);
-    this.buildRecipientList(allQuestions);
-    // this.getDeceasedName(allQuestions);
+    const applicants = this.buildApplicantList(allQuestions);
+    const recipients = this.buildRecipientList(allQuestions);
+    this.deceased.fullName = this.getDeceasedName(allQuestions);
+    this.applicantList = this.matchApplicantsAndRecipients(applicants, recipients);
   }
 }
 
