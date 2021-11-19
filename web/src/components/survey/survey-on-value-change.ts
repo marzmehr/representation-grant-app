@@ -127,8 +127,6 @@ const determineEarliestSubmissionDate = (sender, options) => {
         /* 
           For electronic/fax service:
           Saturday/Sunday/BC holiday, date served = next BC business day, then add 21 days on top of that
-          Business day before 4pm, date served is the date served: +0 days, then +21 days on top of that for the countdown.
-          Business day after 4pm, date served = next BC business day, then add 21 days on top of that
         */
         let offsetDays = method == "mail" ? 7 : 0;
         const bcStats = holidaysByDate;

@@ -19,7 +19,7 @@ import SandboxSidebar from "./SandboxSidebar.vue";
 import Axios from "axios";
 import { addCustomTemplating } from "@/components/survey/survey-templating";
 import { onValueChanged } from "@/components/survey/survey-on-value-change";
-import { defineComponent, onMounted, ref, watch } from "@vue/composition-api";
+import { defineComponent, ref} from "@vue/composition-api";
 import { getSurveyEnvironment } from "@/components/utils/utils";
 
 export default defineComponent({
@@ -90,7 +90,3 @@ export default defineComponent({
   }
 });
 </script>
-
-function beforeCreate(arg0: () => void) {
-  throw new Error("Function not implemented.");
-}
