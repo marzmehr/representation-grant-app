@@ -113,9 +113,7 @@ const determineEarliestSubmissionDate = (sender, options) => {
   p1DeliveryInfoPanelValue.forEach(value => {
     const method = value?.p1DeliveryMethod;
     let dateServed = parseISO(value?.p1DeliveryDate);
-    const timeOfDay = value?.p1DeliveryTime;
     if (!method || isNaN(dateServed.getTime())) return;
-    if (method == "electronic" && !timeOfDay) return;
     let extraNoticeDays = 21;
     switch (method) {
       case "inperson":
@@ -145,9 +143,6 @@ const determineEarliestSubmissionDate = (sender, options) => {
             offsetDays += 1;
             continue;
           } else if (bcStats.hasOwnProperty(format(destinationDate, "yyyy-MM-dd"))) {
-            offsetDays += 1;
-            continue;
-          } else if (method == "electronic" && timeOfDay == "after4pm" && offsetDays == 0) {
             offsetDays += 1;
             continue;
           }
