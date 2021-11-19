@@ -1,6 +1,6 @@
 <template>
-  <!-- <component :is="state.component" :survey="question.survey"></component> -->
-  <form-p-9 :survey="question.survey"></form-p-9>
+  <component :is="state.component" :survey="question.survey"></component>
+  <!-- <form-p-9 :survey="question.survey"></form-p-9> -->
 </template>
 
 <script language="ts">

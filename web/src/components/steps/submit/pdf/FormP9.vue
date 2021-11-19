@@ -41,7 +41,7 @@
               textwidth="11rem"
               beforetext="and was made on"
               hint="Affidavit Date (dd mmm yyyy)"
-              text="20 Apr 2020"
+              :text="today"
             />
           </div>
           <div class="mt-2">
@@ -49,7 +49,7 @@
               textwidth="15rem"
               beforetext=""
               hint="Court Location (leave blank for Commissioner)"
-              text="Victoria"
+              :text="recipientList[0].courthouse"
             />
             <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
               Registry
@@ -60,7 +60,7 @@
               textwidth="18rem"
               beforetext="No."
               hint="File Number (leave blank for Registry)"
-              text="2020REP_abc"
+              text=""
             />
           </div>
         </div>
@@ -137,7 +137,7 @@
             to the following persons as follows:
           </div>
 
-          <template v-if="mailRecipients.length > 0">
+          <div v-if="mailRecipients.length > 0">
             <check-box
               style="margin-top:1rem;"
               shift="0"
@@ -162,9 +162,9 @@
                 :text="recipient.p1DeliveryDate"
               />
             </template>
-          </template>
+          </div>
 
-          <template v-if="inPersonRecipients.length > 0">
+          <div v-if="inPersonRecipients.length > 0">
             <check-box
               style="margin-top:1rem;"
               shift="0"
@@ -189,9 +189,9 @@
                 :text="recipient.p1DeliveryDate"
               />
             </template>
-          </template>
+          </div>
 
-          <template v-if="electronicRecipients.length > 0">
+          <div v-if="electronicRecipients.length > 0">
             <check-box
               style="margin-top:1rem;"
               shift="0"
@@ -216,38 +216,38 @@
                 :text="recipient.p1DeliveryDate"
               />
             </template>
-          </template>
+          
+            <check-box
+              style="margin-top:1rem;word-spacing:6.5px;text-align-last:justify;"
+              shift="40"
+              shiftmark="0"
+              :check="allP1DeliveryElectronicReceipt"
+              text="Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing,"
+            />
+            <div style=" text-indent: 70px;">
+              acknowledged receipt of the document(s) referred to in this section.
+            </div>
 
-          <check-box
-            style="margin-top:1rem;word-spacing:6.5px;text-align-last:justify;"
-            shift="40"
-            shiftmark="0"
-            :check="recipientList[0]?.p1DeliveryElectronicReceipt === 'y'"
-            text="Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing,"
-          />
-          <div style=" text-indent: 70px;">
-            acknowledged receipt of the document(s) referred to in this section.
-          </div>
-
-          <check-box
-            v-if="applicantList.length > 1"
-            style="margin-top:1rem; word-spacing:5.5px;"
-            shift="40"
-            shiftmark="0"
-            :check="check2"
-            text="We will retain a copy of those acknowledgements until the personal representative of the deceased is"
-          />
-          <check-box
-            v-else
-            style="margin-top:1rem; word-spacing:6.5px;"
-            shift="40"
-            shiftmark="0"
-            :check="check2"
-            text="I will retain a copy of those acknowledgements until the personal representative of the deceased is"
-          />
-          <div style="margin:0 0rem 0 4.5rem;">
-            discharged and will produce those acknowledgements promptly after being requested to do
-            so by the registrar.
+            <check-box
+              v-if="applicantList.length > 1"
+              style="margin-top:1rem; word-spacing:5.5px;"
+              shift="40"
+              shiftmark="0"
+              :check="allP1DeliveryElectronicReceiptRetain"
+              text="We will retain a copy of those acknowledgements until the personal representative of the deceased is"
+            />
+            <check-box
+              v-else
+              style="margin-top:1rem; word-spacing:6.5px;"
+              shift="40"
+              shiftmark="0"
+              :check="allP1DeliveryElectronicReceiptRetain"
+              text="I will retain a copy of those acknowledgements until the personal representative of the deceased is"
+            />
+            <div style="margin:0 0rem 0 4.5rem;">
+              discharged and will produce those acknowledgements promptly after being requested to do
+              so by the registrar.
+            </div>
           </div>
         </li>
       </ol>
@@ -313,7 +313,7 @@ const applicationState = namespace("Application");
 
 import UnderlineForm from "./components/UnderlineForm.vue";
 import CheckBox from "./components/CheckBox.vue";
-import { all } from "underscore";
+import { format } from 'date-fns'
 
 @Component({
   components: {
@@ -360,6 +360,7 @@ export default class FormP9 extends Vue {
     last: "Daughter",
     date: "20 March 2020"
   };
+  today = format(new Date(), "dd mm yyyy");
 
   mounted() {
     if (this.survey) {
@@ -369,22 +370,77 @@ export default class FormP9 extends Vue {
     }
   }
 
+  get mailRecipients() {
+    let mail = [];
+    for (const recipient of this.recipientList) {
+      if(recipient?.p1DeliveryMethod === "mail") {
+        mail.push(recipient);
+      }
+    }
+    return mail;
+  }
+
+  get inPersonRecipients() {
+    let inperson = [];
+    for (const recipient of this.recipientList) {
+      if(recipient?.p1DeliveryMethod === "inperson") {
+        inperson.push(recipient);
+      }
+    }
+    return inperson;
+  }
+
+  get electronicRecipients() {
+    let electronic = [];
+    for (const recipient of this.recipientList) {
+      if(recipient?.p1DeliveryMethod === "electronic") {
+        electronic.push(recipient);
+      }
+    }
+    return electronic;
+  }
+
+  get allP1DeliveryElectronicReceipt() {
+    for (const recipient of this.recipientList) {
+      if(recipient?.p1DeliveryElectronicReceipt !== "y") {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  get allP1DeliveryElectronicReceiptRetain() {
+    for (const recipient of this.recipientList) {
+      if(recipient?.p1DeliveryElectronicReceiptRetain !== "confirmed") {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public changeApplicantList() {
     this.applicantList = [];
+    this.recipientList = [];
+    this.deceased.fullName = "Thomas Wayne";
+
     this.applicantList.push({
-      courthouse: "The main courthouse",
-      address: "123 Some Street",
-      fullName: "Douglas W.R. Rodgers",
-      occupation: "Learned Doctor",
-      p1DeliveryMethod: "in person",
-      p1DeliveryDate: "2021-11-17",
-      p1DeliveryElectronicReceipt: "yes",
-      p1DeliveryElectronicReceiptRetain: "confirm",
+      courthouse: "Gotham",
+      address: "123 Road St.",
+      fullName: "Bruce Wayne",
+      occupation: "Billionaire",
       // not sure about these items
-      individual: "yes",
+      individual: "",
       sameMail: "",
       differentMail: "",
       differentAddress: "",
+    });
+
+    this.recipientList.push({
+      p1DelivererName: "Alfred",
+      p1DeliveryMethod: "inperson",
+      p1DeliveryDate: "January 1, 2021",
+      p1DeliveryElectronicReceipt: "",
+      p1DeliveryElectronicReceiptRetain: ""
     });
   }
 
@@ -446,11 +502,6 @@ export default class FormP9 extends Vue {
       "address",
       "fullName",
       "occupation",
-      "p1DelivererName",
-      "p1DeliveryMethod",
-      "p1DeliveryDate",
-      "p1DeliveryElectronicReceipt",
-      "p1DeliveryElectronicReceiptRetain",
       // not sure about these items
       "individual",
       "sameMail",
@@ -489,7 +540,6 @@ export default class FormP9 extends Vue {
       "p1DeliveryElectronicReceipt",
       "p1DeliveryElectronicReceiptRetain",
     ]
-    console.log(recipientQuestion);
     const recipients = recipientQuestion.value;
 
     for (const i in recipients) {
@@ -513,9 +563,6 @@ export default class FormP9 extends Vue {
         }
       }
     }
-    
-    console.log("result");
-    console.log(this.recipientList);
     return this.recipientList.length;
   }
 
@@ -532,12 +579,11 @@ export default class FormP9 extends Vue {
     const numRecipients = this.buildInitialRecipeintList(recipientQuestion);
     for (let idx = 0; idx < numRecipients; idx++) {
       this.recipientList[idx].p1DeliveryMethod = recipientQuestion.value[idx].p1DeliveryMethod || "";
-      this.recipientList[idx].p1DeliveryDate = recipientQuestion.value[idx].p1DeliveryDate || "";
+      const date = new Date(recipientQuestion.value[idx].p1DeliveryDate.replace(/-/g, '\/'))
+      this.recipientList[idx].p1DeliveryDate = format(new Date(recipientQuestion.value[idx].p1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") || "";
       this.recipientList[idx].p1DeliveryElectronicReceipt = recipientQuestion.value[idx].p1DeliveryElectronicReceipt || "";
       this.recipientList[idx].p1DeliveryElectronicReceiptRetain = recipientQuestion.value[idx].p1DeliveryElectronicReceiptRetain ? recipientQuestion.value[idx].p1DeliveryElectronicReceiptRetain[0] : "";
     }
-    console.log("recipient list");
-    console.log(this.recipientList);
   }
 
   private getDeceasedName(allQuestions) {
@@ -566,6 +612,15 @@ export default class FormP9 extends Vue {
           const postcode = base.postcode || "";
           this.applicantList[idx].address = street + ", " + city + ", " + state + ", " + country + " " + postcode;
           this.applicantList[idx].occupation = currQuestion.value[idx].applicantOccupation || "";
+        }
+      }
+      if (currQuestion.name === "applicantCourthouse") {
+        const answer = currQuestion.value || "s0";
+        const choices = currQuestion.choices;
+        for (const choice of choices) {
+          if (choice.value == answer) {
+            this.applicantList[0].courthouse = choice.text; 
+          }
         }
       }
     }  
@@ -597,40 +652,8 @@ export default class FormP9 extends Vue {
     this.buildRecipientList(allQuestions);
     this.getDeceasedName(allQuestions);
   }
-
-  get mailRecipients() {
-    let mail = [];
-    for (const recipient of this.recipientList) {
-      if(recipient?.p1DeliveryMethod === "mail") {
-        mail.push(recipient);
-      }
-    }
-    console.log(mail);
-    return mail;
-  }
-
-  get inPersonRecipients() {
-    let inperson = [];
-    for (const recipient of this.recipientList) {
-      if(recipient?.p1DeliveryMethod === "inperson") {
-        inperson.push(recipient);
-      }
-    }
-    console.log(inperson);
-    return inperson;
-  }
-
-  get electronicRecipients() {
-    let electronic = [];
-    for (const recipient of this.recipientList) {
-      if(recipient?.p1DeliveryMethod === "electronic") {
-        electronic.push(recipient);
-      }
-    }
-    console.log(electronic);
-    return electronic;
-  }
 }
+
 </script>
 <style scoped>
 .table >>> th.border-dark {
