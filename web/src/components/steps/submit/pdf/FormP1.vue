@@ -172,7 +172,7 @@
       <div style="margin:2rem 0 0rem 0rem;font-weight: 600;font-size:18px;">
         INFORMATION ABOUT EACH APPLICANT
       </div>
-
+      
       <div v-for="(name, i) in applicantList" :key="i + 100">
         <underline-form
           class="mt-5"
@@ -313,6 +313,7 @@ import UnderlineForm from "./components/UnderlineForm.vue";
 import CheckBox from "./components/CheckBox.vue";
 import { format } from "date-fns";
 import axios, { AxiosRequestConfig } from "axios";
+import { getApplicants } from '@/components/survey/survey-state';
 
 export default defineComponent({
   name: "FormP1",
@@ -536,7 +537,6 @@ export default defineComponent({
     };
 
     const takeNoticeTitle = () => {
-      debugger;
       if (applicantList.length == 1) return `The applicant ${applicantList[0].fullName} proposes:`;
       if (applicantList.length == 2)
         return `The applicants (${applicantList[0].fullName} and ${applicantList[1].fullName}) propose:`;
@@ -561,26 +561,8 @@ export default defineComponent({
 
     onMounted(() => {
       changeApplicantList();
-      const q = props.question;
-      //Hooks for SurveyEditor KO.
-      if (props.isSurveyEditor) {
-        q.registerFunctionOnPropertyValueChanged("title", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("body", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("isRequired", () => {
-          state.key++;
-        });
-
-        q.registerFunctionOnPropertyValueChanged("buttonTitle", () => {
-          state.key++;
-        });
-      }
     });
+
     const onPrint = () => {
       const applicationId = props.question.survey.applicationId; //TODO wire this state up.
       const pdfType = props.question.pdfType;
@@ -617,7 +599,8 @@ export default defineComponent({
       serviceContact,
       multipleApplicant,
       takeNoticeTitle,
-      getAllApplicants
+      getAllApplicants,
+      getApplicants
     };
   }
 });

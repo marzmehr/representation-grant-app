@@ -95,7 +95,7 @@ export default class SurveyCreatorForm extends Vue {
     });
 
     const resizeIfLargeEnoughScreen = () => {
-      if (window.innerHeight > 800) {
+      if (window.innerHeight > 800 && document.querySelector<HTMLElement>("main.app-content.fill-body").style.height != "100vh") {
         document.querySelector<HTMLElement>("main.app-content.fill-body").style.height = "100vh";
         document.querySelector<HTMLElement>(".svd_container .svd_content").style.height = "100vh";
         document.querySelector<HTMLElement>("#surveyCreatorContainer div").style.height = "100vh";
