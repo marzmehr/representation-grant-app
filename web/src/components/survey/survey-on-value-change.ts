@@ -166,6 +166,8 @@ const determineEarliestSubmissionDate = (sender, options) => {
     const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
     sender.setVariable("earliestSubmissionDate", format(earliestSubmissionDate, "MMMM d, yyyy"));
     earliestSubmissionDateQuestion.visible = true;
+    //Have to give it a kick to re-render.
+    earliestSubmissionDateQuestion.title = earliestSubmissionDateQuestion.title + " "; 
     console.log(
       `determineEarliestSubmissionDate - earliestSubmissionDate: ${format(
         earliestSubmissionDate,
