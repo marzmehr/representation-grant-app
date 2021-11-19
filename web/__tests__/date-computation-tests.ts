@@ -112,5 +112,6 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
         }
       }
     ]);
+    expect(holidayDate2).toBe("2026-01-19");
   });
 });
