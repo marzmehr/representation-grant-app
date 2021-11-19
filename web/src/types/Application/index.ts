@@ -53,7 +53,7 @@ export interface stepInfoType {
     personalItem: any[];
   }
 
-export interface applicantInfoPanel {
+export interface ApplicantInfoPanel {
   courthouse: string;
   address: string;
   fullName: string;
@@ -65,7 +65,7 @@ export interface applicantInfoPanel {
   recipients: any[];
 }
 
-export interface p1Panel {
+export interface P1Panel {
   recipientName: string;
   p1DelivererName: string;
   p1DeliveryMethod: string;
