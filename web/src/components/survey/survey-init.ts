@@ -11,6 +11,7 @@ import PersonName from "./components/PersonName.vue";
 import YesNo from "./components/YesNo.vue";
 import FormDownloadButton from "./components/FormDownloadButton.vue";
 import ReviewAnswers from "./components/ReviewAnswers.vue";
+import PreviewForm from "./components/PreviewForm.vue";
 
 import VRuntimeTemplate from "v-runtime-template";
 import StringViewer from "./components/outer-question/StringViewer.vue";
@@ -28,6 +29,8 @@ export function addQuestionTypesVue(Survey: any) {
   Vue.component(WidgetValueName[WidgetValueName.CustomDate], CustomDate);
   Vue.component(WidgetValueName[WidgetValueName.FormDownloadButton], FormDownloadButton);
   Vue.component(WidgetValueName[WidgetValueName.ReviewAnswers], ReviewAnswers);
+  Vue.component(WidgetValueName[WidgetValueName.PreviewForm], PreviewForm);
+
   //These override existing components:
   //https://github.com/surveyjs/survey-library/tree/master/src/vue
   Vue.component("survey-text", SurveyText);

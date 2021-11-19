@@ -32,7 +32,7 @@
        {
         "type": "personname",
         "name": "question3",
-        "title": "Enter the name of your `spouse`",
+        "title": "{question2}, enter the name of your `spouse`",
         "defaultValue": {
          "first": "Jane",
          "middle": "Dorothy",
