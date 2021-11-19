@@ -139,9 +139,9 @@ export default defineComponent({
         return ret;
       };
 
-      const checkboxHandler = (question) => {
-          return question.choices.find(c => c.value == question.value)?.text
-      }
+      const checkboxHandler = question => {
+        return question.choices.find(c => c.value == question.value)?.text;
+      };
 
       const formatSwitchboard = (question, answer, questionType) => {
         if (!answer) {
@@ -289,11 +289,11 @@ export default defineComponent({
         }
       }
 
-      survey.currentPageNo = pageNum;
-      if (target?.panels) {
-        target.panels[0].focusFirstQuestion();
-      } else {
-        target.focus();
+        survey.currentPageNo = pageNum;
+        if (target?.panels) {
+          target.panels[0].focusFirstQuestion();
+        } else {
+          target.focus();
       }
     }
   }

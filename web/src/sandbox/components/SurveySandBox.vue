@@ -12,83 +12,80 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
 import * as SurveyInit from "@/components/survey/survey-init";
 import SandboxSidebar from "./SandboxSidebar.vue";
 import Axios from "axios";
 import { addCustomTemplating } from "@/components/survey/survey-templating";
 import { onValueChanged } from "@/components/survey/survey-on-value-change";
+import { defineComponent, onMounted, ref, watch } from "@vue/composition-api";
 
-@Component({
+export default defineComponent({
+  name: "SurveySandBox",
+  props: {
+    sandboxName: String
+  },
   components: {
     SandboxSidebar
-  }
-})
-export default class SurveySandBox extends Vue {
-  @Prop() sandboxName!: string;
+  },
+  setup(props) {
+    let survey = ref<SurveyVue.Model>(new SurveyVue.Model());
+    let updatedKey = ref(0);
 
-  survey = null;
-  updatedKey = 0;
-
-  beforeCreate() {
     const Survey = SurveyVue;
+    const sandboxName = props.sandboxName;
     SurveyInit.loadQuestionTypesVueAndSetCss(Survey);
-  }
 
-  async mounted() {
-    const data = await this.loadSurveyDataFromDatabase();
-    this.survey = new SurveyVue.Model(data);
-    this.survey.commentPrefix = "Comment";
-    this.survey.showQuestionNumbers = "off";
-    this.addSurveyListener();
-  }
 
-  public async loadSurveyDataFromDatabase() {
-    try {
-      const response = await Axios.get(`/sandbox-survey/?sandbox_name=${this.sandboxName}`);
-      return JSON.parse(response.data.sandbox_data);
-    } catch (error) {
-      console.log("loadSurveyDataFromDatabase(): Loading JSON file failed\n", error);
+    onMounted(async () => {
+      const data = await loadSurveyDataFromDatabase();
+      survey.value = new SurveyVue.Model(data);
+      survey.value.commentPrefix = "Comment";
+      survey.value.showQuestionNumbers = "off";
+      addSurveyListener();
+    });
+
+    const loadSurveyDataFromDatabase = async () => {
+      try {
+        const response = await Axios.get(`/sandbox-survey/?sandbox_name=${sandboxName}`);
+        return JSON.parse(response.data.sandbox_data);
+      } catch (error) {
+        console.log("loadSurveyDataFromDatabase(): Loading JSON file failed\n", error);
+      }
+    };
+
+    const addSurveyListener = () => {
+      survey.value.onDynamicPanelAdded.add((sender, options) => {
+        sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
+      });
+
+      survey.value.onDynamicPanelRemoved.add((sender, options) => {
+        sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
+      });
+
+      addCustomTemplating(survey.value);
+      survey.value.onAfterRenderSurvey.add((sender, options) => {
+        updatedKey.value++;
+      });
+
+      survey.value.onValueChanged.add((sender, options) => {
+        onValueChanged(sender, options);
+        updatedKey.value++;
+      });
+
+      survey.value.onCurrentPageChanged.add((sender, options) => {
+        updatedKey.value++;
+        Vue.nextTick(() => {
+          const el = document.getElementById("sidebar-title");
+          if (el) el.scrollIntoView();
+        });
+      });
+    };
+    return {
+      survey,
+      updatedKey
     }
   }
-
-  public addSurveyListener() {
-    //These need to be here to keep track of panel counts.
-
-    /* This causes terrible performance. 
-    this.survey
-      .getAllQuestions()
-      .filter(x => x.getType() === "paneldynamic")
-      .forEach(element => {
-        this.survey.setVariable(`${element.name}-count`, element.panelCount);
-      });*/
-
-    this.survey.onDynamicPanelAdded.add((sender, options) => {
-      sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
-    });
-
-    this.survey.onDynamicPanelRemoved.add((sender, options) => {
-      sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
-    });
-
-    addCustomTemplating(this.survey);
-    this.survey.onAfterRenderSurvey.add((sender, options) => {
-      this.updatedKey++;
-    });
-
-    this.survey.onValueChanged.add((sender, options) => {
-      onValueChanged(sender,options);
-      this.updatedKey++;
-    });
-
-    this.survey.onCurrentPageChanged.add((sender, options) => {
-      this.updatedKey++;
-      Vue.nextTick(() => {
-        const el = document.getElementById("sidebar-title");
-        if (el) el.scrollIntoView();
-      });
-    });
-  }
-}
+});
 </script>
