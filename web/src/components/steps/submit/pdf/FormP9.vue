@@ -567,7 +567,6 @@ export default class FormP9 extends Vue {
     const recipients = this.buildRecipientList(allQuestions);
     this.deceasedFullName = this.getDeceasedName(allQuestions);
     this.applicantList = this.matchApplicantsAndRecipients(applicants, recipients);
-    console.log(this.applicantList);
   }
 }
 
