@@ -18,7 +18,7 @@ const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string)
 };
 
 const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
-  const questionNamesToWatch = ["applicant","spouseInfoPanel", "childInfoPanel"];
+  const questionNamesToWatch = ["applicant", "spouseInfoPanel", "childInfoPanel"];
   if (!questionNamesToWatch.includes(options.name)) return;
   const applicants = sender.getQuestionByName("applicant")?.value || [];
   const potentialApplicants = getPotentialApplicants.value || [];
@@ -92,6 +92,10 @@ const determineRecipients = (sender, options) => {
     }));
   setRecipients(recipients);
 
+  const applicants = potentialApplicants.filter(pa => selectedApplicants.find(sa => sa == pa.key));
+  setApplicants(applicants);
+  debugger;
+
   //Going to have to combine objects here, not just replace.
   const targetPanel = sender.getQuestionByName("p1DeliveryInfoPanel");
   if (targetPanel) {
@@ -162,6 +166,7 @@ const determineEarliestSubmissionDate = (sender, options) => {
   } else {
     const earliestSubmissionDate = new Date(Math.max.apply(null, calculatedDates));
     sender.setVariable("earliestSubmissionDate", format(earliestSubmissionDate, "MMMM d, yyyy"));
+    earliestSubmissionDateQuestion.onValueChanged();
     earliestSubmissionDateQuestion.visible = true;
     console.log(
       `determineEarliestSubmissionDate - earliestSubmissionDate: ${format(
