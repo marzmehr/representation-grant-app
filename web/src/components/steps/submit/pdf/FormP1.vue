@@ -7,7 +7,7 @@
         v-model="multipleApplicant"
         :options="[
           { value: false, text: 'Single Applicant' },
-          { value: true, text: '10 (Multiple) Applicants' }
+          { value: true, text: '3 (Multiple) Applicants' }
         ]"
         @change="changeApplicantList()"
       ></b-form-radio-group>
@@ -172,7 +172,7 @@
       <div style="margin:2rem 0 0rem 0rem;font-weight: 600;font-size:18px;">
         INFORMATION ABOUT EACH APPLICANT
       </div>
-      
+
       <div v-for="(name, i) in applicantList" :key="i + 100">
         <underline-form
           class="mt-5"
@@ -192,27 +192,20 @@
 
         <check-box
           :check="name.individual"
-          text="This applicant is an individual and ordinarily lives"
+          text="This applicant is an individual and ordinarily lives at the mailing address noted above."
         />
 
         <check-box
-          shift="25"
-          shiftmark="0"
-          :check="name.sameMail"
-          text="at the mailing address noted above"
-        />
-        <check-box
           style="display:inline-block;"
-          shift="25"
           shiftmark="0"
           :check="name.differentMail"
-          text=""
+          text="This applicant is an individual and ordinarily lives in the following city and country:"
         />
         <underline-form
           style="text-indent: 26px;"
           class="mt-0"
           textwidth="30rem"
-          beforetext="in the following city and country:"
+          beforetext=""
           hint="City and Country"
           :text="name.differentAddress"
         />
@@ -308,7 +301,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, reactive } from "@vue/composition-api";
+import { onMounted, defineComponent, reactive, ref } from "@vue/composition-api";
 import UnderlineForm from "./components/UnderlineForm.vue";
 import CheckBox from "./components/CheckBox.vue";
 import { format } from "date-fns";
@@ -326,13 +319,13 @@ export default defineComponent({
     CheckBox
   },
   setup(props) {
-    const multipleApplicant = false;
+    const multipleApplicant = ref(false);
 
     const check = ""; //"&#10003"
     const check2 = "&#10003";
 
     let surveyData = [];
-    let applicantList = [];
+    let applicantList = ref([]);
     let deceased = {
       first: "Rest",
       middle: "In",
@@ -347,9 +340,9 @@ export default defineComponent({
     };
 
     const changeApplicantList = () => {
-      applicantList = [];
-      if (multipleApplicant) {
-        applicantList.push(
+      applicantList.value = [];
+      if (multipleApplicant.value) {
+        applicantList.value.push(
           {
             fullName: "Its first Son",
             first: "Its",
@@ -386,95 +379,10 @@ export default defineComponent({
             differentMail: "",
             differentAddress: "",
             lawyer: "Its good lawyer"
-          },
-          {
-            fullName: "Its second Daughter",
-            first: "Its",
-            middle: "second",
-            last: "Daughter",
-            address: "1111 st, Vancouver, BC, Canada V0v 0v0",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "yes",
-            differentMail: "",
-            differentAddress: ""
-          },
-          {
-            fullName: "Its third Son",
-            first: "Its",
-            middle: "third",
-            last: "Son",
-            address: "43-123 st, Victoria, BC, Canada V0i 8i8",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "",
-            differentMail: "yes",
-            differentAddress: "New York, USA"
-          },
-          {
-            fullName: "Its third Daughter",
-            first: "Its",
-            middle: "third",
-            last: "Daughter",
-            address: "100-123 st, Victoria, BC, Canada V0i 8i8",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "yes",
-            differentMail: "",
-            differentAddress: ""
-          },
-          {
-            fullName: "Its fourth Son",
-            first: "Its",
-            middle: "fourth",
-            last: "Son",
-            address: "7777 st, Vancouver, BC, Canada V0v 0v0",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "yes",
-            differentMail: "",
-            differentAddress: "",
-            lawyer: "Its good lawyer"
-          },
-          {
-            fullName: "Its fourth Daughter",
-            first: "Its",
-            middle: "fourth",
-            last: "Daughter",
-            address: "9999 st, Vancouver, BC, Canada V0v 0v0",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "yes",
-            differentMail: "",
-            differentAddress: ""
-          },
-          {
-            fullName: "Its fifth Son",
-            first: "Its",
-            middle: "fifth",
-            last: "Son",
-            address: "80-123 st, Vancouver, BC, Canada V0i 8i8",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "",
-            differentMail: "yes",
-            differentAddress: "New York, USA"
-          },
-          {
-            fullName: "Its fifth Daughter",
-            first: "Its",
-            middle: "fifth",
-            last: "Daughter",
-            address: "780-123 st, Vancouver, BC, Canada V0i 8i8",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "yes",
-            differentMail: "",
-            differentAddress: ""
           }
         );
       } else {
-        applicantList.push({
+        applicantList.value.push({
           fullName: "Its first Son",
           first: "Its",
           middle: "first",
@@ -515,10 +423,8 @@ export default defineComponent({
   deceasedAddress
   */
 
-    const state = reactive({
-      key: 1
-    });
-
+  
+    const survey = {};
     const applicationType = () => {
       return "a Grant of Administration Without Will Annexed";
     };
@@ -537,19 +443,19 @@ export default defineComponent({
     };
 
     const takeNoticeTitle = () => {
-      if (applicantList.length == 1) return `The applicant ${applicantList[0].fullName} proposes:`;
-      if (applicantList.length == 2)
-        return `The applicants (${applicantList[0].fullName} and ${applicantList[1].fullName}) propose:`;
-      if (applicantList.length >= 3)
-        return `The applicants (${applicantList
-          .map(a => a.fullName)
+      if (applicantList.value.length == 1) return `The applicant ${applicantList.value[0].fullName} proposes:`;
+      if (applicantList.value.length == 2)
+        return `The applicants (${applicantList.value[0].fullName} and ${applicantList.value[1].fullName}) propose:`;
+      if (applicantList.value.length >= 3)
+        return `The applicants (${applicantList.value
           .slice(0, -1)
-          .join(" ")} and ${applicantList.pop().fullName}) propose:`;
+          .map(a => a.fullName)
+          .join(" ")} and ${applicantList.value.slice(-1)[0].fullName}) propose:`;
     };
 
     const getAllApplicants = () => {
       let result = "";
-      for (const name of applicantList) result += name.fullName + ", ";
+      for (const name of applicantList.value) result += name.fullName + ", ";
       result = result.slice(0, -2);
       if (result.length > 70) result = result.slice(0, 70) + "...";
       return result;
@@ -590,7 +496,6 @@ export default defineComponent({
     };
 
     return {
-      state,
       onPrint,
       applicantList,
       currentDayMonthYear,
