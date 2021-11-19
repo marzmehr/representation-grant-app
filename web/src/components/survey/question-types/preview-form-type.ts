@@ -35,6 +35,14 @@ export function initPreviewForm(Survey: any) {
       });
       card.$mount();
       el.appendChild(card.$el);
+    },
+    willUnmount: function(question, el) {
+      if (question.survey.platformName == "vue") return;
+      for (let i = 0; i < el.children.length; i++) {
+        if (el.children[i].__vue__) {
+          el.children[i].__vue__.$destroy();
+        }
+      }
     }
   };
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");

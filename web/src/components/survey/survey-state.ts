@@ -12,4 +12,4 @@ export const setApplicants = newApplicants => (applicants.value = newApplicants)
 
 const recipients = ref<Recipient[]>([]);
 export const getRecipients = computed(() => recipients.value);
-export const setRecipients = recipients => (recipients.value = recipients);
+export const setRecipients = newRecipients => (recipients.value = newRecipients);

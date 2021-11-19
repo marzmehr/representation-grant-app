@@ -1,0 +1,204 @@
+{
+  "pages": [
+   {
+    "name": "page1",
+    "elements": [
+     {
+      "type": "personname",
+      "name": "deceasedName"
+     },
+     {
+      "type": "paneldynamic",
+      "name": "spouseInfoPanel",
+      "templateElements": [
+       {
+        "type": "text",
+        "name": "spouseName"
+       },
+       {
+        "type": "yesno",
+        "name": "spouseIsAlive"
+       },
+       {
+        "type": "yesno",
+        "name": "spouseIsAdult"
+       },
+       {
+        "type": "yesno",
+        "name": "spouseIsCompetent"
+       }
+      ]
+     },
+     {
+      "type": "paneldynamic",
+      "name": "childInfoPanel",
+      "templateElements": [
+       {
+        "type": "text",
+        "name": "childName"
+       },
+       {
+        "type": "yesno",
+        "name": "childIsAlive",
+        "title": "childIsAlive"
+       },
+       {
+        "type": "yesno",
+        "name": "childIsAdult",
+        "title": "childIsAdult"
+       },
+       {
+        "type": "yesno",
+        "name": "childIsCompetent",
+        "title": "childIsCompetent"
+       }
+      ]
+     },
+     {
+      "type": "checkbox",
+      "name": "applicant",
+      "choices": [
+       "applicant1",
+       "applicant2"
+      ]
+     },
+     {
+      "type": "paneldynamic",
+      "name": "p1DeliveryInfoPanel",
+      "templateElements": [
+       {
+        "type": "radiogroup",
+        "name": "p1DelivererName",
+        "title": "Who gave {panel.recipientName} a P1 Form?",
+        "choices": [
+         {
+          "value": "item1",
+          "text": "{applicant1}"
+         },
+         {
+          "value": "item2",
+          "text": "{applicant2}"
+         }
+        ]
+       },
+       {
+        "type": "infotext",
+        "name": "jiraREPGRANT206",
+        "visible": false,
+        "title": "jiraREPGRANT206\n<br><br>\nFor the 2021 Q4 Release, the applicants should be the only options in this radio group.\n<br><br>\nFuture considerations, need to be able to \"add other deliverer\" and allow applicants to enter a new name. This new deliverer should also:\n<li>a) be a selectable choice for subsequent instances of {p1Deliverer}</li>\n<li>b) pop up p1NewDelivererInfoPanel to capture information about this new person for the P9</li>",
+        "titleLocation": "hidden"
+       },
+       {
+        "type": "radiogroup",
+        "name": "p1DeliveryMethod",
+        "title": "How did {panel.p1DelivererName} give the P1 to {panel.recipientName}?",
+        "choices": [
+         {
+          "value": "inperson",
+          "text": "In-person"
+         },
+         {
+          "value": "mail",
+          "text": "Physical Mail"
+         },
+         {
+          "value": "electronic",
+          "text": "Electronically or by Fax"
+         }
+        ]
+       },
+       {
+        "type": "customdate",
+        "name": "p1DeliveryDate",
+        "title": "When did {panel.p1DelivererName} give the P1 to {panel.recipientName}?"
+       },
+       {
+        "type": "expression",
+        "name": "p1DeliveryDateFormatter",
+        "visible": false,
+        "expression": "dateFormatter({panel.p1DeliveryDate})"
+       },
+       {
+        "type": "radiogroup",
+        "name": "p1DeliveryTime",
+        "visible": false,
+        "visibleIf": "{panel.p1DeliveryMethod} = 'electronic'",
+        "title": "What time did {panel.p1DelivererName} give the P1 to {panel.recipientName} on {p1DeliveryDate}?",
+        "choices": [
+         {
+          "value": "before4pm",
+          "text": "Before 4pm"
+         },
+         {
+          "value": "after4pm",
+          "text": "After 4pm"
+         }
+        ]
+       },
+       {
+        "type": "yesno",
+        "name": "p1DeliveryElectronicReceipt",
+        "visible": false,
+        "visibleIf": "{panel.p1DeliveryMethod} = 'electronic'",
+        "title": "Did {panel.p1DelivererName} get a written response from {panel.recipientName}?",
+        "description": "A written response could simply be {panel.recipientName} saying \"I got the P1\" through the same electronic method or any other method."
+       },
+       {
+        "type": "infotext",
+        "name": "p1DeliveryElectronicReceiptNoError",
+        "visible": false,
+        "visibleIf": "{panel.p1DeliveryMethod} = 'electronic' and {panel.p1DeliveryElectronicReceipt} = 'n'",
+        "title": "You need to make sure {panel.recipientName} gives {panel.p1DelivererName} a receipt confirming they received a P1.\n<br><br>\nIf {panel.recipientName} will not give a {panel.p1DelivererName} a receipt, consider giving them a P1 in person or in the mail. These methods do not require a receipt. If you do this, remember to change the relevant information about who gave {panel.recipientName} a P1 including  notify because who gave it to them, and when.",
+        "titleLocation": "hidden",
+        "messageStyle": "error"
+       },
+       {
+        "type": "checkbox",
+        "name": "p1DeliveryElectronicReceiptRetain",
+        "visible": false,
+        "visibleIf": "{panel.p1DeliveryMethod} = 'electronic' and {panel.p1DeliveryElectronicReceipt} = 'y'",
+        "title": "You have to keep this receipt...",
+        "choices": [
+         {
+          "value": "confirmed",
+          "text": "I confirm that I will keep the electronic receipt until I am done being a personal representative for {deceasedName}"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "checkbox",
+      "name": "question1",
+      "choices": [
+       "item1",
+       "item2",
+       "item3"
+      ]
+     },
+     {
+      "type": "panel",
+      "name": "panel1",
+      "elements": [
+       {
+        "type": "infotext",
+        "name": "p1earliestSubmissionDate",
+        "visible": false,
+        "title": "Now that you have given P1 forms to all the people who need to know you are applying for a `Representation Grant`, the earliest date you can file application is <b>{earliestSubmissionDate}.</b> {question1}",
+        "titleLocation": "hidden"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "page2",
+    "elements": [
+     {
+      "type": "previewform",
+      "name": "question2"
+     }
+    ]
+   }
+  ]
+ }
