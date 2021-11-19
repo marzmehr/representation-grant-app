@@ -60,6 +60,7 @@ import Tooltip from "@/components/survey/components/Tooltip.vue";
 
 import { namespace } from "vuex-class";
 import "@/store/modules/common";
+import { addCustomTemplating } from "../survey/survey-templating";
 const commonState = namespace("Common");
 
 @Component({
@@ -113,6 +114,7 @@ export default class PreQualification extends Vue {
   }
 
   public addSurveyListener() {
+    addCustomTemplating(this.survey);
     this.survey.onValueChanged.add((sender, options) => {
       if (
         this.survey.data.qualifyingWillExists == "n" &&

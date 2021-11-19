@@ -139,9 +139,15 @@ export default defineComponent({
         return ret;
       };
 
+      const checkboxHandler = question => {
+        return question.choices.find(c => c.value == question.value)?.text;
+      };
+
       const formatSwitchboard = (question, answer, questionType) => {
         if (!answer) {
           return "";
+        } else if (questionType === "checkbox") {
+          return checkboxHandler(question);
         } else if (questionType === "file") {
           return fileAnswerHandler(answer);
         } else if (questionType === "signaturepad") {
@@ -283,11 +289,11 @@ export default defineComponent({
         }
       }
 
-      survey.currentPageNo = pageNum;
-      if (target?.panels) {
-        target.panels[0].focusFirstQuestion();
-      } else {
-        target.focus();
+        survey.currentPageNo = pageNum;
+        if (target?.panels) {
+          target.panels[0].focusFirstQuestion();
+        } else {
+          target.focus();
       }
     }
   }
