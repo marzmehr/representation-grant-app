@@ -35,22 +35,17 @@ export default defineComponent({
     let updatedKey = ref(0);
 
     const Survey = SurveyVue;
-    const sandboxName = props.sandboxName;
     SurveyInit.loadQuestionTypesVueAndSetCss(Survey);
-
-
-    onMounted(async () => {
-      const data = await loadSurveyDataFromDatabase();
-      survey.value = new SurveyVue.Model(data);
-      survey.value.commentPrefix = "Comment";
-      survey.value.showQuestionNumbers = "off";
-      addSurveyListener();
-    });
+    const sandboxName = props.sandboxName;
 
     const loadSurveyDataFromDatabase = async () => {
       try {
         const response = await Axios.get(`/sandbox-survey/?sandbox_name=${sandboxName}`);
-        return JSON.parse(response.data.sandbox_data);
+        const data = JSON.parse(response.data.sandbox_data);
+        survey.value = new SurveyVue.Model(data);
+        survey.value.commentPrefix = "Comment";
+        survey.value.showQuestionNumbers = "off";
+        addSurveyListener();
       } catch (error) {
         console.log("loadSurveyDataFromDatabase(): Loading JSON file failed\n", error);
       }
@@ -85,6 +80,9 @@ export default defineComponent({
     
       survey.value.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     };
+
+    loadSurveyDataFromDatabase();
+
     return {
       survey,
       updatedKey
@@ -92,3 +90,7 @@ export default defineComponent({
   }
 });
 </script>
+
+function beforeCreate(arg0: () => void) {
+  throw new Error("Function not implemented.");
+}
