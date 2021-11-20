@@ -291,7 +291,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { getApplicants, getRecipients } from "@/state/survey-state";
-import { ApplicantInfoPanel, P1Panel } from "@/types/Application/index";
+import { ApplicantInfoPanel, P1Panel } from "@/types/application";
 
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import CheckBox from "@/components/pdf/components/CheckBox.vue";

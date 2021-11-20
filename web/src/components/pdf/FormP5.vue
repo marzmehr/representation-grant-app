@@ -416,7 +416,6 @@ import { Component, Vue } from "vue-property-decorator";
 
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import moment from "moment";
-import { stepInfoType } from "@/types/Application";
 import { getApplicationId } from "@/state/application-state";
 import axios, { AxiosRequestConfig } from "axios";
 

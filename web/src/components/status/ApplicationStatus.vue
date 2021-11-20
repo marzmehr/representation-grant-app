@@ -149,7 +149,6 @@ import { Component, Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/survey/survey-init";
 import moment from "moment-timezone";
-import { applicationInfoType } from "@/types/Application";
 import axios from "axios";
 
 @Component
@@ -162,7 +161,7 @@ export default class ApplicationStatus extends Vue {
     { key: "edit", thClass: "d-none", sortable: false, tdClass: "border-top" }
   ];
   confirmDelete = false;
-  currentApplication = {} as applicationInfoType;
+  currentApplication: any = {};
   applicationToDelete = {};
   indexToDelete = -1;
   applicationId = "";
