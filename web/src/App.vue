@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import NavigationTopbar from "./components/NavigationTopbar.vue";
-import NavigationFooter from "./components/NavigationFooter.vue";
+import NavigationTopbar from "@/components/NavigationTopbar.vue";
+import NavigationFooter from "@/components/NavigationFooter.vue";
 import { namespace } from "vuex-class";
 import "@/store/modules/common";
 const commonState = namespace("Common");

@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Expression from "../components/outer-question/Expression.vue";
+import Expression from "@/components/outer-question/Expression.vue";
 import { WidgetValueName } from "./question-types";
 
 export const fixExpression = Survey => {

@@ -1,5 +1,5 @@
 import Vue from "vue";
-import AddressInfo from "../components/AddressInfo.vue";
+import AddressInfo from "@/components/survey/components/AddressInfo.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initAddressBlock(Survey: any) {

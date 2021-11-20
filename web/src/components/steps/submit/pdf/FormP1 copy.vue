@@ -242,8 +242,8 @@ import { namespace } from "vuex-class";
 import "@/store/modules/application";
 const applicationState = namespace("Application");
 
-import UnderlineForm from "./components/UnderlineForm.vue"
-import CheckBox from "./components/CheckBox.vue"
+import UnderlineForm from "@/components/UnderlineForm.vue"
+import CheckBox from "@/components/CheckBox.vue"
 
 @Component({
     components:{

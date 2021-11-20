@@ -1,5 +1,5 @@
 import Vue from "vue";
-import InfoText from "../components/InfoText.vue";
+import InfoText from "@/components/InfoText.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initInfoText(Survey: any) {

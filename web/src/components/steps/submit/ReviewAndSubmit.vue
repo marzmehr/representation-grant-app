@@ -312,7 +312,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import moment from "moment-timezone";
 
-import FormList from "./components/FormList.vue";
+import FormList from "@/components/FormList.vue";
 
 import { stepInfoType } from "@/types/Application";
 

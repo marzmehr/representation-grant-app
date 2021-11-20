@@ -297,8 +297,8 @@ import { namespace } from "vuex-class";
 import "@/store/modules/application";
 const applicationState = namespace("Application");
 
-import UnderlineForm from "./components/UnderlineForm.vue";
-import CheckBox from "./components/CheckBox.vue";
+import UnderlineForm from "@/components/UnderlineForm.vue";
+import CheckBox from "@/components/CheckBox.vue";
 import { format } from 'date-fns'
 
 @Component({
@@ -310,12 +310,6 @@ import { format } from 'date-fns'
 export default class FormP9 extends Vue {
   @Prop({ required: false })
   survey;
-
-  @applicationState.Action
-  public UpdateGotoPrevStepPage!: () => void;
-
-  @applicationState.Action
-  public UpdateGotoNextStepPage!: () => void;
 
   check = ""; //"&#10003"
   check2 = "&#10003";
@@ -524,7 +518,7 @@ export default class FormP9 extends Vue {
       const first = deceasedQuestion.value.first || "";
       const middle = deceasedQuestion.value.middle || "";
       const last = deceasedQuestion.value.last || "";
-      return `${first}  ${middle} ${last}`;
+      return `${first} ${middle} ${last}`;
     }
 
     return "";

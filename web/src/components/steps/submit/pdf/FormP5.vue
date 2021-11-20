@@ -416,7 +416,7 @@ import { namespace } from "vuex-class";
 import "@/store/modules/application";
 const applicationState = namespace("Application");
 
-import UnderlineForm from "./components/UnderlineForm.vue";
+import UnderlineForm from "@/components/UnderlineForm.vue";
 import moment from "moment";
 import { stepInfoType } from "@/types/Application";
 
