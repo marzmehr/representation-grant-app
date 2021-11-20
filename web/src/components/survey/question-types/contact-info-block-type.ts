@@ -1,5 +1,5 @@
 import Vue from "vue";
-import ContactInfo from "../components/ContactInfo.vue";
+import ContactInfo from "@/components/survey/components/ContactInfo.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initContactInfoBlock(Survey: any) {

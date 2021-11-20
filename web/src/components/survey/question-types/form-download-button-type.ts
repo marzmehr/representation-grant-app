@@ -1,5 +1,5 @@
 import Vue from "vue";
-import FormDownloadButton from "../components/FormDownloadButton.vue";
+import FormDownloadButton from "@/components/survey/components/FormDownloadButton.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initFormDownloadButton(Survey: any) {

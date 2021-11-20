@@ -18,9 +18,9 @@ const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string)
 };
 
 const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
-  const questionNamesToWatch = ["applicant", "spouseInfoPanel", "childInfoPanel"];
+  const questionNamesToWatch = ["applicantChoice", "spouseInfoPanel", "childInfoPanel"];
   if (!questionNamesToWatch.includes(options.name)) return;
-  const applicants = sender.getQuestionByName("applicant")?.value || [];
+  const applicants = sender.getQuestionByName("applicantChoice")?.value || [];
   const potentialApplicants = getPotentialApplicants.value || [];
   const applicantInfoPanel = sender.getQuestionByName("applicantInfoPanel");
   if (applicantInfoPanel) {
@@ -69,19 +69,21 @@ const determinePotentialApplicants = (sender, options) => {
       key: `c${index}`
     }))
   ];
-  const applicant = sender.getQuestionByName("applicant");
-  applicant.choices = potentialApplicants.map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
+  const applicantChoice = sender.getQuestionByName("applicantChoice");
+  if (applicantChoice) {
+    applicantChoice.choices = potentialApplicants.map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
+    console.log(
+      `combinePotentialApplicants - Applicant choices: ${JSON.stringify(applicantChoice.choices)}`
+    );
+  }
   setPotentialApplicants(potentialApplicants);
-  console.log(
-    `combinePotentialApplicants - Applicant choices: ${JSON.stringify(applicant.choices)}`
-  );
 };
 
 const determineRecipients = (sender, options) => {
-  const questionNamesToWatch = ["applicant", "spouseInfoPanel", "childInfoPanel"];
+  const questionNamesToWatch = ["applicantChoice", "spouseInfoPanel", "childInfoPanel"];
   if (!questionNamesToWatch.includes(options.name)) return;
 
-  let selectedApplicants = getValueFromOptionsOrGetQuestion(sender, options, "applicant") || [];
+  let selectedApplicants = getValueFromOptionsOrGetQuestion(sender, options, "applicantChoice") || [];
   const potentialApplicants = getPotentialApplicants.value;
   const recipients = potentialApplicants
     .filter(pa => !selectedApplicants.find(sa => sa == pa.key))
@@ -127,8 +129,6 @@ const determineEarliestSubmissionDate = (sender, options) => {
         /* 
           For electronic/fax service:
           Saturday/Sunday/BC holiday, date served = next BC business day, then add 21 days on top of that
-          Business day before 4pm, date served is the date served: +0 days, then +21 days on top of that for the countdown.
-          Business day after 4pm, date served = next BC business day, then add 21 days on top of that
         */
         let offsetDays = method == "mail" ? 7 : 0;
         const bcStats = holidaysByDate;

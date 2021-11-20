@@ -1,5 +1,5 @@
 import Vue from "vue";
-import PersonName from "../components/PersonName.vue";
+import PersonName from "@/components/survey/components/PersonName.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initPersonName(Survey: any) {

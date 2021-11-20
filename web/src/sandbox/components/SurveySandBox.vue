@@ -19,7 +19,7 @@ import SandboxSidebar from "./SandboxSidebar.vue";
 import Axios from "axios";
 import { addCustomTemplating } from "@/components/survey/survey-templating";
 import { onValueChanged } from "@/components/survey/survey-on-value-change";
-import { defineComponent, onMounted, ref, watch } from "@vue/composition-api";
+import { defineComponent, ref} from "@vue/composition-api";
 import { getSurveyEnvironment } from "@/components/utils/utils";
 
 export default defineComponent({
@@ -35,22 +35,17 @@ export default defineComponent({
     let updatedKey = ref(0);
 
     const Survey = SurveyVue;
-    const sandboxName = props.sandboxName;
     SurveyInit.loadQuestionTypesVueAndSetCss(Survey);
-
-
-    onMounted(async () => {
-      const data = await loadSurveyDataFromDatabase();
-      survey.value = new SurveyVue.Model(data);
-      survey.value.commentPrefix = "Comment";
-      survey.value.showQuestionNumbers = "off";
-      addSurveyListener();
-    });
+    const sandboxName = props.sandboxName;
 
     const loadSurveyDataFromDatabase = async () => {
       try {
         const response = await Axios.get(`/sandbox-survey/?sandbox_name=${sandboxName}`);
-        return JSON.parse(response.data.sandbox_data);
+        const data = JSON.parse(response.data.sandbox_data);
+        survey.value = new SurveyVue.Model(data);
+        survey.value.commentPrefix = "Comment";
+        survey.value.showQuestionNumbers = "off";
+        addSurveyListener();
       } catch (error) {
         console.log("loadSurveyDataFromDatabase(): Loading JSON file failed\n", error);
       }
@@ -85,6 +80,9 @@ export default defineComponent({
     
       survey.value.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     };
+
+    loadSurveyDataFromDatabase();
+
     return {
       survey,
       updatedKey

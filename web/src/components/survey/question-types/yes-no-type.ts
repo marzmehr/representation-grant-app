@@ -1,5 +1,5 @@
 import Vue from "vue";
-import YesNo from "../components/YesNo.vue";
+import YesNo from "@/components/survey/components/YesNo.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initYesNo(Survey: any) {

@@ -55,27 +55,12 @@
       ]
      },
      {
-      "type": "expression",
-      "name": "potentialApplicants",
-      "expression": "getPotentialApplicants({spouseInfoPanel}, {childInfoPanel}, applicant)"
-     },
-     {
-      "type": "expression",
-      "name": "Recipients",
-      "expression": "getRecipients({spouseInfoPanel}, {childInfoPanel}, question2)"
-     },
-     {
       "type": "checkbox",
       "name": "applicant",
       "choices": [
        "applicant1",
        "applicant2"
       ]
-     },
-     {
-      "type": "expression",
-      "name": "populateApplicantInfoPanel",
-      "expression": "populateApplicantInfoPanel({applicant}, {potentialApplicants}, applicantInfoPanel)"
      },
      {
       "type": "paneldynamic",
