@@ -15,6 +15,7 @@ import ace from "ace-builds";
 import "ace-builds/src-noconflict/ext-searchbox";
 import { onValueChanged } from "@/survey/survey-on-value-change";
 import { getSurveyEnvironment } from "@/utils/utils";
+import { setHideHeaderFooter } from "@/state/application-state";
 
 @Component
 export default class SurveyCreatorForm extends Vue {
@@ -45,6 +46,8 @@ export default class SurveyCreatorForm extends Vue {
   editor: SurveyCreator.SurveyCreator;
   async mounted() {
     this.initSurvey();
+
+    setHideHeaderFooter(true);
     widgets.inputmask(SurveyKO);
 
     addQuestionTypes(SurveyKO);

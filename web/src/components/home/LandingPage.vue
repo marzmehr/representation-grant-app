@@ -120,6 +120,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { SessionManager } from "@/utils/utils";
 import Tooltip from "@/components/survey/Tooltip.vue";
+import { setHideHeaderFooter } from "@/state/application-state";
 
 
 @Component({
@@ -131,6 +132,9 @@ export default class LandingPage extends Vue {
   isLoggedIn = false;
   pageReady = true;
 
+  mounted() {
+    setHideHeaderFooter(false);
+  }
   public navigate(userType) {
     if (userType === "new") {
       this.$router.push({ name: "pre-qualification" });
