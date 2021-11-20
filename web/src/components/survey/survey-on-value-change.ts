@@ -1,4 +1,5 @@
 //Needs to be function, otherwise this context wont work.
+import { SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, getDay, parseISO } from "date-fns";
 import { ItemValue } from "survey-vue";
 import { DayOfWeek } from "../utils/holiday";
@@ -18,24 +19,28 @@ const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string)
 };
 
 const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
-  const questionNamesToWatch = ["applicantChoice", "spouseInfoPanel", "childInfoPanel"];
+  const questionNamesToWatch = [
+    SurveyQuestionNames.applicantChoice,
+    SurveyQuestionNames.spouseInfoPanel,
+    SurveyQuestionNames.childInfoPanel
+  ];
   if (!questionNamesToWatch.includes(options.name)) return;
-  const applicants = sender.getQuestionByName("applicantChoice")?.value || [];
+  const applicants = sender.getQuestionByName(SurveyQuestionNames.applicantChoice)?.value || [];
   const potentialApplicants = getPotentialApplicants.value || [];
-  const applicantInfoPanel = sender.getQuestionByName("applicantInfoPanel");
+  const applicantInfoPanel = sender.getQuestionByName(SurveyQuestionNames.applicantInfoPanel);
   if (applicantInfoPanel) {
     applicantInfoPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
     applicantInfoPanel.visible = applicants.length > 0;
     console.log(`applicantInfoPanel - Value: ${JSON.stringify(applicantInfoPanel.value)}`);
   }
-  const p1DeliveryInfoPanel = sender.getQuestionByName("p1DeliveryInfoPanel");
+  const p1DeliveryInfoPanel = sender.getQuestionByName(SurveyQuestionNames.p1DeliveryInfoPanel);
   if (p1DeliveryInfoPanel) {
     const choices = applicants
       .map(a => potentialApplicants.find(pa => pa.key == a))
       .map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
     for (const panel of p1DeliveryInfoPanel.panels) {
       for (const question of panel.questions) {
-        if (question.name != "p1DelivererName") continue;
+        if (question.name != SurveyQuestionNames.p1DelivererName) continue;
         question.choices = choices;
       }
     }
@@ -44,7 +49,10 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
 };
 
 const determinePotentialApplicants = (sender, options) => {
-  const questionNamesToWatch = ["spouseInfoPanel", "childInfoPanel"];
+  const questionNamesToWatch = [
+    SurveyQuestionNames.spouseInfoPanel,
+    SurveyQuestionNames.childInfoPanel
+  ];
   if (!questionNamesToWatch.includes(options.name)) return;
   let spousePanel =
     getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[0]) || [];
@@ -69,9 +77,11 @@ const determinePotentialApplicants = (sender, options) => {
       key: `c${index}`
     }))
   ];
-  const applicantChoice = sender.getQuestionByName("applicantChoice");
+  const applicantChoice = sender.getQuestionByName(SurveyQuestionNames.applicantChoice);
   if (applicantChoice) {
-    applicantChoice.choices = potentialApplicants.map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
+    applicantChoice.choices = potentialApplicants.map(
+      p => new ItemValue(`${p.key}`, `${p.applicantName}`)
+    );
     console.log(
       `combinePotentialApplicants - Applicant choices: ${JSON.stringify(applicantChoice.choices)}`
     );
@@ -80,10 +90,15 @@ const determinePotentialApplicants = (sender, options) => {
 };
 
 const determineRecipients = (sender, options) => {
-  const questionNamesToWatch = ["applicantChoice", "spouseInfoPanel", "childInfoPanel"];
+  const questionNamesToWatch = [
+    SurveyQuestionNames.applicantChoice,
+    SurveyQuestionNames.spouseInfoPanel,
+    SurveyQuestionNames.childInfoPanel
+  ];
   if (!questionNamesToWatch.includes(options.name)) return;
 
-  let selectedApplicants = getValueFromOptionsOrGetQuestion(sender, options, "applicantChoice") || [];
+  let selectedApplicants =
+    getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.applicantChoice) || [];
   const potentialApplicants = getPotentialApplicants.value;
   const recipients = potentialApplicants
     .filter(pa => !selectedApplicants.find(sa => sa == pa.key))
@@ -98,7 +113,7 @@ const determineRecipients = (sender, options) => {
   setApplicants(applicants);
 
   //Going to have to combine objects here, not just replace.
-  const targetPanel = sender.getQuestionByName("p1DeliveryInfoPanel");
+  const targetPanel = sender.getQuestionByName(SurveyQuestionNames.p1DeliveryInfoPanel);
   if (targetPanel) {
     targetPanel.value = recipients;
   }
@@ -108,7 +123,7 @@ const determineRecipients = (sender, options) => {
 };
 
 const determineEarliestSubmissionDate = (sender, options) => {
-  const questionNamesToWatch = ["p1DeliveryInfoPanel"];
+  const questionNamesToWatch = [SurveyQuestionNames.p1DeliveryInfoPanel];
   if (!questionNamesToWatch.includes(options.name)) return;
   const p1DeliveryInfoPanelValue = options.value || [];
   const calculatedDates = [];
@@ -154,7 +169,10 @@ const determineEarliestSubmissionDate = (sender, options) => {
     dateServed = addDays(dateServed, extraNoticeDays);
     calculatedDates.push(dateServed);
   });
-  const earliestSubmissionDateQuestion = sender.getQuestionByName("p1earliestSubmissionDate");
+
+  const earliestSubmissionDateQuestion = sender.getQuestionByName(
+    SurveyQuestionNames.p1earliestSubmissionDate
+  );
   if (!earliestSubmissionDateQuestion) return;
   if (calculatedDates.length == 0) {
     earliestSubmissionDateQuestion.visible = false;
@@ -163,7 +181,7 @@ const determineEarliestSubmissionDate = (sender, options) => {
     sender.setVariable("earliestSubmissionDate", format(earliestSubmissionDate, "MMMM d, yyyy"));
     earliestSubmissionDateQuestion.visible = true;
     //Have to give it a kick to re-render.
-    earliestSubmissionDateQuestion.title = earliestSubmissionDateQuestion.title + " "; 
+    earliestSubmissionDateQuestion.title = earliestSubmissionDateQuestion.title + " ";
     console.log(
       `determineEarliestSubmissionDate - earliestSubmissionDate: ${format(
         earliestSubmissionDate,
