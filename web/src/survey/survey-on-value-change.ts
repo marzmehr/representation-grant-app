@@ -25,7 +25,9 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
     SurveyQuestionNames.childInfoPanel
   ];
   if (!questionNamesToWatch.includes(options.name)) return;
-  const applicants = sender.getQuestionByName(SurveyQuestionNames.applicantChoice)?.value || [];
+  const applicantChoice =
+    sender.getQuestionByName(SurveyQuestionNames.applicantChoice)?.value || [];
+  const applicants = !Array.isArray(applicantChoice) ? [applicantChoice] : applicantChoice;
   const potentialApplicants = getPotentialApplicants.value || [];
   const applicantInfoPanel = sender.getQuestionByName(SurveyQuestionNames.applicantInfoPanel);
   if (applicantInfoPanel) {
@@ -100,8 +102,13 @@ const determineRecipients = (sender, options) => {
   let selectedApplicants =
     getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.applicantChoice) || [];
   const potentialApplicants = getPotentialApplicants.value;
+  //Handle both Checkbox and Radiogroup cases.
   const recipients = potentialApplicants
-    .filter(pa => !selectedApplicants.find(sa => sa == pa.key))
+    .filter(
+      pa =>
+        (Array.isArray(selectedApplicants) && !selectedApplicants.find(sa => sa == pa.key)) ||
+        (!Array.isArray(selectedApplicants) && selectedApplicants != pa.key)
+    )
     .map(pa => ({
       recipientRole: pa.applicantRole,
       recipientName: pa.applicantName,
@@ -109,7 +116,12 @@ const determineRecipients = (sender, options) => {
     }));
   setRecipients(recipients);
 
-  const applicants = potentialApplicants.filter(pa => selectedApplicants.find(sa => sa == pa.key));
+  //Handle both Checkbox and Radiogroup cases.
+  const applicants = potentialApplicants.filter(
+    pa =>
+      (Array.isArray(selectedApplicants) && selectedApplicants.find(sa => sa == pa.key)) ||
+      (!Array.isArray(selectedApplicants) && selectedApplicants == pa.key)
+  );
   setApplicants(applicants);
 
   //Going to have to combine objects here, not just replace.

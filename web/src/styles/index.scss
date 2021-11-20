@@ -278,6 +278,8 @@ main.app-content.fill-body {
 .svd_container .svd_toolbar {
   font-size: $font-size;
   margin-bottom: 2px;
+  position: sticky; 
+  top:0;
 }
 
 .svd_container svd-pages-editor .svd-page {
