@@ -12,7 +12,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { SessionManager } from "@/components/utils/utils";
+import { SessionManager } from "@/utils/utils";
+import { getUserId } from '@/state/application-state';
 
 @Component
 export default class LandingPage extends Vue {
@@ -24,8 +25,8 @@ export default class LandingPage extends Vue {
     async mounted() {
         this.pageReady = false;
         this.safetyInst = false;
-        await SessionManager.getUserInfo(this.$store);
-        if(this.$store.state.Common.userId !== ""){
+        await SessionManager.getUserInfo();
+        if(getUserId.value !== ""){
             this.isLoggedIn = true
             
         }else{
@@ -42,7 +43,7 @@ export default class LandingPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-    @import "src/styles/common"; 
+    @import "@/styles/_common";
    
     .survey-button {
         color: black;

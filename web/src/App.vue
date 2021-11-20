@@ -1,29 +1,32 @@
 <template>
   <div class="app-outer fill-body" id="app">
-    <navigation-topbar v-if="!hideHeaderFooter" />
+    <navigation-topbar v-if="!getHideHeaderFooter" />
     <main class="app-content fill-body">
       <router-view />
     </main>
-    <navigation-footer id="footer" v-if="!hideHeaderFooter" />
+    <navigation-footer id="footer" v-if="!getHideHeaderFooter" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import NavigationTopbar from "@/components/NavigationTopbar.vue";
 import NavigationFooter from "@/components/NavigationFooter.vue";
-import { namespace } from "vuex-class";
-import "@/store/modules/common";
-const commonState = namespace("Common");
+import { getHideHeaderFooter } from "@/state/application-state";
+import { defineComponent } from "@vue/composition-api";
 
-@Component({
+export default defineComponent({
+  name: "App",
+  props: {
+    survey: Object
+  },
   components: {
     NavigationTopbar,
     NavigationFooter
+  },
+  setup(props) {
+    return {
+      getHideHeaderFooter
+    };
   }
-})
-export default class App extends Vue {
-  @commonState.State
-  public hideHeaderFooter!: boolean;
-}
+});
 </script>

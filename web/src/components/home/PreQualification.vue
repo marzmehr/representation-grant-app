@@ -54,14 +54,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
-import * as SurveyInit from "@/components/survey/survey-init";
-import surveyJson from "./forms/survey-qualify.json";
-import Tooltip from "@/components/survey/components/Tooltip.vue";
+import * as SurveyInit from "@/survey/survey-init";
+import surveyJson from "@/components/home/forms/survey-qualify.json";
+import Tooltip from "@/components/survey/Tooltip.vue";
 
-import { namespace } from "vuex-class";
-import "@/store/modules/common";
-import { addCustomTemplating } from "../survey/survey-templating";
-const commonState = namespace("Common");
+import { addCustomTemplating } from "@/survey/survey-templating";
+import { getUserId } from "@/state/application-state";
 
 @Component({
   components: {
@@ -69,9 +67,8 @@ const commonState = namespace("Common");
   }
 })
 export default class PreQualification extends Vue {
-  @commonState.State
-  public userId!: string;
 
+  userId= "";
   error = "";
   applicationId = 0;
   displayButton = false;
@@ -91,6 +88,7 @@ export default class PreQualification extends Vue {
     this.survey.showQuestionNumbers = "off";
     this.survey.showNavigationButtons = false;
     this.addSurveyListener();
+    this.userId = getUserId.value;
   }
 
   public onSubmit(evt) {
@@ -131,7 +129,7 @@ export default class PreQualification extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "src/styles/common";
+@import "@/styles/_common";
 .home-content {
   padding-bottom: 20px;
   padding-top: 2rem;

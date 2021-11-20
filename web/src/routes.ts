@@ -2,19 +2,16 @@ import LandingPage from "@/components/home/LandingPage.vue";
 import PreQualification from "@/components/home/PreQualification.vue";
 import Qualified from "@/components/home/Qualified.vue";
 import UnQualified from "@/components/home/UnQualified.vue";
-import Surveys from "@/components/Surveys.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
 import TermsConditions from "@/components/status/TermsConditions.vue";
-import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue";
-import { SessionManager } from "@/components/utils/utils";
-import SurveySandBox from "@/sandbox/components/SurveySandBox.vue";
-import FormP1 from "@/components/steps/submit/pdf/FormP1.vue";
-import FormP9 from "@/components/steps/submit/pdf/FormP9.vue";
-
-import store from "@/store";
+import SurveyCreatorForm from "@/components/sandbox/SurveyCreatorForm.vue";
+import { SessionManager } from "@/utils/utils";
+import SurveySandBox from "@/components/sandbox/SurveySandBox.vue";
+import FormP1 from "@/components/pdf/FormP1.vue";
+import FormP9 from "@/components/pdf/FormP9.vue";
 
 async function authGuard(to: any, from: any, next: any) {
-  const result = await SessionManager.getUserInfo(store);
+  const result = await SessionManager.getUserInfo();
   if (result.userId) {
     next();
   } else if (result.loginUrl) {
@@ -27,7 +24,7 @@ async function authGuard(to: any, from: any, next: any) {
 }
 
 async function authGuardAdmin(to: any, from: any, next: any) {
-  const result = await SessionManager.getUserInfo(store);
+  const result = await SessionManager.getUserInfo();
   if (!result.userId && result.loginUrl) {
     window.location.replace(`${result.loginUrl}&next=${window.location.href}`);
   } else if (result.isStaff) {
@@ -76,7 +73,7 @@ const routes = [
     path: "/survey",
     name: "surveys",
     beforeEnter: authGuard,
-    component: Surveys
+    component: SurveySandBox
   },
   {
     path: "/status",

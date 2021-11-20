@@ -118,8 +118,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { SessionManager } from "@/components/utils/utils";
-import Tooltip from "@/components/survey/components/Tooltip.vue";
+import { SessionManager } from "@/utils/utils";
+import Tooltip from "@/components/survey/Tooltip.vue";
 
 
 @Component({
@@ -142,7 +142,7 @@ export default class LandingPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "src/styles/common";
+@import "@/styles/_common";
 
 .list-group-item {
   border-color: white;

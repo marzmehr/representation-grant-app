@@ -83,17 +83,14 @@ export default class SurveyCreatorForm extends Vue {
         addCustomTemplating(options.survey);
       }
       options.survey.onValueChanged.add((sender, options) => {
-        onValueChanged(sender, options);
+        onValueChanged(sender,options);
         this.updatedKey++;
       });
       options.survey.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     });
 
     const resizeIfLargeEnoughScreen = () => {
-      if (
-        window.innerHeight > 800 &&
-        document.querySelector<HTMLElement>("main.app-content.fill-body").style.height != "100vh"
-      ) {
+      if (window.innerHeight > 800 && document.querySelector<HTMLElement>("main.app-content.fill-body").style.height != "100vh") {
         document.querySelector<HTMLElement>("main.app-content.fill-body").style.height = "100vh";
         document.querySelector<HTMLElement>(".svd_container .svd_content").style.height = "100vh";
         document.querySelector<HTMLElement>("#surveyCreatorContainer div").style.height = "100vh";

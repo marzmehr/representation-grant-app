@@ -45,17 +45,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { namespace } from "vuex-class";   
-import "@/store/modules/application";
-const applicationState = namespace("Application");
 
 @Component
 export default class LandingPage extends Vue { 
-    
-    @applicationState.Action
-    public UpdateUserType!: (newUserType) => void
-    
-  
     public navigate(userType) {      
 
         //this.UpdateUserType(userType);          
@@ -72,7 +64,7 @@ export default class LandingPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-    @import "src/styles/common";
+    @import "@/styles/_common";
 
     .survey-button {
         color: black;

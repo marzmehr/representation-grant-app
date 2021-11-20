@@ -2,9 +2,33 @@
 //That way we can generate the typescript models from the survey data. 
 //We'll know right away if the survey has changed, it will break the compilation 
 //of the project.
-interface go {
-    applicantCourtHouseDifferent: string
+
+interface Deceased {
+    deceasedDateOfDeath?: Date;
+    deceasedName?: string;
+    deceasedAddress?: string;
 }
+
+interface ServiceContact {
+
+}
+
+interface ApplicantPanel {
+    applicantCourthouse?: string;
+    applicantMailingAddress?: string;
+    applicantMailingAddressIsOrdinary?: string;
+    applicantOrdinaryAddress?: string;
+    applicantServiceAddress?: string;
+    applicantServicePOBox?: string;
+    applicantServiceFax?: string;
+    applicantServiceEmail?: string;
+    applicantLawyer?: string;
+    applicantLawyerName?: string;
+    applicantName?: string;
+}
+
+//Replace above by generated models.
+
 
 //This is for state.
 interface PotentialApplicant {

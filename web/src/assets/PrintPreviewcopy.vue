@@ -142,23 +142,15 @@
 </template>
 
 <script lang="ts">
+import { getApplicationId } from '@/state/application-state';
+import axios, { AxiosRequestConfig } from 'axios';
 import { Component, Vue } from 'vue-property-decorator';
 
 
-import { namespace } from "vuex-class";   
-import "@/store/modules/application";
-const applicationState = namespace("Application");
 
 @Component
 export default class PrintPreview extends Vue {
-    
-
-    @applicationState.Action
-    public UpdateGotoPrevStepPage!: () => void
-
-    @applicationState.Action
-    public UpdateGotoNextStepPage!: () => void
-
+   
     check = ""//"&#10003"
     check2= "&#10003"
 
@@ -170,7 +162,7 @@ export default class PrintPreview extends Vue {
 
         const el= document.getElementById("print");
 
-        const applicationId = this.$store.state.Application.id;
+        const applicationId = getApplicationId.value;
 
         const url = '/survey-print/'+applicationId+'/?name=application-about-a-protection-order'
 
@@ -224,8 +216,8 @@ export default class PrintPreview extends Vue {
             headers: {
             "Content-Type": "application/json",
             }
-        }  
-        this.$http.post(url,body, options)
+        } as AxiosRequestConfig 
+        axios.post(url,body, options)
         .then(res => {
             const blob = res.data;
             const link = document.createElement("a");
@@ -243,24 +235,7 @@ export default class PrintPreview extends Vue {
 
  
     public getRepGrantResultData() {  
-        
-        let result = this.$store.state.Application.steps[0].result; 
-        for(let i=1;i<9; i++){
-            const stepResults = this.$store.state.Application.steps[i].result
-            for(const stepResult in stepResults){
-                result[stepResult]=stepResults[stepResult].data; 
-            }
-        }
-        const protectedPartyName = {protectedPartyName: this.$store.state.Application.protectedPartyName}
-        Object.assign(result, result, protectedPartyName);
-        
-        const applicationLocation = this.$store.state.Application.applicationLocation;
-        const userLocation = this.$store.state.Common.userLocation;
-        if(applicationLocation)
-            Object.assign(result, result,{applicationLocation: applicationLocation}); 
-        else
-            Object.assign(result, result,{applicationLocation: userLocation});
-        return result;
+
     }
 
 }

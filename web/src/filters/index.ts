@@ -1,7 +1,6 @@
 import Vue from "vue";
-import moment from "moment-timezone";
-import store from "@/store";
 import customCss from "@/styles/bootstrapCSS.css";
+import moment from "moment-timezone";
 
 Vue.filter("beautify-date", function(date) {
   enum MonthList {

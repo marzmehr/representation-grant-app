@@ -1,7 +1,4 @@
-import { HolidayHelper, MonthOfYear } from "../src/components/utils/holiday";
-import {
-  determineEarliestSubmissionDate
-} from "../src/components/survey/survey-expressions";
+import { HolidayHelper, MonthOfYear } from "@/utils/holiday";
 
 describe("Test holiday date detection / determine EarliestSubmissionDate", () => {
   it("Test Holiday generation for 2029.", () => {
@@ -32,86 +29,5 @@ describe("Test holiday date detection / determine EarliestSubmissionDate", () =>
     expect(stats[rememberanceDay.toString()]).toBeDefined();
     expect(stats[christmasDay.toString()]).toBeDefined();
     expect(stats[boxingDay.toString()]).toBeDefined();
-  });
-
-  it("REPGRANT-153 - Mail - Submission Date Conditions", () => {
-    const saturdayDate = determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2021-11-06",
-          "Method": "Mail"
-        }
-      }
-    ]);
-    expect(saturdayDate).toBe("2021-12-06");
-    const sundayDate = determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2021-11-07",
-          "Method": "Mail"
-        }
-      }
-    ]);
-    expect(sundayDate).toBe("2021-12-06");
-
-    const holidayDate = determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2021-11-04",
-          "Method": "Mail"
-        }
-      }
-    ]);
-    expect(holidayDate).toBe("2021-12-03");
-  });
-
-  it("REPGRANT-153 - In-Person - Submission Date Conditions", () => {
-    const inPersonDate = determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2020-01-01",
-          "Method": "In-Person",
-        }
-      }
-    ]);
-    expect(inPersonDate).toBe("2020-01-22");
-  });
-
-  it("REPGRANT-153 - Electronic - Submission Date Conditions", () => {
-    expect(determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2021-11-27",
-          "Method": "Electronic",
-        }
-      }
-    ])).toBe("2021-12-20");
-    const sundayDate = determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2021-11-28",
-          "Method": "Electronic",
-        }
-      }
-    ]);
-    expect(sundayDate).toBe("2021-12-20");
-    const holidayDate = determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2025-12-25",
-          "Method": "Electronic",
-        }
-      }
-    ]);
-    expect(holidayDate).toBe("2026-01-19");
-    const holidayDate2 = determineEarliestSubmissionDate([
-      {
-        row: {
-          "Date Served": "2025-12-26",
-          "Method": "Electronic",
-        }
-      }
-    ]);
-    expect(holidayDate2).toBe("2026-01-19");
   });
 });

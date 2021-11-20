@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-import "@/components/survey/survey-state";
+import "@/state/survey-state";
 import App from "@/App.vue";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -18,7 +18,6 @@ import {
 import VueRouter from "vue-router";
 import VueCookies from "vue-cookies";
 import routes from "@/routes";
-import store from "@/store";
 import http from "./plugins/http";
 import "./filters";
 
@@ -28,7 +27,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 // https://www.npmjs.com/package/vue-fontawesome-icon
 // import material-icon scss
 import "font-awesome/css/font-awesome.min.css";
-import { SessionManager } from "@/components/utils/utils";
+import { SessionManager } from "@/utils/utils";
 
 library.add(faUserTie);
 library.add(faUserEdit);
@@ -61,6 +60,5 @@ SessionManager.redirectIfQuickExitCookie();
 new Vue({
   router: router,
   render: h => h(App),
-  store: store,
   data: {}
 }).$mount("#app");
