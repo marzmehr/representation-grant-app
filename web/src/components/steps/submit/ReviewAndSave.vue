@@ -101,7 +101,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
-import FormList from "@/components/FormList.vue"
+import FormList from "@/components/steps/submit/components/FormList.vue"
 
 import { stepInfoType } from "@/types/Application";
 import PageBase from "../PageBase.vue";

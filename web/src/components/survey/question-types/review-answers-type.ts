@@ -1,5 +1,5 @@
 import Vue from "vue";
-import ReviewAnswers from "@/components/ReviewAnswers.vue";
+import ReviewAnswers from "@/components/survey/components/ReviewAnswers.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initReviewAnswers(Survey: any) {

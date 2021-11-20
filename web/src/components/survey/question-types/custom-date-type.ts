@@ -1,5 +1,5 @@
 import Vue from "vue";
-import CustomDate from "@/components/CustomDate.vue";
+import CustomDate from "@/components/survey/components/CustomDate.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initCustomDate(Survey: any) {

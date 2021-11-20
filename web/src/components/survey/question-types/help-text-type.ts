@@ -1,5 +1,5 @@
 import Vue from "vue";
-import HelpText from "@/components/HelpText.vue";
+import HelpText from "@/components/survey/components/HelpText.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initHelpText(Survey: any) {

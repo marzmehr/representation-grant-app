@@ -1,5 +1,5 @@
 import Vue from "vue";
-import SurveyText from "@/components/outer-question/SurveyText.vue";
+import SurveyText from "@/components/survey/components/outer-question/SurveyText.vue";
 import { WidgetValueName } from "./question-types";
 
 export const addToInputText = Survey => {

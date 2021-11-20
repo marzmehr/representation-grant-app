@@ -1,5 +1,5 @@
 import Vue from "vue";
-import PreviewForm from "@/components/PreviewForm.vue";
+import PreviewForm from "@/components/survey/components/PreviewForm.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initPreviewForm(Survey: any) {
