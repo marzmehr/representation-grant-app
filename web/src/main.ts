@@ -18,7 +18,6 @@ import {
 import VueRouter from "vue-router";
 import VueCookies from "vue-cookies";
 import routes from "@/routes";
-import http from "./plugins/http";
 import "./filters";
 
 import "@/styles/index.scss";
@@ -28,6 +27,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 // import material-icon scss
 import "font-awesome/css/font-awesome.min.css";
 import { SessionManager } from "@/utils/utils";
+import axios from "axios";
 
 library.add(faUserTie);
 library.add(faUserEdit);
@@ -43,8 +43,11 @@ Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.use(VueRouter);
 Vue.use(VueCookies);
-Vue.use(http);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.baseURL = `${process.env.BASE_URL}api/v1`;
 
 const router = new VueRouter({
   routes: routes,
