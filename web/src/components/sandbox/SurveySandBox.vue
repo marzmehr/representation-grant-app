@@ -52,6 +52,13 @@ export default defineComponent({
     };
 
     const addSurveyListener = () => {
+      survey.value
+        .getAllQuestions()
+        .filter(x => x.getType() === "paneldynamic")
+        .forEach(element => {
+          survey.value.setVariable(`${element.name}-count`, element.panelCount);
+        });
+
       survey.value.onDynamicPanelAdded.add((sender, options) => {
         sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
       });
