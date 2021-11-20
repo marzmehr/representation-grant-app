@@ -1,4 +1,4 @@
-tsc && node gen_typescript_response.js 
+tsc && node dist/tools/gen_typescript_response.js 
 # Cleanup
 #rm ../src/components/survey/question-types.js
 #rm gen_typescript_response.js
