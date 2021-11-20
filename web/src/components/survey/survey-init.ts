@@ -14,8 +14,8 @@ import ReviewAnswers from "@/components/survey/components/ReviewAnswers.vue";
 import PreviewForm from "@/components/survey/components/PreviewForm.vue";
 
 import VRuntimeTemplate from "v-runtime-template";
-import StringViewer from "@/components/survey/components/outer-question/StringViewer.vue";
-import SurveyText from "@/components/survey/components/outer-question/SurveyText.vue";
+import StringViewer from "@/components/survey/components/survey-js-internal/StringViewer.vue";
+import SurveyText from "@/components/survey/components/survey-js-internal/SurveyText.vue";
 
 import { HolidayHelper } from "../utils/holiday";
 
