@@ -68,15 +68,15 @@
         </div>
       </div>
 
-      <div class="row form-group">
+      <!-- <div class="row form-group">
         <div class="col">
           <vue-recaptcha siteKey="your key here"></vue-recaptcha>
         </div>
-      </div>
+      </div> -->
 
       <div class="row form-group">
         <div class="col text-left">
-          <button type="submit" class="btn btn-bcgold" @click="sendFeedback($event)" v-bind:class="{ loading: sending }" :disabled="sending || !canSend">
+          <button type="submit" class="btn btn-bcgold" @click="sendFeedback($event)" v-bind:class="{ loading: sending }" :disabled="sending">
             <span class="fa fa-paper-plane left"></span> Send Feedback
           </button>
         </div>
@@ -99,21 +99,23 @@ import VueRecaptcha from "vue-recaptcha";
 
 export default class Feedback extends Vue {
   public loading = true;
-  private _loginRedirect: string = null;
-  public inited = true;
-  public feedback = { reason: '', name: '', email: '', comments: '', invalid: null };
-  public maxCommentLength: number = 160;
+  public feedback = { 
+    reason: "",
+    name: "",
+    email: "",
+    comments: "",
+    invalid: null
+  };
   public failed = false;
   public sending = false;
   public sent = false;
 
-
-  checkFeedback(fb) {
-    if (!fb.reason || !fb.name || !fb.email)
+  checkFeedback(feedback) {
+    if (!feedback.reason || !feedback.name || !feedback.email) {
       return false;
+    }
     return true;
   }
-
 
   focusAlert(id) {
     setTimeout(() => {
@@ -122,45 +124,24 @@ export default class Feedback extends Vue {
     }, 50);
   }
 
-  sendFeedback(evt) {
-    if (evt) evt.preventDefault();
+  sendFeedback(pointerEvent) {
+    if (pointerEvent) pointerEvent.preventDefault();
     if (this.sending) return;
     this.sending = true;
     this.sent = false;
 
-    const fb = this.feedback;
-    const valid = this.checkFeedback(fb);
-    fb.invalid = valid ? null : 'required';
+    const feedback = this.feedback;
+    const valid = this.checkFeedback(feedback);
+    feedback.invalid = valid ? null : 'required';
+
     if (!valid) {
       this.focusAlert('alert-required');
       this.sending = false;
       return;
     }
 
-    const url = this.dataService.getApiUrl('/feedback');
-    this.http
-      .post(url, fb,{ responseType: "json"})
-      .toPromise()
-      .then(
-        (rs) => {
-          if (rs && rs["status"] == "sent") {
-            console.log(" feedback sent successfully", rs);
-            this.focusAlert('alert-success');
-            this.sent = true;
-            this.feedback = { reason: '', name: '', email: '', comments: '', invalid: null };
-          }
-          else {
-            console.log("feedback submission failed", rs);
-            this.focusAlert('alert-error');
-            this.failed = true;
-          }
-        },
-        (err) => {
-          console.log("Error: feedback not submitted", err);
-          this.failed = true;
-          this.focusAlert('alert-error');
-        }
-      );
+    this.sent = true;
+    this.focusAlert('alert-success');
   }
 }
 </script>
