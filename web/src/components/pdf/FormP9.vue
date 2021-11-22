@@ -298,6 +298,7 @@ import CheckBox from "@/components/pdf/components/CheckBox.vue";
 import { format } from 'date-fns'
 import axios, { AxiosRequestConfig } from "axios";
 import { getApplicationId } from "@/state/application-state";
+import { SurveyQuestionNames } from "@/types/survey-primary";
 
 @Component({
   components: {
@@ -309,34 +310,9 @@ export default class FormP9 extends Vue {
   @Prop({ required: false })
   survey;
 
-  check = ""; //"&#10003"
-  check2 = "&#10003";
-
   applicantList = [];
   recipientList = [];
   deceasedFullName = "";
-
-  successorsRep = [
-    { repName: "RIP mother", repType: "Parent", successorName: "RIP child" },
-    {
-      repName: "RIP layer",
-      repType: "Lawyer",
-      successorName: "RIP second child"
-    }
-  ];
-  serviceContact = {
-    address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-    phone: "+1 123 456 7890",
-    fax: "+1 123 456 7890",
-    email: "ABC@yahoo.ca"
-  };
-  form5Info = {
-    applicantFullName: "Its first daughter",
-    first: "Its",
-    middle: "first",
-    last: "Daughter",
-    date: "20 March 2020"
-  };
 
   mounted() {
     if (this.survey) {
@@ -446,7 +422,7 @@ export default class FormP9 extends Vue {
   private buildApplicantList(allQuestions) {
     let resultList = [];
     const applicants = getApplicants.value;
-    const applicantQuestion = allQuestions.find(q => q.name === "applicantInfoPanel");
+    const applicantQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.applicantInfoPanel);
 
     for (const i in applicants) {
       let applicant: ApplicantInfoPanel = {
@@ -482,7 +458,7 @@ export default class FormP9 extends Vue {
   private buildRecipientList(allQuestions) {
     let resultList = [];
     const recipients = getRecipients.value;
-    const recipientQuestion = allQuestions.find(q => q.name === "p1DeliveryInfoPanel");
+    const recipientQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.p1DeliveryInfoPanel);
 
     for (const i in recipients) {
       let recipient: P1Panel = {
@@ -510,7 +486,7 @@ export default class FormP9 extends Vue {
   }
 
   private getDeceasedName(allQuestions) {
-    const deceasedQuestion = allQuestions.find(q => q.name === "deceasedName");
+    const deceasedQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.deceasedName);
 
     if (deceasedQuestion) {
       const first = deceasedQuestion.value.first || "";
