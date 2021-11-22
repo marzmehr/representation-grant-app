@@ -66,13 +66,16 @@ export default class SurveyCreatorForm extends Vue {
 
     editor.onSurveyInstanceCreated.add(function(sender, options) {
       //These need to be here to keep track of panel counts.
-      /* This causes bad performance up 5 second extra on survey start.
-        options.survey
+      options.survey
         .getAllQuestions()
-        .filter(x => x.getType() === "paneldynamic")
+        .filter(
+          x =>
+            x.getType() === "paneldynamic" &&
+            (x.name == "spouseInfoPanel" || x.name == "childInfoPanel")
+        )
         .forEach(element => {
           options.survey.setVariable(`${element.name}-count`, element.panelCount);
-        });*/
+        });
 
       options.survey.onDynamicPanelAdded.add((sender, options) => {
         sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
@@ -86,14 +89,17 @@ export default class SurveyCreatorForm extends Vue {
         addCustomTemplating(options.survey);
       }
       options.survey.onValueChanged.add((sender, options) => {
-        onValueChanged(sender,options);
+        onValueChanged(sender, options);
         this.updatedKey++;
       });
       options.survey.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     });
 
     const resizeIfLargeEnoughScreen = () => {
-      if (window.innerHeight > 800 && document.querySelector<HTMLElement>("main.app-content.fill-body").style.height != "100vh") {
+      if (
+        window.innerHeight > 800 &&
+        document.querySelector<HTMLElement>("main.app-content.fill-body").style.height != "100vh"
+      ) {
         document.querySelector<HTMLElement>("main.app-content.fill-body").style.height = "100vh";
         document.querySelector<HTMLElement>(".svd_container .svd_content").style.height = "100vh";
         document.querySelector<HTMLElement>("#surveyCreatorContainer div").style.height = "100vh";

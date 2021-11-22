@@ -19,7 +19,7 @@ import SandboxSidebar from "@/components/sandbox/SandboxSidebar.vue";
 import Axios from "axios";
 import { addCustomTemplating } from "@/survey/survey-templating";
 import { onValueChanged } from "@/survey/survey-on-value-change";
-import { defineComponent, ref} from "@vue/composition-api";
+import { defineComponent, ref } from "@vue/composition-api";
 import { getSurveyEnvironment } from "@/utils/utils";
 
 export default defineComponent({
@@ -54,7 +54,11 @@ export default defineComponent({
     const addSurveyListener = () => {
       survey.value
         .getAllQuestions()
-        .filter(x => x.getType() === "paneldynamic")
+        .filter(
+          x =>
+            x.getType() === "paneldynamic" &&
+            (x.name == "spouseInfoPanel" || x.name == "childInfoPanel")
+        )
         .forEach(element => {
           survey.value.setVariable(`${element.name}-count`, element.panelCount);
         });
@@ -84,7 +88,7 @@ export default defineComponent({
           if (el) el.scrollIntoView();
         });
       });
-    
+
       survey.value.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     };
 
@@ -93,7 +97,7 @@ export default defineComponent({
     return {
       survey,
       updatedKey
-    }
+    };
   }
 });
 </script>
