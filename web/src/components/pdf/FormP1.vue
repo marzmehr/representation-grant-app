@@ -12,7 +12,7 @@
         @change="changeApplicantList()"
       ></b-form-radio-group>
     </b-form-group>
-    <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
+    <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint('FormP1')">
       Save
     </b-button>
 
