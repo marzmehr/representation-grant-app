@@ -1,15 +1,18 @@
 var path = require("path");
 var BuiltinModule = require("module");
+
 //Resolve our vue files with a blank.ts, this will allow the code to execute.
 var Module = module.constructor.length > 1 ? module.constructor : BuiltinModule;
 var oldResolveFilename = Module._resolveFilename;
 Module._resolveFilename = function(request, parentModule, isMain, options) {
   if (request.includes(".vue")) return "blank.ts";
+  if (request.includes("@")) return path.join(__dirname, request.replace("@/", "../src/") + ".js");
   return oldResolveFilename.call(this, request, parentModule, isMain, options);
 };
+
 import { readFileSync, writeFileSync, unlinkSync } from "fs";
 const filePath = path.join(__dirname, "../../../src/types/survey-primary.ts");
-unlinkSync(filePath);
+//unlinkSync(filePath);
 
 import * as Survey from "survey-vue";
 

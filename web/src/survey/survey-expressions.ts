@@ -1,7 +1,6 @@
 import { addDays, format, getDay, parseISO } from "date-fns";
 import { FunctionFactory, ItemValue } from "survey-vue";
-import { DayOfWeek, HolidayHelper } from "../utils/holiday";
-import { holidays } from "./survey-init";
+import { holidays } from "@/survey/survey-init";
 
 // Returns 'y' or 'n', or 'u' for undefined and 'e' for error
 const isChild = (params: any) => {
