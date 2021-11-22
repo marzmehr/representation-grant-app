@@ -56,9 +56,8 @@ class EFilingResources(EFilingHubCallerBase):
 
         if response.status_code == 200:
             cso_locations = json.loads(response.text)
-            locations = {}
-
-            for location in cso_locations["courts"]:
+            locations = []
+            """for location in cso_locations["courts"]:
                 name = location["name"]
                 locations[name] = {
                     "address_1": location["address"]["addressLine1"],
@@ -68,7 +67,13 @@ class EFilingResources(EFilingHubCallerBase):
                     "city": location["address"]["cityName"],
                     "province": location["address"]["provinceName"],
                     "location_code": location["identifierCode"],
-                }
+                }"""
+            for location in cso_locations["courts"]:
+                locations.append({
+                    "id": location["identifierCode"],
+                    "name": location["name"]
+                })
+                
             cache.set("courts", locations)
             return locations
         logger.error("Error getting locations.")
