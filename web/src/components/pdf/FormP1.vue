@@ -307,6 +307,7 @@ import CheckBox from "@/components/pdf/components/CheckBox.vue";
 import { format } from "date-fns";
 import axios, { AxiosRequestConfig } from "axios";
 import { getApplicants } from '@/state/survey-state';
+import { onPrint } from "@/utils/utils";
 
 export default defineComponent({
   name: "FormP1",
@@ -465,32 +466,6 @@ export default defineComponent({
     onMounted(() => {
       changeApplicantList();
     });
-
-    const onPrint = () => {
-      const applicationId = 55; //props.question.survey.applicationId; //TODO wire this state up.
-      const pdfType = 'formp1';
-      const url = `/survey-print/${applicationId}/?pdf_type=${pdfType}`;
-      const options = {
-        responseType: "blob",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      } as AxiosRequestConfig;
-      axios.get(url, options).then(
-        res => {
-          const blob = res.data;
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(blob);
-          document.body.appendChild(link);
-          link.download = `${pdfType}.pdf`;
-          link.click();
-          setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-        },
-        err => {
-          console.error(err);
-        }
-      );
-    };
 
     return {
       onPrint,

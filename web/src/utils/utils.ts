@@ -1,6 +1,12 @@
-import Axios, { AxiosInstance } from "axios";
+import axios from "axios";
+import Axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import Vue from "vue";
-import { setUserId, setUserLocation, setUserName } from "../state/application-state";
+import {
+  getApplicationId,
+  setUserId,
+  setUserLocation,
+  setUserName
+} from "../state/application-state";
 
 //These are used inside of our components to convert from code and ` to a vue component.
 export const convertCodeMarkupToToolTip = (str: string) => {
@@ -18,7 +24,7 @@ export const convertTicksToToolTip = (str: string) => {
 export const getSurveyEnvironment = () => {
   const host = window.location.host;
   const DEV = ["0.0.0.0", "localhost", "dev."];
-  const TEST = ['test.'];
+  const TEST = ["test."];
   if (DEV.some(s => host.includes(s))) {
     return "DEV";
   } else if (TEST.some(s => host.includes(s))) {
@@ -26,6 +32,31 @@ export const getSurveyEnvironment = () => {
   } else {
     return "PROD";
   }
+};
+
+export const onPrint = pdfType => {
+  const applicationId = getApplicationId.value;
+  const url = `/survey-print/${applicationId}/?pdf_type=${pdfType}`;
+  const options = {
+    responseType: "blob",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  } as AxiosRequestConfig;
+  axios.get(url, options).then(
+    res => {
+      const blob = res.data;
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.download = `${pdfType}.pdf`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    },
+    err => {
+      console.error(err);
+    }
+  );
 };
 
 export const SessionManager = {
@@ -60,7 +91,7 @@ export const SessionManager = {
         }
         const userName =
           response.data.display_name || response.data.first_name + " " + response.data.last_name;
-        
+
         setUserName(userName);
         setUserId(userId);
         setUserLocation(userLocation);

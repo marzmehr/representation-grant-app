@@ -298,6 +298,7 @@ import CheckBox from "@/components/pdf/components/CheckBox.vue";
 import { format } from 'date-fns'
 import axios, { AxiosRequestConfig } from "axios";
 import { getApplicationId } from "@/state/application-state";
+import { onPrint } from "@/utils/utils";
 
 @Component({
   components: {
@@ -400,33 +401,7 @@ export default class FormP9 extends Vue {
   }
 
   public onPrint() {
-    const el = document.getElementById("print");
-    console.log(el);
-    const applicationId = getApplicationId.value;
-
-    const url = "/survey-print/" + applicationId + "/?name=representation-grant";
-    const body = Vue.filter("printPdf")(el.innerHTML, `"SCCRPF  02/2021 \a         Form P9";`);
-    const options = {
-      responseType: "blob",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    } as AxiosRequestConfig;
-    console.log(body);
-    axios.post(url, body, options).then(
-      res => {
-        const blob = res.data;
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        document.body.appendChild(link);
-        link.download = "FormP9.pdf";
-        link.click();
-        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-      },
-      err => {
-        console.error(err);
-      }
-    );
+    onPrint("FormP9");
   }
 
   // TODO: make this more generic 
