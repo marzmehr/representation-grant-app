@@ -4,7 +4,7 @@
       <b-card
         :key="applicant.fullname"
         id="print"
-        style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;"
+        style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem; max-width:850px max-length:1100px"
         bg-variant="white"
         class="mt-4 mb-3"
       >
@@ -18,7 +18,6 @@
               <underline-form
                 textwidth="10.6rem"
                 beforetext="This is the"
-                hint="1st/2nd/3rd..."
                 text="1st"
               />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
@@ -29,7 +28,6 @@
               <underline-form
                 textwidth="12.8rem"
                 beforetext="of"
-                hint="Applicant Name"
                 :text="applicant.fullName"
               />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
@@ -40,7 +38,6 @@
               <underline-form
                 textwidth="11rem"
                 beforetext="and was made on"
-                hint="Affidavit Date (dd mmm yyyy)"
                 text=""
               />
             </div>
@@ -48,7 +45,6 @@
               <underline-form
                 textwidth="15rem"
                 beforetext=""
-                hint="Court Location (leave blank for Commissioner)"
                 text=""
               />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
@@ -59,7 +55,6 @@
               <underline-form
                 textwidth="18rem"
                 beforetext="No."
-                hint="File Number (leave blank for Registry)"
                 text=""
               />
             </div>
@@ -124,17 +119,13 @@
             </div>
 
             <div v-if="mailRecipients(applicant).length > 0">
-              <check-box
-                style="margin-top:1rem;"
-                shift="0"
-                shiftmark="0"
-                :check="check2"
-                text="by mailing it/them to the following persons by ordinary mail:"
-              />
+              <div style="text-indent: 20px;">
+                by mailing it/them to the following persons by ordinary mail:
+              </div>
               <template v-for="recipient of mailRecipients(applicant)">
                 <underline-form
                   :key="recipient.recipientName"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
                   textwidth="41.5rem"
                   beforetext=""
                   hint=""
@@ -151,17 +142,13 @@
             </div>
 
             <div v-if="inPersonRecipients(applicant).length > 0">
-              <check-box
-                style="margin-top:1rem;"
-                shift="0"
-                shiftmark="0"
-                :check="check2"
-                text="by handing it/them to and leaving it/them with the following persons:"
-              />
+              <div style="text-indent: 20px;">
+                by handing it/them to and leaving it/them with the following persons:
+              </div>
               <template v-for="recipient of inPersonRecipients(applicant)">
                 <underline-form
                   :key="recipient.recipientName"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
                   textwidth="41.5rem"
                   beforetext=""
                   hint=""
@@ -178,17 +165,13 @@
             </div>
 
             <div v-if="electronicRecipients(applicant).length > 0">
-              <check-box
-                style="margin-top:1rem;"
-                shift="0"
-                shiftmark="0"
-                :check="check2"
-                text="by sending it/them to the following persons by e-mail, fax or other electronic means to that person:"
-              />
+              <div style="text-indent: 20px;">
+                by sending it/them to the following persons by e-mail, fax or other electronic means to that person:
+              </div>
               <template v-for="recipient of electronicRecipients(applicant)">
                 <underline-form
                   :key="recipient.recipientName"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
                   textwidth="41.5rem"
                   beforetext=""
                   hint=""
@@ -202,37 +185,17 @@
                   :text="recipient.p1DeliveryDate"
                 />
               </template>
-            
-              <check-box
-                style="margin-top:1rem;word-spacing:6.5px;text-align-last:justify;"
-                shift="40"
-                shiftmark="0"
-                :check="allP1DeliveryElectronicReceipt"
-                text="Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing,"
-              />
-              <div style=" text-indent: 70px;">
-                acknowledged receipt of the document(s) referred to in this section.
+
+              <div style="text-indent: 40px;">
+                Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing, acknowledged receipt of the document(s) referred to in this section.
               </div>
 
-              <check-box
-                v-if="applicantList.length > 1"
-                style="margin-top:1rem; word-spacing:5.5px;"
-                shift="40"
-                shiftmark="0"
-                :check="allP1DeliveryElectronicReceiptRetain"
-                text="We will retain a copy of those acknowledgements until the personal representative of the deceased is"
-              />
-              <check-box
-                v-else
-                style="margin-top:1rem; word-spacing:6.5px;"
-                shift="40"
-                shiftmark="0"
-                :check="allP1DeliveryElectronicReceiptRetain"
-                text="I will retain a copy of those acknowledgements until the personal representative of the deceased is"
-              />
-              <div style="margin:0 0rem 0 4.5rem;">
-                discharged and will produce those acknowledgements promptly after being requested to do
-                so by the registrar.
+              <div style="text-indent: 40px;" v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain">
+                We will retain a copy of those acknowledgements until the personal representative of the deceased is discharged and will produce those acknowledgements promptly after being requested to do so by the registrar.
+              </div>
+
+              <div style="text-indent: 40px;" v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
+                I will retain a copy of those acknowledgements until the personal representative of the deceased is discharged and will produce those acknowledgements promptly after being requested to do so by the registrar.
               </div>
             </div>
           </li>
@@ -294,7 +257,6 @@ import { getApplicants, getRecipients } from "@/state/survey-state";
 import { ApplicantInfoPanel, P1Panel } from "@/types/application";
 
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
-import CheckBox from "@/components/pdf/components/CheckBox.vue";
 import { format } from 'date-fns'
 import axios, { AxiosRequestConfig } from "axios";
 import { getApplicationId } from "@/state/application-state";
@@ -302,8 +264,7 @@ import { SurveyQuestionNames } from "@/types/survey-primary";
 
 @Component({
   components: {
-    UnderlineForm,
-    CheckBox
+    UnderlineForm
   }
 })
 export default class FormP9 extends Vue {
