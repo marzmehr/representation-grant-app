@@ -118,8 +118,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { SessionManager } from "@/components/utils/utils";
-import Tooltip from "@/components/survey/components/Tooltip.vue";
+import { SessionManager } from "@/utils/utils";
+import Tooltip from "@/components/survey/Tooltip.vue";
+import { setHideHeaderFooter } from "@/state/application-state";
 
 
 @Component({
@@ -131,6 +132,9 @@ export default class LandingPage extends Vue {
   isLoggedIn = false;
   pageReady = true;
 
+  mounted() {
+    setHideHeaderFooter(false);
+  }
   public navigate(userType) {
     if (userType === "new") {
       this.$router.push({ name: "pre-qualification" });
@@ -142,7 +146,7 @@ export default class LandingPage extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "src/styles/common";
+@import "@/styles/_common";
 
 .list-group-item {
   border-color: white;

@@ -2,11 +2,7 @@
   <header class="app-header">
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
-        <a
-          class="navbar-brand"
-          href="https://www2.gov.bc.ca"
-          style="max-width:200px"
-        >
+        <a class="navbar-brand" href="https://www2.gov.bc.ca" style="max-width:200px">
           <img
             class="img-fluid d-none d-md-block"
             src="../../public/images/bcid-logo-rev-en.svg"
@@ -54,40 +50,32 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { SessionManager } from "@/components/utils/utils";
-import moment from "moment-timezone";
-import { namespace } from "vuex-class";
-
-import "@/store/modules/common";
-const commonState = namespace("Common");
-
+import { SessionManager } from "@/utils/utils";
+import { getApplicationId, getUserName } from "@/state/application-state";
+import axios, { AxiosRequestConfig } from "axios";
 @Component
 export default class NavigationTopbar extends Vue {
-  @commonState.Action
-  public UpdateHideHeaderFooter!: (newHideHeaderFooter) => void;
-
   error = "";
+  public userName = "";
 
-  @commonState.State
-  public userName!: string;
-
+  mounted() {
+    this.userName = getUserName.value;
+  }
   public logout(isQuickExit) {
     const emptyApplicationRoutes = ["/", "/status", "/serviceLocator"];
 
     if (emptyApplicationRoutes.indexOf(this.$route.fullPath) == -1) {
-      const lastUpdated = moment().format();
-      this.$store.commit("Application/setLastUpdated", lastUpdated);
-      const application = this.$store.state.Application;
-      const applicationId = application.id;
+      const application = {};
+      const applicationId =  getApplicationId.value;
 
       const header = {
         responseType: "json",
         headers: {
           "Content-Type": "application/json"
         }
-      };
+      } as AxiosRequestConfig;
 
-      this.$http.put("/app/" + applicationId + "/", application, header).then(
+      axios.put("/app/" + applicationId + "/", application, header).then(
         res => {
           this.error = "";
         },
@@ -100,8 +88,8 @@ export default class NavigationTopbar extends Vue {
     Vue.nextTick().then(() => {
       if (isQuickExit) {
         window.open("http://www.google.ca");
-        SessionManager.logoutAndRedirect(this.$store);
-      } else SessionManager.logout(this.$store);
+        SessionManager.logoutAndRedirect();
+      } else SessionManager.logout();
     });
   }
 
@@ -121,7 +109,7 @@ export default class NavigationTopbar extends Vue {
 </style>
 
 <style scoped lang="scss">
-@import "../styles/common";
+@import "@/styles/_common";
 
 .navbar-brand:not(.logo) {
   flex: 1 1 auto;

@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { Component, Vue} from 'vue-property-decorator';
-import Tooltip from "@/components/survey/components/Tooltip.vue";
+import Tooltip from "@/components/survey/Tooltip.vue";
 
 @Component({
     components:{
@@ -53,7 +53,7 @@ export default class terms extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "src/styles/common";
+@import "@/styles/_common";
 .home-content {
   padding-bottom: 20px;
   padding-top: 2rem;

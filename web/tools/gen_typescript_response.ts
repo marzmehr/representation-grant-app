@@ -13,8 +13,8 @@ unlinkSync(filePath);
 
 import * as Survey from "survey-vue";
 
-import { addQuestionTypes } from "../src/components/survey/question-types/question-types";
-const json = readFileSync("../src/components/steps/survey-primary.json").toString();
+import { addQuestionTypes } from "../src/survey/question-types/question-types";
+const json = readFileSync("../src/survey-primary.json").toString();
 
 const generateQuestionNamesEnum = survey => {
   let questionNames = [];

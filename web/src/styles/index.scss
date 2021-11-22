@@ -4,10 +4,7 @@ $bcgov-font-path: "../../node_modules/@bcgov/bootstrap-theme/dist/fonts/";
 @import "~@bcgov/bootstrap-theme/dist/scss/bootstrap-theme";
 
 @import "_custom.scss";
-// @import "~bootstrap/scss/bootstrap.scss";
-// @import '~bootstrap-vue/dist/bootstrap-vue.css';
-// @import "~bootstrap-vue/src/index.scss";
-
+@import "_survey.scss";
 .breadcrumb {
   margin-bottom: 0;
 }
@@ -281,6 +278,8 @@ main.app-content.fill-body {
 .svd_container .svd_toolbar {
   font-size: $font-size;
   margin-bottom: 2px;
+  position: sticky; 
+  top:0;
 }
 
 .svd_container svd-pages-editor .svd-page {
