@@ -31,20 +31,19 @@
               <template v-slot:cell(edit)="row">
                 <b-button
                   size="sm"
-                  variant="danger"
-                  class="my-0 py-0"
-                  @click="removeApplication(row.item, row.index)"
-                >
-                  Remove Application
-                </b-button>
-
-                <b-button
-                  size="sm"
                   variant="primary"
                   class="my-0 py-0"
                   @click="resumeApplication(row.item.id)"
                 >
                   Resume Application
+                </b-button>
+                <b-button
+                  size="sm"
+                  variant="danger"
+                  class="my-0 py-0"
+                  @click="removeApplication(row.item, row.index)"
+                >
+                  Delete Application
                 </b-button>
               </template>
               <template v-slot:cell(app_type)="row">
