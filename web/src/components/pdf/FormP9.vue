@@ -4,7 +4,7 @@
       <b-card
         :key="applicant.fullname"
         id="print"
-        style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;"
+        style="max-width: 1100px;"
         bg-variant="white"
         class="mt-4 mb-3"
       >
@@ -53,7 +53,7 @@
             </div>
             <div class="mt-2">
               <underline-form
-                textwidth="18rem"
+                textwidth="16rem"
                 beforetext="No."
                 text=""
               />
@@ -81,7 +81,7 @@
 
         <div style="display:inline-block; text-indent: 5px;">I</div>
         <div style="display:inline-block; margin:0.5rem 0;">
-          <div style="display:inline-block; width:1.9rem;"></div>
+          <div style="display:inline-block; width:0.5rem;"></div>
           <underline-form
             textwidth="20rem"
             beforetext=""
@@ -200,8 +200,13 @@
               </div>
 
               <div style="text-indent: 40px;" v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
-                I will retain a copy of those acknowledgements until the personal representative of the deceased is discharged and will produce those acknowledgements promptly after being requested to do so by the registrar.
+                I will retain a copy of those acknowledgements until the personal representative of the deceased is discharged and will produce those acknowledgements promptly
               </div>
+              <div style="text-indent: 40px;" v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
+                after being requested to do so by the registrar.
+              </div>
+
+              
             </div>
           </li>
         </ol>
