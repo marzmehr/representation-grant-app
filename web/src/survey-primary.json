@@ -111,13 +111,13 @@
          {
           "type": "expression",
           "name": "deceasedDateOfDeathFormatted",
-          "title": "This read-only expression formats {deceasedDateofDeath} into Mmmm D, YYYY for use as variable substitution in future questions.",
+          "title": "This read-only expression formats [deceasedDateofDeath] into Mmmm D, YYYY for use as variable substitution in future questions.",
           "expression": "dateFormatter({deceasedDateOfDeath})"
          },
          {
           "type": "expression",
           "name": "deceasedDateOfDeathPlus4",
-          "title": "This read-only expression calculates and formats a variable for the 5-day survivorship date based on {deceasedDateOfDeath}.",
+          "title": "This read-only expression calculates and formats a variable for the 5-day survivorship date based on [deceasedDateOfDeath].",
           "expression": "dateFormatter(dateMath({deceasedDateOfDeath},4,calendar))"
          }
         ],
@@ -8855,7 +8855,7 @@
           "visible": false,
           "visibleIf": "{applicantCited} = 'y' and {applicantCitedReviewCheck} > 0",
           "title": "Is there someone who gave you a `citation` AND is not in the above list?",
-          "description": "If someone in the above list gave {applicantName} a citation, you do not need to include them because they are already included in the list of people who need to know [applicant name] is applying for a `Representation Grant` for {deceasedName}."
+          "description": "If someone in the above list gave [applicantName] a citation, you do not need to include them because they are already included in the list of people who need to know [applicant name] is applying for a `Representation Grant` for {deceasedName}."
          },
          {
           "type": "paneldynamic",
