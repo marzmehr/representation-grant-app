@@ -1,9 +1,7 @@
 <template>
   <div v-if="dataIsReady">
     <b-form-group>
-      <label style="display:inline-block; margin: 0 1rem 0 0;"
-        >Example of filled Form for:</label
-      >
+      <label style="display:inline-block; margin: 0 1rem 0 0;">Example of filled Form for:</label>
       <b-form-radio-group
         style="display:inline-block"
         v-model="multipleApplicant"
@@ -14,11 +12,7 @@
         @change="changeApplicantList()"
       ></b-form-radio-group>
     </b-form-group>
-    <b-button
-      style="transform:translate(340px,0px)"
-      variant="success"
-      @click="onPrint()"
-    >
+    <b-button style="transform:translate(340px,0px)" variant="success" @click="onPrint()">
       Save
     </b-button>
 
@@ -29,21 +23,14 @@
       class="mt-4 mb-4 container"
       no-body
     >
-      <div
-        style="text-align:center;margin:0 0 1rem 0rem;font-weight: 300;font-size:14pt;"
-      >
+      <div style="text-align:center;margin:0 0 1rem 0rem;font-weight: 300;font-size:14pt;">
         FORM P5 (RULE 25-3 (2) )
       </div>
 
       <div class="mt-0 m-0 p-0 row">
         <div style="margin:0 0 0 25.25rem;">
           <div>
-            <underline-form
-              textwidth="8.6rem"
-              beforetext="This is the"
-              hint=""
-              text="1st"
-            />
+            <underline-form textwidth="8.6rem" beforetext="This is the" hint="" text="1st" />
             <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
               affidavit
             </div>
@@ -60,46 +47,27 @@
             </div>
           </div>
           <div class="mt-2">
-            <underline-form
-              textwidth="9.5rem"
-              beforetext="and was made on"
-              hint=""
-              text=""
-            />
+            <underline-form textwidth="9.5rem" beforetext="and was made on" hint="" text="" />
           </div>
           <div class="mt-2">
-            <underline-form
-              textwidth="13.2rem"
-              beforetext=""
-              hint=""
-              :text="applicantCourtHouse"
-            />
+            <underline-form textwidth="13.2rem" beforetext="" hint="" :text="applicantCourtHouse" />
             <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
               Registry
             </div>
           </div>
           <div class="mt-2">
-            <underline-form
-              textwidth="14.9rem"
-              beforetext="No."
-              hint=""
-              text=""
-            />
+            <underline-form textwidth="14.9rem" beforetext="No." hint="" text="" />
           </div>
         </div>
       </div>
 
-      <div
-        style="text-align:center;margin:1rem 0 1rem 0;font-weight:bold;font-size:14pt;"
-      >
+      <div style="text-align:center;margin:1rem 0 1rem 0;font-weight:bold;font-size:14pt;">
         <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
       </div>
       <div style="text-align:center;font-size:12pt;">
         <i>In the Matter of the Estate of {{ deceased.fullName }}, deceased</i>
       </div>
-      <div
-        style="text-align:center;margin:1.25rem 0 3rem 0;font-weight:bold;font-size:10pt;"
-      >
+      <div style="text-align:center;margin:1.25rem 0 3rem 0;font-weight:bold;font-size:10pt;">
         AFFIDAVIT OF APPLICANT FOR GRANT OF ADMINISTRATION WITHOUT WILL ANNEXED
       </div>
 
@@ -110,10 +78,7 @@
         >
           We,
         </div>
-        <div
-          v-else
-          style="display:inline-block; text-indent: 5px; margin-right:0.5rem;"
-        >
+        <div v-else style="display:inline-block; text-indent: 5px; margin-right:0.5rem;">
           I,
         </div>
         <div
@@ -122,12 +87,7 @@
           :key="i + 50"
         >
           <div v-if="i > 0" style="display:inline-block; width:1.9rem;"></div>
-          <underline-form
-            textwidth="17rem"
-            beforetext=""
-            hint=""
-            :text="applicant.fullName"
-          />
+          <underline-form textwidth="17rem" beforetext="" hint="" :text="applicant.fullName" />
           <underline-form
             textwidth="11rem"
             beforetext=", of"
@@ -159,12 +119,12 @@
         <!-- <1> -->
         <li>
           <div v-if="applicantList.length > 1" style="display:inline;">
-            I am one of the applicants referred to in the submission for estate
-            grant in relation to the estate of
+            I am one of the applicants referred to in the submission for estate grant in relation to
+            the estate of
           </div>
           <div v-else style="display:inline;">
-            I am the applicant referred to in the submission for estate grant in
-            relation to the estate of
+            I am the applicant referred to in the submission for estate grant in relation to the
+            estate of
           </div>
 
           <underline-form
@@ -180,10 +140,7 @@
           >
             (the "deceased") and are
           </div>
-          <div
-            v-else
-            style="margin:0.25rem 0 ; display:inline; text-indent: 2px;"
-          >
+          <div v-else style="margin:0.25rem 0 ; display:inline; text-indent: 2px;">
             (the "deceased") and am
           </div>
           <div style="display:inline-block; text-indent: 10px;">
@@ -192,15 +149,9 @@
         </li>
         <!-- <2> -->
         <li class="mt-3">
-          <div
-            class="mb-2"
-            style=""
-            v-for="(applicant, i) in applicantList"
-            :key="i + 50"
-          >
+          <div class="mb-2" style="" v-for="(applicant, i) in applicantList" :key="i + 50">
             <div style="" v-if="applicantList.length > 1">
-              I am <b>{{ applicant.fullName }}</b> and ordinarily live at the
-              following location
+              I am <b>{{ applicant.fullName }}</b> and ordinarily live at the following location
             </div>
             <div style="" v-else>
               I am an individual and ordinarily live at the following location:
@@ -238,8 +189,7 @@
             :key="i + 50"
           >
             <div v-if="applicantList.length > 1" style="display:inline-block;">
-              <b>{{ applicant.fullName }}</b> is a person referred to in
-              paragraph
+              <b>{{ applicant.fullName }}</b> is a person referred to in paragraph
             </div>
             <div v-else style="display:inline-block;">
               I am a person referred to in paragraph
@@ -259,29 +209,27 @@
         <!-- <4> -->
         <li class="mt-2">
           <div v-if="applicantList.length > 1" style="">
-            We are not obliged under Rule 25-3 (11) to deliver a filed copy of
-            this submission for estate grant to the Public Guardian and Trustee
+            We are not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for
+            estate grant to the Public Guardian and Trustee
           </div>
           <div v-else style="">
-            I am not obliged under Rule 25-3 (11) to deliver a filed copy of
-            this submission for estate grant to the Public Guardian and Trustee.
+            I am not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for
+            estate grant to the Public Guardian and Trustee.
           </div>
         </li>
         <!-- <5> -->
         <li class="mt-3">
           <div v-if="applicantList.length > 1" style="display:inline;">
-            We are satisfied that a diligent search for a testamentary document
-            of the deceased has been made in each place that could reasonably be
-            considered to be a place where a testamentary document may be found,
-            including, without limitation, in all places where the deceased
-            usually kept his or her documents and:
+            We are satisfied that a diligent search for a testamentary document of the deceased has
+            been made in each place that could reasonably be considered to be a place where a
+            testamentary document may be found, including, without limitation, in all places where
+            the deceased usually kept his or her documents and:
           </div>
           <div v-else style="display:inline;">
-            I am satisfied that a diligent search for a testamentary document of
-            the deceased has been made in each place that could reasonably be
-            considered to be a place where a testamentary document may be found,
-            including, without limitation, in all places where the deceased
-            usually kept his or her documents and:
+            I am satisfied that a diligent search for a testamentary document of the deceased has
+            been made in each place that could reasonably be considered to be a place where a
+            testamentary document may be found, including, without limitation, in all places where
+            the deceased usually kept his or her documents and:
           </div>
 
           <div class="mt-2">
@@ -310,46 +258,40 @@
         <!-- <7> -->
         <li class="mt-3">
           <div v-if="applicantList.length > 1" style="">
-            We are not aware of any grant of probate or administration, or
-            equivalent, having been issued in relation to the deceased in
-            British Columbia or in any other jurisdiction.
+            We are not aware of any grant of probate or administration, or equivalent, having been
+            issued in relation to the deceased in British Columbia or in any other jurisdiction.
           </div>
           <div v-else style="">
-            I am not aware of any grant of probate or administration, or
-            equivalent, having been issued in relation to the deceased in
-            British Columbia or in any other jurisdiction.
+            I am not aware of any grant of probate or administration, or equivalent, having been
+            issued in relation to the deceased in British Columbia or in any other jurisdiction.
           </div>
         </li>
 
         <!-- <8> -->
         <li class="mt-3">
           <div v-if="applicantList.length > 1" style="display:inline;">
-            We have read the submission for estate grant and the other documents
-            referred to in that document and we believe that the information
-            contained in that submission for estate grant and those documents is
-            correct and complete.
+            We have read the submission for estate grant and the other documents referred to in that
+            document and we believe that the information contained in that submission for estate
+            grant and those documents is correct and complete.
           </div>
           <div v-else style="display:inline;">
-            I have read the submission for estate grant and the other documents
-            referred to in that document and I believe that the information
-            contained in that submission for estate grant and those documents is
-            correct and complete.
+            I have read the submission for estate grant and the other documents referred to in that
+            document and I believe that the information contained in that submission for estate
+            grant and those documents is correct and complete.
           </div>
         </li>
 
         <!-- <9> -->
         <li class="mt-3">
           <div v-if="applicantList.length > 1" style="display:inline;">
-            We will administer according to law all of the deceased's estate, we
-            will prepare an accounting as to how the estate was administered and
-            we acknowledge that, in doing this, we will be subject to the legal
-            responsibility of a personal representative.
+            We will administer according to law all of the deceased's estate, we will prepare an
+            accounting as to how the estate was administered and we acknowledge that, in doing this,
+            we will be subject to the legal responsibility of a personal representative.
           </div>
           <div v-else style="display:inline;">
-            I will administer according to law all of the deceased's estate, I
-            will prepare an accounting as to how the estate was administered and
-            I acknowledge that, in doing this, I will be subject to the legal
-            responsibility of a personal representative.
+            I will administer according to law all of the deceased's estate, I will prepare an
+            accounting as to how the estate was administered and I acknowledge that, in doing this,
+            I will be subject to the legal responsibility of a personal representative.
           </div>
         </li>
       </ol>
@@ -359,12 +301,7 @@
           <div style="margin:0.5rem 0 1rem 0rem;">
             SWORN (OR AFFIRMED) BEFORE ME
           </div>
-          <underline-form
-            textwidth="12.5rem"
-            beforetext="at"
-            hint="Commissioner City"
-            text=""
-          />
+          <underline-form textwidth="12.5rem" beforetext="at" hint="Commissioner City" text="" />
           <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
             , British Columbia
           </div>
@@ -437,7 +374,7 @@ export default class FormP5 extends Vue {
 
   public getDeceasedInfo() {
     //deceasedInfoSurvey
-      }
+  }
 
   public getApplicantsInfo() {
     if (this.multipleApplicant) {
@@ -645,9 +582,7 @@ export default class FormP5 extends Vue {
     SurveyDataManager.onPrint("FormP9");
   }
 
-  public getRepGrantResultData() {
-   
-  }
+  public getRepGrantResultData() {}
 }
 </script>
 <style scoped>

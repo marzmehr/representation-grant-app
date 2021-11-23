@@ -22,10 +22,7 @@ class SurveyPdfView(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def generate_pdf(self, name, data):
-        #template = '{}.html'.format(name)
-        #template = get_template(template)
-        html_content = data #template.render(data)
-
+        html_content = data
         pdf_content = render_pdf(html_content)
         return pdf_content
 

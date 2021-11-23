@@ -67,8 +67,7 @@ import { getUserId } from "@/state/application-state";
   }
 })
 export default class PreQualification extends Vue {
-
-  userId= "";
+  userId = "";
   error = "";
   applicationId = 0;
   displayButton = false;
