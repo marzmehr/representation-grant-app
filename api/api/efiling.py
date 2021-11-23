@@ -34,7 +34,7 @@ def upload_documents(universal_id, transaction_id, files) -> {}:
 
 def build_efiling_body(location, documents, applicant, respondent, request) -> {}:
     return {
-        "clientAppName": "Family Law Act App",
+        "clientAppName": "Representation Grant App",
         "filingPackage": {
             "court": {
                 "location": location,

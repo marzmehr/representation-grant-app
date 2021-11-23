@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-    REST API Documentation for Family Law Act
+    REST API Documentation for Representation Grant
 
     OpenAPI spec version: v1
 
