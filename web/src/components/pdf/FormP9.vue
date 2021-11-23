@@ -4,7 +4,7 @@
       <b-card
         :key="applicant.fullname"
         id="print"
-        style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem; max-width:850px max-length:1100px"
+        style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;"
         bg-variant="white"
         class="mt-4 mb-3"
       >
@@ -68,7 +68,7 @@
           <i>In the Matter of the Estate of</i>
         </div>
         <underline-form
-          textwidth="37rem"
+          textwidth="17rem"
           beforetext=""
           :text="deceasedFullName"
         />
@@ -113,31 +113,32 @@
 
           <!-- <2> -->
           <li v-if="mailRecipients(applicant).length > 0 || electronicRecipients(applicant).length > 0 || inPersonRecipients(applicant).length > 0" class="mt-4 text-justify ">
-            <div>I delivered a copy of the notice
-
-              to the following persons as follows:
+            <div>
+              I delivered a copy of the notice to the following persons as follows:
             </div>
 
             <div v-if="mailRecipients(applicant).length > 0">
               <div style="text-indent: 20px;">
                 by mailing it/them to the following persons by ordinary mail:
               </div>
-              <template v-for="recipient of mailRecipients(applicant)">
-                <underline-form
-                  :key="recipient.recipientName"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                  textwidth="41.5rem"
-                  beforetext=""
-                  hint=""
-                  :text="recipient.recipientName"
-                />
-                <underline-form
-                  :key="recipient.p1DeliveryDate"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-                  textwidth="15rem"
-                  beforetext="on"
-                  :text="recipient.p1DeliveryDate"
-                />
+              <template v-for="(recipient, i) of mailRecipients(applicant)">
+                <div :key="i" style="display:inline-block; margin:0.5rem 0;">
+                  <underline-form
+                    :key="recipient.recipientName"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
+                    textwidth="41.5rem"
+                    beforetext=""
+                    hint=""
+                    :text="recipient.recipientName"
+                  />
+                  <underline-form
+                    :key="recipient.p1DeliveryDate"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    textwidth="15rem"
+                    beforetext="on"
+                    :text="recipient.p1DeliveryDate"
+                  />
+                </div>
               </template>
             </div>
 
@@ -145,22 +146,24 @@
               <div style="text-indent: 20px;">
                 by handing it/them to and leaving it/them with the following persons:
               </div>
-              <template v-for="recipient of inPersonRecipients(applicant)">
-                <underline-form
-                  :key="recipient.recipientName"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                  textwidth="41.5rem"
-                  beforetext=""
-                  hint=""
-                  :text="recipient.recipientName"
-                />
-                <underline-form
-                  :key="recipient.p1DeliveryDate"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-                  textwidth="15rem"
-                  beforetext="on"
-                  :text="recipient.p1DeliveryDate"
-                />
+              <template v-for="(recipient, i) of inPersonRecipients(applicant)">
+                <div :key="i" style="display:inline-block; margin:0.5rem 0;">
+                  <underline-form
+                    :key="recipient.recipientName"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
+                    textwidth="41.5rem"
+                    beforetext=""
+                    hint=""
+                    :text="recipient.recipientName"
+                  />
+                  <underline-form
+                    :key="recipient.p1DeliveryDate"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    textwidth="15rem"
+                    beforetext="on"
+                    :text="recipient.p1DeliveryDate"
+                  />
+                </div>
               </template>
             </div>
 
@@ -168,22 +171,24 @@
               <div style="text-indent: 20px;">
                 by sending it/them to the following persons by e-mail, fax or other electronic means to that person:
               </div>
-              <template v-for="recipient of electronicRecipients(applicant)">
-                <underline-form
-                  :key="recipient.recipientName"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                  textwidth="41.5rem"
-                  beforetext=""
-                  hint=""
-                  :text="recipient.recipientName"
-                />
-                <underline-form
-                  :key="recipient.p1DeliveryDate"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-                  textwidth="15rem"
-                  beforetext="on"
-                  :text="recipient.p1DeliveryDate"
-                />
+              <template v-for="(recipient, i) of electronicRecipients(applicant)">
+                <div :key="i" style="display:inline-block; margin:0.5rem 0;">
+                  <underline-form
+                    :key="recipient.recipientName"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
+                    textwidth="41.5rem"
+                    beforetext=""
+                    hint=""
+                    :text="recipient.recipientName"
+                  />
+                  <underline-form
+                    :key="recipient.p1DeliveryDate"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    textwidth="15rem"
+                    beforetext="on"
+                    :text="recipient.p1DeliveryDate"
+                  />
+                </div>
               </template>
 
               <div style="text-indent: 40px;">
