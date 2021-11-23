@@ -44,7 +44,6 @@ class ApplicationView(APIView):
                 "userType": application.user_type,
                 "userName": application.user_name,
                 "userId": application.user_id,
-                "applicantName": application.applicant_name,
                 "deceasedName": application.deceased_name,
                 "applicationLocation": application.application_location}
         return Response(data)
