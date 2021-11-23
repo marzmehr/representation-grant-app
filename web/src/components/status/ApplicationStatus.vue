@@ -67,16 +67,6 @@
               </b-col>
             </b-row>
           </b-card>
-
-          <b-card border-variant="white">
-            <b-row>
-              <b-col cols="5">
-                <a class="terms" @click="openTerms()">
-                  <u>Terms and Conditions</u>
-                </a>
-              </b-col>
-            </b-row>
-          </b-card>
         </b-col>
       </b-row>
     </b-container>
