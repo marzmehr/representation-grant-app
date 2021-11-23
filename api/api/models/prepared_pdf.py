@@ -12,3 +12,18 @@ class PreparedPdf(models.Model):
 
     # encryption key identifier
     key_id = models.CharField(max_length=32, blank=True, null=True)
+    pdf_type = models.CharField(max_length=32, blank=True, null=True)
+    version = models.CharField(max_length=32, blank=True, null=True)
+    application = models.ForeignKey(
+        "Application",
+        related_name="prepared_pdf_application_id",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['application_id', 'pdf_type'], name='unique_pdf_type_application_id'),
+        ]
+
