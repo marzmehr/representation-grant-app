@@ -7,6 +7,7 @@ import { holidaysByDate } from "./survey-init";
 import {
   getPotentialApplicants,
   setApplicants,
+  setLastUpdated,
   setPotentialApplicants,
   setRecipients
 } from "@/state/survey-state";
@@ -208,4 +209,5 @@ export function onValueChanged(sender, options) {
   determineRecipients(sender, options);
   populateApplicantInfoPanelAndP1DeliveryInfoPanel(sender, options);
   determineEarliestSubmissionDate(sender, options);
+  setLastUpdated(new Date());
 }

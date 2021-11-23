@@ -6,6 +6,10 @@ const applicationId = ref(0);
 export const getApplicationId = computed(() => applicationId.value);
 export const setApplicationId = applicationId => (applicationId.value = applicationId);
 
+const applicationType = ref("");
+export const getApplicationType = computed(() => applicationType.value);
+export const setApplicationType = newApplicationType => (applicationType.value = newApplicationType);
+
 const userName = ref("");
 export const getUserName = computed(() => userName.value);
 export const setUserName = newUserName => (userName.value = newUserName);
