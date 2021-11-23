@@ -31,35 +31,20 @@
               <template v-slot:cell(edit)="row">
                 <b-button
                   size="sm"
-                  variant="transparent"
+                  variant="danger"
                   class="my-0 py-0"
                   @click="removeApplication(row.item, row.index)"
-                  v-b-tooltip.hover.noninteractive
-                  title="Remove Application"
                 >
-                  <b-icon-trash-fill font-scale="1.25" variant="danger"></b-icon-trash-fill>
+                  Remove Application
                 </b-button>
 
                 <b-button
                   size="sm"
-                  variant="transparent"
+                  variant="primary"
                   class="my-0 py-0"
                   @click="resumeApplication(row.item.id)"
-                  v-b-tooltip.hover.noninteractive
-                  title="Resume Application"
                 >
-                  <b-icon-pencil-square font-scale="1.25" variant="primary"></b-icon-pencil-square>
-                </b-button>
-
-                <b-button
-                  size="sm"
-                  variant="transparent"
-                  class="my-0 py-0"
-                  @click="navigateToEFilingHub(row.item.id)"
-                  v-b-tooltip.hover.noninteractive
-                  title="Navigate To Submitted Application"
-                >
-                  <span class="fa fa-paper-plane btn-icon-left text-info" />
+                  Resume Application
                 </b-button>
               </template>
               <template v-slot:cell(app_type)="row">
@@ -172,19 +157,14 @@ export default class ApplicationStatus extends Vue {
     this.$router.push({ name: "terms" });
   }
 
-  public formatDate(date) {
-    console.log("we get in here");
-    console.log(date);
-    console.log(typeof date);
-
-  }
-
   public loadApplications() {
     //TODO: when extending to use throughout the province, the timezone should be changed accordingly
     //TODO: read in the data required to navigate to the eFilingHub package page
     axios.get("/app-list/").then(
       response => {
         for (const appJson of response.data) {
+          console.log("appjson");
+          console.log(appJson);
           const app = {
             lastUpdated: 0,
             lastUpdatedDate: "",
@@ -202,7 +182,7 @@ export default class ApplicationStatus extends Vue {
                 .format("MMMM d, yyyy H:mm z")
             : "";
           app.id = appJson.id;
-          app.app_type = appJson.app_type;
+          app.app_type = "deceasedName";
           this.previousApplications.push(app);
         }
         this.extractFilingLocations();
