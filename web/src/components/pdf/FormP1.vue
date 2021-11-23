@@ -1,6 +1,6 @@
 <template>
   <div key="getLastUpdated">
-    <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint('FormP1')">
+    <b-button style="transform:translate(500px,0px)" variant="success" @click="SurveyDataManager.onPrint('FormP1')">
       Print
     </b-button>
     <b-card
@@ -293,7 +293,7 @@ import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import CheckBox from "@/components/pdf/components/CheckBox.vue";
 import { format } from "date-fns";
 import { getLastUpdated, getApplicants } from "@/state/survey-state";
-import { onPrint } from "@/utils/utils";
+import { SurveyDataManager } from "@/services/survey-data-manager";
 import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
 import { FormP1Applicant, FormP1Deceased, FormP1ServiceContact } from "@/types/application";
 
@@ -446,7 +446,7 @@ export default defineComponent({
     });
 
     return {
-      onPrint,
+      SurveyDataManager,
       applicantList,
       currentDayMonthYear,
       loadApplicantList,

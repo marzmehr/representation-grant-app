@@ -12,8 +12,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { SessionManager } from "@/utils/utils";
 import { getUserId } from '@/state/application-state';
+import { SessionManager } from '@/services/session-manager';
 
 @Component
 export default class LandingPage extends Vue {

@@ -379,11 +379,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
-
-import moment from "moment";
-import axios, { AxiosRequestConfig } from "axios";
-import { getApplicationId } from "@/state/application-state";
-import { onPrint } from "@/utils/utils";
+import { SurveyDataManager } from "@/services/survey-data-manager";
 
 @Component({
   components: {
@@ -758,7 +754,7 @@ export default class FormP10 extends Vue {
   }
 
   public onPrint() {
-    onPrint("FormP10");
+    SurveyDataManager.onPrint("FormP10");
   }
 
   public getRepGrantResultData() {}

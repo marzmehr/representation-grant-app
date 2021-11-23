@@ -269,10 +269,8 @@ import { ApplicantInfoPanel, P1Panel } from "@/types/application";
 
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import { format } from 'date-fns'
-import axios, { AxiosRequestConfig } from "axios";
-import { getApplicationId } from "@/state/application-state";
 import { SurveyQuestionNames } from "@/types/survey-primary";
-import { onPrint } from "@/utils/utils";
+import { SurveyDataManager } from "@/services/survey-data-manager";
 
 @Component({
   components: {
@@ -349,7 +347,7 @@ export default class FormP9 extends Vue {
   }
 
   public onPrint() {
-    onPrint("FormP9");
+    SurveyDataManager.onPrint("FormP9");
   }
 
   // TODO: make this more generic 

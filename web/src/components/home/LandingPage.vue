@@ -118,7 +118,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { SessionManager } from "@/utils/utils";
 import Tooltip from "@/components/survey/Tooltip.vue";
 import { setHideHeaderFooter } from "@/state/application-state";
 

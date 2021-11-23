@@ -5,10 +5,10 @@ import UnQualified from "@/components/home/UnQualified.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
 import TermsConditions from "@/components/status/TermsConditions.vue";
 import SurveyCreatorForm from "@/components/survey-creator/SurveyCreatorForm.vue";
-import { SessionManager } from "@/utils/utils";
 import SurveyMain from "@/components/SurveyMain.vue";
 import FormP1 from "@/components/pdf/FormP1.vue";
 import FormP9 from "@/components/pdf/FormP9.vue";
+import { SessionManager } from "@/services/session-manager";
 
 async function authGuard(to: any, from: any, next: any) {
   const result = await SessionManager.getUserInfo();

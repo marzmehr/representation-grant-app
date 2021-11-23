@@ -89,8 +89,8 @@ export default class SurveyCreatorForm extends Vue {
         addCustomTemplating(options.survey);
       }
       options.survey.onValueChanged.add((sender, options) => {
-        onValueChanged(sender, options);
         this.updatedKey++;
+        onValueChanged(sender, options);
       });
       options.survey.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     });

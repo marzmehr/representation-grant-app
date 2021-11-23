@@ -411,14 +411,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-
-
-
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
-import moment from "moment";
-import { getApplicationId } from "@/state/application-state";
-import axios, { AxiosRequestConfig } from "axios";
-import { onPrint } from "@/utils/utils";
+import { SurveyDataManager } from "@/services/survey-data-manager";
 
 @Component({
   components: {
@@ -648,7 +642,7 @@ export default class FormP5 extends Vue {
   }
 
   public onPrint() {
-    onPrint("FormP5");
+    SurveyDataManager.onPrint("FormP9");
   }
 
   public getRepGrantResultData() {
