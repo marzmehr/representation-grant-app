@@ -11,9 +11,6 @@ class Application(models.Model):
     all_completed = models.BooleanField(blank=True, null=True)
     last_printed = models.DateTimeField(blank=True, null=True)
     last_filed = models.DateTimeField(blank=True, null=True)
-    user_type = models.CharField(max_length=100, default="", blank=True)
-    user_name = models.CharField(max_length=100, default="", blank=True)
-    
     deceased_name = models.JSONField(blank=True, null=True)
     application_location = models.JSONField(blank=True, null=True)
     # encryption key identifier

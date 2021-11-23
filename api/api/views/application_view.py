@@ -41,8 +41,6 @@ class ApplicationView(APIView):
                 "lastPrinted": application.last_printed,
                 "currentStep": application.current_step,
                 "allCompleted": application.all_completed,
-                "userType": application.user_type,
-                "userName": application.user_name,
                 "userId": application.user_id,
                 "deceasedName": application.deceased_name,
                 "applicationLocation": application.application_location}
@@ -66,9 +64,7 @@ class ApplicationView(APIView):
             current_step=body.get("currentStep"),
             all_completed=body.get("allCompleted"),
             steps=steps_enc,
-            user_type=body.get("userType"),
             applicant_name=body.get("applicantName"),
-            user_name=body.get("userName"),
             key_id=steps_key_id,
             deceased_name=body.get("deceasedName"),
             application_location=body.get("applicationLocation"),
@@ -93,9 +89,7 @@ class ApplicationView(APIView):
         app.app_type = body.get("type")
         app.current_step = body.get("currentStep")
         app.steps = steps_enc
-        app.user_type = body.get("userType")
         app.applicant_name = body.get("applicantName")
-        app.user_name = body.get("userName")
         app.deceased_name = body.get("deceasedName")
         app.application_location = body.get("applicationLocation")
         app.save()

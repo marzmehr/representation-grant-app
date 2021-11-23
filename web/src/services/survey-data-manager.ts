@@ -37,7 +37,14 @@ export const SurveyDataManager = {
     } as AxiosRequestConfig;
 
     try {
-      const response = axios.put(`/app/${getApplicationId.value}/`, getSurvey.value.data, config);
+      const response = axios.put(
+        `/app/${getApplicationId.value}/`,
+        {
+          type: "PROBATE", //Todo change this later.
+          steps: getSurvey.value.data
+        },
+        config
+      );
     } catch (error) {
       console.log(`onSaveSurvey(): failed: ${error}`, error);
     }

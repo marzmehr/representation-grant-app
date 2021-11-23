@@ -45,7 +45,10 @@ export default defineComponent({
 
     onMounted(() => {});
 
-    const loadSurveyData = async () => {};
+    const loadSurveyData = async () => {
+      const surveyData = await SurveyDataManager.onLoadSurveyData();
+      survey.value.data = surveyData?.steps;
+    };
 
     const loadSurveyJson = async () => {
       let data = {};
