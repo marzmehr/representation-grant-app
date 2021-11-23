@@ -46,8 +46,8 @@
                   Delete Application
                 </b-button>
               </template>
-              <template v-slot:cell(app_type)="row">
-                <span>{{ row.item.app_type }}</span>
+              <template v-slot:cell(deceased_name)="row">
+                <span>{{ row.item.deceased_name }}</span>
               </template>
               <template v-slot:cell(lastUpdated)="row">
                 <span>{{ row.item.lastUpdatedDate }}</span>
@@ -93,7 +93,7 @@
       </template>
       <h4>
         Are you sure you want to delete your
-        <b>"{{ applicationToDelete.app_type }}"</b> application?
+        <b>"{{ applicationToDelete.deceased_name }}"</b> application?
       </h4>
       <template v-slot:modal-footer>
         <b-button variant="danger" @click="confirmRemoveApplication()">Confirm</b-button>
@@ -124,7 +124,7 @@ import axios from "axios";
 export default class ApplicationStatus extends Vue {
   previousApplications = [];
   previousApplicationFields = [
-    { key: "app_type", label: "Deceased Name", sortable: true, tdClass: "border-top" },
+    { key: "deceased_name", label: "Deceased Name", sortable: true, tdClass: "border-top" },
     { key: "lastUpdated", label: "Last Updated", sortable: true, tdClass: "border-top" },
     { key: "edit", thClass: "d-none", sortable: false, tdClass: "border-top" }
   ];
@@ -152,13 +152,11 @@ export default class ApplicationStatus extends Vue {
     axios.get("/app-list/").then(
       response => {
         for (const appJson of response.data) {
-          console.log("appjson");
-          console.log(appJson);
           const app = {
             lastUpdated: 0,
             lastUpdatedDate: "",
             id: 0,
-            app_type: "",
+            deceased_name: "",
           };
           app.lastUpdated = appJson.last_updated
             ? moment(appJson.last_updated)
@@ -171,7 +169,7 @@ export default class ApplicationStatus extends Vue {
                 .format("MMMM d, yyyy H:mm z")
             : "";
           app.id = appJson.id;
-          app.app_type = "deceasedName";
+          app.deceased_name = `${appJson.deceased_name.first} ${appJson.deceased_name.middle} ${appJson.deceased_name.last}`;
           this.previousApplications.push(app);
         }
         this.extractFilingLocations();
