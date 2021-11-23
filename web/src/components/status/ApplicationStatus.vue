@@ -30,7 +30,6 @@
             >
               <template v-slot:cell(edit)="row">
                 <b-button
-                  v-if="row.item.lastFiled == 0"
                   size="sm"
                   variant="transparent"
                   class="my-0 py-0"
@@ -53,7 +52,6 @@
                 </b-button>
 
                 <b-button
-                  v-if="row.item.lastFiled != 0"
                   size="sm"
                   variant="transparent"
                   class="my-0 py-0"
@@ -68,10 +66,7 @@
                 <span>{{ row.item.app_type }}</span>
               </template>
               <template v-slot:cell(lastUpdated)="row">
-                <span>{{ row.item.lastUpdatedDate | (beautify - date - weekday) }}</span>
-              </template>
-              <template v-slot:cell(lastFiled)="row">
-                <span>{{ row.item.lastFiledDate | (beautify - date - weekday) }}</span>
+                <span>{{ row.item.lastUpdatedDate }}</span>
               </template>
             </b-table>
           </b-card>
@@ -155,9 +150,8 @@ import axios from "axios";
 export default class ApplicationStatus extends Vue {
   previousApplications = [];
   previousApplicationFields = [
-    { key: "app_type", label: "Application Type", sortable: true, tdClass: "border-top" },
+    { key: "app_type", label: "Deceased Name", sortable: true, tdClass: "border-top" },
     { key: "lastUpdated", label: "Last Updated", sortable: true, tdClass: "border-top" },
-    { key: "lastFiled", label: "Last Filed", sortable: true, tdClass: "border-top" },
     { key: "edit", thClass: "d-none", sortable: false, tdClass: "border-top" }
   ];
   confirmDelete = false;
@@ -178,6 +172,13 @@ export default class ApplicationStatus extends Vue {
     this.$router.push({ name: "terms" });
   }
 
+  public formatDate(date) {
+    console.log("we get in here");
+    console.log(date);
+    console.log(typeof date);
+
+  }
+
   public loadApplications() {
     //TODO: when extending to use throughout the province, the timezone should be changed accordingly
     //TODO: read in the data required to navigate to the eFilingHub package page
@@ -189,8 +190,6 @@ export default class ApplicationStatus extends Vue {
             lastUpdatedDate: "",
             id: 0,
             app_type: "",
-            lastFiled: 0,
-            lastFiledDate: ""
           };
           app.lastUpdated = appJson.last_updated
             ? moment(appJson.last_updated)
@@ -200,17 +199,7 @@ export default class ApplicationStatus extends Vue {
           app.lastUpdatedDate = appJson.last_updated
             ? moment(appJson.last_updated)
                 .tz("America/Vancouver")
-                .format()
-            : "";
-          app.lastFiled = appJson.last_filed
-            ? moment(appJson.last_filed)
-                .tz("America/Vancouver")
-                .diff("2000-01-01", "minutes")
-            : 0;
-          app.lastFiledDate = appJson.last_filed
-            ? moment(appJson.last_filed)
-                .tz("America/Vancouver")
-                .format()
+                .format("MMMM d, yyyy H:mm z")
             : "";
           app.id = appJson.id;
           app.app_type = appJson.app_type;
