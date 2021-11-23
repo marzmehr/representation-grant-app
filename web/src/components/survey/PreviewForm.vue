@@ -1,5 +1,5 @@
 <template>
-  <component :is="state.component" :survey="question.survey"></component>
+  <component :is="state.component" :survey="question.survey" style="max-width: 1100px;"></component>
 </template>
 
 <script language="ts">

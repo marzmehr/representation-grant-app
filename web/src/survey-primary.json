@@ -99,8 +99,7 @@
           "isRequired": true,
           "pastDateHandler": "Earliest Date",
           "yearsBehind": 100,
-          "earliestDate": "2014-03-31",
-          "futureReferenceVariable": "{deceasedCurrentDate}"
+          "earliestDate": "2014-03-31"
          },
          {
           "type": "helptext",
@@ -6077,7 +6076,7 @@
          },
          {
           "type": "address",
-          "name": "spouseNomineeResidentialReceiveMail",
+          "name": "spouseNomineeResidentialAddress",
           "visible": false,
           "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'y' and {panel.spouseIsCompetent} = 'n' and {panel.spouseHasNominee} = 'y' and (({panel.spouseNomineeFormal} = 'n' and {panel.spouseNomineeFormalNoExplanation} > 0) or ({panel.spouseNomineeFormal} = 'y' and\n{panel.spouseNomineeFormalYesExplanation} > 0))",
           "title": "Where does {panel.spouseNomineeName} live?",
@@ -6085,7 +6084,7 @@
          },
          {
           "type": "helptext",
-          "name": "spouseNomineeResidentialReceiveMailFAQ1",
+          "name": "spouseNomineeResidentialAddressFAQ1",
           "visible": false,
           "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'y' and {panel.spouseIsCompetent} = 'n' and {panel.spouseHasNominee} = 'y' and (({panel.spouseNomineeFormal} = 'n' and {panel.spouseNomineeFormalNoExplanation} > 0) or ({panel.spouseNomineeFormal} = 'y' and\n{panel.spouseNomineeFormalYesExplanation} > 0))",
           "title": "What if {panel.spouseNomineeName} is homeless?",
@@ -6096,7 +6095,7 @@
           "type": "yesno",
           "name": "spouseNomineeResidentialReceiveMail",
           "visible": false,
-          "visibleIf": "{panel.spouseIsAlive} = \"y\" and {panel.spouseIsAdult} = \"y\" and {panel.spouseIsCompetent} = \"n\" and {panel.spouseHasNominee} = \"y\" and (({panel.spouseNomineeFormal} = \"n\" and {panel.spouseNomineeFormalNoExplanation} > 0) or ({panel.spouseNomineeFormal} = \"y\" and\n{panel.spouseNomineeFormalYesExplanation} > 0))",
+          "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'y' and {panel.spouseIsCompetent} = 'n' and {panel.spouseHasNominee} = 'y' and (({panel.spouseNomineeFormal} = 'n' and {panel.spouseNomineeFormalNoExplanation} > 0) or ({panel.spouseNomineeFormal} = 'y' and\n{panel.spouseNomineeFormalYesExplanation} > 0))",
           "title": "Does {panel.spouseNomineeName} receive mail at this address?",
           "isRequired": true
          },
@@ -6104,7 +6103,7 @@
           "type": "yesno",
           "name": "spouseNomineeHasMailingAddress",
           "visible": false,
-          "visibleIf": "{panel.spouseIsAlive} = \"y\" and {panel.spouseIsAdult} = \"y\" and {panel.spouseIsCompetent} = \"n\" and {panel.spouseHasNominee} = \"y\" and (({panel.spouseNomineeFormal} = \"n\" and {panel.spouseNomineeFormalNoExplanation} > 0) or ({panel.spouseNomineeFormal} = \"y\" and\n{panel.spouseNomineeFormalYesExplanation} > 0)) and {panel.spouseNomineeResidentialReceiveMail} = \"n\"",
+          "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'y' and {panel.spouseIsCompetent} = 'n' and {panel.spouseHasNominee} = 'y' and (({panel.spouseNomineeFormal} = 'n' and {panel.spouseNomineeFormalNoExplanation} > 0) or ({panel.spouseNomineeFormal} = 'y' and\n{panel.spouseNomineeFormalYesExplanation} > 0)) and {panel.spouseNomineeResidentialReceiveMail} = 'n'",
           "title": "Does {panel.spouseNomineeName} have a different address where they receive mail?",
           "isRequired": true
          },
@@ -6112,7 +6111,7 @@
           "type": "address",
           "name": "spouseNomineeMailingAddress",
           "visible": false,
-          "visibleIf": "{panel.spouseIsAlive} = \"y\" and {panel.spouseIsAdult} = \"y\" and {panel.spouseIsCompetent} = \"n\" and {panel.spouseHasNominee} = \"y\" and (({panel.spouseNomineeFormal} = \"n\" and {panel.spouseNomineeFormalNoExplanation} > 0) or ({panel.spouseNomineeFormal} = \"y\" and\n{panel.spouseNomineeFormalYesExplanation} > 0)) and {panel.spouseNomineeResidentialReceiveMail} = \"n\" and {panel.spouseNomineeHasMailingAddress} = \"y\"",
+          "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'y' and {panel.spouseIsCompetent} = 'n' and {panel.spouseHasNominee} = 'y' and (({panel.spouseNomineeFormal} = 'n' and {panel.spouseNomineeFormalNoExplanation} > 0) or ({panel.spouseNomineeFormal} = 'y' and\n{panel.spouseNomineeFormalYesExplanation} > 0)) and {panel.spouseNomineeResidentialReceiveMail} = 'n' and {panel.spouseNomineeHasMailingAddress} = 'y'",
           "title": "Where does {panel.spouseNomineeName} receive mail?",
           "isRequired": true
          },
@@ -6919,7 +6918,7 @@
          },
          {
           "type": "address",
-          "name": "childNomineeResidentialReceiveMail",
+          "name": "childNomineeResidentialAddress",
           "visible": false,
           "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and ({panel.childNomineeFormal} = 'n' or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))",
           "title": "Where does {panel.childNomineeName} live?",
@@ -6927,7 +6926,7 @@
          },
          {
           "type": "helptext",
-          "name": "childNomineeResidentialReceiveMailFAQ1",
+          "name": "childNomineeResidentialAddressFAQ1",
           "visible": false,
           "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and ({panel.childNomineeFormal} = 'n' or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))",
           "title": "What if {panel.childNomineeName} is homeless?",
@@ -6938,7 +6937,7 @@
           "type": "yesno",
           "name": "childNomineeResidentialReceiveMail",
           "visible": false,
-          "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"y\" and {panel.childIsCompetent} = \"n\" and {panel.childHasNominee} = \"y\" and ({panel.childNomineeFormal} = \"n\" or ({panel.childNomineeFormal} = \"y\" and\n{panel.childNomineeFormalYesExplanation} > 0))",
+          "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and ({panel.childNomineeFormal} = 'n' or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))",
           "title": "Does {panel.childNomineeName} receive mail at this address?",
           "isRequired": true
          },
@@ -6946,7 +6945,7 @@
           "type": "yesno",
           "name": "childNomineeHasMailingAddress",
           "visible": false,
-          "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"y\" and {panel.childIsCompetent} = \"n\" and {panel.childHasNominee} = \"y\" and ({panel.childNomineeFormal} = \"n\" or ({panel.childNomineeFormal} = \"y\" and\n{panel.childNomineeFormalYesExplanation} > 0)) and {panel.childNomineeResidentialReceiveMail} = \"n\"",
+          "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and ({panel.childNomineeFormal} = 'n' or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0)) and {panel.childNomineeResidentialReceiveMail} = 'n'",
           "title": "Does {panel.childNomineeName} have a different address where they receive mail?",
           "isRequired": true
          },
@@ -6954,7 +6953,7 @@
           "type": "address",
           "name": "childNomineeMailingAddress",
           "visible": false,
-          "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"y\" and {panel.childIsCompetent} = \"n\" and {panel.childHasNominee} = \"y\" and ({panel.childNomineeFormal} = \"n\" or ({panel.childNomineeFormal} = \"y\" and\n{panel.childNomineeFormalYesExplanation} > 0)) and {panel.childNomineeResidentialReceiveMail} = \"n\" and {panel.childNomineeHasMailingAddress} = \"y\"",
+          "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and ({panel.childNomineeFormal} = 'n' or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0)) and {panel.childNomineeResidentialReceiveMail} = 'n' and {panel.childNomineeHasMailingAddress} = 'y'",
           "title": "Where does {panel.childNomineeName} receive mail?",
           "isRequired": true
          },
@@ -7936,9 +7935,9 @@
          },
          {
           "type": "address",
-          "name": "creditorPersonNomineeResidentialReceiveMail",
+          "name": "creditorPersonNomineeResidentialAddress",
           "visible": false,
-          "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"y\" and {panel.creditorPersonIsCompetent} = \"n\" and {panel.creditorPersonHasNominee} = \"y\" and (({panel.creditorPersonNomineeFormal} = \"n\" and {panel.creditorPersonNomineeFormalNoExplanation} > 0) or ({panel.creditorPersonNomineeFormal} = \"y\" and\n{panel.creditorPersonNomineeFormalYesExplanation} > 0))",
+          "visibleIf": "{panel.creditorPersonIsAlive} = 'y' and {panel.creditorPersonIsAdult} = 'y' and {panel.creditorPersonIsCompetent} = 'n' and {panel.creditorPersonHasNominee} = 'y' and (({panel.creditorPersonNomineeFormal} = 'n' and {panel.creditorPersonNomineeFormalNoExplanation} > 0) or ({panel.creditorPersonNomineeFormal} = 'y' and\n{panel.creditorPersonNomineeFormalYesExplanation} > 0))",
           "title": "Where does {panel.creditorPersonNomineeName} live?",
           "description": "If {panel.creditorPersonNomineeName} was homeless:<ul><li>write \"no fixed address\" for the street address</li><li>Write the city/town, province and country where they lived.</li><li>Write \"n/a\" for their postal code.</li></ul>",
           "isRequired": true
@@ -7947,7 +7946,7 @@
           "type": "yesno",
           "name": "creditorPersonNomineeResidentialReceiveMail",
           "visible": false,
-          "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"y\" and {panel.creditorPersonIsCompetent} = \"n\" and {panel.creditorPersonHasNominee} = \"y\" and (({panel.creditorPersonNomineeFormal} = \"n\" and {panel.creditorPersonNomineeFormalNoExplanation} > 0) or ({panel.creditorPersonNomineeFormal} = \"y\" and\n{panel.creditorPersonNomineeFormalYesExplanation} > 0))",
+          "visibleIf": "{panel.creditorPersonIsAlive} = 'y' and {panel.creditorPersonIsAdult} = 'y' and {panel.creditorPersonIsCompetent} = 'n' and {panel.creditorPersonHasNominee} = 'y' and (({panel.creditorPersonNomineeFormal} = 'n' and {panel.creditorPersonNomineeFormalNoExplanation} > 0) or ({panel.creditorPersonNomineeFormal} = 'y' and\n{panel.creditorPersonNomineeFormalYesExplanation} > 0))",
           "title": "Does {panel.creditorPersonNomineeName} receive mail at this address?",
           "isRequired": true
          },
@@ -7955,7 +7954,7 @@
           "type": "yesno",
           "name": "creditorPersonNomineeHasMailingAddress",
           "visible": false,
-          "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"y\" and {panel.creditorPersonIsCompetent} = \"n\" and {panel.creditorPersonHasNominee} = \"y\" and (({panel.creditorPersonNomineeFormal} = \"n\" and {panel.creditorPersonNomineeFormalNoExplanation} > 0) or ({panel.creditorPersonNomineeFormal} = \"y\" and\n{panel.creditorPersonNomineeFormalYesExplanation} > 0)) and {panel.creditorPersonNomineeResidentialReceiveMail} = \"n\"",
+          "visibleIf": "{panel.creditorPersonIsAlive} = 'y' and {panel.creditorPersonIsAdult} = 'y' and {panel.creditorPersonIsCompetent} = 'n' and {panel.creditorPersonHasNominee} = 'y' and (({panel.creditorPersonNomineeFormal} = 'n' and {panel.creditorPersonNomineeFormalNoExplanation} > 0) or ({panel.creditorPersonNomineeFormal} = 'y' and\n{panel.creditorPersonNomineeFormalYesExplanation} > 0)) and {panel.creditorPersonNomineeResidentialReceiveMail} = 'n'",
           "title": "Does {panel.creditorPersonNomineeName} have a different address where they receive mail?",
           "isRequired": true
          },
@@ -8278,7 +8277,7 @@
           "body": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-205\" target=\"_blank\">[JIRA REPGRANT-205]</a>\n<br><br>\nName: applicant\n<br><br>\nTitle: Who is applying to represent {deceasedName}?\n<br><br>\nCheckbox with choices dynamically generated by {spouseInfoPanel} and {childInfoPanel}. \"Other\" is currently not in scope.\n<br><br>\nDisplay: \"{spouseName} ({deceasedName}'s spouse)\" if \n<li>{spouseIsAlive} = 'y',\n<li>{spouseIsAdult} = 'y', and\n<li>{spouseIsCompetent} = 'y'\n<br><br>\nDisplay: \"{childName} ({deceasedName}'s child})\" if \n<li>{childIsAlive} = 'y',\n<li>{childIsAdult} = 'y', and\n<li>{childIsCompetent} = 'y'\n <br><br>\nBeing able to access each person's role is important for questions further down this page. Search for \"JIRA-REPGRANT-205a\""
          },
          {
-          "type": "checkbox",
+          "type": "radiogroup",
           "name": "applicantChoice",
           "title": "Who is applying represent and manage {deceasedName}'s property, money and belongings?",
           "description": "Here is a list of the people you have identified so far in this service.\n<br><br>\nIf you have already included yourself in previous steps, you will still need to identify if you are applying for a `Representation Grant` for {deceasedName}  in this step.\n",
@@ -8747,8 +8746,7 @@
           "messageStyle": "error"
          }
         ],
-        "visible": false,
-        "visibleIf": "isContainerReady('applicantInfoPanel')"
+        "visible": false
        },
        {
         "type": "infotext",
@@ -8821,8 +8819,7 @@
           "messageStyle": "error"
          }
         ],
-        "visible": false,
-        "visibleIf": "{applicantCompleted} = 'y'"
+        "visible": false
        },
        {
         "type": "infotext",
@@ -8898,22 +8895,19 @@
           "type": "yesno",
           "name": "applicantCitorComplete",
           "visible": false,
-          "visibleIf": "{applicantCited} = 'n' or ({applicantCited} = 'y' and isContainerReady('applicantCitorInfoPanel'))",
-          "title": "include all the citors (not already listed above)?",
-          "isRequired": true
+          "title": "include all the citors (not already listed above)?"
          },
          {
           "type": "infotext",
           "name": "applicantCitorCompleteNoError",
           "visible": false,
-          "visibleIf": "{applicantCitorComplete} = 'n'",
           "title": "go back and include them all.\n\nyou can't use this yet.",
           "titleLocation": "hidden",
           "messageStyle": "error"
          }
         ],
         "visible": false,
-        "visibleIf": "isContainerReady('applicantCompetingApplicationsPanel') and {applicantCompetingApplicationExistsCompleted} = 'y'"
+        "visibleIf": "isContainerReady('applicantInfoPanel')"
        },
        {
         "type": "infotext",
@@ -9124,13 +9118,14 @@
            }
           ],
           "choicesByUrl": {
+           "url": "./api/v1/efiling/locations",
            "valueName": "id",
            "titleName": "name"
           }
          }
         ],
         "visible": false,
-        "visibleIf": "isContainerReady('applicantCitationPanel') and {applicantCitorComplete} = 'y'"
+        "visibleIf": "{applicantCited} = 'n'"
        },
        {
         "type": "infotext",
@@ -9147,6 +9142,7 @@
          {
           "type": "infotext",
           "name": "jiraApplicantsPage",
+          "visible": false,
           "title": "JIRA Panel Count for recipients??",
           "titleLocation": "hidden",
           "body": "Will need to have 2 different exit explanations.\n<li>1) if there is no one to notify.\n<li>2) telling people the next step is to notify\n<br><br>\nShould we do this with 2 message texts or 1 message text that has conditions? Jack thinks 1 message text with conditions but doesn't know how to access [recipients > 0] "
@@ -9163,7 +9159,7 @@
        }
       ],
       "visibleIf": "{surveyEnvironment} = 'DEV' or isContainerReady('creditorPage')",
-      "title": "The Applicant(s)"
+      "title": "Applicant Information"
      },
      {
       "name": "p1Page",
@@ -9280,7 +9276,7 @@
          {
           "type": "infotext",
           "name": "question405",
-          "title": "You're ready to deliver the P1 to people. Define served. \n<br>\nYou will only be able to file your documents 21 days after the last person was deemed to have been served. \n<br>\nThese are the ways you can deliver a notice. Choose the best way you see fit to notify each different person.\n<br>\n•  In person (printer required)\n<br>\n•  Electronically (e-mail, fax, or other electronic means)\n•  By mail (printer required)\n<br>\n\nHere is a sample message that you can copy and paste to email people. include, ask a receipt as simply as \"thanks\" \"I have received your email\".\n\nWe will provide a list of people you need to notify.",
+          "title": "Below is a list of people is who you need to notify and give a fair chance to disagree with your application. You may choose to notify more people than those on this list. If you do, you do not need to keep track of them. \n<br><br>\nYou're ready to deliver the P1 to people. Define served. \n<br>\nYou will only be able to file your documents 21 days after the last person was deemed to have been served. \n<br>\nThese are the ways you can deliver a notice. Choose the best way you see fit to notify each different person.\n<br>\n•  In person (printer required)\n<br>\n•  Electronically (e-mail, fax, or other electronic means)\n•  By mail (printer required)\n<br>\n\nHere is a sample message that you can copy and paste to email people. include, ask a receipt as simply as \"thanks\" \"I have received your email\".\n\nWe will provide a list of people you need to notify.",
           "titleLocation": "hidden",
           "isRequired": true,
           "requiredErrorText": "Please press Continue"
@@ -9303,29 +9299,13 @@
         "body": "Only the first block is relevant for current Scope Q4 2021 Release. Everything below the horizontal ruler is for future.\n\n<br><br>\nInclude <i>[successorName]</i> (spouse or child) if\n<li>[successorName] is NOT an [applicant], and\n<li>[successorIsAlive] = 'y', and\n<li>[successorIsAdult] = 'y', and\n<li>[successorIsCompetent] = 'y'\n\n<hr>\n\nFuture Scope for Q1 2022\n<br><br>\n\n<b>Alive - Adult - Competent</b>\n<br>\nInclude <i>[successorName]</i> if\n<li>[successorName] is NOT an [applicant], and\n<li>[successorIsAlive] = 'y', and\n<li>[successorIsAdult] = 'y', and\n<li>[successorIsCompetent] = 'y'\n<br><br>\n\n<b>Alive - Not Adult - Yes Guardian</b>\n<br>\nInclude <i>[successorGuardianName] (Guardian of [successorName])</i> if\n<li>[successorName] is NOT an [applicant], and\n<li>[successorIsAlive] = 'y', and\n<b><li>[successorIsAdult] = 'n', and\n<li>[successorHasGuardian] = 'y'</b>\n<li>In this scenario, also include <i>The Public Guardian & Trustee</i> as a recipient\n<br><br>\n\n<b>Alive - Not Adult - No Guardian</b>\n<br>\nInclude <i>[successorName]</i> if\n<li>[successorName] is NOT an [applicant], and\n<li>[successorIsAlive] = 'y', and\n<b><li>[successorIsAdult] = 'n', and\n<li>[successorHasGuardian] = 'n'</b>\n<li>In this scenario, also include as recipients\n<ul>\n<li><i>The Provincial Director of Child Welfare</i>, and\n<li><i>The Public Guardian & Trustee</i>\n</ul>\n<br>\n\n<b>Alive - Adult - Not Competent - Yes Nominee</b>\n<br>\nInclude <i>[successorName]</i> if\n<li>[successorName] is NOT an [applicant], and\n<li>[successorIsAlive] = 'y', and\n<li>[successorIsAdult] = 'y', and\n<b><li>[successorIsCompetent] = 'n', and\n<li>[successorHasNominee] = 'y'</b>\n<li>In this scenario, also include as recipients\n<ul>\n<li><i>The Public Guardian & Trustee</i>\n<li><i>[successorNomineeName] (Nominee of [successorName])</i>\n</ul>\n\n<b>Alive - Adult - Not Competent - No Nominee</b>\n<br>\nInclude <i>[successorName]</i> if\n<li>[successorName] is NOT an [applicant], and\n<li>[successorIsAlive] = 'y', and\n<li>[successorIsAdult] = 'y', and\n<b><li>[successorIsCompetent] = 'n', and\n<li>[successorHasNominee] = 'n'</b>\n<li>In this scenario, also include <i>The Public Guardian & Trustee</i> as a recipient\n<br><br><br>\n\n\n<b>Not Alive - Official Personal Rep</b>\n<br>\nInclude <i>[successorPersonalRepName] (Personal Representative for [successorName])</i> if\n<b><li>[successorIsAlive] = 'n', and</b>\n<li>[successorDied5DaysAfter] = 'y', and\n<b><li>[successorHasPersonalRep] = 'y'</b>\n<br><br>\n\n<b>Not Alive - Informal Personal Rep</b>\n<br>\nInclude <i>[successorInformalPersonalRepName] (Personal Representative for [successorName])</i> if\n<b><li>[successorIsAlive] = 'n', and</b>\n<li>[successorDied5DaysAfter] = 'y', and\n<b><li>[successorHasPersonalRep] = 'n'</b>"
        },
        {
-        "type": "infotext",
-        "name": "question416",
-        "title": "Below is a list of people is who you need to notify and give a fair chance to disagree with your application. You may choose to notify more people than those on this list. If you do, you do not need to keep track of them. ",
-        "titleLocation": "hidden"
-       },
-       {
         "type": "paneldynamic",
         "name": "p1DeliveryInfoPanel",
         "templateElements": [
          {
           "type": "radiogroup",
           "name": "p1DelivererName",
-          "title": "Who gave {panel.recipientName} a P1 Form?",
-          "choices": [
-           {
-            "value": "item1",
-            "text": "{applicant1}"
-           },
-           {
-            "value": "item2",
-            "text": "{applicant2}"
-           }
-          ]
+          "title": "Who gave {panel.recipientName} a P1 Form?"
          },
          {
           "type": "infotext",
@@ -9500,8 +9480,8 @@
          {
           "type": "infotext",
           "name": "question456",
-          "title": "[Old Spreadsheet Notes copied here Nov 12 2020]\n<br>\nGiving notification to the Public Guardian and Trustee (PGT)\n\nPart of the process in getting a representation grant requires you to notify specific people that you are applying. If those people are under 19 years of age, or they are not mentally competent, you will also need to notify the Public Guardian and Trustee (PGT). The PGT charges a fee for their services. The required fees are detailed in their list of fees (section for Wills, Estates and Succession Act, item (d)). \nhttp://www.trustee.bc.ca/fees/Documents/PGT%20Fee%20Schedule.pdf",
-          "titleLocation": "hidden"
+          "titleLocation": "hidden",
+          "body": "[Old Spreadsheet Notes copied here Nov 12 2020]\n<br>\nGiving notification to the Public Guardian and Trustee (PGT)\n\nPart of the process in getting a representation grant requires you to notify specific people that you are applying. If those people are under 19 years of age, or they are not mentally competent, you will also need to notify the Public Guardian and Trustee (PGT). The PGT charges a fee for their services. The required fees are detailed in their list of fees (section for Wills, Estates and Succession Act, item (d)). \nhttp://www.trustee.bc.ca/fees/Documents/PGT%20Fee%20Schedule.pdf"
          },
          {
           "type": "yesno",
@@ -9511,8 +9491,8 @@
          {
           "type": "infotext",
           "name": "question403",
-          "title": "[JIRA] Parse address of child or mentally incapable person. If outside of BC, they need to serve another PGT or equivalent",
-          "titleLocation": "hidden"
+          "titleLocation": "hidden",
+          "body": "[JIRA] Parse address of child or mentally incapable person. If outside of BC, they need to serve another PGT or equivalent"
          },
          {
           "type": "text",
@@ -9564,7 +9544,7 @@
          {
           "type": "text",
           "name": "p1EarlyDelivererP9SwornDate",
-          "title": "Date the P9 was sworn by {applicantX}. occupation and address for non-applicant left blank to be filled by hand.[JIRA ability to put this off until later - applicant(s) can leave blank to swear everything at the courthouse]",
+          "title": "Date the P9 was sworn by [applicantX]. occupation and address for non-applicant left blank to be filled by hand.[JIRA ability to put this off until later - applicant(s) can leave blank to swear everything at the courthouse]",
           "inputType": "date"
          },
          {
@@ -9611,11 +9591,12 @@
           "type": "formdownloadbutton",
           "name": "p1GenerateP9Button"
          }
-        ]
+        ],
+        "visible": false
        }
       ],
       "visibleIf": "{surveyEnvironment} = 'DEV' or isContainerReady('applicantPage')",
-      "title": "Review and Print P1"
+      "title": "Notify Successors"
      },
      {
       "name": "landPage",
@@ -10497,7 +10478,7 @@
           "templateElements": [
            {
             "type": "address",
-            "name": "question2"
+            "name": "landLentMortgageAddress"
            },
            {
             "type": "text",
@@ -10547,13 +10528,13 @@
           "templateElements": [
            {
             "type": "address",
-            "name": "question1",
+            "name": "landRightToBuyAddress",
             "title": "Address of land or building that {deceasedName}",
             "description": "Do the best you can if there is no addres??"
            },
            {
             "type": "radiogroup",
-            "name": "landLentMortgageValue",
+            "name": "landRightToBuyValue",
             "title": "Value of Mortgage at date of death",
             "choices": [
              {
@@ -10916,7 +10897,7 @@
          },
          {
           "type": "yesno",
-          "name": "vehicleJointAlive",
+          "name": "vehicleJointAliveDuplicate",
           "visible": false,
           "title": "Are any of the other registered owners alive?"
          },
@@ -11159,7 +11140,7 @@
            },
            {
             "type": "yesno",
-            "name": "question260",
+            "name": "question260b",
             "visible": false,
             "title": "is there a designated beneficiary for this account?"
            },
@@ -11177,7 +11158,7 @@
            },
            {
             "type": "infotext",
-            "name": "accountJointAliveYesExplanation",
+            "name": "accountJointAliveYesExplanation1",
             "visible": false,
             "visibleIf": "{panel.accountJointAlive} = \"y\"",
             "title": "Because the joint account holder of this account is still alive, this account will go to them automatically. You do not need to include this account as part of the estate. ",
@@ -11185,7 +11166,7 @@
            },
            {
             "type": "radiogroup",
-            "name": "accountValue",
+            "name": "accountValue1",
             "visible": false,
             "visibleIf": "{panel.accountJoint} = \"n\" or ({panel.accountJoint} = \"y\" and {panel.accountJointAlive} = \"n\")",
             "title": "Do you have the value of this account on the date {deceasedName} died? ({deceasedDateOfDeath})",
@@ -11211,7 +11192,7 @@
            },
            {
             "type": "yesno",
-            "name": "question259",
+            "name": "question2591",
             "title": "is there a registered loan to account # {accountNumber}?",
             "description": "name of lender, address of lender, registration number, registration date, name match, value"
            }
@@ -11331,22 +11312,22 @@
         "templateElements": [
          {
           "type": "text",
-          "name": "bankName",
+          "name": "pensionName",
           "title": "Name of Pension"
          },
          {
           "type": "yesno",
-          "name": "question265",
+          "name": "question2651",
           "title": "name match"
          },
          {
           "type": "text",
-          "name": "question299",
+          "name": "question2991",
           "title": "alias at pension institution"
          },
          {
           "type": "paneldynamic",
-          "name": "accountPanel",
+          "name": "pensionAccountPanel",
           "title": "Accounts at {panel.bankName}",
           "templateElements": [
            {
@@ -11367,7 +11348,7 @@
            },
            {
             "type": "infotext",
-            "name": "accountJointAliveYesExplanation",
+            "name": "accountJointAliveYesExplanation2",
             "visible": false,
             "visibleIf": "{panel.accountJointAlive} = \"y\"",
             "title": "Because the beneficiary of this pension is still alive, (add a second one for the died after 4 days)  this account will go to them automatically. You do not need to include this account as part of the estate. \nCheck the terms of that pension to see if what happens. ",
@@ -11390,7 +11371,7 @@
            },
            {
             "type": "radiogroup",
-            "name": "accountValue",
+            "name": "accountValue2",
             "visible": false,
             "visibleIf": "{panel.accountJoint} = \"n\" or ({panel.accountJoint} = \"y\" and {panel.accountJointAlive} = \"n\")",
             "title": "Do you have the exact value of this lump sum from the pension?",
@@ -11440,22 +11421,22 @@
         "templateElements": [
          {
           "type": "text",
-          "name": "bankName",
+          "name": "insuranceName",
           "title": "Name of life insurance institution/agency"
          },
          {
           "type": "yesno",
-          "name": "question265",
+          "name": "question2652",
           "title": "name match"
          },
          {
           "type": "text",
-          "name": "question299",
+          "name": "question2992",
           "title": "alias at financial institution"
          },
          {
           "type": "paneldynamic",
-          "name": "accountPanel",
+          "name": "insuranceAccountPanel",
           "title": "Accounts at {panel.bankName}",
           "templateElements": [
            {
@@ -11470,7 +11451,7 @@
            },
            {
             "type": "yesno",
-            "name": "accountJointAlive",
+            "name": "accountJointAlive1",
             "visible": false,
             "visibleIf": "{panel.accountJoint} = \"y\"",
             "title": "Is there a joint account holder for this insurance policy?"
@@ -11484,7 +11465,7 @@
            },
            {
             "type": "yesno",
-            "name": "question239",
+            "name": "question2392",
             "visible": false,
             "visibleIf": "{panel.accountJoint} = \"y\"",
             "title": "Did the other joint survivors survive long enough to satisfy the insurance policy's survivor rules? (does the insurance pay to {deceasedName's} estate?)",
@@ -11492,7 +11473,7 @@
            },
            {
             "type": "yesno",
-            "name": "question260",
+            "name": "question260a",
             "title": "Are there designated beneficiaries for this account?"
            },
            {
@@ -11508,7 +11489,7 @@
            },
            {
             "type": "infotext",
-            "name": "accountJointAliveYesExplanation",
+            "name": "accountJointAliveYesExplanation3",
             "visible": false,
             "visibleIf": "{panel.accountJointAlive} = \"y\"",
             "title": "Because the joint account holder of this account is still alive, this account will go to them automatically. You do not need to include this account as part of the estate. ",
@@ -11522,7 +11503,7 @@
            },
            {
             "type": "radiogroup",
-            "name": "accountValue",
+            "name": "accountValue3",
             "visible": false,
             "visibleIf": "{panel.accountJoint} = \"n\" or ({panel.accountJoint} = \"y\" and {panel.accountJointAlive} = \"n\")",
             "title": "Do you have the exact value of this lump sum at the time of {deceasedName}'s death?",
@@ -11541,7 +11522,7 @@
            },
            {
             "type": "yesno",
-            "name": "question259",
+            "name": "question2593",
             "title": "is there a registered loan to account # {accountNumber}?",
             "description": "name of lender, address of lender, registration number, registration date, name match, value"
            },

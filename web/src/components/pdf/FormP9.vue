@@ -4,7 +4,6 @@
       <b-card
         :key="applicant.fullname"
         id="print"
-        style="max-width: 1100px;"
         bg-variant="white"
         class="mt-4 mb-3"
       >
@@ -65,17 +64,17 @@
           <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
         </div>
         <div style="text-align:center">
-          <div style="display:inline-block; text-indent: 5px;">
-            <i>In the Matter of the Estate of</i>
-          </div>
-          <underline-form
+        <div style="display:inline-block; text-indent: 5px;">
+          <i>In the Matter of the Estate of</i>
+        </div>
+        <underline-form
             textwidth="17rem"
-            beforetext=""
-            :text="deceasedFullName"
-          />
-          <div style="display:inline-block; text-indent: 5px;">
-            <i>, deceased</i>
-          </div>
+          beforetext=""
+          :text="deceasedFullName"
+        />
+        <div style="display:inline-block; text-indent: 5px;">
+          <i>, deceased</i>
+        </div>
         </div>
         <div style="text-align:center;margin:2rem 0 2rem -1.3rem;font-weight: 600;font-size:20px;">
           AFFIDAVIT OF DELIVERY
@@ -125,21 +124,21 @@
               </div>
               <template v-for="(recipient, i) of mailRecipients(applicant)">
                 <div :key="i" style="display:inline-block; margin:0.5rem 0;">
-                  <underline-form
-                    :key="recipient.recipientName"
+                <underline-form
+                  :key="recipient.recipientName"
                     style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                    textwidth="41.5rem"
-                    beforetext=""
-                    hint=""
-                    :text="recipient.recipientName"
-                  />
-                  <underline-form
-                    :key="recipient.p1DeliveryDate"
-                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-                    textwidth="15rem"
-                    beforetext="on"
-                    :text="recipient.p1DeliveryDate"
-                  />
+                  textwidth="41.5rem"
+                  beforetext=""
+                  hint=""
+                  :text="recipient.recipientName"
+                />
+                <underline-form
+                  :key="recipient.p1DeliveryDate"
+                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                  textwidth="15rem"
+                  beforetext="on"
+                  :text="recipient.p1DeliveryDate"
+                />
                 </div>
               </template>
             </div>
@@ -150,21 +149,21 @@
               </div>
               <template v-for="(recipient, i) of inPersonRecipients(applicant)">
                 <div :key="i" style="display:inline-block; margin:0.5rem 0;">
-                  <underline-form
-                    :key="recipient.recipientName"
+                <underline-form
+                  :key="recipient.recipientName"
                     style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                    textwidth="41.5rem"
-                    beforetext=""
-                    hint=""
-                    :text="recipient.recipientName"
-                  />
-                  <underline-form
-                    :key="recipient.p1DeliveryDate"
-                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-                    textwidth="15rem"
-                    beforetext="on"
-                    :text="recipient.p1DeliveryDate"
-                  />
+                  textwidth="41.5rem"
+                  beforetext=""
+                  hint=""
+                  :text="recipient.recipientName"
+                />
+                <underline-form
+                  :key="recipient.p1DeliveryDate"
+                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                  textwidth="15rem"
+                  beforetext="on"
+                  :text="recipient.p1DeliveryDate"
+                />
                 </div>
               </template>
             </div>
@@ -175,21 +174,21 @@
               </div>
               <template v-for="(recipient, i) of electronicRecipients(applicant)">
                 <div :key="i" style="display:inline-block; margin:0.5rem 0;">
-                  <underline-form
-                    :key="recipient.recipientName"
+                <underline-form
+                  :key="recipient.recipientName"
                     style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                    textwidth="41.5rem"
-                    beforetext=""
-                    hint=""
-                    :text="recipient.recipientName"
-                  />
-                  <underline-form
-                    :key="recipient.p1DeliveryDate"
-                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-                    textwidth="15rem"
-                    beforetext="on"
-                    :text="recipient.p1DeliveryDate"
-                  />
+                  textwidth="41.5rem"
+                  beforetext=""
+                  hint=""
+                  :text="recipient.recipientName"
+                />
+                <underline-form
+                  :key="recipient.p1DeliveryDate"
+                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                  textwidth="15rem"
+                  beforetext="on"
+                  :text="recipient.p1DeliveryDate"
+                />
                 </div>
               </template>
 
@@ -203,7 +202,7 @@
 
               <div style="text-indent: 40px;" v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
                 I will retain a copy of those acknowledgements until the personal representative of the deceased is discharged and will produce those acknowledgements promptly
-              </div>
+            </div>
               <div style="text-indent: 40px;" v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
                 after being requested to do so by the registrar.
               </div>
@@ -273,6 +272,7 @@ import { format } from 'date-fns'
 import axios, { AxiosRequestConfig } from "axios";
 import { getApplicationId } from "@/state/application-state";
 import { SurveyQuestionNames } from "@/types/survey-primary";
+import { onPrint } from "@/utils/utils";
 
 @Component({
   components: {
@@ -349,33 +349,7 @@ export default class FormP9 extends Vue {
   }
 
   public onPrint() {
-    const el = document.getElementById("print");
-    console.log(el);
-    const applicationId = getApplicationId.value;
-
-    const url = "/survey-print/" + applicationId + "/?name=representation-grant";
-    const body = Vue.filter("printPdf")(el.innerHTML, `"SCCRPF  02/2021 \a         Form P9";`);
-    const options = {
-      responseType: "blob",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    } as AxiosRequestConfig;
-    console.log(body);
-    axios.post(url, body, options).then(
-      res => {
-        const blob = res.data;
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        document.body.appendChild(link);
-        link.download = "FormP9.pdf";
-        link.click();
-        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-      },
-      err => {
-        console.error(err);
-      }
-    );
+    onPrint("FormP9");
   }
 
   // TODO: make this more generic 
