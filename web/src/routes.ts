@@ -4,9 +4,9 @@ import Qualified from "@/components/home/Qualified.vue";
 import UnQualified from "@/components/home/UnQualified.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
 import TermsConditions from "@/components/status/TermsConditions.vue";
-import SurveyCreatorForm from "@/components/sandbox/SurveyCreatorForm.vue";
+import SurveyCreatorForm from "@/components/survey-creator/SurveyCreatorForm.vue";
 import { SessionManager } from "@/utils/utils";
-import SurveySandBox from "@/components/sandbox/SurveySandBox.vue";
+import SurveyMain from "@/components/SurveyMain.vue";
 import FormP1 from "@/components/pdf/FormP1.vue";
 import FormP9 from "@/components/pdf/FormP9.vue";
 
@@ -73,7 +73,7 @@ const routes = [
     path: "/survey",
     name: "surveys",
     beforeEnter: authGuard,
-    component: SurveySandBox
+    component: SurveyMain
   },
   {
     path: "/status",
@@ -98,31 +98,31 @@ const routes = [
   },
   {
     path: "/sandbox1",
-    component: SurveySandBox,
+    component: SurveyMain,
     beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox1" }
   },
   {
     path: "/sandbox2",
-    component: SurveySandBox,
+    component: SurveyMain,
     beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox2" }
   },
   {
     path: "/sandbox3",
-    component: SurveySandBox,
+    component: SurveyMain,
     beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox3" }
   },
   {
     path: "/sandbox4",
-    component: SurveySandBox,
+    component: SurveyMain,
     beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox4" }
   },
   {
     path: "/sandbox5",
-    component: SurveySandBox,
+    component: SurveyMain,
     beforeEnter: authGuardAdmin,
     props: { sandboxName: "sandbox5" }
   },
