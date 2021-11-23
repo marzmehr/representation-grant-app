@@ -4,7 +4,6 @@
       <b-card
         :key="applicant.fullname"
         id="print"
-        style="border:1px solid; border-radius:5px;padding:2rem 3rem 2rem 2rem;"
         bg-variant="white"
         class="mt-4 mb-3"
       >
@@ -18,7 +17,6 @@
               <underline-form
                 textwidth="10.6rem"
                 beforetext="This is the"
-                hint="1st/2nd/3rd..."
                 text="1st"
               />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
@@ -29,7 +27,6 @@
               <underline-form
                 textwidth="12.8rem"
                 beforetext="of"
-                hint="Applicant Name"
                 :text="applicant.fullName"
               />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
@@ -40,7 +37,6 @@
               <underline-form
                 textwidth="11rem"
                 beforetext="and was made on"
-                hint="Affidavit Date (dd mmm yyyy)"
                 text=""
               />
             </div>
@@ -48,7 +44,6 @@
               <underline-form
                 textwidth="15rem"
                 beforetext=""
-                hint="Court Location (leave blank for Commissioner)"
                 text=""
               />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
@@ -57,9 +52,8 @@
             </div>
             <div class="mt-2">
               <underline-form
-                textwidth="18rem"
+                textwidth="16rem"
                 beforetext="No."
-                hint="File Number (leave blank for Registry)"
                 text=""
               />
             </div>
@@ -69,16 +63,18 @@
         <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;">
           <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
         </div>
+        <div style="text-align:center">
         <div style="display:inline-block; text-indent: 5px;">
           <i>In the Matter of the Estate of</i>
         </div>
         <underline-form
-          textwidth="37rem"
+            textwidth="17rem"
           beforetext=""
           :text="deceasedFullName"
         />
         <div style="display:inline-block; text-indent: 5px;">
           <i>, deceased</i>
+        </div>
         </div>
         <div style="text-align:center;margin:2rem 0 2rem -1.3rem;font-weight: 600;font-size:20px;">
           AFFIDAVIT OF DELIVERY
@@ -86,7 +82,7 @@
 
         <div style="display:inline-block; text-indent: 5px;">I</div>
         <div style="display:inline-block; margin:0.5rem 0;">
-          <div style="display:inline-block; width:1.9rem;"></div>
+          <div style="display:inline-block; width:0.5rem;"></div>
           <underline-form
             textwidth="20rem"
             beforetext=""
@@ -118,23 +114,19 @@
 
           <!-- <2> -->
           <li v-if="mailRecipients(applicant).length > 0 || electronicRecipients(applicant).length > 0 || inPersonRecipients(applicant).length > 0" class="mt-4 text-justify ">
-            <div>I delivered a copy of the notice
-
-              to the following persons as follows:
+            <div>
+              I delivered a copy of the notice to the following persons as follows:
             </div>
 
             <div v-if="mailRecipients(applicant).length > 0">
-              <check-box
-                style="margin-top:1rem;"
-                shift="0"
-                shiftmark="0"
-                :check="check2"
-                text="by mailing it/them to the following persons by ordinary mail:"
-              />
-              <template v-for="recipient of mailRecipients(applicant)">
+              <div style="text-indent: 20px;">
+                by mailing it/them to the following persons by ordinary mail:
+              </div>
+              <template v-for="(recipient, i) of mailRecipients(applicant)">
+                <div :key="i" style="display:inline-block; margin:0.5rem 0;">
                 <underline-form
                   :key="recipient.recipientName"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
                   textwidth="41.5rem"
                   beforetext=""
                   hint=""
@@ -147,21 +139,19 @@
                   beforetext="on"
                   :text="recipient.p1DeliveryDate"
                 />
+                </div>
               </template>
             </div>
 
             <div v-if="inPersonRecipients(applicant).length > 0">
-              <check-box
-                style="margin-top:1rem;"
-                shift="0"
-                shiftmark="0"
-                :check="check2"
-                text="by handing it/them to and leaving it/them with the following persons:"
-              />
-              <template v-for="recipient of inPersonRecipients(applicant)">
+              <div style="text-indent: 20px;">
+                by handing it/them to and leaving it/them with the following persons:
+              </div>
+              <template v-for="(recipient, i) of inPersonRecipients(applicant)">
+                <div :key="i" style="display:inline-block; margin:0.5rem 0;">
                 <underline-form
                   :key="recipient.recipientName"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
                   textwidth="41.5rem"
                   beforetext=""
                   hint=""
@@ -174,21 +164,19 @@
                   beforetext="on"
                   :text="recipient.p1DeliveryDate"
                 />
+                </div>
               </template>
             </div>
 
             <div v-if="electronicRecipients(applicant).length > 0">
-              <check-box
-                style="margin-top:1rem;"
-                shift="0"
-                shiftmark="0"
-                :check="check2"
-                text="by sending it/them to the following persons by e-mail, fax or other electronic means to that person:"
-              />
-              <template v-for="recipient of electronicRecipients(applicant)">
+              <div style="text-indent: 20px;">
+                by sending it/them to the following persons by e-mail, fax or other electronic means to that person:
+              </div>
+              <template v-for="(recipient, i) of electronicRecipients(applicant)">
+                <div :key="i" style="display:inline-block; margin:0.5rem 0;">
                 <underline-form
                   :key="recipient.recipientName"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
                   textwidth="41.5rem"
                   beforetext=""
                   hint=""
@@ -201,39 +189,25 @@
                   beforetext="on"
                   :text="recipient.p1DeliveryDate"
                 />
+                </div>
               </template>
-            
-              <check-box
-                style="margin-top:1rem;word-spacing:6.5px;text-align-last:justify;"
-                shift="40"
-                shiftmark="0"
-                :check="allP1DeliveryElectronicReceipt"
-                text="Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing,"
-              />
-              <div style=" text-indent: 70px;">
-                acknowledged receipt of the document(s) referred to in this section.
+
+              <div style="text-indent: 40px;">
+                Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing, acknowledged receipt of the document(s) referred to in this section.
               </div>
 
-              <check-box
-                v-if="applicantList.length > 1"
-                style="margin-top:1rem; word-spacing:5.5px;"
-                shift="40"
-                shiftmark="0"
-                :check="allP1DeliveryElectronicReceiptRetain"
-                text="We will retain a copy of those acknowledgements until the personal representative of the deceased is"
-              />
-              <check-box
-                v-else
-                style="margin-top:1rem; word-spacing:6.5px;"
-                shift="40"
-                shiftmark="0"
-                :check="allP1DeliveryElectronicReceiptRetain"
-                text="I will retain a copy of those acknowledgements until the personal representative of the deceased is"
-              />
-              <div style="margin:0 0rem 0 4.5rem;">
-                discharged and will produce those acknowledgements promptly after being requested to do
-                so by the registrar.
+              <div style="text-indent: 40px;" v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain">
+                We will retain a copy of those acknowledgements until the personal representative of the deceased is discharged and will produce those acknowledgements promptly after being requested to do so by the registrar.
               </div>
+
+              <div style="text-indent: 40px;" v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
+                I will retain a copy of those acknowledgements until the personal representative of the deceased is discharged and will produce those acknowledgements promptly
+            </div>
+              <div style="text-indent: 40px;" v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
+                after being requested to do so by the registrar.
+              </div>
+
+              
             </div>
           </li>
         </ol>
@@ -294,50 +268,24 @@ import { getApplicants, getRecipients } from "@/state/survey-state";
 import { ApplicantInfoPanel, P1Panel } from "@/types/application";
 
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
-import CheckBox from "@/components/pdf/components/CheckBox.vue";
 import { format } from 'date-fns'
 import axios, { AxiosRequestConfig } from "axios";
 import { getApplicationId } from "@/state/application-state";
+import { SurveyQuestionNames } from "@/types/survey-primary";
 import { onPrint } from "@/utils/utils";
 
 @Component({
   components: {
-    UnderlineForm,
-    CheckBox
+    UnderlineForm
   }
 })
 export default class FormP9 extends Vue {
   @Prop({ required: false })
   survey;
 
-  check = ""; //"&#10003"
-  check2 = "&#10003";
-
   applicantList = [];
   recipientList = [];
   deceasedFullName = "";
-
-  successorsRep = [
-    { repName: "RIP mother", repType: "Parent", successorName: "RIP child" },
-    {
-      repName: "RIP layer",
-      repType: "Lawyer",
-      successorName: "RIP second child"
-    }
-  ];
-  serviceContact = {
-    address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-    phone: "+1 123 456 7890",
-    fax: "+1 123 456 7890",
-    email: "ABC@yahoo.ca"
-  };
-  form5Info = {
-    applicantFullName: "Its first daughter",
-    first: "Its",
-    middle: "first",
-    last: "Daughter",
-    date: "20 March 2020"
-  };
 
   mounted() {
     if (this.survey) {
@@ -421,7 +369,7 @@ export default class FormP9 extends Vue {
   private buildApplicantList(allQuestions) {
     let resultList = [];
     const applicants = getApplicants.value;
-    const applicantQuestion = allQuestions.find(q => q.name === "applicantInfoPanel");
+    const applicantQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.applicantInfoPanel);
 
     for (const i in applicants) {
       let applicant: ApplicantInfoPanel = {
@@ -457,7 +405,7 @@ export default class FormP9 extends Vue {
   private buildRecipientList(allQuestions) {
     let resultList = [];
     const recipients = getRecipients.value;
-    const recipientQuestion = allQuestions.find(q => q.name === "p1DeliveryInfoPanel");
+    const recipientQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.p1DeliveryInfoPanel);
 
     for (const i in recipients) {
       let recipient: P1Panel = {
@@ -485,7 +433,7 @@ export default class FormP9 extends Vue {
   }
 
   private getDeceasedName(allQuestions) {
-    const deceasedQuestion = allQuestions.find(q => q.name === "deceasedName");
+    const deceasedQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.deceasedName);
 
     if (deceasedQuestion) {
       const first = deceasedQuestion.value.first || "";

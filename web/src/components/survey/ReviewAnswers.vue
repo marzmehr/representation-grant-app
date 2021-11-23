@@ -4,6 +4,7 @@
       class="card-body"
       style="margin: 0.5rem 1rem; color: rgb(80, 80, 170); font-size: 16px; font-weight: bold;"
     >
+
       <b-table
         hover
         head-variant="dark"
@@ -14,6 +15,11 @@
         <template v-slot:cell(question)="value">
           <v-runtime-template :template="`<div>${value.item.question}</div>`"></v-runtime-template>
         </template>
+
+        <template v-slot:cell(answer)="value">
+          <v-runtime-template :template="`<div>${value.item.answer}</div>`"></v-runtime-template>
+        </template>
+
         <template v-slot:cell(actions)="value">
           <span><b-btn v-on:click="navigateToQuestion(value.item.question)">Edit</b-btn></span>
         </template>
@@ -199,7 +205,7 @@ export default defineComponent({
                 currQuestion.getType()
               );
 
-              const title = currQuestion.locTitle.htmlValues.default;
+              const title = currQuestion.localizableStrings.title.renderedHtml;
               ret += convertTicksToToolTip(title) + separator(title) + formattedAnswer + "\n";
             }
           }

@@ -1,21 +1,8 @@
 <template>
-  <div>
-    <b-form-group>
-      <label style="display:inline-block; margin: 0 1rem 0 0;">Example of filled Form for:</label>
-      <b-form-radio-group
-        style="display:inline-block"
-        v-model="multipleApplicant"
-        :options="[
-          { value: false, text: 'Single Applicant' },
-          { value: true, text: '3 (Multiple) Applicants' }
-        ]"
-        @change="changeApplicantList()"
-      ></b-form-radio-group>
-    </b-form-group>
+  <div key="getLastUpdated">
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint('FormP1')">
-      Save
+      Print
     </b-button>
-
     <b-card
       id="print"
       style="border:1px solid; border-radius:5px;padding:3rem 4rem 2rem 4rem;"
@@ -52,7 +39,7 @@
         textwidth="20rem"
         beforetext=""
         hint="Court Location"
-        text="courtLocation"
+        :text="serviceContact.courtLocation"
       />
       <underline-form
         style="text-indent: 5px;"
@@ -60,7 +47,7 @@
         textwidth="28rem"
         beforetext="court registry, for"
         hint="Application Type"
-        text="applicationType"
+        :text="applicationType()"
       />
       <underline-form
         style="text-indent: 5px;"
@@ -68,7 +55,7 @@
         textwidth="22rem"
         beforetext="in relation to the estate of the deceased described below who died on"
         hint="Deceased’s Date of Death (mm dd yyyy)"
-        text="deceasedDateOfDeath"
+        :text="deceased.dateOfDeath"
       />
 
       <div style="margin:2rem 0 1rem 0rem;">Full legal name of deceased:</div>
@@ -77,7 +64,7 @@
         textwidth="58rem"
         beforetext=""
         hint="Name"
-        :text="deceased.first"
+        :text="formatDeceasedName(deceased)"
       />
       <div style="margin:2rem 0 1rem 0rem;">
         Last residential address of the deceased:
@@ -179,7 +166,7 @@
           textwidth="58rem"
           beforetext="Name:"
           hint="Name"
-          :text="name.name"
+          :text="name.fullName"
         />
 
         <underline-form
@@ -301,147 +288,143 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, reactive, ref } from "@vue/composition-api";
+import { defineComponent, onMounted, ref, watch } from "@vue/composition-api";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import CheckBox from "@/components/pdf/components/CheckBox.vue";
 import { format } from "date-fns";
-import axios, { AxiosRequestConfig } from "axios";
-import { getApplicants } from '@/state/survey-state';
+import { getLastUpdated, getApplicants } from "@/state/survey-state";
 import { onPrint } from "@/utils/utils";
+import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
+import { FormP1Applicant, FormP1Deceased, FormP1ServiceContact } from "@/types/application";
 
 export default defineComponent({
   name: "FormP1",
   props: {
-    survey: Object
+    survey: Object,
+    lastUpdated: Date
   },
   components: {
     UnderlineForm,
     CheckBox
   },
   setup(props) {
-    const multipleApplicant = ref(false);
-
-    const check = ""; //"&#10003"
-    const check2 = "&#10003";
-
     const survey = props.survey;
-    let applicantList = ref([]);
-    let deceased = {
-      first: "Rest",
-      middle: "In",
-      last: "Peace",
-      address: "0-123 st, Victoria, BC, Canada V0i 8i8"
-    };
-    let serviceContact = {
-      address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-      phone: "+1 123 456 7890",
-      fax: "+1 123 456 7890",
-      email: "ABC@yahoo.ca"
-    };
 
-    const changeApplicantList = () => {
-      applicantList.value = [];
-      if (multipleApplicant.value) {
-        applicantList.value.push(
-          {
-            fullName: "Its first Son",
-            first: "Its",
-            middle: "first",
-            last: "Son",
-            address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "",
-            differentMail: "yes",
-            differentAddress: "New York, USA"
-          },
-          {
-            fullName: "Its first Daughter",
-            first: "Its",
-            middle: "first",
-            last: "Daughter",
-            address: "1-123 st, Victoria, BC, Canada V0i 8i8",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "yes",
-            differentMail: "",
-            differentAddress: ""
-          },
-          {
-            fullName: "Its second Son",
-            first: "Its",
-            middle: "second",
-            last: "Son",
-            address: "0000 st, Vancouver, BC, Canada V0v 0v0",
-            notIndividual: "",
-            individual: "yes",
-            sameMail: "yes",
-            differentMail: "",
-            differentAddress: "",
-            lawyer: "Its good lawyer"
-          }
-        );
-      } else {
-        applicantList.value.push({
+    let applicantList = ref<FormP1Applicant[]>([]);
+    let deceased = ref<FormP1Deceased>({} as FormP1Deceased);
+    let serviceContact = ref<FormP1ServiceContact>({} as FormP1ServiceContact);
+
+    watch(getLastUpdated, (currentValue, oldValue) => {
+      loadSurveyData(survey);
+    });
+
+    const loadTestData = () => {
+      applicantList.value = [
+        {
           fullName: "Its first Son",
           first: "Its",
           middle: "first",
           last: "Son",
           address: "0-123 st, Victoria, BC, Canada V0i 8i8",
-          notIndividual: "",
-          individual: "yes",
-          sameMail: "",
-          differentMail: "yes",
+          individual: true,
+          sameMail: false,
+          lawyer: "hey",
+          differentMail: true,
           differentAddress: "New York, USA"
-        });
-      }
+        },
+        {
+          fullName: "Its first Daughter",
+          first: "Its",
+          middle: "first",
+          last: "Daughter",
+          address: "1-123 st, Victoria, BC, Canada V0i 8i8",
+          individual: false,
+          sameMail: true,
+          lawyer: "",
+          differentMail: false,
+          differentAddress: ""
+        }
+      ];
+      deceased.value = {
+        firstName: "Rest",
+        middleName: "In",
+        lastName: "Peace",
+        address: "0-123 st, Victoria, BC, Canada V0i 8i8",
+        dateOfDeath: "2021-01-01"
+      };
+      serviceContact.value = {
+        address: "0-123 st, Victoria, BC, Canada V0i 8i8",
+        phone: "+1 123 456 7890",
+        fax: "+1 123 456 7890",
+        email: "ABC@yahoo.ca",
+        courtLocation: "Victoria"
+      };
     };
 
-    /* 
-  Fields of interest from surveyJS:
-  These fields will have to be put together from a bunch of different places. 
-  They will need to be transformed I believe.. as an applicantPanel doesn't exist (it takes it from different places).
-  The responsbility of this component isn't to transform the data, it's simply to display the data.
+    const loadSurveyData = survey => {
+      const data = survey.data as SurveyInstance;
+      //TODO - Fix this after, so it generates the complex model so we can reference by . and not by ['']
+      const applicantPanel = survey.data[SurveyQuestionNames.applicantInfoPanel] || [];
+      applicantList.value = applicantPanel.map((a: applicantInfoPanel) => {
+        return {
+          fullName: (a as any).applicantName, //Brought over via survey-on-value-change (from javascript)
+          address:
+            formatMailingAddress(a.applicantMailingAddress) ||
+            formatMailingAddress(a.applicantOrdinaryAddress),
+          individual: true, // applicantNewPartOfOrg not used.
+          lawyer: data.applicantLawyerName,
+          differentMail: a.applicantOrdinaryAddressReceiveMail !== null,
+          differentAddress: formatCityCountry(a.applicantOrdinaryAddress)
+        } as FormP1Applicant;
+      });
+      deceased.value = {
+        firstName: (data.deceasedName as any)?.first, //TODO Fix complex objects not a single string.
+        middleName: (data.deceasedName as any)?.middle,
+        lastName: (data.deceasedName as any)?.last,
+        address: formatMailingAddress(data.deceasedAddress),
+        dateOfDeath: data.deceasedDateOfDeath
+      };
+      //Check if LAWYER, IF WE HAVE A LAWYER USE THIER INFO HERE.
+      serviceContact.value = {
+        address: data.applicantServiceAddress, // applicantServicePOBox?
+        phone: data.applicantServicePhone,
+        fax: data.applicantServiceFax,
+        email: data.applicantServiceEmail,
+        courtLocation: data.applicantCourthouse //Map this ID to name.
+      };
+    };
 
-  applicantPanel:
-    applicantCourthouse
-    applicantMailingAddress
-    applicantMailingAddressIsOrdinary
-    applicantOrdinaryAddress
-    applicantServiceAddress
-    applicantServicePOBox
-    applicantServiceFax
-    applicantServiceEmail
-    applicantServicePhone
-    applicantLawyer
-    applicantLawyerName
-    applicantName
+    const formatDeceasedName = deceasedName => {
+      return `${deceasedName.firstName} ${deceasedName.middleName} ${deceasedName.lastName}`;
+    };
 
-  applicationScenario (applicationType)
-  deceasedDateOfDeath
-  deceasedName
-  deceasedAddress
-  */
-  
+    const formatCityCountry = mailingAddress => {
+      return `${mailingAddress?.city}, ${mailingAddress?.country}`;
+    };
+
+    const formatMailingAddress = applicantMailingAddress => {
+      if (!applicantMailingAddress) return null;
+      debugger;
+      const street = applicantMailingAddress?.street || "";
+      const city = applicantMailingAddress?.city || "";
+      const state = applicantMailingAddress?.state || "";
+      const country = applicantMailingAddress?.country || "";
+      const postcode = applicantMailingAddress?.postcode || "";
+      return `${street}, ${city}, ${state}, ${country} ${postcode}`;
+    };
+
+    const loadApplicantList = () => {
+      if (survey) loadSurveyData(survey);
+      else loadTestData();
+    };
+
     const applicationType = () => {
       return "a Grant of Administration Without Will Annexed";
     };
 
-    const deceasedDateOfDeath = () => {
-      const deceasedDateOfDeath = new Date();
-      return currentDayMonthYear(deceasedDateOfDeath);
-    };
-
-    const courtLocation = () => {
-      const applicantCourthouseClosest = "y";
-      const applicantCourtHouseDifferent = "applicantCourtHouseDifferent";
-      if (applicantCourthouseClosest == "y") return "Closest Courthouse";
-      if (applicantCourthouseClosest == "n") return applicantCourtHouseDifferent;
-      return "Court Location";
-    };
-
     const takeNoticeTitle = () => {
-      if (applicantList.value.length == 1) return `The applicant ${applicantList.value[0].fullName} proposes:`;
+      if (applicantList.value.length == 1)
+        return `The applicant ${applicantList.value[0].fullName} proposes:`;
       if (applicantList.value.length == 2)
         return `The applicants (${applicantList.value[0].fullName} and ${applicantList.value[1].fullName}) propose:`;
       if (applicantList.value.length >= 3)
@@ -455,7 +438,6 @@ export default defineComponent({
       let result = "";
       for (const name of applicantList.value) result += name.fullName + ", ";
       result = result.slice(0, -2);
-      if (result.length > 70) result = result.slice(0, 70) + "...";
       return result;
     };
 
@@ -464,20 +446,23 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      changeApplicantList();
+      loadApplicantList();
     });
 
     return {
       onPrint,
       applicantList,
       currentDayMonthYear,
-      changeApplicantList,
+      loadApplicantList,
       deceased,
       serviceContact,
-      multipleApplicant,
       takeNoticeTitle,
       getAllApplicants,
-      getApplicants
+      applicationType,
+      getApplicants,
+      getLastUpdated,
+      formatCityCountry,
+      formatDeceasedName
     };
   }
 });

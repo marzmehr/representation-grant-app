@@ -3,7 +3,7 @@ import VueCompositionApi, {ref, computed} from "@vue/composition-api";
 Vue.use(VueCompositionApi);
 
 const lastUpdated = ref<Date>();
-export const getLastUpdated = computed(() => potentialApplicants.value);
+export const getLastUpdated = computed(() => lastUpdated.value);
 export const setLastUpdated = newLastUpdated => (lastUpdated.value = newLastUpdated);
 
 const potentialApplicants = ref<PotentialApplicant[]>([]);
