@@ -45,7 +45,7 @@ export const SurveyDataManager = {
   onLoadSurveyData: async function() {
     try {
       const response = axios.get(`/app/${getApplicationId.value}/`);
-      return;
+      return (await response).data;
     } catch (error) {
       console.log(`onSaveSurvey(): failed: ${error}`, error);
     }
