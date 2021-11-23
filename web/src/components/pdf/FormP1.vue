@@ -402,15 +402,11 @@ export default defineComponent({
       return `${mailingAddress?.city}, ${mailingAddress?.country}`;
     };
 
-    const formatMailingAddress = applicantMailingAddress => {
-      if (!applicantMailingAddress) return null;
-      debugger;
-      const street = applicantMailingAddress?.street || "";
-      const city = applicantMailingAddress?.city || "";
-      const state = applicantMailingAddress?.state || "";
-      const country = applicantMailingAddress?.country || "";
-      const postcode = applicantMailingAddress?.postcode || "";
-      return `${street}, ${city}, ${state}, ${country} ${postcode}`;
+    const formatMailingAddress = mailingAddress => {
+      if (!mailingAddress) return null;
+      return `${mailingAddress?.street || ""}, ${mailingAddress?.city ||
+        ""}, ${mailingAddress?.state || ""}, ${mailingAddress?.country ||
+        ""} ${mailingAddress?.postcode || ""}`;
     };
 
     const loadApplicantList = () => {
