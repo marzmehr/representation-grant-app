@@ -64,16 +64,18 @@
         <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;">
           <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
         </div>
-        <div style="display:inline-block; text-indent: 5px;">
-          <i>In the Matter of the Estate of</i>
-        </div>
-        <underline-form
-          textwidth="17rem"
-          beforetext=""
-          :text="deceasedFullName"
-        />
-        <div style="display:inline-block; text-indent: 5px;">
-          <i>, deceased</i>
+        <div style="text-align:center">
+          <div style="display:inline-block; text-indent: 5px;">
+            <i>In the Matter of the Estate of</i>
+          </div>
+          <underline-form
+            textwidth="17rem"
+            beforetext=""
+            :text="deceasedFullName"
+          />
+          <div style="display:inline-block; text-indent: 5px;">
+            <i>, deceased</i>
+          </div>
         </div>
         <div style="text-align:center;margin:2rem 0 2rem -1.3rem;font-weight: 600;font-size:20px;">
           AFFIDAVIT OF DELIVERY
