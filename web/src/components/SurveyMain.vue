@@ -2,7 +2,7 @@
   <div class="m-0 mr-5" v-if="survey">
     <b-row style="height: 10rem !important;">
       <b-col md="3">
-        <sandbox-sidebar class="pb-4" :survey="survey" :changed="updatedKey" />
+        <survey-sidebar class="pb-4" :survey="survey" :changed="updatedKey" />
       </b-col>
       <b-col md="9">
         <survey :survey="survey" />
@@ -15,20 +15,22 @@
 import { Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
 import * as SurveyInit from "@/survey/survey-init";
-import SandboxSidebar from "@/components/sandbox/SandboxSidebar.vue";
+import SurveySidebar from "@/components/SurveySidebar.vue";
 import Axios from "axios";
 import { addCustomTemplating } from "@/survey/survey-templating";
 import { onValueChanged } from "@/survey/survey-on-value-change";
 import { defineComponent, ref } from "@vue/composition-api";
 import { getSurveyEnvironment } from "@/utils/utils";
 
+import surveyJson from "@/survey-primary.json";
+
 export default defineComponent({
-  name: "SurveySandBox",
+  name: "SurveyMain",
   props: {
     sandboxName: String
   },
   components: {
-    SandboxSidebar
+    SurveySidebar
   },
   setup(props) {
     let survey = ref<SurveyVue.Model>(new SurveyVue.Model());
@@ -38,20 +40,26 @@ export default defineComponent({
     SurveyInit.loadQuestionTypesVueAndSetCss(Survey);
     const sandboxName = props.sandboxName;
 
-    const loadSurveyDataFromDatabase = async () => {
-      try {
-        const response = await Axios.get(`/sandbox-survey/?sandbox_name=${sandboxName}`);
-        const data = JSON.parse(response.data.sandbox_data);
-        survey.value = new SurveyVue.Model(data);
-        survey.value.commentPrefix = "Comment";
-        survey.value.showQuestionNumbers = "off";
-        addSurveyListener();
-      } catch (error) {
-        console.log("loadSurveyDataFromDatabase(): Loading JSON file failed\n", error);
+    const loadSurvey = async () => {
+      let data = {};
+      if (!sandboxName) {
+        data = surveyJson;
+      } else {
+        try {
+          const response = await Axios.get(`/sandbox-survey/?sandbox_name=${sandboxName}`);
+          data = JSON.parse(response.data.sandbox_data);
+        } catch (error) {
+          console.log("loadSurvey(): Loading JSON file failed\n", error);
+        }
       }
+      survey.value = new SurveyVue.Model(data);
+      survey.value.commentPrefix = "Comment";
+      survey.value.showQuestionNumbers = "off";
+      addSurveyListener();
     };
 
     const addSurveyListener = () => {
+      //We use this for visibleIf on a few of the components.
       survey.value
         .getAllQuestions()
         .filter(
@@ -92,7 +100,7 @@ export default defineComponent({
       survey.value.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     };
 
-    loadSurveyDataFromDatabase();
+    loadSurvey();
 
     return {
       survey,
