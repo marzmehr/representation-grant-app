@@ -1,6 +1,6 @@
 from django.conf import settings
 
-""" This is application specific to Family Law Act App.
+""" This is application specific to Representation Grant App.
     This maps from our Application, PreparedPdf, Document
     objects into the EFiling data structure."""
 

@@ -1,9 +1,7 @@
 <template>
   <div>
     <b-form-group>
-      <label style="display:inline-block; margin: 0 1rem 0 0;"
-        >Example of filled Form for:</label
-      >
+      <label style="display:inline-block; margin: 0 1rem 0 0;">Example of filled Form for:</label>
       <b-form-radio-group
         style="display:inline-block"
         v-model="multipleApplicant"
@@ -14,11 +12,7 @@
         @change="changeApplicantList()"
       ></b-form-radio-group>
     </b-form-group>
-    <b-button
-      style="transform:translate(340px,0px)"
-      variant="success"
-      @click="onPrint()"
-    >
+    <b-button style="transform:translate(340px,0px)" variant="success" @click="onPrint()">
       Save
     </b-button>
 
@@ -36,12 +30,7 @@
       <div class="mt-3 m-0 p-0 row">
         <div style="margin: 0 0 0 25.25rem;">
           <div>
-            <underline-form
-              textwidth="8.6rem"
-              beforetext="This is the"
-              hint=""
-              text="1st"
-            />
+            <underline-form textwidth="8.6rem" beforetext="This is the" hint="" text="1st" />
             <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
               affidavit
             </div>
@@ -58,46 +47,27 @@
             </div>
           </div>
           <div class="mt-2">
-            <underline-form
-              textwidth="9.5rem"
-              beforetext="and was made on"
-              hint=""
-              text=""
-            />
+            <underline-form textwidth="9.5rem" beforetext="and was made on" hint="" text="" />
           </div>
           <div class="mt-2">
-            <underline-form
-              textwidth="13.2rem"
-              beforetext=""
-              hint=""
-              text="Victoria"
-            />
+            <underline-form textwidth="13.2rem" beforetext="" hint="" text="Victoria" />
             <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
               Registry
             </div>
           </div>
           <div class="mt-2">
-            <underline-form
-              textwidth="14.9rem"
-              beforetext="No."
-              hint=""
-              text=""
-            />
+            <underline-form textwidth="14.9rem" beforetext="No." hint="" text="" />
           </div>
         </div>
       </div>
 
-      <div
-        style="text-align:center;margin:1rem 0 0.25rem 0;font-weight:bold;font-size:14pt;"
-      >
+      <div style="text-align:center;margin:1rem 0 0.25rem 0;font-weight:bold;font-size:14pt;">
         <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
       </div>
       <div style="text-align:center;font-size:12pt;">
         <i>In the Matter of the Estate of {{ deceased.fullName }}, deceased</i>
       </div>
-      <div
-        style="text-align:center;margin:0.5rem 0 2rem 0;font-weight: bold;font-size:10pt;"
-      >
+      <div style="text-align:center;margin:0.5rem 0 2rem 0;font-weight: bold;font-size:10pt;">
         AFFIDAVIT IN SUPPORT OF APPLICATION FOR ESTATE GRANT
       </div>
 
@@ -108,10 +78,7 @@
         >
           We,
         </div>
-        <div
-          v-else
-          style="display:inline-block; text-indent: 5px;margin-right:0.5rem;"
-        >
+        <div v-else style="display:inline-block; text-indent: 5px;margin-right:0.5rem;">
           I,
         </div>
         <div
@@ -120,24 +87,9 @@
           :key="i + 50"
         >
           <div v-if="i > 0" style="display:inline-block; width:1.9rem;"></div>
-          <underline-form
-            textwidth="17rem"
-            beforetext=""
-            hint=""
-            :text="name.fullName"
-          />
-          <underline-form
-            textwidth="11rem"
-            beforetext=", of"
-            hint=""
-            :text="name.address"
-          />
-          <underline-form
-            textwidth="9.55rem"
-            beforetext=", "
-            hint=""
-            :text="name.occupation"
-          />
+          <underline-form textwidth="17rem" beforetext="" hint="" :text="name.fullName" />
+          <underline-form textwidth="11rem" beforetext=", of" hint="" :text="name.address" />
+          <underline-form textwidth="9.55rem" beforetext=", " hint="" :text="name.occupation" />
           <div style="display:inline-block;">,</div>
         </div>
       </div>
@@ -151,12 +103,12 @@
         <!-- <1> -->
         <li>
           <div v-if="applicantList.length > 1" style="display:inline;">
-            We are the applicants/some of the applicants referred to in the
-            submission for estate grant in relation to the estate of
+            We are the applicants/some of the applicants referred to in the submission for estate
+            grant in relation to the estate of
           </div>
           <div v-else style="display:inline;">
-            I am one of the applicants referred to in the submission for estate
-            grant in relation to the estate of
+            I am one of the applicants referred to in the submission for estate grant in relation to
+            the estate of
           </div>
 
           <underline-form
@@ -166,9 +118,7 @@
             hint=""
             :text="deceased.fullName"
           />
-          <div
-            style="margin:0.25rem  0 0 0 ; display:inline; text-indent: 5px;"
-          >
+          <div style="margin:0.25rem  0 0 0 ; display:inline; text-indent: 5px;">
             (the "deceased").
           </div>
         </li>
@@ -207,12 +157,8 @@
             :text="form5Info.applicantFullName"
           />
 
-          <div
-            v-if="applicantList.length > 1"
-            style="margin:0 0 0 0; display:inline-block;"
-          >
-            and there is nothing in that affidavit that we know to be
-            inaccurate.
+          <div v-if="applicantList.length > 1" style="margin:0 0 0 0; display:inline-block;">
+            and there is nothing in that affidavit that we know to be inaccurate.
           </div>
           <div v-else style="margin:0 0 0 0; display:inline-block;">
             and there is nothing in that affidavit that I know to be inaccurate.
@@ -221,32 +167,28 @@
         <!-- <3> -->
         <li class="mt-3">
           <div v-if="applicantList.length > 1" style="display:inline;">
-            We have read the submission for estate grant and the other documents
-            referred to in that document and we believe that the information
-            contained in that submission for estate grant and those documents is
-            correct and complete.
+            We have read the submission for estate grant and the other documents referred to in that
+            document and we believe that the information contained in that submission for estate
+            grant and those documents is correct and complete.
           </div>
 
           <div v-else style="display:inline;">
-            I have read the submission for estate grant and the other documents
-            referred to in that document and I believe that the information
-            contained in that submission for estate grant and those documents is
-            correct and complete.
+            I have read the submission for estate grant and the other documents referred to in that
+            document and I believe that the information contained in that submission for estate
+            grant and those documents is correct and complete.
           </div>
         </li>
         <!-- <4> -->
         <li class="mt-3">
           <div v-if="applicantList.length > 1" style="display:inline;">
-            We will administer according to law the deceased's estate to which
-            the submission for estate grant relates and we acknowledge that, in
-            doing this, we will be subject to the legal responsibility of a
-            personal representative.
+            We will administer according to law the deceased's estate to which the submission for
+            estate grant relates and we acknowledge that, in doing this, we will be subject to the
+            legal responsibility of a personal representative.
           </div>
           <div v-else style="display:inline;">
-            I will administer according to law the deceased's estate to which
-            the submission for estate grant relates and I acknowledge that, in
-            doing this, I will be subject to the legal responsibility of a
-            personal representative.
+            I will administer according to law the deceased's estate to which the submission for
+            estate grant relates and I acknowledge that, in doing this, I will be subject to the
+            legal responsibility of a personal representative.
           </div>
         </li>
       </ol>
@@ -256,12 +198,7 @@
           <div style="margin:0.5rem 0 0.5rem 0rem;">
             SWORN (OR AFFIRMED) BEFORE ME
           </div>
-          <underline-form
-            textwidth="12.5rem"
-            beforetext="at"
-            hint="Commissioner City"
-            text=""
-          />
+          <underline-form textwidth="12.5rem" beforetext="at" hint="Commissioner City" text="" />
           <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
             , British Columbia
           </div>
@@ -309,14 +246,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import CheckBox from "@/components/pdf/components/CheckBox.vue";
-import moment from "moment";
-import { getApplicants } from "@/state/survey-state";
-import { getApplicationId } from "@/state/application-state";
-import axios, { AxiosRequestConfig } from "axios";
-import { onPrint } from "@/utils/utils";
+import { SurveyDataManager } from "@/services/survey-data-manager";
 
 @Component({
   components: {
@@ -568,12 +500,10 @@ export default class FormP8 extends Vue {
   }
 
   public onPrint() {
-    onPrint("FormP8");
+    SurveyDataManager.onPrint("FormP9");
   }
 
-  public getRepGrantResultData() {
-
-  }
+  public getRepGrantResultData() {}
 }
 </script>
 <style scoped>

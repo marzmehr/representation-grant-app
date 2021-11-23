@@ -1,8 +1,8 @@
-# Family Law Act API
+# Representation Grant API
 
 ## Overview
 
-The API provides an interface into the database for Family Law Act.
+The API provides an interface into the database for Representation Grant.
 
 ## Development
 
@@ -29,7 +29,7 @@ Make sure the port is open within the _docker-compose.yml_ file.
 
 ## Development Deployment Environment
 
-To deploy Family Law Act on an instance of OpenShift, see [the instructions](../RunningLocal.md) in the file RunningLocal.md.
+To deploy Representation Grant on an instance of OpenShift, see [the instructions](../RunningLocal.md) in the file RunningLocal.md.
 
 - [Schema Spy](http://schema-spy-583dbf.apps.silver.devops.gov.bc.ca/)
 - [Open API (Swagger) API Explorer](http://django-583dbf.apps.silver.devops.gov.bc.ca/api/v1/)

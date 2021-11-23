@@ -1,5 +1,5 @@
 """
-    REST API Documentation for Family Law Act
+    REST API Documentation for Representation Grant
 
     OpenAPI spec version: v1
 
@@ -35,7 +35,8 @@ class ApplicationListSerializer(serializers.ModelSerializer):
             "id",
             "app_type",
             "last_updated",
-            "last_filed"
+            "last_filed",
+            "deceased_name"
         ]
 
 

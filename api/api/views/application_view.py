@@ -41,13 +41,8 @@ class ApplicationView(APIView):
                 "lastPrinted": application.last_printed,
                 "currentStep": application.current_step,
                 "allCompleted": application.all_completed,
-                "userType": application.user_type,
-                "userName": application.user_name,
                 "userId": application.user_id,
-                "applicantName": application.applicant_name,
                 "deceasedName": application.deceased_name,
-                "deceasedDateOfDeath": application.deceased_date_of_death,
-                "dateOfWill": application.date_of_will,
                 "applicationLocation": application.application_location}
         return Response(data)
 
@@ -69,13 +64,9 @@ class ApplicationView(APIView):
             current_step=body.get("currentStep"),
             all_completed=body.get("allCompleted"),
             steps=steps_enc,
-            user_type=body.get("userType"),
             applicant_name=body.get("applicantName"),
-            user_name=body.get("userName"),
             key_id=steps_key_id,
             deceased_name=body.get("deceasedName"),
-            deceased_date_of_death=body.get("deceasedDateOfDeath"),
-            date_of_will=body.get("dateOfWill"),
             application_location=body.get("applicationLocation"),
             user_id=uid)
 
@@ -98,12 +89,8 @@ class ApplicationView(APIView):
         app.app_type = body.get("type")
         app.current_step = body.get("currentStep")
         app.steps = steps_enc
-        app.user_type = body.get("userType")
         app.applicant_name = body.get("applicantName")
-        app.user_name = body.get("userName")
         app.deceased_name = body.get("deceasedName")
-        app.deceased_date_of_death = body.get("deceasedDateOfDeath")
-        app.date_of_will = body.get("dateOfWill")
         app.application_location = body.get("applicationLocation")
         app.save()
         return Response("success")

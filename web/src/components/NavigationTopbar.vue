@@ -50,9 +50,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { SessionManager } from "@/utils/utils";
-import { getApplicationId, getUserName } from "@/state/application-state";
-import axios, { AxiosRequestConfig } from "axios";
+import { getUserName } from "@/state/application-state";
+import { SessionManager } from "@/services/session-manager";
+import { SurveyDataManager } from "@/services/survey-data-manager";
 @Component
 export default class NavigationTopbar extends Vue {
   error = "";
@@ -63,27 +63,8 @@ export default class NavigationTopbar extends Vue {
   }
   public logout(isQuickExit) {
     const emptyApplicationRoutes = ["/", "/status", "/serviceLocator"];
-
     if (emptyApplicationRoutes.indexOf(this.$route.fullPath) == -1) {
-      const application = {};
-      const applicationId =  getApplicationId.value;
-
-      const header = {
-        responseType: "json",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      } as AxiosRequestConfig;
-
-      axios.put("/app/" + applicationId + "/", application, header).then(
-        res => {
-          this.error = "";
-        },
-        err => {
-          console.error(err);
-          this.error = err;
-        }
-      );
+      SurveyDataManager.onSaveSurvey();
     }
     Vue.nextTick().then(() => {
       if (isQuickExit) {
@@ -92,12 +73,6 @@ export default class NavigationTopbar extends Vue {
       } else SessionManager.logout();
     });
   }
-
-  /* In case we need drop down surveyeditor button functionality back */
-  // public runsurvey(){
-  //     this.UpdateHideHeaderFooter(true)
-  //     this.$router.push({name: "surveyeditor"})
-  // }
 }
 </script>
 

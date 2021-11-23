@@ -58,8 +58,8 @@ const listUnion = params => {
 
 //Parameters: {questionName} for date.
 const dateFormatter = params => {
-  if (!params) return "";
-  if (!params[0]) return "";
+  if (!params) return false;
+  if (!params[0]) return false;
 
   if (params[0] instanceof Date) {
     return format(params[0], "MMMM d, yyyy");

@@ -12,17 +12,20 @@
 </template>
 
 <script lang="ts">
+import axios from "axios";
+import _ from "lodash";
 import { Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
+
 import * as SurveyInit from "@/survey/survey-init";
 import SurveySidebar from "@/components/SurveySidebar.vue";
-import Axios from "axios";
 import { addCustomTemplating } from "@/survey/survey-templating";
 import { onValueChanged } from "@/survey/survey-on-value-change";
-import { defineComponent, ref } from "@vue/composition-api";
+import { defineComponent, onMounted, ref } from "@vue/composition-api";
 import { getSurveyEnvironment } from "@/utils/utils";
-
 import surveyJson from "@/survey-primary.json";
+import { getSurvey, setSurvey } from "@/state/survey-state";
+import { SurveyDataManager } from "@/services/survey-data-manager";
 
 export default defineComponent({
   name: "SurveyMain",
@@ -33,29 +36,43 @@ export default defineComponent({
     SurveySidebar
   },
   setup(props) {
-    let survey = ref<SurveyVue.Model>(new SurveyVue.Model());
-    let updatedKey = ref(0);
-
-    const Survey = SurveyVue;
-    SurveyInit.loadQuestionTypesVueAndSetCss(Survey);
+    let timeoutHandle: NodeJS.Timeout;
     const sandboxName = props.sandboxName;
+    const Survey = SurveyVue;
+    const survey = getSurvey;
+    let updatedKey = ref(0);
+    SurveyInit.loadQuestionTypesVueAndSetCss(Survey);
 
-    const loadSurvey = async () => {
+    onMounted(() => {});
+
+    const loadSurveyData = async () => {
+      const surveyData = await SurveyDataManager.onLoadSurveyData();
+      survey.value.data = surveyData?.steps;
+    };
+
+    const loadSurveyJson = async () => {
       let data = {};
       if (!sandboxName) {
         data = surveyJson;
       } else {
         try {
-          const response = await Axios.get(`/sandbox-survey/?sandbox_name=${sandboxName}`);
+          const response = await axios.get(`/sandbox-survey/?sandbox_name=${sandboxName}`);
           data = JSON.parse(response.data.sandbox_data);
         } catch (error) {
-          console.log("loadSurvey(): Loading JSON file failed\n", error);
+          console.log("loadSurveyJson(): Loading JSON file failed\n", error);
         }
       }
-      survey.value = new SurveyVue.Model(data);
+      setSurvey(new SurveyVue.Model(data));
       survey.value.commentPrefix = "Comment";
       survey.value.showQuestionNumbers = "off";
       addSurveyListener();
+      if (!sandboxName) loadSurveyData();
+    };
+
+    const saveTimer = () => {
+      if (sandboxName) return;
+      clearTimeout(timeoutHandle);
+      timeoutHandle = setTimeout(() => SurveyDataManager.onSaveSurvey(), 3500);
     };
 
     const addSurveyListener = () => {
@@ -85,12 +102,14 @@ export default defineComponent({
       });
 
       survey.value.onValueChanged.add((sender, options) => {
-        onValueChanged(sender, options);
         updatedKey.value++;
+        onValueChanged(sender, options);
+        saveTimer();
       });
 
       survey.value.onCurrentPageChanged.add((sender, options) => {
         updatedKey.value++;
+        saveTimer();
         Vue.nextTick(() => {
           const el = document.getElementById("sidebar-title");
           if (el) el.scrollIntoView();
@@ -100,7 +119,7 @@ export default defineComponent({
       survey.value.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     };
 
-    loadSurvey();
+    loadSurveyJson();
 
     return {
       survey,

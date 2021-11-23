@@ -26,7 +26,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 // https://www.npmjs.com/package/vue-fontawesome-icon
 // import material-icon scss
 import "font-awesome/css/font-awesome.min.css";
-import { SessionManager } from "@/utils/utils";
+import { SessionManager } from "@/services/session-manager";
 import axios from "axios";
 
 library.add(faUserTie);

@@ -1,10 +1,5 @@
 <template>
-  <b-card
-    v-if="pageReady"
-    id="landing-page"
-    class="container"
-    border-variant="white"
-  >
+  <b-card v-if="pageReady" id="landing-page" class="container" border-variant="white">
     <b-row class="mt-3">
       <b-col>
         <span class="text-primary h2 ml-4"
@@ -13,58 +8,53 @@
         <b-card border-variant="white">
           <p>
             Use this service to apply for a
-            <tooltip :index="0" title="Representation Grant" /> from the Supreme
-            Court of British Columbia. A Representation Grant is a court
-            document that confirms you are the appropriate person to manage the
-            property, money and other belongings that a person left behind after
-            they died. The collection of
-            <tooltip :index="0" title="assets" /> that a person left behind is
-            call their <tooltip :index="0" title="estate" />.
+            <tooltip :index="0" title="Representation Grant" /> from the Supreme Court of British
+            Columbia. A Representation Grant is a court document that confirms you are the
+            appropriate person to manage the property, money and other belongings that a person left
+            behind after they died. The collection of <tooltip :index="0" title="assets" /> that a
+            person left behind is call their <tooltip :index="0" title="estate" />.
           </p>
 
           <p>
-            Representation Grant is an umbrella term that includes different
-            types of grants. A Grant of Probate is a type of Representation
-            Grant specifically for executors named in the Will.
+            Representation Grant is an umbrella term that includes different types of grants. A
+            Grant of Probate is a type of Representation Grant specifically for executors named in
+            the Will.
           </p>
 
           <b-list-group-item>
             <b-icon-credit-card variant="primary" /><b> Cost:</b>
             <ul>
               <li>
-                This service is provided for free by the Government of British
-                Columbia.
+                This service is provided for free by the Government of British Columbia.
               </li>
               <li>
                 This service will help you complete your
                 <tooltip :index="0" title="application" />
               </li>
               <li>
-                Once your application is complete, there will usually be a $200
-                fee to file your application with the court. If the
-                <tooltip :index="2" title="estate" /> is worth less than
-                $25,000, the application will be free to file.
+                Once your application is complete, there will usually be a $200 fee to file your
+                application with the court. If the
+                <tooltip :index="2" title="estate" /> is worth less than $25,000, the application
+                will be free to file.
               </li>
               <li>
                 There will be costs for swearing or affirming the
-                <tooltip :index="0" title="affidavit" />s you will need for the
-                application. Each affidavit costs $40 to swear or affirm at a
-                courthouse. An application usually has 3 or more affidavits.
+                <tooltip :index="0" title="affidavit" />s you will need for the application. Each
+                affidavit costs $40 to swear or affirm at a courthouse. An application usually has 3
+                or more affidavits.
               </li>
               <li>
                 There will be <tooltip :index="0" title="probate fees" /> if the
-                <tooltip :index="1" title="estate" /> is worth more than
-                $25,000. This fee will be a percentage of the total value.
+                <tooltip :index="1" title="estate" /> is worth more than $25,000. This fee will be a
+                percentage of the total value.
               </li>
             </ul>
           </b-list-group-item>
           <b-list-group-item>
-            <b-icon-clock-history variant="primary" /><b> Time:</b> The average
-            time that people spend using this service is 6 hours. Don't worry.
-            You don't have to complete this all at once. This service will save
-            your progress so you can come back later.<br />
-            The amount of time it will take you to complete your application
-            will depend on:
+            <b-icon-clock-history variant="primary" /><b> Time:</b> The average time that people
+            spend using this service is 6 hours. Don't worry. You don't have to complete this all at
+            once. This service will save your progress so you can come back later.<br />
+            The amount of time it will take you to complete your application will depend on:
             <ul>
               <li>If there is a <tooltip :index="0" title="Will" />.</li>
               <li>How many people are involved</li>
@@ -118,10 +108,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { SessionManager } from "@/utils/utils";
 import Tooltip from "@/components/survey/Tooltip.vue";
 import { setHideHeaderFooter } from "@/state/application-state";
-
 
 @Component({
   components: {
