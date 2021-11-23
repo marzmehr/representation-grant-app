@@ -1,3 +1,4 @@
+
 var path = require("path");
 var BuiltinModule = require("module");
 global.XMLHttpRequest = require('xhr2');
@@ -17,7 +18,6 @@ Module._resolveFilename = function(request, parentModule, isMain, options) {
 
 import { readFileSync, writeFileSync, unlinkSync } from "fs";
 const filePath = path.join(__dirname, "../../../src/types/survey-primary.ts");
-//unlinkSync(filePath);
 
 import * as Survey from "survey-vue";
 
@@ -34,10 +34,6 @@ const generateQuestionNamesEnum = survey => {
       console.log(`Warning: Found duplicate questionName: ${question.name}. Skipping.`);
       return;
     }
-    //survey.setValue(question.name, "test"); This is slow, but generates the correct model.
-    //console.log(`${question.name}? - ${question.getType()}`);
-    //if (question.name.includes("p1"))
-    //console.log(`${question.name}`);
     if (question.name.includes("?") || question.name.includes("-"))
       data += `\t\"${question.name}\" = \"${question.name}\",\n`;
     else data += `\t${question.name} = \"${question.name}\",\n`;
@@ -47,21 +43,35 @@ const generateQuestionNamesEnum = survey => {
   writeFileSync(filePath, data, { encoding: "utf8", flag: "w" });
 };
 
-const generateQuestionInterfacesForPanels = survey => {
+//TODO we have seperated interfaces, lets NEST them. 
+const generateQuestionInterfaces = survey => {
   console.log('Generating Interfaces..');
+  const panelQuestionNames = [];
   let data = '//Generated interfaces here.\n';
   survey.getAllQuestions(false, true).filter(x => x.getType() === "paneldynamic").forEach(function(question) {
     if (question?.panels[0] == null || question.panels[0].questions.length == 0)
       return;
+    panelQuestionNames.push(question.name);
     data += `export interface ${question.name} {\n`;
     const questions = question?.panels[0].questions;
     for (let i = 0; i < questions.length; i++) { 
+      panelQuestionNames.push(questions[i].name);
       if (questions[i].name.includes("?") || questions[i].name.includes("-"))
       data += `\t\"${questions[i].name}\"?: string,\n`;
       else data += `\t${questions[i].name}?: string\n`;
     }
     data += "}\n";
   })
+
+  data += `export interface SurveyInstance {\n`;
+  survey.getAllQuestions(false, true).filter(x => x.getType() !== "paneldynamic").forEach(function(question) {
+    if (panelQuestionNames.includes(question.name))
+      return;
+    if (question.name.includes("?") || question.name.includes("-"))
+      data += `\t\"${question.name}\"?: string,\n`;
+      else data += `\t${question.name}?: string\n`;
+  })
+  data += "}\n";
   writeFileSync(filePath, data, { encoding: "utf8", flag: "a" });
 }
 
@@ -70,7 +80,7 @@ export const generateSurveyModels = () => {
   const survey = new Survey.SurveyModel(json);
   console.log(`Generating response, writing to file ${filePath}`);
   generateQuestionNamesEnum(survey);
-  generateQuestionInterfacesForPanels(survey);
+  generateQuestionInterfaces(survey);
 };
 
 generateSurveyModels();
