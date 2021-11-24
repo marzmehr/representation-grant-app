@@ -129,10 +129,10 @@ const determineRecipients = (sender, options) => {
   const targetPanel = sender.getQuestionByName(SurveyQuestionNames.p1DeliveryInfoPanel);
   if (targetPanel) {
     targetPanel.value = recipients;
+    console.log(
+      `determineRecipients - p1DeliveryInfoPanel value: ${JSON.stringify(targetPanel.value)}`
+    );
   }
-  console.log(
-    `determineRecipients - p1DeliveryInfoPanel value: ${JSON.stringify(targetPanel.value)}`
-  );
 };
 
 export const determineEarliestSubmissionDate = (sender, options) => {
