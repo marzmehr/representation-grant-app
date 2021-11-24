@@ -1,13 +1,13 @@
 //These are used inside of our components to convert from code and ` to a vue component.
 export const convertCodeMarkupToToolTip = (str: string) => {
   return str?.replace(/<code>(.*?)<\/code>/g, (wholeMatch, m1) => {
-    return `<tooltip title='${m1}'/>`;
+    return `<tooltip title="${m1}"/>`;
   });
 };
 
 export const convertTicksToToolTip = (str: string) => {
   return str?.replace(/`(.*?)`/g, (wholeMatch, m1) => {
-    return `<tooltip title='${m1}'/>`;
+    return `<tooltip title="${m1}"/>`;
   });
 };
 
