@@ -36,7 +36,7 @@
     "date-fns-tz": "^1.1.6",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
-    "moment-timezone": "^0.5.32",
+    "moment-timezone": "^0.5.34",
     "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",
     "sass-loader": "^8.0.2",
