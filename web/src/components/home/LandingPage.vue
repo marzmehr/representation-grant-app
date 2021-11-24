@@ -3,7 +3,7 @@
     <b-row class="mt-3">
       <b-col>
         <span class="text-primary h2 ml-4"
-          >Apply to Represent Someone Who Died (also know as Probate)</span
+          >Represent Someone Who Died (also know as Probate)</span
         >
         <b-card border-variant="white">
           <p>

@@ -17,7 +17,7 @@
       </template>
 
       <p>
-        "Apply to Represent Someone Who Died" is a service provided by the Government of British
+        "Represent Someone Who Died" is a service provided by the Government of British
         Columbia.
       </p>
       <p>The Government of British Columbia has the right to change this service at any time.</p>
