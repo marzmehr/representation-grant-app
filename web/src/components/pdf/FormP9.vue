@@ -269,7 +269,7 @@ import { ApplicantInfoPanel, P1Panel } from "@/types/application";
 
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import { format } from 'date-fns'
-import { SurveyQuestionNames } from "@/types/survey-primary";
+import { applicantInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { SurveyDataManager } from "@/services/survey-data-manager";
 
 @Component({
@@ -353,7 +353,7 @@ export default class FormP9 extends Vue {
   // TODO: make this more generic 
   private getChoiceFromValue(target, questions) {
     for (const question of questions) {
-      if (question.name === "p1DelivererName") {
+      if (question.name === SurveyQuestionNames.notifyP1DelivererName) {
         const choices = question.choices;
         for (const choice of choices) {
           if (target === choice.value) {
@@ -383,7 +383,8 @@ export default class FormP9 extends Vue {
       }
 
       if (applicantQuestion) {
-        const base = applicantQuestion.value[i]?.applicantOrdinaryAddress;
+        const applicantPanel = applicantQuestion.value[i] as applicantInfoPanel;
+        const base = applicantPanel?.applicantOrdinaryAddress as any;
 
         const street = base.street || "";
         const city = base.city || "";
@@ -392,7 +393,7 @@ export default class FormP9 extends Vue {
         const postcode = base.postcode || "";
 
         applicant.address = `${street}, ${city}, ${state}, ${country} ${postcode}`;
-        applicant.occupation = applicantQuestion.value[i].applicantOccupation || "";
+        applicant.occupation = applicantPanel.applicantOccupation || "";
       }
 
       resultList.push(applicant);
@@ -403,7 +404,7 @@ export default class FormP9 extends Vue {
   private buildRecipientList(allQuestions) {
     let resultList = [];
     const recipients = getRecipients.value;
-    const recipientQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.p1DeliveryInfoPanel);
+    const recipientQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.notifyP1DeliveryInfoPanel);
 
     for (const i in recipients) {
       let recipient: P1Panel = {
@@ -418,11 +419,11 @@ export default class FormP9 extends Vue {
       if (recipientQuestion) {
         const base = recipientQuestion.value[i];
 
-        recipient.p1DelivererName = this.getChoiceFromValue(base.p1DelivererName, recipientQuestion.panels[i].questions);
-        recipient.p1DeliveryMethod = base.p1DeliveryMethod || "";
-        recipient.p1DeliveryDate = format(new Date(base.p1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") || "";
-        recipient.p1DeliveryElectronicReceipt = base?.p1DeliveryElectronicReceipt || "";
-        recipient.p1DeliveryElectronicReceiptRetain = base?.p1DeliveryElectronicReceiptRetain ? base.p1DeliveryElectronicReceiptRetain[0] : "";
+        recipient.p1DelivererName = this.getChoiceFromValue(base[SurveyQuestionNames.notifyP1DelivererName], recipientQuestion.panels[i].questions);
+        recipient.p1DeliveryMethod = base[SurveyQuestionNames.notifyP1DeliveryMethod] || "";
+        recipient.p1DeliveryDate = format(new Date(base[SurveyQuestionNames.notifyP1DeliveryDate].replace(/-/g, '\/')), "MMMM d, yyyy") || "";
+        recipient.p1DeliveryElectronicReceipt = base[SurveyQuestionNames.notifyP1DeliveryElectronicReceiptNoError] || "";
+        recipient.p1DeliveryElectronicReceiptRetain = base[SurveyQuestionNames.notifyP1DeliveryElectronicReceiptRetain] ? base[SurveyQuestionNames.notifyP1DeliveryElectronicReceiptRetain][0] : "";
       }
       
       resultList.push(recipient);
@@ -465,7 +466,7 @@ export default class FormP9 extends Vue {
     applicantOrdinaryAddress
     applicantOccupation
 
-  p1DeliveryInfoPanel
+    p1DeliveryInfoPanel
     p1DelivererName
     p1DeliveryMethod
     p1DeliveryDate
