@@ -1,3 +1,5 @@
+import axios from "axios";
+
 //These are used inside of our components to convert from code and ` to a vue component.
 export const convertCodeMarkupToToolTip = (str: string) => {
   return str?.replace(/<code>(.*?)<\/code>/g, (wholeMatch, m1) => {
@@ -22,4 +24,29 @@ export const getSurveyEnvironment = () => {
   } else {
     return "PROD";
   }
+};
+
+export const extractFilingLocations = () => {
+  axios.get("/efiling/locations/").then(
+    response => {
+      const locationsInfo = response.data;
+      const locationNames = Object.keys(response.data);
+      const locations = [];
+
+      for (const location of locationNames) {
+        const locationInfo = locationsInfo[location];
+        const address = locationInfo.address_1
+          ? locationInfo.address_1 + ", "
+          : "" + locationInfo.address_2
+          ? locationInfo.address_2 + ", "
+          : "" + locationInfo.address_3
+          ? locationInfo.address_3 + ", "
+          : "" + locationInfo.address_2
+          ? locationInfo.postal
+          : "";
+        locations.push({ id: locationInfo.location_id, name: location, address: address });
+      }
+    },
+    err => console.log(err)
+  );
 };
