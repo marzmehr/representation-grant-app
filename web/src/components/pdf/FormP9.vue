@@ -269,8 +269,9 @@ import { ApplicantInfoPanel, P1Panel } from "@/types/application";
 
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import { format } from 'date-fns'
-import { applicantInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
+import { applicantInfoPanel, notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { SurveyDataManager } from "@/services/survey-data-manager";
+import { formatDeceasedName, formatMailingAddress } from "@/utils/utils";
 
 @Component({
   components: {
@@ -384,15 +385,8 @@ export default class FormP9 extends Vue {
 
       if (applicantQuestion) {
         const applicantPanel = applicantQuestion.value[i] as applicantInfoPanel;
-        const base = applicantPanel?.applicantOrdinaryAddress as any;
-
-        const street = base.street || "";
-        const city = base.city || "";
-        const state = base.state || "";
-        const country = base.country || "";
-        const postcode = base.postcode || "";
-
-        applicant.address = `${street}, ${city}, ${state}, ${country} ${postcode}`;
+        const base = applicantPanel?.applicantOrdinaryAddress;
+        applicant.address = formatMailingAddress(base);
         applicant.occupation = applicantPanel.applicantOccupation || "";
       }
 
@@ -417,13 +411,13 @@ export default class FormP9 extends Vue {
       }
 
       if (recipientQuestion) {
-        const base = recipientQuestion.value[i];
+        const base = recipientQuestion.value[i] as notifyP1DeliveryInfoPanel;
 
-        recipient.p1DelivererName = this.getChoiceFromValue(base[SurveyQuestionNames.notifyP1DelivererName], recipientQuestion.panels[i].questions);
-        recipient.p1DeliveryMethod = base[SurveyQuestionNames.notifyP1DeliveryMethod] || "";
-        recipient.p1DeliveryDate = format(new Date(base[SurveyQuestionNames.notifyP1DeliveryDate].replace(/-/g, '\/')), "MMMM d, yyyy") || "";
-        recipient.p1DeliveryElectronicReceipt = base[SurveyQuestionNames.notifyP1DeliveryElectronicReceiptNoError] || "";
-        recipient.p1DeliveryElectronicReceiptRetain = base[SurveyQuestionNames.notifyP1DeliveryElectronicReceiptRetain] ? base[SurveyQuestionNames.notifyP1DeliveryElectronicReceiptRetain][0] : "";
+        recipient.p1DelivererName = this.getChoiceFromValue(base.notifyP1DelivererName, recipientQuestion.panels[i].questions);
+        recipient.p1DeliveryMethod = base.notifyP1DeliveryMethod || "";
+        recipient.p1DeliveryDate = format(new Date(base.notifyP1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") || "";
+        recipient.p1DeliveryElectronicReceipt = base.notifyP1DeliveryElectronicReceiptNoError || "";
+        recipient.p1DeliveryElectronicReceiptRetain = base.notifyP1DeliveryElectronicReceiptRetain ? base.notifyP1DeliveryElectronicReceiptRetain[0] : "";
       }
       
       resultList.push(recipient);
@@ -433,14 +427,9 @@ export default class FormP9 extends Vue {
 
   private getDeceasedName(allQuestions) {
     const deceasedQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.deceasedName);
-
     if (deceasedQuestion) {
-      const first = deceasedQuestion.value.first || "";
-      const middle = deceasedQuestion.value.middle || "";
-      const last = deceasedQuestion.value.last || "";
-      return `${first} ${middle} ${last}`;
+      return formatDeceasedName(deceasedQuestion.value);
     }
-
     return "";
   }
 
