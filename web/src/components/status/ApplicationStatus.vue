@@ -160,7 +160,7 @@ export default class ApplicationStatus extends Vue {
 
   public async beginApplication() {
     await SurveyDataManager.onBeginApplicaiton();
-    this.$router.push({ name: "surveys" });
+    // this.$router.push({ name: "surveys" });
   }
 
   public navigateToEFilingHub(packageNumber) {

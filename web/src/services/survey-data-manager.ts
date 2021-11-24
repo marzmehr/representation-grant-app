@@ -87,6 +87,8 @@ export const SurveyDataManager = {
     );
   },
   onResumeApplication(applicationId, currentApplication) {
+    console.log("id in resume");
+    console.log(applicationId);
     axios.get("/app/" + applicationId + "/").then(
       response => {
         const applicationData = response.data;
@@ -141,11 +143,15 @@ export const SurveyDataManager = {
       const response = axios.post(
         `/app/`,
         {
-          type: "probate",
-          steps: []
+          type: "PROBATE",
+          deceasedName: {first: "(person", middle: "who", last: "died)"},
+          steps: [],
+          lastUpdate: new Date()
         },
         config
       );
+      console.log("look at the response");
+      console.log(response);
     } catch (error) {
       console.log(`onBeginApplicaiton(): failed: ${error}`, error);
     }
