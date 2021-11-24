@@ -130,5 +130,26 @@ export const SurveyDataManager = {
     deleteItems.confirmDelete = false;
   },
   // axios.post applicationvuew
+  onBenigApplication() {
+    const config = {
+      responseType: "json",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    } as AxiosRequestConfig;
+
+    try {
+      const response = axios.post(
+        `/app/`,
+        {
+          type: "PROBATE", //Todo change this later.
+          steps: []
+        },
+        config
+      );
+    } catch (error) {
+      console.log(`onBenigApplication(): failed: ${error}`, error);
+    }
+  }
   
 };
