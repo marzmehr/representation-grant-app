@@ -29,3 +29,7 @@ export const setLocations = newLocations => (locations.value = newLocations);
 const hideHeaderFooter = ref(false);
 export const getHideHeaderFooter = computed(() => hideHeaderFooter.value);
 export const setHideHeaderFooter = newHideHeaderFooter => (hideHeaderFooter.value = newHideHeaderFooter);
+
+const error = ref("");
+export const getError = computed(() => error.value);
+export const setError = newError => (error.value = newError);
