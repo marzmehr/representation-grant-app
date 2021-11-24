@@ -117,12 +117,9 @@
 import { Component, Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/survey/survey-init";
-import moment from "moment-timezone";
-import axios from "axios";
 import { SurveyDataManager } from "@/services/survey-data-manager";
 import { extractFilingLocations } from "@/utils/utils";
 import { getError, setApplicationId } from "@/state/application-state";
-import { setApplicants } from "@/state/survey-state";
 
 @Component
 export default class ApplicationStatus extends Vue {
