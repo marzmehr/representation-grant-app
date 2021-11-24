@@ -50,3 +50,13 @@ export const extractFilingLocations = () => {
     err => console.log(err)
   );
 };
+export const formatMailingAddress = (mailingAddress: AddressInfo) : string => {
+  if (!mailingAddress) return null;
+  return `${mailingAddress?.street || ""}, ${mailingAddress?.city ||
+    ""}, ${mailingAddress?.state || ""}, ${mailingAddress?.country ||
+    ""} ${mailingAddress?.postcode || ""}`;
+};
+
+export const formatDeceasedName = (deceasedName: PersonName) : string => {
+  return `${deceasedName.first} ${deceasedName.middle} ${deceasedName.last}`;
+}
