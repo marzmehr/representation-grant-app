@@ -5,7 +5,7 @@
         type="button"
         class="btn btn-primary"
         style="float: left; margin: 0.25rem 1rem; font-size: 16px;"
-        @click="navigateToUrl()"
+        @click="downloadPdf()"
       >
         <span class="fa fa-print btn-icon-left"></span>
         {{ question.buttonTitle }}
@@ -19,8 +19,8 @@
 </template>
 
 <script language="ts">
+import { SurveyDataManager } from "@/services/survey-data-manager";
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
-import { axios } from "axios";
 
 export default defineComponent({
   name: "infotext",
@@ -54,35 +54,13 @@ export default defineComponent({
       }
     });
 
-    const navigateToUrl = () => {
-      const applicationId = props.question.survey.applicationId; //TODO wire this state up.
-      const pdfType = props.question.pdfType;
-      const url = `/survey-print/${applicationId}/?pdf_type=${pdfType}`;
-      const options = {
-        responseType: "blob",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      };
-      axios.get(url, options).then(
-        res => {
-          const blob = res.data;
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(blob);
-          document.body.appendChild(link);
-          link.download = `${pdfType}.pdf`;
-          link.click();
-          setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-        },
-        err => {
-          console.error(err);
-        }
-      );
-    };
+    const downloadPdf = () => {
+      SurveyDataManager.onPrint(question.pdfType);
+    }
 
     return {
       state,
-      navigateToUrl
+      downloadPdf
     };
   }
 });
