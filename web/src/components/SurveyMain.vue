@@ -1,13 +1,7 @@
 <template>
-  <div class="m-0 mr-5" v-if="survey">
-    <b-row style="height: 10rem !important;">
-      <b-col md="3">
-        <survey-sidebar class="pb-4" :survey="survey" :changed="updatedKey" />
-      </b-col>
-      <b-col md="9">
-        <survey :survey="survey" />
-      </b-col>
-    </b-row>
+  <div v-if="survey" style="display: flex;">
+    <survey-sidebar class="survey-sidebar" :survey="survey" :changed="updatedKey" />
+    <survey :survey="survey" class="pl-4 mb-4" />
   </div>
 </template>
 

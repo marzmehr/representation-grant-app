@@ -98,11 +98,11 @@ export default class SandboxSidebar extends Vue {
   display: block;
   left: 0;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   padding: 0;
-  //position: absolute;
   top: 0;
   width: $sidebar-width-md;
+  height: 100%;
 }
 @include media-breakpoint-up(lg) {
   .sidebar-container {
