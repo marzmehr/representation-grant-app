@@ -5,7 +5,7 @@
     :class="description ? 'customtooltip' : 'text-danger'"
   >
     {{ title || description }} <b-badge v-if="description" class="custombadge">? </b-badge>
-    <b-tooltip v-if="description" :target="title + index" placement="right">
+    <b-tooltip v-if="description" :target="title + index" placement="right" boundary="viewport">
       <div style="text-align: justify;" v-html="description" />
     </b-tooltip>
   </div>
