@@ -1,6 +1,8 @@
-import { getApplicationId } from "@/state/application-state";
+import { getApplicationId, setError } from "@/state/application-state";
 import { getSurvey } from "@/state/survey-state";
 import axios, { AxiosRequestConfig } from "axios";
+import { differenceInMinutes } from "date-fns";
+import { format } from "date-fns-tz";
 
 //This handles saving, loading, printing of surveys.
 export const SurveyDataManager = {
@@ -24,7 +26,7 @@ export const SurveyDataManager = {
         setTimeout(() => URL.revokeObjectURL(link.href), 1000);
       },
       err => {
-        console.error(err);
+        setError(err);
       }
     );
   },
@@ -56,5 +58,77 @@ export const SurveyDataManager = {
     } catch (error) {
       console.log(`onSaveSurvey(): failed: ${error}`, error);
     }
-  }
+  },
+  onLoadApplications: async function(applications) {
+    axios.get("/app-list/").then(
+      response => {
+        for (const appJson of response.data) {
+          const app = {
+            lastUpdated: 0,
+            lastUpdatedDate: "",
+            id: 0,
+            deceased_name: "",
+          };
+          const date = new Date(appJson.last_updated);
+          app.lastUpdated = appJson.last_updated
+            ? differenceInMinutes(date, new Date("2000/01/01"))
+            : 0;
+          app.lastUpdatedDate = appJson.last_updated
+            ? format(date, "MMMM d, yyyy H:mm z", { timeZone: "America/Vancouver" })
+            : "";
+          app.id = appJson.id;
+          app.deceased_name = `${appJson.deceased_name.first} ${appJson.deceased_name.middle} ${appJson.deceased_name.last}`;
+          applications.push(app);
+        }
+      },
+      err => {
+        setError(err);
+      }
+    );
+  },
+  onResumeApplication(applicationId, currentApplication) {
+    axios.get("/app/" + applicationId + "/").then(
+      response => {
+        const applicationData = response.data;
+
+        currentApplication = {
+          id: applicationId,
+          userId: applicationData.user, 
+          ...applicationData
+        };
+      },
+      err => {
+        setError(err);
+      }
+    );
+  },
+  onDeleteApplication(application, index, deleteItems) {
+    deleteItems.deleteErrorMsg = "";
+    deleteItems.deleteErrorMsgDesc = "";
+    deleteItems.deleteError = false;
+    deleteItems.applicationToDelete = application;
+    deleteItems.indexToDelete = index;
+    deleteItems.confirmDelete = true;
+  },
+  OnDeleteApplicationConfirm(applications, deleteItems) {
+    axios.delete("/app/" + deleteItems.applicationToDelete["id"] + "/").then(
+      response => {
+        var indexToDelete = applications.findIndex(app => {
+          if (app.id == deleteItems.applicationToDelete["id"]) return true;
+        });
+        if (indexToDelete >= 0) applications.splice(indexToDelete, 1);
+      },
+      err => {
+        const errMsg = err.response.data.error;
+        setError(errMsg);
+
+        deleteItems.deleteErrorMsg = errMsg.slice(0, 60) + (errMsg.length > 60 ? " ..." : "");
+        deleteItems.deleteErrorMsgDesc = errMsg;
+        deleteItems.deleteError = true;
+      }
+    );
+    deleteItems.confirmDelete = false;
+  },
+  // axios.post applicationvuew
+  
 };
