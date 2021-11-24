@@ -1,4 +1,4 @@
-import { getApplicationId, setError } from "@/state/application-state";
+import { getApplicationId, setApplicationId, setError } from "@/state/application-state";
 import { getSurvey } from "@/state/survey-state";
 import axios, { AxiosRequestConfig } from "axios";
 import { differenceInMinutes } from "date-fns";
@@ -60,49 +60,37 @@ export const SurveyDataManager = {
     }
   },
   onLoadApplications: async function(applications) {
-    axios.get("/app-list/").then(
-      response => {
-        for (const appJson of response.data) {
-          const app = {
-            lastUpdated: 0,
-            lastUpdatedDate: "",
-            id: 0,
-            deceased_name: "",
-          };
-          const date = new Date(appJson.last_updated);
-          app.lastUpdated = appJson.last_updated
-            ? differenceInMinutes(date, new Date("2000/01/01"))
-            : 0;
-          app.lastUpdatedDate = appJson.last_updated
-            ? format(date, "MMMM d, yyyy H:mm z", { timeZone: "America/Vancouver" })
-            : "";
-          app.id = appJson.id;
-          app.deceased_name = `${appJson.deceased_name.first} ${appJson.deceased_name.middle} ${appJson.deceased_name.last}`;
-          applications.push(app);
-        }
-      },
-      err => {
-        setError(err);
+    const config = {
+      responseType: "json",
+      headers: {
+        "Content-Type": "application/json"
       }
-    );
-  },
-  onResumeApplication(applicationId, currentApplication) {
-    console.log("id in resume");
-    console.log(applicationId);
-    axios.get("/app/" + applicationId + "/").then(
-      response => {
-        const applicationData = response.data;
+    } as AxiosRequestConfig;
 
-        currentApplication = {
-          id: applicationId,
-          userId: applicationData.user, 
-          ...applicationData
+    try {
+      const response = await axios.get("/app-list/");
+
+      for (const appJson of response.data) {
+        const app = {
+          lastUpdated: 0,
+          lastUpdatedDate: "",
+          id: 0,
+          deceased_name: "",
         };
-      },
-      err => {
-        setError(err);
+        const date = new Date(appJson.last_updated);
+        app.lastUpdated = appJson.last_updated
+          ? differenceInMinutes(date, new Date("2000/01/01"))
+          : 0;
+        app.lastUpdatedDate = appJson.last_updated
+          ? format(date, "MMMM d, yyyy H:mm z", { timeZone: "America/Vancouver" })
+          : "";
+        app.id = appJson.id;
+        app.deceased_name = `${appJson?.deceased_name?.first} ${appJson?.deceased_name?.middle} ${appJson?.deceased_name?.last}`;
+        applications.push(app);
       }
-    );
+    } catch (error) {
+      setError(error);
+    }
   },
   onDeleteApplication(application, index, deleteItems) {
     deleteItems.deleteErrorMsg = "";
@@ -112,26 +100,28 @@ export const SurveyDataManager = {
     deleteItems.indexToDelete = index;
     deleteItems.confirmDelete = true;
   },
-  OnDeleteApplicationConfirm(applications, deleteItems) {
-    axios.delete("/app/" + deleteItems.applicationToDelete["id"] + "/").then(
-      response => {
-        var indexToDelete = applications.findIndex(app => {
-          if (app.id == deleteItems.applicationToDelete["id"]) return true;
-        });
-        if (indexToDelete >= 0) applications.splice(indexToDelete, 1);
-      },
-      err => {
-        const errMsg = err.response.data.error;
-        setError(errMsg);
+  OnDeleteApplicationConfirm: async function(applications, deleteItems) {
+    try {
+      const response = await axios.delete(
+        "/app/" + deleteItems.applicationToDelete["id"] + "/"
+      );
 
-        deleteItems.deleteErrorMsg = errMsg.slice(0, 60) + (errMsg.length > 60 ? " ..." : "");
-        deleteItems.deleteErrorMsgDesc = errMsg;
-        deleteItems.deleteError = true;
-      }
-    );
+      var indexToDelete = applications.findIndex(app => {
+        if (app.id == deleteItems.applicationToDelete["id"]) return true;
+      });
+      if (indexToDelete >= 0) applications.splice(indexToDelete, 1);
+    } catch (error) {
+      const errMsg = error.response.data.error;
+      setError(errMsg);
+
+      deleteItems.deleteErrorMsg = errMsg.slice(0, 60) + (errMsg.length > 60 ? " ..." : "");
+      deleteItems.deleteErrorMsgDesc = errMsg;
+      deleteItems.deleteError = true;
+    }
+    
     deleteItems.confirmDelete = false;
   },
-  onBeginApplicaiton() {
+  onBeginNewApplication: async function() {
     const config = {
       responseType: "json",
       headers: {
@@ -144,16 +134,13 @@ export const SurveyDataManager = {
         `/app/`,
         {
           type: "PROBATE",
-          deceasedName: {first: "(person", middle: "who", last: "died)"},
-          steps: [],
-          lastUpdate: new Date()
+          steps: []
         },
         config
       );
-      console.log("look at the response");
-      console.log(response);
+      return (await response).data;
     } catch (error) {
-      console.log(`onBeginApplicaiton(): failed: ${error}`, error);
+      setError(`onBeginApplicaiton(): failed: ${error}`);
     }
   }
   
