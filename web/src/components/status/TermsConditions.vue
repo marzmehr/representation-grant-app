@@ -5,7 +5,7 @@
         <span class="text-primary h1 ml-4">Terms and Conditions</span>
         <b-card border-variant="white">
           <p>
-            "Apply to Represent Someone Who Died" is a service provided by the Government of British
+            "Represent Someone Who Died" is a service provided by the Government of British
             Columbia.
           </p>
           <p>
