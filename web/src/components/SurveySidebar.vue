@@ -102,6 +102,7 @@ export default class SandboxSidebar extends Vue {
   padding: 0;
   top: 0;
   width: $sidebar-width-md;
+  min-width: 250px;
 }
 @include media-breakpoint-up(lg) {
   .sidebar-container {
