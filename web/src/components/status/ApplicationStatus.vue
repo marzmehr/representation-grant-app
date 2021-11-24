@@ -1,5 +1,5 @@
 <template>
-  <b-card id="status">
+  <b-card id="status" border-variant="white">
     <b-container class="container home-content">
       <div class="alert alert-danger mt-4" v-if="error">{{ error }}</div>
       <b-row>
@@ -32,8 +32,8 @@
                 <b-button
                   size="sm"
                   variant="primary"
-                  class="my-0 py-0"
-                  @click="resumeApplication(row.item.id, currentApplication)"
+                  class="my-0 py-0 ml-2 mr-2"
+                  @click="resumeApplication(row.item.id)"
                 >
                   Resume Application
                 </b-button>
@@ -61,7 +61,7 @@
                 <b-button
                   variant="success"
                   class="btn-lg register-button"
-                  @click="beginApplication()"
+                  @click="beginNewApplication()"
                   >Begin NEW Application</b-button
                 >
               </b-col>
@@ -121,7 +121,8 @@ import moment from "moment-timezone";
 import axios from "axios";
 import { SurveyDataManager } from "@/services/survey-data-manager";
 import { extractFilingLocations } from "@/utils/utils";
-import { getError } from "@/state/application-state";
+import { getError, setApplicationId } from "@/state/application-state";
+import { setApplicants } from "@/state/survey-state";
 
 @Component
 export default class ApplicationStatus extends Vue {
@@ -149,8 +150,8 @@ export default class ApplicationStatus extends Vue {
     extractFilingLocations();
   }
 
-  public async resumeApplication(applicationId, currentApplication) {
-    await SurveyDataManager.onResumeApplication(applicationId, currentApplication);
+  public async resumeApplication(applicationId) {
+    setApplicationId(applicationId);
     this.$router.push({ name: "surveys" });
   }
 
@@ -158,9 +159,10 @@ export default class ApplicationStatus extends Vue {
     this.$router.push({ name: "terms" });
   }
 
-  public async beginApplication() {
-    await SurveyDataManager.onBeginApplicaiton();
-    // this.$router.push({ name: "surveys" });
+  public async beginNewApplication() {
+    const data = await SurveyDataManager.onBeginNewApplication();
+    setApplicationId(data.app_id);
+    this.$router.push({ name: "surveys" });
   }
 
   public navigateToEFilingHub(packageNumber) {
