@@ -1,7 +1,7 @@
 <template>
   <div v-if="survey" style="display: flex;">
     <survey-sidebar class="survey-sidebar" :survey="survey" :changed="updatedKey" />
-    <survey :survey="survey" class="pl-4 mb-4" />
+    <survey :survey="survey" class="pb-4 pl-4 pr-4" />
   </div>
 </template>
 
