@@ -36,14 +36,14 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
     applicantInfoPanel.visible = applicants.length > 0;
     console.log(`applicantInfoPanel - Value: ${JSON.stringify(applicantInfoPanel.value)}`);
   }
-  const p1DeliveryInfoPanel = sender.getQuestionByName(SurveyQuestionNames.p1DeliveryInfoPanel);
+  const p1DeliveryInfoPanel = sender.getQuestionByName(SurveyQuestionNames.notifyP1DeliveryInfoPanel);
   if (p1DeliveryInfoPanel) {
     const choices = applicants
       .map(a => potentialApplicants.find(pa => pa.key == a))
       .map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
     for (const panel of p1DeliveryInfoPanel.panels) {
       for (const question of panel.questions) {
-        if (question.name != SurveyQuestionNames.p1DelivererName) continue;
+        if (question.name != SurveyQuestionNames.notifyP1DelivererName) continue;
         question.choices = choices;
       }
     }
@@ -126,7 +126,7 @@ const determineRecipients = (sender, options) => {
   setApplicants(applicants);
 
   //Going to have to combine objects here, not just replace.
-  const targetPanel = sender.getQuestionByName(SurveyQuestionNames.p1DeliveryInfoPanel);
+  const targetPanel = sender.getQuestionByName(SurveyQuestionNames.notifyP1DeliveryInfoPanel);
   if (targetPanel) {
     targetPanel.value = recipients;
     console.log(
@@ -136,7 +136,7 @@ const determineRecipients = (sender, options) => {
 };
 
 export const determineEarliestSubmissionDate = (sender, options) => {
-  const questionNamesToWatch = [SurveyQuestionNames.p1DeliveryInfoPanel];
+  const questionNamesToWatch = [SurveyQuestionNames.notifyP1DeliveryInfoPanel];
   if (!questionNamesToWatch.includes(options.name)) return;
   const p1DeliveryInfoPanelValue = options.value || [];
   const calculatedDates = [];
@@ -184,7 +184,7 @@ export const determineEarliestSubmissionDate = (sender, options) => {
   });
 
   const earliestSubmissionDateQuestion = sender.getQuestionByName(
-    SurveyQuestionNames.p1earliestSubmissionDate
+    SurveyQuestionNames.notifyEarliestSubmissionDate
   );
   if (!earliestSubmissionDateQuestion) return;
   if (calculatedDates.length == 0) {
