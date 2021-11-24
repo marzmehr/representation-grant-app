@@ -64,9 +64,7 @@ class ApplicationView(APIView):
             current_step=body.get("currentStep"),
             all_completed=body.get("allCompleted"),
             steps=steps_enc,
-            applicant_name=body.get("applicantName"),
             key_id=steps_key_id,
-            deceased_name=body.get("deceasedName"),
             application_location=body.get("applicationLocation"),
             user_id=uid)
 
@@ -90,7 +88,7 @@ class ApplicationView(APIView):
         app.current_step = body.get("currentStep")
         app.steps = steps_enc
         app.applicant_name = body.get("applicantName")
-        app.deceased_name = body.get("deceasedName")
+        app.deceased_name = body["steps"].get("deceasedName")
         app.application_location = body.get("applicationLocation")
         app.save()
         return Response("success")
