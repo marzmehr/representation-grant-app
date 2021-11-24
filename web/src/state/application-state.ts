@@ -4,7 +4,7 @@ Vue.use(VueCompositionApi);
 
 const applicationId = ref(0);
 export const getApplicationId = computed(() => applicationId.value);
-export const setApplicationId = applicationId => (applicationId.value = applicationId);
+export const setApplicationId = newApplicationId => (applicationId.value = newApplicationId);
 
 const applicationType = ref("");
 export const getApplicationType = computed(() => applicationType.value);
