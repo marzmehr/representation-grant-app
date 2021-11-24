@@ -1,5 +1,5 @@
 <template>
-  <div v-if="survey" style="display: flex;">
+  <div v-if="survey" style="display: flex; flex:auto;">
     <survey-sidebar class="survey-sidebar" :survey="survey" :changed="updatedKey" />
     <div style="width:100%">
       <survey :survey="survey" class="pb-4 pl-4 pr-4" />
