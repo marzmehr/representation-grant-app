@@ -1,35 +1,3 @@
-//This is here temp until we get the gen_typescript_reponse working. 
-//That way we can generate the typescript models from the survey data. 
-//We'll know right away if the survey has changed, it will break the compilation 
-//of the project.
-
-interface Deceased {
-    deceasedDateOfDeath?: Date;
-    deceasedName?: string;
-    deceasedAddress?: string;
-}
-
-interface ServiceContact {
-
-}
-
-interface ApplicantPanel {
-    applicantCourthouse?: string;
-    applicantMailingAddress?: string;
-    applicantMailingAddressIsOrdinary?: string;
-    applicantOrdinaryAddress?: string;
-    applicantServiceAddress?: string;
-    applicantServicePOBox?: string;
-    applicantServiceFax?: string;
-    applicantServiceEmail?: string;
-    applicantLawyer?: string;
-    applicantLawyerName?: string;
-    applicantName?: string;
-}
-
-//Replace above by generated models.
-
-
 //This is for state.
 interface PotentialApplicant {
     applicantRole: string;
@@ -47,4 +15,25 @@ interface Recipient {
     recipientRole: string;
     recipientName: string;
     key: string;
+}
+
+//Used by codegen:
+interface AddressInfo {
+    street?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    postcode?: string;
+}
+
+interface PersonName {
+    first?: string;
+    middle?: string;
+    last?: string;
+}
+
+interface ContactInfo {
+    fax?: string;
+    phone?: string;
+    email?: string;
 }

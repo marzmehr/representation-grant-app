@@ -13,9 +13,9 @@ export interface FormP1Applicant {
 }
 
 export interface FormP1Deceased {
-  firstName: string;
-  middleName: string;
-  lastName: string;
+  first?: string;
+  middle?: string;
+  last?: string;
   address: string;
   dateOfDeath: string;
 }

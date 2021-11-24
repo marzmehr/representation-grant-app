@@ -296,6 +296,7 @@ import { getLastUpdated, getApplicants } from "@/state/survey-state";
 import { SurveyDataManager } from "@/services/survey-data-manager";
 import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
 import { FormP1Applicant, FormP1Deceased, FormP1ServiceContact } from "@/types/application";
+import { formatMailingAddress, formatDeceasedName } from "@/utils/utils";
 
 export default defineComponent({
   name: "FormP1",
@@ -314,7 +315,7 @@ export default defineComponent({
     let deceased = ref<FormP1Deceased>({} as FormP1Deceased);
     let serviceContact = ref<FormP1ServiceContact>({} as FormP1ServiceContact);
 
-    watch(getLastUpdated, (currentValue, oldValue) => {
+    watch(getLastUpdated, () => {
       loadSurveyData(survey);
     });
 
@@ -346,9 +347,9 @@ export default defineComponent({
         }
       ];
       deceased.value = {
-        firstName: "Rest",
-        middleName: "In",
-        lastName: "Peace",
+        first: "Rest",
+        middle: "In",
+        last: "Peace",
         address: "0-123 st, Victoria, BC, Canada V0i 8i8",
         dateOfDeath: "2021-01-01"
       };
@@ -378,15 +379,13 @@ export default defineComponent({
         } as FormP1Applicant;
       });
       deceased.value = {
-        firstName: (data.deceasedName as any)?.first, //TODO Fix complex objects not a single string.
-        middleName: (data.deceasedName as any)?.middle,
-        lastName: (data.deceasedName as any)?.last,
+        ...data.deceasedName,
         address: formatMailingAddress(data.deceasedAddress),
         dateOfDeath: data.deceasedDateOfDeath
       };
       //Check if LAWYER, IF WE HAVE A LAWYER USE THIER INFO HERE.
       serviceContact.value = {
-        address: data.applicantServiceAddress, // applicantServicePOBox?
+        address: formatMailingAddress(data.applicantServiceAddress), // applicantServicePOBox?
         phone: data.applicantServicePhone,
         fax: data.applicantServiceFax,
         email: data.applicantServiceEmail,
@@ -394,19 +393,8 @@ export default defineComponent({
       };
     };
 
-    const formatDeceasedName = deceasedName => {
-      return `${deceasedName.firstName} ${deceasedName.middleName} ${deceasedName.lastName}`;
-    };
-
     const formatCityCountry = mailingAddress => {
       return `${mailingAddress?.city}, ${mailingAddress?.country}`;
-    };
-
-    const formatMailingAddress = mailingAddress => {
-      if (!mailingAddress) return null;
-      return `${mailingAddress?.street || ""}, ${mailingAddress?.city ||
-        ""}, ${mailingAddress?.state || ""}, ${mailingAddress?.country ||
-        ""} ${mailingAddress?.postcode || ""}`;
     };
 
     const loadApplicantList = () => {
