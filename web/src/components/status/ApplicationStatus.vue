@@ -33,7 +33,7 @@
                   size="sm"
                   variant="primary"
                   class="my-0 py-0"
-                  @click="resumeApplication(row.item.id)"
+                  @click="resumeApplication(row.item.id, currentApplication)"
                 >
                   Resume Application
                 </b-button>
@@ -41,7 +41,7 @@
                   size="sm"
                   variant="danger"
                   class="my-0 py-0"
-                  @click="removeApplication(row.item, row.index)"
+                  @click="dataManager.onDeleteApplication(row.item, row.index, deleteItems)"
                 >
                   Delete Application
                 </b-button>
@@ -72,20 +72,20 @@
     </b-container>
 
     <b-modal
-      v-model="confirmDelete"
+      v-model="deleteItems.confirmDelete"
       id="bv-modal-confirm-delete"
       header-class="bg-warning text-light"
     >
-      <b-row v-if="deleteError" id="DeleteError" class="h4 mx-2">
+      <b-row v-if="deleteItems.deleteError" id="DeleteError" class="h4 mx-2">
         <b-badge
           class="mx-1 mt-2"
           style="width: 20rem;"
           v-b-tooltip.hover
-          :title="deleteErrorMsgDesc"
+          :title="deleteItems.deleteErrorMsgDesc"
           variant="danger"
         >
-          {{ deleteErrorMsg }}
-          <b-icon class="ml-3" icon="x-square-fill" @click="deleteError = false" />
+          {{ deleteItems.deleteErrorMsg }}
+          <b-icon class="ml-3" icon="x-square-fill" @click="deleteItems.deleteError = false" />
         </b-badge>
       </b-row>
       <template v-slot:modal-title>
@@ -93,10 +93,10 @@
       </template>
       <h4>
         Are you sure you want to delete your
-        <b>"{{ applicationToDelete.deceased_name }}"</b> application?
+        <b>"{{ deleteItems.deleteError.deceased_name }}"</b> application?
       </h4>
       <template v-slot:modal-footer>
-        <b-button variant="danger" @click="confirmRemoveApplication()">Confirm</b-button>
+        <b-button variant="danger" @click="dataManager.OnDeleteApplicationConfirm(previousApplications, deleteItems)">Confirm</b-button>
         <b-button variant="primary" @click="$bvModal.hide('bv-modal-confirm-delete')"
           >Cancel</b-button
         >
@@ -119,6 +119,9 @@ import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/survey/survey-init";
 import moment from "moment-timezone";
 import axios from "axios";
+import { SurveyDataManager } from "@/services/survey-data-manager";
+import { extractFilingLocations } from "@/utils/utils";
+import { getError } from "@/state/application-state";
 
 @Component
 export default class ApplicationStatus extends Vue {
@@ -128,89 +131,31 @@ export default class ApplicationStatus extends Vue {
     { key: "lastUpdated", label: "Last Updated", sortable: true, tdClass: "border-top" },
     { key: "edit", thClass: "d-none", sortable: false, tdClass: "border-top" }
   ];
-  confirmDelete = false;
   currentApplication: any = {};
-  applicationToDelete = {};
-  indexToDelete = -1;
   applicationId = "";
-  error = "";
-  deleteErrorMsg = "";
-  deleteErrorMsgDesc = "";
-  deleteError = false;
+  error = getError.value;
+  deleteItems = {
+    deleteErrorMsg: "",
+    deleteErrorMsgDesc: "",
+    deleteError: false,
+    applicationToDelete: {},
+    indexToDelete: -1,
+    confirmDelete: false,
+  }
+  dataManager = SurveyDataManager;
 
   mounted() {
-    this.loadApplications();
+    SurveyDataManager.onLoadApplications(this.previousApplications);
+    extractFilingLocations();
+  }
+
+  public async resumeApplication(applicationId, currentApplication) {
+    await SurveyDataManager.onResumeApplication(applicationId, currentApplication);
+    this.$router.push({ name: "surveys" });
   }
 
   public openTerms() {
     this.$router.push({ name: "terms" });
-  }
-
-  public loadApplications() {
-    //TODO: when extending to use throughout the province, the timezone should be changed accordingly
-    //TODO: read in the data required to navigate to the eFilingHub package page
-    axios.get("/app-list/").then(
-      response => {
-        for (const appJson of response.data) {
-          const app = {
-            lastUpdated: 0,
-            lastUpdatedDate: "",
-            id: 0,
-            deceased_name: "",
-          };
-          app.lastUpdated = appJson.last_updated
-            ? moment(appJson.last_updated)
-                .tz("America/Vancouver")
-                .diff("2000-01-01", "minutes")
-            : 0;
-          app.lastUpdatedDate = appJson.last_updated
-            ? moment(appJson.last_updated)
-                .tz("America/Vancouver")
-                .format("MMMM d, yyyy H:mm z")
-            : "";
-          app.id = appJson.id;
-          app.deceased_name = `${appJson.deceased_name.first} ${appJson.deceased_name.middle} ${appJson.deceased_name.last}`;
-          this.previousApplications.push(app);
-        }
-        this.extractFilingLocations();
-      },
-      err => {
-        this.error = err;
-      }
-    );
-  }
-
-  public extractFilingLocations() {
-    axios.get("/efiling/locations/").then(
-      response => {
-        // console.log(Object.keys(response.data))
-        const locationsInfo = response.data;
-        const locationNames = Object.keys(response.data);
-        const locations = [];
-        for (const location of locationNames) {
-          // console.log(location)
-          // console.log(locationsInfo[location])
-          const locationInfo = locationsInfo[location];
-          const address = locationInfo.address_1
-            ? locationInfo.address_1 + ", "
-            : "" + locationInfo.address_2
-            ? locationInfo.address_2 + ", "
-            : "" + locationInfo.address_3
-            ? locationInfo.address_3 + ", "
-            : "" + locationInfo.address_2
-            ? locationInfo.postal
-            : "";
-          locations.push({ id: locationInfo.location_id, name: location, address: address });
-        }
-        console.log(locations);
-        // if(response.data.length>0) {
-        //     this.navigate("returning");
-        // }else{
-        //     this.navigate("new");
-        // }
-      },
-      err => console.log(err)
-    );
   }
 
   public beginApplication() {
@@ -221,64 +166,6 @@ export default class ApplicationStatus extends Vue {
     //TODO: replace input value with the eFilingHub link
     console.log("going to hub");
     //location.replace(packageNumber)
-  }
-
-  public resumeApplication(applicationId) {
-    axios.get("/app/" + applicationId + "/").then(
-      response => {
-        const applicationData = response.data;
-
-        this.currentApplication.id = applicationId;
-        this.currentApplication.allCompleted = applicationData.allCompleted;
-        this.currentApplication.applicantName = applicationData.applicantName;
-        this.currentApplication.currentStep = applicationData.currentStep;
-        this.currentApplication.lastUpdate = applicationData.lastUpdated;
-        this.currentApplication.lastPrinted = applicationData.lastPrinted;
-        this.currentApplication.deceasedName = applicationData.deceasedName;
-        this.currentApplication.deceasedDateOfDeath = applicationData.deceasedDateOfDeath;
-        this.currentApplication.dateOfWill = applicationData.dateOfWill;
-        this.currentApplication.applicationLocation = applicationData.applicationLocation;
-
-        this.currentApplication.type = applicationData.type;
-        this.currentApplication.userId = applicationData.user;
-        this.currentApplication.userName = applicationData.userName;
-        this.currentApplication.userType = applicationData.userType;
-        this.currentApplication.steps = applicationData.steps;
-
-        this.$router.push({ name: "surveys" });
-      },
-      err => {
-        this.error = err;
-      }
-    );
-  }
-
-  public removeApplication(application, index) {
-    this.deleteErrorMsg = "";
-    this.deleteErrorMsgDesc = "";
-    this.deleteError = false;
-    this.applicationToDelete = application;
-    this.indexToDelete = index;
-    this.confirmDelete = true;
-  }
-
-  public confirmRemoveApplication() {
-    axios.delete("/app/" + this.applicationToDelete["id"] + "/").then(
-      response => {
-        var indexToDelete = this.previousApplications.findIndex(app => {
-          if (app.id == this.applicationToDelete["id"]) return true;
-        });
-        if (indexToDelete >= 0) this.previousApplications.splice(indexToDelete, 1);
-      },
-      err => {
-        const errMsg = err.response.data.error;
-
-        this.deleteErrorMsg = errMsg.slice(0, 60) + (errMsg.length > 60 ? " ..." : "");
-        this.deleteErrorMsgDesc = errMsg;
-        this.deleteError = true;
-      }
-    );
-    this.confirmDelete = false;
   }
 
   beforeCreate() {
