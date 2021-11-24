@@ -129,8 +129,7 @@ export const SurveyDataManager = {
     );
     deleteItems.confirmDelete = false;
   },
-  // axios.post applicationvuew
-  onBenigApplication() {
+  onBeginApplicaiton() {
     const config = {
       responseType: "json",
       headers: {
@@ -142,13 +141,13 @@ export const SurveyDataManager = {
       const response = axios.post(
         `/app/`,
         {
-          type: "PROBATE", //Todo change this later.
+          type: "probate",
           steps: []
         },
         config
       );
     } catch (error) {
-      console.log(`onBenigApplication(): failed: ${error}`, error);
+      console.log(`onBeginApplicaiton(): failed: ${error}`, error);
     }
   }
   
