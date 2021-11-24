@@ -64,7 +64,6 @@ class ApplicationView(APIView):
             current_step=body.get("currentStep"),
             all_completed=body.get("allCompleted"),
             steps=steps_enc,
-            applicant_name=body.get("applicantName"),
             key_id=steps_key_id,
             deceased_name=body.get("deceasedName"),
             application_location=body.get("applicationLocation"),
