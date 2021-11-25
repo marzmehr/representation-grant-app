@@ -1,7 +1,7 @@
 <template>
   <div key="getLastUpdated">
-    <template v-for="applicant in applicantList">
-      <b-button :key="applicant.fullname" style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
+    <div v-for="(applicant, i) in applicantList" :key="i">
+      <b-button :key="i" style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
         Print
       </b-button>
       <b-card
@@ -73,7 +73,7 @@
         <underline-form
             textwidth="17rem"
           beforetext=""
-          :text="deceasedFullName"
+          :text="deceased"
         />
         <div style="display:inline-block; text-indent: 5px;">
           <i>, deceased</i>
@@ -107,7 +107,6 @@
         </div>
 
         <ol style="margin:0rem 0 0 -1.5rem;">
-          <!-- <1> -->
           <li class="mt-4 text-justify">
             <div style="display:inline;">
               Attached to this affidavit and marked as Exhibit A is a copy of a notice of proposed
@@ -115,7 +114,6 @@
             </div>
           </li>
 
-          <!-- <2> -->
           <li v-if="mailRecipients(applicant).length > 0 || electronicRecipients(applicant).length > 0 || inPersonRecipients(applicant).length > 0" class="mt-4 text-justify ">
             <div>
               I delivered a copy of the notice to the following persons as follows:
@@ -261,12 +259,12 @@
           </div>
         </div>
       </b-card>
-    </template>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, watch } from "@vue/composition-api";
+import { defineComponent, onMounted, watch, ref } from "@vue/composition-api";
 import { getLastUpdated, getApplicants, getRecipients } from "@/state/survey-state";
 import { FormP9Applicant, P1Panel } from "@/types/application";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
@@ -286,13 +284,11 @@ export default defineComponent({
   },
   setup(props) {
     const survey = props.survey;
-    let applicantList = [];
-    let deceased = "";
+    let applicantList = ref([]);
+    let deceased = ref("");
 
     watch(getLastUpdated, () => {
-      console.log("watching");
       populateFromSurvey(survey);
-      console.log("watched");
     });
 
     const populateFromFakeData = () => {
@@ -305,7 +301,7 @@ export default defineComponent({
         p1DeliveryElectronicReceiptRetain: "",
       };
 
-      applicantList = [
+      applicantList.value = [
         {
           courthouse: "Victoria Courthouse",
           address: "123 Road St.",
@@ -315,11 +311,11 @@ export default defineComponent({
         }
       ];
 
-      deceased = "Rest in peace";
+      deceased.value = "Rest in peace";
     };
 
     const getSignatureMargin = () => {
-      let margin = Number(10 / applicantList.length);
+      let margin = Number(10 / applicantList.value.length);
       if (margin < 1.0) margin = 1;
       return margin + "rem";
     };
@@ -418,22 +414,16 @@ export default defineComponent({
     };
 
     const populateFromSurvey = (survey) => {
-      console.log("populating");
       const allQuestions = survey.getAllQuestions();
       const applicants = buildApplicantList(allQuestions);
       const recipients = buildRecipientList(allQuestions);
-      deceased = getDeceasedName(allQuestions);
-      applicantList = matchApplicantsAndRecipients(applicants, recipients);
-      console.log("populated");
-      console.log(applicantList);
-      console.log(deceased);
+      deceased.value = getDeceasedName(allQuestions);
+      applicantList.value = matchApplicantsAndRecipients(applicants, recipients);
     };
 
     onMounted(() => {
-      console.log("mounting");
       if (survey) populateFromSurvey(survey);
       else populateFromFakeData();
-      console.log("mounted");
     });
 
     return {
