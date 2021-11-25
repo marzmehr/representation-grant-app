@@ -275,31 +275,24 @@ export default defineComponent({
       const survey = this.question.survey;
       const questions = survey.getAllQuestions();
       const pages = survey.pages;
-      let target;
+      
+      const target = questions.find(
+        q => convertTicksToToolTip(q.localizableStrings.title.renderedHtml) === question
+      );
+      
+      const pageNum = pages.findIndex(
+        (element) => element == pages.find(
+          p => p.questions.find(
+            q => q === target
+          )
+        )
+      );
 
-      for (const i in questions) {
-        if (convertTicksToToolTip(questions[i].title) === question) {
-          target = questions[i];
-          break;
-        }
-      }
-
-      let pageNum;
-      for (const page in pages) {
-        const quesOnPage = pages[page].questions;
-        for (const ques in quesOnPage) {
-          if (quesOnPage[ques] === target) {
-            pageNum = page;
-            break;
-          }
-        }
-      }
-
-        survey.currentPageNo = pageNum;
-        if (target?.panels) {
-          target.panels[0].focusFirstQuestion();
-        } else {
-          target.focus();
+      survey.currentPageNo = pageNum;
+      if (target?.panels) {
+        target.panels[0].focusFirstQuestion();
+      } else {
+        target.focus();
       }
     }
   }
