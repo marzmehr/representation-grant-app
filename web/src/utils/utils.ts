@@ -58,5 +58,5 @@ export const formatMailingAddress = (mailingAddress: AddressInfo) : string => {
 };
 
 export const formatDeceasedName = (deceasedName: PersonName) : string => {
-  return `${deceasedName.first} ${deceasedName.middle} ${deceasedName.last}`;
+  return `${deceasedName?.first} ${deceasedName?.middle} ${deceasedName?.last}`;
 }

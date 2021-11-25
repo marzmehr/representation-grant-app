@@ -29,16 +29,18 @@ export interface FormP1ServiceContact {
   poBox?: string;
 }
 
-export interface ApplicantInfoPanel {
+export interface FormP9Applicant {
   courthouse: string;
   address: string;
   fullName: string;
   occupation: string;
-  individual: string;
-  sameMail: string;
-  differentMail: string;
-  differentAddress: string;
   recipients: any[];
+}
+
+export interface FormP9Deceased {
+  first?: string;
+  middle?: string;
+  last?: string;
 }
 
 export interface P1Panel {
