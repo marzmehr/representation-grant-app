@@ -164,7 +164,6 @@ export default class ApplicationStatus extends Vue {
 
   public navigateToEFilingHub(packageNumber) {
     //TODO: replace input value with the eFilingHub link
-    console.log("going to hub");
     //location.replace(packageNumber)
   }
 

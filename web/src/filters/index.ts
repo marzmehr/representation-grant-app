@@ -10,7 +10,6 @@ Vue.filter("scrollToLocation", function(locationName) {
         elementName = locationName.slice(locationName.slice(1).indexOf("_") + 2);
       }
       const el = document.getElementsByName(elementName);
-      console.log(el);
       if (el[elementIndex]) el[elementIndex].scrollIntoView();
       else if (el[0]) el[0].scrollIntoView();
     });

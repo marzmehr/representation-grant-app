@@ -11,13 +11,13 @@
       ref="root"
     >
       <div style="text-align:center;">
-        <div style="margin:5rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">
+        <div style="margin:5rem 0 0 0;font-weight: 300;font-size:20px;">
           FORM P1 (RULE 25-2 (3))
         </div>
-        <div style="margin:1rem 0 0 -1.3rem;font-weight: 600;font-size:24px;">
+        <div style="margin:1rem 0 0 0;font-weight: 600;font-size:24px;">
           <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
         </div>
-        <div style="margin:1rem 0 5rem -1.3rem;font-weight: 600;font-size:24px;">
+        <div style="margin:1rem 0 5rem 0;font-weight: 600;font-size:24px;">
           NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE
         </div>
       </div>
@@ -62,7 +62,7 @@
       <div style="margin:2rem 0 1rem 0rem;">Full legal name of deceased:</div>
       <underline-form
         class="mt-0"
-        textwidth="58rem"
+        textwidth="40rem"
         beforetext=""
         hint="Name"
         :text="formatDeceasedName(deceased)"
@@ -72,7 +72,7 @@
       </div>
       <underline-form
         class="mt-0"
-        textwidth="58rem"
+        textwidth="40rem"
         beforetext=""
         hint="Street Number or Post Office Box, City/Town, Province, Country and Postal Code"
         :text="deceased.address"
@@ -84,7 +84,7 @@
 
       <div class="new-page"></div>
 
-      <div style="margin:4rem 0 1rem 0rem;font-weight: 600;font-size:18px;">
+      <div style="margin:0rem 0 1rem 0rem;font-weight: 600;font-size:18px;">
         AND TAKE NOTICE THAT:
       </div>
 
@@ -164,7 +164,7 @@
       <div v-for="(name, i) in applicantList" :key="i + 100">
         <underline-form
           class="mt-5"
-          textwidth="58rem"
+          textwidth="40rem"
           beforetext="Name:"
           hint="Name"
           :text="name.fullName"
@@ -172,7 +172,7 @@
 
         <underline-form
           class="my-3"
-          textwidth="48.75rem"
+          textwidth="40rem"
           beforetext="Mailing address:"
           hint="Street Number or Post Office Box, City/Town, Province, Country and Postal Code"
           :text="name.address"
@@ -205,7 +205,7 @@
       </div>
       <underline-form
         class="mt-4"
-        textwidth="45rem"
+        textwidth="40rem"
         beforetext="Street address for service"
         hint="Street Number, City/Town, Province, Country and Postal Code"
         :text="serviceContact.address"
@@ -213,7 +213,7 @@
       <underline-form
         v-if="serviceContact.applicantServicePOBoxAddress"
         class="mt-3"
-        textwidth="42.5rem"
+        textwidth="40rem"
         beforetext="PO Box within 30km of (Courthouse Location)"
         hint=""
         :text="serviceContact.fax"
@@ -221,7 +221,7 @@
       <underline-form
         v-if="serviceContact.fax"
         class="mt-3"
-        textwidth="42.5rem"
+        textwidth="40rem"
         beforetext="Fax number for service (if any)"
         hint="Fax Number (+1 AreaCode XXX-XXXX )"
         :text="serviceContact.fax"
@@ -229,14 +229,14 @@
       <underline-form
         v-if="serviceContact.email"
         class="mt-3"
-        textwidth="41rem"
+        textwidth="40rem"
         beforetext="E-mail address for service (if any)"
         hint="E-mail"
         :text="serviceContact.email"
       />
       <underline-form
         class="mt-3 mb-5"
-        textwidth="48.5rem"
+        textwidth="40rem"
         beforetext="Telephone number"
         hint="Phone Number (+1 AreaCode XXX-XXXX )"
         :text="serviceContact.phone"
@@ -285,6 +285,7 @@
         </div>
       </div>
     </b-card>
+    <iframe id='iframe' style="width:100%; height:1000px" ></iframe>
   </div>
 </template>
 
@@ -292,7 +293,6 @@
 import { defineComponent, onMounted, ref, watch } from "@vue/composition-api";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import CheckBox from "@/components/pdf/components/CheckBox.vue";
-import { format } from "date-fns";
 import { getLastUpdated, getApplicants } from "@/state/survey-state";
 import { SurveyDataManager } from "@/services/survey-data-manager";
 import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
@@ -312,7 +312,6 @@ export default defineComponent({
   setup(props) {
     const survey = props.survey;
     const root = ref(null);
-
     let applicantList = ref<FormP1Applicant[]>([]);
     let deceased = ref<FormP1Deceased>({} as FormP1Deceased);
     let serviceContact = ref<FormP1ServiceContact>({} as FormP1ServiceContact);
@@ -402,6 +401,7 @@ export default defineComponent({
     const loadApplicantList = () => {
       if (survey) loadSurveyData(survey);
       else loadTestData();
+      onPrint();
     };
 
     const applicationType = () => {
@@ -427,10 +427,12 @@ export default defineComponent({
       return result;
     };
 
-
     const onPrint = () => {
-      const data = formPdfHtml(root.value.innerHTML,'hey','hey');
-      SurveyDataManager.onPrint('FormP1', data);
+      const html = formPdfHtml(root.value.innerHTML,'hey','hey');
+      let iframe = document.getElementById('iframe') as HTMLIFrameElement;
+      let innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+      innerDoc.documentElement.innerHTML = html[0];
+      SurveyDataManager.onPrint('FormP1', html);
     }
 
     onMounted(() => {
@@ -457,50 +459,5 @@ export default defineComponent({
   }
 });
 </script>
-<style scoped>
-.table >>> th.border-dark {
-  border: 1px solid #000;
-}
-.table >>> td.border-dark {
-  border: 1px solid #000;
-}
-
-section {
-  counter-increment: question-counter;
-  float: left;
-  text-indent: -20px;
-  text-align: justify;
-  text-justify: inter-word;
-  margin: 1rem 0.5rem 0.5rem 0rem;
-}
-
-section:before {
-  font-weight: bolder;
-  content: counter(question-counter) ".";
-}
-
-dsection:after {
-  float: none;
-  white-space: pre;
-}
-
-section.resetquestion {
-  counter-reset: question-counter;
-}
-
-ol.resetcounter {
-  list-style: none;
-  counter-reset: bracket-counter;
-}
-ol li.bracketnumber {
-  text-indent: -25px;
-  text-align: justify;
-  text-justify: inter-word;
-  margin: 1rem 0;
-  counter-increment: bracket-counter;
-}
-ol li.bracketnumber:before {
-  content: "(" counter(bracket-counter) ") ";
-  font-weight: bold;
-}
+<style scoped lang="css" src="@/styles/_pdf.css">
 </style>

@@ -496,7 +496,6 @@ export default class FormP10 extends Vue {
     if (belongingsInfo["vehiclesSurvey"] && belongingsInfo["vehiclesSurvey"].data) {
       const vehiclesSurvey = belongingsInfo["vehiclesSurvey"].data;
       if (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == "y") {
-        console.log("has vehicle");
       }
     }
 
