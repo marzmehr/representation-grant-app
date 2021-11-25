@@ -37,12 +37,6 @@ export interface FormP9Applicant {
   recipients: any[];
 }
 
-export interface FormP9Deceased {
-  first?: string;
-  middle?: string;
-  last?: string;
-}
-
 export interface P1Panel {
   recipientName: string;
   p1DelivererName: string;
