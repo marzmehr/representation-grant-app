@@ -166,7 +166,7 @@ export default defineComponent({
             question.labelMiddleName,
             question.labelLastName
           ]);
-        } else if (questionType === "address") {
+        } else if (questionType === "contactinfo") {
           return customLabelHandler(answer, [
             question.labelPhone,
             question.labelEmail,
