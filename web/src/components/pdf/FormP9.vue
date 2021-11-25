@@ -348,7 +348,8 @@ export default class FormP9 extends Vue {
   }
 
   public onPrint() {
-    SurveyDataManager.onPrint("FormP9");
+    const data = {};
+    SurveyDataManager.onPrint("FormP9", data);
   }
 
   // TODO: make this more generic 

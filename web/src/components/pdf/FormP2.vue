@@ -720,7 +720,8 @@ export default class FormP2 extends Vue {
   }
 
   public onPrint() {
-    SurveyDataManager.onPrint("FormP9");
+    const data = {};
+    SurveyDataManager.onPrint("FormP2", data);
   }
 
   public getRepGrantResultData() {

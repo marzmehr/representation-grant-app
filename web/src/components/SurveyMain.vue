@@ -22,6 +22,7 @@ import { getSurveyEnvironment } from "@/utils/utils";
 import surveyJson from "@/survey-primary.json";
 import { getSurvey, setSurvey } from "@/state/survey-state";
 import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SurveyQuestionNames } from "@/types/survey-primary";
 
 export default defineComponent({
   name: "SurveyMain",
@@ -78,7 +79,7 @@ export default defineComponent({
         .filter(
           x =>
             x.getType() === "paneldynamic" &&
-            (x.name == "spouseInfoPanel" || x.name == "childInfoPanel")
+            (x.name == SurveyQuestionNames.spouseInfoPanel || x.name ==  SurveyQuestionNames.childInfoPanel)
         )
         .forEach(element => {
           survey.value.setVariable(`${element.name}-count`, element.panelCount);

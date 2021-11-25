@@ -579,7 +579,8 @@ export default class FormP5 extends Vue {
   }
 
   public onPrint() {
-    SurveyDataManager.onPrint("FormP9");
+    const data = {};
+    SurveyDataManager.onPrint("FormP5", data);
   }
 
   public getRepGrantResultData() {}

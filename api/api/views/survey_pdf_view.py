@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http import (
     HttpResponse, HttpResponseNotFound
 )
+from django.http.response import HttpResponseForbidden
 from django.template.loader import get_template
 from django.utils import timezone
 
@@ -21,7 +22,7 @@ LOGGER = logging.getLogger(__name__)
 class SurveyPdfView(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
-    def generate_pdf(self, name, data):
+    def generate_pdf(self, data):
         html_content = data
         pdf_content = render_pdf(html_content)
         return pdf_content
@@ -35,6 +36,17 @@ class SurveyPdfView(generics.GenericAPIView):
             LOGGER.debug("No record found")
             return
 
+    # Testing purposes only.
+    def put(self, request, pk):
+        if not request.user.is_staff and not request.user.is_superuser:
+            return HttpResponseForbidden()
+        data = request.data
+        pdf_content = self.generate_pdf(data)
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        response.write(pdf_content)
+        return response
+
     def post(self, request, pk, name=None):
         data = request.data
         uid = request.user.id
@@ -46,14 +58,14 @@ class SurveyPdfView(generics.GenericAPIView):
         try:
             pdf_result = self.get_pdf(pk)
             if not pdf_result:
-                pdf_content = self.generate_pdf(name, data)
+                pdf_content = self.generate_pdf(data)
                 (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(pdf_content)
                 pdf_response = PreparedPdf(data=pdf_content_enc, key_id=pdf_key_id)
                 pdf_response.save()
                 app.prepared_pdf_id = pdf_response.pk
             else:
                 pdf_queryset = PreparedPdf.objects.filter(id=pdf_result.id)
-                pdf_content = self.generate_pdf(name, data)
+                pdf_content = self.generate_pdf(data)
                 (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(pdf_content)
                 pdf_queryset.update(data=pdf_content_enc)
                 pdf_queryset.update(created_date=timezone.now())

@@ -500,7 +500,8 @@ export default class FormP8 extends Vue {
   }
 
   public onPrint() {
-    SurveyDataManager.onPrint("FormP9");
+    const data = {};
+    SurveyDataManager.onPrint("FormP8", data);
   }
 
   public getRepGrantResultData() {}

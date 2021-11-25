@@ -277,6 +277,11 @@ $font-size: 11px;
   top:0;
 }
 
+svd-pages-editor {
+  position: sticky;
+  top:0;
+}
+
 .svd_container svd-pages-editor .svd-page {
   font-size: $font-size;
   height: 35px;

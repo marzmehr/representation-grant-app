@@ -1,6 +1,6 @@
 <template>
-  <div key="getLastUpdated">
-    <b-button style="transform:translate(500px,0px)" variant="success" @click="SurveyDataManager.onPrint('FormP1')">
+  <div key="getLastUpdated" >
+    <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
       Print
     </b-button>
     <b-card
@@ -8,6 +8,7 @@
       style="border:1px solid; border-radius:5px;padding:3rem 4rem 2rem 4rem;"
       bg-variant="white"
       class="printcard mt-4 mb-3"
+      ref="root"
     >
       <div style="text-align:center;">
         <div style="margin:5rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">
@@ -247,7 +248,7 @@
             textwidth="16rem"
             beforetext="Date"
             hint=""
-            :text="currentDayMonthYear(new Date())"
+            :text="formatMonthDayYear(new Date())"
           />
         </div>
         <div class="col-8">
@@ -296,7 +297,7 @@ import { getLastUpdated, getApplicants } from "@/state/survey-state";
 import { SurveyDataManager } from "@/services/survey-data-manager";
 import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
 import { FormP1Applicant, FormP1Deceased, FormP1ServiceContact } from "@/types/application";
-import { formatMailingAddress, formatDeceasedName } from "@/utils/utils";
+import { formatMailingAddress, formatDeceasedName, formatMonthDayYear, formPdfHtml } from "@/utils/utils";
 
 export default defineComponent({
   name: "FormP1",
@@ -310,6 +311,7 @@ export default defineComponent({
   },
   setup(props) {
     const survey = props.survey;
+    const root = ref(null);
 
     let applicantList = ref<FormP1Applicant[]>([]);
     let deceased = ref<FormP1Deceased>({} as FormP1Deceased);
@@ -425,9 +427,11 @@ export default defineComponent({
       return result;
     };
 
-    const currentDayMonthYear = date => {
-      return format(date, "MMMM dd, yyyy");
-    };
+
+    const onPrint = () => {
+      const data = formPdfHtml(root.value.innerHTML,'hey','hey');
+      SurveyDataManager.onPrint('FormP1', data);
+    }
 
     onMounted(() => {
       loadApplicantList();
@@ -436,7 +440,6 @@ export default defineComponent({
     return {
       SurveyDataManager,
       applicantList,
-      currentDayMonthYear,
       loadApplicantList,
       deceased,
       serviceContact,
@@ -446,7 +449,10 @@ export default defineComponent({
       getApplicants,
       getLastUpdated,
       formatCityCountry,
-      formatDeceasedName
+      formatDeceasedName,
+      formatMonthDayYear,
+      onPrint,
+      root
     };
   }
 });
