@@ -1,6 +1,9 @@
 <template>
-  <div>
+  <div key="getLastUpdated">
     <template v-for="applicant in applicantList">
+      <b-button :key="applicant.fullname" style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
+        Print
+      </b-button>
       <b-card
         :key="applicant.fullname"
         id="print"
@@ -263,9 +266,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "@vue/composition-api";
+import { defineComponent, onMounted, watch } from "@vue/composition-api";
 import { getLastUpdated, getApplicants, getRecipients } from "@/state/survey-state";
-import { FormP9Applicant, FormP9Deceased, P1Panel } from "@/types/application";
+import { FormP9Applicant, P1Panel } from "@/types/application";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import { format } from 'date-fns'
 import { applicantInfoPanel, notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
@@ -287,7 +290,9 @@ export default defineComponent({
     let deceased = "";
 
     watch(getLastUpdated, () => {
+      console.log("watching");
       populateFromSurvey(survey);
+      console.log("watched");
     });
 
     const populateFromFakeData = () => {
@@ -378,12 +383,12 @@ export default defineComponent({
           p1DeliveryElectronicReceiptRetain: "",
         }
 
-        if (recipientQuestion) {
+        if (recipientQuestion && recipientQuestion.value) {
           const recipientPanel = recipientQuestion.value[i] as notifyP1DeliveryInfoPanel;
 
           recipient.p1DelivererName = getChoiceFromValue(recipientPanel.notifyP1DelivererName, recipientQuestion.panels[i].questions);
           recipient.p1DeliveryMethod = recipientPanel.notifyP1DeliveryMethod || "";
-          recipient.p1DeliveryDate = format(new Date(recipientPanel.notifyP1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") || "";
+          recipient.p1DeliveryDate = recipientPanel.notifyP1DeliveryDate ? format(new Date(recipientPanel.notifyP1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") : "";
           recipient.p1DeliveryElectronicReceipt = recipientPanel.notifyP1DeliveryElectronicReceiptNoError || "";
           recipient.p1DeliveryElectronicReceiptRetain = recipientPanel.notifyP1DeliveryElectronicReceiptRetain ? recipientPanel.notifyP1DeliveryElectronicReceiptRetain[0] : "";
         }
@@ -413,38 +418,46 @@ export default defineComponent({
     };
 
     const populateFromSurvey = (survey) => {
+      console.log("populating");
       const allQuestions = survey.getAllQuestions();
       const applicants = buildApplicantList(allQuestions);
       const recipients = buildRecipientList(allQuestions);
       deceased = getDeceasedName(allQuestions);
       applicantList = matchApplicantsAndRecipients(applicants, recipients);
+      console.log("populated");
+      console.log(applicantList);
+      console.log(deceased);
     };
 
     onMounted(() => {
+      console.log("mounting");
       if (survey) populateFromSurvey(survey);
       else populateFromFakeData();
+      console.log("mounted");
     });
 
     return {
       applicantList,
       deceased,
-      getLastUpdated
+      getLastUpdated,
+      getSignatureMargin,
+      onPrint
     };
   },
   methods: {
-    mailRecipients: function (applicant) {
+    mailRecipients(applicant): any[] {
       return applicant.recipients.filter(r => r?.p1DeliveryMethod === "mail");;
     },
-    inPersonRecipients: function (applicant) {
+    inPersonRecipients(applicant): any[] {
       return applicant.recipients.filter(r => r?.p1DeliveryMethod === "inperson");
     },
-    electronicRecipients: function (applicant) {
+    electronicRecipients(applicant): any[] {
       return applicant.recipients.filter(r => r?.p1DeliveryMethod === "electronic");
     },
-    allP1DeliveryElectronicReceipt: function (applicant) {
+    allP1DeliveryElectronicReceipt(applicant): boolean {
       return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceipt !== "y");
     },
-    allP1DeliveryElectronicReceiptRetain: function (applicant) {
+    allP1DeliveryElectronicReceiptRetain(applicant): boolean {
       return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceiptRetain !== "confirmed");
     }
   }
