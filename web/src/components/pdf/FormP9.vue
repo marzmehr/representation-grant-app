@@ -256,12 +256,17 @@ import { defineComponent, onMounted, watch, ref } from "@vue/composition-api";
 import { getLastUpdated, getApplicants, getRecipients } from "@/state/survey-state";
 import { FormP9Applicant, P1Panel } from "@/types/application";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
+<<<<<<< HEAD
 import { format } from "date-fns";
 import {
   applicantInfoPanel,
   notifyP1DeliveryInfoPanel,
   SurveyQuestionNames
 } from "@/types/survey-primary";
+=======
+import { format } from 'date-fns'
+import { applicantInfoPanel, notifyP1DeliveryInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
+>>>>>>> 1416ab6 (Add courthouse)
 import { SurveyDataService } from "@/services/survey-data-service";
 import {
   convertBlobAndDownload,
@@ -356,15 +361,24 @@ export default defineComponent({
       }
     };
 
+<<<<<<< HEAD
     const buildApplicantList = allQuestions => {
       let resultList = [];
       const applicants = getApplicants.value;
       const applicantQuestion = allQuestions.find(
         q => q.name === SurveyQuestionNames.applicantInfoPanel
       );
+=======
+    const buildApplicantList = (allQuestions) => {
+    let resultList = [];
+    const applicants = getApplicants.value;
+    const applicantQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.applicantInfoPanel);
+    const data = this.survey.data as SurveyInstance;
+>>>>>>> 1416ab6 (Add courthouse)
 
       for (const i in applicants) {
         let applicant: FormP9Applicant = {
+<<<<<<< HEAD
           courthouse: "",
           address: "",
           fullName: applicants[i].applicantName,
@@ -378,6 +392,14 @@ export default defineComponent({
           applicant.address = formatMailingAddress(base);
           applicant.occupation = applicantPanel.applicantOccupation || "";
         }
+=======
+        courthouse: data.applicantCourthouse,
+        address: "",
+        fullName: applicants[i].applicantName,
+        occupation: "",
+        recipients: []
+      }
+>>>>>>> 1416ab6 (Add courthouse)
 
         resultList.push(applicant);
       }
