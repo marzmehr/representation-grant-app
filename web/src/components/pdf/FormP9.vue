@@ -192,7 +192,7 @@
 
               <div
                 style="text-indent: 40px;"
-                v-else
+                v-else-if="allP1DeliveryElectronicReceiptRetain(applicant)"
               >
                 I will retain a copy of those acknowledgements until the personal representative of
                 the deceased is discharged and will produce those acknowledgements promptly after 
