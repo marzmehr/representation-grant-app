@@ -50,9 +50,10 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { getUserName } from "@/state/application-state";
+import { getApplicationId, getUserName } from "@/state/application-state";
 import { SessionService } from "@/services/session-service";
 import { SurveyDataService } from "@/services/survey-data-service";
+import { getSurvey } from "@/state/survey-state";
 @Component
 export default class NavigationTopbar extends Vue {
   error = "";
@@ -64,7 +65,9 @@ export default class NavigationTopbar extends Vue {
   public logout(isQuickExit) {
     const emptyApplicationRoutes = ["/", "/status", "/serviceLocator"];
     if (emptyApplicationRoutes.indexOf(this.$route.fullPath) == -1) {
-      SurveyDataService.onSaveSurvey();
+      const applicationId = getApplicationId.value;
+      const data = getSurvey.value.data;
+      SurveyDataService.updateApplication(applicationId, data);
     }
     Vue.nextTick().then(() => {
       if (isQuickExit) {

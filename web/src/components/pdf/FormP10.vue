@@ -752,9 +752,8 @@ export default class FormP10 extends Vue {
     return result;
   }
 
-  public onPrint() {
-    const data = {};
-    SurveyDataService.onPrint("FormP10", data, {});
+  public getPdf() {
+
   }
 
   public getRepGrantResultData() {}

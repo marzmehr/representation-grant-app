@@ -42,15 +42,6 @@ class SurveyPdfView(generics.GenericAPIView):
         response.write(pdf_content)
         return response
 
-    def get_pdf(self, application_id):
-        try:
-            pdf_id = Application.objects.values_list("prepared_pdf_id", flat=True).get(pk=pk)
-            pdf_result = PreparedPdf.objects.get(id=pdf_id)
-            return pdf_result
-        except (PreparedPdf.DoesNotExist, Application.DoesNotExist):
-            LOGGER.debug("No record found")
-            return
-
     def get(self, request, application_id):
         user_id = request.user.id
         app = get_application_for_user(application_id, user_id)

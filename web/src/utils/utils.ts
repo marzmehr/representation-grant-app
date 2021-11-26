@@ -58,6 +58,15 @@ export const formatMonthDayYear = date => {
   return format(date, "MMMM dd, yyyy");
 };
 
+export const convertBlobAndDownload = (blob, formName) => {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.download = `${formName}.pdf`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+};
+
 export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
   const body = [
     `<!DOCTYPE html>
