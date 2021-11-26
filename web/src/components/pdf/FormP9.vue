@@ -1,112 +1,82 @@
 <template>
   <div key="getLastUpdated">
-    <div v-for="(applicant, i) in applicantList" :key="i">
-      <b-button :key="i" style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
+    <div>
+      <b-button
+        style="transform:translate(500px,0px)"
+        variant="success"
+        @click="onPrint()"
+      >
         Print
       </b-button>
-      <b-card
-        :key="applicant.fullname"
+      <b-card 
+        v-for="(applicant, i) in applicantList" :key="i"
         id="print"
         bg-variant="white"
         class="mt-4 mb-3"
+        ref="root"
+        style="border:1px solid; border-radius:5px;padding:3rem 4rem 2rem 4rem;"
       >
-        <div style="text-align:center;margin:4rem 0 0 -1.3rem;font-weight: 300;font-size:20px;">
+        <div style="text-align:center;margin:5rem 0 0 0rem;font-weight: 300;font-size:20px;">
           FORM P9 (RULE 25-3 (2))
         </div>
 
         <div class="mt-3 m-0 p-0 row">
-          <div style="margin:0 0 0 40rem;">
+          <div style="margin:0 0 0 45%;">
             <div>
-              <underline-form
-                textwidth="10.6rem"
-                beforetext="This is the"
-                text="1st"
-              />
+              <underline-form textwidth="5rem" beforetext="This is the" text="1st" />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
                 affidavit
               </div>
             </div>
             <div class="mt-2">
-              <underline-form
-                textwidth="12.8rem"
-                beforetext="of"
-                :text="applicant.fullName"
-              />
+              <underline-form textwidth="12rem" beforetext="of" :text="applicant.fullName" />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
                 in this case
               </div>
             </div>
             <div class="mt-2">
-              <underline-form
-                textwidth="11rem"
-                beforetext="and was made on"
-                text=""
-              />
+              <underline-form textwidth="7rem" beforetext="and was made on" text="" />
             </div>
             <div class="mt-2">
-              <underline-form
-                textwidth="15rem"
-                beforetext=""
-                text=""
-              />
+              <underline-form textwidth="12rem" beforetext="" text="" />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
                 Registry
               </div>
             </div>
             <div class="mt-2">
-              <underline-form
-                textwidth="16rem"
-                beforetext="No."
-                text=""
-              />
+              <underline-form textwidth="16rem" beforetext="No." text="" />
             </div>
           </div>
         </div>
 
-        <div style="text-align:center;margin:1rem 0 1rem -1.3rem;font-weight: 600;font-size:24px;">
+        <div style="text-align:center;margin:1rem 0 1rem 0rem;font-weight: 600;font-size:24px;">
           <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
         </div>
         <div style="text-align:center">
-        <div style="display:inline-block; text-indent: 5px;">
-          <i>In the Matter of the Estate of</i>
+          <div style="display:inline-block; text-indent: 5px;">
+            <i>In the Matter of the Estate of</i>
+          </div>
+          <underline-form textwidth="17rem" beforetext="" :text="deceased" />
+          <div style="display:inline-block; text-indent: 5px;">
+            <i>, deceased</i>
+          </div>
         </div>
-        <underline-form
-            textwidth="17rem"
-          beforetext=""
-          :text="deceased"
-        />
-        <div style="display:inline-block; text-indent: 5px;">
-          <i>, deceased</i>
-        </div>
-        </div>
-        <div style="text-align:center;margin:2rem 0 2rem -1.3rem;font-weight: 600;font-size:20px;">
+        <div style="text-align:center;margin:2rem 0 2rem 0rem;font-weight: 600;font-size:20px;">
           AFFIDAVIT OF DELIVERY
         </div>
 
         <div style="display:inline-block; text-indent: 5px;">I</div>
         <div style="display:inline-block; margin:0.5rem 0;">
           <div style="display:inline-block; width:0.5rem;"></div>
-          <underline-form
-            textwidth="20rem"
-            beforetext=""
-            :text="applicant.fullName"
-          />
-          <underline-form
-            textwidth="25rem"
-            beforetext=", of"
-            :text="applicant.address"
-          />
-          <underline-form
-            textwidth="10.5rem"
-            beforetext=", "
-            :text="applicant.occupation"
-          />
+          <underline-form textwidth="20rem" beforetext="" :text="applicant.fullName" />
+          <underline-form textwidth="25rem" beforetext=", of" :text="applicant.address" />
+          <underline-form textwidth="10.5rem" beforetext=", " :text="applicant.occupation" />
         </div>
         <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">
           SWEAR (OR AFFIRM) THAT:
         </div>
 
-        <ol style="margin:0rem 0 0 -1.5rem;">
+        <ol style="margin:0rem 0 0 0rem;">
           <li class="mt-4 text-justify">
             <div style="display:inline;">
               Attached to this affidavit and marked as Exhibit A is a copy of a notice of proposed
@@ -114,7 +84,14 @@
             </div>
           </li>
 
-          <li v-if="mailRecipients(applicant).length > 0 || electronicRecipients(applicant).length > 0 || inPersonRecipients(applicant).length > 0" class="mt-4 text-justify ">
+          <li
+            v-if="
+              mailRecipients(applicant).length > 0 ||
+                electronicRecipients(applicant).length > 0 ||
+                inPersonRecipients(applicant).length > 0
+            "
+            class="mt-4 text-justify "
+          >
             <div>
               I delivered a copy of the notice to the following persons as follows:
             </div>
@@ -125,21 +102,21 @@
               </div>
               <template v-for="(recipient, i) of mailRecipients(applicant)">
                 <div :key="i" style="display:inline-block; margin:0.5rem 0;">
-                <underline-form
-                  :key="recipient.recipientName"
+                  <underline-form
+                    :key="recipient.recipientName"
                     style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                  textwidth="41.5rem"
-                  beforetext=""
-                  hint=""
-                  :text="recipient.recipientName"
-                />
-                <underline-form
-                  :key="recipient.p1DeliveryDate"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-                  textwidth="15rem"
-                  beforetext="on"
-                  :text="recipient.p1DeliveryDate"
-                />
+                    textwidth="41.5rem"
+                    beforetext=""
+                    hint=""
+                    :text="recipient.recipientName"
+                  />
+                  <underline-form
+                    :key="recipient.p1DeliveryDate"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    textwidth="15rem"
+                    beforetext="on"
+                    :text="recipient.p1DeliveryDate"
+                  />
                 </div>
               </template>
             </div>
@@ -150,65 +127,78 @@
               </div>
               <template v-for="(recipient, i) of inPersonRecipients(applicant)">
                 <div :key="i" style="display:inline-block; margin:0.5rem 0;">
-                <underline-form
-                  :key="recipient.recipientName"
+                  <underline-form
+                    :key="recipient.recipientName"
                     style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                  textwidth="41.5rem"
-                  beforetext=""
-                  hint=""
-                  :text="recipient.recipientName"
-                />
-                <underline-form
-                  :key="recipient.p1DeliveryDate"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-                  textwidth="15rem"
-                  beforetext="on"
-                  :text="recipient.p1DeliveryDate"
-                />
+                    textwidth="41.5rem"
+                    beforetext=""
+                    hint=""
+                    :text="recipient.recipientName"
+                  />
+                  <underline-form
+                    :key="recipient.p1DeliveryDate"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    textwidth="15rem"
+                    beforetext="on"
+                    :text="recipient.p1DeliveryDate"
+                  />
                 </div>
               </template>
             </div>
 
             <div v-if="electronicRecipients(applicant).length > 0">
               <div style="text-indent: 20px;">
-                by sending it/them to the following persons by e-mail, fax or other electronic means to that person:
+                by sending it/them to the following persons by e-mail, fax or other electronic means
+                to that person:
               </div>
               <template v-for="(recipient, i) of electronicRecipients(applicant)">
                 <div :key="i" style="display:inline-block; margin:0.5rem 0;">
-                <underline-form
-                  :key="recipient.recipientName"
+                  <underline-form
+                    :key="recipient.recipientName"
                     style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                  textwidth="41.5rem"
-                  beforetext=""
-                  hint=""
-                  :text="recipient.recipientName"
-                />
-                <underline-form
-                  :key="recipient.p1DeliveryDate"
-                  style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
-                  textwidth="15rem"
-                  beforetext="on"
-                  :text="recipient.p1DeliveryDate"
-                />
+                    textwidth="41.5rem"
+                    beforetext=""
+                    hint=""
+                    :text="recipient.recipientName"
+                  />
+                  <underline-form
+                    :key="recipient.p1DeliveryDate"
+                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    textwidth="15rem"
+                    beforetext="on"
+                    :text="recipient.p1DeliveryDate"
+                  />
                 </div>
               </template>
 
               <div style="text-indent: 40px;">
-                Each of the persons who received delivery by e-mail, fax or other electronic means has, in writing, acknowledged receipt of the document(s) referred to in this section.
+                Each of the persons who received delivery by e-mail, fax or other electronic means
+                has, in writing, acknowledged receipt of the document(s) referred to in this
+                section.
               </div>
 
-              <div style="text-indent: 40px;" v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain">
-                We will retain a copy of those acknowledgements until the personal representative of the deceased is discharged and will produce those acknowledgements promptly after being requested to do so by the registrar.
+              <div
+                style="text-indent: 40px;"
+                v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain"
+              >
+                We will retain a copy of those acknowledgements until the personal representative of
+                the deceased is discharged and will produce those acknowledgements promptly after
+                being requested to do so by the registrar.
               </div>
 
-              <div style="text-indent: 40px;" v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
-                I will retain a copy of those acknowledgements until the personal representative of the deceased is discharged and will produce those acknowledgements promptly
-            </div>
-              <div style="text-indent: 40px;" v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
+              <div
+                style="text-indent: 40px;"
+                v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain"
+              >
+                I will retain a copy of those acknowledgements until the personal representative of
+                the deceased is discharged and will produce those acknowledgements promptly
+              </div>
+              <div
+                style="text-indent: 40px;"
+                v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain"
+              >
                 after being requested to do so by the registrar.
               </div>
-
-              
             </div>
           </li>
         </ol>
@@ -237,9 +227,7 @@
               text=""
               hint="A commissioner for taking affidavits for British Columbia"
             />
-            <div style="margin:0.5rem 0 ;font-size:14px; ">
-
-            </div>
+            <div style="margin:0.5rem 0 ;font-size:14px; "></div>
             <underline-form
               style="margin:.5rem 0 ;"
               textwidth="25rem"
@@ -259,7 +247,7 @@
           </div>
         </div>
       </b-card>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -268,10 +256,19 @@ import { defineComponent, onMounted, watch, ref } from "@vue/composition-api";
 import { getLastUpdated, getApplicants, getRecipients } from "@/state/survey-state";
 import { FormP9Applicant, P1Panel } from "@/types/application";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
-import { format } from 'date-fns'
-import { applicantInfoPanel, notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
+import { format } from "date-fns";
+import {
+  applicantInfoPanel,
+  notifyP1DeliveryInfoPanel,
+  SurveyQuestionNames
+} from "@/types/survey-primary";
 import { SurveyDataService } from "@/services/survey-data-service";
-import { convertBlobAndDownload, formatDeceasedName, formatMailingAddress } from "@/utils/utils";
+import {
+  convertBlobAndDownload,
+  formatDeceasedName,
+  formatMailingAddress,
+  formPdfHtml
+} from "@/utils/utils";
 import { getApplicationId } from "@/state/application-state";
 
 export default defineComponent({
@@ -285,6 +282,7 @@ export default defineComponent({
   },
   setup(props) {
     const survey = props.survey;
+    const root = ref(null);
     let applicantList = ref([]);
     let deceased = ref("");
 
@@ -293,13 +291,13 @@ export default defineComponent({
     });
 
     const populateFromFakeData = () => {
-    const fakeRecipient: P1Panel = {
-      recipientName: "Jane P. Doe",
-      p1DelivererName: "John H. Doe",
-      p1DeliveryMethod: "inperson",
-      p1DeliveryDate: "January 11, 2021",
-      p1DeliveryElectronicReceipt: "",
-      p1DeliveryElectronicReceiptRetain: "",
+      const fakeRecipient: P1Panel = {
+        recipientName: "Jane P. Doe",
+        p1DelivererName: "John H. Doe",
+        p1DeliveryMethod: "inperson",
+        p1DeliveryDate: "January 11, 2021",
+        p1DeliveryElectronicReceipt: "",
+        p1DeliveryElectronicReceiptRetain: ""
       };
 
       applicantList.value = [
@@ -309,7 +307,7 @@ export default defineComponent({
           fullName: "John H. Doe",
           occupation: "Teacher",
           recipients: [fakeRecipient]
-  }
+        }
       ];
 
       deceased.value = "Rest in peace";
@@ -317,113 +315,138 @@ export default defineComponent({
 
     const getSignatureMargin = () => {
       let margin = Number(10 / applicantList.value.length);
-    if (margin < 1.0) margin = 1;
-    return margin + "rem";
+      if (margin < 1.0) margin = 1;
+      return margin + "rem";
     };
 
     const onPrint = async () => {
-      const html = {};
-      const jsonData = {};
+      debugger;
+      let innerHTML = "";
+      root.value.forEach((r: HTMLElement) => innerHTML += r.innerHTML);
+      const html = formPdfHtml(innerHTML, "hey", "hey");
+      const jsonData = {
+        applicantList: applicantList.value
+      };
       const formName = "FormP9";
-      const applicationId = getApplicationId.value;
-      try { 
-        const response = await SurveyDataService.getPdf(applicationId, formName, html, jsonData, '1.0');
+      try {
+        const response = await SurveyDataService.getPdf(
+          getApplicationId.value,
+          formName,
+          html,
+          jsonData,
+          "1.0"
+        );
         convertBlobAndDownload(response.data, formName);
       } catch (err) {
         console.log(err);
       }
     };
 
-  // TODO: make this more generic 
+    // TODO: make this more generic
     const getChoiceFromValue = (target, questions) => {
-    for (const question of questions) {
-      if (question.name === SurveyQuestionNames.notifyP1DelivererName) {
-        const choices = question.choices;
-        for (const choice of choices) {
-          if (target === choice.value) {
-            return choice.text;
+      for (const question of questions) {
+        if (question.name === SurveyQuestionNames.notifyP1DelivererName) {
+          const choices = question.choices;
+          for (const choice of choices) {
+            if (target === choice.value) {
+              return choice.text;
+            }
           }
         }
       }
-    }
     };
 
-    const buildApplicantList = (allQuestions) => {
-    let resultList = [];
-    const applicants = getApplicants.value;
-    const applicantQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.applicantInfoPanel);
+    const buildApplicantList = allQuestions => {
+      let resultList = [];
+      const applicants = getApplicants.value;
+      const applicantQuestion = allQuestions.find(
+        q => q.name === SurveyQuestionNames.applicantInfoPanel
+      );
 
-    for (const i in applicants) {
+      for (const i in applicants) {
         let applicant: FormP9Applicant = {
-        courthouse: "",
-        address: "",
-        fullName: applicants[i].applicantName,
-        occupation: "",
-        recipients: []
-      }
+          courthouse: "",
+          address: "",
+          fullName: applicants[i].applicantName,
+          occupation: "",
+          recipients: []
+        };
 
-      if (applicantQuestion) {
-        const applicantPanel = applicantQuestion.value[i] as applicantInfoPanel;
-        const base = applicantPanel?.applicantOrdinaryAddress;
-        applicant.address = formatMailingAddress(base);
-        applicant.occupation = applicantPanel.applicantOccupation || "";
-      }
+        if (applicantQuestion) {
+          const applicantPanel = applicantQuestion.value[i] as applicantInfoPanel;
+          const base = applicantPanel?.applicantOrdinaryAddress;
+          applicant.address = formatMailingAddress(base);
+          applicant.occupation = applicantPanel.applicantOccupation || "";
+        }
 
-      resultList.push(applicant);
-    }
-    return resultList;
+        resultList.push(applicant);
+      }
+      return resultList;
     };
 
-    const buildRecipientList = (allQuestions) => {
-    let resultList = [];
-    const recipients = getRecipients.value;
-    const recipientQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.notifyP1DeliveryInfoPanel);
+    const buildRecipientList = allQuestions => {
+      let resultList = [];
+      const recipients = getRecipients.value;
+      const recipientQuestion = allQuestions.find(
+        q => q.name === SurveyQuestionNames.notifyP1DeliveryInfoPanel
+      );
 
-    for (const i in recipients) {
-      let recipient: P1Panel = {
-        recipientName: recipients[i].recipientName,
-        p1DelivererName: "",
-        p1DeliveryMethod: "",
-        p1DeliveryDate: "",
-        p1DeliveryElectronicReceipt: "",
-        p1DeliveryElectronicReceiptRetain: "",
-      }
+      for (const i in recipients) {
+        let recipient: P1Panel = {
+          recipientName: recipients[i].recipientName,
+          p1DelivererName: "",
+          p1DeliveryMethod: "",
+          p1DeliveryDate: "",
+          p1DeliveryElectronicReceipt: "",
+          p1DeliveryElectronicReceiptRetain: ""
+        };
 
         if (recipientQuestion && recipientQuestion.value) {
           const recipientPanel = recipientQuestion.value[i] as notifyP1DeliveryInfoPanel;
 
-          recipient.p1DelivererName = getChoiceFromValue(recipientPanel.notifyP1DelivererName, recipientQuestion.panels[i].questions);
+          recipient.p1DelivererName = getChoiceFromValue(
+            recipientPanel.notifyP1DelivererName,
+            recipientQuestion.panels[i].questions
+          );
           recipient.p1DeliveryMethod = recipientPanel.notifyP1DeliveryMethod || "";
-          recipient.p1DeliveryDate = recipientPanel.notifyP1DeliveryDate ? format(new Date(recipientPanel.notifyP1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") : "";
-          recipient.p1DeliveryElectronicReceipt = recipientPanel.notifyP1DeliveryElectronicReceiptNoError || "";
-          recipient.p1DeliveryElectronicReceiptRetain = recipientPanel.notifyP1DeliveryElectronicReceiptRetain ? recipientPanel.notifyP1DeliveryElectronicReceiptRetain[0] : "";
+          recipient.p1DeliveryDate = recipientPanel.notifyP1DeliveryDate
+            ? format(
+                new Date(recipientPanel.notifyP1DeliveryDate.replace(/-/g, "\/")),
+                "MMMM d, yyyy"
+              )
+            : "";
+          recipient.p1DeliveryElectronicReceipt =
+            recipientPanel.notifyP1DeliveryElectronicReceiptNoError || "";
+          recipient.p1DeliveryElectronicReceiptRetain = recipientPanel.notifyP1DeliveryElectronicReceiptRetain
+            ? recipientPanel.notifyP1DeliveryElectronicReceiptRetain[0]
+            : "";
+        }
+
+        resultList.push(recipient);
       }
-      
-      resultList.push(recipient);
-    }
-    return resultList;
+      return resultList;
     };
 
-    const getDeceasedName = (allQuestions) => {
-    const deceasedQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.deceasedName);
-    if (deceasedQuestion) {
-      return formatDeceasedName(deceasedQuestion.value);
-    }
-    return "";
+    const getDeceasedName = allQuestions => {
+      const deceasedQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.deceasedName);
+      if (deceasedQuestion) {
+        return formatDeceasedName(deceasedQuestion.value);
+      }
+      return "";
     };
 
     const matchApplicantsAndRecipients = (applicants, recipients) => {
-    for (const applicant of applicants) {
-      for (const recipient of recipients) {
-        if (applicant.fullName === recipient.p1DelivererName) {
-          applicant.recipients.push(recipient);
+      for (const applicant of applicants) {
+        for (const recipient of recipients) {
+          if (applicant.fullName === recipient.p1DelivererName) {
+            applicant.recipients.push(recipient);
+          }
         }
       }
-    }
-    return applicants;
+      return applicants;
     };
 
-    const populateFromSurvey = (survey) => {
+    const populateFromSurvey = survey => {
       const allQuestions = survey.getAllQuestions();
       const applicants = buildApplicantList(allQuestions);
       const recipients = buildRecipientList(allQuestions);
@@ -441,12 +464,13 @@ export default defineComponent({
       deceased,
       getLastUpdated,
       getSignatureMargin,
-      onPrint
+      onPrint,
+      root
     };
   },
   methods: {
     mailRecipients(applicant): any[] {
-      return applicant.recipients.filter(r => r?.p1DeliveryMethod === "mail");;
+      return applicant.recipients.filter(r => r?.p1DeliveryMethod === "mail");
     },
     inPersonRecipients(applicant): any[] {
       return applicant.recipients.filter(r => r?.p1DeliveryMethod === "inperson");
@@ -459,70 +483,8 @@ export default defineComponent({
     },
     allP1DeliveryElectronicReceiptRetain(applicant): boolean {
       return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceiptRetain !== "confirmed");
-  }
+    }
   }
 });
 </script>
-<style scoped>
-.table >>> th.border-dark {
-  border: 1px solid #000;
-}
-.table >>> td.border-dark {
-  border: 1px solid #000;
-}
-
-section {
-  counter-increment: question-counter;
-  float: left;
-  text-indent: -20px;
-  text-align: justify;
-  text-justify: inter-word;
-  margin: 1rem 0.5rem 0.5rem 0rem;
-}
-
-section:before {
-  font-weight: bolder;
-  content: counter(question-counter) ".";
-}
-
-dsection:after {
-  float: none;
-  white-space: pre;
-}
-
-section.resetquestion {
-  counter-reset: question-counter;
-}
-
-ol.resetcounter {
-  list-style: none;
-  counter-reset: bracket-counter;
-}
-ol li.bracketnumber {
-  text-indent: -25px;
-  text-align: justify;
-  text-justify: inter-word;
-  margin: 1rem 0;
-  counter-increment: bracket-counter;
-}
-ol li.bracketnumber:before {
-  content: "(" counter(bracket-counter) ") ";
-  font-weight: bold;
-}
-
-ol.resetlist {
-  list-style: none;
-  counter-reset: list-counter;
-}
-ol li.listnumber {
-  text-indent: -25px;
-  text-align: justify;
-  text-justify: inter-word;
-  margin: 1rem 0;
-  counter-increment: list-counter;
-}
-ol li.listnumber:before {
-  content: counter(list-counter) ". ";
-  font-weight: bold;
-}
-</style>
+<style scoped lang="css" src="@/styles/_pdf.css"></style>

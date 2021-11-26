@@ -252,7 +252,7 @@
           />
         </div>
         <div class="col-8">
-          <underline-form textwidth="39rem" beforetext="" hint="" text="" />
+          <underline-form textwidth="20rem" beforetext="" hint="" text="" />
           <div style="display:inline-block;text-indent:10px;">Signature of</div>
           <check-box
             style="display:inline-block;"
