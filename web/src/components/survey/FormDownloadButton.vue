@@ -44,7 +44,7 @@ export default defineComponent({
     isSurveyEditor: Boolean
   },
   setup(props) {
-    const form = ref({});
+    const form = ref();
     const state = reactive({
       key: 1,
       component: ""
