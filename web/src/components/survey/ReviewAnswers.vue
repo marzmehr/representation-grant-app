@@ -162,15 +162,15 @@ export default defineComponent({
           return yesNoHandler(answer);
         } else if (questionType === "personname") {
           return customLabelHandler(answer, [
-            question.labelFirstName,
-            question.labelMiddleName,
-            question.labelLastName
+            question?.labelFirstName,
+            question?.labelMiddleName,
+            question?.labelLastName
           ]);
         } else if (questionType === "contactinfo") {
           return customLabelHandler(answer, [
-            question.labelPhone,
-            question.labelEmail,
-            question.labelFax
+            question?.labelPhone,
+            question?.labelEmail,
+            question?.labelFax
           ]);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
@@ -190,33 +190,28 @@ export default defineComponent({
         }
 
         const panels = question?.panels;
-        let ret = "";
-        for (let i = 0; i < answers.length; i++) {
-          const currAnswer = answers[i];
-          const currPanel = panels[i];
+        let panelCell = "";
 
-          for (let j = 0; j < currPanel.questions.length; j++) {
-            const currQuestion = currPanel.questions[j];
+        answers.forEach((answer, i) => {
+          const panel = panels[i];
 
-            if (currQuestion.isVisible) {
-              const formattedAnswer = formatSwitchboard(
-                undefined,
-                currAnswer[currQuestion.name],
-                currQuestion.getType()
-              );
+          const displayables = panel.questions.filter(q => q.isVisible && !(q.getType() === "infotext" || q.getType() === "helptext"));
+          displayables.forEach((displayable, j) => {
+            const formattedAnswer = formatSwitchboard(
+              undefined,
+              answer[displayable.name],
+              displayable.getType()
+            );
 
-              const title = currQuestion.localizableStrings.title.renderedHtml;
-              ret += convertTicksToToolTip(title) + separator(title) + formattedAnswer + "\n";
-            }
-          }
+            const title = displayable.localizableStrings.title.renderedHtml;
+            const suffix = j < displayable.length - 1 ? "\n" : "";
+            panelCell += convertTicksToToolTip(title) + separator(title) + formattedAnswer + suffix;
+          });
 
-          // Ensure we don't add too many newlines
-          if (i < answers.length - 1) {
-            ret += "\n";
-          }
-        }
+          if (i < answers.length - 1) panelCell += "\n";
+        });
 
-        return ret;
+        return panelCell;
       };
 
       const formatAnswers = question => {
