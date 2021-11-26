@@ -442,8 +442,12 @@ export default defineComponent({
         deceased: deceased.value,
         serviceContact: serviceContact.value
       };
-      const response = await SurveyDataService.getPdf(applicationId, formName, html, jsonData, '1.0');
-      convertBlobAndDownload(response, formName);
+      try { 
+        const response = await SurveyDataService.getPdf(applicationId, formName, html, jsonData, '1.0');
+        convertBlobAndDownload(response.data, formName);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     onMounted(() => {
