@@ -1,5 +1,5 @@
 //Needs to be function, otherwise this context wont work.
-import { SurveyQuestionNames } from "@/types/survey-primary";
+import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, getDay, parseISO } from "date-fns";
 import { ItemValue } from "survey-vue";
 import {
@@ -138,9 +138,9 @@ export const determineEarliestSubmissionDate = (sender, options) => {
   if (!questionNamesToWatch.includes(options.name)) return;
   const p1DeliveryInfoPanelValue = options.value || [];
   const calculatedDates = [];
-  p1DeliveryInfoPanelValue.forEach(value => {
-    const method = value?.p1DeliveryMethod;
-    let dateServed = parseISO(value?.p1DeliveryDate);
+  p1DeliveryInfoPanelValue.forEach((value: notifyP1DeliveryInfoPanel) => {
+    const method = value?.notifyP1DeliveryMethod;
+    let dateServed = parseISO(value?.notifyP1DeliveryDate);
     if (!method || isNaN(dateServed.getTime())) return;
     dateServed = addDays(dateServed, 21);
     calculatedDates.push(dateServed);
