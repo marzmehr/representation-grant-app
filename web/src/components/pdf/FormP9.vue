@@ -451,7 +451,7 @@ export default defineComponent({
         resultList.push(recipient);
 =======
           recipient.p1DeliveryDate = recipientPanel.notifyP1DeliveryDate ? format(new Date(recipientPanel.notifyP1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") : "";
-          recipient.p1DeliveryElectronicReceipt = recipientPanel.p1DeliveryElectronicReceipt || "";
+          recipient.p1DeliveryElectronicReceipt = recipientPanel.notifyP1DeliveryElectronicReceipt || "";
           recipient.p1DeliveryElectronicReceiptRetain = recipientPanel.notifyP1DeliveryElectronicReceiptRetain ? recipientPanel.notifyP1DeliveryElectronicReceiptRetain[0] : "";
 >>>>>>> e0ce09a (Fix electronic logic)
       }
