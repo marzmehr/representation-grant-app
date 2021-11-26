@@ -349,7 +349,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
-import { SurveyDataService } from "@/services/survey-data-service";
+
 
 @Component({
   components: {
@@ -578,9 +578,11 @@ export default class FormP5 extends Vue {
     return result;
   }
 
-  public onPrint() {
+  public async onPrint() {
     const data = {};
-    SurveyDataService.onPrint("FormP5", data, {});
+    const formName = "FormP5";
+    //const response = await SurveyDataService.getPdf(formName, data, {});
+    //convertBlobAndDownload(response, formName);
   }
 
   public getRepGrantResultData() {}
@@ -672,3 +674,7 @@ ol li.listnumber:before {
   color: #313132 !important;
 }
 </style>
+
+function convertBlobToDownload(response: AxiosResponse<any>, formName: string) {
+  throw new Error("Function not implemented.");
+}

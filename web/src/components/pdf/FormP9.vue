@@ -271,7 +271,8 @@ import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import { format } from 'date-fns'
 import { applicantInfoPanel, notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { SurveyDataService } from "@/services/survey-data-service";
-import { formatDeceasedName, formatMailingAddress } from "@/utils/utils";
+import { convertBlobAndDownload, formatDeceasedName, formatMailingAddress } from "@/utils/utils";
+import { getApplicationId } from "@/state/application-state";
 
 export default defineComponent({
   name: "FormP9",
@@ -320,10 +321,13 @@ export default defineComponent({
     return margin + "rem";
     };
 
-    const onPrint = () => {
+    const onPrint = async () => {
       const html = {};
       const jsonData = {};
-      SurveyDataService.onPrint("FormP9", html, jsonData);
+      const formName = "FormP9";
+      const applicationId = getApplicationId.value;
+      const response = await SurveyDataService.getPdf(applicationId, formName, html, jsonData);
+      convertBlobAndDownload(response, formName);
     };
 
   // TODO: make this more generic 

@@ -300,8 +300,10 @@ import {
   formatMailingAddress,
   formatDeceasedName,
   formatMonthDayYear,
-  formPdfHtml
+  formPdfHtml,
+  convertBlobAndDownload
 } from "@/utils/utils";
+import { getApplicationId } from "@/state/application-state";
 
 export default defineComponent({
   name: "FormP1",
@@ -431,14 +433,17 @@ export default defineComponent({
       return result;
     };
 
-    const onPrint = () => {
+    const onPrint = async () => {
+      const applicationId = getApplicationId.value;
+      const formName = "FormP1";
       const html = formPdfHtml(root.value.innerHTML, "hey", "hey");
       const jsonData = {
         applicantList: applicantList.value,
         deceased: deceased.value,
         serviceContact: serviceContact.value
       };
-      SurveyDataService.onPrint("FormP1", html, jsonData, '1.0');
+      const response = await SurveyDataService.getPdf(applicationId, formName, html, jsonData, '1.0');
+      convertBlobAndDownload(response, formName);
     };
 
     onMounted(() => {

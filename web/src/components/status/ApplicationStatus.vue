@@ -41,7 +41,7 @@
                   size="sm"
                   variant="danger"
                   class="my-0 py-0"
-                  @click="dataManager.onDeleteApplication(row.item, row.index, deleteItems)"
+                  @click="onDeleteApplication(row.item, row.index, deleteItems)"
                 >
                   Delete Application
                 </b-button>
@@ -96,7 +96,9 @@
         <b>"{{ deleteItems.deleteError.deceased_name }}"</b> application?
       </h4>
       <template v-slot:modal-footer>
-        <b-button variant="danger" @click="dataManager.OnDeleteApplicationConfirm(previousApplications, deleteItems)">Confirm</b-button>
+        <b-button variant="danger" @click="deleteApplication(previousApplications, deleteItems)"
+          >Confirm</b-button
+        >
         <b-button variant="primary" @click="$bvModal.hide('bv-modal-confirm-delete')"
           >Cancel</b-button
         >
@@ -119,7 +121,9 @@ import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/survey/survey-init";
 import { SurveyDataService } from "@/services/survey-data-service";
 import { extractFilingLocations } from "@/utils/utils";
-import { getError, setApplicationId } from "@/state/application-state";
+import { getError, setApplicationId, setError } from "@/state/application-state";
+import { format } from "date-fns-tz";
+import { differenceInMinutes } from "date-fns";
 
 @Component
 export default class ApplicationStatus extends Vue {
@@ -138,12 +142,34 @@ export default class ApplicationStatus extends Vue {
     deleteError: false,
     applicationToDelete: {},
     indexToDelete: -1,
-    confirmDelete: false,
-  }
+    confirmDelete: false
+  };
   dataManager = SurveyDataService;
 
-  mounted() {
-    SurveyDataService.onLoadApplications(this.previousApplications);
+  async mounted() {
+    try {
+      const response = await SurveyDataService.getApplicationList();
+      for (const appJson of response.data) {
+        const app = {
+          lastUpdated: 0,
+          lastUpdatedDate: "",
+          id: 0,
+          deceased_name: ""
+        };
+        const date = new Date(appJson.last_updated);
+        app.lastUpdated = appJson.last_updated
+          ? differenceInMinutes(date, new Date("2000/01/01"))
+          : 0;
+        app.lastUpdatedDate = appJson.last_updated
+          ? format(date, "MMMM d, yyyy H:mm z", { timeZone: "America/Vancouver" })
+          : "";
+        app.id = appJson.id;
+        app.deceased_name = `${appJson?.deceased_name?.first} ${appJson?.deceased_name?.middle} ${appJson?.deceased_name?.last}`;
+        this.previousApplications.push(app);
+      }
+    } catch (error) {
+      setError(error);
+    }
     extractFilingLocations();
   }
 
@@ -157,9 +183,40 @@ export default class ApplicationStatus extends Vue {
   }
 
   public async beginNewApplication() {
-    const data = await SurveyDataService.onBeginNewApplication();
-    setApplicationId(data.app_id);
-    this.$router.push({ name: "surveys" });
+    try {
+      const response = await SurveyDataService.createApplication();
+      setApplicationId(response.data.app_id);
+      this.$router.push({ name: "surveys" });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  public onDeleteApplication(application, index, deleteItems) {
+    deleteItems.deleteErrorMsg = "";
+    deleteItems.deleteErrorMsgDesc = "";
+    deleteItems.deleteError = false;
+    deleteItems.applicationToDelete = application;
+    deleteItems.indexToDelete = index;
+    deleteItems.confirmDelete = true;
+  }
+
+  public async deleteApplication(applications, deleteItems) {
+    try {
+      const applicationId = deleteItems.applicationToDelete.id;
+      const response = await SurveyDataService.deleteApplication(applicationId);
+      let indexToDelete = applications.findIndex(app => {
+        return app.id == deleteItems.applicationToDelete["id"];
+      });
+      if (indexToDelete >= 0) applications.splice(indexToDelete, 1);
+    } catch (error) {
+      const errMsg = error.response.data.error;
+      setError(errMsg);
+      deleteItems.deleteErrorMsg = errMsg.slice(0, 60) + (errMsg.length > 60 ? " ..." : "");
+      deleteItems.deleteErrorMsgDesc = errMsg;
+      deleteItems.deleteError = true;
+    }
+    deleteItems.confirmDelete = false;
   }
 
   public navigateToEFilingHub(packageNumber) {

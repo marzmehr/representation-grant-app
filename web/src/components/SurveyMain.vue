@@ -23,6 +23,7 @@ import surveyJson from "@/survey-primary.json";
 import { getSurvey, setSurvey } from "@/state/survey-state";
 import { SurveyDataService } from "@/services/survey-data-service";
 import { SurveyQuestionNames } from "@/types/survey-primary";
+import { getApplicationId } from "@/state/application-state";
 
 export default defineComponent({
   name: "SurveyMain",
@@ -42,9 +43,14 @@ export default defineComponent({
 
     onMounted(() => {});
 
-    const loadSurveyData = async () => {
-      const surveyData = await SurveyDataService.onLoadSurveyData();
-      survey.value.data = surveyData?.steps;
+    const getApplication = async () => {
+      try {
+        const applicationId = getApplicationId.value;
+        const surveyData = await SurveyDataService.getApplication(applicationId);
+        survey.value.data = surveyData?.data.steps;
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     const loadSurveyJson = async () => {
@@ -63,13 +69,21 @@ export default defineComponent({
       survey.value.commentPrefix = "Comment";
       survey.value.showQuestionNumbers = "off";
       addSurveyListener();
-      if (!sandboxName) loadSurveyData();
+      if (!sandboxName) getApplication();
     };
 
     const saveTimer = () => {
       if (sandboxName) return;
       clearTimeout(timeoutHandle);
-      timeoutHandle = setTimeout(() => SurveyDataService.onSaveSurvey(), 3500);
+      timeoutHandle = setTimeout(() => {
+        try {
+          const applicationId = getApplicationId.value;
+          const data = getSurvey.value.data;
+          SurveyDataService.updateApplication(applicationId, data);
+        } catch (err) {
+          console.log(err);
+        }
+      }, 3500);
     };
 
     const addSurveyListener = () => {
@@ -79,7 +93,8 @@ export default defineComponent({
         .filter(
           x =>
             x.getType() === "paneldynamic" &&
-            (x.name == SurveyQuestionNames.spouseInfoPanel || x.name ==  SurveyQuestionNames.childInfoPanel)
+            (x.name == SurveyQuestionNames.spouseInfoPanel ||
+              x.name == SurveyQuestionNames.childInfoPanel)
         )
         .forEach(element => {
           survey.value.setVariable(`${element.name}-count`, element.panelCount);
