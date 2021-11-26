@@ -1,5 +1,3 @@
-import { getApplicationId } from "@/state/application-state";
-import { getSurvey } from "@/state/survey-state";
 import axios, { AxiosRequestConfig } from "axios";
 
 export const jsonConfig = {

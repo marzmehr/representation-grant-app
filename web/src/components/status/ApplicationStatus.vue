@@ -121,12 +121,13 @@ import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/survey/survey-init";
 import { SurveyDataService } from "@/services/survey-data-service";
 import { extractFilingLocations } from "@/utils/utils";
-import { getError, setApplicationId, setError } from "@/state/application-state";
+import { setApplicationId, setError } from "@/state/application-state";
 import { format } from "date-fns-tz";
 import { differenceInMinutes } from "date-fns";
 
 @Component
 export default class ApplicationStatus extends Vue {
+  error = "";
   previousApplications = [];
   previousApplicationFields = [
     { key: "deceased_name", label: "Deceased Name", sortable: true, tdClass: "border-top" },
@@ -135,7 +136,6 @@ export default class ApplicationStatus extends Vue {
   ];
   currentApplication: any = {};
   applicationId = "";
-  error = getError.value;
   deleteItems = {
     deleteErrorMsg: "",
     deleteErrorMsgDesc: "",
@@ -168,7 +168,7 @@ export default class ApplicationStatus extends Vue {
         this.previousApplications.push(app);
       }
     } catch (error) {
-      setError(error);
+      this.error = error;
     }
     extractFilingLocations();
   }
@@ -211,7 +211,7 @@ export default class ApplicationStatus extends Vue {
       if (indexToDelete >= 0) applications.splice(indexToDelete, 1);
     } catch (error) {
       const errMsg = error.response.data.error;
-      setError(errMsg);
+      this.error = errMsg;
       deleteItems.deleteErrorMsg = errMsg.slice(0, 60) + (errMsg.length > 60 ? " ..." : "");
       deleteItems.deleteErrorMsgDesc = errMsg;
       deleteItems.deleteError = true;
