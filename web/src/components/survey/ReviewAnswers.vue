@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script language="ts">
+<script lang="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import VRuntimeTemplate from "v-runtime-template";
 import { convertTicksToToolTip } from "@/utils/utils";

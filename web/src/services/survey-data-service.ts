@@ -6,9 +6,9 @@ import { format } from "date-fns-tz";
 
 //This handles saving, loading, printing of surveys.
 export const SurveyDataService = {
-  onPrint: async function(pdfType, html, jsonData, version = '1.0') {
+  onPrint: async function(formName, html, jsonData, version = '1.0') {
     const applicationId = getApplicationId.value;
-    const url = `/survey-print/${applicationId}/?pdf_type=${pdfType}&version=${version}`;
+    const url = `/survey-print/${applicationId}/?pdf_type=${formName}&version=${version}`;
     const options = {
       method: window.location.pathname.includes("sandbox") ? "PUT" : "POST",
       responseType: "blob",
@@ -26,7 +26,7 @@ export const SurveyDataService = {
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         document.body.appendChild(link);
-        link.download = `${pdfType}.pdf`;
+        link.download = `${formName}.pdf`;
         link.click();
         setTimeout(() => URL.revokeObjectURL(link.href), 1000);
       },

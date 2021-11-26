@@ -2,7 +2,7 @@
   <component :is="state.component" :survey="question.survey" style="max-width: 1100px;"></component>
 </template>
 
-<script language="ts">
+<script lang="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import FormP9 from "@/components/pdf/FormP9.vue";
 import FormP1 from "@/components/pdf/FormP1.vue";
@@ -13,7 +13,8 @@ export default defineComponent({
     'FormP9': FormP9
   },
   props: {
-    question: Object
+    question: Object,
+    isSurveyEditor: Boolean
   },
   setup(props) {
     const state = reactive({

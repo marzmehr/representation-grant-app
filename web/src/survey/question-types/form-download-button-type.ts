@@ -26,7 +26,7 @@ export function initFormDownloadButton(Survey: any) {
             visibleIndex: 2
           },
           {
-            name: "pdfType",
+            name: "formName",
             default: "",
             category: "general",
             visibleIndex: 3

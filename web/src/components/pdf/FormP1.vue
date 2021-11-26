@@ -405,7 +405,7 @@ export default defineComponent({
     const loadApplicantList = () => {
       if (survey) loadSurveyData(survey);
       else loadTestData();
-      onPrint();
+      //onPrint();
     };
 
     const applicationType = () => {
@@ -433,7 +433,6 @@ export default defineComponent({
 
     const onPrint = () => {
       const html = formPdfHtml(root.value.innerHTML, "hey", "hey");
-
       const jsonData = {
         applicantList: applicantList.value,
         deceased: deceased.value,
