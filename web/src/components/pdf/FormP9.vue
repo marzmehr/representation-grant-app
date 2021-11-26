@@ -175,7 +175,7 @@
                 </div>
               </template>
 
-              <div style="text-indent: 40px;">
+              <div style="text-indent: 40px;" v-if="allP1DeliveryElectronicReceipt(applicant)">
                 Each of the persons who received delivery by e-mail, fax or other electronic means
                 has, in writing, acknowledged receipt of the document(s) referred to in this
                 section.
@@ -183,7 +183,7 @@
 
               <div
                 style="text-indent: 40px;"
-                v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain"
+                v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain(applicant)"
               >
                 We will retain a copy of those acknowledgements until the personal representative of
                 the deceased is discharged and will produce those acknowledgements promptly after
@@ -192,16 +192,11 @@
 
               <div
                 style="text-indent: 40px;"
-                v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain"
+                v-else
               >
                 I will retain a copy of those acknowledgements until the personal representative of
-                the deceased is discharged and will produce those acknowledgements promptly
-              </div>
-              <div
-                style="text-indent: 40px;"
-                v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain"
-              >
-                after being requested to do so by the registrar.
+                the deceased is discharged and will produce those acknowledgements promptly after 
+                being requested to do so by the registrar.
               </div>
             </div>
           </li>
@@ -439,6 +434,7 @@ export default defineComponent({
             recipientQuestion.panels[i].questions
           );
           recipient.p1DeliveryMethod = recipientPanel.notifyP1DeliveryMethod || "";
+<<<<<<< HEAD
           recipient.p1DeliveryDate = recipientPanel.notifyP1DeliveryDate
             ? format(
                 new Date(recipientPanel.notifyP1DeliveryDate.replace(/-/g, "\/")),
@@ -453,6 +449,11 @@ export default defineComponent({
         }
 
         resultList.push(recipient);
+=======
+          recipient.p1DeliveryDate = recipientPanel.notifyP1DeliveryDate ? format(new Date(recipientPanel.notifyP1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") : "";
+          recipient.p1DeliveryElectronicReceipt = recipientPanel.p1DeliveryElectronicReceipt || "";
+          recipient.p1DeliveryElectronicReceiptRetain = recipientPanel.notifyP1DeliveryElectronicReceiptRetain ? recipientPanel.notifyP1DeliveryElectronicReceiptRetain[0] : "";
+>>>>>>> e0ce09a (Fix electronic logic)
       }
       return resultList;
     };
