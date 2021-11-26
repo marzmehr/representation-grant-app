@@ -9,7 +9,6 @@ export const jsonConfig = {
   }
 } as AxiosRequestConfig;
 
-//This handles saving, loading, printing of surveys.
 export const SurveyDataService = {
   createApplication: async function() {
     return await axios.post(
