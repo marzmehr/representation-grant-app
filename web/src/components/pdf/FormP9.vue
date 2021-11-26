@@ -38,7 +38,11 @@
               <underline-form textwidth="7rem" beforetext="and was made on" text="" />
             </div>
             <div class="mt-2">
-              <underline-form textwidth="12rem" beforetext="" text="" />
+              <underline-form
+                textwidth="15rem"
+                beforetext=""
+                :text="applicant.courthouse"
+              />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
                 Registry
               </div>
@@ -373,8 +377,12 @@ export default defineComponent({
     let resultList = [];
     const applicants = getApplicants.value;
     const applicantQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.applicantInfoPanel);
+<<<<<<< HEAD
     const data = this.survey.data as SurveyInstance;
 >>>>>>> 1416ab6 (Add courthouse)
+=======
+    const data = survey.data as SurveyInstance;
+>>>>>>> 7eefa65 (Add courthouse to p9)
 
       for (const i in applicants) {
         let applicant: FormP9Applicant = {
