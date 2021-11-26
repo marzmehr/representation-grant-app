@@ -19,7 +19,7 @@
 </template>
 
 <script language="ts">
-import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SurveyDataService } from "@/services/survey-data-service";
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 
 export default defineComponent({
@@ -55,7 +55,7 @@ export default defineComponent({
     });
 
     const downloadPdf = () => {
-      SurveyDataManager.onPrint(question.pdfType);
+      SurveyDataService.onPrint(question.pdfType);
     }
 
     return {

@@ -8,10 +8,10 @@ import SurveyCreatorForm from "@/components/survey-creator/SurveyCreatorForm.vue
 import SurveyMain from "@/components/SurveyMain.vue";
 import FormP1 from "@/components/pdf/FormP1.vue";
 import FormP9 from "@/components/pdf/FormP9.vue";
-import { SessionManager } from "@/services/session-manager";
+import { SessionService } from "@/services/session-service";
 
 async function authGuard(to: any, from: any, next: any) {
-  const result = await SessionManager.getUserInfo();
+  const result = await SessionService.getUserInfo();
   if (result.userId) {
     next();
   } else if (result.loginUrl) {
@@ -24,7 +24,7 @@ async function authGuard(to: any, from: any, next: any) {
 }
 
 async function authGuardAdmin(to: any, from: any, next: any) {
-  const result = await SessionManager.getUserInfo();
+  const result = await SessionService.getUserInfo();
   if (!result.userId && result.loginUrl) {
     window.location.replace(`${result.loginUrl}&next=${window.location.href}`);
   } else if (result.isStaff) {

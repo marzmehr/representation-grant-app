@@ -270,7 +270,7 @@ import { FormP9Applicant, P1Panel } from "@/types/application";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import { format } from 'date-fns'
 import { applicantInfoPanel, notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
-import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SurveyDataService } from "@/services/survey-data-service";
 import { formatDeceasedName, formatMailingAddress } from "@/utils/utils";
 
 export default defineComponent({
@@ -321,8 +321,9 @@ export default defineComponent({
     };
 
     const onPrint = () => {
-    const data = {};
-    SurveyDataManager.onPrint("FormP9", data);
+      const html = {};
+      const jsonData = {};
+      SurveyDataService.onPrint("FormP9", html, jsonData);
     };
 
   // TODO: make this more generic 

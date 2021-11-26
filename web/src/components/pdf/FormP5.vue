@@ -349,7 +349,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
-import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SurveyDataService } from "@/services/survey-data-service";
 
 @Component({
   components: {
@@ -580,7 +580,7 @@ export default class FormP5 extends Vue {
 
   public onPrint() {
     const data = {};
-    SurveyDataManager.onPrint("FormP5", data);
+    SurveyDataService.onPrint("FormP5", data, {});
   }
 
   public getRepGrantResultData() {}

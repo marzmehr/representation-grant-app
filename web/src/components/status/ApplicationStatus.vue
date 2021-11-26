@@ -117,7 +117,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/survey/survey-init";
-import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SurveyDataService } from "@/services/survey-data-service";
 import { extractFilingLocations } from "@/utils/utils";
 import { getError, setApplicationId } from "@/state/application-state";
 
@@ -140,10 +140,10 @@ export default class ApplicationStatus extends Vue {
     indexToDelete: -1,
     confirmDelete: false,
   }
-  dataManager = SurveyDataManager;
+  dataManager = SurveyDataService;
 
   mounted() {
-    SurveyDataManager.onLoadApplications(this.previousApplications);
+    SurveyDataService.onLoadApplications(this.previousApplications);
     extractFilingLocations();
   }
 
@@ -157,7 +157,7 @@ export default class ApplicationStatus extends Vue {
   }
 
   public async beginNewApplication() {
-    const data = await SurveyDataManager.onBeginNewApplication();
+    const data = await SurveyDataService.onBeginNewApplication();
     setApplicationId(data.app_id);
     this.$router.push({ name: "surveys" });
   }

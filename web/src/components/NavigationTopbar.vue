@@ -51,8 +51,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { getUserName } from "@/state/application-state";
-import { SessionManager } from "@/services/session-manager";
-import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SessionService } from "@/services/session-service";
+import { SurveyDataService } from "@/services/survey-data-service";
 @Component
 export default class NavigationTopbar extends Vue {
   error = "";
@@ -64,13 +64,13 @@ export default class NavigationTopbar extends Vue {
   public logout(isQuickExit) {
     const emptyApplicationRoutes = ["/", "/status", "/serviceLocator"];
     if (emptyApplicationRoutes.indexOf(this.$route.fullPath) == -1) {
-      SurveyDataManager.onSaveSurvey();
+      SurveyDataService.onSaveSurvey();
     }
     Vue.nextTick().then(() => {
       if (isQuickExit) {
         window.open("http://www.google.ca");
-        SessionManager.logoutAndRedirect();
-      } else SessionManager.logout();
+        SessionService.logoutAndRedirect();
+      } else SessionService.logout();
     });
   }
 }

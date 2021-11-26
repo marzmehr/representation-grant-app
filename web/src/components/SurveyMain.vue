@@ -21,7 +21,7 @@ import { defineComponent, onMounted, ref } from "@vue/composition-api";
 import { getSurveyEnvironment } from "@/utils/utils";
 import surveyJson from "@/survey-primary.json";
 import { getSurvey, setSurvey } from "@/state/survey-state";
-import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SurveyDataService } from "@/services/survey-data-service";
 import { SurveyQuestionNames } from "@/types/survey-primary";
 
 export default defineComponent({
@@ -43,7 +43,7 @@ export default defineComponent({
     onMounted(() => {});
 
     const loadSurveyData = async () => {
-      const surveyData = await SurveyDataManager.onLoadSurveyData();
+      const surveyData = await SurveyDataService.onLoadSurveyData();
       survey.value.data = surveyData?.steps;
     };
 
@@ -69,7 +69,7 @@ export default defineComponent({
     const saveTimer = () => {
       if (sandboxName) return;
       clearTimeout(timeoutHandle);
-      timeoutHandle = setTimeout(() => SurveyDataManager.onSaveSurvey(), 3500);
+      timeoutHandle = setTimeout(() => SurveyDataService.onSaveSurvey(), 3500);
     };
 
     const addSurveyListener = () => {

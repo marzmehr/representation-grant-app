@@ -61,7 +61,7 @@ export const formatMonthDayYear = date => {
 export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
   const body = [
     `<!DOCTYPE html>
-		<html lang="en">
+    <html lang="en">
       <head>		
       <meta charset="UTF-8">
       <title>Representation Grant</title>

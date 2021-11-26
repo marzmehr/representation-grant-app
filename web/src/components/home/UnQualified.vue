@@ -18,7 +18,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { getUserId } from "@/state/application-state";
-import { SessionManager } from "@/services/session-manager";
+import { SessionService } from "@/services/session-service";
 
 @Component
 export default class LandingPage extends Vue {
@@ -29,7 +29,7 @@ export default class LandingPage extends Vue {
   async mounted() {
     this.pageReady = false;
     this.safetyInst = false;
-    await SessionManager.getUserInfo();
+    await SessionService.getUserInfo();
     if (getUserId.value !== "") {
       this.isLoggedIn = true;
     } else {

@@ -3,7 +3,7 @@ import axios from "axios";
 import Vue from "vue";
 
 //This handles the user context, logging out, userInfo etc.
-export const SessionManager = {
+export const SessionService = {
     logoutAndRedirect: async function() {
       window.location.replace(`${process.env.BASE_URL}api/v1/logout/`);
       Vue.$cookies.set("quickexit", "1");

@@ -248,7 +248,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import CheckBox from "@/components/pdf/components/CheckBox.vue";
-import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SurveyDataService } from "@/services/survey-data-service";
 
 @Component({
   components: {
@@ -501,7 +501,7 @@ export default class FormP8 extends Vue {
 
   public onPrint() {
     const data = {};
-    SurveyDataManager.onPrint("FormP8", data);
+    SurveyDataService.onPrint("FormP8", data, {});
   }
 
   public getRepGrantResultData() {}

@@ -1,5 +1,5 @@
 <template>
-  <div key="getLastUpdated" >
+  <div key="getLastUpdated">
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
       Print
     </b-button>
@@ -285,7 +285,6 @@
         </div>
       </div>
     </b-card>
-    <iframe id='iframe' style="width:100%; height:1000px" ></iframe>
   </div>
 </template>
 
@@ -294,10 +293,15 @@ import { defineComponent, onMounted, ref, watch } from "@vue/composition-api";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import CheckBox from "@/components/pdf/components/CheckBox.vue";
 import { getLastUpdated, getApplicants } from "@/state/survey-state";
-import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SurveyDataService } from "@/services/survey-data-service";
 import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
 import { FormP1Applicant, FormP1Deceased, FormP1ServiceContact } from "@/types/application";
-import { formatMailingAddress, formatDeceasedName, formatMonthDayYear, formPdfHtml } from "@/utils/utils";
+import {
+  formatMailingAddress,
+  formatDeceasedName,
+  formatMonthDayYear,
+  formPdfHtml
+} from "@/utils/utils";
 
 export default defineComponent({
   name: "FormP1",
@@ -428,19 +432,22 @@ export default defineComponent({
     };
 
     const onPrint = () => {
-      const html = formPdfHtml(root.value.innerHTML,'hey','hey');
-      let iframe = document.getElementById('iframe') as HTMLIFrameElement;
-      let innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-      innerDoc.documentElement.innerHTML = html[0];
-      SurveyDataManager.onPrint('FormP1', html);
-    }
+      const html = formPdfHtml(root.value.innerHTML, "hey", "hey");
+
+      const jsonData = {
+        applicantList: applicantList.value,
+        deceased: deceased.value,
+        serviceContact: serviceContact.value
+      };
+      SurveyDataService.onPrint("FormP1", html, jsonData, '1.0');
+    };
 
     onMounted(() => {
       loadApplicantList();
     });
 
     return {
-      SurveyDataManager,
+      SurveyDataService,
       applicantList,
       loadApplicantList,
       deceased,
@@ -459,5 +466,4 @@ export default defineComponent({
   }
 });
 </script>
-<style scoped lang="css" src="@/styles/_pdf.css">
-</style>
+<style scoped lang="css" src="@/styles/_pdf.css"></style>
