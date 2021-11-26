@@ -195,24 +195,20 @@ export default defineComponent({
         answers.forEach((answer, i) => {
           const panel = panels[i];
 
-          panel.questions.forEach((question, j) => {
-            const qType = question.getType();
+          const displayables = panel.questions.filter(q => q.isVisible && !(q.getType() === "infotext" || q.getType() === "helptext"));
+          displayables.forEach((displayable, j) => {
+            const formattedAnswer = formatSwitchboard(
+              undefined,
+              answer[displayable.name],
+              displayable.getType()
+            );
 
-            if (question.isVisible && !(qType === "infotext" || qType === "helptext")) {
-              const formattedAnswer = formatSwitchboard(
-                undefined,
-                answer[question.name],
-                qType
-              );
-
-              const title = question.localizableStrings.title.renderedHtml;
-              panelCell += convertTicksToToolTip(title) + separator(title) + formattedAnswer + "\n";
-            }
+            const title = displayable.localizableStrings.title.renderedHtml;
+            const suffix = j < displayable.length - 1 ? "\n" : "";
+            panelCell += convertTicksToToolTip(title) + separator(title) + formattedAnswer + suffix;
           });
 
-          if (i < answers.length - 1) {
-            panelCell += "\n";
-          }
+          if (i < answers.length - 1) panelCell += "\n";
         });
 
         return panelCell;
