@@ -4,8 +4,8 @@
 
 <script lang="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
-import FormP9 from "@/components/pdf/FormP9.vue";
 import FormP1 from "@/components/pdf/FormP1.vue";
+import FormP9 from "@/components/pdf/FormP9.vue";
 
 export default defineComponent({
   components: {

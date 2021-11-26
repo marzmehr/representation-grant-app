@@ -9268,7 +9268,8 @@
           "type": "formdownloadbutton",
           "name": "notifyP1DownloadButton",
           "title": " ",
-          "buttonTitle": "Download the Form P1"
+          "buttonTitle": "Download the Form P1",
+          "formName": "FormP1"
          },
          {
           "type": "helptext",
@@ -9595,7 +9596,8 @@
           "type": "formdownloadbutton",
           "name": "notifyP9DownloadButton",
           "title": " ",
-          "buttonTitle": "Download the Form P9"
+          "buttonTitle": "Download the Form P9",
+          "formName": "FormP9"
          },
          {
           "type": "text",
