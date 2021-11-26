@@ -69,8 +69,8 @@ class SurveyPdfView(generics.GenericAPIView):
     def put(self, request, application_id):
         if not request.user.is_staff and not request.user.is_superuser:
             return HttpResponseForbidden()
-        data = request.data
-        pdf_content = self.generate_pdf(data)
+        html = request.data['html']
+        pdf_content = self.generate_pdf(html)
         return self.create_download_response(pdf_content)
 
     def post(self, request, application_id):
