@@ -5,23 +5,28 @@ import { differenceInMinutes } from "date-fns";
 import { format } from "date-fns-tz";
 
 //This handles saving, loading, printing of surveys.
-export const SurveyDataManager = {
-  onPrint: async function(pdfType) {
+export const SurveyDataService = {
+  onPrint: async function(formName, html, jsonData, version = '1.0') {
     const applicationId = getApplicationId.value;
-    const url = `/survey-print/${applicationId}/?pdf_type=${pdfType}`;
+    const url = `/survey-print/${applicationId}/?pdf_type=${formName}&version=${version}`;
     const options = {
+      method: window.location.pathname.includes("sandbox") ? "PUT" : "POST",
       responseType: "blob",
       headers: {
         "Content-Type": "application/json"
+      },
+      data: {
+        html: html,
+        json_data: jsonData
       }
     } as AxiosRequestConfig;
-    axios.get(url, options).then(
+    axios(url, options).then(
       res => {
         const blob = res.data;
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         document.body.appendChild(link);
-        link.download = `${pdfType}.pdf`;
+        link.download = `${formName}.pdf`;
         link.click();
         setTimeout(() => URL.revokeObjectURL(link.href), 1000);
       },

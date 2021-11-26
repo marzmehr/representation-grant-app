@@ -259,7 +259,7 @@
           </div>
         </div>
       </b-card>
-    </div>
+  </div>
   </div>
 </template>
 
@@ -270,7 +270,7 @@ import { FormP9Applicant, P1Panel } from "@/types/application";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import { format } from 'date-fns'
 import { applicantInfoPanel, notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
-import { SurveyDataManager } from "@/services/survey-data-manager";
+import { SurveyDataService } from "@/services/survey-data-service";
 import { formatDeceasedName, formatMailingAddress } from "@/utils/utils";
 
 export default defineComponent({
@@ -292,13 +292,13 @@ export default defineComponent({
     });
 
     const populateFromFakeData = () => {
-      const fakeRecipient: P1Panel = {
-        recipientName: "Jane P. Doe",
-        p1DelivererName: "John H. Doe",
-        p1DeliveryMethod: "inperson",
-        p1DeliveryDate: "January 11, 2021",
-        p1DeliveryElectronicReceipt: "",
-        p1DeliveryElectronicReceiptRetain: "",
+    const fakeRecipient: P1Panel = {
+      recipientName: "Jane P. Doe",
+      p1DelivererName: "John H. Doe",
+      p1DeliveryMethod: "inperson",
+      p1DeliveryDate: "January 11, 2021",
+      p1DeliveryElectronicReceipt: "",
+      p1DeliveryElectronicReceiptRetain: "",
       };
 
       applicantList.value = [
@@ -308,7 +308,7 @@ export default defineComponent({
           fullName: "John H. Doe",
           occupation: "Teacher",
           recipients: [fakeRecipient]
-        }
+  }
       ];
 
       deceased.value = "Rest in peace";
@@ -316,68 +316,70 @@ export default defineComponent({
 
     const getSignatureMargin = () => {
       let margin = Number(10 / applicantList.value.length);
-      if (margin < 1.0) margin = 1;
-      return margin + "rem";
+    if (margin < 1.0) margin = 1;
+    return margin + "rem";
     };
 
     const onPrint = () => {
-      SurveyDataManager.onPrint("FormP9");
+      const html = {};
+      const jsonData = {};
+      SurveyDataService.onPrint("FormP9", html, jsonData);
     };
 
-    // TODO: make this more generic 
+  // TODO: make this more generic 
     const getChoiceFromValue = (target, questions) => {
-      for (const question of questions) {
-        if (question.name === SurveyQuestionNames.notifyP1DelivererName) {
-          const choices = question.choices;
-          for (const choice of choices) {
-            if (target === choice.value) {
-              return choice.text;
-            }
+    for (const question of questions) {
+      if (question.name === SurveyQuestionNames.notifyP1DelivererName) {
+        const choices = question.choices;
+        for (const choice of choices) {
+          if (target === choice.value) {
+            return choice.text;
           }
         }
       }
+    }
     };
 
     const buildApplicantList = (allQuestions) => {
-      let resultList = [];
-      const applicants = getApplicants.value;
-      const applicantQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.applicantInfoPanel);
+    let resultList = [];
+    const applicants = getApplicants.value;
+    const applicantQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.applicantInfoPanel);
 
-      for (const i in applicants) {
+    for (const i in applicants) {
         let applicant: FormP9Applicant = {
-          courthouse: "",
-          address: "",
-          fullName: applicants[i].applicantName,
-          occupation: "",
-          recipients: []
-        }
-
-        if (applicantQuestion) {
-          const applicantPanel = applicantQuestion.value[i] as applicantInfoPanel;
-          const base = applicantPanel?.applicantOrdinaryAddress;
-          applicant.address = formatMailingAddress(base);
-          applicant.occupation = applicantPanel.applicantOccupation || "";
-        }
-
-        resultList.push(applicant);
+        courthouse: "",
+        address: "",
+        fullName: applicants[i].applicantName,
+        occupation: "",
+        recipients: []
       }
-      return resultList;
+
+      if (applicantQuestion) {
+        const applicantPanel = applicantQuestion.value[i] as applicantInfoPanel;
+        const base = applicantPanel?.applicantOrdinaryAddress;
+        applicant.address = formatMailingAddress(base);
+        applicant.occupation = applicantPanel.applicantOccupation || "";
+      }
+
+      resultList.push(applicant);
+    }
+    return resultList;
     };
 
     const buildRecipientList = (allQuestions) => {
-      let resultList = [];
-      const recipients = getRecipients.value;
-      const recipientQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.notifyP1DeliveryInfoPanel);
+    let resultList = [];
+    const recipients = getRecipients.value;
+    const recipientQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.notifyP1DeliveryInfoPanel);
 
-      for (const i in recipients) {
-        let recipient: P1Panel = {
-          recipientName: recipients[i].recipientName,
-          p1DelivererName: "",
-          p1DeliveryMethod: "",
-          p1DeliveryDate: "",
-          p1DeliveryElectronicReceipt: "",
-          p1DeliveryElectronicReceiptRetain: "",
-        }
+    for (const i in recipients) {
+      let recipient: P1Panel = {
+        recipientName: recipients[i].recipientName,
+        p1DelivererName: "",
+        p1DeliveryMethod: "",
+        p1DeliveryDate: "",
+        p1DeliveryElectronicReceipt: "",
+        p1DeliveryElectronicReceiptRetain: "",
+      }
 
         if (recipientQuestion && recipientQuestion.value) {
           const recipientPanel = recipientQuestion.value[i] as notifyP1DeliveryInfoPanel;
@@ -387,30 +389,30 @@ export default defineComponent({
           recipient.p1DeliveryDate = recipientPanel.notifyP1DeliveryDate ? format(new Date(recipientPanel.notifyP1DeliveryDate.replace(/-/g, '\/')), "MMMM d, yyyy") : "";
           recipient.p1DeliveryElectronicReceipt = recipientPanel.notifyP1DeliveryElectronicReceiptNoError || "";
           recipient.p1DeliveryElectronicReceiptRetain = recipientPanel.notifyP1DeliveryElectronicReceiptRetain ? recipientPanel.notifyP1DeliveryElectronicReceiptRetain[0] : "";
-        }
-        
-        resultList.push(recipient);
       }
-      return resultList;
+      
+      resultList.push(recipient);
+    }
+    return resultList;
     };
 
     const getDeceasedName = (allQuestions) => {
-      const deceasedQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.deceasedName);
-      if (deceasedQuestion) {
-        return formatDeceasedName(deceasedQuestion.value);
-      }
-      return "";
+    const deceasedQuestion = allQuestions.find(q => q.name === SurveyQuestionNames.deceasedName);
+    if (deceasedQuestion) {
+      return formatDeceasedName(deceasedQuestion.value);
+    }
+    return "";
     };
 
     const matchApplicantsAndRecipients = (applicants, recipients) => {
-      for (const applicant of applicants) {
-        for (const recipient of recipients) {
-          if (applicant.fullName === recipient.p1DelivererName) {
-            applicant.recipients.push(recipient);
-          }
+    for (const applicant of applicants) {
+      for (const recipient of recipients) {
+        if (applicant.fullName === recipient.p1DelivererName) {
+          applicant.recipients.push(recipient);
         }
       }
-      return applicants;
+    }
+    return applicants;
     };
 
     const populateFromSurvey = (survey) => {
@@ -449,7 +451,7 @@ export default defineComponent({
     },
     allP1DeliveryElectronicReceiptRetain(applicant): boolean {
       return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceiptRetain !== "confirmed");
-    }
+  }
   }
 });
 </script>

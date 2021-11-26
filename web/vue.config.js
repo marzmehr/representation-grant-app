@@ -21,11 +21,6 @@ module.exports = {
   // crossorigin: "anonymous",
   chainWebpack: config => {
     config.module.rules.delete("eslint");
-    config.module
-      .rule("css")
-      .test(/\.css$/)
-      .use("to-string")
-      .loader("to-string-loader");
 
     config.module
       .rule("vue")
@@ -40,9 +35,9 @@ module.exports = {
       .use("esbuild-loader")
       .loader("esbuild-loader")
       .options({
-        loader: 'ts',
-        target: 'es2015'
+        loader: "ts",
+        target: "es2015"
       });
   },
-  runtimeCompiler: true,
+  runtimeCompiler: true
 };

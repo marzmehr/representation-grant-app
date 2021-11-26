@@ -9,7 +9,8 @@ class PreparedPdf(models.Model):
 
     # stored encrypted when key_id is set
     data = models.BinaryField(blank=True, null=True)
-
+    json_data = models.BinaryField(blank=True, null=True)
+    
     # encryption key identifier
     key_id = models.CharField(max_length=32, blank=True, null=True)
     pdf_type = models.CharField(max_length=32, blank=True, null=True)

@@ -22,12 +22,13 @@
   </div>
 </template>
 
-<script language="ts">
+<script lang="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 
 export default defineComponent({
   props: {
-    question: Object
+    question: Object,
+    isSurveyEditor: Boolean
   },
   setup(props) {
     const state = reactive({

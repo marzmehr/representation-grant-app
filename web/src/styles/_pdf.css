@@ -1,0 +1,132 @@
+section {
+  counter-increment: question-counter;
+  text-indent: -17px;
+  text-align: justify;
+  text-justify: inter-word;
+  margin: 0.5rem 0.5rem 0.5rem 1rem;
+}
+
+section:before {
+  font-weight: bolder;
+  content: counter(question-counter) ".";
+}
+
+section:after {
+  float: none;
+  white-space: pre;
+}
+
+section.resetquestion {
+  counter-reset: question-counter;
+}
+
+ol.resetcounter {
+  list-style: none;
+  counter-reset: bracket-counter;
+}
+ol li.bracketnumber {
+  text-indent: -25px;
+  text-align: justify;
+  text-justify: inter-word;
+  margin: 1rem 0;
+  counter-increment: bracket-counter;
+}
+ol li.bracketnumber:before {
+  content: "(" counter(bracket-counter) ") ";
+  font-weight: bold;
+}
+
+ol.resetcounteralpha {
+  list-style: none;
+  counter-reset: alpha-counter;
+}
+
+ol li.bracketalpha {
+  text-indent: -20px;
+  margin: 0.25rem 0;
+  counter-increment: alpha;
+}
+
+ol li.bracketalpha:before {
+  content: counter(alpha, lower-alpha) ") ";
+}
+
+ol.resetcounterroman {
+  list-style: none;
+  counter-reset: roman-counter;
+}
+
+ol li.bracketroman {
+  text-indent: -20px;
+  margin: 0.25rem 0;
+  counter-increment: roman;
+}
+
+ol li.bracketroman:before {
+  content: counter(roman, lower-roman) ") ";
+}
+
+ol.resetlist {
+  list-style: none;
+  counter-reset: list-counter;
+}
+ol li.listnumber {
+  text-indent: -25px;
+  text-align: justify;
+  text-justify: inter-word;
+  margin: 1rem 0;
+  counter-increment: list-counter;
+}
+ol li.listnumber:before {
+  content: counter(list-counter) ". ";
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 0px;
+}
+
+/* this is only for display */
+#print {
+  max-width: 820px !important;
+  min-width: 820px !important;
+}
+
+/* this is actually used for printing */
+.container {
+  width: 100% !important;
+  max-width: 683px !important;
+  min-width: 683px !important;
+  font-size: 10pt !important;
+  font-family: "BC Sans";
+  color: #313132 !important;
+  padding: 0px;
+  margin: 0px;
+}
+
+.checkbox::before {
+  transform: translate(0px, 2px);
+  height: 16px;
+  width: 16px;
+  content: url("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhciIgZGF0YS1pY29uPSJjaGVjay1zcXVhcmUiIGNsYXNzPSJzdmctaW5saW5lLS1mYSBmYS1jaGVjay1zcXVhcmUgZmEtdy0xNCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik00MDAgMzJINDhDMjEuNDkgMzIgMCA1My40OSAwIDgwdjM1MmMwIDI2LjUxIDIxLjQ5IDQ4IDQ4IDQ4aDM1MmMyNi41MSAwIDQ4LTIxLjQ5IDQ4LTQ4VjgwYzAtMjYuNTEtMjEuNDktNDgtNDgtNDh6bTAgNDAwSDQ4VjgwaDM1MnYzNTJ6bS0zNS44NjQtMjQxLjcyNEwxOTEuNTQ3IDM2MS40OGMtNC43MDUgNC42NjctMTIuMzAzIDQuNjM3LTE2Ljk3LS4wNjhsLTkwLjc4MS05MS41MTZjLTQuNjY3LTQuNzA1LTQuNjM3LTEyLjMwMy4wNjktMTYuOTcxbDIyLjcxOS0yMi41MzZjNC43MDUtNC42NjcgMTIuMzAzLTQuNjM3IDE2Ljk3LjA2OWw1OS43OTIgNjAuMjc3IDE0MS4zNTItMTQwLjIxNmM0LjcwNS00LjY2NyAxMi4zMDMtNC42MzcgMTYuOTcuMDY4bDIyLjUzNiAyMi43MThjNC42NjcgNC43MDYgNC42MzcgMTIuMzA0LS4wNjggMTYuOTcxeiI+PC9wYXRoPjwvc3ZnPg==");
+}
+
+div.checkbox {
+  display: inline-block;
+  content: url("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhciIgZGF0YS1pY29uPSJjaGVjay1zcXVhcmUiIGNsYXNzPSJzdmctaW5saW5lLS1mYSBmYS1jaGVjay1zcXVhcmUgZmEtdy0xNCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik00MDAgMzJINDhDMjEuNDkgMzIgMCA1My40OSAwIDgwdjM1MmMwIDI2LjUxIDIxLjQ5IDQ4IDQ4IDQ4aDM1MmMyNi41MSAwIDQ4LTIxLjQ5IDQ4LTQ4VjgwYzAtMjYuNTEtMjEuNDktNDgtNDgtNDh6bTAgNDAwSDQ4VjgwaDM1MnYzNTJ6bS0zNS44NjQtMjQxLjcyNEwxOTEuNTQ3IDM2MS40OGMtNC43MDUgNC42NjctMTIuMzAzIDQuNjM3LTE2Ljk3LS4wNjhsLTkwLjc4MS05MS41MTZjLTQuNjY3LTQuNzA1LTQuNjM3LTEyLjMwMy4wNjktMTYuOTcxbDIyLjcxOS0yMi41MzZjNC43MDUtNC42NjcgMTIuMzAzLTQuNjM3IDE2Ljk3LjA2OWw1OS43OTIgNjAuMjc3IDE0MS4zNTItMTQwLjIxNmM0LjcwNS00LjY2NyAxMi4zMDMtNC42MzcgMTYuOTcuMDY4bDIyLjUzNiAyMi43MThjNC42NjcgNC43MDYgNC42MzcgMTIuMzA0LS4wNjggMTYuOTcxeiI+PC9wYXRoPjwvc3ZnPg==");
+}
+
+body {
+  font-family: "BC Sans";
+  line-height: 1.6;
+}
+
+div.ch {
+  text-align: justify;
+  text-indent: 1.8rem;
+  text-align-last: justify;
+}
+
+.ch::after {
+  text-align: justify;
+}
