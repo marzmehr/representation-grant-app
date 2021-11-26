@@ -31,8 +31,7 @@
 <script lang="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import VRuntimeTemplate from "v-runtime-template";
-import { convertTicksToToolTip } from "@/utils/utils";
-import { format } from "date-fns";
+import { convertTicksToToolTip, formatMonthDayYear } from "@/utils/utils";
 export default defineComponent({
   components: {
     VRuntimeTemplate
@@ -151,8 +150,7 @@ export default defineComponent({
       };
 
       const dateFormatter = dateString => {
-        const date = new Date(dateString.replace(/-/g, "/"));
-        return format(date, "MMMM d, yyyy"); 
+        return formatMonthDayYear(new Date(dateString.replace(/-/g, "/")));
       };
 
       const formatSwitchboard = (question, answer, questionType) => {
