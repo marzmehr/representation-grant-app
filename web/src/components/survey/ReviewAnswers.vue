@@ -32,6 +32,7 @@
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import VRuntimeTemplate from "v-runtime-template";
 import { convertTicksToToolTip } from "@/utils/utils";
+import { format } from "date-fns";
 export default defineComponent({
   components: {
     VRuntimeTemplate
@@ -149,6 +150,11 @@ export default defineComponent({
         return question.choices.find(c => c.value == question.value)?.text;
       };
 
+      const dateFormatter = dateString => {
+        const date = new Date(dateString.replace(/-/g, "/"));
+        return format(date, "MMMM d, yyyy"); 
+      };
+
       const formatSwitchboard = (question, answer, questionType) => {
         if (!answer) {
           return "";
@@ -172,6 +178,8 @@ export default defineComponent({
             question?.labelEmail,
             question?.labelFax
           ]);
+        } else if (questionType === "customdate") {
+          return dateFormatter(answer);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
         } else if (answer === Object(answer)) {
