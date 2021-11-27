@@ -41,7 +41,11 @@
               <underline-form textwidth="3rem" beforetext="" text="" />
             </div>
             <div class="mt-2">
-              <underline-form textwidth="10rem" beforetext="" text="" />
+              <underline-form
+                textwidth="10rem"
+                beforetext=""
+                :text="applicant.courthouse"
+              />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
                 Registry
               </div>
@@ -175,21 +179,26 @@
                 </div>
               </template>
 
-              <div>
+              <div v-if="allP1DeliveryElectronicReceipt(applicant)">
                 Each of the persons who received delivery by e-mail, fax or other electronic means
                 has, in writing, acknowledged receipt of the document(s) referred to in this
                 section.
               </div>
 
-              <div v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain">
+              <div
+                v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain(applicant)"
+              >
                 We will retain a copy of those acknowledgements until the personal representative of
                 the deceased is discharged and will produce those acknowledgements promptly after
                 being requested to do so by the registrar.
               </div>
 
-              <div v-if="applicantList.length === 1 && allP1DeliveryElectronicReceiptRetain">
+              <div
+                v-else-if="allP1DeliveryElectronicReceiptRetain(applicant)"
+              >
                 I will retain a copy of those acknowledgements until the personal representative of
-                the deceased is discharged and will produce those acknowledgements promptly
+                the deceased is discharged and will produce those acknowledgements promptly after 
+                being requested to do so by the registrar.
                 after being requested to do so by the registrar.
               </div>
             </div>
@@ -257,7 +266,8 @@ import { format } from "date-fns";
 import {
   applicantInfoPanel,
   notifyP1DeliveryInfoPanel,
-  SurveyQuestionNames
+  SurveyInstance,
+  SurveyQuestionNames 
 } from "@/types/survey-primary";
 import { SurveyDataService } from "@/services/survey-data-service";
 import {
@@ -359,10 +369,12 @@ export default defineComponent({
       const applicantQuestion = allQuestions.find(
         q => q.name === SurveyQuestionNames.applicantInfoPanel
       );
+      
+      const data = survey.data as SurveyInstance;
 
       for (const i in applicants) {
         let applicant: FormP9Applicant = {
-          courthouse: "",
+          courthouse: data.applicantCourthouse,
           address: "",
           fullName: applicants[i].applicantName,
           occupation: "",
@@ -413,7 +425,7 @@ export default defineComponent({
               )
             : "";
           recipient.p1DeliveryElectronicReceipt =
-            recipientPanel.notifyP1DeliveryElectronicReceiptNoError || "";
+            recipientPanel.notifyP1DeliveryElectronicReceipt || "";
           recipient.p1DeliveryElectronicReceiptRetain = recipientPanel.notifyP1DeliveryElectronicReceiptRetain
             ? recipientPanel.notifyP1DeliveryElectronicReceiptRetain[0]
             : "";

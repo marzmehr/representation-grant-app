@@ -31,7 +31,7 @@
 <script lang="ts">
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import VRuntimeTemplate from "v-runtime-template";
-import { convertTicksToToolTip } from "@/utils/utils";
+import { convertTicksToToolTip, formatMonthDayYear } from "@/utils/utils";
 export default defineComponent({
   components: {
     VRuntimeTemplate
@@ -149,10 +149,14 @@ export default defineComponent({
         return question.choices.find(c => c.value == question.value)?.text;
       };
 
+      const dateFormatter = dateString => {
+        return formatMonthDayYear(new Date(dateString.replace(/-/g, "/")));
+      };
+
       const formatSwitchboard = (question, answer, questionType) => {
         if (!answer) {
           return "";
-        } else if (questionType === "checkbox") {
+        } else if (questionType === "checkbox" || questionType === "radiogroup") {
           return checkboxHandler(question);
         } else if (questionType === "file") {
           return fileAnswerHandler(answer);
@@ -172,6 +176,8 @@ export default defineComponent({
             question?.labelEmail,
             question?.labelFax
           ]);
+        } else if (questionType === "customdate") {
+          return dateFormatter(answer);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
         } else if (answer === Object(answer)) {
@@ -269,11 +275,9 @@ export default defineComponent({
     navigateToQuestion: function(question) {
       const survey = this.question.survey;
       const questions = survey.getAllQuestions();
-      const pages = survey.pages;
-      
-      const target = questions.find(
-        q => convertTicksToToolTip(q.localizableStrings.title.renderedHtml) === question
-      );
+      const pages = survey.pages.filter(p => p.isVisible);
+
+      const target = questions.find(q => convertTicksToToolTip(q.localizableStrings.title.renderedHtml) === question);
       
       const pageNum = pages.findIndex(
         (element) => element == pages.find(

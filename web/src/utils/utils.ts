@@ -55,7 +55,7 @@ export const formatDeceasedName = (deceasedName: PersonName): string => {
 };
 
 export const formatMonthDayYear = date => {
-  return format(date, "MMMM dd, yyyy");
+  return format(date, "MMMM d, yyyy");
 };
 
 export const convertBlobAndDownload = (blob, formName) => {
