@@ -1,45 +1,48 @@
 <template>
   <div key="getLastUpdated">
     <div>
-      <b-button
-        style="transform:translate(500px,0px)"
-        variant="success"
-        @click="onPrint()"
-      >
+      <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
         Print
       </b-button>
-      <b-card 
-        v-for="(applicant, i) in applicantList" :key="i"
+      <b-card
+        v-for="(applicant, i) in applicantList"
+        :key="i"
         id="print"
         bg-variant="white"
         class="mt-4 mb-3"
         ref="root"
         style="border:1px solid; border-radius:5px;padding:3rem 4rem 2rem 4rem;"
       >
-        <div style="text-align:center;margin:5rem 0 0 0rem;font-weight: 300;font-size:20px;">
+        <div style="text-align:center;margin:1rem 0 0 0rem;font-weight: 300;font-size:20px;">
           FORM P9 (RULE 25-3 (2))
         </div>
 
         <div class="mt-3 m-0 p-0 row">
-          <div style="margin:0 0 0 45%;">
+          <div style="margin-left: 450px; text-align: right; font-size:10px !important">
             <div>
-              <underline-form textwidth="5rem" beforetext="This is the" text="1st" />
+              <underline-form
+                style="position: static !important"
+                textwidth="8rem"
+                beforetext="This is the"
+                text="1st"
+              />
               <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
                 affidavit
               </div>
             </div>
             <div class="mt-2">
-              <underline-form textwidth="12rem" beforetext="of" :text="applicant.fullName" />
-              <div style="display:inline-block; margin:0 0 0 0.5rem; padding:0;">
-                in this case
+              <underline-form textwidth="14rem" beforetext="of" :text="applicant.fullName" />
+              <br/>
+              <div style="display:inline-block; margin:0 0 0 0rem; padding:0;">
+                in this case and was made on
               </div>
             </div>
             <div class="mt-2">
-              <underline-form textwidth="7rem" beforetext="and was made on" text="" />
+              <underline-form textwidth="3rem" beforetext="" text="" />
             </div>
             <div class="mt-2">
               <underline-form
-                textwidth="15rem"
+                textwidth="10rem"
                 beforetext=""
                 :text="applicant.courthouse"
               />
@@ -48,16 +51,16 @@
               </div>
             </div>
             <div class="mt-2">
-              <underline-form textwidth="16rem" beforetext="No." text="" />
+              <underline-form textwidth="10rem" beforetext="No." text="" />
             </div>
           </div>
         </div>
 
-        <div style="text-align:center;margin:1rem 0 1rem 0rem;font-weight: 600;font-size:24px;">
+        <div style="text-align:center;margin:1rem 0 1rem 0rem;font-weight: 600;font-size:20px;">
           <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
         </div>
         <div style="text-align:center">
-          <div style="display:inline-block; text-indent: 5px;">
+          <div style="display:inline-block;">
             <i>In the Matter of the Estate of</i>
           </div>
           <underline-form textwidth="17rem" beforetext="" :text="deceased" />
@@ -65,18 +68,19 @@
             <i>, deceased</i>
           </div>
         </div>
-        <div style="text-align:center;margin:2rem 0 2rem 0rem;font-weight: 600;font-size:20px;">
+        <div style="text-align:center;margin:1rem 0 1rem 0rem;font-weight: 600;font-size:18px;">
           AFFIDAVIT OF DELIVERY
         </div>
 
         <div style="display:inline-block; text-indent: 5px;">I</div>
         <div style="display:inline-block; margin:0.5rem 0;">
           <div style="display:inline-block; width:0.5rem;"></div>
-          <underline-form textwidth="20rem" beforetext="" :text="applicant.fullName" />
-          <underline-form textwidth="25rem" beforetext=", of" :text="applicant.address" />
-          <underline-form textwidth="10.5rem" beforetext=", " :text="applicant.occupation" />
+          <underline-form textwidth="12rem" beforetext="" :text="applicant.fullName" />
+          <underline-form textwidth="15rem" beforetext=", of" :text="applicant.address" />
+          <underline-form textwidth="7rem" beforetext=", " :text="applicant.occupation" />
+          <underline-form textwidth="0rem" beforetext=", " text="" />
         </div>
-        <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">
+        <div style="margin:0.25rem 0 1rem 0rem;font-weight: 300;font-size:18px;">
           SWEAR (OR AFFIRM) THAT:
         </div>
 
@@ -116,7 +120,7 @@
                   />
                   <underline-form
                     :key="recipient.p1DeliveryDate"
-                    style="margin:0.5rem 0 ;display:inline-block; text-indent: 5px;"
+                    style="margin:0.5rem 0 ;display:inline-block;"
                     textwidth="15rem"
                     beforetext="on"
                     :text="recipient.p1DeliveryDate"
@@ -134,7 +138,7 @@
                   <underline-form
                     :key="recipient.recipientName"
                     style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                    textwidth="41.5rem"
+                    textwidth="20rem"
                     beforetext=""
                     hint=""
                     :text="recipient.recipientName"
@@ -151,7 +155,7 @@
             </div>
 
             <div v-if="electronicRecipients(applicant).length > 0">
-              <div style="text-indent: 20px;">
+              <div>
                 by sending it/them to the following persons by e-mail, fax or other electronic means
                 to that person:
               </div>
@@ -160,7 +164,7 @@
                   <underline-form
                     :key="recipient.recipientName"
                     style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                    textwidth="41.5rem"
+                    textwidth="20rem"
                     beforetext=""
                     hint=""
                     :text="recipient.recipientName"
@@ -175,14 +179,13 @@
                 </div>
               </template>
 
-              <div style="text-indent: 40px;" v-if="allP1DeliveryElectronicReceipt(applicant)">
+              <div v-if="allP1DeliveryElectronicReceipt(applicant)">
                 Each of the persons who received delivery by e-mail, fax or other electronic means
                 has, in writing, acknowledged receipt of the document(s) referred to in this
                 section.
               </div>
 
               <div
-                style="text-indent: 40px;"
                 v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain(applicant)"
               >
                 We will retain a copy of those acknowledgements until the personal representative of
@@ -191,60 +194,64 @@
               </div>
 
               <div
-                style="text-indent: 40px;"
                 v-else-if="allP1DeliveryElectronicReceiptRetain(applicant)"
               >
                 I will retain a copy of those acknowledgements until the personal representative of
                 the deceased is discharged and will produce those acknowledgements promptly after 
                 being requested to do so by the registrar.
+                after being requested to do so by the registrar.
               </div>
             </div>
           </li>
         </ol>
 
-        <div class="mt-5 row">
-          <div class="col-6">
-            <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">
-              SWORN (OR AFFIRMED) BEFORE ME
-            </div>
-            <underline-form textwidth="15rem" beforetext="at" text="" hint="Commissioner City" />
-            <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
-              , British Columbia
-            </div>
+        <table class="mt-3">
+          <tr>
+            <td>
+              <div style="margin:0.5rem 0 1rem 0rem;font-weight: 300;font-size:18px;">
+                SWORN (OR AFFIRMED) BEFORE ME
+              </div>
+              <underline-form textwidth="10rem" beforetext="at" text="" hint="Commissioner City" />
+              <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
+                , British Columbia
+              </div>
 
-            <underline-form
-              style="margin:0.75rem 0 ;"
-              textwidth="24rem"
-              beforetext="on"
-              text=""
-              hint="Swear/Affirm Date"
-            />
-            <underline-form
-              style="margin:0.5rem 0 ;"
-              textwidth="25rem"
-              beforetext=""
-              text=""
-              hint="A commissioner for taking affidavits for British Columbia"
-            />
-            <div style="margin:0.5rem 0 ;font-size:14px; "></div>
-            <underline-form
-              style="margin:.5rem 0 ;"
-              textwidth="25rem"
-              beforetext=""
-              hint="[print name or affix stamp of commissioner]"
-              text=""
-            />
-          </div>
-          <div class="col-6 border-left">
-            <underline-form
-              :style="{ marginTop: getSignatureMargin() }"
-              textwidth="29rem"
-              beforetext=""
-              :hint="'Signature of ' + applicant.fullName"
-              text=""
-            />
-          </div>
-        </div>
+              <underline-form
+                style="margin:0.75rem 0 ;"
+                textwidth="18.5rem"
+                beforetext="on"
+                text=""
+                hint="Swear/Affirm Date"
+              />
+              <underline-form
+                style="margin:0.5rem 0 ;"
+                textwidth="20rem"
+                beforetext=""
+                text=""
+                hint="A commissioner for taking affidavits for British Columbia"
+              />
+              <div style="margin:0.5rem 0 ;font-size:14px; "></div>
+              <underline-form
+                style="margin:.5rem 0 ;"
+                textwidth="20rem"
+                beforetext=""
+                hint="[print name or affix stamp of commissioner]"
+                text=""
+              />
+            </td>
+            <td>
+              <div class="col-6 border-left">
+                <underline-form
+                  :style="{ marginTop: getSignatureMargin() }"
+                  textwidth="20rem"
+                  beforetext=""
+                  :hint="'Signature of ' + applicant.fullName"
+                  text=""
+                />
+              </div>
+            </td>
+          </tr>
+        </table>
       </b-card>
     </div>
   </div>
@@ -322,7 +329,7 @@ export default defineComponent({
     const onPrint = async () => {
       debugger;
       let innerHTML = "";
-      root.value.forEach((r: HTMLElement) => innerHTML += r.innerHTML);
+      root.value.forEach((r: HTMLElement) => (innerHTML += r.innerHTML));
       const html = formPdfHtml(innerHTML, "hey", "hey");
       const jsonData = {
         applicantList: applicantList.value
