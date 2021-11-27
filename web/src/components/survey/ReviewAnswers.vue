@@ -156,7 +156,7 @@ export default defineComponent({
       const formatSwitchboard = (question, answer, questionType) => {
         if (!answer) {
           return "";
-        } else if (questionType === "checkbox") {
+        } else if (questionType === "checkbox" || questionType === "radiogroup") {
           return checkboxHandler(question);
         } else if (questionType === "file") {
           return fileAnswerHandler(answer);
@@ -275,11 +275,9 @@ export default defineComponent({
     navigateToQuestion: function(question) {
       const survey = this.question.survey;
       const questions = survey.getAllQuestions();
-      const pages = survey.pages;
-      
-      const target = questions.find(
-        q => convertTicksToToolTip(q.localizableStrings.title.renderedHtml) === question
-      );
+      const pages = survey.pages.filter(p => p.isVisible);
+
+      const target = questions.find(q => convertTicksToToolTip(q.localizableStrings.title.renderedHtml) === question);
       
       const pageNum = pages.findIndex(
         (element) => element == pages.find(
