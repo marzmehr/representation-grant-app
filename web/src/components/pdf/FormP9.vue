@@ -38,11 +38,11 @@
               </div>
             </div>
             <div class="mt-2">
-              <underline-form textwidth="3rem" beforetext="" text="" />
+              <underline-form textwidth="14rem" beforetext="" text="" />
             </div>
             <div class="mt-2">
               <underline-form
-                textwidth="10rem"
+                textwidth="11rem"
                 beforetext=""
                 :text="applicant.courthouse"
               />
@@ -51,7 +51,7 @@
               </div>
             </div>
             <div class="mt-2">
-              <underline-form textwidth="10rem" beforetext="No." text="" />
+              <underline-form textwidth="12rem" beforetext="No." text="" />
             </div>
           </div>
         </div>
