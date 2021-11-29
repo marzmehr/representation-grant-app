@@ -70,7 +70,7 @@ export default defineComponent({
 
     const downloadPdf = () => {
       //Not ideal for Typescript.
-      form.value.getPdf();
+      form.value.onPrint();
     };
 
     return {

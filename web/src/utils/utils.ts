@@ -1,4 +1,3 @@
-import axios from "axios";
 import { format } from "date-fns";
 import bootstrapCss from "!!raw-loader!@/styles/bootstrapCSS.css";
 import pdfCss from "!!raw-loader!@/styles/_pdf.css";
@@ -30,30 +29,15 @@ export const getSurveyEnvironment = () => {
 };
 
 export const getBCEIDUrl = () => {
-  switch (getSurveyEnvironment()){
+  switch (getSurveyEnvironment()) {
     default:
     case "DEV":
       return "https://www.development.bceid.ca/os/?2242";
     case "TEST":
       return "https://www.test.bceid.ca/os/?8721";
     case "PROD":
-      return "https://www.bceid.ca/os/?7651"
+      return "https://www.bceid.ca/os/?7651";
   }
-}
-
-export const extractFilingLocations = () => {
-  axios.get("/efiling/locations/").then(
-    response => {
-      const locationsInfo = response.data;
-      const locationNames = Object.keys(response.data);
-      const locations = [];
-      for (const location of locationNames) {
-        const locationInfo = locationsInfo[location];
-        locations.push({ id: locationInfo.location_id, name: location});
-      }
-    },
-    err => console.log(err)
-  );
 };
 
 export const formatMailingAddress = (mailingAddress: AddressInfo): string => {
@@ -71,12 +55,12 @@ export const formatMonthDayYear = date => {
 };
 
 export const convertBlobAndDownload = (blob, formName) => {
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      document.body.appendChild(link);
-      link.download = `${formName}.pdf`;
-      link.click();
-      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  document.body.appendChild(link);
+  link.download = `${formName}.pdf`;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(link.href), 1000);
 };
 
 export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {

@@ -22,8 +22,9 @@ import { getSurveyEnvironment } from "@/utils/utils";
 import surveyJson from "@/survey-primary.json";
 import { getSurvey, setSurvey } from "@/state/survey-state";
 import { SurveyDataService } from "@/services/survey-data-service";
+import { LocationService } from "@/services/location-service";
 import { SurveyQuestionNames } from "@/types/survey-primary";
-import { getApplicationId } from "@/state/application-state";
+import { getApplicationId, setLocations } from "@/state/application-state";
 
 export default defineComponent({
   name: "SurveyMain",
@@ -132,6 +133,16 @@ export default defineComponent({
     };
 
     loadSurveyJson();
+
+    const loadLocations = async () => {
+      try {
+        const response = await LocationService.getLocations();
+        setLocations(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    loadLocations();
 
     return {
       survey,
