@@ -63,7 +63,6 @@ export function addCustomTemplating(surveyRuntime: any) {
       str = m[1];
     }
     if (survey.platformName === "vue") {
-      debugger;
       str = convertCodeMarkupToToolTip(str);
       //Qualifying for example didn't convert to <code> and left it as `.
       str = convertTicksToToolTip(str);

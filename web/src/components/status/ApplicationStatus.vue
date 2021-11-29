@@ -120,7 +120,6 @@ import { Component, Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/survey/survey-init";
 import { SurveyDataService } from "@/services/survey-data-service";
-import { extractFilingLocations } from "@/utils/utils";
 import { setApplicationId, setError } from "@/state/application-state";
 import { format } from "date-fns-tz";
 import { differenceInMinutes } from "date-fns";
@@ -170,7 +169,6 @@ export default class ApplicationStatus extends Vue {
     } catch (error) {
       this.error = error;
     }
-    extractFilingLocations();
   }
 
   public async resumeApplication(applicationId) {

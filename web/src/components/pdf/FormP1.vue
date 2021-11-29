@@ -29,33 +29,27 @@
       <underline-form
         textwidth="36rem"
         :beforetext="takeNoticeTitle()"
-        hint="Full Name of Applicant(s)"
         :text="getAllApplicants()"
       />
-      <div style="display:inline-block; text-indent: 5px;">
+      <div style="display:inline-block;">
         propose(s) to apply, in the
       </div>
       <underline-form
-        class="mt-3"
+        class="mt-3 ml-1"
         textwidth="20rem"
         beforetext=""
-        hint="Court Location"
         :text="serviceContact.courtLocation"
       />
       <underline-form
-        style="text-indent: 5px;"
         class="mt-3"
         textwidth="28rem"
         beforetext="court registry, for"
-        hint="Application Type"
         :text="applicationType()"
       />
       <underline-form
-        style="text-indent: 5px;"
         class="mt-3"
         textwidth="22rem"
         beforetext="in relation to the estate of the deceased described below who died on"
-        hint="Deceased’s Date of Death (mm dd yyyy)"
         :text="deceased.dateOfDeath"
       />
 
@@ -64,19 +58,12 @@
         class="mt-0"
         textwidth="40rem"
         beforetext=""
-        hint="Name"
         :text="formatDeceasedName(deceased)"
       />
       <div style="margin:2rem 0 1rem 0rem;">
         Last residential address of the deceased:
       </div>
-      <underline-form
-        class="mt-0"
-        textwidth="40rem"
-        beforetext=""
-        hint="Street Number or Post Office Box, City/Town, Province, Country and Postal Code"
-        :text="deceased.address"
-      />
+      <underline-form class="mt-0" textwidth="40rem" beforetext="" :text="deceased.address" />
 
       <div class="mt-3">
         This application does not relate to a will or foreign grant.
@@ -162,24 +149,17 @@
       </div>
 
       <div v-for="(name, i) in applicantList" :key="i + 100">
-        <underline-form
-          class="mt-5"
-          textwidth="40rem"
-          beforetext="Name:"
-          hint="Name"
-          :text="name.fullName"
-        />
+        <underline-form class="mt-5" textwidth="40rem" beforetext="Name:" :text="name.fullName" />
 
         <underline-form
           class="my-3"
           textwidth="40rem"
           beforetext="Mailing address:"
-          hint="Street Number or Post Office Box, City/Town, Province, Country and Postal Code"
           :text="name.address"
         />
 
         <check-box
-          :check="name.individual"
+          :check="name.individual && !name.differentAddress"
           text="This applicant is an individual and ordinarily lives at the mailing address noted above."
         />
 
@@ -192,9 +172,8 @@
         <underline-form
           style="text-indent: 26px;"
           class="mt-0"
-          textwidth="30rem"
+          textwidth="20rem"
           beforetext=""
-          hint="City and Country"
           :text="name.differentAddress"
         />
         <div v-if="i < 1" class="new-page"></div>
@@ -207,23 +186,13 @@
         class="mt-4"
         textwidth="40rem"
         beforetext="Street address for service"
-        hint="Street Number, City/Town, Province, Country and Postal Code"
         :text="serviceContact.address"
-      />
-      <underline-form
-        v-if="serviceContact.applicantServicePOBoxAddress"
-        class="mt-3"
-        textwidth="40rem"
-        beforetext="PO Box within 30km of (Courthouse Location)"
-        hint=""
-        :text="serviceContact.fax"
       />
       <underline-form
         v-if="serviceContact.fax"
         class="mt-3"
         textwidth="40rem"
         beforetext="Fax number for service (if any)"
-        hint="Fax Number (+1 AreaCode XXX-XXXX )"
         :text="serviceContact.fax"
       />
       <underline-form
@@ -235,15 +204,14 @@
         :text="serviceContact.email"
       />
       <underline-form
-        class="mt-3 mb-5"
+        class="mt-3 mb-3"
         textwidth="40rem"
         beforetext="Telephone number"
-        hint="Phone Number (+1 AreaCode XXX-XXXX )"
         :text="serviceContact.phone"
       />
 
       <div class="mt-5 row" v-for="(name, i) in applicantList" :key="i">
-        <div class="col-4">
+        <div class="col-5">
           <underline-form
             textwidth="16rem"
             beforetext="Date"
@@ -251,36 +219,25 @@
             :text="formatMonthDayYear(new Date())"
           />
         </div>
-        <div class="col-8">
-          <underline-form textwidth="20rem" beforetext="" hint="" text="" />
-          <div style="display:inline-block;text-indent:10px;">Signature of</div>
-          <check-box
-            style="display:inline-block;"
-            shift="10"
-            :check="name.lawyer ? '' : 'yes'"
-            text=""
-          />
-          <underline-form
-            style="display:inline-block;margin-left:2.5rem;"
-            textwidth="24.5rem"
-            beforetext="applicant"
-            hint="full name"
-            :text="name.lawyer ? '' : name.fullName"
-          />
-          <div>
-            <check-box
-              style="display:inline-block;"
-              shift="118"
-              :check="name.lawyer ? 'yes' : ''"
-              text=""
-            />
-            <underline-form
-              style="display:inline-block;margin-left:9rem;"
-              textwidth="19.55rem"
-              beforetext="lawyer for applicant"
-              hint="lawyer's full name"
-              :text="name.lawyer"
-            />
+        <div class="col-7 mt-4">
+          <underline-form textwidth="20rem" beforetext="" hint="" text="" /><br />
+          <div style="display: inline-block" class="mr-4">Signature of</div>
+          <div style="display: inline-block">
+              <check-box style="display: inline-block" class="mr-4" :check="name.lawyer ? '' : 'yes'" text="" />
+              applicant <br/>
+              <check-box
+                style="display: inline-block"
+                :check="name.lawyer ? 'yes' : ''"
+                text=""
+                class="mr-4"
+              />
+              lawyer for applicant(s)
+              <underline-form
+                style="display: inline-block"
+                textwidth="20rem"
+                beforetext=""
+                :text="name.lawyer"
+              />
           </div>
         </div>
       </div>
@@ -303,7 +260,7 @@ import {
   formPdfHtml,
   convertBlobAndDownload
 } from "@/utils/utils";
-import { getApplicationId } from "@/state/application-state";
+import { getApplicationId, getLocations } from "@/state/application-state";
 
 export default defineComponent({
   name: "FormP1",
@@ -375,29 +332,48 @@ export default defineComponent({
       const applicantPanel = survey.data[SurveyQuestionNames.applicantInfoPanel] || [];
       applicantList.value = applicantPanel.map((a: applicantInfoPanel) => {
         return {
-          fullName: (a as any).applicantName, //Brought over via survey-on-value-change (from javascript)
+          fullName: (a as any).applicantName || "", //Brought over via survey-on-value-change (from javascript)
           address:
-            formatMailingAddress(a.applicantMailingAddress) ||
-            formatMailingAddress(a.applicantOrdinaryAddress),
+            a.applicantOrdinaryAddressReceiveMail == "y"
+              ? formatMailingAddress(a.applicantMailingAddress)
+              : formatMailingAddress(a.applicantOrdinaryAddress),
           individual: true, // applicantNewPartOfOrg not used.
-          lawyer: data.applicantLawyerName,
-          differentMail: a.applicantOrdinaryAddressReceiveMail !== null,
-          differentAddress: formatCityCountry(a.applicantOrdinaryAddress)
+          lawyer: data.applicantHasLawyer ? data.applicantLawyerName || "" : "",
+          differentMail: a.applicantOrdinaryAddressReceiveMail === "y",
+          differentAddress:
+            a.applicantOrdinaryAddressReceiveMail === "y"
+              ? formatCityCountry(a.applicantOrdinaryAddress) || ""
+              : ""
         } as FormP1Applicant;
       });
       deceased.value = {
         ...data.deceasedName,
-        address: formatMailingAddress(data.deceasedAddress),
-        dateOfDeath: data.deceasedDateOfDeath
+        address: formatMailingAddress(data.deceasedAddress) || "",
+        dateOfDeath: data.deceasedDateOfDeath ? dateFormatter(data.deceasedDateOfDeath) : ""
       };
-      //Check if LAWYER, IF WE HAVE A LAWYER USE THIER INFO HERE.
       serviceContact.value = {
-        address: formatMailingAddress(data.applicantServiceAddress), // applicantServicePOBox?
-        phone: data.applicantServicePhone,
-        fax: data.applicantServiceFax,
-        email: data.applicantServiceEmail,
-        courtLocation: data.applicantCourthouse //Map this ID to name.
+        address: formatMailingAddress(data.applicantServiceAddress) || "",
+        phone: data.applicantServicePhone || "",
+        fax: data.applicantServiceFax || "",
+        email: data.applicantServiceEmail || "",
+        courtLocation:
+          getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.text ||
+          data.applicantCourthouse ||
+          ""
       };
+      if (data.applicantHasLawyer == "y") {
+        serviceContact.value = {
+          ...serviceContact.value,
+          address: formatMailingAddress(data.applicantLawyerFirmAddress) || "",
+          phone: data.applicantLawyerPhone,
+          fax: data.applicantLawyerFax,
+          email: data.applicantLawyerEmail
+        };
+      }
+    };
+
+    const dateFormatter = dateString => {
+      return formatMonthDayYear(new Date(dateString.replace(/-/g, "/")));
     };
 
     const formatCityCountry = mailingAddress => {
@@ -436,14 +412,24 @@ export default defineComponent({
     const onPrint = async () => {
       const applicationId = getApplicationId.value;
       const formName = "FormP1";
-      const html = formPdfHtml(root.value.innerHTML, "hey", "hey");
+      const html = formPdfHtml(
+        root.value.innerHTML,
+        `Generated by 'Represent Someone Who Died On' ${formatMonthDayYear(new Date())}`,
+        ""
+      );
       const jsonData = {
         applicantList: applicantList.value,
         deceased: deceased.value,
         serviceContact: serviceContact.value
       };
-      try { 
-        const response = await SurveyDataService.getPdf(applicationId, formName, html, jsonData, '1.0');
+      try {
+        const response = await SurveyDataService.getPdf(
+          applicationId,
+          formName,
+          html,
+          jsonData,
+          "1.0"
+        );
         convertBlobAndDownload(response.data, formName);
       } catch (err) {
         console.log(err);

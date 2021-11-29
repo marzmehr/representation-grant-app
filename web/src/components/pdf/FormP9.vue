@@ -327,7 +327,6 @@ export default defineComponent({
     };
 
     const onPrint = async () => {
-      debugger;
       let innerHTML = "";
       root.value.forEach((r: HTMLElement) => (innerHTML += r.innerHTML));
       const html = formPdfHtml(innerHTML, "hey", "hey");
