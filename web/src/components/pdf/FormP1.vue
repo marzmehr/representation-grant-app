@@ -340,10 +340,10 @@ export default defineComponent({
               ,
           individual: true, // applicantNewPartOfOrg not used.
           lawyer: data.applicantHasLawyer ? data.applicantLawyerName || "" : "",
-          differentMail: a.applicantOrdinaryAddressReceiveMail === "y",
+          differentMail: a.applicantOrdinaryAddressReceiveMail === "n",
           differentAddress:
-            a.applicantOrdinaryAddressReceiveMail === "y"
-              ? formatCityCountry(a.applicantOrdinaryAddress) || ""
+            a.applicantOrdinaryAddressReceiveMail === "n"
+              ? formatCityCountry(a.applicantMailingAddress) || ""
               : ""
         } as FormP1Applicant;
       });
