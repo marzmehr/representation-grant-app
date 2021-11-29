@@ -374,7 +374,7 @@ export default defineComponent({
       for (const i in applicants) {
         let applicant: FormP9Applicant = {
           courthouse: 
-            getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.text ||
+            getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.name ||
             data.applicantCourthouse ||
             "",
           address: "",
