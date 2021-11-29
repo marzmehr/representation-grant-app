@@ -210,7 +210,7 @@ export default defineComponent({
             );
 
             const title = displayable.localizableStrings.title.renderedHtml;
-            const suffix = j < displayable.length - 1 ? "\n" : "";
+            const suffix = j < displayables.length - 1 ? "\n" : "";
             panelCell += convertTicksToToolTip(title) + separator(title) + formattedAnswer + suffix;
           });
 

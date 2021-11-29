@@ -113,7 +113,7 @@
                   <underline-form
                     :key="recipient.recipientName"
                     style="margin:0.5rem 0 ;display:inline-block; text-indent: 20px;"
-                    textwidth="41.5rem"
+                    textwidth="20rem"
                     beforetext=""
                     hint=""
                     :text="recipient.recipientName"
@@ -276,7 +276,7 @@ import {
   formatMailingAddress,
   formPdfHtml
 } from "@/utils/utils";
-import { getApplicationId } from "@/state/application-state";
+import { getApplicationId, getLocations } from "@/state/application-state";
 
 export default defineComponent({
   name: "FormP9",
@@ -373,7 +373,10 @@ export default defineComponent({
 
       for (const i in applicants) {
         let applicant: FormP9Applicant = {
-          courthouse: data.applicantCourthouse,
+          courthouse: 
+            getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.text ||
+            data.applicantCourthouse ||
+            "",
           address: "",
           fullName: applicants[i].applicantName,
           occupation: "",
@@ -382,8 +385,8 @@ export default defineComponent({
 
         if (applicantQuestion) {
           const applicantPanel = applicantQuestion.value[i] as applicantInfoPanel;
-          const base = applicantPanel?.applicantOrdinaryAddress;
-          applicant.address = formatMailingAddress(base);
+          const address = applicantPanel?.applicantOrdinaryAddress;
+          applicant.address = `${address?.city}, ${address?.country}`;
           applicant.occupation = applicantPanel.applicantOccupation || "";
         }
 
