@@ -335,8 +335,9 @@ export default defineComponent({
           fullName: (a as any).applicantName || "", //Brought over via survey-on-value-change (from javascript)
           address:
             a.applicantOrdinaryAddressReceiveMail == "y"
-              ? formatMailingAddress(a.applicantMailingAddress)
-              : formatMailingAddress(a.applicantOrdinaryAddress),
+              ? formatMailingAddress(a.applicantOrdinaryAddress) :
+              formatMailingAddress(a.applicantMailingAddress)
+              ,
           individual: true, // applicantNewPartOfOrg not used.
           lawyer: data.applicantHasLawyer ? data.applicantLawyerName || "" : "",
           differentMail: a.applicantOrdinaryAddressReceiveMail === "y",
@@ -357,7 +358,7 @@ export default defineComponent({
         fax: data.applicantServiceFax || "",
         email: data.applicantServiceEmail || "",
         courtLocation:
-          getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.text ||
+          getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.name ||
           data.applicantCourthouse ||
           ""
       };
