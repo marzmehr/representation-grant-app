@@ -1,6 +1,6 @@
 import showdown from "showdown";
 import { ExpressionRunner } from "survey-vue";
-import { convertCodeMarkupToToolTip } from "@/utils/utils";
+import { convertCodeMarkupToToolTip, convertTicksToToolTip } from "@/utils/utils";
 //This is the regular instance, not SurveyKO module.
 export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onProcessTextValue.add(function(sender, options) {
@@ -63,7 +63,10 @@ export function addCustomTemplating(surveyRuntime: any) {
       str = m[1];
     }
     if (survey.platformName === "vue") {
+      debugger;
       str = convertCodeMarkupToToolTip(str);
+      //Qualifying for example didn't convert to <code> and left it as `.
+      str = convertTicksToToolTip(str);
     }
     // Sometimes if there is no text, it will display the default.
     options.html = str;
