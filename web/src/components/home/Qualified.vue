@@ -45,6 +45,7 @@
 </template>
 
 <script lang="ts">
+import { getBCEIDUrl } from "@/utils/utils";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
@@ -52,7 +53,7 @@ export default class LandingPage extends Vue {
   public navigate(userType) {
     if (userType === "new") {
       //Register a BCeID
-      this.$router.push({ name: "surveys" });
+      window.location.replace(getBCEIDUrl());
     } else if (userType === "returning") {
       //Login BCeID
       this.$router.push({ name: "surveys" });

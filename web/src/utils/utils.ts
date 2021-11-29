@@ -29,6 +29,18 @@ export const getSurveyEnvironment = () => {
   }
 };
 
+export const getBCEIDUrl = () => {
+  switch (getSurveyEnvironment()){
+    default:
+    case "DEV":
+      return "https://www.development.bceid.ca/os/?2242";
+    case "TEST":
+      return "https://www.test.bceid.ca/os/?8721";
+    case "PROD":
+      return "https://www.bceid.ca/os/?7651"
+  }
+}
+
 export const extractFilingLocations = () => {
   axios.get("/efiling/locations/").then(
     response => {
