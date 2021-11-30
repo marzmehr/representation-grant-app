@@ -1,4 +1,7 @@
 import { format } from "date-fns";
+import { getSurvey } from "@/state/survey-state";
+import { getApplicationId } from "@/state/application-state";
+import { SurveyDataService } from "@/services/survey-data-service";
 import bootstrapCss from "!!raw-loader!@/styles/bootstrapCSS.css";
 import pdfCss from "!!raw-loader!@/styles/_pdf.css";
 
@@ -108,4 +111,16 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
   ];
   console.log(body[0]);
   return body;
+};
+
+export const saveSurvey = () => {
+  try {
+    const applicationId = getApplicationId.value;
+    const data = getSurvey.value.data;
+    console.log(applicationId);
+    console.log(data);
+    SurveyDataService.updateApplication(applicationId, data);
+  } catch (err) {
+    console.log(err);
+  }
 };

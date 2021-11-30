@@ -32,6 +32,7 @@
 import { onMounted, defineComponent, reactive, ref } from "@vue/composition-api";
 import FormP1 from "@/components/pdf/FormP1.vue";
 import FormP9 from "@/components/pdf/FormP9.vue";
+import { saveSurvey } from "@/utils/utils";
 
 export default defineComponent({
   components: {
@@ -70,6 +71,7 @@ export default defineComponent({
 
     const downloadPdf = () => {
       //Not ideal for Typescript.
+      saveSurvey();
       form.value.onPrint();
     };
 
