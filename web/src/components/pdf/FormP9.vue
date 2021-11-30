@@ -474,11 +474,15 @@ export default defineComponent({
     };
 
     const allP1DeliveryElectronicReceipt = applicant => {
-      return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceipt !== "y");
+      const elecRecipients = electronicRecipients(applicant);
+      const receipts = elecRecipients.filter(r => r?.p1DeliveryElectronicReceipt === "y");
+      return elecRecipients.length === receipts.length;
     };
 
     const allP1DeliveryElectronicReceiptRetain = applicant => {
-      return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceiptRetain !== "confirmed");
+      const elecRecipients = electronicRecipients(applicant);
+      const receipts = elecRecipients.filter(r => r?.p1DeliveryElectronicReceiptRetain === "confirmed");
+      return elecRecipients.length === receipts.length;
     };
 
     onMounted(() => {
