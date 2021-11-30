@@ -6525,9 +6525,9 @@
        "type": "infotext",
        "name": "childIsAdultLogic",
        "visible": false,
-       "title": "Logic Documentation - childIsAdult = \"n\"",
+       "title": "Logic Documentation - [childIsAdult] = 'n'",
        "titleLocation": "hidden",
-       "body": "see the following Message Texts on spousePage:\n<br>\n{successorIsAdultLogic}\n<br>\n{successorRule25-2(8)}\n<br>\n{successorRule25-2(9)}\n<br>\n{successorRule25-2(13)}",
+       "body": "see the following Message Texts on spousePage:\n<br>\n[successorIsAdultLogic]\n<br>\n[successorRule25-2(8)]\n<br>\n[successorRule25-2(9)]\n<br>\n[successorRule25-2(13)]",
        "messageStyle": "error"
       },
       {
@@ -6749,9 +6749,9 @@
        "type": "infotext",
        "name": "childIsCompetentLogic",
        "visible": false,
-       "title": "Logic Documentation - childIsCompetent = \"n\"",
+       "title": "Logic Documentation - [childIsCompetent] = 'n'",
        "titleLocation": "hidden",
-       "body": "see the following Message Texts on spousePage:\n<br>\n{successorIsCompetentLogic}\n<br>\n{successorRule25-2(10&11)}",
+       "body": "see the following Message Texts on spousePage:\n<br>\n[successorIsCompetentLogic]\n<br>\n[successorRule25-2(10&11]",
        "messageStyle": "error"
       },
       {
@@ -7185,25 +7185,35 @@
      "elements": [
       {
        "type": "infotext",
+       "name": "childExitTempExplanation",
+       "title": "Next, this service will ask if {deceasedName} owned anyone more than $10,000.",
+       "titleLocation": "hidden"
+      },
+      {
+       "type": "infotext",
        "name": "question457",
+       "visible": false,
        "title": "AWOW yes spouse, yes children, done successors, move on to creditors",
        "titleLocation": "hidden"
       },
       {
        "type": "infotext",
        "name": "question28",
+       "visible": false,
        "title": "AWOW no spouse, yes children, all alive, \nmove to creditors",
        "titleLocation": "hidden"
       },
       {
        "type": "infotext",
        "name": "question26",
+       "visible": false,
        "title": "yes spouse, no children, creditors",
        "titleLocation": "hidden"
       },
       {
        "type": "infotext",
        "name": "question486",
+       "visible": false,
        "title": "Grandchildren\nYes spouse, some children alive, dead children have own children\nNo spouse, some children alive, dead children have own children\n<br><br>\nParents\nNo spouse, no children \nNo spouse, all children dead (dead children have no children)\n<br><br>\n[actually let's go to beneficiaries first and only if there is a will] Creditors/Beneficiaries\nNo spouse, yes children (all alive)\nYes spouse, all children dead (dead children have no children)\nYes spouse, yes children (all alive)",
        "titleLocation": "hidden"
       },
@@ -7470,7 +7480,7 @@
       {
        "type": "infotext",
        "name": "creditorPersonExplanationDisplay",
-       "title": "In past steps, you have identified that the people who need to know that you are applying for a `Representation Grant` for {deceasedName} may include:\n<ul><b>\n{bullets(spouseInfoPanel.spouseName)}{bullets(childInfoPanel.childName)}\n</b></ul>\n\n[If there is no successors, display \"no one\"\n<br>\nBecause you already letting these people know that you are applying for a Representation Grant, do not identify them again in this step.\n",
+       "title": "In past steps, you have identified that the people who need to know that you are applying for a `Representation Grant` for {deceasedName} may include:\n<ul><b>\n[bullets[spouseInfoPanel.spouseName]][bullets[childInfoPanel.childName]]\n</b></ul>\n\n[If there is no successors, display \"no one\"\n<br>\nBecause you already letting these people know that you are applying for a Representation Grant, do not identify them again in this step.\n",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -7480,25 +7490,34 @@
        "name": "creditorPersonExists",
        "visible": false,
        "visibleIf": "{creditorPersonExplanationDisplay} > 0",
-       "title": "Not including the people already identified in the list above, did {deceasedName} owe more than $10,000 to any one person?"
+       "title": "Not including the people already identified in the list above, did {deceasedName} owe more than $10,000 to any one person?",
+       "isRequired": true
       },
       {
        "type": "helptext",
        "name": "creditorPersonExistsFAQ1",
        "visible": false,
        "visibleIf": "{creditorPersonExplanationDisplay} > 0",
-       "title": "What if {deceasedName} owed more than $10,000 all together to multiple people?",
+       "title": "What if {deceasedName} owed less than $10,000 to a single person?",
        "titleLocation": "hidden",
-       "body": "nah, just if {deceasedName} owed more than $10,000 to a single regular person. \n\ncopy content from spouse \"if you're not sure\""
+       "body": "If {deceased} owed a single person less than $10,000, you do not need to include them here. \n<br><br>\nHowever, if you are not sure if {deceasedName} owed a single person more than $10,000 or not, it is safer for you to include this person.  \n<br><br>\nYou want as much transparency in your application as possible in case the Court decides that you should have let this person know you were applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {deceasedName}'s `estate`. \n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/168_2009_03_1#part25\" target=\"_blank\">\nFor more information, click here to read about who should know you are applying for a Representation Grant from the <i>Supreme Court Civil Rules</i>, Rule 25-2, Section (2) (b) (ii).</a> (This link opens in a new tab)"
       },
       {
        "type": "helptext",
        "name": "creditorPersonExistsFAQ2",
        "visible": false,
-       "visibleIf": "{creditorPersonExplanationDisplay} > 0",
-       "title": "What if {deceasedName} owed less than $10,000 to a single person?",
+       "title": "[unnecessary question?] What if {deceasedName} owed more than $10,000 all together to multiple people?",
        "titleLocation": "hidden",
-       "body": "nah, just if {deceasedName} owed more than $10,000 to a single regular person."
+       "body": "If {deceasedName} owed more than $10,000 but not , just if {deceasedName} owed more than $10,000 to a single regular person. \n\ncopy content from spouse \"if you're not sure\"\nAND you have not already identified this person in this service."
+      },
+      {
+       "type": "infotext",
+       "name": "creditorPersonExistsNoTempError",
+       "visible": false,
+       "visibleIf": "{creditorPersonExists} = 'y'",
+       "title": "If {deceasedName} owed more than $10,000 to a single person, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\nPlease check later to see if this service has been developed for your specific situation. This service is continuously expanding to help more and more people.\n<br><br>\nIn the mean time, the Government of British Columbia offers PDF forms that you may find helpful for your application. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"_blank\">Click here to go to the forms.</a> (This link opens in a new tab)",
+       "titleLocation": "hidden",
+       "messageStyle": "error"
       }
      ],
      "visible": false,
@@ -7508,7 +7527,7 @@
      "type": "paneldynamic",
      "name": "creditorPersonInfoPanel",
      "visible": false,
-     "visibleIf": "{creditorPersonExists} = \"y\"",
+     "visibleIf": "{creditorPersonExists} = 'yy'",
      "templateElements": [
       {
        "type": "text",
@@ -7521,6 +7540,7 @@
       {
        "type": "infotext",
        "name": "creditorExtraWillQuestionsLogic",
+       "visible": false,
        "titleLocation": "hidden",
        "body": "Extra Will Questions are not required because this service is asking the applicant to omit previously identified people, which includes executors. In addition, when there is no Will, this service does not ask for beneficiaries.",
        "messageStyle": "error"
@@ -7566,9 +7586,9 @@
        "type": "infotext",
        "name": "creditorPersonIsAdultLogic",
        "visible": false,
-       "title": "Logic Documentation - creditorPersonIsAdult = \"n\"",
+       "title": "Logic Documentation - [creditorPersonIsAdult] = 'n'",
        "titleLocation": "hidden",
-       "body": "see the following Message Texts on spousePage:\n<br>\n{successorIsAdultLogic}\n<br>\n{successorRule25-2(8)}\n<br>\n{successorRule25-2(9)}\n<br>\n{successorRule25-2(13)}",
+       "body": "see the following Message Texts on spousePage:\n<br>\n[successorIsAdultLogic]\n<br>\n[successorRule25-2(8)]\n<br>\n[successorRule25-2(9)]\n<br>\n[successorRule25-2(13)]",
        "messageStyle": "error"
       },
       {
@@ -7585,7 +7605,7 @@
        "type": "text",
        "name": "creditorPersonIsAdultNoDOB",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"n\" and {panel.creditorPersonIsAdultNoExplanation} > 0",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'y' and {panel.creditorPersonIsAdult} = 'n' and {panel.creditorPersonIsAdultNoExplanation} > 0",
        "title": "When was {panel.creditorPersonName} born?",
        "isRequired": true,
        "inputType": "date"
@@ -8012,7 +8032,7 @@
        "type": "yesno",
        "name": "creditorPersonDied5DaysAfter",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"n\"",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n'",
        "title": "Did {panel.creditorPersonName} die after {deceasedDateOfDeathPlus4}?",
        "isRequired": true
       },
@@ -8020,7 +8040,7 @@
        "type": "helptext",
        "name": "creditorPersonDied5DaysAfterFAQ1",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"n\"",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n'",
        "title": "Why does this date matter?",
        "titleLocation": "hidden",
        "body": "Under the law, in order for {panel.creditorPersonName} to qualify for {deceasedName}'s `assets`, {panel.creditorPersonName} must have lived for at least 5 days after {deceasedName} died. Once {panel.creditorPersonName} has qualified, it doesn't matter if {panel.creditorPersonName} is now dead.\n<br><br>\nThe people managing {panel.creditorPersonName}'s belongings need to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section10\" target=\"_blank\">For more information, click here for the Five-day survival rule from the  <i>Wills, Estate and Succession Act</i> (WESA).</a> (This link opens in a new tab)"
@@ -8029,7 +8049,7 @@
        "type": "infotext",
        "name": "creditorPersonDied5DaysAfterNo",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"n\" and {panel.creditorPersonDied5DaysAfter} = \"n\"",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'n'",
        "title": "Because {panel.creditorPersonName} died before {deceasedDateOfDeathPlus4}, the people managing {panel.creditorPersonName}'s belongings do not need to know that you are applying for a `Representation Grant` for {deceasedName}.",
        "titleLocation": "hidden"
       },
@@ -8037,7 +8057,7 @@
        "type": "yesno",
        "name": "creditorPersonHasPersonalRep",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"n\" and {panel.creditorPersonDied5DaysAfter} = \"y\"",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y'",
        "title": "Does {panel.creditorPersonName} have a `personal representative`",
        "description": "If {panel.creditorPersonName}'s personal representative is not alive anymore, select \"NO\".",
        "isRequired": true
@@ -8046,7 +8066,7 @@
        "type": "text",
        "name": "creditorPersonPersonalRepName",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"n\" and {panel.creditorPersonDied5DaysAfter} = \"y\" and {panel.creditorPersonHasPersonalRep} = \"y\"",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y' and {panel.creditorPersonHasPersonalRep} = 'y'",
        "title": "What is the name of {panel.creditorPersonName}'s `personal representative`",
        "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
        "isRequired": true
@@ -8055,7 +8075,7 @@
        "type": "infotext",
        "name": "creditorPersonPersonalRepNameExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"n\" and {panel.creditorPersonDied5DaysAfter} = \"y\" and {panel.creditorPersonHasPersonalRep} = \"y\"  and {panel.creditorPersonPersonalRepName} notempty",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y' and {panel.creditorPersonHasPersonalRep} = 'y'  and {panel.creditorPersonPersonalRepName} notempty",
        "title": "Because {panel.creditorPersonName} died after {deceasedDateOfDeathPlus4}, {panel.creditorPersonPersonalRepName} needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will tell you how to let them know in a later step.",
        "titleLocation": "hidden"
       },
@@ -8063,7 +8083,7 @@
        "type": "text",
        "name": "creditorPersonInformalPersonalRepName",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"n\" and {panel.creditorPersonDied5DaysAfter} = \"y\" and {panel.creditorPersonHasPersonalRep} = \"n\"",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y' and {panel.creditorPersonHasPersonalRep} = 'n'",
        "title": "What is the name of the person most likely to manage {panel.creditorPersonName}'s money and belongings?",
        "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
        "isRequired": true
@@ -8072,7 +8092,7 @@
        "type": "infotext",
        "name": "creditorPersonInformalPersonalRepNameExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"n\" and {panel.creditorPersonDied5DaysAfter} = \"y\" and {panel.creditorPersonHasPersonalRep} = \"n\"  and {panel.creditorPersonInformalPersonalRepName} notempty",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y' and {panel.creditorPersonHasPersonalRep} = 'n'  and {panel.creditorPersonInformalPersonalRepName} notempty",
        "title": "Because {panel.creditorPersonName} died after {deceasedDateOfDeathPlus4}, {panel.creditorPersonInformalPersonalRepName} should know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will tell you how to let them know in a later step.",
        "titleLocation": "hidden"
       }
@@ -8109,13 +8129,12 @@
        "type": "infotext",
        "name": "creditorPersonCompleteNoError",
        "visible": false,
-       "visibleIf": "{creditorPersonComplete} = \"n\"",
+       "visibleIf": "{creditorPersonComplete} = 'n'",
        "titleLocation": "hidden",
        "messageStyle": "error"
       }
      ],
-     "visible": false,
-     "visibleIf": "{creditorPersonExists} = \"n\" or \n({creditorPersonExists} = \"y\" and isContainerReady('creditorPersonInfoPanel') = \"true\")\n"
+     "visible": false
     },
     {
      "type": "infotext",
@@ -8132,28 +8151,39 @@
       {
        "type": "yesno",
        "name": "creditorOrganizationExists",
-       "title": "Did {deceasedName} owe more than $10,000 to any one organization?",
+       "title": "Did {deceasedName} owe more than $10,000 to a single organization?",
        "description": "For example: \n<ul>\n<li>a bank for a mortgage or a line of credit</li>\n<li>a city or town for property taxes</li>\n<li>a utility like BC Hydro</li>\n<li>a contractor for home repairs</li>\n</ul>"
       },
       {
        "type": "helptext",
        "name": "creditorOrganizationExistsFAQ1",
+       "visible": false,
        "titleLocation": "hidden"
+      },
+      {
+       "type": "infotext",
+       "name": "creditorOrganizationExistsYesTempError",
+       "visible": false,
+       "visibleIf": "{creditorOrganizationExists} = 'y'",
+       "title": "If {deceasedName} owed more than $10,000 to a single organization, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\nPlease check later to see if this service has been developed for your specific situation. This service is continuously expanding to help more and more people.\n<br><br>\nIn the mean time, the Government of British Columbia offers PDF forms that you may find helpful for your application. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"_blank\">Click here to go to the forms.</a> (This link opens in a new tab)",
+       "titleLocation": "hidden",
+       "messageStyle": "error"
       }
      ],
      "visible": false,
-     "visibleIf": "{creditorPersonComplete} = \"y\""
+     "visibleIf": "{creditorPersonExists} = 'n' or \n({creditorPersonExists} = 'y' and isContainerReady('creditorPersonInfoPanel'))\n"
     },
     {
      "type": "paneldynamic",
      "name": "creditorOrganizationInfoPanel",
      "visible": false,
-     "visibleIf": "{creditorOrganizationExists} = \"y\"",
+     "visibleIf": "{creditorOrganizationExists} = 'yy'",
      "templateElements": [
       {
        "type": "text",
        "name": "creditorOrganizationName",
-       "title": "Name of Organization"
+       "title": "Name of Organization",
+       "isRequired": true
       }
      ],
      "panelCount": 1,
@@ -8176,7 +8206,7 @@
       {
        "type": "infotext",
        "name": "creditorExitCheckReview",
-       "title": "\n[1] In this step, you have identified that there is no one who would be considered {deceasedName}'s `spouse` at the time {deceasedName} died.\n<br>\n[2] In this step, you have identified that {deceasedName}'s `spouse` is <b>{spouseInfoPanel[0].spouseName}</b>.\n<br>\n[3] In this step, you have identified that, {deceasedName}'s `spouses` may include:\n<ul>\n<li><b>{spouseInfoPanel[0].spouseName}</b></li>\n<li><b>{spouseInfoPanel[1].spouseName}</b></li>\n<li><b>{spouseInfoPanel[2].spouseName}</b></li>\n</ul>\n<br>A common mistake that people make while using this service, is that they forget to include themselves. If you are {deceasedName}'s spouse but you haven't included yourself yet, please click the \"Add a spouse\" button and add information about yourself.\n<br><br>\nBefore moving on to the next step, please \nmake sure that you have identified everyone who may be considered {deceasedName}'s `spouse`.",
+       "title": "A common mistake that people make while using this service, is that they forget to include themselves. If you are someone who {deceasedName} owed more than $10,000, but you haven't included yourself yet, please add information about yourself.\n<br><br>\nBefore moving on to the next step, please \nmake sure that you have identified everyone who {deceasedName} may have owed $10,000.",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -8184,18 +8214,22 @@
       {
        "type": "yesno",
        "name": "creditorComplete",
-       "title": "Have you identified everyone who may be considered {deceasedName}'s `spouse`  "
+       "visible": false,
+       "visibleIf": "{creditorExitCheckReview} > 0",
+       "title": "Have you identified all the people and organizations who {deceasedName} owed each  who may be considered {deceasedName}'s `spouse`  "
       },
       {
        "type": "infotext",
        "name": "creditorCompleteNoError",
        "visible": false,
        "visibleIf": "{creditorComplete} = \"n\"",
+       "title": "Please identify everyone who {deceasedName} may have owed $10,000. These people or organizations should know that you are applying for a `Representation Grant` for {deceasedName}. \n<br><br>\nYou want as much transparency in your application as possible in case the Court decides that you should have let a person or organization know you were applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nEven though you are telling this person or organization you are applying for a Representation Grant, they don't automatically get part of {deceasedName}'s `estate`. \n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/168_2009_03_1#part25\" target=\"_blank\">\nFor more information, click here to read about who should know you are applying for a Representation Grant from the <i>Supreme Court Civil Rules</i>, Rule 25-2, Section (2) (b) (ii).</a> (This link opens in a new tab)",
        "titleLocation": "hidden",
        "messageStyle": "error"
       }
      ],
-     "visible": false
+     "visible": false,
+     "visibleIf": "{creditorPersonExists} = 'n' and {creditorOrganizationExists} = 'n'"
     },
     {
      "type": "panel",
@@ -8215,7 +8249,8 @@
        "titleLocation": "hidden"
       }
      ],
-     "visible": false
+     "visible": false,
+     "visibleIf": "{creditorPersonExists} = 'n' and {creditorOrganizationExists} = 'n' and {creditorComplete} = 'y'"
     }
    ],
    "visibleIf": "{surveyEnvironment} = 'DEV' or isContainerReady('childPage')",
@@ -8841,9 +8876,18 @@
       },
       {
        "type": "infotext",
-       "name": "applicantCitedReviewCheck",
+       "name": "applicantCitedYesTempError",
        "visible": false,
        "visibleIf": "{applicantCited} = 'y'",
+       "title": "If someone sent you a `citation`, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\nPlease check later to see if this service has been developed for your specific situation. This service is continuously expanding to help more and more people.\n<br><br>\nIn the mean time, the Government of British Columbia offers PDF forms that you may find helpful for your application. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"_blank\">Click here to go to the forms.</a> (This link opens in a new tab)",
+       "titleLocation": "hidden",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
+       "name": "applicantCitedReviewCheck",
+       "visible": false,
+       "visibleIf": "{applicantCited} = 'yy'",
        "title": "1. display alive names (but not the active applicants? maybe need to display them all in case current applicant was past citor and now joined forces)\n2. display dead names separately\n3. say, don't include these people in either of these lists answering next question",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -9193,7 +9237,7 @@
       {
        "type": "infotext",
        "name": "notifyReviewIntro",
-       "title": "Let's first review answers that was filled out.",
+       "title": "First, let's review your answers and make sure they are correct.",
        "titleLocation": "hidden"
       },
       {
@@ -9217,16 +9261,37 @@
        "isRequired": true
       },
       {
+       "type": "infotext",
+       "name": "notifyReviewDeceasedConfirmedNoError",
+       "visible": false,
+       "visibleIf": "{notifyReviewDeceasedConfirmed} = 'n'",
+       "title": "Fix the mistakes. Use the Edit button to navigate back to the original page.",
+       "titleLocation": "hidden",
+       "messageStyle": "error"
+      },
+      {
        "type": "reviewanswers",
        "name": "notifyReviewApplicant",
+       "visible": false,
+       "visibleIf": "{notifyReviewDeceasedConfirmed} = 'y'",
        "title": " Review answers about you",
        "reviewQuestions": "applicantChoice,applicantInfoPanel,applicantServiceAddress,applicantServicePhone,applicantServiceEmail,applicantHasFax,applicantServiceFax,applicantLawyerName,applicantLawyerFirmName,applicantLawyerFirmAddress,applicantLawyerPhone,applicantLawyerEmail,applicantLawyerHasFax,applicantLawyerFax,applicantCourthouse"
       },
       {
        "type": "yesno",
        "name": "notifyReviewApplicantConfirmed",
+       "visibleIf": "{notifyReviewDeceasedConfirmed} = 'y'",
        "title": "Is all of the information about you, and your contact info, correct? ",
        "isRequired": true
+      },
+      {
+       "type": "infotext",
+       "name": "notifyReviewApplicantConfirmedNoError",
+       "visible": false,
+       "visibleIf": "{notifyReviewDeceasedConfirmed} = 'y' and {notifyReviewApplicantConfirmed} = 'n'",
+       "title": "Fix the mistakes. Use the Edit button to navigate back to the original page.",
+       "titleLocation": "hidden",
+       "messageStyle": "error"
       },
       {
        "type": "infotext",
@@ -9244,7 +9309,9 @@
        "titleLocation": "hidden",
        "isRequired": true
       }
-     ]
+     ],
+     "visible": false,
+     "visibleIf": "{notifyIntroExplanation} > 0"
     },
     {
      "type": "infotext",
@@ -9261,7 +9328,7 @@
       {
        "type": "infotext",
        "name": "notifyP1DownloadExplanation",
-       "title": "First, download the Form P1.\n<br><br>\nYou will give the P1 to people who need to know you are applying to manage {deceasedName}'s belongings.\n<br><br>\nThe P1 has instructions on how to tell the Court if anyone doesn't think you should manage {deceasedName}'s belongings.",
+       "title": "Next, download the Form P1.\n<br><br>\nYou will give the P1 to people who need to know you are applying to manage {deceasedName}'s belongings.\n<br><br>\nThe P1 has instructions on how to tell the Court if anyone doesn't think you should manage {deceasedName}'s belongings.",
        "titleLocation": "hidden"
       },
       {
@@ -9294,7 +9361,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{notifyIntroExplanation} > 0"
+     "visibleIf": "{notifyReviewDeceasedConfirmed} = 'y' and {notifyReviewApplicantConfirmed} = 'y' and {notifyReviewConfirmed} > 0"
     },
     {
      "type": "infotext",
@@ -9355,7 +9422,7 @@
        "type": "yesno",
        "name": "notifyP1DeliveryElectronicReceipt",
        "visible": false,
-       "visibleIf": "{panel.notifyP1DeliveryDate} = 'electronic'",
+       "visibleIf": "{panel.notifyP1DeliveryMethod} = 'electronic'",
        "title": "Did {panel.p1DelivererName} get a written response from {panel.recipientName}?",
        "description": "A written response could simply be {panel.recipientName} saying \"I got the P1\" through the same electronic method or any other method.",
        "isRequired": true
@@ -9430,6 +9497,7 @@
      "type": "paneldynamic",
      "name": "notifyP1NewDelivererInfoPanel",
      "visible": false,
+     "title": " ",
      "templateElements": [
       {
        "type": "text",
@@ -9594,7 +9662,7 @@
       },
       {
        "type": "infotext",
-       "name": "question4",
+       "name": "jiraMultipleDeliverers",
        "visible": false,
        "titleLocation": "hidden",
        "body": "Should we have one P9 Button that generates all P9s collated?"
