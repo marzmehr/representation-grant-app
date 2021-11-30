@@ -184,22 +184,18 @@
                 has, in writing, acknowledged receipt of the document(s) referred to in this
                 section.
               </div>
-
-              <div
-                v-if="applicantList.length > 1 && allP1DeliveryElectronicReceiptRetain(applicant)"
-              >
-                We will retain a copy of those acknowledgements until the personal representative of
-                the deceased is discharged and will produce those acknowledgements promptly after
-                being requested to do so by the registrar.
-              </div>
-
-              <div
-                v-else-if="allP1DeliveryElectronicReceiptRetain(applicant)"
-              >
+              
+              <div v-if="electronicRecipients(applicant).length <= 1 && allP1DeliveryElectronicReceiptRetain(applicant)">
                 I will retain a copy of those acknowledgements until the personal representative of
                 the deceased is discharged and will produce those acknowledgements promptly after 
                 being requested to do so by the registrar.
                 after being requested to do so by the registrar.
+              </div>
+
+              <div v-if="electronicRecipients(applicant).length > 1 && allP1DeliveryElectronicReceiptRetain(applicant)">
+                We will retain a copy of those acknowledgements until the personal representative of
+                the deceased is discharged and will produce those acknowledgements promptly after
+                being requested to do so by the registrar.
               </div>
             </div>
           </li>
@@ -465,12 +461,37 @@ export default defineComponent({
       applicantList.value = matchApplicantsAndRecipients(applicants, recipients);
     };
 
+    const mailRecipients = applicant => {
+      return applicant.recipients.filter(r => r?.p1DeliveryMethod === "mail");
+    };
+
+    const inPersonRecipients = applicant => {
+      return applicant.recipients.filter(r => r?.p1DeliveryMethod === "inperson");
+    };
+
+    const electronicRecipients = applicant => {
+      return applicant.recipients.filter(r => r?.p1DeliveryMethod === "electronic");
+    };
+
+    const allP1DeliveryElectronicReceipt = applicant => {
+      return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceipt !== "y");
+    };
+
+    const allP1DeliveryElectronicReceiptRetain = applicant => {
+      return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceiptRetain !== "confirmed");
+    };
+
     onMounted(() => {
       if (survey) populateFromSurvey(survey);
       else populateFromFakeData();
     });
 
     return {
+      mailRecipients,
+      inPersonRecipients,
+      electronicRecipients,
+      allP1DeliveryElectronicReceipt,
+      allP1DeliveryElectronicReceiptRetain,
       applicantList,
       deceased,
       getLastUpdated,
@@ -478,23 +499,6 @@ export default defineComponent({
       onPrint,
       root
     };
-  },
-  methods: {
-    mailRecipients(applicant): any[] {
-      return applicant.recipients.filter(r => r?.p1DeliveryMethod === "mail");
-    },
-    inPersonRecipients(applicant): any[] {
-      return applicant.recipients.filter(r => r?.p1DeliveryMethod === "inperson");
-    },
-    electronicRecipients(applicant): any[] {
-      return applicant.recipients.filter(r => r?.p1DeliveryMethod === "electronic");
-    },
-    allP1DeliveryElectronicReceipt(applicant): boolean {
-      return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceipt !== "y");
-    },
-    allP1DeliveryElectronicReceiptRetain(applicant): boolean {
-      return !applicant.recipients.some(r => r?.p1DeliveryElectronicReceiptRetain !== "confirmed");
-    }
   }
 });
 </script>
