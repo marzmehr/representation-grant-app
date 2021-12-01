@@ -18,7 +18,7 @@ import SurveySidebar from "@/components/SurveySidebar.vue";
 import { addCustomTemplating } from "@/survey/survey-templating";
 import { onValueChanged } from "@/survey/survey-on-value-change";
 import { defineComponent, onMounted, ref } from "@vue/composition-api";
-import { getSurveyEnvironment } from "@/utils/utils";
+import { getSurveyEnvironment, saveSurvey } from "@/utils/utils";
 import surveyJson from "@/survey-primary.json";
 import { getSurvey, setSurvey } from "@/state/survey-state";
 import { SurveyDataService } from "@/services/survey-data-service";
@@ -77,13 +77,7 @@ export default defineComponent({
       if (sandboxName) return;
       clearTimeout(timeoutHandle);
       timeoutHandle = setTimeout(() => {
-        try {
-          const applicationId = getApplicationId.value;
-          const data = getSurvey.value.data;
-          SurveyDataService.updateApplication(applicationId, data);
-        } catch (err) {
-          console.log(err);
-        }
+        saveSurvey();
       }, 3500);
     };
 
