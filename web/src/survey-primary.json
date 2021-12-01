@@ -9735,7 +9735,7 @@
     }
    ],
    "visible": false,
-   "visibleIf": "isContainerReady('applicantPage' or {surveyEnvironment} = 'DEV'",
+   "visibleIf": "{applicantCourthouse} notempty",
    "title": "Tell People You Are Applying"
   },
   {
