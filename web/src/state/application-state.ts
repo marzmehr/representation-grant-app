@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueCompositionApi, {ref, computed} from "@vue/composition-api";
 Vue.use(VueCompositionApi);
 
-const applicationId = ref(0);
+const applicationId = ref(null);
 export const getApplicationId = computed(() => applicationId.value);
 export const setApplicationId = newApplicationId => (applicationId.value = newApplicationId);
 

@@ -34,7 +34,7 @@ export default defineComponent({
   components: {
     SurveySidebar
   },
-  setup(props) {
+  setup(props, context) {
     let timeoutHandle: NodeJS.Timeout;
     const sandboxName = props.sandboxName;
     const Survey = SurveyVue;
@@ -47,6 +47,10 @@ export default defineComponent({
     const getApplication = async () => {
       try {
         const applicationId = getApplicationId.value;
+        if (!applicationId) {
+           const router = context.root.$router;
+           router.push({ name: "applicant-status" });
+        }
         const surveyData = await SurveyDataService.getApplication(applicationId);
         survey.value.data = surveyData?.data.steps;
       } catch (err) {
@@ -151,3 +155,7 @@ export default defineComponent({
   }
 });
 </script>
+
+function useRouter() {
+  throw new Error("Function not implemented.");
+}
