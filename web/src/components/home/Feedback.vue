@@ -68,6 +68,12 @@
         </div>
       </div>
 
+      <!-- <div class="row form-group">
+        <div class="col">
+          <vue-recaptcha siteKey="your key here"></vue-recaptcha>
+        </div>
+      </div> -->
+
       <div class="row form-group">
         <div class="col text-left">
           <button type="submit" class="btn btn-bcgold" @click="sendFeedback($event)" v-bind:class="{ loading: sending }" :disabled="sending">
@@ -82,6 +88,13 @@
 <script lang="ts">
 
 import { Component, Vue } from "vue-property-decorator";
+import Tooltip from "@/components/survey/Tooltip.vue";
+
+@Component({
+  components: {
+    Tooltip
+  }
+})
 
 export default class Feedback extends Vue {
   public loading = true;

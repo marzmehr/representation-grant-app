@@ -63,7 +63,7 @@ urlpatterns = [
     path("efiling/locations/", EFilingLocationView.as_view()),
     # path("efiling/<int:application_id>/submit/", EFilingSubmitView.as_view()),
     path("sandbox-survey/", SandboxSurveyView.as_view()),
-    path("feedback/", FeedbackView.as_view()),
+    path("send-feedback/", FeedbackView.as_view()),
 ]
 
 if settings.OIDC_ENABLED:
