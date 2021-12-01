@@ -57,11 +57,11 @@ import { getSurvey } from "@/state/survey-state";
 @Component
 export default class NavigationTopbar extends Vue {
   error = "";
-  public userName = "";
 
-  mounted() {
-    this.userName = getUserName.value;
+  get userName() {
+    return getUserName.value;
   }
+
   public logout(isQuickExit) {
     const emptyApplicationRoutes = ["/", "/status", "/serviceLocator"];
     if (emptyApplicationRoutes.indexOf(this.$route.fullPath) == -1) {
