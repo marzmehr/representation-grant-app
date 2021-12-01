@@ -9,6 +9,7 @@ import SurveyMain from "@/components/SurveyMain.vue";
 import FormP1 from "@/components/pdf/FormP1.vue";
 import FormP9 from "@/components/pdf/FormP9.vue";
 import { SessionService } from "@/services/session-service";
+import Feedback from "@/components/home/Feedback.vue";
 
 async function authGuard(to: any, from: any, next: any) {
   const result = await SessionService.getUserInfo();
