@@ -2827,7 +2827,7 @@
     }
    ],
    "visible": false,
-   "visibleIf": "{surveyEnvironment} = 'DEV' or isContainerReady('deceasedPage')",
+   "visibleIf": "isContainerReady('deceasedPage') or {surveyEnvironment} = 'DEV' ",
    "title": "{deceasedName}'s Will"
   },
   {
@@ -6312,7 +6312,7 @@
     }
    ],
    "visible": false,
-   "visibleIf": "{surveyEnvironment} = 'DEV' or isContainerReady('willPage')",
+   "visibleIf": "isContainerReady('willPage') or {surveyEnvironment} = 'DEV'",
    "title": "{deceasedName}'s Spouse"
   },
   {
@@ -7156,7 +7156,8 @@
        "type": "yesno",
        "name": "childCompleted",
        "visibleIf": "{childExitCheckReview} > 0",
-       "title": "Have you identified everyone who may be considered {deceasedName}'s child?  "
+       "title": "Have you identified everyone who may be considered {deceasedName}'s child?  ",
+       "isRequired": true
       },
       {
        "type": "infotext",
@@ -7229,7 +7230,8 @@
      "visibleIf": "{childCompleted} = \"y\""
     }
    ],
-   "visibleIf": "{surveyEnvironment} = 'DEV' or isContainerReady('spousePage')",
+   "visible": false,
+   "visibleIf": "(isContainerReady('spousePage') and {spouseCompleted} = 'y') or {surveyEnvironment} = 'DEV'",
    "title": "{deceasedName}'s Children"
   },
   {
@@ -8152,7 +8154,8 @@
        "type": "yesno",
        "name": "creditorOrganizationExists",
        "title": "Did {deceasedName} owe more than $10,000 to a single organization?",
-       "description": "For example: \n<ul>\n<li>a bank for a mortgage or a line of credit</li>\n<li>a city or town for property taxes</li>\n<li>a utility like BC Hydro</li>\n<li>a contractor for home repairs</li>\n</ul>"
+       "description": "For example: \n<ul>\n<li>a bank for a mortgage or a line of credit</li>\n<li>a city or town for property taxes</li>\n<li>a utility like BC Hydro</li>\n<li>a contractor for home repairs</li>\n</ul>",
+       "isRequired": true
       },
       {
        "type": "helptext",
@@ -8216,7 +8219,8 @@
        "name": "creditorComplete",
        "visible": false,
        "visibleIf": "{creditorExitCheckReview} > 0",
-       "title": "Have you identified all the people and organizations who {deceasedName} owed each  who may be considered {deceasedName}'s `spouse`  "
+       "title": "Have you identified all the people and organizations who {deceasedName} owed each  who may be considered {deceasedName}'s `spouse`  ",
+       "isRequired": true
       },
       {
        "type": "infotext",
@@ -8253,7 +8257,8 @@
      "visibleIf": "{creditorPersonExists} = 'n' and {creditorOrganizationExists} = 'n' and {creditorComplete} = 'y'"
     }
    ],
-   "visibleIf": "{surveyEnvironment} = 'DEV' or isContainerReady('childPage')",
+   "visible": false,
+   "visibleIf": "(isContainerReady('childPage') and {childCompleted} = 'y') or {surveyEnvironment} = 'DEV' ",
    "title": "{deceasedName}'s Creditors"
   },
   {
@@ -9202,7 +9207,8 @@
      "visibleIf": "{applicantCourthouse} notempty"
     }
    ],
-   "visibleIf": "{surveyEnvironment} = 'DEV' or isContainerReady('creditorPage')",
+   "visible": false,
+   "visibleIf": "{creditorComplete} = 'y' or {surveyEnvironment} = 'DEV'",
    "title": "Who is Applying to Represent {deceasedName}?"
   },
   {
@@ -9728,7 +9734,8 @@
      "visibleIf": "{surveyEnvironment} = 'DEV'"
     }
    ],
-   "visibleIf": "{surveyEnvironment} = 'DEV' or isContainerReady('applicantPage')",
+   "visible": false,
+   "visibleIf": "isContainerReady('applicantPage' or {surveyEnvironment} = 'DEV'",
    "title": "Tell People You Are Applying"
   },
   {
