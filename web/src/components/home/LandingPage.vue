@@ -122,6 +122,8 @@ export default class LandingPage extends Vue {
 
   mounted() {
     setHideHeaderFooter(false);
+    if (document?.referrer?.includes('bceid.ca'))
+      this.navigate('returning');
   }
   public navigate(userType) {
     if (userType === "new") {
