@@ -113,7 +113,7 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
   return body;
 };
 
-export const saveSurvey = () => {
+export const saveSurvey = async () => {
   try {
     const applicationId = getApplicationId.value;
     const data = getSurvey.value.data;

@@ -49,26 +49,18 @@ const routes = [
   {
     path: "/qualify",
     name: "pre-qualification",
-    // beforeEnter: authGuard,
     component: PreQualification
   },
   {
     path: "/qualified",
     name: "qualified",
-    // beforeEnter: authGuard,
     component: Qualified
   },
   {
     path: "/unqualified",
     name: "unqualified",
-    // beforeEnter: authGuard,
     component: UnQualified
   },
-  // {
-  //   path: "/results/:result",
-  //   name: "result-page",
-  //   component: ResultPage,
-  // },
   {
     path: "/survey",
     name: "surveys",
