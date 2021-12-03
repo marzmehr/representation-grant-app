@@ -263,3 +263,5 @@ ENCRYPTOR = Encryptor("DATA_SECURITY_KEY")
 FORCE_SCRIPT_NAME = os.getenv("WEB_BASE_HREF", "/represent-someone-who-died/")
 LOGOUT_REDIRECT_URL = os.getenv("LOGOUT_REDIRECT_URL", "/represent-someone-who-died/")
 SITEMINDER_LOGOFF_URL = os.getenv("SITEMINDER_LOGOFF_URL", "https://logontest.gov.bc.ca/clp-cgi/logoff.cgi")
+
+RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY", "")

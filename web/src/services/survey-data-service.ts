@@ -51,5 +51,17 @@ export const SurveyDataService = {
       },
       jsonConfig
     );
-  }
+  },
+  feedback: async function(feedback, opts) {
+    const config = {
+      responseType: "json",
+      ...opts
+    } as AxiosRequestConfig;
+    
+    return await axios.post(
+      `/feedback/`,
+      feedback,
+      config
+    );
+  },
 };

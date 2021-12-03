@@ -15,6 +15,7 @@ class FeedbackView(APIView):
 
     def post(self, request: Request, name=None):
         check_captcha = grecaptcha_verify(request)
+        print(check_captcha)
         if not check_captcha["status"]:
             return HttpResponseForbidden(
                 content_type="text/plain",
