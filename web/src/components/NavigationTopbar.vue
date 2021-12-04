@@ -89,6 +89,14 @@ export default class NavigationTopbar extends Vue {
 <style scoped lang="scss">
 @import "@/styles/_common";
 
+.navbar {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
 .navbar-brand:not(.logo) {
   flex: 1 1 auto;
 }
