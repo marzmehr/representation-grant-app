@@ -59,3 +59,14 @@ export default class NavigationFooter extends Vue {
 
 }
 </script>
+
+<style scoped lang="scss">
+@import "@/styles/_common";
+
+.navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+</style>
