@@ -113,6 +113,10 @@ export default class NavigationTopbar extends Vue {
   text-align: right;
 }
 
+.app-header {
+  margin-top: 63px;
+}
+
 #app-profile {
   color: $gov-white;
 }
