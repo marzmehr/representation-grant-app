@@ -97,7 +97,9 @@ export default class SandboxSidebar extends Vue {
   display: block;
   overflow-x: hidden;
   overflow-y: scroll;
-  position: static;
+  position: fixed;
+  margin-top: 63px;
+  margin-bottom: 57px;
   top: 0;
   bottom: 0;
   left: 0;
