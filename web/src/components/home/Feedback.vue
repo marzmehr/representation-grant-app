@@ -32,63 +32,56 @@
           </button>
         </div>
 
-        <div class="row form-group mt-2">
-          <div class="col">
-            <label class="control-label mb-0">Type of Feedback</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="reason" value="problem" id="reason_problem" required
-                v-model="feedback.reason">
-              <label class="form-check-label" for="reason_problem">Report a problem with this service</label>
+        <div v-if="!sent">
+          <div class="row form-group mt-2">
+            <div class="col">
+              <label class="control-label mb-0">Type of Feedback</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="reason" value="problem" id="reason_problem" required
+                  v-model="feedback.reason">
+                <label class="form-check-label" for="reason_problem">Report a problem with this service</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="reason" value="positive" id="reason_positive" required
+                  v-model="feedback.reason">
+                <label class="form-check-label" for="reason_positive">Give positive feedback for this service</label>
+              </div>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="reason" value="positive" id="reason_positive" required
-                v-model="feedback.reason">
-              <label class="form-check-label" for="reason_positive">Give positive feedback for this service</label>
+          </div>
+
+          <div class="row form-group">
+            <div class="col">
+              <label class="control-label mb-0">Name</label>
+              <input class="form-control" size="30" name="name" type="text" required v-model="feedback.name">
             </div>
           </div>
-        </div>
 
-        <div class="row form-group">
-          <div class="col">
-            <label class="control-label mb-0">Name</label>
-            <input class="form-control" size="30" name="name" type="text" required v-model="feedback.name">
+          <div class="row form-group">
+            <div class="col">
+              <label class="control-label mb-0">Email address</label>
+              <input class="form-control" size="30" name="email" type="email" required v-model="feedback.email">
+            </div>
           </div>
-        </div>
 
-        <div class="row form-group">
-          <div class="col">
-            <label class="control-label mb-0">Email address</label>
-            <input class="form-control" size="30" name="email" type="email" required v-model="feedback.email">
+          <div class="row form-group">
+            <div class="col">
+              <label class="control-label mb-0">Feedback</label>
+              <textarea class="form-control" name="comments" rows="6" cols="40" v-model="feedback.comments"></textarea>
+            </div>
           </div>
-        </div>
 
-        <div class="row form-group">
-          <div class="col">
-            <label class="control-label mb-0">Feedback</label>
-            <textarea class="form-control" name="comments" rows="6" cols="40" v-model="feedback.comments"></textarea>
-          </div>
-        </div>
-
-        <div class="row form-group">
-          <form @submit.prevent="onSubmit">
+          <div class="row form-group">
             <vue-recaptcha
-              ref="invisibleRecaptcha"
-              :sitekey="recaptchaKey"
-              @verify="onVerify"
-              @expired="onExpired"
-              size="invisible"
-              >
+              sitekey="some-string">
             </vue-recaptcha>
-            <button type="submit">Verify</button>
-          </form>
           </div>
-        </div>
 
-        <div class="row form-group">
-          <div class="col text-left">
-            <button type="submit" class="btn btn-bcgold" @click="sendFeedback($event)" v-bind:class="{ loading: sending }" :disabled="sending">
-              <span class="fa fa-paper-plane left"></span> Send Feedback
-            </button>
+          <div class="row form-group">
+            <div class="col text-left">
+              <button type="submit" class="btn btn-bcgold" @click="sendFeedback($event)" v-bind:class="{ loading: sending }" :disabled="sending">
+                <span class="fa fa-paper-plane left"></span> Send Feedback
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -224,5 +217,6 @@ export default defineComponent({
 
 .centre {
   margin: auto;
+  margin-top: 0;
 }
 </style>

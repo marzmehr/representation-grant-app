@@ -26,6 +26,7 @@
           </div>
           <span class="navbar-tag">BETA</span>
           <button v-if="inSurvey()" type="button" class="btn btn-primary btn-sm" style="margin-left: 20px" @click="save()">Save</button>
+          <button type="button" class="btn btn-primary btn-sm" style="margin-left: 20px" v-on:click="toFeedback()">Give Feedback</button>
         </div>
 
         <div class="navbar-extra">
@@ -98,6 +99,11 @@ export default class NavigationTopbar extends Vue {
     } else {
       return false;
     }
+  }
+  
+  public toFeedback() {
+    const route = this.$router.resolve({ name: "feedback" });
+    window.open(route.href, "_blank");
   }
 }
 </script>
