@@ -1,7 +1,7 @@
 <template>
   <div v-if="survey" style="display: flex; flex:auto;">
     <survey-sidebar class="survey-sidebar" :survey="survey" :changed="updatedKey" />
-    <div style="width:100%">
+    <div class="survey-content">
       <survey :survey="survey" class="pb-4 pl-4 pr-4" />
     </div>
   </div>
@@ -153,3 +153,11 @@ export default defineComponent({
 function useRouter() {
   throw new Error("Function not implemented.");
 }
+
+<style scoped lang="scss">
+.survey-content {
+  width: 100%;
+  margin-left: 22rem;
+  margin-bottom: 50px;
+}
+</style>
