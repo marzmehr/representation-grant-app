@@ -160,7 +160,6 @@ export default defineComponent({
       }
 
       const formatSwitchboard = (question, answer, questionType) => {
-
         if (!answer) {
           return "";
         } else if (questionType === "checkbox" || questionType === "radiogroup") {
@@ -185,7 +184,7 @@ export default defineComponent({
           ]);
         } else if (questionType === "customdate") {
           return dateFormatter(answer);
-        } else if (question.name === SurveyQuestionNames.applicantCourthouse) {
+        } else if (question?.name === SurveyQuestionNames.applicantCourthouse) {
           return getCourthouse(answer);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
