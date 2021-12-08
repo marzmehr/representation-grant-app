@@ -32,6 +32,8 @@
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import VRuntimeTemplate from "v-runtime-template";
 import { convertTicksToToolTip, formatMonthDayYear } from "@/utils/utils";
+import { SurveyQuestionNames } from "@/types/survey-primary";
+import { getLocations } from "@/state/application-state";
 export default defineComponent({
   components: {
     VRuntimeTemplate
@@ -153,7 +155,12 @@ export default defineComponent({
         return formatMonthDayYear(new Date(dateString.replace(/-/g, "/")));
       };
 
+      const getCourthouse = answer => {
+        return getLocations?.value?.find(l => l.id == answer)?.name || answer;
+      }
+
       const formatSwitchboard = (question, answer, questionType) => {
+
         if (!answer) {
           return "";
         } else if (questionType === "checkbox" || questionType === "radiogroup") {
@@ -178,6 +185,8 @@ export default defineComponent({
           ]);
         } else if (questionType === "customdate") {
           return dateFormatter(answer);
+        } else if (question.name === SurveyQuestionNames.applicantCourthouse) {
+          return getCourthouse(answer);
         } else if (Array.isArray(answer)) {
           return formatArray(answer);
         } else if (answer === Object(answer)) {
