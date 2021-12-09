@@ -15,21 +15,22 @@ class FeedbackView(APIView):
 
     def post(self, request: Request, name=None):
         check_captcha = grecaptcha_verify(request)
-        print(check_captcha)
+
         if not check_captcha["status"]:
             return HttpResponseForbidden(
                 content_type="text/plain",
                 content=check_captcha["message"])
 
-        data = request.data
+        data = request.data.get("value")
+
         x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
         if x_forwarded_for:
             ip_addr = x_forwarded_for.split(",")[0]
         else:
             ip_addr = request.META.get("REMOTE_ADDR")
         app_url = request.build_absolute_uri().split('/api', 1)[0]
-        from_name = data.get("from_name")
-        from_email = data.get("from_email")
+        from_name = data.get("name")
+        from_email = data.get("email")
         reason = data.get("reason")
         comments = data.get("comments")
 
@@ -42,7 +43,7 @@ class FeedbackView(APIView):
             "positive": "Positive feedback for this service"
         }
         reason_text = reason_map.get(reason) or ""
-        subject = "Virtual Traffic Hearing Feedback: {}".format(reason_text)
+        subject = "Represent Someone Who Died Feedback: {}".format(reason_text)
 
         LOGGER.info("Received feedback from %s <%s>", from_name, from_email)
         LOGGER.info("Site: %s", app_url)

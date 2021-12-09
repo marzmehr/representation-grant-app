@@ -71,14 +71,16 @@
           </div>
 
           <div class="row form-group">
-            <vue-recaptcha
-              sitekey="some-string">
-            </vue-recaptcha>
+            <VueRecaptcha
+              :sitekey="recaptchaKey"
+              :loadRecaptchaScript="true"
+              @verify="validate">
+            </VueRecaptcha>
           </div>
 
           <div class="row form-group">
             <div class="col text-left">
-              <button type="submit" class="btn btn-bcgold" @click="sendFeedback($event)" v-bind:class="{ loading: sending }" :disabled="sending">
+              <button type="submit" class="btn btn-bcgold" @click="sendFeedback($event)" v-bind:class="{ loading: sending }" :disabled="sending || !canSend">
                 <span class="fa fa-paper-plane left"></span> Send Feedback
               </button>
             </div>
@@ -93,6 +95,7 @@
 import { defineComponent, ref } from "@vue/composition-api";
 import Tooltip from "@/components/survey/Tooltip.vue";
 import VueRecaptcha from 'vue-recaptcha';
+import { SurveyDataService } from "@/services/survey-data-service";
 
 export default defineComponent({
   components: {
@@ -101,7 +104,6 @@ export default defineComponent({
   },
   name: "feedback",
   setup() {
-    const invisibleRecaptcha = ref();
     let loading = ref(true);
     let feedback = ref({ 
       reason: "",
@@ -113,7 +115,9 @@ export default defineComponent({
     let failed = ref(false);
     let sending = ref(false);
     let sent = ref(false);
-    const recaptchaKey = ref("some-string");
+    // development key given by google here:
+    // https://developers.google.com/recaptcha/docs/faq
+    const recaptchaKey = ref("6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI");
     let recaptchaResponse;
 
     const canSend = () => {
@@ -124,23 +128,9 @@ export default defineComponent({
       return !!recaptchaKey;
     }
 
-    const onSubmit = () => {
-      console.log("executing");
-      invisibleRecaptcha.value.execute();
-    }
-
-    const onVerify = (response) => {
-      console.log('Verify: ' + response)
-      recaptchaResponse = response;
-    }
-
-    const onExpired = () => {
-      console.log('Expired')
-    }
-
     const sendingComplete = () => {
       sending.value = false;
-      invisibleRecaptcha.value.reset();
+      grecaptcha.reset();
       recaptchaResponse = "";
     }
 
@@ -158,9 +148,13 @@ export default defineComponent({
       }, 50);
     }
 
-    const sendFeedback = (pointerEvent) => {
+    const validate = (response) => {
+      recaptchaResponse = response;
+    }
+
+    async function sendFeedback(pointerEvent) {
       if (pointerEvent) pointerEvent.preventDefault();
-      // if (sending.value) return;
+      if (sending.value) return;
       sending.value = true;
       sent.value = false;
 
@@ -177,17 +171,29 @@ export default defineComponent({
         ? { headers: { "X-CAPTCHA-RESPONSE": recaptchaResponse } }
         : undefined;
 
-      console.log("options");
-      console.log(opts);
+      try {
+        const responseData = await SurveyDataService.feedback(feedback, opts);
 
-      // test out data service
-      // SurveyDataService.feedback(feedback, opts);
-      sent.value = true;
-      focusAlert('alert-success');
+        if (responseData && responseData.status == "sent") {
+          console.log(" feedback sent successfully", responseData);
+          focusAlert('alert-success');
+          sent.value = true;
+          feedback.value = { reason: '', name: '', email: '', comments: '', invalid: null };
+        } else {
+          console.log("feedback submission failed", responseData);
+          focusAlert('alert-error');
+          failed.value = true;
+        }
+        sendingComplete();
+      } catch(err) {
+        console.log("Error: feedback not submitted", err);
+        failed.value = true;
+        sendingComplete();
+        focusAlert('alert-error');
+      }
     }
 
     return {
-      invisibleRecaptcha,
       loading,
       failed,
       sent,
@@ -196,9 +202,7 @@ export default defineComponent({
       sending,
       canSend,
       recaptchaRequired,
-      onSubmit,
-      onVerify,
-      onExpired,
+      validate,
       sendingComplete,
       checkFeedback,
       sendFeedback,

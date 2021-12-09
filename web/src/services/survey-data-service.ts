@@ -58,10 +58,11 @@ export const SurveyDataService = {
       ...opts
     } as AxiosRequestConfig;
     
-    return await axios.post(
+    const response = await axios.post(
       `/feedback/`,
       feedback,
       config
     );
-  },
+    return response.data;
+  }
 };

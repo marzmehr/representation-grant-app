@@ -128,11 +128,11 @@ def grecaptcha_secret_key() -> str:
 
 def grecaptcha_verify(request) -> dict:
     secret_key = grecaptcha_secret_key()
-    print(secret_key)
+
     if not secret_key:
         return {"status": True}
     captcha_rs = request.META.get("HTTP_X_CAPTCHA_RESPONSE")
-    print(captcha_rs)
+
     if not captcha_rs:
         return {"status": False, "message": "Captcha response not provided"}
     url = "https://www.google.com/recaptcha/api/siteverify"
