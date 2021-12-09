@@ -43,12 +43,21 @@ export default class SandboxSidebar extends Vue {
   @Watch("changed")
   pageIndexChange(newVal) {
     this.updateContent();
+    this.scroll();
   }
 
   mounted() {
     this.dataReady = false;
     this.updateContent();
     this.dataReady = true;
+  }
+
+  private scroll() {
+    this.$nextTick(() => {
+      const el = this.$el.getElementsByClassName("link-icon");
+      const target = el[this.survey.currentPageNo];
+      if (target) target.scrollIntoView({behavior: "auto", block: "center", inline: "nearest"});
+    });
   }
 
   public updateContent() {
@@ -71,6 +80,7 @@ export default class SandboxSidebar extends Vue {
   public changePage(pageNo: number) {
     this.survey.currentPageNo = pageNo;
     this.updateContent();
+    this.scroll();
   }
 
   public activateLink(link: any) {
