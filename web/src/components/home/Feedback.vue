@@ -1,11 +1,9 @@
 <template>
   <div class="centre">
     <div class="row mt-4 mt-md-5">
-      <div class="col-lg-12" margin="auto" id="feedback">
+      <div class="col-lg-12" margin="auto" id="feedback" style="margin-bottom: 53px;">
 
-        <h2 tabindex="-1">Give Feedback for "Apply to Represent Someone Who Died (also know as Probate)"</h2>
-
-        <p>If you have already submitted your stuff and you want to change it, call the help thingy at 1-800-555-1234.</p>
+        <h2 tabindex="-1">Give Feedback for "Represent Someone Who Died"</h2>
 
         <div class="alert alert-success alert-dismissible" id="alert-success" role="alert" tabindex="0" v-if="sent">
           <h3 class="h5 my-0">Feedback Sent</h3>
