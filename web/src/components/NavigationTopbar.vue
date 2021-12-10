@@ -22,6 +22,7 @@
         <div class="navbar-brand navbar-text">
           Represent Someone Who Died (also known as Probate)
           <span class="navbar-tag">BETA</span>
+          <button v-if="inSurvey()" type="button" class="btn btn-primary btn-sm" style="margin-left: 20px" @click="save()">Save</button>
         </div>
 
         <div class="navbar-extra">
@@ -54,6 +55,7 @@ import { getApplicationId, getUserName } from "@/state/application-state";
 import { SessionService } from "@/services/session-service";
 import { SurveyDataService } from "@/services/survey-data-service";
 import { getSurvey } from "@/state/survey-state";
+import { saveSurvey } from "@/utils/utils";
 @Component
 export default class NavigationTopbar extends Vue {
   error = "";
@@ -75,6 +77,24 @@ export default class NavigationTopbar extends Vue {
         SessionService.logoutAndRedirect();
       } else SessionService.logout();
     });
+  }
+
+  public save() {
+    const saved = saveSurvey();
+    if(saved) {
+      alert("Saved");
+    } else {
+      alert("Failed to save.");
+    }
+  }
+
+  public inSurvey() {
+    const route = this.$route.name;
+    if (route === "surveys") {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 </script>
