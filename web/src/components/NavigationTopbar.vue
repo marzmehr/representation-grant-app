@@ -20,7 +20,10 @@
           />
         </a>
         <div class="navbar-brand navbar-text">
-          Represent Someone Who Died (also known as Probate)
+          Represent Someone Who Died
+          <div class="navbar-text" style="font-size: small;">
+            (also known as Probate)
+          </div>
           <span class="navbar-tag">BETA</span>
           <button v-if="inSurvey()" type="button" class="btn btn-primary btn-sm" style="margin-left: 20px" @click="save()">Save</button>
         </div>
