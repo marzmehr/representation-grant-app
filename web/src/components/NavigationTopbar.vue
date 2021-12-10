@@ -85,9 +85,9 @@ export default class NavigationTopbar extends Vue {
   public save() {
     const saved = saveSurvey();
     if(saved) {
-      alert("Saved");
+      alert("Represent Someone Who Died\n\nSaved");
     } else {
-      alert("Failed to save.");
+      alert("Represent Someone Who Died\n\nFailed to save");
     }
   }
 
