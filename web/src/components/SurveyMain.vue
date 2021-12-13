@@ -120,6 +120,11 @@ export default defineComponent({
 
       survey.value.onCurrentPageChanged.add((sender, options) => {
         updatedKey.value++;
+
+        const maxPage = survey.value.pages.filter(p => p.isVisible).length - 1;
+        if(maxPage === survey.value.currentPageNo) survey.value.showNavigationButtons = false;
+        else survey.value.showNavigationButtons = true;
+
         saveTimer();
         Vue.nextTick(() => {
           const el = document.getElementById("sidebar-title");
