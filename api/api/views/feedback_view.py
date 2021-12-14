@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from api.send_email import send_email
 from django.http import HttpResponseForbidden
 from rest_framework.response import Response
-from api.auth import (
+from core.auth import (
     grecaptcha_verify
 )
 LOGGER = logging.getLogger(__name__)
