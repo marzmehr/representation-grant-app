@@ -115,7 +115,8 @@ export default defineComponent({
     let sent = ref(false);
     // development key given by google here:
     // https://developers.google.com/recaptcha/docs/faq
-    const recaptchaKey = ref("6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI");
+    // const recaptchaKey = ref("6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI");
+    const recaptchaKey = ref(process.env.VUE_APP_RECAPTCHA_SITE_KEY);
     let recaptchaResponse;
 
     const canSend = () => {
@@ -128,7 +129,6 @@ export default defineComponent({
 
     const sendingComplete = () => {
       sending.value = false;
-      grecaptcha.reset();
       recaptchaResponse = "";
     }
 
