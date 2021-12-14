@@ -113,9 +113,6 @@ export default defineComponent({
     let failed = ref(false);
     let sending = ref(false);
     let sent = ref(false);
-    // development key given by google here:
-    // https://developers.google.com/recaptcha/docs/faq
-    // const recaptchaKey = ref("6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI");
     const recaptchaKey = ref(process.env.VUE_APP_RECAPTCHA_SITE_KEY);
     let recaptchaResponse;
 
