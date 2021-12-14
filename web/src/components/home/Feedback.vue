@@ -130,10 +130,7 @@ export default defineComponent({
     }
 
     const checkFeedback = (feedback) => {
-      if (!feedback.value.reason || !feedback.value.name || !feedback.value.email) {
-        return false;
-      }
-      return true;
+      return !(!feedback.value.reason || !feedback.value.name || !feedback.value.email);
     }
 
     const focusAlert = (id) => {
@@ -154,6 +151,7 @@ export default defineComponent({
       sent.value = false;
 
       const valid = checkFeedback(feedback);
+      console.log(valid);
       feedback.value.invalid = valid ? null : 'required';
 
       if (!valid) {
