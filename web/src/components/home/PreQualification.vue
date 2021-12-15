@@ -1,5 +1,5 @@
 <template>
-  <b-container class="container home-content">
+  <b-container class="container home-content" style="margin-bottom: 56px;">
     <survey :survey="survey"></survey>
     <b-button v-if="displayButton" @click="onSubmit" variant="success">
       <b-icon-check-circle-fill /> Next
