@@ -119,7 +119,7 @@ export default class NavigationTopbar extends Vue {
 @import "@/styles/_common";
 
 .navbar {
-  overflow: hidden;
+  overflow: visible;
   position: fixed;
   top: 0;
   width: 100%;
