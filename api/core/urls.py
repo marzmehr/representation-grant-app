@@ -17,7 +17,7 @@ urlpatterns = [
 ]
 
 #this has to be done here unfortunately, due to load order.
-admin.site.unregister(OIDCUser)
+#admin.site.unregister(OIDCUser)
 
 if (os.getenv('DJANGO_SETTINGS_MODULE') == "api.settings"):
     urlpatterns.append(path("api/v1/", include("api.urls")))
