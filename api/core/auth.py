@@ -1,5 +1,6 @@
 import logging
 import urllib
+import requests
 
 from rest_framework.request import Request
 from django.conf import settings
@@ -65,3 +66,40 @@ def build_get_user_object(logged_in, request):
         "logout_uri": get_logout_uri(request)
     }
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(",")[0]
+    else:
+        ip = request.META.get("REMOTE_ADDR")
+    return ip
+
+def grecaptcha_site_key() -> str:
+    return settings.RECAPTCHA_SITE_KEY
+
+
+def grecaptcha_secret_key() -> str:
+    return settings.RECAPTCHA_SECRET_KEY
+
+def grecaptcha_verify(request) -> dict:
+    secret_key = grecaptcha_secret_key()
+
+    if not secret_key:
+        return {"status": True}
+    captcha_rs = request.META.get("HTTP_X_CAPTCHA_RESPONSE")
+
+    if not captcha_rs:
+        return {"status": False, "message": "Captcha response not provided"}
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    params = {
+        "secret": secret_key,
+        "response": captcha_rs,
+        "remoteip": get_client_ip(request),
+    }
+    verify_rs = requests.get(url, params=params, verify=True)
+    verify_rs = verify_rs.json()
+
+    return {
+        "status": verify_rs.get("success", False),
+        "message": verify_rs.get("error-codes", None) or "Unspecified error.",
+    }

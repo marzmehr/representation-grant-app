@@ -7,3 +7,4 @@ from .efiling_submit_view import EFilingSubmitView
 from .sandbox_survey_view import SandboxSurveyView
 from .survey_pdf_view import SurveyPdfView
 from .user_view import UserView
+from .feedback_view import FeedbackView
