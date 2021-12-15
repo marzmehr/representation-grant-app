@@ -79,7 +79,7 @@ Local setting and param files are ignored by Git, so you cannot accidentally com
 
 ### `django-build.local.param`
 
-The `python:3.6` image that the django build uses may not be available in your local openshift cluster.
+The `python:3.8` image that the django build uses may not be available in your local openshift cluster.
 
 To solve this update your `django-build.local.param` as follows;
 
