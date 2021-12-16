@@ -113,7 +113,7 @@ export default defineComponent({
     let failed = ref(false);
     let sending = ref(false);
     let sent = ref(false);
-    const recaptchaKey = ref(process.env.VUE_APP_RECAPTCHA_SITE_KEY);
+    const recaptchaKey = ref("/VUE_APP_RECAPTCHA_SITE_KEY/");
     let recaptchaResponse;
 
     const canSend = () => {
