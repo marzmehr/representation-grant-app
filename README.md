@@ -3,8 +3,6 @@
 # Representation Grant
 Representation Grant
 
-## Structure
-
 ## Dev environment
 Currently it needs npm 6.9, node 10, e2s installed. 
 running on Docker is recommended
