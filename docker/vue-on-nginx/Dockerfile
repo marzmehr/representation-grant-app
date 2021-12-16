@@ -14,4 +14,4 @@ RUN chmod g+rx /user/libexec/s2i/replace-site-key
 # short circuit the s2i lifecycle.
 # The runtime image "loses" its s2i runtime voodoo when it 
 # is used in a dockerSrategy, which is why the explicit `CMD` is necessary
-CMD  /usr/libexec/s2i/run
+CMD  /usr/libexec/s2i/replace-site-key
