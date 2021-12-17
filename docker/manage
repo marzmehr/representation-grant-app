@@ -190,6 +190,14 @@ configureEnvironment () {
   export EFILING_BASE_URL=${EFILING_BASE_URL}
   export FRONT_END=${FRONT_END-prod}
   export DATA_SECURITY_KEY=${DATA_SECURITY_KEY-01234567890123456789012345678901}
+  export RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
+  export SENDER_EMAIL=${SENDER_EMAIL}
+  export SENDER_NAME=${SENDER_NAME}
+  export CHES_AUTH_URL=${CHES_AUTH_URL}
+  export CHES_EMAIL_URL=${CHES_EMAIL_URL}
+  export EMAIL_SERVICE_CLIENT_ID=${EMAIL_SERVICE_CLIENT_ID}
+  export EMAIL_SERVICE_CLIENT_SECRET=${EMAIL_SERVICE_CLIENT_SECRET}
+  export FEEDBACK_TARGET_URL=${FEEDBACK_TARGET_URL}
 
   # web
   export WEB_HTTP_PORT=${WEB_HTTP_PORT-8080}
@@ -197,6 +205,7 @@ configureEnvironment () {
   export WEB_BASE_HREF=${WEB_BASE_HREF:-/represent-someone-who-died/}
   export IpFilterRules='#allow all; deny all;'
   export RealIpFrom='127.0.0.0/16'
+  export VUE_APP_RECAPTCHA_SITE_KEY=${VUE_APP_RECAPTCHA_SITE_KEY}
   
   #Docker Compose - Fix for i/o timeout
   export COMPOSE_HTTP_TIMEOUT=300
