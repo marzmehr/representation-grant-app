@@ -4,7 +4,8 @@
 # Since we have a single web image, doesn't make sense to build the web-artifacts twice. 
 # Perhaps webpack 5 will have some sort of fix for this. 
 echo "---> Replacing public path /RECAPTCHA_SITE_KEY/ -> $VUE_APP_RECAPTCHA_SITE_KEY in Vue artifacts..."
-FILES="/tmp/app/dist/web/src/components/home/Feedback.vue"
+FILES="/tmp/app/dist/index.html
+/tmp/app/dist/js/*.*"
 for f in $FILES
 do
 	tmp=$(sed "s|/RECAPTCHA_SITE_KEY/|$VUE_APP_RECAPTCHA_SITE_KEY|g" "$f"); 
