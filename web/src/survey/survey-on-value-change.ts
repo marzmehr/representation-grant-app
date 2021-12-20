@@ -21,7 +21,9 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
   const questionNamesToWatch = [
     SurveyQuestionNames.applicantChoice,
     SurveyQuestionNames.spouseInfoPanel,
-    SurveyQuestionNames.childInfoPanel
+    SurveyQuestionNames.childInfoPanel,
+    SurveyQuestionNames.spouseExists,
+    SurveyQuestionNames.childExists
   ];
   if (!questionNamesToWatch.includes(options.name)) return;
   const applicantChoice =
@@ -52,17 +54,23 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
 const determinePotentialApplicants = (sender, options) => {
   const questionNamesToWatch = [
     SurveyQuestionNames.spouseInfoPanel,
-    SurveyQuestionNames.childInfoPanel
+    SurveyQuestionNames.childInfoPanel,
+    SurveyQuestionNames.spouseExists,
+    SurveyQuestionNames.childExists
   ];
   if (!questionNamesToWatch.includes(options.name)) return;
   let spousePanel =
     getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[0]) || [];
   let childPanel = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[1]) || [];
+  const spouseExists = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[2]);
+  const childExists = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[3]);
 
   spousePanel = spousePanel
+    .filter(s => spouseExists == "y")
     .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "y")
     .map(s => s.spouseName);
   childPanel = childPanel
+    .filter(s => childExists == "y")
     .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
     .map(s => s.childName);
 
