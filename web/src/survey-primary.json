@@ -7514,7 +7514,7 @@
       {
        "type": "infotext",
        "name": "creditorPersonExplanationDisplay",
-       "title": "{displayIf({spouseExists} = n, In past steps, you have identified that there is no one who needs to that you are applying for a `Representation Grant` for {deceasedName})}\n\n{displayIf({spouseExists} = y, In past steps, you have already identified the following people:\n<ul><b>\n{bullets(spouseInfoPanel.spouseName)}\n\n{bullets(childInfoPanel.childName)}\n\n</b></ul>\n\nBecause you are already letting these people know that you are applying for a `Representation Grant`, do not identify them again in this step.\n",
+       "title": "{displayIf({spouseExists} = n, In past steps, you have identified that there is no one who needs to that you are applying for a `Representation Grant` for {deceasedName})}\n\n{displayIf({spouseExists} = y, In past steps, you have already identified the following people:\n<ul><b>\n{bullets(spouseInfoPanel.spouseName)}\n\n{bullets(childInfoPanel.childName)}\n\n</b></ul>\n\nBecause you are already letting these people know that you are applying for a `Representation Grant`, do not identify them again in this step.\n)}",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
