@@ -7,11 +7,11 @@ FROM representation-grant-runtime:latest
 COPY --from=builder /opt/app-root/src/dist/. /tmp/app/dist/
 
 # Ensure S2I script copied over is runnable.
-COPY ./s2i/bin/fix-base-url /usr/libexec/s2i/replace-site-key
-RUN chmod g+rx /user/libexec/s2i/replace-site-key
+COPY ./s2i/bin/fix-base-url /usr/libexec/s2i/load-secrets
+RUN chmod g+rx /user/libexec/s2i/load-secrets
 
 # Since the runtime image is itself an s2i image we need to
 # short circuit the s2i lifecycle.
 # The runtime image "loses" its s2i runtime voodoo when it 
 # is used in a dockerSrategy, which is why the explicit `CMD` is necessary
-CMD  /usr/libexec/s2i/replace-site-key
+CMD  /usr/libexec/s2i/load-secrets
