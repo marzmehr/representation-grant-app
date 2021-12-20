@@ -117,10 +117,9 @@ export const saveSurvey = async () => {
   try {
     const applicationId = getApplicationId.value;
     const data = getSurvey.value.data;
-    console.log(applicationId);
-    console.log(data);
-    SurveyDataService.updateApplication(applicationId, data);
+    return SurveyDataService.updateApplication(applicationId, data);
   } catch (err) {
     console.log(err);
+    return null;
   }
 };

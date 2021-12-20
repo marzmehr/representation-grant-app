@@ -1,6 +1,6 @@
 <template>
   <div class="survey-address">
-    <div class="row survey-address-line" v-if="selOptions.length">
+    <!-- <div class="row survey-address-line" v-if="selOptions.length">
       <div class="col-sm-6 form-inline">
         <label class="survey-sublabel">Copy from:</label>
         <select class="form-control ml-2" ref="copyFrom">
@@ -10,7 +10,7 @@
           }}</option>
         </select>
       </div>
-    </div>
+    </div> -->
     <div class="row survey-address-line">
       <div class="col-sm-12">
         <input

@@ -126,6 +126,15 @@ objects:
       efiling-client-secret: ${EFILING_HUB_KEYCLOAK_SECRET}
       efiling-base-url: ${EFILING_HUB_API_BASE_URL}
       siteminder-logoff-url: ${SITEMINDER_LOGOFF_URL}
+      vue-app-recaptcha-site-key: ${VUE_APP_RECAPTCHA_SITE_KEY}
+      recaptcha-secret-key: ${RECAPTCHA_SECRET_KEY}
+      sender-email: ${SENDER_EMAIL}
+      sender-name: ${SENDER_NAME}
+      ches-auth-url: ${CHES_AUTH_URL}
+      ches-email-url: ${CHES_EMAIL_URL}
+      email-service-client-id: ${EMAIL_SERVICE_CLIENT_ID}
+      email-service-client-secret: ${EMAIL_SERVICE_CLIENT_SECRET}
+      feedback-target-email: ${FEEDBACK_TARGET_EMAIL}
     type: Opaque
 
   - kind: DeploymentConfig
@@ -261,6 +270,61 @@ objects:
                     secretKeyRef:
                       name: ${NAME}
                       key: siteminder-logoff-url
+
+                - name: VUE_APP_RECAPTCHA_SITE_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: vue-recaptcha-site-key
+
+                - name: RECAPTCHA_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: recaptcha-secret-key
+                
+                - name: SENDER_EMAIL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: sender-email
+                  
+                - name: SENDER_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: sender-name
+                
+                - name: CHES_AUTH_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: ches-auth-url
+                  
+                - name: CHES_EMAIL_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: ches-email-url
+                
+                - name: EMAIL_SERVICE_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: email-service-client-id
+                
+                - name: EMAIL_SERVICE_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: email-service-client-secret
+                
+                - name: FEEDBACK_TARGET_EMAIL
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}
+                      key: feedback-target-email
+
               resources:
                 requests:
                   cpu: ${CPU_REQUEST}
@@ -403,6 +467,60 @@ parameters:
   - name: EFILING_HUB_API_BASE_URL
     displayName: EFILING base url
     description: EFILING base url
+    required: false
+    value:
+
+  - name: VUE_APP_RECAPTCHA_SITE_KEY
+    displayName: Vue App reCAPTCHA Site Key
+    description: Vue App reCAPTCHA Site Key
+    required: false
+    value:
+
+  - name: RECAPTCHA_SECRET_KEY
+    displayName: reCAPTCHA Secret Key
+    description: reCAPTCHA Secret Key
+    required: false
+    value:
+  
+  - name: SENDER_EMAIL
+    displayName: Sender Email
+    description: Sender Email
+    required: false
+    value:
+  
+  - name: SENDER_NAME
+    displayName: Sender Name
+    description: Sender Name
+    required: false
+    value:
+  
+  - name: CHES_AUTH_URL
+    displayName: CHES Auth URL
+    description: CHES Auth URL
+    required: false
+    value:
+  
+  - name: CHES_EMAIL_URL
+    displayName: CHES Email URL
+    description: CHES Email URL 
+    required: false
+    value:
+  
+  - name: EMAIL_SERVICE_CLIENT_ID
+    displayName: Email Service Client ID
+    description: Email Service Client ID
+    required: false
+    value:
+  
+  - name: EMAIL_SERVICE_CLIENT_SECRET
+    displayName: Email Service Client Secret
+    description: Email Service Client Secret
+    required: false
+    value:
+  
+  - name: FEEDBACK_TARGET_EMAIL
+    displayName: Feedback Target Email
+    description: Feedback Target Email
     required: false
     value:
 

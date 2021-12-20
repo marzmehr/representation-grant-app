@@ -20,8 +20,13 @@
           />
         </a>
         <div class="navbar-brand navbar-text">
-          Represent Someone Who Died (also known as Probate)
+          Represent Someone Who Died
+          <div class="navbar-text" style="font-size: small;">
+            (also known as Probate)
+          </div>
           <span class="navbar-tag">BETA</span>
+          <button v-if="inSurvey()" type="button" class="btn btn-primary btn-sm" style="margin-left: 20px" @click="save()">Save</button>
+          <button type="button" class="btn btn-primary btn-sm" style="margin-left: 20px" v-on:click="toFeedback()">Give Feedback</button>
         </div>
 
         <div class="navbar-extra">
@@ -54,6 +59,7 @@ import { getApplicationId, getUserName } from "@/state/application-state";
 import { SessionService } from "@/services/session-service";
 import { SurveyDataService } from "@/services/survey-data-service";
 import { getSurvey } from "@/state/survey-state";
+import { saveSurvey } from "@/utils/utils";
 @Component
 export default class NavigationTopbar extends Vue {
   error = "";
@@ -76,6 +82,29 @@ export default class NavigationTopbar extends Vue {
       } else SessionService.logout();
     });
   }
+
+  public save() {
+    const saved = saveSurvey();
+    if(saved) {
+      alert("Represent Someone Who Died\n\nSaved");
+    } else {
+      alert("Represent Someone Who Died\n\nFailed to save");
+    }
+  }
+
+  public inSurvey() {
+    const route = this.$route.name;
+    if (route === "surveys") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  public toFeedback() {
+    const route = this.$router.resolve({ name: "feedback" });
+    window.open(route.href, "_blank");
+  }
 }
 </script>
 
@@ -88,6 +117,14 @@ export default class NavigationTopbar extends Vue {
 
 <style scoped lang="scss">
 @import "@/styles/_common";
+
+.navbar {
+  overflow: visible;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
 
 .navbar-brand:not(.logo) {
   flex: 1 1 auto;
@@ -103,6 +140,10 @@ export default class NavigationTopbar extends Vue {
   display: inline-block;
   flex: 1 1 auto;
   text-align: right;
+}
+
+.app-header {
+  margin-top: 63px;
 }
 
 #app-profile {

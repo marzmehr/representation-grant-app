@@ -43,12 +43,21 @@ export default class SandboxSidebar extends Vue {
   @Watch("changed")
   pageIndexChange(newVal) {
     this.updateContent();
+    this.scroll();
   }
 
   mounted() {
     this.dataReady = false;
     this.updateContent();
     this.dataReady = true;
+  }
+
+  private scroll() {
+    this.$nextTick(() => {
+      const el = this.$el.getElementsByClassName("link-icon");
+      const target = el[this.survey.currentPageNo];
+      if (target) target.scrollIntoView({behavior: "auto", block: "center", inline: "nearest"});
+    });
   }
 
   public updateContent() {
@@ -71,6 +80,7 @@ export default class SandboxSidebar extends Vue {
   public changePage(pageNo: number) {
     this.survey.currentPageNo = pageNo;
     this.updateContent();
+    this.scroll();
   }
 
   public activateLink(link: any) {
@@ -94,13 +104,16 @@ export default class SandboxSidebar extends Vue {
 .sidebar-container {
   background: #eee;
   border-right: 2px solid #ddd;
-  bottom: 0;
   display: block;
-  left: 0;
   overflow-x: hidden;
-  overflow-y: hidden;
-  padding: 0;
+  overflow-y: scroll;
+  position: fixed;
+  margin-top: 63px;
+  margin-bottom: 57px;
   top: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0;
   width: $sidebar-width-md;
   min-width: $sidebar-width-md;
 }
@@ -130,6 +143,7 @@ $link-disabled-color: #777;
   list-style-type: none;
   margin: 0;
   max-width: 100%;
+  max-height: 300px;
   padding: 0;
   li {
     cursor: pointer;

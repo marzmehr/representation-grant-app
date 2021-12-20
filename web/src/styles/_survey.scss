@@ -114,6 +114,10 @@
   .sv-radio > label {
     display: block; // fix alignment on checkbox row
   }
+
+  .sv_complete_btn {
+    visibility: hidden;
+  }
 }
 
 .svd_container survey-widget .form-inline .form-control {

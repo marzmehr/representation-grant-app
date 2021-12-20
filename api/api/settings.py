@@ -263,3 +263,15 @@ ENCRYPTOR = Encryptor("DATA_SECURITY_KEY")
 FORCE_SCRIPT_NAME = os.getenv("WEB_BASE_HREF", "/represent-someone-who-died/")
 LOGOUT_REDIRECT_URL = os.getenv("LOGOUT_REDIRECT_URL", "/represent-someone-who-died/")
 SITEMINDER_LOGOFF_URL = os.getenv("SITEMINDER_LOGOFF_URL", "https://logontest.gov.bc.ca/clp-cgi/logoff.cgi")
+
+# Settings for feedback page
+RECAPTCHA_SITE_KEY = os.getenv("RECAPTCHA_SITE_KEY", "")
+RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY", "")
+
+SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "")
+SENDER_NAME = os.environ.get("SENDER_NAME", "")
+CHES_AUTH_URL = os.environ.get("CHES_AUTH_URL", "")
+CHES_EMAIL_URL = os.environ.get("CHES_EMAIL_URL", "")
+EMAIL_SERVICE_CLIENT_ID = os.environ.get("EMAIL_SERVICE_CLIENT_ID", "")
+EMAIL_SERVICE_CLIENT_SECRET = os.environ.get("EMAIL_SERVICE_CLIENT_SECRET", "")
+FEEDBACK_TARGET_EMAIL = os.environ.get("FEEDBACK_TARGET_EMAIL", "")
