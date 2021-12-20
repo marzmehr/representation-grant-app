@@ -19,31 +19,26 @@
             alt="B.C. Government Logo"
           />
         </a>
-        <div class="navbar-brand navbar-text">
-          Represent Someone Who Died
-          <div class="navbar-text" style="font-size: small;">
+        <div class="navbar-brand navbar-text" style="vertical-align: middle">
+          <span style="vertical-align:middle;">
+            Represent Someone Who Died
+          </span>
+          <div class="navbar-text pt-0 pb-0" style="font-size: 12px;vertical-align:middle;">
             (also known as Probate)
           </div>
-          <span class="navbar-tag">BETA</span>
-          <button v-if="inSurvey()" type="button" class="btn btn-primary btn-sm" style="margin-left: 20px" @click="save()">Save</button>
+          <span class="navbar-tag" style="vertical-align:middle;">BETA</span>
         </div>
 
         <div class="navbar-extra">
           <div id="app-profile">
             <div v-if="userName" style="padding-right: rem">
-              <b-dropdown
-                id="profileDropdown"
-                text="Profile"
-                variant="primary btn-transparent"
-                menu-class="w-10"
-                style="margin-right: 1rem"
-              >
-                <template #button-content style="background-color: #003366">
-                  <span class="fa fa-user"></span> {{ userName }}
-                </template>
-                <!--<b-dropdown-item @click="runsurvey()">SurveyJS Editor</b-dropdown-item>-->
-                <b-dropdown-item @click="logout(false)">Logout</b-dropdown-item>
-              </b-dropdown>
+              <span>
+                {{ userName }}
+              </span>
+              <button class="btn btn-primary btn-transparent ml-2" style="background-color: #fcba19 !important; color: #494949; border-color: #494949 !important;">
+                <span class="fa fa-sign-out"></span>
+                <span @click="logout(false)">Logout</span>
+              </button>
             </div>
           </div>
         </div>
@@ -58,7 +53,6 @@ import { getApplicationId, getUserName } from "@/state/application-state";
 import { SessionService } from "@/services/session-service";
 import { SurveyDataService } from "@/services/survey-data-service";
 import { getSurvey } from "@/state/survey-state";
-import { saveSurvey } from "@/utils/utils";
 @Component
 export default class NavigationTopbar extends Vue {
   error = "";
@@ -82,24 +76,10 @@ export default class NavigationTopbar extends Vue {
     });
   }
 
-  public save() {
-    const saved = saveSurvey();
-    if(saved) {
-      alert("Represent Someone Who Died\n\nSaved");
-    } else {
-      alert("Represent Someone Who Died\n\nFailed to save");
-    }
+  public inSurvey() {
+    return this.$route.name === "surveys";
   }
 
-  public inSurvey() {
-    const route = this.$route.name;
-    if (route === "surveys") {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  
   public toFeedback() {
     const route = this.$router.resolve({ name: "feedback" });
     window.open(route.href, "_blank");
