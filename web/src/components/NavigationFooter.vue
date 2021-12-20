@@ -4,6 +4,9 @@
       <!-- Navbar content -->
       <ul class="navbar-nav">
         <li class="nav-item">
+          <a class="nav-link" href="/terms" target="_blank">Terms of Use</a>
+        </li>
+        <li class="nav-item">
           <a
             class="nav-link"
             href="https://www2.gov.bc.ca/gov/content/home/disclaimer"
@@ -11,9 +14,7 @@
             >Disclaimer</a
           >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/terms" target="_blank">Terms of Use</a>
-        </li>
+
         <li class="nav-item">
           <a
             class="nav-link"
@@ -41,7 +42,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="https://www2.gov.bc.ca/gov/content/home/contact-us"
+            href="/feedback"
             target="_blank"
             >Contact Us</a
           >
@@ -51,7 +52,7 @@
   </footer>
 </template>
 
-<scriptlang="ts">
+<script lang="ts">
 import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
 
 @Component

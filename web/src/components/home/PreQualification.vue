@@ -132,7 +132,7 @@ export default class PreQualification extends Vue {
 .home-content {
   padding-bottom: 20px;
   padding-top: 2rem;
-  max-width: 950px;
+  max-width: 1140px;
   color: black;
 }
 </style>
