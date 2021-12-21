@@ -110,7 +110,6 @@ const determinePotentialApplicants = (sender, options) => {
       key: `f${index}`
     }))
   ];
-  console.log(potentialApplicants);
 
   const applicantChoice = sender.getQuestionByName(SurveyQuestionNames.applicantChoice);
   if (applicantChoice) {
