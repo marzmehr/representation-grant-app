@@ -24,7 +24,7 @@
         </span>
       </label>
     </div>
-    <div class="panel-body" v-if="question.body">
+    <div class="panel-body" v-if="question.body" :key="question.body">
       <v-runtime-template :template="handleBodyTemplate()"></v-runtime-template>
     </div>
     <div class="row accept-row" v-if="question.isRequired && !question.value">
