@@ -11,11 +11,24 @@ import {
 } from "@/state/survey-state";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
-const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string) => {
-  return options.name == questionName
-    ? options.value
-    : sender.getQuestionByName(questionName)?.value;
+const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string, getText?: boolean) => {
+  if (getText) {
+    return getTextValue(sender, options, questionName);
+  } else {
+    return options.name == questionName
+      ? options.value
+      : sender.getQuestionByName(questionName)?.value;
+  }
 };
+
+const getTextValue = (sender, options, questionName) => {
+  if (options.name == questionName) {
+    return options.question.choices.find(c => c.value == options.value)?.text;
+  } else {
+    const base = sender.getQuestionByName(questionName);
+    return base?.choices.find(c => c.value == base?.value)?.text;
+  }
+}
 
 const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
   const questionNamesToWatch = [
@@ -56,7 +69,9 @@ const determinePotentialApplicants = (sender, options) => {
     SurveyQuestionNames.spouseInfoPanel,
     SurveyQuestionNames.childInfoPanel,
     SurveyQuestionNames.spouseExists,
-    SurveyQuestionNames.childExists
+    SurveyQuestionNames.childExists,
+    SurveyQuestionNames.deceasedFirstNations,
+    SurveyQuestionNames.deceasedFirstNationsName
   ];
   if (!questionNamesToWatch.includes(options.name)) return;
   let spousePanel =
@@ -64,6 +79,8 @@ const determinePotentialApplicants = (sender, options) => {
   let childPanel = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[1]) || [];
   const spouseExists = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[2]);
   const childExists = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[3]);
+  const isFirstNations = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[4]);
+  let firstNationsPanel = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[5], true);
 
   spousePanel = spousePanel
     .filter(s => spouseExists == "y")
@@ -73,6 +90,7 @@ const determinePotentialApplicants = (sender, options) => {
     .filter(s => childExists == "y")
     .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
     .map(s => s.childName);
+  firstNationsPanel = isFirstNations == "y" && firstNationsPanel ? [firstNationsPanel] : [];
 
   const potentialApplicants = [
     ...spousePanel.map((sp, index) => ({
@@ -84,8 +102,14 @@ const determinePotentialApplicants = (sender, options) => {
       applicantRole: "child",
       applicantName: c,
       key: `c${index}`
+    })),
+    ...firstNationsPanel.map((f, index) => ({
+      applicantRole: "firstNations",
+      applicantName: f,
+      key: `f${index}`
     }))
   ];
+
   const applicantChoice = sender.getQuestionByName(SurveyQuestionNames.applicantChoice);
   if (applicantChoice) {
     applicantChoice.choices = potentialApplicants.map(
@@ -102,7 +126,9 @@ const determineRecipients = (sender, options) => {
   const questionNamesToWatch = [
     SurveyQuestionNames.applicantChoice,
     SurveyQuestionNames.spouseInfoPanel,
-    SurveyQuestionNames.childInfoPanel
+    SurveyQuestionNames.childInfoPanel,
+    SurveyQuestionNames.deceasedFirstNations,
+    SurveyQuestionNames.deceasedFirstNationsName
   ];
   if (!questionNamesToWatch.includes(options.name)) return;
 
