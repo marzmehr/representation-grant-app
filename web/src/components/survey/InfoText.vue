@@ -9,7 +9,7 @@
     :key="state.key"
   >
     <div class="panel-heading">
-      <label class="panel-title">
+      <label class="panel-title" :key="handleTitleTemplate()">
         <span
           class="heading-icon fa"
           v-if="question.messageStyle === 'error' || question.messageStyle === 'info'"
@@ -24,7 +24,7 @@
         </span>
       </label>
     </div>
-    <div class="panel-body" v-if="question.body" :key="question.body">
+    <div class="panel-body" v-if="question.body" :key="handleBodyTemplate()">
       <v-runtime-template :template="handleBodyTemplate()"></v-runtime-template>
     </div>
     <div class="row accept-row" v-if="question.isRequired && !question.value">

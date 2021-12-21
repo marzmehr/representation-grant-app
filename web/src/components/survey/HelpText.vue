@@ -9,7 +9,12 @@
     :key="state.key"
   >
     <div class="panel-heading">
-      <label class="panel-title" tabindex="0" @keydown.space.prevent="toggle">
+      <label
+        class="panel-title"
+        tabindex="0"
+        @keydown.space.prevent="toggle"
+        :key="handleTitleTemplate()"
+      >
         <input type="checkbox" :checked="question.value" @click="setValue($event.target.checked)" />
         <span class="heading-icon fa fa-question-circle"></span>
         <span class="title-text">
@@ -21,7 +26,7 @@
         ></span>
       </label>
     </div>
-    <div class="panel-body" v-if="question.body" :key="question.body">
+    <div class="panel-body" v-if="question.body" :key="handleBodyTemplate()">
       <v-runtime-template :template="handleBodyTemplate()"></v-runtime-template>
     </div>
   </div>
@@ -75,17 +80,17 @@ export default defineComponent({
       const q = props.question;
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
-        q.registerFunctionOnPropertyValueChanged("title", () => {
-          state.key++;
-        });
+      q.registerFunctionOnPropertyValueChanged("title", () => {
+        state.key++;
+      });
 
-        q.registerFunctionOnPropertyValueChanged("value", () => {
-          state.key++;
-        });
+      q.registerFunctionOnPropertyValueChanged("value", () => {
+        state.key++;
+      });
 
-        q.registerFunctionOnPropertyValueChanged("body", () => {
-          state.key++;
-        });
+      q.registerFunctionOnPropertyValueChanged("body", () => {
+        state.key++;
+      });
 
         q.registerFunctionOnPropertyValueChanged("isRequired", () => {
           state.key++;
