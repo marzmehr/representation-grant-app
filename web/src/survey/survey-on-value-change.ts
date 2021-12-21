@@ -102,8 +102,7 @@ const determinePotentialApplicants = (sender, options) => {
       applicantRole: "child",
       applicantName: c,
       key: `c${index}`
-    }))
-    ,
+    })),
     ...firstNationsPanel.map((f, index) => ({
       applicantRole: "firstNations",
       applicantName: f,
