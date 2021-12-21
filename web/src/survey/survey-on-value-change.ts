@@ -34,7 +34,7 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
   if (applicantInfoPanel) {
     applicantInfoPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
     applicantInfoPanel.visible = applicants.length > 0;
-    console.log(`applicantInfoPanel - Value: ${JSON.stringify(applicantInfoPanel.value)}`);
+    //console.log(`applicantInfoPanel - Value: ${JSON.stringify(applicantInfoPanel.value)}`);
   }
   const p1DeliveryInfoPanel = sender.getQuestionByName(SurveyQuestionNames.notifyP1DeliveryInfoPanel);
   if (p1DeliveryInfoPanel) {
@@ -47,7 +47,7 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
         question.choices = choices;
       }
     }
-    console.log(`populatep1DeliveryInfoPanel - Value: ${JSON.stringify(choices)}`);
+    //console.log(`populatep1DeliveryInfoPanel - Value: ${JSON.stringify(choices)}`);
   }
 };
 
@@ -91,9 +91,9 @@ const determinePotentialApplicants = (sender, options) => {
     applicantChoice.choices = potentialApplicants.map(
       p => new ItemValue(`${p.key}`, `${p.applicantName}`)
     );
-    console.log(
+    /*console.log(
       `combinePotentialApplicants - Applicant choices: ${JSON.stringify(applicantChoice.choices)}`
-    );
+    );*/
   }
   setPotentialApplicants(potentialApplicants);
 };
@@ -135,9 +135,9 @@ const determineRecipients = (sender, options) => {
   const targetPanel = sender.getQuestionByName(SurveyQuestionNames.notifyP1DeliveryInfoPanel);
   if (targetPanel) {
     targetPanel.value = recipients;
-    console.log(
+    /*console.log(
       `determineRecipients - p1DeliveryInfoPanel value: ${JSON.stringify(targetPanel.value)}`
-    );
+    );*/
   }
 };
 
@@ -166,12 +166,12 @@ export const determineEarliestSubmissionDate = (sender, options) => {
     earliestSubmissionDateQuestion.visible = true;
     //Have to give it a kick to re-render.
     earliestSubmissionDateQuestion.title = earliestSubmissionDateQuestion.title + " ";
-    console.log(
+    /*console.log(
       `determineEarliestSubmissionDate - earliestSubmissionDate: ${format(
         earliestSubmissionDate,
         "MMMM d, yyyy"
       )}`
-    );
+    );*/
   }
 };
 
