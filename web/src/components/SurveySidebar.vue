@@ -102,8 +102,7 @@ export default defineComponent({
     });
 
     const formattedLastSavedDate = computed(() => {
-      if (!!getLastSaved.value) return format(getLastSaved.value, "MMMM d, yyyy - HH:mm");
-      return "";
+      return (!!getLastSaved.value) ? format(getLastSaved.value, "MMMM d, yyyy - HH:mm") : "";
     });
 
     return {
