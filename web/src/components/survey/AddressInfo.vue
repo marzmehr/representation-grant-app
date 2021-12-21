@@ -42,9 +42,8 @@
           :id="question.inputId + '-state'"
           @change="updateValue"
         >
-          <option value="">(Select)</option>
-          <option v-for="prov of provinceOptions" :key="prov.value" :value="prov.value">{{
-            prov.text
+          <option v-for="reg of regionOptions" :key="reg.value" :value="reg.value">{{
+            reg.text
           }}</option>
         </select>
       </div>
@@ -58,7 +57,6 @@
           :id="question.inputId + '-country'"
           @change="updateValue"
         >
-          <option value="">(Select)</option>
           <option v-for="coun of countryOptions" :key="coun.value" :value="coun.value">{{
             coun.text
           }}</option>
@@ -78,76 +76,14 @@
 </template>
 
 <script>
+import { canada, provinces, usa, states } from "@/utils/location-options";
 export default {
   props: {
     question: Object
   },
   data() {
     return {
-      provinceOptions: [
-        {
-          value: "AB",
-          text: "Alberta"
-        },
-        {
-          value: "BC",
-          text: "British Columbia"
-        },
-        {
-          value: "MB",
-          text: "Manitoba"
-        },
-        {
-          value: "NB",
-          text: "New Brunswick"
-        },
-        {
-          value: "NF",
-          text: "Newfoundland and Labrador"
-        },
-        {
-          value: "NT",
-          text: "Northwest Territories"
-        },
-        {
-          value: "NS",
-          text: "Nova Scotia"
-        },
-        {
-          value: "NU",
-          text: "Nunavut"
-        },
-        {
-          value: "ON",
-          text: "Ontario"
-        },
-        {
-          value: "PE",
-          text: "Prince Edward Island"
-        },
-        {
-          value: "QC",
-          text: "Quebec"
-        },
-        {
-          value: "SK",
-          text: "Saskatchewan"
-        },
-        {
-          value: "YT",
-          text: "Yukon"
-        }
-      ],
-      countryOptions: [
-        {
-          value: "CAN",
-          text: "Canada"
-        },
-        {
-          value: "USA",
-          text: "USA"
-        }
-      ],
+      countryOptions: [canada, usa],
       selOptions: [],
       pendingValue: this.loadValue(this.question.value),
       value: this.question.value
@@ -214,6 +150,19 @@ export default {
         postcode: val.postcode || ""
       };
       return pending;
+    }
+  },
+  computed: {
+    regionOptions() {
+      const p = this.pendingValue;
+
+      if (p && p.country) {
+        return p.country === "CAN"
+          ? provinces
+          : states
+      } else {
+        return provinces.concat(states);
+      }
     }
   },
   mounted() {
