@@ -80,17 +80,17 @@ export default defineComponent({
       const q = props.question;
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
-      q.registerFunctionOnPropertyValueChanged("title", () => {
-        state.key++;
-      });
+        q.registerFunctionOnPropertyValueChanged("title", () => {
+          state.key++;
+        });
 
-      q.registerFunctionOnPropertyValueChanged("value", () => {
-        state.key++;
-      });
+        q.registerFunctionOnPropertyValueChanged("value", () => {
+          state.key++;
+        });
 
-      q.registerFunctionOnPropertyValueChanged("body", () => {
-        state.key++;
-      });
+        q.registerFunctionOnPropertyValueChanged("body", () => {
+          state.key++;
+        });
 
         q.registerFunctionOnPropertyValueChanged("isRequired", () => {
           state.key++;
