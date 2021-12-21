@@ -32,11 +32,11 @@
         <div class="navbar-extra">
           <div id="app-profile">
             <div v-if="userName" style="padding-right: rem">
-              <span>
+              <span class="pr-2">
                 {{ userName }}
               </span>
-              <button class="btn btn-primary btn-transparent ml-2" style="background-color: #fcba19 !important; color: #494949; border-color: #494949 !important;">
-                <span class="fa fa-sign-out"></span>
+              <button class="btn btn-primary btn-transparent ml-2" style="background-color: #fcba19 !important; color:rgb(0 51 102); border-color: #494949 !important;">
+                <span class="fa fa-sign-out pr-1"></span>
                 <span @click="logout(false)">Logout</span>
               </button>
             </div>

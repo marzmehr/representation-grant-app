@@ -44,6 +44,9 @@ Vue.use(BootstrapVueIcons);
 Vue.use(VueRouter);
 Vue.use(VueCookies);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
+Vue.directive('visible', function(el, binding) {
+	el.style.visibility = !!binding.value ? 'visible' : 'hidden';
+});
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
