@@ -358,7 +358,7 @@ export default defineComponent({
         fax: data.applicantServiceFax || "",
         email: data.applicantServiceEmail || "",
         courtLocation:
-          getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.name ||
+          getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.name?.replace("Law Courts", "") ||
           data.applicantCourthouse ||
           ""
       };

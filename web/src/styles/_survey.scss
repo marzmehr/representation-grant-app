@@ -2,6 +2,12 @@
 
 // survey styles
 
+.sv_container {
+  .panel-heading > .sv_header__text {
+    display: none !important;
+  }
+}
+
 .sv_main {
   max-width: 1140px;
   margin-right: auto;

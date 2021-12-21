@@ -2,11 +2,15 @@
   <div v-if="dataReady" class="sidebar-container">
     <div id="sidebar-title" class="sidebar-title">
       <h3>{{ title }}</h3>
+      <span v-visible="formattedLastSavedDate" style="font-size:0.65rem;"
+        >Last Saved: {{ formattedLastSavedDate }}
+      </span>
     </div>
 
     <ul class="links">
       <li
         v-for="(link, inx) in links"
+        :id="'sidebar-link' + inx"
         :key="inx"
         :class="{
           current: link.current,
@@ -25,76 +29,94 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from "vue-property-decorator";
+import Vue from "vue";
+import { getLastSaved } from "@/state/survey-state";
+import { format } from "date-fns";
+import { defineComponent, onMounted, ref, watch, computed } from "@vue/composition-api";
 
-@Component
-export default class SandboxSidebar extends Vue {
-  @Prop({ required: true })
-  survey!: any;
+export default defineComponent({
+  name: "SandboxSidebar",
+  props: {
+    survey: Object,
+    changed: Number
+  },
+  setup(props, context) {
+    let title = ref("");
+    let links = ref([]);
+    let dataReady = ref(false);
 
-  @Prop({ required: true })
-  changed!: number;
-
-  title = "";
-  links = [];
-
-  dataReady = false;
-
-  @Watch("changed")
-  pageIndexChange(newVal) {
-    this.updateContent();
-    this.scroll();
-  }
-
-  mounted() {
-    this.dataReady = false;
-    this.updateContent();
-    this.dataReady = true;
-  }
-
-  private scroll() {
-    this.$nextTick(() => {
-      const el = this.$el.getElementsByClassName("link-icon");
-      const target = el[this.survey.currentPageNo];
-      if (target) target.scrollIntoView({behavior: "auto", block: "center", inline: "nearest"});
-    });
-  }
-
-  public updateContent() {
-    if (this.survey) {
-      this.title = "Application Steps"; // model.title;
-      const links = [];
-      this.survey.visiblePages.forEach((page, idx) => {
-        links.push({
-          disabled: false,
-          index: idx,
-          textIndex: "" + (idx + 1),
-          title: page.processedTitle || page.name,
-          current: idx === this.survey.currentPageNo
-        });
+    const scroll = () => {
+      Vue.nextTick(() => {
+        document
+          .getElementById(`sidebar-link${props.survey.currentPageNo}`)
+          ?.scrollIntoView({ behavior: "auto", block: "center", inline: "nearest" });
       });
-      this.links = links;
-    }
-  }
+    };
 
-  public changePage(pageNo: number) {
-    this.survey.currentPageNo = pageNo;
-    this.updateContent();
-    this.scroll();
-  }
+    const updateContent = () => {
+      if (props.survey) {
+        title.value = "Application Steps";
+        links.value = [];
+        props.survey.visiblePages.forEach((page, idx) => {
+          links.value.push({
+            disabled: false,
+            index: idx,
+            textIndex: "" + (idx + 1),
+            title: page.processedTitle || page.name,
+            current: idx === props.survey.currentPageNo
+          });
+        });
+      }
+    };
 
-  public activateLink(link: any) {
-    if (link && !link.disabled) {
-      if (link.special) this.survey.changeMode(link.special);
-      else this.changePage(link.index);
-    }
-  }
+    const changePage = (pageNo: number) => {
+      props.survey.currentPageNo = pageNo;
+      updateContent();
+      scroll();
+    };
 
-  keyDown(event, link) {
-    // allow space or enter to activate page
-    if (event && (event.keyCode === 13 || event.keyCode === 32)) this.activateLink(link);
+    const activateLink = (link: any) => {
+      if (link && !link.disabled) {
+        if (link.special) props.survey.changeMode(link.special);
+        else changePage(link.index);
+      }
+    };
+
+    const keyDown = (event: KeyboardEvent, link: string) => {
+      // allow space or enter to activate page
+      if (event && (event.key === "Enter" || event.key === "Space")) activateLink(link);
+    };
+
+    watch(
+      () => props.changed,
+      (first, second) => {
+        updateContent();
+        scroll();
+      }
+    );
+
+    onMounted(() => {
+      dataReady.value = false;
+      updateContent();
+      dataReady.value = true;
+    });
+
+    const formattedLastSavedDate = computed(() => {
+      if (!!getLastSaved.value) return format(getLastSaved.value, "MMMM d, yyyy - hh:mm");
+      return "";
+    });
+
+    return {
+      getLastSaved,
+      links,
+      title,
+      dataReady,
+      keyDown,
+      activateLink,
+      formattedLastSavedDate
+    };
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>
@@ -106,7 +128,7 @@ export default class SandboxSidebar extends Vue {
   border-right: 2px solid #ddd;
   display: block;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: fixed;
   margin-top: 63px;
   margin-bottom: 57px;
@@ -125,7 +147,7 @@ export default class SandboxSidebar extends Vue {
 
 /* // sidebar title */
 .sidebar-title {
-  padding: 1rem 2rem 1.5rem;
+  padding: 1.5rem 2rem 0.5rem;
   h3 {
     margin: 0;
   }

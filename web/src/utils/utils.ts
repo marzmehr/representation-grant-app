@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { getSurvey } from "@/state/survey-state";
+import { getSurvey, setLastSaved } from "@/state/survey-state";
 import { getApplicationId } from "@/state/application-state";
 import { SurveyDataService } from "@/services/survey-data-service";
 import bootstrapCss from "!!raw-loader!@/styles/bootstrapCSS.css";
@@ -113,11 +113,13 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
   return body;
 };
 
-export const saveSurvey = () => {
+export const saveSurvey = async () => {
   try {
     const applicationId = getApplicationId.value;
     const data = getSurvey.value.data;
-    return SurveyDataService.updateApplication(applicationId, data);
+    const result = SurveyDataService.updateApplication(applicationId, data);
+    setLastSaved(new Date());
+    return result;
   } catch (err) {
     console.log(err);
     return null;

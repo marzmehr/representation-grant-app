@@ -11,6 +11,10 @@ const lastUpdated = ref<Date>();
 export const getLastUpdated = computed(() => lastUpdated.value);
 export const setLastUpdated = newLastUpdated => (lastUpdated.value = newLastUpdated);
 
+const lastSaved = ref<Date>();
+export const getLastSaved = computed(() => lastSaved.value);
+export const setLastSaved = newLastSaved => (lastSaved.value = newLastSaved);
+
 const potentialApplicants = ref<PotentialApplicant[]>([]);
 export const getPotentialApplicants = computed(() => potentialApplicants.value);
 export const setPotentialApplicants = newPotentialApplicants => (potentialApplicants.value = newPotentialApplicants);

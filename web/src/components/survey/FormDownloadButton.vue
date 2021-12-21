@@ -70,8 +70,8 @@ export default defineComponent({
     });
 
     const downloadPdf = () => {
-      //Not ideal for Typescript.
       saveSurvey();
+      //Not ideal for Typescript.
       form.value.onPrint();
     };
 
