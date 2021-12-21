@@ -11,8 +11,9 @@
         </select>
       </div>
     </div> -->
+    <!-- Address, City, Province, Postalcode, Country -->
     <div class="row survey-address-line">
-      <div class="col-sm-12">
+      <div class="col-sm-6">
         <input
           class="form-control"
           placeholder="Street address, for example: 800 Hornby St. or Post Office Box"
@@ -32,6 +33,8 @@
           @change="updateValue"
         />
       </div>
+    </div>
+    <div class="row survey-address-line">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-state'"
           >Province / State / Region</label
@@ -62,6 +65,8 @@
           }}</option>
         </select>
       </div>
+    </div>
+    <div class="row survey-address-line">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code</label>
         <input

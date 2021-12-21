@@ -73,10 +73,6 @@ export const states = [
         value: "AK"
     },
     {
-        text: "American Samoa",
-        value: "AS"
-    },
-    {
         text: "Arizona",
         value: "AZ"
     },
@@ -105,20 +101,12 @@ export const states = [
         value: "DC"
     },
     {
-        text: "Federated States Of Micronesia",
-        value: "FM"
-    },
-    {
         text: "Florida",
         value: "FL"
     },
     {
         text: "Georgia",
         value: "GA"
-    },
-    {
-        text: "Guam",
-        value: "GU"
     },
     {
         text: "Hawaii",
@@ -155,10 +143,6 @@ export const states = [
     {
         text: "Maine",
         value: "ME"
-    },
-    {
-        text: "Marshall Islands",
-        value: "MH"
     },
     {
         text: "Maryland",
@@ -221,10 +205,6 @@ export const states = [
         value: "ND"
     },
     {
-        text: "Northern Mariana Islands",
-        value: "MP"
-    },
-    {
         text: "Ohio",
         value: "OH"
     },
@@ -235,10 +215,6 @@ export const states = [
     {
         text: "Oregon",
         value: "OR"
-    },
-    {
-        text: "Palau",
-        value: "PW"
     },
     {
         text: "Pennsylvania",
@@ -275,10 +251,6 @@ export const states = [
     {
         text: "Vermont",
         value: "VT"
-    },
-    {
-        text: "Virgin Islands",
-        value: "VI"
     },
     {
         text: "Virginia",
