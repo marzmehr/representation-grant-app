@@ -74,7 +74,8 @@ export default defineComponent({
       survey.value.commentPrefix = "Comment";
       survey.value.showQuestionNumbers = "off";
       addSurveyListener();
-      if (!sandboxName) getApplication();
+      if (!sandboxName) await getApplication();
+      updatedKey.value++;
     };
 
     const saveTimer = () => {
@@ -108,9 +109,6 @@ export default defineComponent({
       });
 
       addCustomTemplating(survey.value);
-      survey.value.onAfterRenderSurvey.add((sender, options) => {
-        updatedKey.value++;
-      });
 
       survey.value.onValueChanged.add((sender, options) => {
         updatedKey.value++;
