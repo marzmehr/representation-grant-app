@@ -117,6 +117,7 @@ export const saveSurvey = async () => {
   try {
     const applicationId = getApplicationId.value;
     const data = getSurvey.value.data;
+    if (!data) return;
     const result = SurveyDataService.updateApplication(applicationId, data);
     setLastSaved(new Date());
     return result;
