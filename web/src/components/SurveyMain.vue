@@ -12,7 +12,6 @@ import axios from "axios";
 import _ from "lodash";
 import { Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
-
 import * as SurveyInit from "@/survey/survey-init";
 import SurveySidebar from "@/components/SurveySidebar.vue";
 import { addCustomTemplating } from "@/survey/survey-templating";
@@ -48,8 +47,9 @@ export default defineComponent({
       try {
         const applicationId = getApplicationId.value;
         if (!applicationId) {
-           const router = context.root.$router;
-           router.push({ name: "applicant-status" });
+          const router = context.root.$router;
+          router.push({ name: "applicant-status" });
+          return;
         }
         const surveyData = await SurveyDataService.getApplication(applicationId);
         survey.value.data = surveyData?.data.steps;
@@ -74,7 +74,8 @@ export default defineComponent({
       survey.value.commentPrefix = "Comment";
       survey.value.showQuestionNumbers = "off";
       addSurveyListener();
-      if (!sandboxName) getApplication();
+      if (!sandboxName) await getApplication();
+      updatedKey.value++;
     };
 
     const saveTimer = () => {
@@ -108,9 +109,6 @@ export default defineComponent({
       });
 
       addCustomTemplating(survey.value);
-      survey.value.onAfterRenderSurvey.add((sender, options) => {
-        updatedKey.value++;
-      });
 
       survey.value.onValueChanged.add((sender, options) => {
         updatedKey.value++;
@@ -150,9 +148,7 @@ export default defineComponent({
 });
 </script>
 
-function useRouter() {
-  throw new Error("Function not implemented.");
-}
+function useRouter() { throw new Error("Function not implemented."); }
 
 <style scoped lang="scss">
 .survey-content {

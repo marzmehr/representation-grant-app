@@ -117,6 +117,19 @@ export function dateMath(params: any[]) {
   }
 }
 
+//REPGRANT-225 - Fix. 
+export function currentDate(params: any) {
+  return format(new Date(), "yyyy-MM-dd HH:mm");
+}
+
+//REPGRANT-225 - Fix. 
+export function today(params: any) {
+  let targetDate = new Date();
+  if (params?.length == 1)
+    targetDate.setDate(targetDate.getDate() + params[0]);
+  return format(targetDate, "yyyy-MM-dd");
+}
+
 export const addCustomExpressions = (Survey: any) => {
   //Add this so ExpressionRunner can access it.
   FunctionFactory.Instance.register("listIntersect", listIntersect);
@@ -125,6 +138,8 @@ export const addCustomExpressions = (Survey: any) => {
   FunctionFactory.Instance.register("isChild", isChild);
   FunctionFactory.Instance.register("dateFormatter", dateFormatter);
   FunctionFactory.Instance.register("dateMath", dateMath);
+  FunctionFactory.Instance.register("today", today);
+  FunctionFactory.Instance.register("currentDate", currentDate);
 
   //For unit testing.
   if (!Survey) return;
@@ -135,6 +150,7 @@ export const addCustomExpressions = (Survey: any) => {
   Survey.FunctionFactory.Instance.register("listUnion", listUnion);
   Survey.FunctionFactory.Instance.register("isChild", isChild);
   Survey.FunctionFactory.Instance.register("dateFormatter", dateFormatter);
-
   Survey.FunctionFactory.Instance.register("dateMath", dateMath);
+  Survey.FunctionFactory.Instance.register("today", today);
+  Survey.FunctionFactory.Instance.register("currentDate", currentDate);
 };
