@@ -40,7 +40,6 @@ export function addCustomTemplating(surveyRuntime: any) {
         const key = entry.split(".")[1];
         const value = sender.getQuestionByName(targetName)?.value;
         if (Array.isArray(value)) {
-          debugger;
           value.forEach(function(element) {
             const value = `${key?.length > 0 ? element[key] : element}`;
             if (value && value !== "undefined") commaList.push(value);
