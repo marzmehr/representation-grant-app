@@ -1,6 +1,5 @@
 <template>
   <div class="card" style="margin: 1rem 0px; border-radius: 0px; border: 0px" :key="state.key">
-
     <div class="card-body">
       <button
         type="button"
@@ -8,7 +7,12 @@
         style="float: left; margin: 0.25rem 1rem; font-size: 16px;"
         @click="downloadPdf()"
       >
-        <b-spinner v-if="state.loading" small label="Small Spinner" style="margin-right: 3px"></b-spinner>
+        <b-spinner
+          v-if="state.loading"
+          small
+          label="Small Spinner"
+          style="margin-right: 3px"
+        ></b-spinner>
         <span v-else class="fa fa-print btn-icon-left"></span>
         {{ question.buttonTitle }}
       </button>
