@@ -50,6 +50,7 @@ export default defineComponent({
         if (!applicationId) {
            const router = context.root.$router;
            router.push({ name: "applicant-status" });
+           return;
         }
         const surveyData = await SurveyDataService.getApplication(applicationId);
         survey.value.data = surveyData?.data.steps;
