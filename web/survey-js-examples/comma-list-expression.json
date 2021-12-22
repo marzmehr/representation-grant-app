@@ -1,0 +1,36 @@
+{
+    "pages": [
+     {
+      "name": "page1",
+      "elements": [
+       {
+        "type": "text",
+        "name": "question1"
+       },
+       {
+        "type": "text",
+        "name": "question2"
+       },
+       {
+        "type": "paneldynamic",
+        "name": "question3",
+        "templateElements": [
+         {
+          "type": "text",
+          "name": "question4"
+         },
+         {
+          "type": "text",
+          "name": "question5"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "name": "question6",
+        "title": "{commaList(question1,question2, question3.question4, question3.question5)}"
+       }
+      ]
+     }
+    ]
+   }

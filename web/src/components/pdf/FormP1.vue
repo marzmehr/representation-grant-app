@@ -411,7 +411,7 @@ export default defineComponent({
     };
 
     const onPrint = async () => {
-      const applicationId = getApplicationId.value;
+      const applicationId = getApplicationId.value || 9999999999;
       const formName = "FormP1";
       const html = formPdfHtml(
         root.value.innerHTML,

@@ -1,4 +1,3 @@
-const { ESBuildMinifyPlugin } = require("esbuild-loader");
 const webBaseHref = process.env.WEB_BASE_HREF || "/";
 module.exports = {
   publicPath: webBaseHref,
@@ -18,7 +17,6 @@ module.exports = {
       }
     }
   },
-  // crossorigin: "anonymous",
   chainWebpack: config => {
     config.module.rules.delete("eslint");
 
@@ -29,15 +27,15 @@ module.exports = {
         options.prettify = false;
         return options;
       });
-    config.module
-      .rule("ts")
+      config.module.rule("ts")
       .test(/\.ts$/)
-      .use("esbuild-loader")
-      .loader("esbuild-loader")
+      .use("ts-loader")
+      .loader("ts-loader")
       .options({
-        loader: "ts",
-        target: "es2015"
+        appendTsSuffixTo: [/\.vue$/],
+        transpileOnly: true
       });
   },
-  runtimeCompiler: true
+  runtimeCompiler: true,
+  parallel: false // https://stackoverflow.com/questions/59951379/vue-cli-upgrade-from-v3-to-v4-breaks-build-process-with-thread-loader-error-can
 };

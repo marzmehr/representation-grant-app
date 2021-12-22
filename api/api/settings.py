@@ -248,6 +248,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     )
 }
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 EFILING_APP_NAME = os.environ.get("EFILING_APP_NAME", "Representation Grant")
 EFILING_COURT_LEVEL = os.environ.get("EFILING_COURT_LEVEL", "S")
