@@ -139,7 +139,6 @@ export default {
       addrs.sort((a, b) => a.label.localeCompare(b.label));
       return addrs;
     },
-    //updateValue(_evt) {
     updateValue() {
       const value = Object.assign({}, this.pendingValue);
       for (const k in value) {
@@ -171,6 +170,7 @@ export default {
         this.readOnly = true;
         this.pendingValue = this.loadValue(e.target.options[selIndex]._value);
       }
+      this.updateValue();
     }
   },
   computed: {
