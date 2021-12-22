@@ -8,7 +8,7 @@ export function addCustomTemplating(surveyRuntime: any) {
     // it didn't seem to handle nested {{}} inside of functions.
 
     //Description: Print bulleted list from array.
-    //Usage: bullets(<panel>.<fieldname>)
+    //Example Usage: bullets(<panel>.<fieldname>)
     if (options.name?.includes("bullets(")) {
       const data = `${options.name.replace("bullets(", "").replace(")", "")}`;
       const targetName = data.split(".")[0];
@@ -26,6 +26,35 @@ export function addCustomTemplating(surveyRuntime: any) {
       }
       options.isExists = true;
     }
+
+    //Description: Print comma list from array.
+    //Example Usage: commaList(<questionName1>, <questionName2>, <questionNameN>)
+    //or commaList(<panelN>.<fieldnameN>,<questionNameN>)
+    if (options.name?.includes("commaList(")) {
+      const data = `${options.name.replace("commaList(", "").replace(")", "")}`;
+      const entries = data.split(",");
+      const commaList = [];
+      entries.forEach(entry => {
+        entry = entry.trim();
+        const targetName = entry.split(".")[0];
+        const key = entry.split(".")[1];
+        const value = sender.getQuestionByName(targetName)?.value;
+        if (Array.isArray(value)) {
+          debugger;
+          value.forEach(function(element) {
+            const value = `${key?.length > 0 ? element[key] : element}`;
+            if (value && value !== "undefined") commaList.push(value);
+          });
+        } else if (value) {
+          commaList.push(value);
+        }
+      });
+      options.value = `${commaList.slice(0, -1).join(", ")} ${
+        commaList.length > 1 ? `and ${commaList.slice(-1)[0]}` : ``
+      }`;
+      options.isExists = true;
+    }
+
     //Description: Print out entire panel content.
     //Usage: printPanel(panelName)
     if (options.name?.includes("printPanel(")) {
