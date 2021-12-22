@@ -123,9 +123,7 @@ export default defineComponent({
 
     q.valueChangedCallback = () => {
       const pending = parseValue(q.value);
-      if (pending.year) {
-        state.pendingValue = pending;
-      }
+      if (pending.year) state.pendingValue = pending;
       q.value = pending;
     };
 
@@ -276,6 +274,7 @@ export default defineComponent({
       yearOptions,
       dayRef,
       monthRef,
+      yearRef,
       state,
       value: props.question.value
     };

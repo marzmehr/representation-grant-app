@@ -12,7 +12,6 @@ import axios from "axios";
 import _ from "lodash";
 import { Vue } from "vue-property-decorator";
 import * as SurveyVue from "survey-vue";
-
 import * as SurveyInit from "@/survey/survey-init";
 import SurveySidebar from "@/components/SurveySidebar.vue";
 import { addCustomTemplating } from "@/survey/survey-templating";
@@ -48,9 +47,9 @@ export default defineComponent({
       try {
         const applicationId = getApplicationId.value;
         if (!applicationId) {
-           const router = context.root.$router;
-           router.push({ name: "applicant-status" });
-           return;
+          const router = context.root.$router;
+          router.push({ name: "applicant-status" });
+          return;
         }
         const surveyData = await SurveyDataService.getApplication(applicationId);
         survey.value.data = surveyData?.data.steps;
@@ -151,9 +150,7 @@ export default defineComponent({
 });
 </script>
 
-function useRouter() {
-  throw new Error("Function not implemented.");
-}
+function useRouter() { throw new Error("Function not implemented."); }
 
 <style scoped lang="scss">
 .survey-content {
