@@ -11,7 +11,7 @@
           v-if="state.loading"
           small
           label="Small Spinner"
-          style="margin-right: 3px"
+          style="margin-right: 3px; margin-bottom: 2px"
         ></b-spinner>
         <span v-else class="fa fa-print btn-icon-left"></span>
         {{ question.buttonTitle }}
