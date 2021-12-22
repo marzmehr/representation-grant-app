@@ -1,28 +1,29 @@
 <template>
   <div class="survey-address">
-    <!-- <div class="row survey-address-line" v-if="selOptions.length">
+    <div class="row survey-address-line" v-if="selOptions.length">
       <div class="col-sm-6 form-inline">
         <label class="survey-sublabel">Copy from:</label>
-        <select class="form-control ml-2" ref="copyFrom">
+        <select class="form-control ml-2" ref="copyFrom" @change="fillInData">
           <option value="">(Select Address)</option>
           <option v-for="(opt, inx) in selOptions" :key="inx" :value="opt.value">{{
             opt.label
           }}</option>
         </select>
       </div>
-    </div> -->
-    <div class="row survey-address-line">
-      <div class="col-sm-12">
+    </div>
+    <div class="row survey-address-line" v-if="fields.useStreet">
+      <div class="col-sm-6">
         <input
           class="form-control"
           placeholder="Street address, for example: 800 Hornby St. or Post Office Box"
           :id="question.inputId"
           v-model="pendingValue['street']"
           @change="updateValue"
+          :readonly="readOnly"
         />
       </div>
     </div>
-    <div class="row survey-address-line">
+    <div class="row survey-address-line" v-if="fields.useCity">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-city'">City / Town</label>
         <input
@@ -30,8 +31,11 @@
           :id="question.inputId + '-city'"
           v-model="pendingValue['city']"
           @change="updateValue"
+          :readonly="readOnly"
         />
       </div>
+    </div>
+    <div class="row survey-address-line" v-if="fields.useProvince">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-state'"
           >Province / State / Region</label
@@ -41,15 +45,15 @@
           v-model="pendingValue['state']"
           :id="question.inputId + '-state'"
           @change="updateValue"
+          :disabled="readOnly"
         >
-          <option value="">(Select)</option>
-          <option v-for="prov of provinceOptions" :key="prov.value" :value="prov.value">{{
-            prov.text
+          <option v-for="reg of regionOptions" :key="reg.value" :value="reg.value">{{
+            reg.text
           }}</option>
         </select>
       </div>
     </div>
-    <div class="row survey-address-line pb-1">
+    <div class="row survey-address-line pb-1" v-if="fields.useCountry">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-country'">Country</label>
         <select
@@ -57,13 +61,15 @@
           v-model="pendingValue['country']"
           :id="question.inputId + '-country'"
           @change="updateValue"
+          :disabled="readOnly"
         >
-          <option value="">(Select)</option>
           <option v-for="coun of countryOptions" :key="coun.value" :value="coun.value">{{
             coun.text
           }}</option>
         </select>
       </div>
+    </div>
+    <div class="row survey-address-line" v-if="fields.usePostalCode">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code</label>
         <input
@@ -71,6 +77,43 @@
           :id="question.inputId + '-postcode'"
           v-model="pendingValue['postcode']"
           @change="updateValue"
+          :readonly="readOnly"
+        />
+      </div>
+    </div>
+    <div class="row survey-address-line" v-if="fields.useEmail">
+      <div class="col-sm-6">
+        <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
+        <input
+          class="form-control"
+          :id="question.inputId + '-email'"
+          v-model="pendingValue['email']"
+          @change="updateValue"
+          :readonly="readOnly"
+        />
+      </div>
+    </div>
+    <div class="row survey-address-line" v-if="fields.usePhone">
+      <div class="col-sm-6">
+        <label class="survey-sublabel" :for="question.inputId + '-phone'">Phone Number</label>
+        <input
+          class="form-control"
+          :id="question.inputId + '-phone'"
+          v-model="pendingValue['phone']"
+          @change="updateValue"
+          :readonly="readOnly"
+        />
+      </div>
+    </div>
+    <div class="row survey-address-line" v-if="fields.useFax">
+      <div class="col-sm-6">
+        <label class="survey-sublabel" :for="question.inputId + '-fax'">Fax</label>
+        <input
+          class="form-control"
+          :id="question.inputId + '-fax'"
+          v-model="pendingValue['fax']"
+          @change="updateValue"
+          :readonly="readOnly"
         />
       </div>
     </div>
@@ -78,79 +121,29 @@
 </template>
 
 <script>
+import { canada, provinces, usa, states } from "@/utils/location-options";
+import { getPotentialApplicants } from '@/state/survey-state';
 export default {
   props: {
     question: Object
   },
   data() {
     return {
-      provinceOptions: [
-        {
-          value: "AB",
-          text: "Alberta"
-        },
-        {
-          value: "BC",
-          text: "British Columbia"
-        },
-        {
-          value: "MB",
-          text: "Manitoba"
-        },
-        {
-          value: "NB",
-          text: "New Brunswick"
-        },
-        {
-          value: "NF",
-          text: "Newfoundland and Labrador"
-        },
-        {
-          value: "NT",
-          text: "Northwest Territories"
-        },
-        {
-          value: "NS",
-          text: "Nova Scotia"
-        },
-        {
-          value: "NU",
-          text: "Nunavut"
-        },
-        {
-          value: "ON",
-          text: "Ontario"
-        },
-        {
-          value: "PE",
-          text: "Prince Edward Island"
-        },
-        {
-          value: "QC",
-          text: "Quebec"
-        },
-        {
-          value: "SK",
-          text: "Saskatchewan"
-        },
-        {
-          value: "YT",
-          text: "Yukon"
-        }
-      ],
-      countryOptions: [
-        {
-          value: "CAN",
-          text: "Canada"
-        },
-        {
-          value: "USA",
-          text: "USA"
-        }
-      ],
+      countryOptions: [canada, usa],
       selOptions: [],
       pendingValue: this.loadValue(this.question.value),
-      value: this.question.value
+      value: this.question.value,
+      readOnly: false,
+      fields: {
+        useStreet: this.question.useStreet,
+        useCity: this.question.useCity,
+        useProvince: this.question.useProvince,
+        useCountry: this.question.useCountry,
+        usePostalCode: this.question.usePostalCode,
+        useEmail: this.question.useEmail,
+        usePhone: this.question.usePhone,
+        useFax: this.question.useFax
+      }
     };
   },
   methods: {
@@ -168,17 +161,47 @@ export default {
             otherQ.name !== skipName &&
             (otherQVal = otherQ.value)
           ) {
-            const parts = [
+            const potentialParts = [
               otherQVal.street,
               otherQVal.city,
               otherQVal.state,
               otherQVal.country,
-              otherQVal.postcode
+              otherQVal.postcode,
+              otherQVal.email,
+              otherQVal.phone,
+              otherQVal.fax
             ];
+
+            // ensure the fields match, otherwise copying won't make sense.
+            if (Object.keys(this.fields).length !== potentialParts.length) continue;
+
+            let match = true;
+            let i = 0;
+            for (let key in this.fields) {
+              if (!!this.fields[key] !== !!potentialParts[i]) {
+                match = false;
+                break;
+              }
+              i++;
+            }
+
+            if (!match) continue;
+
+            // collect data
+            let parts = [];
+            let k = 0;
+            for (let key in this.fields) {
+              if (this.fields[key]) {
+                parts.push(potentialParts[k]);
+              }
+              k++;
+            }
+
             const lbl = parts
               .map(p => p.trim())
               .filter(p => p)
               .join(", ");
+
             if (lbl && !seen[lbl]) {
               seen[lbl] = 1;
               addrs.push({
@@ -193,7 +216,6 @@ export default {
       addrs.sort((a, b) => a.label.localeCompare(b.label));
       return addrs;
     },
-    //updateValue(_evt) {
     updateValue() {
       const value = Object.assign({}, this.pendingValue);
       for (const k in value) {
@@ -211,13 +233,45 @@ export default {
         city: val.city || "",
         state: val.state || "BC",
         country: val.country || "CAN",
-        postcode: val.postcode || ""
+        postcode: val.postcode || "",
+        email: val.email || "",
+        phone: val.phone || "",
+        fax: val.fax || ""
       };
       return pending;
+    },
+    fillInData(e) {
+      const selIndex = e.target.options.selectedIndex;
+      if (selIndex === 0) {
+        this.readOnly = false;
+        this.pendingValue = this.loadValue();
+      } else if (selIndex > -1) {
+        this.readOnly = true;
+        this.pendingValue = this.loadValue(e.target.options[selIndex]._value);
+      }
+      this.updateValue();
+    }
+  },
+  computed: {
+    regionOptions() {
+      const p = this.pendingValue;
+
+      if (p && p.country) {
+        return p.country === "CAN"
+          ? provinces
+          : states
+      } else {
+        return provinces.concat(states);
+      }
     }
   },
   mounted() {
     const q = this.question;
+
+    for (let key in this.fields) {
+      this.fields[key] = q[key];
+    }
+
     q.valueChangedCallback = () => {
       const pending = this.loadValue(q.value);
       this.pendingValue = pending;

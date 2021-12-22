@@ -1,0 +1,30 @@
+{
+    "pages": [
+     {
+      "name": "page1",
+      "elements": [
+       {
+        "type": "address",
+        "name": "Full Option Set",
+        "useEmail": true,
+        "usePhone": true,
+        "useFax": true
+       },
+       {
+        "type": "address",
+        "name": "Default Option Set"
+       }
+      ]
+     },
+     {
+      "name": "page2",
+      "elements": [
+       {
+        "type": "address",
+        "name": "Only the matching option will be available",
+        "isRequired": true
+       }
+      ]
+     }
+    ]
+   }
