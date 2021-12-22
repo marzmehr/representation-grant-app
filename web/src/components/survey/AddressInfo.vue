@@ -11,7 +11,7 @@
         </select>
       </div>
     </div>
-    <div class="row survey-address-line">
+    <div class="row survey-address-line" v-if="fields.useStreet">
       <div class="col-sm-6">
         <input
           class="form-control"
@@ -23,7 +23,7 @@
         />
       </div>
     </div>
-    <div class="row survey-address-line">
+    <div class="row survey-address-line" v-if="fields.useCity">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-city'">City / Town</label>
         <input
@@ -35,7 +35,7 @@
         />
       </div>
     </div>
-    <div class="row survey-address-line">
+    <div class="row survey-address-line" v-if="fields.useProvince">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-state'"
           >Province / State / Region</label
@@ -53,7 +53,7 @@
         </select>
       </div>
     </div>
-    <div class="row survey-address-line pb-1">
+    <div class="row survey-address-line pb-1" v-if="fields.useCountry">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-country'">Country</label>
         <select
@@ -69,7 +69,7 @@
         </select>
       </div>
     </div>
-    <div class="row survey-address-line">
+    <div class="row survey-address-line" v-if="fields.usePostalCode">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code</label>
         <input
@@ -81,11 +81,48 @@
         />
       </div>
     </div>
+    <div class="row survey-address-line" v-if="fields.useEmail">
+      <div class="col-sm-6">
+        <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
+        <input
+          class="form-control"
+          :id="question.inputId + '-email'"
+          v-model="pendingValue['email']"
+          @change="updateValue"
+          :readonly="readOnly"
+        />
+      </div>
+    </div>
+    <div class="row survey-address-line" v-if="fields.usePhone">
+      <div class="col-sm-6">
+        <label class="survey-sublabel" :for="question.inputId + '-phone'">Phone Number</label>
+        <input
+          class="form-control"
+          :id="question.inputId + '-phone'"
+          v-model="pendingValue['phone']"
+          @change="updateValue"
+          :readonly="readOnly"
+        />
+      </div>
+    </div>
+    <div class="row survey-address-line" v-if="fields.useFax">
+      <div class="col-sm-6">
+        <label class="survey-sublabel" :for="question.inputId + '-fax'">Fax</label>
+        <input
+          class="form-control"
+          :id="question.inputId + '-fax'"
+          v-model="pendingValue['fax']"
+          @change="updateValue"
+          :readonly="readOnly"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { canada, provinces, usa, states } from "@/utils/location-options";
+import { getPotentialApplicants } from '@/state/survey-state';
 export default {
   props: {
     question: Object
@@ -96,7 +133,17 @@ export default {
       selOptions: [],
       pendingValue: this.loadValue(this.question.value),
       value: this.question.value,
-      readOnly: false
+      readOnly: false,
+      fields: {
+        useStreet: this.question.useStreet,
+        useCity: this.question.useCity,
+        useProvince: this.question.useProvince,
+        useCountry: this.question.useCountry,
+        usePostalCode: this.question.usePostalCode,
+        useEmail: this.question.useEmail,
+        usePhone: this.question.usePhone,
+        useFax: this.question.useFax
+      }
     };
   },
   methods: {
@@ -114,17 +161,47 @@ export default {
             otherQ.name !== skipName &&
             (otherQVal = otherQ.value)
           ) {
-            const parts = [
+            const potentialParts = [
               otherQVal.street,
               otherQVal.city,
               otherQVal.state,
               otherQVal.country,
-              otherQVal.postcode
+              otherQVal.postcode,
+              otherQVal.email,
+              otherQVal.phone,
+              otherQVal.fax
             ];
+
+            // ensure the fields match, otherwise copying won't make sense.
+            if (Object.keys(this.fields).length !== potentialParts.length) continue;
+
+            let match = true;
+            let i = 0;
+            for (let key in this.fields) {
+              if (!!this.fields[key] !== !!potentialParts[i]) {
+                match = false;
+                break;
+              }
+              i++;
+            }
+
+            if (!match) continue;
+
+            // collect data
+            let parts = [];
+            let k = 0;
+            for (let key in this.fields) {
+              if (this.fields[key]) {
+                parts.push(potentialParts[k]);
+              }
+              k++;
+            }
+
             const lbl = parts
               .map(p => p.trim())
               .filter(p => p)
               .join(", ");
+
             if (lbl && !seen[lbl]) {
               seen[lbl] = 1;
               addrs.push({
@@ -156,12 +233,14 @@ export default {
         city: val.city || "",
         state: val.state || "BC",
         country: val.country || "CAN",
-        postcode: val.postcode || ""
+        postcode: val.postcode || "",
+        email: val.email || "",
+        phone: val.phone || "",
+        fax: val.fax || ""
       };
       return pending;
     },
     fillInData(e) {
-      console.log("SELECTION MADE");
       const selIndex = e.target.options.selectedIndex;
       if (selIndex === 0) {
         this.readOnly = false;
@@ -188,6 +267,11 @@ export default {
   },
   mounted() {
     const q = this.question;
+
+    for (let key in this.fields) {
+      this.fields[key] = q[key];
+    }
+
     q.valueChangedCallback = () => {
       const pending = this.loadValue(q.value);
       this.pendingValue = pending;
