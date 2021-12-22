@@ -1,17 +1,16 @@
 <template>
   <div class="survey-address">
-    <!-- <div class="row survey-address-line" v-if="selOptions.length">
+    <div class="row survey-address-line" v-if="selOptions.length">
       <div class="col-sm-6 form-inline">
         <label class="survey-sublabel">Copy from:</label>
-        <select class="form-control ml-2" ref="copyFrom">
+        <select class="form-control ml-2" ref="copyFrom" @change="fillInData">
           <option value="">(Select Address)</option>
           <option v-for="(opt, inx) in selOptions" :key="inx" :value="opt.value">{{
             opt.label
           }}</option>
         </select>
       </div>
-    </div> -->
-    <!-- Address, City, Province, Postalcode, Country -->
+    </div>
     <div class="row survey-address-line">
       <div class="col-sm-6">
         <input
@@ -20,6 +19,7 @@
           :id="question.inputId"
           v-model="pendingValue['street']"
           @change="updateValue"
+          :readonly="readOnly"
         />
       </div>
     </div>
@@ -31,6 +31,7 @@
           :id="question.inputId + '-city'"
           v-model="pendingValue['city']"
           @change="updateValue"
+          :readonly="readOnly"
         />
       </div>
     </div>
@@ -44,6 +45,7 @@
           v-model="pendingValue['state']"
           :id="question.inputId + '-state'"
           @change="updateValue"
+          :disabled="readOnly"
         >
           <option v-for="reg of regionOptions" :key="reg.value" :value="reg.value">{{
             reg.text
@@ -59,6 +61,7 @@
           v-model="pendingValue['country']"
           :id="question.inputId + '-country'"
           @change="updateValue"
+          :disabled="readOnly"
         >
           <option v-for="coun of countryOptions" :key="coun.value" :value="coun.value">{{
             coun.text
@@ -74,6 +77,7 @@
           :id="question.inputId + '-postcode'"
           v-model="pendingValue['postcode']"
           @change="updateValue"
+          :readonly="readOnly"
         />
       </div>
     </div>
@@ -91,7 +95,8 @@ export default {
       countryOptions: [canada, usa],
       selOptions: [],
       pendingValue: this.loadValue(this.question.value),
-      value: this.question.value
+      value: this.question.value,
+      readOnly: false
     };
   },
   methods: {
@@ -155,6 +160,17 @@ export default {
         postcode: val.postcode || ""
       };
       return pending;
+    },
+    fillInData(e) {
+      console.log("SELECTION MADE");
+      const selIndex = e.target.options.selectedIndex;
+      if (selIndex === 0) {
+        this.readOnly = false;
+        this.pendingValue = this.loadValue();
+      } else if (selIndex > -1) {
+        this.readOnly = true;
+        this.pendingValue = this.loadValue(e.target.options[selIndex]._value);
+      }
     }
   },
   computed: {
