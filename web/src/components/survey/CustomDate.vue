@@ -71,8 +71,6 @@ export default defineComponent({
 
     const parseValue = val => {
       const pending = { year: "", month: "", day: "" };
-      if (val?.year && val?.month && val?.day)
-        return val;
       if (val) {
         const m = ("" + val).match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
         const dt = m ? new Date(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])) : null;
@@ -126,7 +124,6 @@ export default defineComponent({
     q.valueChangedCallback = () => {
       const pending = parseValue(q.value);
       if (pending.year) state.pendingValue = pending;
-      q.value = pending;
     };
 
     const updated = field => {
