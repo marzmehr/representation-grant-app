@@ -124,7 +124,6 @@ export default defineComponent({
     q.valueChangedCallback = () => {
       const pending = parseValue(q.value);
       if (pending.year) state.pendingValue = pending;
-      q.value = pending;
     };
 
     const updated = field => {
@@ -134,9 +133,9 @@ export default defineComponent({
         let dt = "" + p.year + "-";
         dt += (p.month.length < 2 ? "0" : "") + p.month;
         dt += "-" + (p.day.length < 2 ? "0" : "") + p.day;
-        props.question.value = dt;
+        q.value = dt;
       } else {
-        props.question.value = null;
+        q.value = null;
         if (field === "year") monthRef.value.focus();
         else if (field === "month") dayRef.value.focus();
       }
