@@ -71,6 +71,8 @@ export default defineComponent({
 
     const parseValue = val => {
       const pending = { year: "", month: "", day: "" };
+      if (val?.year && val?.month && val?.day)
+        return val;
       if (val) {
         const m = ("" + val).match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
         const dt = m ? new Date(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])) : null;
@@ -134,9 +136,9 @@ export default defineComponent({
         let dt = "" + p.year + "-";
         dt += (p.month.length < 2 ? "0" : "") + p.month;
         dt += "-" + (p.day.length < 2 ? "0" : "") + p.day;
-        props.question.value = dt;
+        q.value = dt;
       } else {
-        props.question.value = null;
+        q.value = null;
         if (field === "year") monthRef.value.focus();
         else if (field === "month") dayRef.value.focus();
       }
