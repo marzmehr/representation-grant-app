@@ -120,7 +120,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { canada, provinces, usa, states } from "@/utils/location-options";
 import { getPotentialApplicants } from '@/state/survey-state';
 export default {

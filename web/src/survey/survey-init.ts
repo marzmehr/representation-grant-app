@@ -16,6 +16,7 @@ import PreviewForm from "@/components/survey/PreviewForm.vue";
 import VRuntimeTemplate from "v-runtime-template";
 import StringViewer from "@/components/survey/survey-js-internal/StringViewer.vue";
 import SurveyText from "@/components/survey/survey-js-internal/SurveyText.vue";
+import SurveyElementVueWrapper from "@/components/survey/survey-js-internal/SurveyElementVueWrapper.vue";
 
 import { HolidayHelper } from "@/utils/holiday";
 
@@ -38,6 +39,8 @@ export function addQuestionTypesVue(Survey: any) {
   Vue.component("sv-string-viewer", StringViewer);
   //Library template function, that creates Vue components from string.
   Vue.component("v-runtime-template", VRuntimeTemplate);
+  //SurveyJS component wrapped here for transitions.
+  Vue.component("survey-element", SurveyElementVueWrapper);
 
   addQuestionTypes(Survey);
 }

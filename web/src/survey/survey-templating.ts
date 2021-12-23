@@ -18,7 +18,7 @@ export function addCustomTemplating(surveyRuntime: any) {
         const bullets = [];
         question.forEach(function(element) {
           const value = `${key?.length > 0 ? element[key] : element}`;
-          if (value) bullets.push(`<li>${value}</li>`);
+          if (value && value !== "undefined") bullets.push(`<li>${value}</li>`);
         });
         options.value = bullets.join("\r\n");
       } else {
