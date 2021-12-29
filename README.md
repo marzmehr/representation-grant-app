@@ -25,11 +25,11 @@ A Django based REST API which provides the heavy lifting.  The API includes a Sw
 
 ### PDF Microservice (pdf)
 An html to PDF microservice used to generate reports. 
-This can be started up by `./manage start pdf` under the docker folder. 
+This can be started up by `./manage start pdf` under the docker folder (refer to Running on Docker). 
 
 ###	Database (db)
 A PostgreSQL database for storage.
-This can be started up by `./manage start db` under the docker folder. Alternatively a local version could be installed on a different port than the docker container.
+This can be started up by `./manage start db` under the docker folder (refer to Running on Docker). Alternatively a local version could be installed on a different port than the docker container.
 
 ## Running on OpenShift
 To deploy using a local instance of OpenShift, refer to [Running on OpenShift](./RunningOnOpenShift.md).  These instructions, apart from the steps that are specific to setting up your local environment, can be used to get the project deployed to a production OpenShift environment.
