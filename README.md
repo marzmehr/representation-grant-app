@@ -15,7 +15,7 @@ This library is of interest (uses survey-vue and survey-creator): https://github
 ###	REST API (api)
 A Django based REST API which provides the heavy lifting.  The API includes a Swagger interface containing API documentation and UI that allows you to interact with the various APIs manually.
 
-#### Important commands for the api folder (May require environment variables set, for database for example):
+#### Important commands for the api folder (May require environment variables set, check settings.py):
 `python manage.py migrate`  
 `python manage.py makemigrations`    
 `python manage.py runserver 8081`    
