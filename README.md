@@ -1,8 +1,6 @@
 [![Lifecycle:Maturing](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/representation-grant-app/)
 
 # Representation Grant
-Representation Grant
-
 ## Dev environment
 Currently it needs Npm 6.14.14, Node 12 installed. Running on Docker is recommended.
 
@@ -11,27 +9,27 @@ An Vue client application which serves out the SurveyJS based questionnaire.
 This library is of interest (uses survey-vue and survey-creator): https://github.com/surveyjs/survey-library
 
 #### Important commands for the web folder:
-npm run-script serve # Serve web under hot reloading  
-npm run-script build # Build production web package  
+`npm run-script serve` # Serve web under hot reloading  
+`npm run-script build` # Build production web package  
 
 ###	REST API (api)
 A Django based REST API which provides the heavy lifting.  The API includes a Swagger interface containing API documentation and UI that allows you to interact with the various APIs manually.
 
 #### Important commands for the api folder (May require environment variables set, for database for example):
-python manage.py migrate  
-python manage.py makemigrations  
-python manage.py runserver 8081  
+`python manage.py migrate`  
+`python manage.py makemigrations`    
+`python manage.py runserver 8081`    
 
 #### Required Environment Variable keys (check settings.py):
-DATABASE_SERVICE_NAME, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_ENGINE, LOCAL_SERVICE_HOST, LOCAL_SERVICE_PORT
+`DATABASE_SERVICE_NAME, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_ENGINE, LOCAL_SERVICE_HOST, LOCAL_SERVICE_PORT`  
 
 ### PDF Microservice (pdf)
 An html to PDF microservice used to generate reports. 
-This can be started up by ./manage start pdf under the docker folder. 
+This can be started up by `./manage start pdf` under the docker folder. 
 
 ###	Database (db)
 A PostgreSQL database for storage.
-This can be started up by ./manage start db under the docker folder. Alternatively a local version could be installed on a different port than the docker port 5433 for example.
+This can be started up by `./manage start db` under the docker folder. Alternatively a local version could be installed on a different port than the docker container.
 
 ## Running on OpenShift
 To deploy using a local instance of OpenShift, refer to [Running on OpenShift](./RunningOnOpenShift.md).  These instructions, apart from the steps that are specific to setting up your local environment, can be used to get the project deployed to a production OpenShift environment.
