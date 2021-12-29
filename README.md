@@ -17,7 +17,7 @@ npm run-script build # Build production web package
 A Django based REST API which provides the heavy lifting.  The API includes a Swagger interface containing API documentation and UI that allows you to interact with the various APIs manually.
 
 #### Important commands for the api folder (May require environment variables set, for database for example):
-python manage.py migrate 
+python manage.py migrate
 python manage.py makemigrations
 python manage.py runserver 8081
 
