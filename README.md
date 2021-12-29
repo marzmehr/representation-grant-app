@@ -4,26 +4,42 @@
 Representation Grant
 
 ## Dev environment
-Currently it needs npm 6.9, node 10, e2s installed. 
-running on Docker is recommended
+Currently it needs Npm 6.14.14, Node 12 installed. Running on Docker is recommended.
 
 ### Client Application (web)
 An Vue client application which serves out the SurveyJS based questionnaire.
 
+Important commands for the web folder:
+npm run-script serve # Serve web under hot reloading
+npm run-script build # Build production web package
+
 ###	REST API (api)
 A Django based REST API which provides the heavy lifting.  The API includes a Swagger interface containing API documentation and UI that allows you to interact with the various APIs manually.
 
+Important commands for the api folder (May require environment variables set, for database for example):
+python manage.py migrate 
+python manage.py makemigrations
+python manage.py runserver 8081
+
+#### Required Environment Variable keys (check settings.py):
+DATABASE_SERVICE_NAME, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_ENGINE, LOCAL_SERVICE_HOST, LOCAL_SERVICE_PORT
+
 ### PDF Microservice (pdf)
-An html to PDF microservice used to generate reports.
+An html to PDF microservice used to generate reports. 
+This can be started up by ./manage start pdf under the docker folder. 
 
 ###	Database (db)
-A PostgreSQL database for storage, complete with a SchemaSpy instance for documentation.
+A PostgreSQL database for storage.
+This can be started up by ./manage start db under the docker folder. Alternatively a local version could be installed on a different port than the docker port 5433 for example.
 
 ## Running on OpenShift
 To deploy using a local instance of OpenShift, refer to [Running on OpenShift](./RunningOnOpenShift.md).  These instructions, apart from the steps that are specific to setting up your local environment, can be used to get the project deployed to a production OpenShift environment.
 
 ## Running on Docker
 The project can also be run locally using Docker and Docker Compose.  Refer to [Running with Docker Compose](./docker/README.md) for instructions.
+
+## Containerization diagram
+![Representation Grant (1)](https://user-images.githubusercontent.com/3484109/147691536-3cc5ed0c-6695-476a-80c5-626a2183494a.png)
 
 ## Code of Conduct
 Please refer to the [Code of Conduct](./CODE_OF_CONDUCT.md) 
