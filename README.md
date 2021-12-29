@@ -9,14 +9,14 @@ Currently it needs Npm 6.14.14, Node 12 installed. Running on Docker is recommen
 ### Client Application (web)
 An Vue client application which serves out the SurveyJS based questionnaire.
 
-Important commands for the web folder:
+#### Important commands for the web folder:
 npm run-script serve # Serve web under hot reloading
 npm run-script build # Build production web package
 
 ###	REST API (api)
 A Django based REST API which provides the heavy lifting.  The API includes a Swagger interface containing API documentation and UI that allows you to interact with the various APIs manually.
 
-Important commands for the api folder (May require environment variables set, for database for example):
+#### Important commands for the api folder (May require environment variables set, for database for example):
 python manage.py migrate 
 python manage.py makemigrations
 python manage.py runserver 8081
