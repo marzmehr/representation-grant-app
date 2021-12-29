@@ -5,7 +5,7 @@
 Currently it needs Npm 6.14.14, Node 12 installed. Running on Docker is recommended.
 
 ### Client Application (web)
-An Vue client application which serves out the SurveyJS based questionnaire.
+A Vue client application which serves out the SurveyJS based questionnaire.
 This library is of interest (uses survey-vue and survey-creator): https://github.com/surveyjs/survey-library
 
 #### Important commands for the web folder:
