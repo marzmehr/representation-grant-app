@@ -1,6 +1,8 @@
 import showdown from "showdown";
 import { ExpressionRunner } from "survey-vue";
 import { convertCodeMarkupToToolTip, convertTicksToToolTip } from "@/utils/utils";
+import { SurveyInstance } from "@/types/survey-primary";
+import { replace } from "lodash";
 //This is the regular instance, not SurveyKO module.
 export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onProcessTextValue.add(function(sender, options) {
@@ -69,17 +71,36 @@ export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onTextMarkdown.add(function(survey, options) {
     if (options.text.includes("displayIf(")) {
       const split = options.text.match(/displayIf/g);
+
       for (let i = 0; i < split.length; i++) {
         const startIndex = options.text.indexOf("displayIf(");
         const endIndex = options.text.indexOf(")}");
         const displayIfLength = "displayIf(".length;
-        const targetString = `${options.text.substring(startIndex + displayIfLength, endIndex)}`;
-        const index = targetString.indexOf(",");
-        const params = [targetString.slice(0, index), targetString.slice(index + 1)];
-        const value = new ExpressionRunner(params[0]).run({});
+        const params = `${options.text.substring(startIndex + displayIfLength, endIndex)}`.split(",");
+
+        let value = false;
+        let result: string;
+        for (let i = 0; i < params.length; i += 2) {
+          let j = i + 1;
+          let expression = params[i];
+          const output = params[j];
+
+          const match = expression.match(/\#\w*/)
+          const replacement = match ? match[0].replace("#", "") : null;
+          expression = replacement ? expression.replace(/\#\w*/g, survey.data[replacement]) : expression;
+
+          let temp = new ExpressionRunner(expression).run({});
+
+          if (temp) {
+            value = temp;
+            result = output;
+            break;
+          }
+        }
+
         options.text =
           options.text.slice(0, startIndex - 1) +
-          (value !== false ? params[1] : "") +
+          (value !== false ? result : "") +
           options.text.substring(endIndex + 2, options.text.length);
       }
     }
