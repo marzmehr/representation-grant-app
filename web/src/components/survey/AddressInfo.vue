@@ -35,6 +35,22 @@
         />
       </div>
     </div>
+    <div class="row survey-address-line pb-1" v-if="fields.useCountry">
+      <div class="col-sm-6">
+        <label class="survey-sublabel" :for="question.inputId + '-country'">Country</label>
+        <select
+          class="form-control"
+          v-model="pendingValue['country']"
+          :id="question.inputId + '-country'"
+          @change="updateValue"
+          :disabled="readOnly"
+        >
+          <option v-for="coun of countryOptions" :key="coun.value" :value="coun.value">{{
+            coun.text
+          }}</option>
+        </select>
+      </div>
+    </div>
     <div class="row survey-address-line" v-if="fields.useProvince">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-state'"
@@ -49,22 +65,6 @@
         >
           <option v-for="reg of regionOptions" :key="reg.value" :value="reg.value">{{
             reg.text
-          }}</option>
-        </select>
-      </div>
-    </div>
-    <div class="row survey-address-line pb-1" v-if="fields.useCountry">
-      <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-country'">Country</label>
-        <select
-          class="form-control"
-          v-model="pendingValue['country']"
-          :id="question.inputId + '-country'"
-          @change="updateValue"
-          :disabled="readOnly"
-        >
-          <option v-for="coun of countryOptions" :key="coun.value" :value="coun.value">{{
-            coun.text
           }}</option>
         </select>
       </div>
