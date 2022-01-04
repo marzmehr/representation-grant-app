@@ -13,9 +13,10 @@
     </div>
     <div class="row survey-address-line" v-if="fields.useStreet">
       <div class="col-sm-6">
+        <label class="survey-sublabel">Street Address</label>
         <input
           class="form-control"
-          placeholder="Street address, for example: 800 Hornby St. or Post Office Box"
+          placeholder="Street address or Post Office Box"
           :id="question.inputId"
           v-model="pendingValue['street']"
           @change="updateValue"
