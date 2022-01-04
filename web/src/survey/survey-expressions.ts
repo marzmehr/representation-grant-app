@@ -138,8 +138,11 @@ export const addCustomExpressions = (Survey: any) => {
   FunctionFactory.Instance.register("isChild", isChild);
   FunctionFactory.Instance.register("dateFormatter", dateFormatter);
   FunctionFactory.Instance.register("dateMath", dateMath);
+<<<<<<< HEAD
   FunctionFactory.Instance.register("today", today);
   FunctionFactory.Instance.register("currentDate", currentDate);
+=======
+>>>>>>> 1cd2863 (Further expression cleanup)
 
   //For unit testing.
   if (!Survey) return;
@@ -151,6 +154,9 @@ export const addCustomExpressions = (Survey: any) => {
   Survey.FunctionFactory.Instance.register("isChild", isChild);
   Survey.FunctionFactory.Instance.register("dateFormatter", dateFormatter);
   Survey.FunctionFactory.Instance.register("dateMath", dateMath);
+<<<<<<< HEAD
   Survey.FunctionFactory.Instance.register("today", today);
   Survey.FunctionFactory.Instance.register("currentDate", currentDate);
+=======
+>>>>>>> 1cd2863 (Further expression cleanup)
 };
