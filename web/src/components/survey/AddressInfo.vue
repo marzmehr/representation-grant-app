@@ -16,7 +16,6 @@
         <label class="survey-sublabel">Street Address</label>
         <input
           class="form-control"
-          placeholder="Street address or Post Office Box"
           :id="question.inputId"
           v-model="pendingValue['street']"
           @change="updateValue"
