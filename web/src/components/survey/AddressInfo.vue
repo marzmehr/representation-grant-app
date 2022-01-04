@@ -121,7 +121,7 @@
 </template>
 
 <script lang="ts">
-import { canada, provinces, usa, states } from "@/utils/location-options";
+import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
 import { getPotentialApplicants } from '@/state/survey-state';
 export default {
   props: {
@@ -129,7 +129,7 @@ export default {
   },
   data() {
     return {
-      countryOptions: [canada, usa],
+      countryOptions: [canada, usa].concat(otherCountries),
       selOptions: [],
       pendingValue: this.loadValue(this.question.value),
       value: this.question.value,
