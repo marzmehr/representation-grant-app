@@ -84,15 +84,13 @@ export function addCustomTemplating(surveyRuntime: any) {
           let j = i + 1;
           let expression = params[i];
           const output = params[j];
-
           const match = expression.match(/\#\w*/)
           const replacement = match ? match[0].replace("#", "") : null;
           expression = replacement ? expression.replace(/\#\w*/g, survey.data[replacement]) : expression;
 
-          let temp = new ExpressionRunner(expression).run({});
-
-          if (temp) {
-            value = temp;
+          let expressionResult = new ExpressionRunner(expression).run({});;
+          if (expressionResult) {
+            value = expressionResult;
             result = output;
             break;
           }
