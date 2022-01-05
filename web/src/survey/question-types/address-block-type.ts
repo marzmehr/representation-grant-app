@@ -51,17 +51,17 @@ export function initAddressBlock(Survey: any) {
           default: true
         },
         {
-          name: "useEmail:boolean",
-          category: "others",
-          default: false
-        },
-        {
           name: "usePhone:boolean",
           category: "others",
           default: false
         },
         {
           name: "useFax:boolean",
+          category: "others",
+          default: false
+        },
+        {
+          name: "useEmail:boolean",
           category: "others",
           default: false
         }
