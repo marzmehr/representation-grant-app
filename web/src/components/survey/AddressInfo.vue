@@ -54,7 +54,7 @@
     <div class="row survey-address-line" v-if="fields.useProvince">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-state'"
-          >Province / State / Region</label
+          >Province / Territory / State / Region</label
         >
         <div v-if="isDropDownRegion">
           <select
@@ -82,7 +82,7 @@
     </div>
     <div class="row survey-address-line" v-if="fields.usePostalCode">
       <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code</label>
+        <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code / Zip Code</label>
         <input
           class="form-control"
           :id="question.inputId + '-postcode'"
