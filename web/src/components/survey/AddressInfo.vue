@@ -56,17 +56,28 @@
         <label class="survey-sublabel" :for="question.inputId + '-state'"
           >Province / State / Region</label
         >
-        <select
-          class="form-control"
-          v-model="pendingValue['state']"
-          :id="question.inputId + '-state'"
-          @change="updateValue"
-          :disabled="readOnly"
-        >
-          <option v-for="reg of regionOptions" :key="reg.value" :value="reg.value">{{
-            reg.text
-          }}</option>
-        </select>
+        <div v-if="isDropDownRegion">
+          <select
+            class="form-control"
+            v-model="pendingValue['state']"
+            :id="question.inputId + '-state'"
+            @change="updateValue"
+            :disabled="readOnly"
+          >
+            <option v-for="reg of regionOptions" :key="reg.value" :value="reg.value">{{
+              reg.text
+            }}</option>
+          </select>
+        </div>
+        <div v-else>
+          <input
+            class="form-control"
+            v-model="pendingValue['state']"
+            :id="question.inputId + '-state'"
+            @change="updateValue"
+            :disabled="readOnly"
+          />
+        </div>
       </div>
     </div>
     <div class="row survey-address-line" v-if="fields.usePostalCode">
@@ -262,6 +273,17 @@ export default {
           : states
       } else {
         return provinces.concat(states);
+      }
+    },
+    isDropDownRegion() {
+      const p = this.pendingValue;
+
+      if (!p || !p.country || ( p.country !== "CAN" && p.country !== "USA")) {
+        console.log("we get in here");
+        return false;
+      } else {
+        console.log("but also in here");
+        return true;
       }
     }
   },
