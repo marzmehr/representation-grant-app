@@ -91,6 +91,7 @@
         <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code / Zip Code</label>
         <input
           class="form-control"
+          autocomplete="postal-code"
           :id="question.inputId + '-postcode'"
           v-model="pendingValue['postcode']"
           @change="updateValue"
@@ -103,6 +104,7 @@
         <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
         <input
           class="form-control"
+          autocomplete="email"
           :id="question.inputId + '-email'"
           v-model="pendingValue['email']"
           @change="validEmail"
@@ -116,6 +118,7 @@
         <input
           class="form-control"
           type="number"
+          autocomplete="tel"
           :id="question.inputId + '-phone'"
           v-model="pendingValue['phone']"
           @change="updateValue"
@@ -129,6 +132,7 @@
         <input
           class="form-control"
           type="number"
+          autocomplete="tel"
           :id="question.inputId + '-fax'"
           v-model="pendingValue['fax']"
           @change="updateValue"
