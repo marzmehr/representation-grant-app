@@ -3,12 +3,18 @@
     <div class="row survey-address-line" v-if="selOptions.length">
       <div class="col-sm-6 form-inline">
         <label class="survey-sublabel">Copy from:</label>
-        <select class="form-control ml-2" ref="copyFrom" @change="fillInData">
-          <option value="">(Select Address)</option>
-          <option v-for="(opt, inx) in selOptions" :key="inx" :value="opt.value">{{
-            opt.label
-          }}</option>
-        </select>
+        <div ref="copyFrom" @change="fillInData">
+          <div v-for="(opt, inx) in selOptions" :key="inx" >
+            <input
+              type="radio"
+              name="prevAddressOpt"
+              :value="opt.value">
+            {{ opt.label }}
+          </div>
+          <div>
+            <input type="radio" name="prevAddressOpt" value="">Enter new information
+          </div>
+        </div>
       </div>
     </div>
     <div class="row survey-address-line" v-if="fields.useStreet">
@@ -133,7 +139,7 @@
 
 <script lang="ts">
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
-import { getPotentialApplicants } from '@/state/survey-state';
+
 export default {
   props: {
     question: Object
@@ -252,13 +258,14 @@ export default {
       return pending;
     },
     fillInData(e) {
-      const selIndex = e.target.options.selectedIndex;
-      if (selIndex === 0) {
+      const data = e.target._value;
+
+      if (!data) {
         this.readOnly = false;
         this.pendingValue = this.loadValue();
-      } else if (selIndex > -1) {
+      } else if (data) {
         this.readOnly = true;
-        this.pendingValue = this.loadValue(e.target.options[selIndex]._value);
+        this.pendingValue = this.loadValue(data);
       }
       this.updateValue();
     }
@@ -277,14 +284,7 @@ export default {
     },
     isDropDownRegion() {
       const p = this.pendingValue;
-
-      if (!p || !p.country || ( p.country !== "CAN" && p.country !== "USA")) {
-        console.log("we get in here");
-        return false;
-      } else {
-        console.log("but also in here");
-        return true;
-      }
+      return (!p || !p.country || ( p.country !== "CAN" && p.country !== "USA")) ? false : true;
     }
   },
   mounted() {
@@ -298,7 +298,9 @@ export default {
       const pending = this.loadValue(q.value);
       this.pendingValue = pending;
       this.value = q.value;
+      console.log("in here defining stuff");
       this.selOptions = this.prevAddrOptions();
+      console.log(this.selOptions);
     };
     this.selOptions = this.prevAddrOptions();
   }
