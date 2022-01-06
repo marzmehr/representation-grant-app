@@ -5,7 +5,7 @@ import { WidgetValueName } from "./question-types";
 export function initAddressBlock(Survey: any) {
   const widget = {
     name: WidgetValueName[WidgetValueName.AddressInfo],
-    title: "Postal Address",
+    title: "Address & Contact",
     iconName: "icon-multipletext",
     widgetIsLoaded: function() {
       return true;

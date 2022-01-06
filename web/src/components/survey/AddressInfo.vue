@@ -105,7 +105,7 @@
           class="form-control"
           :id="question.inputId + '-email'"
           v-model="pendingValue['email']"
-          @change="updateValue"
+          @change="validEmail"
           :readonly="readOnly"
         />
       </div>
@@ -115,6 +115,7 @@
         <label class="survey-sublabel" :for="question.inputId + '-phone'">Phone Number</label>
         <input
           class="form-control"
+          type="number"
           :id="question.inputId + '-phone'"
           v-model="pendingValue['phone']"
           @change="updateValue"
@@ -127,6 +128,7 @@
         <label class="survey-sublabel" :for="question.inputId + '-fax'">Fax</label>
         <input
           class="form-control"
+          type="number"
           :id="question.inputId + '-fax'"
           v-model="pendingValue['fax']"
           @change="updateValue"
@@ -139,7 +141,6 @@
 
 <script lang="ts">
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
-
 export default {
   props: {
     question: Object
@@ -268,6 +269,12 @@ export default {
         this.pendingValue = this.loadValue(data);
       }
       this.updateValue();
+    },
+    validEmail(e) {
+      const email = e.target._value;
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (re.test(email)) this.updateValue();
+      else console.log("Something went wrong");
     }
   },
   computed: {
