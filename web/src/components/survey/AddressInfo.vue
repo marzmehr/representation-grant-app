@@ -1,18 +1,18 @@
 <template>
   <div class="survey-address">
     <div class="row survey-address-line" v-if="selOptions.length">
-      <div class="col-sm-6 form-inline">
+      <div class="col-sm-6">
         <label class="survey-sublabel">Copy from:</label>
         <div ref="copyFrom" @change="fillInData">
-          <div v-for="(opt, inx) in selOptions" :key="inx" >
+          <div class="form-control-sm ml-2 no-border" v-for="(opt, inx) in selOptions" :key="inx" >
             <input
               type="radio"
               name="prevAddressOpt"
               :value="opt.value">
             {{ opt.label }}
           </div>
-          <div>
-            <input type="radio" name="prevAddressOpt" value="">Enter new information
+          <div class="form-control-sm ml-2 no-border">
+            <input type="radio" name="prevAddressOpt" value=""> Manual Entry
           </div>
         </div>
       </div>
@@ -306,3 +306,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.no-border {
+    border: 0;
+    box-shadow: none;
+}
+</style>
