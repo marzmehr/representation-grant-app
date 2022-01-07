@@ -271,7 +271,7 @@ export default {
       if (!data) {
         this.readOnly = false;
         this.pendingValue = this.loadValue();
-      } else if (data) {
+      } else {
         this.readOnly = true;
         this.pendingValue = this.loadValue(data);
       }
