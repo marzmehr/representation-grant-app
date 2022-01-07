@@ -5,7 +5,7 @@ import { WidgetValueName } from "./question-types";
 export function initContactInfoBlock(Survey: any) {
   const widget = {
     name: WidgetValueName[WidgetValueName.ContactInfo],
-    title: "Contact Info",
+    title: "Contact Info Only",
     iconName: "icon-multipletext",
     widgetIsLoaded: function() {
       return true;

@@ -89,7 +89,7 @@ export function addToolboxOptions(editor: any) {
   });
   editor.toolbox.addItem({
     name: "address",
-    title: "Postal Address",
+    title: "Address & Contact",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
@@ -98,7 +98,7 @@ export function addToolboxOptions(editor: any) {
   });
   editor.toolbox.addItem({
     name: "contactinfo",
-    title: "Contact Information",
+    title: "Contact Info Only",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {

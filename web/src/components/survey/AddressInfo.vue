@@ -1,21 +1,27 @@
 <template>
   <div class="survey-address">
     <div class="row survey-address-line" v-if="selOptions.length">
-      <div class="col-sm-6 form-inline">
+      <div class="col-sm-6">
         <label class="survey-sublabel">Copy from:</label>
-        <select class="form-control ml-2" ref="copyFrom" @change="fillInData">
-          <option value="">(Select Address)</option>
-          <option v-for="(opt, inx) in selOptions" :key="inx" :value="opt.value">{{
-            opt.label
-          }}</option>
-        </select>
+        <div ref="copyFrom" @change="fillInData">
+          <div class="form-control-sm ml-2 no-border" v-for="(opt, inx) in selOptions" :key="inx" >
+            <input
+              type="radio"
+              name="prevAddressOpt"
+              :value="opt.value">
+            {{ opt.label }}
+          </div>
+          <div class="form-control-sm ml-2 no-border">
+            <input type="radio" name="prevAddressOpt" value=""> Manual Entry
+          </div>
+        </div>
       </div>
     </div>
     <div class="row survey-address-line" v-if="fields.useStreet">
       <div class="col-sm-6">
+        <label class="survey-sublabel">Street Address</label>
         <input
           class="form-control"
-          placeholder="Street address, for example: 800 Hornby St. or Post Office Box"
           :id="question.inputId"
           v-model="pendingValue['street']"
           @change="updateValue"
@@ -35,24 +41,6 @@
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.useProvince">
-      <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-state'"
-          >Province / State / Region</label
-        >
-        <select
-          class="form-control"
-          v-model="pendingValue['state']"
-          :id="question.inputId + '-state'"
-          @change="updateValue"
-          :disabled="readOnly"
-        >
-          <option v-for="reg of regionOptions" :key="reg.value" :value="reg.value">{{
-            reg.text
-          }}</option>
-        </select>
-      </div>
-    </div>
     <div class="row survey-address-line pb-1" v-if="fields.useCountry">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-country'">Country</label>
@@ -69,25 +57,43 @@
         </select>
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.usePostalCode">
+    <div class="row survey-address-line" v-if="fields.useProvince">
       <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code</label>
-        <input
-          class="form-control"
-          :id="question.inputId + '-postcode'"
-          v-model="pendingValue['postcode']"
-          @change="updateValue"
-          :readonly="readOnly"
-        />
+        <label class="survey-sublabel" :for="question.inputId + '-state'"
+          >Province / Territory / State / Region</label
+        >
+        <div v-if="isDropDownRegion">
+          <select
+            class="form-control"
+            v-model="pendingValue['state']"
+            :id="question.inputId + '-state'"
+            @change="updateValue"
+            :disabled="readOnly"
+          >
+            <option v-for="reg of regionOptions" :key="reg.value" :value="reg.value">{{
+              reg.text
+            }}</option>
+          </select>
+        </div>
+        <div v-else>
+          <input
+            class="form-control"
+            v-model="pendingValue['state']"
+            :id="question.inputId + '-state'"
+            @change="updateValue"
+            :disabled="readOnly"
+          />
+        </div>
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.useEmail">
+    <div class="row survey-address-line" v-if="fields.usePostalCode">
       <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
+        <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code / Zip Code</label>
         <input
           class="form-control"
-          :id="question.inputId + '-email'"
-          v-model="pendingValue['email']"
+          autocomplete="postal-code"
+          :id="question.inputId + '-postcode'"
+          v-model="pendingValue['postcode']"
           @change="updateValue"
           :readonly="readOnly"
         />
@@ -98,6 +104,8 @@
         <label class="survey-sublabel" :for="question.inputId + '-phone'">Phone Number</label>
         <input
           class="form-control"
+          type="number"
+          autocomplete="tel"
           :id="question.inputId + '-phone'"
           v-model="pendingValue['phone']"
           @change="updateValue"
@@ -110,9 +118,26 @@
         <label class="survey-sublabel" :for="question.inputId + '-fax'">Fax</label>
         <input
           class="form-control"
+          type="number"
+          autocomplete="tel"
           :id="question.inputId + '-fax'"
           v-model="pendingValue['fax']"
           @change="updateValue"
+          :readonly="readOnly"
+        />
+      </div>
+    </div>
+    <div class="row survey-address-line" v-if="fields.useEmail">
+      <div class="col-sm-6">
+        <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
+        <div class="alert alert-danger sv_qstn_error_top" v-if="emailMsg">{{emailMsg}}</div>
+        <input
+          class="form-control"
+          type="text"
+          autocomplete="email"
+          :id="question.inputId + '-email'"
+          v-model="pendingValue['email']"
+          @blur="validEmail"
           :readonly="readOnly"
         />
       </div>
@@ -121,19 +146,19 @@
 </template>
 
 <script lang="ts">
-import { canada, provinces, usa, states } from "@/utils/location-options";
-import { getPotentialApplicants } from '@/state/survey-state';
+import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
 export default {
   props: {
     question: Object
   },
   data() {
     return {
-      countryOptions: [canada, usa],
+      countryOptions: [canada, usa].concat(otherCountries),
       selOptions: [],
       pendingValue: this.loadValue(this.question.value),
       value: this.question.value,
       readOnly: false,
+      emailMsg: "",
       fields: {
         useStreet: this.question.useStreet,
         useCity: this.question.useCity,
@@ -241,15 +266,26 @@ export default {
       return pending;
     },
     fillInData(e) {
-      const selIndex = e.target.options.selectedIndex;
-      if (selIndex === 0) {
+      const data = e.target._value;
+
+      if (!data) {
         this.readOnly = false;
         this.pendingValue = this.loadValue();
-      } else if (selIndex > -1) {
+      } else {
         this.readOnly = true;
-        this.pendingValue = this.loadValue(e.target.options[selIndex]._value);
+        this.pendingValue = this.loadValue(data);
       }
       this.updateValue();
+    },
+    validEmail(e) {
+      const email = e.target._value;
+      const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,3})+$/;
+      if (re.test(email)) {
+        this.updateValue();
+        this.emailMsg = "";
+      } else {
+        this.emailMsg = "Please enter a valid e-mail address.";
+      }
     }
   },
   computed: {
@@ -263,6 +299,10 @@ export default {
       } else {
         return provinces.concat(states);
       }
+    },
+    isDropDownRegion() {
+      const p = this.pendingValue;
+      return p && p.country && (p.country === "CAN" || p.country === "USA");
     }
   },
   mounted() {
@@ -282,3 +322,21 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.no-border {
+    border: 0;
+    box-shadow: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
