@@ -102,12 +102,14 @@
     <div class="row survey-address-line" v-if="fields.useEmail">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
+        <div class="alert alert-danger sv_qstn_error_top" v-if="emailMsg">{{emailMsg}}</div>
         <input
           class="form-control"
+          type="text"
           autocomplete="email"
           :id="question.inputId + '-email'"
           v-model="pendingValue['email']"
-          @change="validEmail"
+          @blur="validEmail"
           :readonly="readOnly"
         />
       </div>
@@ -156,6 +158,7 @@ export default {
       pendingValue: this.loadValue(this.question.value),
       value: this.question.value,
       readOnly: false,
+      emailMsg: "",
       fields: {
         useStreet: this.question.useStreet,
         useCity: this.question.useCity,
@@ -276,9 +279,14 @@ export default {
     },
     validEmail(e) {
       const email = e.target._value;
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (re.test(email)) this.updateValue();
-      else console.log("Something went wrong");
+      console.log(email);
+      const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,3})+$/;
+      if (re.test(email)) {
+        this.updateValue();
+        this.emailMsg = "";
+      } else {
+        this.emailMsg = "Please enter a valid e-mail address.";
+      }
     }
   },
   computed: {
