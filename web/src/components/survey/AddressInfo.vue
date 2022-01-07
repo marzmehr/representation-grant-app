@@ -99,21 +99,6 @@
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.useEmail">
-      <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
-        <div class="alert alert-danger sv_qstn_error_top" v-if="emailMsg">{{emailMsg}}</div>
-        <input
-          class="form-control"
-          type="text"
-          autocomplete="email"
-          :id="question.inputId + '-email'"
-          v-model="pendingValue['email']"
-          @blur="validEmail"
-          :readonly="readOnly"
-        />
-      </div>
-    </div>
     <div class="row survey-address-line" v-if="fields.usePhone">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-phone'">Phone Number</label>
@@ -138,6 +123,21 @@
           :id="question.inputId + '-fax'"
           v-model="pendingValue['fax']"
           @change="updateValue"
+          :readonly="readOnly"
+        />
+      </div>
+    </div>
+    <div class="row survey-address-line" v-if="fields.useEmail">
+      <div class="col-sm-6">
+        <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
+        <div class="alert alert-danger sv_qstn_error_top" v-if="emailMsg">{{emailMsg}}</div>
+        <input
+          class="form-control"
+          type="text"
+          autocomplete="email"
+          :id="question.inputId + '-email'"
+          v-model="pendingValue['email']"
+          @blur="validEmail"
           :readonly="readOnly"
         />
       </div>
