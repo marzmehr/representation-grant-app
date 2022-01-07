@@ -279,7 +279,6 @@ export default {
     },
     validEmail(e) {
       const email = e.target._value;
-      console.log(email);
       const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,3})+$/;
       if (re.test(email)) {
         this.updateValue();
@@ -317,9 +316,7 @@ export default {
       const pending = this.loadValue(q.value);
       this.pendingValue = pending;
       this.value = q.value;
-      console.log("in here defining stuff");
       this.selOptions = this.prevAddrOptions();
-      console.log(this.selOptions);
     };
     this.selOptions = this.prevAddrOptions();
   }
