@@ -302,7 +302,7 @@ export default {
     },
     isDropDownRegion() {
       const p = this.pendingValue;
-      return (!p || !p.country || ( p.country !== "CAN" && p.country !== "USA")) ? false : true;
+      return p && p.country && (p.country === "CAN" || p.country === "USA");
     }
   },
   mounted() {
