@@ -1,7 +1,7 @@
 //Needs to be function, otherwise this context wont work.
 import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, getDay, parseISO } from "date-fns";
-import { ItemValue } from "survey-vue";
+import { ItemValue, QuestionSignaturePadModel } from "survey-vue";
 import {
   getPotentialApplicants,
   setApplicants,
@@ -10,6 +10,8 @@ import {
   setPrevAddresses,
   setRecipients
 } from "@/state/survey-state";
+import { parseWithOptions } from "date-fns/fp";
+import differenceInQuartersWithOptions from "date-fns/esm/fp/differenceInQuartersWithOptions/index.js";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
 const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string, getText?: boolean) => {
@@ -250,6 +252,30 @@ export const collectPrevAddresses = (sender) => {
   setPrevAddresses(uniqueAddressQuestions);
 };
 
+export const setFocus = (sender, options) => {
+  console.log("We are doing focus-related things");
+  const jumpOffQuestions = [
+    'radiogroup',
+    'dropdown',
+    'checkbox',
+    'yesno'
+  ];
+  const questionsOnPage = sender.activePage.questions;
+  const questionNames = questionsOnPage.map(q => q.name);
+  // const allQuestions = sender.();
+  const targetName = options.name;
+  const questionType = options.question.getType();
+  // console.log("all questions");
+  // console.log(allQuestions[7].focus());
+
+  const idx = questionNames.indexOf(targetName);
+  if (questionNames.includes(targetName) && questionNames.length - 1 > idx) {
+    console.log("this question is legit");
+    questionsOnPage[idx + 1].focus()
+    console.log(questionsOnPage[idx + 1]);
+  }
+};
+
 export function onValueChanged(sender, options) {
   determinePotentialApplicants(sender, options);
   determineRecipients(sender, options);
@@ -257,4 +283,5 @@ export function onValueChanged(sender, options) {
   determineEarliestSubmissionDate(sender, options);
   setLastUpdated(new Date());
   collectPrevAddresses(sender);
-};
+  setFocus(sender, options);
+}
