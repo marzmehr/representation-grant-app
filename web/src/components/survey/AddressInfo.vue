@@ -159,6 +159,7 @@ export default {
       value: this.question.value,
       readOnly: false,
       emailMsg: "",
+      currCountry: this.loadValue(this.question.value).country,
       fields: {
         useStreet: this.question.useStreet,
         useCity: this.question.useCity,
@@ -302,6 +303,10 @@ export default {
     },
     isDropDownRegion() {
       const p = this.pendingValue;
+      if (p.country !== this.currCountry) {
+        this.currCountry = p.country;
+        p.state = "";
+      }
       return p && p.country && (p.country === "CAN" || p.country === "USA");
     }
   },
