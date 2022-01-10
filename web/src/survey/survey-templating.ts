@@ -76,29 +76,18 @@ export function addCustomTemplating(surveyRuntime: any) {
         const startIndex = options.text.indexOf("displayIf(");
         const endIndex = options.text.indexOf(")}");
         const displayIfLength = "displayIf(".length;
-        const params = `${options.text.substring(startIndex + displayIfLength, endIndex)}`.split(",");
+        const targetString = `${options.text.substring(startIndex + displayIfLength, endIndex)}`;
+        const index = targetString.indexOf(",");
+        const params = [targetString.slice(0, index), targetString.slice(index + 1)];
+        let expression = params[0];
+        const match = expression.match(/\#\w*/);
+        const replacement = match ? match[0].replace("#", "") : null;
+        expression = replacement ? expression.replace(/\#\w*/g, survey.data[replacement]) : expression;
 
-        let value = false;
-        let result: string;
-        for (let i = 0; i < params.length; i += 2) {
-          let j = i + 1;
-          let expression = params[i];
-          const output = params[j];
-          const match = expression.match(/\#\w*/)
-          const replacement = match ? match[0].replace("#", "") : null;
-          expression = replacement ? expression.replace(/\#\w*/g, survey.data[replacement]) : expression;
-
-          let expressionResult = new ExpressionRunner(expression).run({});;
-          if (expressionResult) {
-            value = expressionResult;
-            result = output;
-            break;
-          }
-        }
-
+        let expressionResult = new ExpressionRunner(expression).run({});
         options.text =
           options.text.slice(0, startIndex - 1) +
-          (value !== false ? result : "") +
+          (expressionResult !== false ? params[1] : "") +
           options.text.substring(endIndex + 2, options.text.length);
       }
     }
