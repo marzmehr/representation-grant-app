@@ -1,5 +1,5 @@
 <template>
-  <div class="survey-address">
+  <div class="survey-address" @click="this.updateSelOptions">
     <div class="row survey-address-line" v-if="selOptions.length">
       <div class="col-sm-6">
         <label class="survey-sublabel">Copy from:</label>
@@ -12,7 +12,7 @@
             {{ opt.label }}
           </div>
           <div class="form-control-sm ml-2 no-border">
-            <input type="radio" name="prevAddressOpt" value=""> Manual Entry
+            <input type="radio" name="prevAddressOpt" value=""> Enter a New Address
           </div>
         </div>
       </div>
@@ -147,6 +147,7 @@
 
 <script lang="ts">
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
+import { getAddressOptions, setAddressOptions } from "@/state/survey-state";
 export default {
   props: {
     question: Object
@@ -154,7 +155,7 @@ export default {
   data() {
     return {
       countryOptions: [canada, usa].concat(otherCountries),
-      selOptions: [],
+      selOptions: getAddressOptions.value,
       pendingValue: this.loadValue(this.question.value),
       value: this.question.value,
       readOnly: false,
@@ -242,6 +243,9 @@ export default {
       addrs.sort((a, b) => a.label.localeCompare(b.label));
       return addrs;
     },
+    updateSelOptions() {
+      this.selOptions = this.prevAddrOptions();
+    },
     updateValue() {
       const value = Object.assign({}, this.pendingValue);
       for (const k in value) {
@@ -254,7 +258,7 @@ export default {
     },
     loadValue(val) {
       val = val || {};
-      const pending = {
+      const pending: AddressInfo = {
         street: val.street || "",
         city: val.city || "",
         state: val.state || "BC",
@@ -321,9 +325,17 @@ export default {
       const pending = this.loadValue(q.value);
       this.pendingValue = pending;
       this.value = q.value;
-      this.selOptions = this.prevAddrOptions();
+      const currOptions = getAddressOptions;
+      console.log("options");
+      console.log(currOptions);
+      let prevOptions = this.prevAddrOptions();
+      console.log(prevOptions);
+      setAddressOptions(prevOptions);
+      this.selOptions = prevOptions;
     };
+    console.log("during mount");
     this.selOptions = this.prevAddrOptions();
+    console.log(this.selOptions);
   }
 };
 </script>

@@ -24,6 +24,9 @@ interface AddressInfo {
     state?: string;
     country?: string;
     postcode?: string;
+    fax?: string;
+    phone?: string;
+    email?: string;
 }
 
 interface PersonName {
