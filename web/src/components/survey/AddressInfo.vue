@@ -1,5 +1,5 @@
 <template>
-  <div class="survey-address" :key="state.key">
+  <div class="survey-address" :key="state.key" @click="updateSelOptions">
     <div class="row survey-address-line" v-if="selOptions.length">
       <div class="col-sm-6">
         <label class="survey-sublabel">Copy from:</label>
@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.useStreet">
+    <div class="row survey-address-line" v-if="question.useStreet">
       <div class="col-sm-6">
         <label class="survey-sublabel">Street Address</label>
         <input
@@ -29,7 +29,7 @@
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.useCity">
+    <div class="row survey-address-line" v-if="question.useCity">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-city'">City / Town</label>
         <input
@@ -41,7 +41,7 @@
         />
       </div>
     </div>
-    <div class="row survey-address-line pb-1" v-if="fields.useCountry">
+    <div class="row survey-address-line pb-1" v-if="question.useCountry">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-country'">Country</label>
         <select
@@ -57,7 +57,7 @@
         </select>
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.useProvince">
+    <div class="row survey-address-line" v-if="question.useProvince">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-state'"
           >Province / Territory / State / Region</label
@@ -86,7 +86,7 @@
         </div>
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.usePostalCode">
+    <div class="row survey-address-line" v-if="question.usePostalCode">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code / Zip Code</label>
         <input
@@ -99,7 +99,7 @@
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.usePhone">
+    <div class="row survey-address-line" v-if="question.usePhone">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-phone'">Phone Number</label>
         <input
@@ -113,7 +113,7 @@
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.useFax">
+    <div class="row survey-address-line" v-if="question.useFax">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-fax'">Fax</label>
         <input
@@ -127,7 +127,7 @@
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="fields.useEmail">
+    <div class="row survey-address-line" v-if="question.useEmail">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
         <div class="alert alert-danger sv_qstn_error_top" v-if="emailMsg">{{emailMsg}}</div>
@@ -146,7 +146,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive } from "@vue/composition-api";
+import { defineComponent, onMounted, reactive, ref } from "@vue/composition-api";
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
 export default defineComponent({
   props: {
@@ -155,9 +155,19 @@ export default defineComponent({
   },
   setup(props) {
     const state = reactive({
-      key: 1
+      key: 1,
     });
     const q = props.question;
+    let fields = {
+        useStreet: props.question.useStreet,
+        useCity: props.question.useCity,
+        useProvince: props.question.useProvince,
+        useCountry: props.question.useCountry,
+        usePostalCode: props.question.usePostalCode,
+        useEmail: props.question.useEmail,
+        usePhone: props.question.usePhone,
+        useFax: props.question.useFax
+      }
 
     function loadValue(val) {
       val = val || {};
@@ -199,12 +209,12 @@ export default defineComponent({
             ];
 
             // ensure the fields match, otherwise copying won't make sense.
-            if (Object.keys(this.fields).length !== potentialParts.length) continue;
+            if (Object.keys(fields).length !== potentialParts.length) continue;
 
             let match = true;
             let i = 0;
-            for (let key in this.fields) {
-              if (!!this.fields[key] !== !!potentialParts[i]) {
+            for (let key in fields) {
+              if (!!fields[key] !== !!potentialParts[i]) {
                 match = false;
                 break;
               }
@@ -216,8 +226,8 @@ export default defineComponent({
             // collect data
             let parts = [];
             let k = 0;
-            for (let key in this.fields) {
-              if (this.fields[key]) {
+            for (let key in fields) {
+              if (fields[key]) {
                 parts.push(potentialParts[k]);
               }
               k++;
@@ -249,10 +259,44 @@ export default defineComponent({
 
     onMounted(() => {
       if (props.isSurveyEditor) {
-        q.registerFunctionOnPropertyValueChanged("usePhone", () => {
-          console.log("we are doing state stuff");
+        q.registerFunctionOnPropertyValueChanged("useStreet", (value) => {
+          fields.useStreet = value;
           state.key++;
-          console.log(state.key);
+        });
+
+        q.registerFunctionOnPropertyValueChanged("useCity", (value) => {
+          fields.useCity = value;
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("useProvince", (value) => {
+          fields.useProvince = value;
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("useCountry", (value) => {
+          fields.useCountry = value;
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("usePostalCode", (value) => {
+          fields.usePostalCode = value;
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("usePhone", (value) => {
+          fields.usePhone = value;
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("useFax", (value) => {
+          fields.useFax = value;
+          state.key++;
+        });
+
+        q.registerFunctionOnPropertyValueChanged("useEmail", (value) => {
+          fields.useEmail = value;
+          state.key++;
         });
       }
     });
@@ -266,6 +310,7 @@ export default defineComponent({
 
     return {
       state,
+      fields,
       loadValue,
       prevAddrOptions,
       selOptions,
@@ -274,17 +319,7 @@ export default defineComponent({
       countryOptions: [canada, usa].concat(otherCountries),
       readOnly: false,
       emailMsg: "",
-      currCountry: loadValue(q.value).country,
-      fields: {
-        useStreet: q.useStreet,
-        useCity: q.useCity,
-        useProvince: q.useProvince,
-        useCountry: q.useCountry,
-        usePostalCode: q.usePostalCode,
-        useEmail: q.useEmail,
-        usePhone: q.usePhone,
-        useFax: q.useFax
-      }
+      currCountry: loadValue(q.value).country
     }
   },
   methods: {
@@ -344,7 +379,7 @@ export default defineComponent({
       }
       return p && p.country && (p.country === "CAN" || p.country === "USA");
     }
-  },
+  }
 });
 </script>
 
