@@ -1468,11 +1468,11 @@ export interface spouseInfoPanel {
 	"successorRule25-2(13)"?: string
 	spouseIsAdultNoExplanation?: string
 	spouseIsAdultNoDOB?: string
-	spouseIsAdultNoResidentialAddress?: AddressInfo
+	spouseIsAdultNoResidentialAddress?: AddressAndContact
 	spouseIsAdultNoResidentialAddressFAQ1?: string
 	spouseIsAdultNoResidentialReceiveMail?: string
 	spouseIsAdultNoHasMailingAddress?: string
-	spouseIsAdultNoMailingAddress?: AddressInfo
+	spouseIsAdultNoMailingAddress?: AddressAndContact
 	spouseIsAdultNoEmail?: string
 	spouseIsAdultNoEmailAddress?: string
 	spouseIsAdultNoFax?: string
@@ -1481,11 +1481,11 @@ export interface spouseInfoPanel {
 	spouseHasGuardian?: string
 	spouseHasGuardianNoExplanation?: string
 	spouseGuardianName?: string
-	spouseGuardianResidentialAddress?: AddressInfo
+	spouseGuardianResidentialAddress?: AddressAndContact
 	spouseGuardianResidentialAddressFAQ1?: string
 	spouseGuardianResidentialReceiveMail?: string
 	spouseGuardianHasMailingAddress?: string
-	spouseGuardianMailingAddress?: AddressInfo
+	spouseGuardianMailingAddress?: AddressAndContact
 	spouseGuardianEmail?: string
 	spouseGuardianEmailAddress?: string
 	spouseGuardianFax?: string
@@ -1496,11 +1496,11 @@ export interface spouseInfoPanel {
 	spouseIsCompetent?: string
 	spouseIsCompetentNoExplanation?: string
 	spouseIsCompetentNoDOB?: string
-	spouseIsCompetentNoResidentialAddress?: AddressInfo
+	spouseIsCompetentNoResidentialAddress?: AddressAndContact
 	spouseIsCompetentNoResidentialAddressFAQ1?: string
 	spouseIsCompetentNoResidentialReceiveMail?: string
 	spouseIsCompetentNoHasMailingAddress?: string
-	spouseIsCompetentNoMailingAddress?: AddressInfo
+	spouseIsCompetentNoMailingAddress?: AddressAndContact
 	spouseIsCompetentNoEmail?: string
 	spouseIsCompetentNoEmailAddress?: string
 	spouseIsCompetentNoFax?: string
@@ -1512,11 +1512,11 @@ export interface spouseInfoPanel {
 	spouseNomineeFormal?: string
 	spouseNomineeFormalYesExplanation?: string
 	spouseNomineeFormalNoExplanation?: string
-	spouseNomineeResidentialAddress?: AddressInfo
+	spouseNomineeResidentialAddress?: AddressAndContact
 	spouseNomineeResidentialAddressFAQ1?: string
 	spouseNomineeResidentialReceiveMail?: string
 	spouseNomineeHasMailingAddress?: string
-	spouseNomineeMailingAddress?: AddressInfo
+	spouseNomineeMailingAddress?: AddressAndContact
 	spouseNomineeEmail?: string
 	spouseNomineeEmailAddress?: string
 	spouseNomineeFax?: string
@@ -1547,11 +1547,11 @@ export interface childInfoPanel {
 	childIsAdultLogic?: string
 	childIsAdultNoExplanation?: string
 	childIsAdultNoDOB?: string
-	childIsAdultNoResidentialAddress?: AddressInfo
+	childIsAdultNoResidentialAddress?: AddressAndContact
 	childIsAdultNoResidentialAddressFAQ1?: string
 	childIsAdultNoResidentialReceiveMail?: string
 	childIsAdultNoHasMailingAddress?: string
-	childIsAdultNoMailingAddress?: AddressInfo
+	childIsAdultNoMailingAddress?: AddressAndContact
 	childIsAdultNoEmail?: string
 	childIsAdultNoEmailAddress?: string
 	childIsAdultNoFax?: string
@@ -1560,11 +1560,11 @@ export interface childInfoPanel {
 	childHasGuardian?: string
 	childHasGuardianNoExplanation?: string
 	childGuardianName?: string
-	childGuardianResidentialAddress?: AddressInfo
+	childGuardianResidentialAddress?: AddressAndContact
 	childGuardianResidentialAddressFAQ1?: string
 	childGuardianResidentialReceiveMail?: string
 	childGuardianHasMailingAddress?: string
-	childGuardianMailingAddress?: AddressInfo
+	childGuardianMailingAddress?: AddressAndContact
 	childGuardianEmail?: string
 	childGuardianEmailAddress?: string
 	childGuardianFax?: string
@@ -1574,11 +1574,11 @@ export interface childInfoPanel {
 	childIsCompetent?: string
 	childIsCompetentNoExplanation?: string
 	childIsCompetentNoDOB?: string
-	childIsCompetentNoResidentialAddress?: AddressInfo
+	childIsCompetentNoResidentialAddress?: AddressAndContact
 	childIsCompetentNoResidentialAddressFAQ1?: string
 	childIsCompetentNoResidentialReceiveMail?: string
 	childIsCompetentNoHasMailingAddress?: string
-	childIsCompetentNoMailingAddress?: AddressInfo
+	childIsCompetentNoMailingAddress?: AddressAndContact
 	childIsCompetentNoEmail?: string
 	childIsCompetentNoEmailAddress?: string
 	childIsCompetentNoFax?: string
@@ -1590,11 +1590,11 @@ export interface childInfoPanel {
 	childNomineeFormal?: string
 	childNomineeFormalYesExplanation?: string
 	childNomineeFormalNoExplanation?: string
-	childNomineeResidentialAddress?: AddressInfo
+	childNomineeResidentialAddress?: AddressAndContact
 	childNomineeResidentialAddressFAQ1?: string
 	childNomineeResidentialReceiveMail?: string
 	childNomineeHasMailingAddress?: string
-	childNomineeMailingAddress?: AddressInfo
+	childNomineeMailingAddress?: AddressAndContact
 	childNomineeEmail?: string
 	childNomineeEmailAddress?: string
 	childNomineeFax?: string
@@ -1630,10 +1630,10 @@ export interface creditorPersonInfoPanel {
 	creditorPersonIsAdultLogic?: string
 	creditorPersonIsAdultNoExplanation?: string
 	creditorPersonIsAdultNoDOB?: string
-	creditorIsAdultNoResidentialAddress?: AddressInfo
+	creditorIsAdultNoResidentialAddress?: AddressAndContact
 	creditorIsAdultNoResidentialReceiveMail?: string
 	creditorIsAdultNoHasMailingAddress?: string
-	creditorIsAdultNoMailingAddress?: AddressInfo
+	creditorIsAdultNoMailingAddress?: AddressAndContact
 	creditorIsAdultNoEmail?: string
 	creditorIsAdultNoEmailAddress?: string
 	creditorIsAdultNoFax?: string
@@ -1642,10 +1642,10 @@ export interface creditorPersonInfoPanel {
 	creditorPersonHasGuardian?: string
 	creditorPersonHasGuardianNoExplanation?: string
 	creditorPersonGuardianName?: string
-	creditorPersonGuardianResidentialAddress?: AddressInfo
+	creditorPersonGuardianResidentialAddress?: AddressAndContact
 	creditorPersonGuardianResidentialReceiveMail?: string
 	creditorPersonGuardianHasMailingAddress?: string
-	creditorPersonGuardianMailingAddress?: AddressInfo
+	creditorPersonGuardianMailingAddress?: AddressAndContact
 	creditorPersonGuardianEmail?: string
 	creditorPersonGuardianEmailAddress?: string
 	creditorPersonGuardianFax?: string
@@ -1655,10 +1655,10 @@ export interface creditorPersonInfoPanel {
 	creditorPersonIsCompetent?: string
 	creditorPersonIsCompetentNoExplanation?: string
 	creditorPersonIsCompetentNoDOB?: string
-	creditorPersonIsCompetentNoResidentialAddress?: AddressInfo
+	creditorPersonIsCompetentNoResidentialAddress?: AddressAndContact
 	creditorPersonIsCompetentNoResidentialReceiveMail?: string
 	creditorPersonIsCompetentNoHasMailingAddress?: string
-	creditorPersonIsCompetentNoMailingAddress?: AddressInfo
+	creditorPersonIsCompetentNoMailingAddress?: AddressAndContact
 	creditorPersonIsCompetentNoEmail?: string
 	creditorPersonIsCompetentNoEmailAddress?: string
 	creditorPersonIsCompetentNoFax?: string
@@ -1670,10 +1670,10 @@ export interface creditorPersonInfoPanel {
 	creditorPersonNomineeFormal?: string
 	creditorPersonNomineeFormalYesExplanation?: string
 	creditorPersonNomineeFormalNoExplanation?: string
-	creditorPersonNomineeResidentialAddress?: AddressInfo
+	creditorPersonNomineeResidentialAddress?: AddressAndContact
 	creditorPersonNomineeResidentialReceiveMail?: string
 	creditorPersonNomineeHasMailingAddress?: string
-	creditorPersonNomineeMailingAddress?: AddressInfo
+	creditorPersonNomineeMailingAddress?: AddressAndContact
 	creditorPersonNomineeEmail?: string
 	creditorPersonNomineeEmailAddress?: string
 	creditorPersonNomineeFax?: string
@@ -1700,16 +1700,16 @@ export interface applicantInfoPanel {
 	applicantNewPartOfOrg?: string
 	applicantOrgName?: string
 	applicantOrgType?: string
-	applicantOrgAddress?: AddressInfo
+	applicantOrgAddress?: AddressAndContact
 	applicantOrgPhone?: string
 	applicantOrgEmail?: string
 	applicantOrgFax?: string
 	applicantStandardQuestionsBookmark?: string
 	applicantOccupation?: string
-	applicantOrdinaryAddress?: AddressInfo
+	applicantOrdinaryAddress?: AddressAndContact
 	applicantOrdinaryAddressFAQ1?: string
 	applicantOrdinaryAddressReceiveMail?: string
-	applicantMailingAddress?: AddressInfo
+	applicantMailingAddress?: AddressAndContact
 	applicantAWOWQuestionsBookmark?: string
 	applicantSpouseListLogic?: string
 	applicantSpouseListLogic2?: string
@@ -1750,10 +1750,10 @@ export interface notifyP1DeliveryInfoPanel {
 export interface notifyP1NewDelivererInfoPanel {
 	notifyP1NewDelivererName?: string
 	notifyP1NewDelivererOccupation?: string
-	notifyP1NewDelivererOrdinaryAddress?: AddressInfo
+	notifyP1NewDelivererOrdinaryAddress?: AddressAndContact
 }
 export interface landInfoPanel {
-	landAdress?: AddressInfo
+	landAdress?: AddressAndContact
 	landExistsBC?: string
 	landInBCNoExplanation?: string
 	landInBCYesExplanation?: string
@@ -1820,7 +1820,7 @@ export interface landInfoPanel {
 }
 export interface landMortgageInfoPanel {
 	landMortgageLenderName?: string
-	landMortgageLenderAddress?: AddressInfo
+	landMortgageLenderAddress?: AddressAndContact
 	landMortgageLenderAddressFAQ1?: string
 	landMortgageNumber?: string
 	landMortgageDeceasedNamed?: string
@@ -1830,7 +1830,7 @@ export interface landMortgageInfoPanel {
 }
 export interface landTaxInfoPanel {
 	landTaxCity?: string
-	landTaxAddress?: AddressInfo
+	landTaxAddress?: AddressAndContact
 	landTaxNumber?: string
 	landTaxDeceasedNamed?: string
 	landTaxNameMatch?: string
@@ -1839,7 +1839,7 @@ export interface landTaxInfoPanel {
 }
 export interface landJudgementInfoPanel {
 	landJudgementHolder?: string
-	landJudgmentAddress?: AddressInfo
+	landJudgmentAddress?: AddressAndContact
 	landJudgmentNumber?: string
 	landJudgementDeceaseNamed?: string
 	landJudgementNameMatch?: string
@@ -1849,7 +1849,7 @@ export interface landJudgementInfoPanel {
 export interface landOtherDebtInfoPanel {
 	landOtherDebtDescription?: string
 	landOtherDebtHolder?: string
-	landOtherDebtAddress?: AddressInfo
+	landOtherDebtAddress?: AddressAndContact
 	landOtherDebtNumber?: string
 	landOtherDebtDeceasedNamed?: string
 	landOtherDebtNameMatch?: string
@@ -1857,17 +1857,17 @@ export interface landOtherDebtInfoPanel {
 	landOtherDebtValue?: string
 }
 export interface landLentMortgageInfoPanel {
-	landLentMortgageAddress?: AddressInfo
+	landLentMortgageAddress?: AddressAndContact
 	landLentMortgageDescription?: string
 	landLentMortgageValue?: string
 }
 export interface landRightToBuyInfoPanel {
-	landRightToBuyAddress?: AddressInfo
+	landRightToBuyAddress?: AddressAndContact
 	landRightToBuyValue?: string
 }
 export interface landLienInfoPanel {
 	landLienHolder?: string
-	landLienAddress?: AddressInfo
+	landLienAddress?: AddressAndContact
 	landLienNumber?: string
 	landLienNumberFAQ1?: string
 	landLienNameMatch?: string
@@ -1909,7 +1909,7 @@ export interface vehicleInfoPanel {
 }
 export interface bankInfoPanel {
 	bankName?: string
-	bankAddress?: AddressInfo
+	bankAddress?: AddressAndContact
 	bankNameMatch?: string
 	bankAlias?: string
 	accountPanel?: string
@@ -1991,7 +1991,7 @@ export interface SurveyInstance {
 	deceasedDateOfDeathFAQ1?: string
 	deceasedDateOfDeathFormatted?: string
 	deceasedDateOfDeathPlus4?: string
-	deceasedAddress?: AddressInfo
+	deceasedAddress?: AddressAndContact
 	deceasedAddressFAQ1?: string
 	deceasedAddressFAQ2?: string
 	question438?: string
@@ -2059,7 +2059,7 @@ export interface SurveyInstance {
 	willFGTranslatedNoError?: string
 	willFGLanguage?: string
 	willFGTranslatorName?: string
-	willFGTranslatorAddress?: AddressInfo
+	willFGTranslatorAddress?: AddressAndContact
 	willFGTranslatorOccupation?: string
 	question282?: string
 	question283?: string
@@ -2125,11 +2125,11 @@ export interface SurveyInstance {
 	willAtACourthousePanel?: string
 	question85?: string
 	question86?: string
-	question88?: AddressInfo
+	question88?: AddressAndContact
 	question89?: ContactInfo
 	question87?: string
 	question90?: string
-	question92?: AddressInfo
+	question92?: AddressAndContact
 	question93?: ContactInfo
 	question91?: string
 	question94?: string
@@ -2172,7 +2172,7 @@ export interface SurveyInstance {
 	willLanguage?: string
 	willTranslatorName?: string
 	willTranslatorOccupation?: string
-	willTranslatorResidence?: AddressInfo
+	willTranslatorResidence?: AddressAndContact
 	willBlind?: string
 	willLiterate?: string
 	willLanguageUnderstood?: string
@@ -2235,7 +2235,7 @@ export interface SurveyInstance {
 	willInterlineationsCodiciled?: string
 	willInterlineationWitnessLater?: string
 	willInterlineationAffiantName?: string
-	willInterlineationAffiantAddress?: AddressInfo
+	willInterlineationAffiantAddress?: AddressAndContact
 	willInterlineationAffiantOccupation?: string
 	question11?: string
 	willErasures?: string
@@ -2245,7 +2245,7 @@ export interface SurveyInstance {
 	question255?: string
 	willOtherAppearanceIssues?: string
 	question5?: string
-	question24?: AddressInfo
+	question24?: AddressAndContact
 	question25?: string
 	question224?: string
 	willExternalDocumentsBookmark?: string
@@ -2285,7 +2285,7 @@ export interface SurveyInstance {
 	citationPagePersistenceFunction?: string
 	citationAgainExplanation?: string
 	citeeName?: string
-	citeAddress?: AddressInfo
+	citeAddress?: AddressAndContact
 	citeeContactInfo?: ContactInfo
 	citationWillDate?: string
 	citationWillDateText?: string
@@ -2296,7 +2296,7 @@ export interface SurveyInstance {
 	citationReason?: string
 	citationReasonFuture?: string
 	citorName?: string
-	citorAddress?: AddressInfo
+	citorAddress?: AddressAndContact
 	citorContactInfo?: ContactInfo
 	citationGenerateButton?: string
 	citationCalculatorBookmark?: string
@@ -2305,7 +2305,7 @@ export interface SurveyInstance {
 	citationServerName?: string
 	citationServedDate?: string
 	citationServedTime?: string
-	citationServedLocation?: AddressInfo
+	citationServedLocation?: AddressAndContact
 	subpoenaServedasf?: string
 	citationCalculatorFunctionJIRA?: string
 	citationResponseDateExplanation?: string
@@ -2455,12 +2455,12 @@ export interface SurveyInstance {
 	subpoenaPagePersistenceFunction?: string
 	subpoenaAgainExplanation?: string
 	subpoeneeName?: string
-	subpoeneeAddress?: AddressInfo
+	subpoeneeAddress?: AddressAndContact
 	subpoenaDocuments?: string
 	question121?: string
 	subpoenaEvidence?: string
 	subpoenorName?: string
-	subpoenorAddress?: AddressInfo
+	subpoenorAddress?: AddressAndContact
 	subpoenorContactInfo?: ContactInfo
 	subpoenaCourt?: string
 	subpoenaGenerateButton?: string
@@ -2494,9 +2494,9 @@ export interface SurveyInstance {
 	subpoenaNewPersonVoluntaryTransferYesExplanation?: string
 	subpoenaWarrantBookmark?: string
 	subpoenaWarrantCreationExplanation?: string
-	subpoenaServerAddress?: AddressInfo
+	subpoenaServerAddress?: AddressAndContact
 	subpoenaServerOccupation?: string
-	subpoenaServedLocation?: AddressInfo
+	subpoenaServedLocation?: AddressAndContact
 	subpoenaGenerateWarrantButton?: string
 	subpoenaWarrantResultBookmark?: string
 	subpoenaWarrantApproved?: string
@@ -2515,7 +2515,7 @@ export interface SurveyInstance {
 	subpoenaWarrantNewPersonVoluntaryTransferNoExplanation?: string
 	question74?: string
 	disputantName?: string
-	question83?: AddressInfo
+	question83?: AddressAndContact
 	question84?: ContactInfo
 	question76?: string
 	question77?: string
@@ -2534,7 +2534,7 @@ export interface SurveyInstance {
 	question179?: string
 	question182?: string
 	question180?: string
-	question181?: AddressInfo
+	question181?: AddressAndContact
 	question183?: string
 	question184?: string
 	question185?: ContactInfo
@@ -2696,13 +2696,13 @@ export interface SurveyInstance {
 	applicantHasLawyer?: string
 	applicantLawyerName?: string
 	applicantLawyerFirmName?: string
-	applicantLawyerFirmAddress?: AddressInfo
+	applicantLawyerFirmAddress?: AddressAndContact
 	applicantLawyerPhone?: string
 	applicantLawyerEmail?: string
 	applicantLawyerHasFax?: string
 	applicantLawyerFax?: string
 	applicantServiceAddressMultipleExplanation?: string
-	applicantServiceAddress?: AddressInfo
+	applicantServiceAddress?: AddressAndContact
 	applicantServiceAddress30kmRuleExplanation?: string
 	applicantServicePhone?: string
 	applicantServiceEmail?: string

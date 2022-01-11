@@ -18,7 +18,7 @@ interface Recipient {
 }
 
 //Used by codegen:
-interface AddressInfo {
+interface AddressAndContact {
     street?: string;
     city?: string;
     state?: string;

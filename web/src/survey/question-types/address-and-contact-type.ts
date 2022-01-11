@@ -1,10 +1,10 @@
 import Vue from "vue";
-import AddressInfo from "@/components/survey/AddressInfo.vue";
+import AddressAndContact from "@/components/survey/AddressAndContact.vue";
 import { WidgetValueName } from "./question-types";
 
 export function initAddressBlock(Survey: any) {
   const widget = {
-    name: WidgetValueName[WidgetValueName.AddressInfo],
+    name: WidgetValueName[WidgetValueName.AddressAndContact],
     title: "Address & Contact",
     iconName: "icon-multipletext",
     widgetIsLoaded: function() {
@@ -70,7 +70,7 @@ export function initAddressBlock(Survey: any) {
     htmlTemplate: "<div></div>",
     afterRender: function(question, el) {
       if (question.survey.platformName == "vue") return;
-      const ComponentClass = Vue.extend(AddressInfo);
+      const ComponentClass = Vue.extend(AddressAndContact);
       const card = new ComponentClass({
         propsData: { question: question, isSurveyEditor: true }
       });

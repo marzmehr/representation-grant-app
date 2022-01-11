@@ -2,7 +2,7 @@ import Vue from "vue";
 import { addQuestionTypes, WidgetValueName } from "@/survey/question-types/question-types";
 
 
-import AddressInfo from "@/components/survey/AddressInfo.vue";
+import AddressAndContact from "@/components/survey/AddressAndContact.vue";
 import ContactInfo from "@/components/survey/ContactInfo.vue";
 import CustomDate from "@/components/survey/CustomDate.vue";
 import HelpText from "@/components/survey/HelpText.vue";
@@ -24,7 +24,7 @@ export function addQuestionTypesVue(Survey: any) {
   Vue.component(WidgetValueName[WidgetValueName.HelpText], HelpText);
   Vue.component(WidgetValueName[WidgetValueName.InfoText], InfoText);
   Vue.component(WidgetValueName[WidgetValueName.YesNo], YesNo);
-  Vue.component(WidgetValueName[WidgetValueName.AddressInfo], AddressInfo);
+  Vue.component(WidgetValueName[WidgetValueName.AddressAndContact], AddressAndContact);
   Vue.component(WidgetValueName[WidgetValueName.PersonName], PersonName);
   Vue.component(WidgetValueName[WidgetValueName.ContactInfo], ContactInfo);
   Vue.component(WidgetValueName[WidgetValueName.CustomDate], CustomDate);

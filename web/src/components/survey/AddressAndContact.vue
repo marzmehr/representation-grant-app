@@ -146,8 +146,10 @@
 </template>
 
 <script lang="ts">
+
 import { defineComponent, onMounted, reactive, ref } from "@vue/composition-api";
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
+
 export default defineComponent({
   props: {
     question: Object,
