@@ -4,6 +4,7 @@ import { addDays, format, getDay, parseISO } from "date-fns";
 import { ItemValue } from "survey-vue";
 import {
   getPotentialApplicants,
+  getPrevAddresses,
   setApplicants,
   setLastUpdated,
   setPotentialApplicants,
@@ -200,6 +201,13 @@ export const determineEarliestSubmissionDate = (sender, options) => {
     );*/
   }
 };
+
+export const collectPrevAddresses = (sender, options) => {
+  console.log("In value changed, dealing with prev addresses");
+  console.log("sender,", sender);
+  console.log("options,", options);
+  console.log("addresses,", getPrevAddresses);
+}
 
 export function onValueChanged(sender, options) {
   determinePotentialApplicants(sender, options);

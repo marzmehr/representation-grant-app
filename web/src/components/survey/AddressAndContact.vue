@@ -161,15 +161,15 @@ export default defineComponent({
     });
     const q = props.question;
     let fields = {
-        useStreet: props.question.useStreet,
-        useCity: props.question.useCity,
-        useProvince: props.question.useProvince,
-        useCountry: props.question.useCountry,
-        usePostalCode: props.question.usePostalCode,
-        useEmail: props.question.useEmail,
-        usePhone: props.question.usePhone,
-        useFax: props.question.useFax
-      }
+      useStreet: props.question.useStreet,
+      useCity: props.question.useCity,
+      useProvince: props.question.useProvince,
+      useCountry: props.question.useCountry,
+      usePostalCode: props.question.usePostalCode,
+      useEmail: props.question.useEmail,
+      usePhone: props.question.usePhone,
+      useFax: props.question.useFax
+    }
 
     function loadValue(val) {
       val = val || {};
