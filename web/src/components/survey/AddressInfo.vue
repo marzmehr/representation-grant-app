@@ -147,7 +147,6 @@
 
 <script lang="ts">
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
-import { getAddressOptions, setAddressOptions } from "@/state/survey-state";
 export default {
   props: {
     question: Object
@@ -155,7 +154,7 @@ export default {
   data() {
     return {
       countryOptions: [canada, usa].concat(otherCountries),
-      selOptions: getAddressOptions.value,
+      selOptions: [],
       pendingValue: this.loadValue(this.question.value),
       value: this.question.value,
       readOnly: false,
@@ -325,17 +324,10 @@ export default {
       const pending = this.loadValue(q.value);
       this.pendingValue = pending;
       this.value = q.value;
-      const currOptions = getAddressOptions;
-      console.log("options");
-      console.log(currOptions);
-      let prevOptions = this.prevAddrOptions();
-      console.log(prevOptions);
-      setAddressOptions(prevOptions);
-      this.selOptions = prevOptions;
+      this.selOptions = this.prevAddrOptions();
     };
-    console.log("during mount");
+    
     this.selOptions = this.prevAddrOptions();
-    console.log(this.selOptions);
   }
 };
 </script>
