@@ -1,5 +1,5 @@
 <template>
-  <div class="survey-address" @click="this.updateSelOptions">
+  <div class="survey-address" :key="state.key">
     <div class="row survey-address-line" v-if="selOptions.length">
       <div class="col-sm-6">
         <label class="survey-sublabel">Copy from:</label>
@@ -146,35 +146,35 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, onMounted, reactive } from "@vue/composition-api";
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
-export default {
+export default defineComponent({
   props: {
-    question: Object
+    question: Object,
+    isSurveyEditor: Boolean
   },
-  data() {
-    return {
-      countryOptions: [canada, usa].concat(otherCountries),
-      selOptions: [],
-      pendingValue: this.loadValue(this.question.value),
-      value: this.question.value,
-      readOnly: false,
-      emailMsg: "",
-      currCountry: this.loadValue(this.question.value).country,
-      fields: {
-        useStreet: this.question.useStreet,
-        useCity: this.question.useCity,
-        useProvince: this.question.useProvince,
-        useCountry: this.question.useCountry,
-        usePostalCode: this.question.usePostalCode,
-        useEmail: this.question.useEmail,
-        usePhone: this.question.usePhone,
-        useFax: this.question.useFax
-      }
+  setup(props) {
+    const state = reactive({
+      key: 1
+    });
+    const q = props.question;
+
+    function loadValue(val) {
+      val = val || {};
+      const pending = {
+        street: val.street || "",
+        city: val.city || "",
+        state: val.state || "BC",
+        country: val.country || "CAN",
+        postcode: val.postcode || "",
+        email: val.email || "",
+        phone: val.phone || "",
+        fax: val.fax || ""
+      };
+      return pending;
     };
-  },
-  methods: {
-    prevAddrOptions() {
-      const q = this.question;
+
+    function prevAddrOptions() {
       const skipName = q.name;
       const survey = q.survey;
       const addrs = [];
@@ -241,7 +241,53 @@ export default {
       }
       addrs.sort((a, b) => a.label.localeCompare(b.label));
       return addrs;
-    },
+    };
+
+    let selOptions = prevAddrOptions();
+    let pendingValue = loadValue(q.value);
+    let value = q.value;
+
+    onMounted(() => {
+      if (props.isSurveyEditor) {
+        q.registerFunctionOnPropertyValueChanged("usePhone", () => {
+          console.log("we are doing state stuff");
+          state.key++;
+          console.log(state.key);
+        });
+      }
+    });
+
+    q.valueChangedCallback = () => {
+      const pending = loadValue(q.value);
+      pendingValue = pending;
+      value = q.value;
+      selOptions = prevAddrOptions();
+    };
+
+    return {
+      state,
+      loadValue,
+      prevAddrOptions,
+      selOptions,
+      pendingValue,
+      value,
+      countryOptions: [canada, usa].concat(otherCountries),
+      readOnly: false,
+      emailMsg: "",
+      currCountry: loadValue(q.value).country,
+      fields: {
+        useStreet: q.useStreet,
+        useCity: q.useCity,
+        useProvince: q.useProvince,
+        useCountry: q.useCountry,
+        usePostalCode: q.usePostalCode,
+        useEmail: q.useEmail,
+        usePhone: q.usePhone,
+        useFax: q.useFax
+      }
+    }
+  },
+  methods: {
     updateSelOptions() {
       this.selOptions = this.prevAddrOptions();
     },
@@ -254,20 +300,6 @@ export default {
         }
       }
       this.question.value = null;
-    },
-    loadValue(val) {
-      val = val || {};
-      const pending: AddressInfo = {
-        street: val.street || "",
-        city: val.city || "",
-        state: val.state || "BC",
-        country: val.country || "CAN",
-        postcode: val.postcode || "",
-        email: val.email || "",
-        phone: val.phone || "",
-        fax: val.fax || ""
-      };
-      return pending;
     },
     fillInData(e) {
       const data = e.target._value;
@@ -313,23 +345,7 @@ export default {
       return p && p.country && (p.country === "CAN" || p.country === "USA");
     }
   },
-  mounted() {
-    const q = this.question;
-
-    for (let key in this.fields) {
-      this.fields[key] = q[key];
-    }
-
-    q.valueChangedCallback = () => {
-      const pending = this.loadValue(q.value);
-      this.pendingValue = pending;
-      this.value = q.value;
-      this.selOptions = this.prevAddrOptions();
-    };
-    
-    this.selOptions = this.prevAddrOptions();
-  }
-};
+});
 </script>
 
 <style scoped>

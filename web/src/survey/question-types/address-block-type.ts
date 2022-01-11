@@ -72,7 +72,7 @@ export function initAddressBlock(Survey: any) {
       if (question.survey.platformName == "vue") return;
       const ComponentClass = Vue.extend(AddressInfo);
       const card = new ComponentClass({
-        propsData: { question: question }
+        propsData: { question: question, isSurveyEditor: true }
       });
       card.$mount();
       el.appendChild(card.$el);
