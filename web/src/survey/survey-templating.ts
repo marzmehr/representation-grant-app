@@ -32,25 +32,44 @@ export function addCustomTemplating(surveyRuntime: any) {
     //or commaList(<panelN>.<fieldnameN>,<questionNameN>)
     if (options.name?.includes("commaList(")) {
       const data = `${options.name.replace("commaList(", "").replace(")", "")}`;
-      const entries = data.split(",");
-      const commaList = [];
+      let commaList = [];
+      const panels = [];
+
+      let entries = data
+        .split(",")
+        .map(e => e.trim())
+        .map(e => ({ targetName: e.split(".")[0], panelQuestion: e.split(".")[1] }));
       entries.forEach(entry => {
-        entry = entry.trim();
-        const targetName = entry.split(".")[0];
-        const key = entry.split(".")[1];
-        const value = sender.getQuestionByName(targetName)?.value;
-        if (Array.isArray(value)) {
-          value.forEach(function(element) {
-            const value = `${key?.length > 0 ? element[key] : element}`;
-            if (value && value !== "undefined") commaList.push(value);
+        const questionValue = sender.getQuestionByName(entry.targetName)?.value;
+        if (panels.includes(entry.targetName)) return;
+        if (Array.isArray(questionValue)) {
+          questionValue.forEach(question => {
+            const isPanel = entry.panelQuestion?.length > 0;
+            if (isPanel) {
+              const panel = question;
+              const panelQuestions = entries
+                .filter(e => e.targetName == entry.targetName && e.panelQuestion?.length > 0)
+                .map(s => s.panelQuestion);
+              panelQuestions.forEach(panelQuestion => {
+                commaList.push(panel[panelQuestion]);
+              });
+              panels.push(entry.targetName);
+            } else {
+              commaList.push(question);
+            }
           });
-        } else if (value) {
-          commaList.push(value);
+        } else if (questionValue) {
+          commaList.push(questionValue);
         }
       });
-      options.value = `${commaList.slice(0, -1).join(", ")} ${
-        commaList.length > 1 ? `and ${commaList.slice(-1)[0]}` : ``
-      }`;
+      commaList = commaList.filter(s => s && s != "undefined");
+
+      if (commaList.length == 0) {
+        options.value = "";
+      } else
+        options.value = `${
+          commaList.length > 1 ? commaList.slice(0, -1).join(", ") : commaList[0]
+        } ${commaList.length > 1 ? `and ${commaList.slice(-1)[0]}` : ``}`;
       options.isExists = true;
     }
 
