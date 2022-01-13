@@ -10,6 +10,8 @@ import {
   setPrevAddresses,
   setRecipients
 } from "@/state/survey-state";
+import { BreadcrumbPlugin } from "bootstrap-vue";
+import { questionActionsAdorner } from "survey-creator";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
 const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string, getText?: boolean) => {
@@ -203,12 +205,32 @@ export const determineEarliestSubmissionDate = (sender, options) => {
 };
 
 export const collectPrevAddresses = (sender) => {
-  let addressQuestions = [];
+  let addressQuestions: AddressAndContact[] = [];
+  const keys = [
+    "street",
+    "city",
+    "country",
+    "state",
+    "postalCode",
+    "phone",
+    "fax",
+    "email"
+  ];
 
   for (const page of sender.pages) {
     for (const question of page.questions) {
       if (question.getType() === "address" && question.value) {
-        addressQuestions.push(question.value);
+        
+        let hasAllValues = true;
+        for (const key of keys) {
+          if (question[key] && !question.value[key]) {
+            hasAllValues = false;
+          }
+        }
+
+        if (hasAllValues) {
+          addressQuestions.push(question.value);
+        }
       }
     }
   }
@@ -226,9 +248,11 @@ export const collectPrevAddresses = (sender) => {
       && check.fax === value.fax
     ))
   );
+
+  console.log("Collecting Addresses through state");
   console.log(uniqueAddressQuestions);
   setPrevAddresses(uniqueAddressQuestions);
-}
+};
 
 export function onValueChanged(sender, options) {
   determinePotentialApplicants(sender, options);
@@ -237,4 +261,4 @@ export function onValueChanged(sender, options) {
   determineEarliestSubmissionDate(sender, options);
   setLastUpdated(new Date());
   collectPrevAddresses(sender);
-}
+};

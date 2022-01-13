@@ -1,5 +1,5 @@
 <template>
-  <div class="survey-address" :key="state.key" @click="updateSelOptions">
+  <div class="survey-address" :key="state.key">
     <div class="row survey-address-line" v-if="getPrevAddresses.length">
       <div class="col-sm-6">
         <label class="survey-sublabel">Copy from:</label>
@@ -17,39 +17,39 @@
         </div>
       </div>
     </div>
-    <div class="row survey-address-line" v-if="question.useStreet">
+    <div class="row survey-address-line" v-if="question.street">
       <div class="col-sm-6">
         <label class="survey-sublabel">Street Address</label>
         <input
           class="form-control"
           :id="question.inputId"
-          v-model="pendingValue['street']"
+          v-model="state.pendingValue['street']"
           @change="updateValue"
-          :readonly="readOnly"
+          :readonly="state.readOnly"
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="question.useCity">
+    <div class="row survey-address-line" v-if="question.city">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-city'">City / Town</label>
         <input
           class="form-control"
           :id="question.inputId + '-city'"
-          v-model="pendingValue['city']"
+          v-model="state.pendingValue['city']"
           @change="updateValue"
-          :readonly="readOnly"
+          :readonly="state.readOnly"
         />
       </div>
     </div>
-    <div class="row survey-address-line pb-1" v-if="question.useCountry">
+    <div class="row survey-address-line pb-1" v-if="question.country">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-country'">Country</label>
         <select
           class="form-control"
-          v-model="pendingValue['country']"
+          v-model="state.pendingValue['country']"
           :id="question.inputId + '-country'"
           @change="updateValue"
-          :disabled="readOnly"
+          :disabled="state.readOnly"
         >
           <option v-for="coun of countryOptions" :key="coun.value" :value="coun.value">{{
             coun.text
@@ -57,7 +57,7 @@
         </select>
       </div>
     </div>
-    <div class="row survey-address-line" v-if="question.useProvince">
+    <div class="row survey-address-line" v-if="question.state">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-state'"
           >Province / Territory / State / Region</label
@@ -65,10 +65,10 @@
         <div v-if="isDropDownRegion">
           <select
             class="form-control"
-            v-model="pendingValue['state']"
+            v-model="state.pendingValue['state']"
             :id="question.inputId + '-state'"
             @change="updateValue"
-            :disabled="readOnly"
+            :disabled="state.readOnly"
           >
             <option v-for="reg of regionOptions" :key="reg.value" :value="reg.value">{{
               reg.text
@@ -78,28 +78,28 @@
         <div v-else>
           <input
             class="form-control"
-            v-model="pendingValue['state']"
+            v-model="state.pendingValue['state']"
             :id="question.inputId + '-state'"
             @change="updateValue"
-            :disabled="readOnly"
+            :disabled="state.readOnly"
           />
         </div>
       </div>
     </div>
-    <div class="row survey-address-line" v-if="question.usePostalCode">
+    <div class="row survey-address-line" v-if="question.postalCode">
       <div class="col-sm-6">
-        <label class="survey-sublabel" :for="question.inputId + '-postcode'">Postal Code / Zip Code</label>
+        <label class="survey-sublabel" :for="question.inputId + '-postalCode'">Postal Code / Zip Code</label>
         <input
           class="form-control"
           autocomplete="postal-code"
-          :id="question.inputId + '-postcode'"
-          v-model="pendingValue['postcode']"
+          :id="question.inputId + '-postalCode'"
+          v-model="state.pendingValue['postalCode']"
           @change="updateValue"
-          :readonly="readOnly"
+          :readonly="state.readOnly"
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="question.usePhone">
+    <div class="row survey-address-line" v-if="question.phone">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-phone'">Phone Number</label>
         <input
@@ -107,13 +107,13 @@
           type="number"
           autocomplete="tel"
           :id="question.inputId + '-phone'"
-          v-model="pendingValue['phone']"
+          v-model="state.pendingValue['phone']"
           @change="updateValue"
-          :readonly="readOnly"
+          :readonly="state.readOnly"
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="question.useFax">
+    <div class="row survey-address-line" v-if="question.fax">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-fax'">Fax</label>
         <input
@@ -121,24 +121,24 @@
           type="number"
           autocomplete="tel"
           :id="question.inputId + '-fax'"
-          v-model="pendingValue['fax']"
+          v-model="state.pendingValue['fax']"
           @change="updateValue"
-          :readonly="readOnly"
+          :readonly="state.readOnly"
         />
       </div>
     </div>
-    <div class="row survey-address-line" v-if="question.useEmail">
+    <div class="row survey-address-line" v-if="question.email">
       <div class="col-sm-6">
         <label class="survey-sublabel" :for="question.inputId + '-email'">Email</label>
-        <div class="alert alert-danger sv_qstn_error_top" v-if="emailMsg">{{emailMsg}}</div>
+        <div class="alert alert-danger sv_qstn_error_top" v-if="state.emailMsg">{{state.emailMsg}}</div>
         <input
           class="form-control"
           type="text"
           autocomplete="email"
           :id="question.inputId + '-email'"
-          v-model="pendingValue['email']"
+          v-model="state.pendingValue['email']"
           @blur="validEmail"
-          :readonly="readOnly"
+          :readonly="state.readOnly"
         />
       </div>
     </div>
@@ -147,7 +147,7 @@
 
 <script lang="ts">
 
-import { defineComponent, onMounted, reactive, computed, watch } from "@vue/composition-api";
+import { defineComponent, onMounted, reactive, computed } from "@vue/composition-api";
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
 import { getPrevAddresses } from "@/state/survey-state";
 
@@ -158,30 +158,30 @@ export default defineComponent({
   },
   setup(props) {
     const state = reactive({
-      key: 1
+      key: 1,
+      readOnly: false,
+      emailMsg: "",
+      pendingValue: loadValue(props.question.value),
+      value: props.question.value
     });
 
     const q = props.question;
     const countryOptions = [canada, usa].concat(otherCountries);
-    let readOnly = false;
-    let emailMsg = "";
     let currCountry = loadValue(q.value).country;
     let fields = {
-      useStreet: props.question.useStreet,
-      useCity: props.question.useCity,
-      useProvince: props.question.useProvince,
-      useCountry: props.question.useCountry,
-      usePostalCode: props.question.usePostalCode,
-      useEmail: props.question.useEmail,
-      usePhone: props.question.usePhone,
-      useFax: props.question.useFax
-    }
-    let pendingValue = loadValue(q.value);
-    let value = q.value;
+      street: props.question.street,
+      city: props.question.city,
+      state: props.question.state,
+      country: props.question.country,
+      postalCode: props.question.postalCode,
+      email: props.question.email,
+      phone: props.question.phone,
+      fax: props.question.fax
+    };
 
     q.valueChangedCallback = () => {
-      pendingValue = loadValue(q.value);;
-      value = q.value;
+      state.pendingValue = loadValue(q.value);;
+      state.value = q.value;
     };
 
     function loadValue(val?) {
@@ -191,7 +191,7 @@ export default defineComponent({
         city: val.city || "",
         state: val.state || "BC",
         country: val.country || "CAN",
-        postcode: val.postcode || "",
+        postalCode: val.postalCode || "",
         email: val.email || "",
         phone: val.phone || "",
         fax: val.fax || ""
@@ -200,7 +200,7 @@ export default defineComponent({
     };
 
     function updateValue() {
-      const value = Object.assign({}, pendingValue);
+      const value = Object.assign({}, state.pendingValue);
       for (const k in value) {
         if (value[k] !== undefined && value[k].length) {
           props.question.value = value;
@@ -214,28 +214,28 @@ export default defineComponent({
       const data = e.target._value;
 
       if (!data) {
-        readOnly = false;
-        pendingValue = loadValue();
+        state.readOnly = false;
+        state.pendingValue = loadValue();
       } else {
-        readOnly = true;
-        pendingValue = loadValue(data);
+        state.readOnly = true;
+        state.pendingValue = loadValue(data);
       }
       updateValue();
     }
 
     function validEmail(e) {
-      const email = e.target._value;
+      const email = e.target.value;
       const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,3})+$/;
       if (re.test(email)) {
         updateValue();
-        emailMsg = "";
+        state.emailMsg = "";
       } else {
-        emailMsg = "Please enter a valid e-mail address.";
+        state.emailMsg = "Please enter a valid e-mail address.";
       }
     };
 
     const regionOptions = computed(() => {
-      const p = pendingValue;
+      const p = state.pendingValue;
 
       if (p && p.country) {
         return p.country === "CAN"
@@ -247,7 +247,7 @@ export default defineComponent({
     });
 
     const isDropDownRegion = computed(() => {
-      const p = pendingValue;
+      const p = state.pendingValue;
       if (p.country !== currCountry) {
         currCountry = p.country;
         p.state = "";
@@ -255,52 +255,45 @@ export default defineComponent({
       return p && p.country && (p.country === "CAN" || p.country === "USA");
     });
 
-    watch(getPrevAddresses, (newAddresses, oldAddresses) => {
-      console.log("Change detected");
-      console.log(newAddresses);
-      console.log(oldAddresses);
-      console.log(getPrevAddresses);
-    })
-
     onMounted(() => {
       if (props.isSurveyEditor) {
-        q.registerFunctionOnPropertyValueChanged("useStreet", (value) => {
-          fields.useStreet = value;
+        q.registerFunctionOnPropertyValueChanged("street", (value) => {
+          fields.street = value;
           state.key++;
         });
 
-        q.registerFunctionOnPropertyValueChanged("useCity", (value) => {
-          fields.useCity = value;
+        q.registerFunctionOnPropertyValueChanged("city", (value) => {
+          fields.city = value;
           state.key++;
         });
 
-        q.registerFunctionOnPropertyValueChanged("useProvince", (value) => {
-          fields.useProvince = value;
+        q.registerFunctionOnPropertyValueChanged("state", (value) => {
+          fields.state = value;
           state.key++;
         });
 
-        q.registerFunctionOnPropertyValueChanged("useCountry", (value) => {
-          fields.useCountry = value;
+        q.registerFunctionOnPropertyValueChanged("country", (value) => {
+          fields.country = value;
           state.key++;
         });
 
-        q.registerFunctionOnPropertyValueChanged("usePostalCode", (value) => {
-          fields.usePostalCode = value;
+        q.registerFunctionOnPropertyValueChanged("postalCode", (value) => {
+          fields.postalCode = value;
           state.key++;
         });
 
-        q.registerFunctionOnPropertyValueChanged("usePhone", (value) => {
-          fields.usePhone = value;
+        q.registerFunctionOnPropertyValueChanged("phone", (value) => {
+          fields.phone = value;
           state.key++;
         });
 
-        q.registerFunctionOnPropertyValueChanged("useFax", (value) => {
-          fields.useFax = value;
+        q.registerFunctionOnPropertyValueChanged("fax", (value) => {
+          fields.fax = value;
           state.key++;
         });
 
-        q.registerFunctionOnPropertyValueChanged("useEmail", (value) => {
-          fields.useEmail = value;
+        q.registerFunctionOnPropertyValueChanged("email", (value) => {
+          fields.email = value;
           state.key++;
         });
       }
@@ -309,12 +302,8 @@ export default defineComponent({
     return {
       state,
       countryOptions,
-      readOnly,
-      emailMsg,
       currCountry,
       fields,
-      pendingValue,
-      value,
       loadValue,
       updateValue,
       fillInData,

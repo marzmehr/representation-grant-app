@@ -26,44 +26,52 @@ export function initAddressBlock(Survey: any) {
       );
       Survey.JsonObject.metaData.addProperties("address", [
         {
-          name: "useStreet:boolean",
+          name: "street:boolean",
           category: "Input Options",
-          default: true
+          default: true,
+          visibleIndex: 1
         },
         {
-          name: "useCity:boolean",
+          name: "city:boolean",
           category: "Input Options",
-          default: true
+          default: true,
+          visibleIndex: 2
         },
         {
-          name: "useProvince:boolean",
+          name: "country:boolean",
           category: "Input Options",
-          default: true
+          default: true,
+          visibleIndex: 3
         },
         {
-          name: "useCountry:boolean",
+          name: "state:boolean",
           category: "Input Options",
-          default: true
+          default: true,
+          visibleIndex: 4
         },
         {
-          name: "usePostalCode:boolean",
+          name: "postalCode:boolean",
           category: "Input Options",
-          default: true
+          default: true,
+          visibleIndex: 5
         },
         {
-          name: "usePhone:boolean",
+          name: "phone:boolean",
           category: "Input Options",
-          default: false
+          default: false,
+          visibleIndex: 6
         },
         {
-          name: "useFax:boolean",
+          name: "fax:boolean",
           category: "Input Options",
-          default: false
+          default: false,
+          visibleIndex: 7
         },
         {
-          name: "useEmail:boolean",
+          name: "email:boolean",
           category: "Input Options",
-          default: false
+          default: false,
+          visibleIndex: 8
         }
       ]);
     },
