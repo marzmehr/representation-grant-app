@@ -4,10 +4,10 @@ import { addDays, format, getDay, parseISO } from "date-fns";
 import { ItemValue } from "survey-vue";
 import {
   getPotentialApplicants,
-  getPrevAddresses,
   setApplicants,
   setLastUpdated,
   setPotentialApplicants,
+  setPrevAddresses,
   setRecipients
 } from "@/state/survey-state";
 
@@ -202,11 +202,32 @@ export const determineEarliestSubmissionDate = (sender, options) => {
   }
 };
 
-export const collectPrevAddresses = (sender, options) => {
-  console.log("In value changed, dealing with prev addresses");
-  console.log("sender,", sender);
-  console.log("options,", options);
-  console.log("addresses,", getPrevAddresses);
+export const collectPrevAddresses = (sender) => {
+  let addressQuestions = [];
+
+  for (const page of sender.pages) {
+    for (const question of page.questions) {
+      if (question.getType() === "address" && question.value) {
+        addressQuestions.push(question.value);
+      }
+    }
+  }
+
+  // better way to get unique values?
+  const uniqueAddressQuestions = addressQuestions.filter((value, index, self) =>
+    index === self.findIndex((check) => (
+      check.street === value.street
+      && check.city === value.city
+      && check.state === value.state
+      && check.country === value.country
+      && check.postcode === value.postcode
+      && check.email === value.email
+      && check.phone === value.phone
+      && check.fax === value.fax
+    ))
+  );
+  console.log(uniqueAddressQuestions);
+  setPrevAddresses(uniqueAddressQuestions);
 }
 
 export function onValueChanged(sender, options) {
@@ -215,4 +236,5 @@ export function onValueChanged(sender, options) {
   populateApplicantInfoPanelAndP1DeliveryInfoPanel(sender, options);
   determineEarliestSubmissionDate(sender, options);
   setLastUpdated(new Date());
+  collectPrevAddresses(sender);
 }

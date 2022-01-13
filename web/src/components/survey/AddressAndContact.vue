@@ -1,15 +1,15 @@
 <template>
   <div class="survey-address" :key="state.key" @click="updateSelOptions">
-    <div class="row survey-address-line" v-if="selOptions.length">
+    <div class="row survey-address-line" v-if="getPrevAddresses.length">
       <div class="col-sm-6">
         <label class="survey-sublabel">Copy from:</label>
         <div ref="copyFrom" @change="fillInData">
-          <div class="form-control-sm ml-2 no-border" v-for="(opt, inx) in selOptions" :key="inx" >
+          <div class="form-control-sm ml-2 no-border" v-for="(opt, inx) in getPrevAddresses" :key="inx" >
             <input
               type="radio"
               name="prevAddressOpt"
-              :value="opt.value">
-            {{ opt.label }}
+              :value="opt">
+            {{ opt }}
           </div>
           <div class="form-control-sm ml-2 no-border">
             <input type="radio" name="prevAddressOpt" value=""> Enter a New Address
@@ -147,8 +147,9 @@
 
 <script lang="ts">
 
-import { defineComponent, onMounted, reactive, ref } from "@vue/composition-api";
+import { defineComponent, onMounted, reactive, computed, watch } from "@vue/composition-api";
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
+import { getPrevAddresses } from "@/state/survey-state";
 
 export default defineComponent({
   props: {
@@ -157,9 +158,14 @@ export default defineComponent({
   },
   setup(props) {
     const state = reactive({
-      key: 1,
+      key: 1
     });
+
     const q = props.question;
+    const countryOptions = [canada, usa].concat(otherCountries);
+    let readOnly = false;
+    let emailMsg = "";
+    let currCountry = loadValue(q.value).country;
     let fields = {
       useStreet: props.question.useStreet,
       useCity: props.question.useCity,
@@ -170,8 +176,15 @@ export default defineComponent({
       usePhone: props.question.usePhone,
       useFax: props.question.useFax
     }
+    let pendingValue = loadValue(q.value);
+    let value = q.value;
 
-    function loadValue(val) {
+    q.valueChangedCallback = () => {
+      pendingValue = loadValue(q.value);;
+      value = q.value;
+    };
+
+    function loadValue(val?) {
       val = val || {};
       const pending = {
         street: val.street || "",
@@ -186,78 +199,68 @@ export default defineComponent({
       return pending;
     };
 
-    function prevAddrOptions() {
-      const skipName = q.name;
-      const survey = q.survey;
-      const addrs = [];
-      const seen = {};
-      let otherQVal;
-      for (const page of survey.pages) {
-        for (const otherQ of page.questions) {
-          if (
-            otherQ.getType() === "address" &&
-            otherQ.name !== skipName &&
-            (otherQVal = otherQ.value)
-          ) {
-            const potentialParts = [
-              otherQVal.street,
-              otherQVal.city,
-              otherQVal.state,
-              otherQVal.country,
-              otherQVal.postcode,
-              otherQVal.email,
-              otherQVal.phone,
-              otherQVal.fax
-            ];
-
-            // ensure the fields match, otherwise copying won't make sense.
-            if (Object.keys(fields).length !== potentialParts.length) continue;
-
-            let match = true;
-            let i = 0;
-            for (let key in fields) {
-              if (!!fields[key] !== !!potentialParts[i]) {
-                match = false;
-                break;
-              }
-              i++;
-            }
-
-            if (!match) continue;
-
-            // collect data
-            let parts = [];
-            let k = 0;
-            for (let key in fields) {
-              if (fields[key]) {
-                parts.push(potentialParts[k]);
-              }
-              k++;
-            }
-
-            const lbl = parts
-              .map(p => p.trim())
-              .filter(p => p)
-              .join(", ");
-
-            if (lbl && !seen[lbl]) {
-              seen[lbl] = 1;
-              addrs.push({
-                name: otherQ.name,
-                label: lbl, // otherQ.referLabel,
-                value: Object.assign({}, otherQ.value)
-              });
-            }
-          }
+    function updateValue() {
+      const value = Object.assign({}, pendingValue);
+      for (const k in value) {
+        if (value[k] !== undefined && value[k].length) {
+          props.question.value = value;
+          return;
         }
       }
-      addrs.sort((a, b) => a.label.localeCompare(b.label));
-      return addrs;
+      q.value = null;
+    };
+    
+    function fillInData(e) {
+      const data = e.target._value;
+
+      if (!data) {
+        readOnly = false;
+        pendingValue = loadValue();
+      } else {
+        readOnly = true;
+        pendingValue = loadValue(data);
+      }
+      updateValue();
+    }
+
+    function validEmail(e) {
+      const email = e.target._value;
+      const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,3})+$/;
+      if (re.test(email)) {
+        updateValue();
+        emailMsg = "";
+      } else {
+        emailMsg = "Please enter a valid e-mail address.";
+      }
     };
 
-    let selOptions = prevAddrOptions();
-    let pendingValue = loadValue(q.value);
-    let value = q.value;
+    const regionOptions = computed(() => {
+      const p = pendingValue;
+
+      if (p && p.country) {
+        return p.country === "CAN"
+          ? provinces
+          : states
+      } else {
+        return provinces.concat(states);
+      }
+    });
+
+    const isDropDownRegion = computed(() => {
+      const p = pendingValue;
+      if (p.country !== currCountry) {
+        currCountry = p.country;
+        p.state = "";
+      }
+      return p && p.country && (p.country === "CAN" || p.country === "USA");
+    });
+
+    watch(getPrevAddresses, (newAddresses, oldAddresses) => {
+      console.log("Change detected");
+      console.log(newAddresses);
+      console.log(oldAddresses);
+      console.log(getPrevAddresses);
+    })
 
     onMounted(() => {
       if (props.isSurveyEditor) {
@@ -303,83 +306,22 @@ export default defineComponent({
       }
     });
 
-    q.valueChangedCallback = () => {
-      const pending = loadValue(q.value);
-      pendingValue = pending;
-      value = q.value;
-      selOptions = prevAddrOptions();
-    };
-
     return {
       state,
+      countryOptions,
+      readOnly,
+      emailMsg,
+      currCountry,
       fields,
-      loadValue,
-      prevAddrOptions,
-      selOptions,
       pendingValue,
       value,
-      countryOptions: [canada, usa].concat(otherCountries),
-      readOnly: false,
-      emailMsg: "",
-      currCountry: loadValue(q.value).country
-    }
-  },
-  methods: {
-    updateSelOptions() {
-      this.selOptions = this.prevAddrOptions();
-    },
-    updateValue() {
-      const value = Object.assign({}, this.pendingValue);
-      for (const k in value) {
-        if (value[k] !== undefined && value[k].length) {
-          this.question.value = value;
-          return;
-        }
-      }
-      this.question.value = null;
-    },
-    fillInData(e) {
-      const data = e.target._value;
-
-      if (!data) {
-        this.readOnly = false;
-        this.pendingValue = this.loadValue();
-      } else {
-        this.readOnly = true;
-        this.pendingValue = this.loadValue(data);
-      }
-      this.updateValue();
-    },
-    validEmail(e) {
-      const email = e.target._value;
-      const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,3})+$/;
-      if (re.test(email)) {
-        this.updateValue();
-        this.emailMsg = "";
-      } else {
-        this.emailMsg = "Please enter a valid e-mail address.";
-      }
-    }
-  },
-  computed: {
-    regionOptions() {
-      const p = this.pendingValue;
-
-      if (p && p.country) {
-        return p.country === "CAN"
-          ? provinces
-          : states
-      } else {
-        return provinces.concat(states);
-      }
-    },
-    isDropDownRegion() {
-      const p = this.pendingValue;
-      if (p.country !== this.currCountry) {
-        this.currCountry = p.country;
-        p.state = "";
-      }
-      return p && p.country && (p.country === "CAN" || p.country === "USA");
+      loadValue,
+      updateValue,
+      fillInData,
+      validEmail,
+      regionOptions,
+      isDropDownRegion,
+      getPrevAddresses
     }
   }
 });
