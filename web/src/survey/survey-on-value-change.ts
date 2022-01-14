@@ -205,7 +205,7 @@ export const determineEarliestSubmissionDate = (sender, options) => {
 };
 
 export const collectPrevAddresses = (sender) => {
-  let addressQuestions: AddressAndContact[] = [];
+  let addressQuestions = [];
   const keys = [
     "street",
     "city",
@@ -249,8 +249,6 @@ export const collectPrevAddresses = (sender) => {
     ))
   );
 
-  console.log("Collecting Addresses through state");
-  console.log(uniqueAddressQuestions);
   setPrevAddresses(uniqueAddressQuestions);
 };
 

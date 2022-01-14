@@ -4,12 +4,12 @@
       <div class="col-sm-6">
         <label class="survey-sublabel">Copy from:</label>
         <div ref="copyFrom" @change="fillInData">
-          <div class="form-control-sm ml-2 no-border" v-for="(opt, inx) in getPrevAddresses" :key="inx" >
+          <div class="form-control-sm ml-2 no-border" v-for="(addr, inx) in state.prevAddresses" :key="inx" >
             <input
               type="radio"
               name="prevAddressOpt"
-              :value="opt">
-            {{ opt }}
+              :value="addr.value">
+            {{ addr.label }}
           </div>
           <div class="form-control-sm ml-2 no-border">
             <input type="radio" name="prevAddressOpt" value=""> Enter a New Address
@@ -147,7 +147,7 @@
 
 <script lang="ts">
 
-import { defineComponent, onMounted, reactive, computed } from "@vue/composition-api";
+import { defineComponent, onMounted, reactive, computed, watch } from "@vue/composition-api";
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
 import { getPrevAddresses } from "@/state/survey-state";
 
@@ -162,7 +162,8 @@ export default defineComponent({
       readOnly: false,
       emailMsg: "",
       pendingValue: loadValue(props.question.value),
-      value: props.question.value
+      value: props.question.value,
+      prevAddresses: []
     });
 
     const q = props.question;
@@ -180,7 +181,7 @@ export default defineComponent({
     };
 
     q.valueChangedCallback = () => {
-      state.pendingValue = loadValue(q.value);;
+      state.pendingValue = loadValue(q.value);
       state.value = q.value;
     };
 
@@ -253,6 +254,46 @@ export default defineComponent({
         p.state = "";
       }
       return p && p.country && (p.country === "CAN" || p.country === "USA");
+    });
+
+    watch(getPrevAddresses, () => {
+      let matches = [];
+
+      for (const addr of getPrevAddresses.value) {
+
+        // check for matching fields
+        let inputsMatch = true;
+        for (const field in fields) {
+          if (fields[field] === !!addr[field]) {
+          } else {
+            inputsMatch = false;
+            break;
+          }
+        }
+
+        if (!inputsMatch) continue;
+
+        let label = "";
+        const orderedLabels = [
+          "street",
+          "city",
+          "country",
+          "state",
+          "postalCode",
+          "phone",
+          "fax",
+          "email"
+        ];
+
+        orderedLabels.forEach((value, index) => {
+          if (addr[value] && index === 0) label = `${addr[value]}`;
+          else if (addr[value]) label += `, ${addr[value]}`;
+        });
+
+        matches.push({label: label, value: addr});
+      }
+
+      state.prevAddresses = matches;
     });
 
     onMounted(() => {
