@@ -1,10 +1,10 @@
 export const canada = {
-    value: "CAN",
+    value: "Canada",
     text: "Canada"
 }
 
 export const usa = {
-    value: "USA",
+    value: "United States of America",
     text: "United States of America"
 }
 
@@ -275,8 +275,6 @@ export const states = [
 ]
 
 export const otherCountries = [
-    {text: "Canada", value: "Canada"},
-    {text: "United States of America", value: "United States of America"},
     {text: "Abkhazia", value: "Abkhazia"},
     {text: "Afghanistan", value: "Afghanistan"},
     {text: "Åland Islands", value: "Åland Islands"},

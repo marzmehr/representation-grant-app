@@ -192,7 +192,7 @@ export default defineComponent({
         street: val.street || "",
         city: val.city || "",
         state: val.state || "BC",
-        country: val.country || "CAN",
+        country: val.country || "Canada",
         postalCode: val.postalCode || "",
         email: val.email || "",
         phone: val.phone || "",
@@ -279,7 +279,7 @@ export default defineComponent({
       const p = state.pendingValue;
 
       if (p && p.country) {
-        return p.country === "CAN"
+        return p.country === "Canada"
           ? provinces
           : states
       } else {
@@ -293,7 +293,7 @@ export default defineComponent({
         currCountry = p.country;
         p.state = "";
       }
-      return p && p.country && (p.country === "CAN" || p.country === "USA");
+      return p && p.country && (p.country === "Canada" || p.country === "United States of America");
     });
 
     watch(getPrevAddresses, () => {
