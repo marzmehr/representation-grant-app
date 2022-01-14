@@ -1,4 +1,4 @@
-import { initAddressBlock } from "./address-block-type";
+import { initAddressBlock } from "./address-and-contact-type";
 import { initContactInfoBlock } from "./contact-info-block-type";
 import { initCustomDate } from "./custom-date-type";
 import { initHelpText } from "./help-text-type";
@@ -17,7 +17,7 @@ export enum WidgetValueName {
   InfoText,
   FormDownloadButton,
   YesNo,
-  AddressInfo,
+  AddressAndContact,
   PersonName,
   ContactInfo,
   CustomDate,
