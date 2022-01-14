@@ -1,10 +1,10 @@
 <template>
   <div class="survey-address" :key="state.key">
-    <div class="row survey-address-line" v-if="getPrevAddresses.length">
+    <div class="row survey-address-line" v-if="prevAddresses.length">
       <div class="col-sm-6">
         <label class="survey-sublabel">Copy from:</label>
         <div ref="copyFrom" @change="fillInData">
-          <div class="form-control-sm ml-2 no-border" v-for="(addr, inx) in state.prevAddresses" :key="inx" >
+          <div class="form-control-sm ml-2 no-border" v-for="(addr, inx) in prevAddresses" :key="inx" >
             <input
               type="radio"
               name="prevAddressOpt"
@@ -147,7 +147,7 @@
 
 <script lang="ts">
 
-import { defineComponent, onMounted, reactive, computed, watch } from "@vue/composition-api";
+import { defineComponent, onMounted, reactive, computed, watch, ref } from "@vue/composition-api";
 import { canada, provinces, usa, states, otherCountries } from "@/utils/location-options";
 import { getPrevAddresses } from "@/state/survey-state";
 
@@ -163,22 +163,23 @@ export default defineComponent({
       emailMsg: "",
       pendingValue: loadValue(props.question.value),
       value: props.question.value,
-      prevAddresses: []
+      fields: {
+        street: props.question.street,
+        city: props.question.city,
+        state: props.question.state,
+        country: props.question.country,
+        postalCode: props.question.postalCode,
+        email: props.question.email,
+        phone: props.question.phone,
+        fax: props.question.fax
+      },
     });
+
+    let prevAddresses = ref(filterAddresses());
 
     const q = props.question;
     const countryOptions = [canada, usa].concat(otherCountries);
     let currCountry = loadValue(q.value).country;
-    let fields = {
-      street: props.question.street,
-      city: props.question.city,
-      state: props.question.state,
-      country: props.question.country,
-      postalCode: props.question.postalCode,
-      email: props.question.email,
-      phone: props.question.phone,
-      fax: props.question.fax
-    };
 
     q.valueChangedCallback = () => {
       state.pendingValue = loadValue(q.value);
@@ -235,6 +236,45 @@ export default defineComponent({
       }
     };
 
+    function filterAddresses() {
+      let matches = [];
+
+      for (const addr of getPrevAddresses.value) {
+        // check for matching state.fields
+        let inputsMatch = true;
+        for (const field in state.fields) {
+          if (state.fields[field] === !!addr[field]) {
+          } else {
+            inputsMatch = false;
+            break;
+          }
+        }
+
+        if (!inputsMatch) continue;
+
+        let label = "";
+        const orderedLabels = [
+          "street",
+          "city",
+          "country",
+          "state",
+          "postalCode",
+          "phone",
+          "fax",
+          "email"
+        ];
+
+        orderedLabels.forEach((value, index) => {
+          if (addr[value] && label.length === 0) label = `${addr[value]}`;
+          else if (addr[value]) label += `, ${addr[value]}`;
+        });
+
+        matches.push({label: label, value: addr});
+      }
+
+      return matches;
+    };
+
     const regionOptions = computed(() => {
       const p = state.pendingValue;
 
@@ -257,84 +297,48 @@ export default defineComponent({
     });
 
     watch(getPrevAddresses, () => {
-      let matches = [];
-
-      for (const addr of getPrevAddresses.value) {
-
-        // check for matching fields
-        let inputsMatch = true;
-        for (const field in fields) {
-          if (fields[field] === !!addr[field]) {
-          } else {
-            inputsMatch = false;
-            break;
-          }
-        }
-
-        if (!inputsMatch) continue;
-
-        let label = "";
-        const orderedLabels = [
-          "street",
-          "city",
-          "country",
-          "state",
-          "postalCode",
-          "phone",
-          "fax",
-          "email"
-        ];
-
-        orderedLabels.forEach((value, index) => {
-          if (addr[value] && index === 0) label = `${addr[value]}`;
-          else if (addr[value]) label += `, ${addr[value]}`;
-        });
-
-        matches.push({label: label, value: addr});
-      }
-
-      state.prevAddresses = matches;
+      prevAddresses.value = filterAddresses();
     });
 
     onMounted(() => {
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("street", (value) => {
-          fields.street = value;
+          state.fields.street = value;
           state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("city", (value) => {
-          fields.city = value;
+          state.fields.city = value;
           state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("state", (value) => {
-          fields.state = value;
+          state.fields.state = value;
           state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("country", (value) => {
-          fields.country = value;
+          state.fields.country = value;
           state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("postalCode", (value) => {
-          fields.postalCode = value;
+          state.fields.postalCode = value;
           state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("phone", (value) => {
-          fields.phone = value;
+          state.fields.phone = value;
           state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("fax", (value) => {
-          fields.fax = value;
+          state.fields.fax = value;
           state.key++;
         });
 
         q.registerFunctionOnPropertyValueChanged("email", (value) => {
-          fields.email = value;
+          state.fields.email = value;
           state.key++;
         });
       }
@@ -342,9 +346,9 @@ export default defineComponent({
 
     return {
       state,
+      prevAddresses,
       countryOptions,
       currCountry,
-      fields,
       loadValue,
       updateValue,
       fillInData,
