@@ -23,7 +23,7 @@
         <input
           class="form-control"
           :id="question.inputId"
-          v-model="state.pendingValue['street']"
+          v-model="pendingValue['street']"
           @change="updateValue"
           :readonly="state.readOnly"
         />
@@ -35,7 +35,7 @@
         <input
           class="form-control"
           :id="question.inputId + '-city'"
-          v-model="state.pendingValue['city']"
+          v-model="pendingValue['city']"
           @change="updateValue"
           :readonly="state.readOnly"
         />
@@ -46,7 +46,7 @@
         <label class="survey-sublabel" :for="question.inputId + '-country'">Country</label>
         <select
           class="form-control"
-          v-model="state.pendingValue['country']"
+          v-model="pendingValue['country']"
           :id="question.inputId + '-country'"
           @change="updateValue"
           :disabled="state.readOnly"
@@ -65,7 +65,7 @@
         <div v-if="isDropDownRegion">
           <select
             class="form-control"
-            v-model="state.pendingValue['state']"
+            v-model="pendingValue['state']"
             :id="question.inputId + '-state'"
             @change="updateValue"
             :disabled="state.readOnly"
@@ -78,7 +78,7 @@
         <div v-else>
           <input
             class="form-control"
-            v-model="state.pendingValue['state']"
+            v-model="pendingValue['state']"
             :id="question.inputId + '-state'"
             @change="updateValue"
             :disabled="state.readOnly"
@@ -93,7 +93,7 @@
           class="form-control"
           autocomplete="postal-code"
           :id="question.inputId + '-postalCode'"
-          v-model="state.pendingValue['postalCode']"
+          v-model="pendingValue['postalCode']"
           @change="updateValue"
           :readonly="state.readOnly"
         />
@@ -107,7 +107,7 @@
           type="number"
           autocomplete="tel"
           :id="question.inputId + '-phone'"
-          v-model="state.pendingValue['phone']"
+          v-model="pendingValue['phone']"
           @change="updateValue"
           :readonly="state.readOnly"
         />
@@ -121,7 +121,7 @@
           type="number"
           autocomplete="tel"
           :id="question.inputId + '-fax'"
-          v-model="state.pendingValue['fax']"
+          v-model="pendingValue['fax']"
           @change="updateValue"
           :readonly="state.readOnly"
         />
@@ -136,7 +136,7 @@
           type="text"
           autocomplete="email"
           :id="question.inputId + '-email'"
-          v-model="state.pendingValue['email']"
+          v-model="pendingValue['email']"
           @blur="validEmail"
           :readonly="state.readOnly"
         />
@@ -161,8 +161,6 @@ export default defineComponent({
       key: 1,
       readOnly: false,
       emailMsg: "",
-      pendingValue: loadValue(props.question.value),
-      value: props.question.value,
       fields: {
         street: props.question.street,
         city: props.question.city,
@@ -176,14 +174,16 @@ export default defineComponent({
     });
 
     let prevAddresses = ref(filterAddresses());
+    let pendingValue = ref(loadValue(props.question.value));
+    let value = ref(props.question.value);
 
     const q = props.question;
     const countryOptions = [canada, usa].concat(otherCountries);
     let currCountry = loadValue(q.value).country;
 
     q.valueChangedCallback = () => {
-      state.pendingValue = loadValue(q.value);
-      state.value = q.value;
+      pendingValue.value = loadValue(q.value);
+      value.value = q.value;
     };
 
     function loadValue(val?) {
@@ -191,8 +191,8 @@ export default defineComponent({
       const pending = {
         street: val.street || "",
         city: val.city || "",
-        state: val.state || "BC",
-        country: val.country || "Canada",
+        state: !state.fields.state ? "" : val.state ? val.state : "BC",
+        country: !state.fields.country ? "" : val.country ? val.country : "Canada",
         postalCode: val.postalCode || "",
         email: val.email || "",
         phone: val.phone || "",
@@ -202,7 +202,7 @@ export default defineComponent({
     };
 
     function updateValue() {
-      const value = Object.assign({}, state.pendingValue);
+      const value = Object.assign({}, pendingValue.value);
       for (const k in value) {
         if (value[k] !== undefined && value[k].length) {
           props.question.value = value;
@@ -217,10 +217,10 @@ export default defineComponent({
 
       if (!data) {
         state.readOnly = false;
-        state.pendingValue = loadValue();
+        pendingValue.value = loadValue();
       } else {
         state.readOnly = true;
-        state.pendingValue = loadValue(data);
+        pendingValue.value = loadValue(data);
       }
       updateValue();
     }
@@ -276,7 +276,7 @@ export default defineComponent({
     };
 
     const regionOptions = computed(() => {
-      const p = state.pendingValue;
+      const p = pendingValue.value;
 
       if (p && p.country) {
         return p.country === "Canada"
@@ -288,7 +288,7 @@ export default defineComponent({
     });
 
     const isDropDownRegion = computed(() => {
-      const p = state.pendingValue;
+      const p = pendingValue.value;
       if (p.country !== currCountry) {
         currCountry = p.country;
         p.state = "";
@@ -347,6 +347,8 @@ export default defineComponent({
     return {
       state,
       prevAddresses,
+      pendingValue,
+      value,
       countryOptions,
       currCountry,
       loadValue,

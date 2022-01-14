@@ -10,8 +10,6 @@ import {
   setPrevAddresses,
   setRecipients
 } from "@/state/survey-state";
-import { BreadcrumbPlugin } from "bootstrap-vue";
-import { questionActionsAdorner } from "survey-creator";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
 const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string, getText?: boolean) => {
