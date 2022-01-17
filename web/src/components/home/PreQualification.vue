@@ -72,7 +72,7 @@ export default class PreQualification extends Vue {
   applicationId = 0;
   displayButton = false;
   showDisclaimer = false;
-  survey = new SurveyVue.Model(surveyJson);
+  survey = new SurveyVue.SurveyModel(surveyJson);
 
   beforeCreate() {
     const Survey = SurveyVue;
@@ -82,7 +82,7 @@ export default class PreQualification extends Vue {
   mounted() {
     this.showDisclaimer = false;
     this.displayButton = false;
-    this.survey = new SurveyVue.Model(surveyJson);
+    this.survey = new SurveyVue.SurveyModel(surveyJson);
     this.survey.commentPrefix = "Comment";
     this.survey.showQuestionNumbers = "off";
     this.survey.showNavigationButtons = false;

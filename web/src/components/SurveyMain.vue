@@ -70,7 +70,7 @@ export default defineComponent({
           console.log("loadSurveyJson(): Loading JSON file failed\n", error);
         }
       }
-      setSurvey(new SurveyVue.Model(data));
+      setSurvey(new SurveyVue.SurveyModel(data));
       survey.value.commentPrefix = "Comment";
       survey.value.showQuestionNumbers = "off";
       addSurveyListener();
@@ -96,7 +96,7 @@ export default defineComponent({
             (x.name == SurveyQuestionNames.spouseInfoPanel ||
               x.name == SurveyQuestionNames.childInfoPanel)
         )
-        .forEach(element => {
+        .forEach((element: SurveyVue.QuestionPanelDynamicModel) => {
           survey.value.setVariable(`${element.name}-count`, element.panelCount);
         });
 
