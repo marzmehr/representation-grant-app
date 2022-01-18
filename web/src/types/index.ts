@@ -18,12 +18,15 @@ interface Recipient {
 }
 
 //Used by codegen:
-interface AddressInfo {
+interface AddressAndContact {
     street?: string;
     city?: string;
     state?: string;
     country?: string;
     postcode?: string;
+    fax?: string;
+    phone?: string;
+    email?: string;
 }
 
 interface PersonName {

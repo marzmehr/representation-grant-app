@@ -43,7 +43,7 @@ export const getBCEIDUrl = () => {
   }
 };
 
-export const formatMailingAddress = (mailingAddress: AddressInfo): string => {
+export const formatMailingAddress = (mailingAddress: AddressAndContact): string => {
   if (!mailingAddress) return null;
   return `${mailingAddress?.street || ""}, ${mailingAddress?.city || ""}, ${mailingAddress?.state ||
     ""}, ${mailingAddress?.country || ""} ${mailingAddress?.postcode || ""}`;

@@ -1,4 +1,4 @@
-import { initAddressBlock } from "./address-block-type";
+import { initAddressBlock } from "./address-and-contact-type";
 import { initContactInfoBlock } from "./contact-info-block-type";
 import { initCustomDate } from "./custom-date-type";
 import { initHelpText } from "./help-text-type";
@@ -17,7 +17,7 @@ export enum WidgetValueName {
   InfoText,
   FormDownloadButton,
   YesNo,
-  AddressInfo,
+  AddressAndContact,
   PersonName,
   ContactInfo,
   CustomDate,
@@ -89,7 +89,7 @@ export function addToolboxOptions(editor: any) {
   });
   editor.toolbox.addItem({
     name: "address",
-    title: "Postal Address",
+    title: "Address & Contact",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {
@@ -98,7 +98,7 @@ export function addToolboxOptions(editor: any) {
   });
   editor.toolbox.addItem({
     name: "contactinfo",
-    title: "Contact Information",
+    title: "Contact Info Only",
     isCopied: true,
     iconName: "icon-multipletext",
     json: {

@@ -1,6 +1,8 @@
 import showdown from "showdown";
 import { ExpressionRunner } from "survey-vue";
 import { convertCodeMarkupToToolTip, convertTicksToToolTip } from "@/utils/utils";
+import { SurveyInstance } from "@/types/survey-primary";
+import { replace } from "lodash";
 //This is the regular instance, not SurveyKO module.
 export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onProcessTextValue.add(function(sender, options) {
@@ -88,6 +90,7 @@ export function addCustomTemplating(surveyRuntime: any) {
   surveyRuntime.onTextMarkdown.add(function(survey, options) {
     if (options.text.includes("displayIf(")) {
       const split = options.text.match(/displayIf/g);
+
       for (let i = 0; i < split.length; i++) {
         const startIndex = options.text.indexOf("displayIf(");
         const endIndex = options.text.indexOf(")}");
@@ -95,10 +98,15 @@ export function addCustomTemplating(surveyRuntime: any) {
         const targetString = `${options.text.substring(startIndex + displayIfLength, endIndex)}`;
         const index = targetString.indexOf(",");
         const params = [targetString.slice(0, index), targetString.slice(index + 1)];
-        const value = new ExpressionRunner(params[0]).run({});
+        let expression = params[0];
+        const match = expression.match(/\#\w*/);
+        const replacement = match ? match[0].replace("#", "") : null;
+        expression = replacement ? expression.replace(/\#\w*/g, survey.data[replacement]) : expression;
+
+        let expressionResult = new ExpressionRunner(expression).run({});
         options.text =
           options.text.slice(0, startIndex - 1) +
-          (value !== false ? params[1] : "") +
+          (expressionResult !== false ? params[1] : "") +
           options.text.substring(endIndex + 2, options.text.length);
       }
     }

@@ -7,6 +7,7 @@ import {
   setApplicants,
   setLastUpdated,
   setPotentialApplicants,
+  setPrevAddresses,
   setRecipients
 } from "@/state/survey-state";
 
@@ -201,10 +202,59 @@ export const determineEarliestSubmissionDate = (sender, options) => {
   }
 };
 
+export const collectPrevAddresses = (sender) => {
+  let addressQuestions = [];
+  const keys = [
+    "street",
+    "city",
+    "country",
+    "state",
+    "postalCode",
+    "phone",
+    "fax",
+    "email"
+  ];
+
+  for (const page of sender.pages) {
+    for (const question of page.questions) {
+      if (question.getType() === "address" && question.value) {
+        
+        let hasAllValues = true;
+        for (const key of keys) {
+          if (question[key] && !question.value[key]) {
+            hasAllValues = false;
+          }
+        }
+
+        if (hasAllValues) {
+          addressQuestions.push(question.value);
+        }
+      }
+    }
+  }
+
+  // better way to get unique values?
+  const uniqueAddressQuestions = addressQuestions.filter((value, index, self) =>
+    index === self.findIndex((check) => (
+      check.street === value.street
+      && check.city === value.city
+      && check.state === value.state
+      && check.country === value.country
+      && check.postcode === value.postcode
+      && check.email === value.email
+      && check.phone === value.phone
+      && check.fax === value.fax
+    ))
+  );
+
+  setPrevAddresses(uniqueAddressQuestions);
+};
+
 export function onValueChanged(sender, options) {
   determinePotentialApplicants(sender, options);
   determineRecipients(sender, options);
   populateApplicantInfoPanelAndP1DeliveryInfoPanel(sender, options);
   determineEarliestSubmissionDate(sender, options);
   setLastUpdated(new Date());
-}
+  collectPrevAddresses(sender);
+};

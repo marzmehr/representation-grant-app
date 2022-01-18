@@ -26,3 +26,7 @@ export const setApplicants = newApplicants => (applicants.value = newApplicants)
 const recipients = ref<Recipient[]>([]);
 export const getRecipients = computed(() => recipients.value);
 export const setRecipients = newRecipients => (recipients.value = newRecipients);
+
+const prevAddresses = ref<AddressAndContact[]>([]);
+export const getPrevAddresses = computed(() => prevAddresses.value);
+export const setPrevAddresses = newPrevAddresses => (prevAddresses.value = newPrevAddresses);
