@@ -261,8 +261,10 @@ export const toNextQuestion = (sender, options) => {
     for (let i = idx + 1; i < questionNames.length; i++) {
       if ((questionsOnPage[i].getType() === "infotext" && questionsOnPage[i].isRequired) || (questionsOnPage[i].getType !== "infotext" && questionsOnPage[i].getType() !== "helptext")) {
         let nextQuestion = document.getElementsByName(questionNames[i]);
-        nextQuestion.forEach(element => {
-          if (element.className === "sv_qstn") element.scrollIntoView({behavior: "smooth", block: "center"});
+        nextQuestion.forEach((element) => {
+          if (element.className === "sv_qstn") {
+            element.scrollIntoView({behavior: "smooth", block: "center"});
+          }
         });
         break;
       }
