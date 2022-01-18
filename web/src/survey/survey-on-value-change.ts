@@ -250,27 +250,27 @@ export const collectPrevAddresses = (sender) => {
   setPrevAddresses(uniqueAddressQuestions);
 };
 
-export const toNextQuestion = (sender, options) => {
-  const questionsOnPage = sender.activePage.questions;
-  const questionNames = questionsOnPage.map(q => q.name);
-  const targetName = options.name;
-  const idx = questionNames.indexOf(targetName);
-  const currQuestion = questionsOnPage[idx];
+// export const toNextQuestion = (sender, options) => {
+//   const questionsOnPage = sender.activePage.questions;
+//   const questionNames = questionsOnPage.map(q => q.name);
+//   const targetName = options.name;
+//   const idx = questionNames.indexOf(targetName);
+//   const currQuestion = questionsOnPage[idx];
   
-  if (currQuestion.getType() !== "address") {
-    for (let i = idx + 1; i < questionNames.length; i++) {
-      if ((questionsOnPage[i].getType() === "infotext" && questionsOnPage[i].isRequired) || (questionsOnPage[i].getType !== "infotext" && questionsOnPage[i].getType() !== "helptext")) {
-        let nextQuestion = document.getElementsByName(questionNames[i]);
-        nextQuestion.forEach((element) => {
-          if (element.className === "sv_qstn") {
-            element.scrollIntoView({behavior: "smooth", block: "center"});
-          }
-        });
-        break;
-      }
-    }
-  }
-};
+//   if (currQuestion.getType() !== "address") {
+//     for (let i = idx + 1; i < questionNames.length; i++) {
+//       if ((questionsOnPage[i].getType() === "infotext" && questionsOnPage[i].isRequired) || (questionsOnPage[i].getType !== "infotext" && questionsOnPage[i].getType() !== "helptext")) {
+//         let nextQuestion = document.getElementsByName(questionNames[i]);
+//         nextQuestion.forEach((element) => {
+//           if (element.className === "sv_qstn") {
+//             element.scrollIntoView({behavior: "smooth", block: "center"});
+//           }
+//         });
+//         break;
+//       }
+//     }
+//   }
+// };
 
 export function onValueChanged(sender, options) {
   determinePotentialApplicants(sender, options);
@@ -279,5 +279,5 @@ export function onValueChanged(sender, options) {
   determineEarliestSubmissionDate(sender, options);
   setLastUpdated(new Date());
   collectPrevAddresses(sender);
-  toNextQuestion(sender, options);
+  // toNextQuestion(sender, options);
 }
