@@ -250,6 +250,7 @@ export const collectPrevAddresses = (sender) => {
   setPrevAddresses(uniqueAddressQuestions);
 };
 
+// Original implementation
 // export const toNextQuestion = (sender, options) => {
 //   const questionsOnPage = sender.activePage.questions;
 //   const questionNames = questionsOnPage.map(q => q.name);
@@ -272,6 +273,14 @@ export const collectPrevAddresses = (sender) => {
 //   }
 // };
 
+export const toNextQuestion = (sender, options) => {
+  console.log(sender);
+  console.log(options);
+  let li = [];
+  const questions = options.question.page.addQuestionsToList(li, true);
+  console.log(li);
+};
+
 export function onValueChanged(sender, options) {
   determinePotentialApplicants(sender, options);
   determineRecipients(sender, options);
@@ -279,5 +288,5 @@ export function onValueChanged(sender, options) {
   determineEarliestSubmissionDate(sender, options);
   setLastUpdated(new Date());
   collectPrevAddresses(sender);
-  // toNextQuestion(sender, options);
+  toNextQuestion(sender, options);
 }
