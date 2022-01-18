@@ -93,6 +93,7 @@ build-web() {
   echo -e "----------------------------------------------------------------------------------------------------"
   docker build \
     -t ${COMPOSE_PROJECT_NAME}'-web' \
+    --build-arg IMAGE_PREFIX=${COMPOSE_PROJECT_NAME}- \
     -f './vue-on-nginx/Dockerfile' './vue-on-nginx/'
   echo -e "===================================================================================================="
 }

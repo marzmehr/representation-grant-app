@@ -1,14 +1,20 @@
-# Get community edition of nodejs v6.x
-FROM representation-grant-web-artifacts:latest as builder
-FROM representation-grant-runtime:latest
+ARG IMAGE_PREFIX=""
+FROM ${IMAGE_PREFIX}web-artifacts:latest as builder
+FROM ${IMAGE_PREFIX}web-runtime:latest
 
 # Copy the build artifacts from the 'builder' image
 # to the distribution folder on the runtime image.
 COPY --from=builder /opt/app-root/src/dist/. /tmp/app/dist/
 
 # Ensure S2I script copied over is runnable.
-COPY ./s2i/bin/fix-base-url /usr/libexec/s2i/load-secrets
-RUN chmod g+rx /user/libexec/s2i/load-secrets
+COPY ./vue-runtime/s2i/bin/load-secrets /usr/libexec/s2i/load-secrets
+
+# Fix permissions.
+USER root
+RUN chmod 674 /usr/libexec/s2i/load-secrets
+
+# From nginx-runtime.
+USER 104
 
 # Since the runtime image is itself an s2i image we need to
 # short circuit the s2i lifecycle.
