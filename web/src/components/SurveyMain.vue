@@ -70,7 +70,8 @@ export default defineComponent({
           console.log("loadSurveyJson(): Loading JSON file failed\n", error);
         }
       }
-      setSurvey(new SurveyVue.SurveyModel(data));
+      //@ts-ignore - It sucks to have to do this.
+      setSurvey(new SurveyVue.Model(data));
       survey.value.commentPrefix = "Comment";
       survey.value.showQuestionNumbers = "off";
       addSurveyListener();
