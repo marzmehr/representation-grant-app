@@ -70,10 +70,10 @@ build-web() {
   # The representation-grant-web image is copy of the representation-grant-runtime image complete with a copy of the build artifacts.
   #
   echo -e "\n\n===================================================================================================="
-  echo -e "Building the ${COMPOSE_PROJECT_NAME}-runtime image using Docker ..."
+  echo -e "Building the ${COMPOSE_PROJECT_NAME}-web-runtime image using Docker ..."
   echo -e "----------------------------------------------------------------------------------------------------"
   docker build \
-    -t ${COMPOSE_PROJECT_NAME}'-runtime' \
+    -t ${COMPOSE_PROJECT_NAME}'-web-runtime' \
     -f './nginx-runtime/Dockerfile' './nginx-runtime/'
   echo -e "===================================================================================================="
   
@@ -103,10 +103,10 @@ build-web-dev() {
   # web-dev
   #
   echo -e "\n\n===================================================================================================="
-  echo -e "Building the ${COMPOSE_PROJECT_NAME}-runtime image using Docker ..."
+  echo -e "Building the ${COMPOSE_PROJECT_NAME}-web-runtime image using Docker ..."
   echo -e "----------------------------------------------------------------------------------------------------"
   docker build \
-    -t ${COMPOSE_PROJECT_NAME}'-runtime' \
+    -t ${COMPOSE_PROJECT_NAME}'-web-runtime' \
     -f './nginx-runtime/Dockerfile' './nginx-runtime/'
   echo -e "===================================================================================================="
 
