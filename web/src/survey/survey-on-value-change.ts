@@ -250,35 +250,17 @@ export const collectPrevAddresses = (sender) => {
   setPrevAddresses(uniqueAddressQuestions);
 };
 
-// Original implementation
-// export const toNextQuestion = (sender, options) => {
-//   const questionsOnPage = sender.activePage.questions;
-//   const questionNames = questionsOnPage.map(q => q.name);
-//   const targetName = options.name;
-//   const idx = questionNames.indexOf(targetName);
-//   const currQuestion = questionsOnPage[idx];
-  
-//   if (currQuestion.getType() !== "address") {
-//     for (let i = idx + 1; i < questionNames.length; i++) {
-//       if ((questionsOnPage[i].getType() === "infotext" && questionsOnPage[i].isRequired) || (questionsOnPage[i].getType !== "infotext" && questionsOnPage[i].getType() !== "helptext")) {
-//         let nextQuestion = document.getElementsByName(questionNames[i]);
-//         nextQuestion.forEach((element) => {
-//           if (element.className === "sv_qstn") {
-//             element.scrollIntoView({behavior: "smooth", block: "center"});
-//           }
-//         });
-//         break;
-//       }
-//     }
-//   }
-// };
+export const toNextQuestion = (options) => {
+  if (options.question.getType() === "address") return;
 
-export const toNextQuestion = (sender, options) => {
-  console.log(sender);
-  console.log(options);
-  let li = [];
-  const questions = options.question.page.addQuestionsToList(li, true);
-  console.log(li);
+  const allQuestions = [];
+  options.question.page.addQuestionsToList(allQuestions, true);
+  let filtered = allQuestions.filter(q => (q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext"));
+
+  const indexOfNextQuestion = filtered.indexOf(options.question) + 1;
+  const nextQuestion = filtered[indexOfNextQuestion];
+
+  if (nextQuestion) document.getElementById(nextQuestion.id).scrollIntoView({behavior: "smooth", block: "start"});
 };
 
 export function onValueChanged(sender, options) {
@@ -288,5 +270,5 @@ export function onValueChanged(sender, options) {
   determineEarliestSubmissionDate(sender, options);
   setLastUpdated(new Date());
   collectPrevAddresses(sender);
-  toNextQuestion(sender, options);
+  toNextQuestion(options);
 }
