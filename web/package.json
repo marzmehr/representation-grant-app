@@ -46,7 +46,7 @@
     "uuid": "^8.3.2",
     "v-runtime-template": "^1.10.0",
     "vue": "^2.6.10",
-    "vue-axios": "^2.1.5",
+    "vue-axios": "^3.4.0",
     "vue-class-component": "6.3.2",
     "vue-cookies": "^1.7.4",
     "vue-fontawesome": "0.0.2",
