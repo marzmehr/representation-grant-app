@@ -33,7 +33,7 @@
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.4",
     "date-fns": "^2.25.0",
-    "date-fns-tz": "^1.1.6",
+    "date-fns-tz": "^1.2.2",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "node-sass": "^7.0.0",
