@@ -91,13 +91,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "@vue/composition-api";
-import Tooltip from "@/components/survey/Tooltip.vue";
 import VueRecaptcha from 'vue-recaptcha';
 import { SurveyDataService } from "@/services/survey-data-service";
 import vueRecaptchaSiteKey from "../../../app.config";
 export default defineComponent({
   components: {
-    Tooltip,
     VueRecaptcha
   },
   name: "feedback",
@@ -113,7 +111,7 @@ export default defineComponent({
     let failed = ref(false);
     let sending = ref(false);
     let sent = ref(false);
-    const recaptchaKey = ref(vueRecaptchaSiteKey);
+    const recaptchaKey = ref(vueRecaptchaSiteKey.vueAppRecaptchaSiteKey);
     let recaptchaResponse;
 
     const canSend = () => {
@@ -151,7 +149,6 @@ export default defineComponent({
       sent.value = false;
 
       const valid = checkFeedback(feedback);
-      console.log(valid);
       feedback.value.invalid = valid ? null : 'required';
 
       if (!valid) {
