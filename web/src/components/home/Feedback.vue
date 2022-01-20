@@ -113,7 +113,7 @@ export default defineComponent({
     let failed = ref(false);
     let sending = ref(false);
     let sent = ref(false);
-    const recaptchaKey = ref(vueRecaptchaSiteKey);
+    const recaptchaKey = ref(vueRecaptchaSiteKey.vueAppRecaptchaSiteKey);
     let recaptchaResponse;
 
     const canSend = () => {
@@ -151,7 +151,6 @@ export default defineComponent({
       sent.value = false;
 
       const valid = checkFeedback(feedback);
-      console.log(valid);
       feedback.value.invalid = valid ? null : 'required';
 
       if (!valid) {
