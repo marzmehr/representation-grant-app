@@ -250,6 +250,42 @@ export const collectPrevAddresses = (sender) => {
   setPrevAddresses(uniqueAddressQuestions);
 };
 
+export const toNextQuestion = options => {
+  const typesToSkip = [
+    "address",
+    "comment",
+    "contactinfo",
+    "helptext",
+    "matrix",
+    "matrixdropdown",
+    "matrixdynamic",
+    "multipletext",
+    "personname",
+    "ranking",
+    "text"
+  ];
+
+  if (typesToSkip.includes(options.question.getType())) return;
+
+  const currQuestion = options.question;
+  const questions = [];
+  currQuestion.page.addQuestionsToList(questions, true);
+  let filtered = questions.filter(q => (q.getType() === "infotext" && q.isRequired) || q.getType() !== "infotext");
+
+  const indexOfNextQuestion = filtered.indexOf(currQuestion) + 1;
+  const nextQuestion = filtered[indexOfNextQuestion];
+
+  if (nextQuestion) {
+    // Need the smallest delay to ensure this triggers in the sandbox
+    setTimeout(() => {
+      document.getElementById(nextQuestion.id).scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      })
+    }, 1);
+  }
+};
+
 export function onValueChanged(sender, options) {
   determinePotentialApplicants(sender, options);
   determineRecipients(sender, options);
@@ -257,4 +293,5 @@ export function onValueChanged(sender, options) {
   determineEarliestSubmissionDate(sender, options);
   setLastUpdated(new Date());
   collectPrevAddresses(sender);
+  toNextQuestion(options);
 };
