@@ -270,10 +270,7 @@ export const toNextQuestion = options => {
   const currQuestion = options.question;
   const questions = [];
   currQuestion.page.addQuestionsToList(questions, true);
-  let filtered = questions.filter(q => 
-    (q.getType() === "infotext" && q.isRequired) 
-    || (q.getType() !== "infotext" && q.getType() !== "helptext")
-  );
+  let filtered = questions.filter(q => (q.getType() === "infotext" && q.isRequired) || q.getType() !== "infotext");
 
   const indexOfNextQuestion = filtered.indexOf(currQuestion) + 1;
   const nextQuestion = filtered[indexOfNextQuestion];
