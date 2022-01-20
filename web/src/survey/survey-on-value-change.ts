@@ -250,17 +250,43 @@ export const collectPrevAddresses = (sender) => {
   setPrevAddresses(uniqueAddressQuestions);
 };
 
-export const toNextQuestion = (options) => {
-  if (options.question.getType() === "address") return;
+export const toNextQuestion = options => {
+  const typesToSkip = [
+    "address",
+    "comment",
+    "contactinfo",
+    "helptext",
+    "matrix",
+    "matrixdropdown",
+    "matrixdynamic",
+    "multipletext",
+    "personname",
+    "ranking",
+    "text"
+  ];
 
-  const allQuestions = [];
-  options.question.page.addQuestionsToList(allQuestions, true);
-  let filtered = allQuestions.filter(q => (q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext"));
+  if (typesToSkip.includes(options.question.getType())) return;
 
-  const indexOfNextQuestion = filtered.indexOf(options.question) + 1;
+  const currQuestion = options.question;
+  const questions = [];
+  currQuestion.page.addQuestionsToList(questions, true);
+  let filtered = questions.filter(q => 
+    (q.getType() === "infotext" && q.isRequired) 
+    || (q.getType() !== "infotext" && q.getType() !== "helptext")
+  );
+
+  const indexOfNextQuestion = filtered.indexOf(currQuestion) + 1;
   const nextQuestion = filtered[indexOfNextQuestion];
 
-  if (nextQuestion) document.getElementById(nextQuestion.id).scrollIntoView({behavior: "smooth", block: "center"});
+  if (nextQuestion) {
+    // Need the smallest delay to ensure this triggers in the sandbox
+    setTimeout(() => {
+      document.getElementById(nextQuestion.id).scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      })
+    }, 1);
+  }
 };
 
 export function onValueChanged(sender, options) {
