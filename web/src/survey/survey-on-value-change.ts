@@ -260,7 +260,7 @@ export const toNextQuestion = (options) => {
   const indexOfNextQuestion = filtered.indexOf(options.question) + 1;
   const nextQuestion = filtered[indexOfNextQuestion];
 
-  if (nextQuestion) document.getElementById(nextQuestion.id).scrollIntoView({behavior: "smooth", block: "start"});
+  if (nextQuestion) document.getElementById(nextQuestion.id).scrollIntoView({behavior: "smooth", block: "center"});
 };
 
 export function onValueChanged(sender, options) {
