@@ -294,4 +294,4 @@ export function onValueChanged(sender, options) {
   setLastUpdated(new Date());
   collectPrevAddresses(sender);
   toNextQuestion(options);
-}
+};
