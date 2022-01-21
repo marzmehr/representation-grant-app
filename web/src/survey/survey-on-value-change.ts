@@ -277,12 +277,15 @@ export const toNextQuestion = options => {
 
   if (nextQuestion) {
     // Need the smallest delay to ensure this triggers in the sandbox
-    setTimeout(() => {
-      document.getElementById(nextQuestion.id).scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      })
-    }, 1);
+    const element = document.getElementById(nextQuestion.id)
+    if (element) { 
+      setTimeout(() => {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        })
+      }, 1);
+    }
   }
 };
 
