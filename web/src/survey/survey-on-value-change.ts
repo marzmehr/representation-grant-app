@@ -10,8 +10,6 @@ import {
   setPrevAddresses,
   setRecipients
 } from "@/state/survey-state";
-import Vue from "vue";
-import _ from "lodash";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
 const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string, getText?: boolean) => {
@@ -279,7 +277,6 @@ export const toNextQuestion = options => {
 
   if (nextQuestion) {
     setTimeout(() => {
-      currQuestion.survey.focusFirstQuestionAutomatic = false;
       const element = document.getElementById(nextQuestion.id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" })
