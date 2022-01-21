@@ -267,7 +267,7 @@ export const toNextQuestion = options => {
     "text"
   ];
 
-  if (typesToSkip.includes(options.question.getType())) return;
+  if (!options.question || typesToSkip.includes(options.question.getType())) return;
 
   const currQuestion = options.question;
   const questions = [];
