@@ -10,6 +10,7 @@ import {
   setPrevAddresses,
   setRecipients
 } from "@/state/survey-state";
+import Vue from "vue";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
 const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string, getText?: boolean) => {
@@ -251,6 +252,7 @@ export const collectPrevAddresses = (sender) => {
 };
 
 export const toNextQuestion = options => {
+  // options.question.survey.focusFirstQuestionAutomatic = false;
   const typesToSkip = [
     "address",
     "comment",
@@ -277,13 +279,10 @@ export const toNextQuestion = options => {
 
   if (nextQuestion) {
     // Need the smallest delay to ensure this triggers in the sandbox
-    const element = document.getElementById(nextQuestion.id)
-    if (element) { 
+    const element = document.getElementById(nextQuestion.id);
+    if (element) {
       setTimeout(() => {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        })
+        element.scrollIntoView({ behavior: "smooth", block: "center" })
       }, 1);
     }
   }
