@@ -10,6 +10,8 @@ import {
   setPrevAddresses,
   setRecipients
 } from "@/state/survey-state";
+import Vue from "vue";
+import _ from "lodash";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
 const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string, getText?: boolean) => {
@@ -265,23 +267,23 @@ export const toNextQuestion = options => {
     "text"
   ];
 
-  if (typesToSkip.includes(options.question.getType())) return;
+  if (!options.question || typesToSkip.includes(options.question.getType())) return;
 
   const currQuestion = options.question;
-  const questions = [];
+  let questions = [];
   currQuestion.page.addQuestionsToList(questions, true);
-  let filtered = questions.filter(q => (q.getType() === "infotext" && q.isRequired) || q.getType() !== "infotext");
 
+  let filtered = questions.filter(q => (q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext"));
   const indexOfNextQuestion = filtered.indexOf(currQuestion) + 1;
   const nextQuestion = filtered[indexOfNextQuestion];
 
   if (nextQuestion) {
-    // Need the smallest delay to ensure this triggers in the sandbox
     setTimeout(() => {
-      document.getElementById(nextQuestion.id).scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      })
+      currQuestion.survey.focusFirstQuestionAutomatic = false;
+      const element = document.getElementById(nextQuestion.id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
     }, 1);
   }
 };
