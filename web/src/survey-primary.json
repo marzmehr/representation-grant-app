@@ -92,6 +92,12 @@
      "name": "deceasedDateOfDeathPanel",
      "elements": [
       {
+       "type": "expression",
+       "name": "deceasedCurrentDate",
+       "visible": false,
+       "expression": "today()"
+      },
+      {
        "type": "customdate",
        "name": "deceasedDateOfDeath",
        "title": "When did {deceasedName} die?",
@@ -99,7 +105,9 @@
        "isRequired": true,
        "pastDateHandler": "Earliest Date",
        "yearsBehind": 100,
-       "earliestDate": "2014-03-31"
+       "earliestDate": "2014-03-31",
+       "futureDateHandler": "Future Reference Variable",
+       "futureReferenceVariable": "{deceasedCurrentDate}"
       },
       {
        "type": "helptext",
@@ -197,35 +205,35 @@
        "choices": [
         {
          "value": "huuayaht",
-         "text": "the Huu-ay-aht First Nations"
+         "text": "Huu-ay-aht First Nations"
         },
         {
          "value": "kyuquot",
-         "text": "the Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht)"
+         "text": "Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht)"
         },
         {
          "value": "nisgaa",
-         "text": "the Nisga'a Nation"
+         "text": "Nisg̱a'a Nation"
         },
         {
          "value": "tlaamin",
-         "text": "the Tla'amin Nation"
+         "text": "Tla'amin Nation"
         },
         {
          "value": "toquaht",
-         "text": "the Toquaht Nation"
+         "text": "Toquaht Nation"
         },
         {
          "value": "tsawwassen",
-         "text": "the Tsawwassen First Nation"
+         "text": "Tsawwassen First Nation"
         },
         {
          "value": "uchucklesaht",
-         "text": "the Uchucklesaht Tribe"
+         "text": "Uchucklesaht Tribe"
         },
         {
          "value": "ucluelet",
-         "text": "the Yuułuʔiłʔatḥ First Nation (Ucluelet)"
+         "text": "Yuułuʔiłʔatḥ First Nation (Ucluelet)"
         }
        ]
       },
@@ -238,14 +246,6 @@
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
-      },
-      {
-       "type": "infotext",
-       "name": "question1test",
-       "visible": false,
-       "visibleIf": "{deceasedFirstNations} = 'y' and {deceasedFirstNationsName} notempty and {surveyEnvironment} = 'DEV'",
-       "title": "{displayIf({deceasedFirstNationsName} = 'huuayaht', the Huu-ay-aht First Nations)}\n\n{displayIf({deceasedFirstNationsName} = 'kyuquot', the Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht))}\n\n{displayIf({deceasedFirstNationsName} = 'nisgaa', the Nisga'a Nation)}\n\n{displayIf({deceasedFirstNationsName} = 'tlaamin', the Tla'amin Nation)}\n\n{displayIf({deceasedFirstNationsName} = 'toquaht', the Toquaht Nation)}\n\n{displayIf({deceasedFirstNationsName} = 'tsawwassen', the Tsawwassen First Nation)}\n\n{displayIf({deceasedFirstNationsName} = 'uchucklesaht', the Uchucklesaht Tribe)}\n\n{displayIf({deceasedFirstNationsName} = 'ucluelet', the Yuułuʔiłʔatḥ First Nation (Ucluelet))}\n\n\n\n\n",
-       "titleLocation": "hidden"
       }
      ],
      "visible": false,
@@ -7267,8 +7267,34 @@
    "title": "{deceasedName}'s Children"
   },
   {
-   "name": "gchildPage",
+   "name": "gChildPage",
    "elements": [
+    {
+     "type": "panel",
+     "name": "gChildIntroPanel",
+     "elements": [
+      {
+       "type": "infotext",
+       "name": "gChildIntroExplanation",
+       "title": "Jack to do a displayIF that explains some children's names are going to show and not others.",
+       "titleLocation": "hidden",
+       "isRequired": true
+      }
+     ]
+    },
+    {
+     "type": "paneldynamic",
+     "name": "jiraRG84",
+     "visible": false,
+     "visibleIf": "{gChildIntroExplanation} > 0",
+     "title": "Travis! REPGRANT-84 target\na lot of the questions will be really close to {childInfoPanel}. Jack can populate the questions as long as there is an entry for each applicable dead child.",
+     "templateElements": [
+      {
+       "type": "text",
+       "name": "gChildName"
+      }
+     ]
+    },
     {
      "type": "yesno",
      "name": "question261",
@@ -7514,7 +7540,7 @@
       {
        "type": "infotext",
        "name": "creditorPersonExplanationDisplay",
-       "title": "{displayIf({spouseExists} = n, In past steps, you have identified that there is no one who needs to that you are applying for a `Representation Grant` for {deceasedName})}\n\n{displayIf({spouseExists} = y, In past steps, you have already identified the following people:\n<ul><b>\n{bullets(spouseInfoPanel.spouseName)}\n\n{bullets(childInfoPanel.childName)}\n\n</b></ul>\n\nBecause you are already letting these people know that you are applying for a `Representation Grant`, do not identify them again in this step.\n)}",
+       "title": "{displayIf({spouseExists} = n and {childExists} = n, In past steps, you have not yet identified anyone who needs to that you are applying for a `Representation Grant` for {deceasedName}.)}\n\n{displayIf({spouseExists} = y or {childExists} = y, In past steps, you have already identified the following people:\n<ul>\n<b>\n{bullets(spouseInfoPanel.spouseName)}\n{bullets(childInfoPanel.childName)}\n</b>\n</ul>\nBecause you are already letting these people know that you are applying for a `Representation Grant`, do not identify them again in this step.\n)}",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -8202,7 +8228,7 @@
       {
        "type": "infotext",
        "name": "creditorExitCheckReview",
-       "title": "[Creditors display]\n<br><br>\nBefore moving on to the next step, please \nmake sure that you have identified every single person or single organization who {deceasedName} may have owed more than $10,000.\n<br><br>\nSometimes people forget to include themselves while using this service. If you are someone who {deceasedName} owed more than $10,000, but you haven't included yourself yet, please add information about yourself.\n<br><br>\n",
+       "title": "{displayIf({creditorPersonExists} = n and {creditorOrganizationExists} = n, In this step you have identified that {deceasedName} did not owed more than $10,000 to a single person or single organization at the time {deceasedName} died.)}\n\n{displayIf({creditorPersonExists} = y, In this step, you have identified that {deceasedName} may have owed more than $10,000 to each the following people:<ul><b>{bullets(creditorPersonInfoPanel.creditorPersonName)}</b></ul>)}\n\n{displayIf({creditorOrganizationExists} = y, In this step, you have identified that {deceasedName} may have owed more than $10,000 to each the following organizations:<ul><b>{bullets(creditorOrganizationInfoPanel.creditorOrganizationName)}</b></ul>)}\n\nBefore moving on to the next step, please \nmake sure that you have identified every single person or single organization who {deceasedName} may have owed more than $10,000.\n<br><br>\nSometimes people forget to include themselves while using this service. If you are someone who {deceasedName} owed more than $10,000, but you haven't included yourself yet, please add information about yourself.",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -8255,7 +8281,7 @@
    "title": "{deceasedName}'s Creditors"
   },
   {
-   "name": "foreignGrantExtras",
+   "name": "foreignGrantExtraPage",
    "elements": [
     {
      "type": "infotext",
@@ -9222,7 +9248,7 @@
       {
        "type": "infotext",
        "name": "notifyIntroExplanation",
-       "title": "This step will help you formally tell the people who need to know you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nBased on the answered the questions, the type of Representation Grant you are applying for is called a: <b>Grant of Administration Without Will Annexed.</b>\n<ul>\n<li>You do not need to remember this term. It will automatically be written onto your court documents.</li>\n</ul>\n<br>\nThis step will create 2 PDF court documents for you:\n<ul>\n<li>You will give people the <b>Form P1</b> to formally let them know you are applying for a Representation Grant.</li>\n<li>You will then swear or affirm a <b>Form P9</b> `affidavit` to confirm that you have actually given the P1 to people who should get it.</li></ul>",
+       "title": "This step will help you formally tell the people who need to know you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nBased on the answered the questions, the type of Representation Grant you are applying for is called a: <b>Grant of Administration Without Will Annexed.</b>\n<ul>\n<li>You do not need to remember this term. It will automatically be written onto your court documents.</li>\n</ul>\n<br>\nThis step will create 2 PDF court documents for you:\n<ul>\n<li>You will give people the <b>Form P1</b> to formally let them know you are applying for a Representation Grant.</li>\n<li>You will then swear or affirm a <b>Form P9</b> `affidavit` to confirm that you have actually given the P1 to people who should get it.</li>\n</ul>",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -9391,19 +9417,6 @@
      "title": " ",
      "templateElements": [
       {
-       "type": "radiogroup",
-       "name": "notifyP1DelivererName",
-       "title": "Who gave {panel.recipientName} a Form P1?",
-       "isRequired": true
-      },
-      {
-       "type": "infotext",
-       "name": "jiraREPGRANT206",
-       "visible": false,
-       "titleLocation": "hidden",
-       "body": "jiraREPGRANT206\n<br><br>\nFor the 2021 Q4 Release, the applicants should be the only options in this radio group.\n<br><br>\nFuture considerations, need to be able to \"add other deliverer\" and allow applicants to enter a new name. This new deliverer should also:\n<li>a) be a selectable choice for subsequent instances of [p1Deliverer]</li>\n<li>b) pop up p1NewDelivererInfoPanel to capture information about this new person for the P9</li>"
-      },
-      {
        "type": "infotext",
        "name": "jiraREPGRANT239c",
        "visible": false,
@@ -9414,9 +9427,22 @@
        "type": "infotext",
        "name": "notifyP1FirstNationsExplanation",
        "visible": false,
-       "visibleIf": "{deceasedFirstNations} = 'y' and {deceasedFirstNationsName} = 'roleNeedsToBeEnabled'",
-       "title": "You will need to notify {deceasedFirstNationsName}. This is how.:\n<br><br>\n{displayIf({deceasedFirstNationsName} = 'huuayaht',\n<li>In-Person: </li>\n<li>Physical Mail</li>\n<li>Electronically:</li>\n)}\n\n{displayIf({deceasedFirstNationsName} = 'kyuquot',\n<li>In-Person: </li>\n<li>Physical Mail</li>\n<li>Electronically:</li>\n)}\n\n{displayIf({deceasedFirstNationsName} = 'nisgaa',\n<li>In-Person: </li>\n<li>Physical Mail</li>\n<li>Electronically:</li>\n)}\n\n{displayIf({deceasedFirstNationsName} = 'tlaamin',\n<li>In-Person: </li>\n<li>Physical Mail</li>\n<li>Electronically:</li>\n)}\n\n{displayIf({deceasedFirstNationsName} = 'toquaht',\n<li>In-Person: </li>\n<li>Physical Mail</li>\n<li>Electronically:</li>\n)}\n\n{displayIf({deceasedFirstNationsName} = 'tsawwassen',\n<li>In-Person: </li>\n<li>Physical Mail</li>\n<li>Electronically:</li>\n)}\n\n{displayIf({deceasedFirstNationsName} = 'uchucklesaht',\n<li>In-Person: </li>\n<li>Physical Mail</li>\n<li>Electronically:</li>\n)}\n\n{displayIf({deceasedFirstNationsName} = 'ucluelet', <li>In-Person: </li>\n<li>Physical Mail</li>\n<li>Electronically:</li>\n)}",
+       "visibleIf": "{panel.key} contains 'f'",
+       "title": "You will need to give {deceasedFirstNationsName} a Form P1.\n<br><br>\n{displayIf(#deceasedFirstNationsName = huuayaht,\n<b>In-person or physical mail, choose one of the following:</b><br>\n<ul>\n<li>Anacla Government Office<br>\n170 Nookemus Road<br>\nAnacla, BC<br>\nV0R 1B0</li>\n</ul>\n<ul>\n<li>Port Alberni Government Office<br>\n4644 Adelaide Street<br>\nPort Alberni, BC<br>\nV9Y 6N4</li>\n</ul>\n<b>Email:</b>\n<ul>\n<li>communications@huuayaht.org</li>\n<li>Use the subject title: \"Re: Representation Grant Application\"</li>\n</ul>\n)}\n\n{displayIf(#deceasedFirstNationsName = 'kyuquot', \nFor information on how to contact the the Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht), <a href=\"https://kyuquotbc.ca/\" target=\"_blank\">click here to go to their website</a> (This link opens in a new tab)\n)}\n\n{displayIf(#deceasedFirstNationsName = 'nisgaa',\n<b>In-person or physical mail:</b><br>\n<ul>\n<li>Nisg̱a'a Lisims Government<br>\nPO Box 231, 2000 Lisims Drive<br>\nGitlaxt'aamiks (formerly New Aiyansh), BC<br>\nV0J 1A0</li>\n</ul>\n<b>Email:</b>\n<ul>\n<li>info@nisgaa.net</li>\n<li>Use the subject title: \"Re: Representation Grant Application\"</li>\n</ul>\n)}\n\n{displayIf(#deceasedFirstNationsName = 'tlaamin',\n<b>In-person or physical mail:</b><br>\n<ul>\n<li>Tla'amin Nation<br>\n4779 Klahanie Rd<br>\nPowell River, BC<br>\nV8A 0C4</li>\n</ul>\n<b>Email:</b>\n<ul>\n<li>reception@tn-bc.ca</li>\n<li>Use the subject title: \"Re: Representation Grant Application\"</li>\n</ul>\n)}\n\n{displayIf(#deceasedFirstNationsName = 'toquaht',\n<b>In-person or physical mail:</b><br>\n<ul>\n<li>Toquaht Nation Government Administration<br>\nPO Box 759<br>\n1971 Peninsula Rd<br>\nUcluelet, BC<br>\nV0R 3A0</li>\n</ul>\n<b>Email:</b>\n<ul>\n<li>general@toquaht.ca</li>\n<li>Use the subject title: \"Re: Representation Grant Application\"</li>\n</ul>\n)}\n\n{displayIf(#deceasedFirstNationsName = 'tsawwassen', \n<b>In-person or physical mail:</b><br>\n<ul>\n<li>“Attention: General Counsel”<br>\nTsawwassen First Nation<br>\n1926 Tsawwassen Drive<br>\nTsawwassen, BC<br>\nV4M 4G2</li>\n</ul>\n<b>Email:</b>\n<ul>\n<li>info@tsawwassenfirstnation.com</li>\n<li>Use the subject title: \"Attention: General Counsel Re: Representation Grant Application\"</li>\n</ul>\n)}\n\n{displayIf(#deceasedFirstNationsName = 'uchucklesaht',\n<b>In-person or physical mail:</b><br>\n<ul>\n<li>“Attention: Director of Operations”<br>\nUchucklesaht Tribe<br>\nSuite A – 5251 Argyle Street<br>\nPort Alberni, BC<br>\nV9Y 1V1</li>\n</ul>\n<b>Email:</b>\n<ul>\n<li>Carla.Halvorsen@uchucklesaht.ca</li>\n<li>Use the subject title: \"Attention: Director of Operations\n Re: Representation Grant Application\"</li>\n</ul>\n)}\n\n{displayIf(#deceasedFirstNationsName = 'ucluelet',\n<b>In-person:</b><br>\n<ul>\n<li>Yuułuʔiłʔatḥ Government – Ucluelet First Nation<br>\nCixʷatin Centre<br>\n700 Wya Road<br>\nHitacu, BC<br>\nV0R 3A0</li>\n</ul>\n<b>Physical mail:</b><br>\n<ul>\n<li>Yuułuʔiłʔatḥ Government – Ucluelet First Nation<br>\nCixʷatin Centre<br>\nPO Box 699 <br>\nUcluelet, BC<br>\nV0R 3A0</li>\n</ul>\n<b>Email:</b>\n<ul>\n<li>communications@ufn.ca</li>\n<li>Use the subject title: \"Re: Representation Grant Application\"</li>\n</ul>\n)}",
        "titleLocation": "hidden"
+      },
+      {
+       "type": "infotext",
+       "name": "jiraREPGRANT206",
+       "visible": false,
+       "titleLocation": "hidden",
+       "body": "jiraREPGRANT206\n<br><br>\nFor the 2021 Q4 Release, the applicants should be the only options in this radio group.\n<br><br>\nFuture considerations, need to be able to \"add other deliverer\" and allow applicants to enter a new name. This new deliverer should also:\n<li>a) be a selectable choice for subsequent instances of [p1Deliverer]</li>\n<li>b) pop up p1NewDelivererInfoPanel to capture information about this new person for the P9</li>"
+      },
+      {
+       "type": "radiogroup",
+       "name": "notifyP1DelivererName",
+       "title": "Who gave {panel.recipientName} a Form P1?",
+       "isRequired": true
       },
       {
        "type": "radiogroup",
