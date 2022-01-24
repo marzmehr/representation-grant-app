@@ -4,7 +4,7 @@ import Qualified from "@/components/home/Qualified.vue";
 import UnQualified from "@/components/home/UnQualified.vue";
 import ApplicationStatus from "@/components/status/ApplicationStatus.vue";
 import TermsConditions from "@/components/status/TermsConditions.vue";
-import SurveyCreatorForm from "@/components/survey-creator/SurveyCreatorForm.vue";
+import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue";
 import SurveyMain from "@/components/SurveyMain.vue";
 import FormP1 from "@/components/pdf/FormP1.vue";
 import FormP9 from "@/components/pdf/FormP9.vue";

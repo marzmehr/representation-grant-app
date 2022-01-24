@@ -5533,7 +5533,7 @@
       {
        "type": "helptext",
        "name": "spouseExistsFAQ2",
-       "title": "Do I include someone who was in marriage-like relationship (also know as a common-law marriage) with {deceasedName}, but they broke up before {deceasedName} died?",
+       "title": "Do I include someone who was in marriage-like relationship (also known as a common-law marriage) with {deceasedName}, but they broke up before {deceasedName} died?",
        "titleLocation": "hidden",
        "body": "No, you do not need to include {deceasedName}'s marriage-like partner (also known as a common-law partner) if they broke up. \n<br><br>\nA marriage-like relationship ends immediately after the break up. {deceasedName}'s ex-partner would not be considered {deceasedName}'s `spouse` anymore.\n<br><br>\nHowever, if you are not sure if {deceasedName} and their partner were broken up when {deceasedName} died, it is safer for you to include this person. This person should know that you are applying for a `Representation Grant`. \n<br><br>\nYou want as much transparency in your application as possible in case the Court decides that this person should be considered {deceasedName}'s spouse. \n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {deceasedName}'s `estate`. \n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section2\" target=\"_blank\">\nFor more information, click here to read about who should be included as {deceasedName}'s spouse from the <i>Wills, Estate and Succession Act</i> (WESA).</a> (This link opens in a new tab)"
       },
@@ -5542,7 +5542,7 @@
        "name": "spouseExistsFAQ3",
        "title": "Do I include someone who was in an on-again, off-again marriage-like relationship with {deceasedName}?",
        "titleLocation": "hidden",
-       "body": "If {deceasedName} lived together with a marriage-like partner (also know as a common-law partner) for at least 2 years, this person would be considered {deceasedName}'s `spouse`. \n<br><br>\nA marriage-like (common law) relationship ends immediately after the break up. However, under the law in British Columbia, this person could still be considered {deceasedName}'s spouse if they broke up and got back together again within a year. \n<br><br>\nIf you are not sure if {deceasedName} and this person had gotten back together before {deceasedName} died, it is safer for you to include this person. This person should know that you are applying for a `Representation Grant`. \n<br><br>\nYou want as much transparency in your application as possible in case the Court decides that this person should be considered {deceasedName}'s spouse. \n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {deceasedName}'s `estate`. \n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section2\" target=\"_blank\">\nFor more information, click here to read about who should be included as {deceasedName}'s spouse from the <i>Wills, Estate and Succession Act</i> (WESA).</a> (This link opens in a new tab)"
+       "body": "If {deceasedName} lived together with a marriage-like partner (also known as a common-law partner) for at least 2 years, this person would be considered {deceasedName}'s `spouse`. \n<br><br>\nA marriage-like (common law) relationship ends immediately after the break up. However, under the law in British Columbia, this person could still be considered {deceasedName}'s spouse if they broke up and got back together again within a year. \n<br><br>\nIf you are not sure if {deceasedName} and this person had gotten back together before {deceasedName} died, it is safer for you to include this person. This person should know that you are applying for a `Representation Grant`. \n<br><br>\nYou want as much transparency in your application as possible in case the Court decides that this person should be considered {deceasedName}'s spouse. \n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {deceasedName}'s `estate`. \n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section2\" target=\"_blank\">\nFor more information, click here to read about who should be included as {deceasedName}'s spouse from the <i>Wills, Estate and Succession Act</i> (WESA).</a> (This link opens in a new tab)"
       }
      ],
      "visible": false,
@@ -9122,7 +9122,7 @@
        "visible": false,
        "visibleIf": "{applicantHasLawyer} = 'n'",
        "title": "Where do you want the Court to send you documents if they need to?",
-       "description": "(also know as an Address for Service)",
+       "description": "(also known as an Address for Service)",
        "isRequired": true
       },
       {
@@ -9139,7 +9139,7 @@
        "visible": false,
        "visibleIf": "{applicantHasLawyer} = 'n'",
        "title": "What number do you want the Court to call if they have questions?",
-       "description": "(also know as a Service Phone Number)\n<br><br>\nThe Court will only call during business hours.",
+       "description": "(also known as a Service Phone Number)\n<br><br>\nThe Court will only call during business hours.",
        "isRequired": true,
        "inputType": "tel"
       },
@@ -9149,7 +9149,7 @@
        "visible": false,
        "visibleIf": "{applicantHasLawyer} = 'n'",
        "title": "What email address do you want the Court to use if they have questions?",
-       "description": "(also know as an Email for Service)",
+       "description": "(also known as an Email for Service)",
        "isRequired": true,
        "inputType": "email"
       },
@@ -9159,7 +9159,7 @@
        "visible": false,
        "visibleIf": "{applicantHasLawyer} = 'n'",
        "title": "Do you have a fax number if the Court needs to send you documents?",
-       "description": "(also know as a Fax Number for Service)",
+       "description": "(also known as a Fax Number for Service)",
        "isRequired": true
       },
       {
@@ -9168,7 +9168,7 @@
        "visible": false,
        "visibleIf": "{applicantHasLawyer} = 'n' and {applicantHasFax} = 'y'",
        "title": "What number do you want the Court to fax if they have documents to send you?",
-       "description": "(also know as a Fax Number for Service)",
+       "description": "(also known as a Fax Number for Service)",
        "isRequired": true,
        "inputType": "tel"
       },
@@ -9839,7 +9839,7 @@
       {
        "type": "helptext",
        "name": "landExistsFAQ1",
-       "title": "Do I include a manufactured home (also know as a mobile home or a trailer)?",
+       "title": "Do I include a manufactured home (also known as a mobile home or a trailer)?",
        "titleLocation": "hidden",
        "body": "[TBD - update ref to Personal Item step]\n<br>\nNo, do not include a manufactured home, a mobile home or a trailer as part of this question. \n<br><br>\nManufactured homes are not registered with BC Land Title & Survey.\n<br><br>\nInclude any manufactured homes in a future step for Personal Items. "
       },
