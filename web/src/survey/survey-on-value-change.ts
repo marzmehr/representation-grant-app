@@ -67,6 +67,19 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
   }
 };
 
+const clearPanel = (sender, options) => {
+  if (options.name === SurveyQuestionNames.spouseExists) {
+    if (getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.spouseExists) === 'n') {
+        sender.getQuestionByName(SurveyQuestionNames.spouseInfoPanel).value = [];
+    }
+  }
+  else if (options.name === SurveyQuestionNames.childExists) {
+    if (getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.childExists) === 'n') {
+        sender.getQuestionByName(SurveyQuestionNames.childInfoPanel).value = [];
+    }
+  }
+}
+
 const determinePotentialApplicants = (sender, options) => {
   const questionNamesToWatch = [
     SurveyQuestionNames.spouseInfoPanel,
@@ -289,6 +302,7 @@ export const toNextQuestion = options => {
 };
 
 export function onValueChanged(sender, options) {
+  clearPanel(sender, options);
   determinePotentialApplicants(sender, options);
   determineRecipients(sender, options);
   populateApplicantInfoPanelAndP1DeliveryInfoPanel(sender, options);
