@@ -267,19 +267,43 @@ export const toNextQuestion = options => {
 
   if (!options.question || typesToSkip.includes(options.question.getType())) return;
 
+  const filterQuestions = questions => {
+    return questions.filter(q => (q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext"));
+  };
+
   const currQuestion = options.question;
   let questions = [];
-  currQuestion.page.addQuestionsToList(questions, true);
+  let filtered;
+  let nextQuestion;
+  
+  if (currQuestion.getType() === "paneldynamic") {
+    const panels = currQuestion?.panels;
+    for (let panel of panels) {
+      filtered = filterQuestions(panel.questions);
 
-  let filtered = questions.filter(q => (q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext"));
-  const indexOfNextQuestion = filtered.indexOf(currQuestion) + 1;
-  const nextQuestion = filtered[indexOfNextQuestion];
+      for (const ques of filtered) {
+        if (!ques.value) {
+          nextQuestion = ques;
+          break;
+        }
+      }
+    }
+  }
+
+  if (!nextQuestion) {
+    let questions = [];
+    currQuestion.page.addQuestionsToList(questions, true);
+    filtered = filterQuestions(questions);
+    const indexOfNextQuestion = filtered.indexOf(currQuestion) + 1;
+    nextQuestion = filtered[indexOfNextQuestion];
+  }
 
   if (nextQuestion) {
     setTimeout(() => {
+      console.log("Target question", nextQuestion.name);
       const element = document.getElementById(nextQuestion.id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" })
+        element.scrollIntoView({ behavior: "smooth", block: "center" })
       }
     }, 1);
   }
