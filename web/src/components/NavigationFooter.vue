@@ -4,7 +4,7 @@
       <!-- Navbar content -->
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/terms" target="_blank">Terms of Use</a>
+          <a class="nav-link" href="terms" target="_blank">Terms of Use</a>
         </li>
         <li class="nav-item">
           <a
@@ -42,7 +42,7 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            href="/feedback"
+            href="feedback"
             target="_blank"
             >Contact Us</a
           >
