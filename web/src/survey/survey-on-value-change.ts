@@ -268,28 +268,28 @@ export const toNextQuestion = options => {
   if (!options.question || typesToSkip.includes(options.question.getType())) return;
 
   const filterQuestions = questions => {
-    return questions.filter(q => (q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext"));
+    return questions.filter(
+      q =>
+        (q.getType() === "infotext" && q.isRequired)
+        || (q.getType() !== "infotext" && q.getType() !== "helptext" && q.isVisible)
+    );
   };
 
   const currQuestion = options.question;
-  let questions = [];
   let filtered;
   let nextQuestion;
   
   if (currQuestion.getType() === "paneldynamic") {
     const panels = currQuestion?.panels;
+
     for (let panel of panels) {
       filtered = filterQuestions(panel.questions);
-
-      for (const ques of filtered) {
-        if (!ques.value) {
-          nextQuestion = ques;
-          break;
-        }
-      }
+      nextQuestion = filtered.find(q => !q.value);
+      if (nextQuestion) break;
     }
   }
 
+  // if we are at the end of the panel, we get the next question the usual way
   if (!nextQuestion) {
     let questions = [];
     currQuestion.page.addQuestionsToList(questions, true);
@@ -300,7 +300,6 @@ export const toNextQuestion = options => {
 
   if (nextQuestion) {
     setTimeout(() => {
-      console.log("Target question", nextQuestion.name);
       const element = document.getElementById(nextQuestion.id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "center" })
