@@ -15,6 +15,7 @@ import ace from "ace-builds";
 import "ace-builds/src-noconflict/ext-searchbox";
 import { onValueChanged } from "@/survey/survey-on-value-change";
 import { getSurveyEnvironment } from "@/utils/utils";
+import { setHideHeaderFooter } from "@/state/application-state";
 
 @Component
 export default class SurveyCreatorForm extends Vue {
@@ -45,6 +46,8 @@ export default class SurveyCreatorForm extends Vue {
   editor: SurveyCreator.SurveyCreator;
   async mounted() {
     this.initSurvey();
+
+    setHideHeaderFooter(true);
     widgets.inputmask(SurveyKO);
 
     addQuestionTypes(SurveyKO);
@@ -63,13 +66,16 @@ export default class SurveyCreatorForm extends Vue {
 
     editor.onSurveyInstanceCreated.add(function(sender, options) {
       //These need to be here to keep track of panel counts.
-      /* This causes bad performance up 5 second extra on survey start.
-        options.survey
+      options.survey
         .getAllQuestions()
-        .filter(x => x.getType() === "paneldynamic")
+        .filter(
+          x =>
+            x.getType() === "paneldynamic" &&
+            (x.name == "spouseInfoPanel" || x.name == "childInfoPanel")
+        )
         .forEach(element => {
           options.survey.setVariable(`${element.name}-count`, element.panelCount);
-        });*/
+        });
 
       options.survey.onDynamicPanelAdded.add((sender, options) => {
         sender.setVariable(`${options.question.name}-count`, options.question.panelCount);
@@ -83,8 +89,8 @@ export default class SurveyCreatorForm extends Vue {
         addCustomTemplating(options.survey);
       }
       options.survey.onValueChanged.add((sender, options) => {
-        onValueChanged(sender, options);
         this.updatedKey++;
+        onValueChanged(sender, options);
       });
       options.survey.setVariable(`surveyEnvironment`, getSurveyEnvironment());
     });
