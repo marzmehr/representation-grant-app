@@ -267,20 +267,42 @@ export const toNextQuestion = options => {
   if (!options.question || typesToSkip.includes(options.question.getType())) return;
   if (options.question.survey.platformName != "vue") return; //Disable this for sandbox mode.
 
-  const currQuestion = options.question;
-  let questions = [];
-  currQuestion.page.addQuestionsToList(questions, true);
+  const filterQuestions = questions => {
+    return questions.filter(
+      q =>
+        (q.getType() === "infotext" && q.isRequired)
+        || (q.getType() !== "infotext" && q.getType() !== "helptext" && q.isVisible)
+    );
+  };
 
-  let filtered = questions.filter(q => (q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext"));
-  const indexOfNextQuestion = filtered.indexOf(currQuestion) + 1;
-  const nextQuestion = filtered[indexOfNextQuestion];
+  const currQuestion = options.question;
+  let filtered;
+  let nextQuestion;
+  
+  if (currQuestion.getType() === "paneldynamic") {
+    const panels = currQuestion?.panels;
+
+    for (let panel of panels) {
+      filtered = filterQuestions(panel.questions);
+      nextQuestion = filtered.find(q => !q.value);
+      if (nextQuestion) break;
+    }
+  }
+
+  // if we are at the end of the panel, we get the next question the usual way
+  if (!nextQuestion) {
+    let questions = [];
+    currQuestion.page.addQuestionsToList(questions, true);
+    filtered = filterQuestions(questions);
+    const indexOfNextQuestion = filtered.indexOf(currQuestion) + 1;
+    nextQuestion = filtered[indexOfNextQuestion];
+  }
 
   if (nextQuestion) {
     setTimeout(() => {
-      currQuestion.survey.focusFirstQuestionAutomatic = false;
       const element = document.getElementById(nextQuestion.id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" })
+        element.scrollIntoView({ behavior: "smooth", block: "center" })
       }
     }, 1);
   }

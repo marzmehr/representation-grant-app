@@ -127,6 +127,7 @@ export default defineComponent({
       });
 
       survey.value.setVariable(`surveyEnvironment`, getSurveyEnvironment());
+      survey.value.focusFirstQuestionAutomatic = false;
     };
 
     loadSurveyJson();
