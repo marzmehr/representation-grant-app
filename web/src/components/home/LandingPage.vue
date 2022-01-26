@@ -12,49 +12,56 @@
             Columbia. A Representation Grant is a court document that confirms you are the
             appropriate person to manage the property, money and other belongings that a person left
             behind after they died. The collection of <tooltip :index="0" title="assets" /> that a
-            person left behind is call their <tooltip :index="0" title="estate" />.
+            person left behind is called their <tooltip :index="0" title="estate" />.
           </p>
 
           <p>
-            Representation Grant is an umbrella term that includes different types of grants. A
-            Grant of Probate is a type of Representation Grant specifically for executors named in
-            the Will.
+            Representation Grant is an umbrella term that includes different types of these court 
+            documents. A Grant of Probate is a type of Representation Grant specifically for executors 
+            named in a <tooltip :index="0" title="Will" />.
           </p>
 
           <b-list-group-item>
-            <b-icon-credit-card variant="primary" /><b> Cost:</b>
+            <b>Supported Web Browsers:</b>
             <ul>
               <li>
-                This service is provided for free by the Government of British Columbia.
+                This service has been designed for Chrome and Firefox web browswers.
               </li>
               <li>
-                This service will help you complete your
-                <tooltip :index="0" title="application" />
-              </li>
-              <li>
-                Once your application is complete, there will usually be a $200 fee to file your
-                application with the court. If the
-                <tooltip :index="2" title="estate" /> is worth less than $25,000, the application
-                will be free to file.
-              </li>
-              <li>
-                There will be costs for swearing or affirming the
-                <tooltip :index="0" title="affidavit" />s you will need for the application. Each
-                affidavit costs $40 to swear or affirm at a courthouse. An application usually has 3
-                or more affidavits.
-              </li>
-              <li>
-                There will be <tooltip :index="0" title="probate fees" /> if the
-                <tooltip :index="1" title="estate" /> is worth more than $25,000. This fee will be a
-                percentage of the total value.
+                Do not use Internet Explorer.
               </li>
             </ul>
           </b-list-group-item>
           <b-list-group-item>
-            <b-icon-clock-history variant="primary" /><b> Time:</b> The average time that people
-            spend using this service is 6 hours. Don't worry. You don't have to complete this all at
-            once. This service will save your progress so you can come back later.<br />
-            The amount of time it will take you to complete your application will depend on:
+            <b>Cost:</b>
+            <ul>
+              <li>
+                There is no cost to use this service.
+              </li>
+              <li>
+                This service will create the documents you need to file with the Court.
+              </li>
+              <li>
+                There will either be a $200 filing fee or a $0 filing fee (if the 
+                <tooltip :index="0" title="estate" /> is worth less than $25,000).
+              </li>
+              <li>
+                There will be costs for swearing or affirming the 
+                <tooltip :index="0" title="affidavits" /> that this service will create for you. 
+                Each affidavit costs $40 to swear or affirm at a courthouse. An application usually 
+                has 3 or more affidavits.
+              </li>
+              <li>
+                There will be probate fees if the <tooltip :index="0" title="estate" /> is worth 
+                more than $25,000. This fee will be a small percentage of the total value.
+              </li>
+            </ul>
+          </b-list-group-item>
+          <b-list-group-item>
+            <b> Time:</b> This service may take several hours to complete. Don't worry. You don't 
+            have to complete this all at once. This service will save your progress so you can come 
+            back later.<br />
+            The amount of time it will take you to complete your documents will depend on:
             <ul>
               <li>If there is a <tooltip :index="0" title="Will" />.</li>
               <li>How many people are involved</li>
@@ -62,8 +69,18 @@
             </ul>
           </b-list-group-item>
           <b-list-group-item>
-            <b-icon-printer variant="primary" /><b> Print:</b>
-            You will need a printer to print your application.
+            <b> Print:</b>
+            <ul>
+              <li>
+                This service will create your documents as Adobe PDFs.
+              </li>
+              <li>
+                You will need free software like Adobe Reader or Apple Preview to open the PDFs.
+              </li>
+              <li>
+                You will need a printer to print the PDFs.
+              </li>
+            </ul>
           </b-list-group-item>
 
           <!-- <b-card border-variant="white" class="mt-3">
