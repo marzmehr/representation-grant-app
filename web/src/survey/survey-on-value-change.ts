@@ -270,8 +270,9 @@ export const toNextQuestion = options => {
   const filterQuestions = questions => {
     return questions.filter(
       q =>
-        (q.getType() === "infotext" && q.isRequired)
-        || (q.getType() !== "infotext" && q.getType() !== "helptext" && q.isVisible)
+        q.isVisible 
+        && ((q.getType() === "infotext" && q.isRequired)
+        || (q.getType() !== "infotext" && q.getType() !== "helptext"))
     );
   };
 
