@@ -270,9 +270,8 @@ export const toNextQuestion = options => {
   const filterQuestions = questions => {
     return questions.filter(
       q =>
-        q.isVisible 
-        && ((q.getType() === "infotext" && q.isRequired)
-        || (q.getType() !== "infotext" && q.getType() !== "helptext"))
+        q.isVisible
+        && ((q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext"))
     );
   };
 
@@ -303,7 +302,7 @@ export const toNextQuestion = options => {
     setTimeout(() => {
       const element = document.getElementById(nextQuestion.id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" })
+        element.scrollIntoView({ behavior: "smooth", block: "start" })
       }
     }, 1);
   }
