@@ -66,34 +66,34 @@
           </div>
 
           <div v-if="mailRecipients(applicant).length > 0">
-            <div style="text-indent: 50px;">
+            <div style="margin-left: 50px;">
               by mailing it/them to the following persons by ordinary mail:
             </div>
             <template v-for="(recipient, i) of mailRecipients(applicant)">
-              <div :key="i" style="display:inline-block; margin:0.5rem 0;text-indent: 50px;">
+              <div :key="i" style="display:inline-block; margin:0.5rem 0;margin-left: 50px;">
                 <u><b>{{ recipient.recipientName }}</b> on <b>{{ recipient.p1DeliveryDate }}</b></u>
               </div>
             </template>
           </div>
 
           <div v-if="inPersonRecipients(applicant).length > 0">
-            <div style="text-indent: 50px;">
+            <div style="margin-left: 50px;">
               by handing it/them to and leaving it/them with the following persons:
             </div>
             <template v-for="(recipient, i) of inPersonRecipients(applicant)">
-              <div :key="i" style="display:inline-block; margin:0.5rem 0;text-indent: 50px;">
+              <div :key="i" style="display:inline-block; margin:0.5rem 0;margin-left: 50px;">
                 <u><b>{{ recipient.recipientName }}</b> on <b>{{ recipient.p1DeliveryDate }}</b></u>
               </div>
             </template>
           </div>
 
           <div v-if="electronicRecipients(applicant).length > 0">
-            <div style="text-indent: 50px;">
+            <div style="margin-left: 50px;">
               by sending it/them to the following persons by e-mail, fax or other electronic means 
               to that person:
             </div>
             <template v-for="(recipient, i) of electronicRecipients(applicant)">
-              <div :key="i" style="display:inline-block; margin:0.5rem 0;text-indent: 50px;">
+              <div :key="i" style="display:inline-block; margin:0.5rem 0;margin-left: 50px;">
                 <u><b>{{ recipient.recipientName }}</b> on <b>{{ recipient.p1DeliveryDate }}</b></u>
               </div>
             </template>
