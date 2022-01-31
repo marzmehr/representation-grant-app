@@ -56,8 +56,8 @@
         <div
           v-if="
             mailRecipients(applicant).length > 0 ||
-              electronicRecipients(applicant).length > 0 ||
-              inPersonRecipients(applicant).length > 0
+            electronicRecipients(applicant).length > 0 ||
+            inPersonRecipients(applicant).length > 0
           "
           class="mt-4 text-justify"
         >
@@ -76,6 +76,12 @@
             </template>
           </div>
 
+          <br v-if="
+            mailRecipients(applicant).length > 0 &&
+            (electronicRecipients(applicant).length > 0 ||
+            inPersonRecipients(applicant).length > 0)
+          "/>
+
           <div v-if="inPersonRecipients(applicant).length > 0">
             <div style="margin-left: 50px;">
               by handing it/them to and leaving it/them with the following persons:
@@ -87,6 +93,11 @@
             </template>
           </div>
 
+          <br v-if="
+            inPersonRecipients(applicant).length > 0 &&
+            electronicRecipients(applicant).length > 0
+          "/>
+          
           <div v-if="electronicRecipients(applicant).length > 0">
             <div style="margin-left: 50px;">
               by sending it/them to the following persons by e-mail, fax or other electronic means 
