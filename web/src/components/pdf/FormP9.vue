@@ -153,6 +153,8 @@
                   textwidth="20rem"
                   beforetext=""
                   :hint="'Signature of ' + applicant.fullName"
+                  hintFontSize="11pt"
+                  :italicHint="false"
                   text=""
                 />
               </div>
