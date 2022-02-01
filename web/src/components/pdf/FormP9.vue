@@ -147,7 +147,7 @@
 
               <underline-form
                 style="margin:0.75rem 0 ;"
-                textwidth="18.5rem"
+                textwidth="17rem"
                 beforetext="on"
                 text=""
               />
