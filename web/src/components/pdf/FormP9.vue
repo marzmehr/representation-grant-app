@@ -70,8 +70,9 @@
               by mailing it/them to the following persons by ordinary mail:
             </div>
             <template v-for="(recipient, i) of mailRecipients(applicant)">
-              <div :key="i" style="display:inline-block; margin:0.5rem 0;margin-left: 50px;">
-                <u><b>{{ recipient.recipientName }}</b> on <b>{{ recipient.p1DeliveryDate }}</b></u>
+              <div class="fullUnderline" :key="i">
+                <b>{{ recipient.recipientName }}</b>
+                <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
               </div>
             </template>
           </div>
@@ -87,8 +88,9 @@
               by handing it/them to and leaving it/them with the following persons:
             </div>
             <template v-for="(recipient, i) of inPersonRecipients(applicant)">
-              <div :key="i" style="display:inline-block; margin:0.5rem 0;margin-left: 50px;">
-                <u><b>{{ recipient.recipientName }}</b> on <b>{{ recipient.p1DeliveryDate }}</b></u>
+              <div class="fullUnderline" :key="i">
+                <b>{{ recipient.recipientName }}</b>
+                <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
               </div>
             </template>
           </div>
@@ -104,8 +106,9 @@
               to that person:
             </div>
             <template v-for="(recipient, i) of electronicRecipients(applicant)">
-              <div :key="i" style="display:inline-block; margin:0.5rem 0;margin-left: 50px;">
-                <u><b>{{ recipient.recipientName }}</b> on <b>{{ recipient.p1DeliveryDate }}</b></u>
+              <div class="fullUnderline" :key="i">
+                <b>{{ recipient.recipientName }}</b>
+                <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
               </div>
             </template>
             <ul style="margin-left:30px"> 
@@ -160,7 +163,7 @@
             <td>
               <div class="col-6 border-left">
                 <underline-form
-                  style="marginTop: 7.85rem"
+                  style="marginTop: 7.89rem"
                   textwidth="20rem"
                   beforetext=""
                   :hint="'Signature of ' + applicant.fullName"
@@ -435,4 +438,9 @@ export default defineComponent({
   }
 });
 </script>
-<style scoped lang="css" src="@/styles/_pdf.css"></style>
+<style lang="css" scoped>
+.fullUnderline {
+   margin: 0.5rem 0px 0.5rem 50px;
+   border-bottom: 0.7px solid rgb(49, 49, 50);
+}
+</style>

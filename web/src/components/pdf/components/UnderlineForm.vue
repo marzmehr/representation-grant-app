@@ -6,7 +6,7 @@
         :style="{
           position: 'absolute',
           marginTop: '-22px',
-          fontSize: '12pt',
+          fontSize: textSize,
           color: '#000000',
           minWidth: textwidth,
           textAlign: 'center'
@@ -39,6 +39,8 @@ export default class UnderlineForm extends Vue {
   beforetext!: string;
   @Prop({ required: true })
   text!: string;
+  @Prop({ required: false, default: "12pt" })
+  textSize
   @Prop()
   hint!: string;
   @Prop({ required: true })
