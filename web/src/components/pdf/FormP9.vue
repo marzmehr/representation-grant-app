@@ -97,7 +97,7 @@
             inPersonRecipients(applicant).length > 0 &&
             electronicRecipients(applicant).length > 0
           "/>
-          
+
           <div v-if="electronicRecipients(applicant).length > 0">
             <div style="margin-left: 50px;">
               by sending it/them to the following persons by e-mail, fax or other electronic means 
@@ -160,7 +160,7 @@
             <td>
               <div class="col-6 border-left">
                 <underline-form
-                  :style="{ marginTop: getSignatureMargin() }"
+                  style="marginTop: 7.85rem"
                   textwidth="20rem"
                   beforetext=""
                   :hint="'Signature of ' + applicant.fullName"
