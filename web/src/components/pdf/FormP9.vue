@@ -69,12 +69,12 @@
             <div style="margin-left: 50px;">
               by mailing it/them to the following persons by ordinary mail:
             </div>
-            <template v-for="(recipient, i) of mailRecipients(applicant)">
+            <div :key="i" v-for="(recipient, i) of mailRecipients(applicant)">
               <div class="fullUnderline" :key="i">
                 <b>{{ recipient.recipientName }}</b>
                 <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
               </div>
-            </template>
+            </div>
           </div>
 
           <br v-if="
@@ -87,12 +87,12 @@
             <div style="margin-left: 50px;">
               by handing it/them to and leaving it/them with the following persons:
             </div>
-            <template v-for="(recipient, i) of inPersonRecipients(applicant)">
+            <div :key="i" v-for="(recipient, i) of inPersonRecipients(applicant)">
               <div class="fullUnderline" :key="i">
                 <b>{{ recipient.recipientName }}</b>
                 <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
               </div>
-            </template>
+            </div>
           </div>
 
           <br v-if="
@@ -105,12 +105,12 @@
               by sending it/them to the following persons by e-mail, fax or other electronic means 
               to that person:
             </div>
-            <template v-for="(recipient, i) of electronicRecipients(applicant)">
+            <div :key="i" v-for="(recipient, i) of electronicRecipients(applicant)">
               <div class="fullUnderline" :key="i">
                 <b>{{ recipient.recipientName }}</b>
                 <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
               </div>
-            </template>
+            </div>
             <ul style="margin-left:30px"> 
               <li v-if="allP1DeliveryElectronicReceipt(applicant)">
                 Each of the persons who received delivery by e-mail, fax or other electronic means
