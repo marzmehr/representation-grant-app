@@ -18,7 +18,7 @@
         </div>
 
         <div class="mt-3 m-0 p-0 row">
-          <div style="margin-left: 396px; text-align: right;!important">
+          <div style="margin-left: auto; text-align: right;!important">
             <div>
               This is the <b>1st</b> affidavit of <b>{{ applicant.fullName }}</b> in this case
             </div>
