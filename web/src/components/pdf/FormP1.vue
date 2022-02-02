@@ -1,5 +1,5 @@
 <template>
-  <div key="getLastUpdated">
+  <div key="getLastUpdated" style="font-size: 11pt">
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
       Print
     </b-button>
@@ -11,67 +11,48 @@
       ref="root"
     >
       <div style="text-align:center;">
-        <div style="margin:5rem 0 0 0;font-weight: 300;font-size:20px;">
-          FORM P1 (RULE 25-2 (3))
-        </div>
-        <div style="margin:1rem 0 0 0;font-weight: 600;font-size:24px;">
-          <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
-        </div>
-        <div style="margin:1rem 0 5rem 0;font-weight: 600;font-size:24px;">
-          NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE
+        <div>
+          <b>FORM P1</b> (RULE 25-2 (3))
+          <br/>
+          <b>NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</b>
         </div>
       </div>
 
-      <div style="margin:0 0 1rem 0rem;font-weight: 600;font-size:18px;">
-        TAKE NOTICE THAT:
+      <div>
+        <b>TAKE NOTICE THAT:</b>
       </div>
 
-      <underline-form
-        textwidth="36rem"
-        :beforetext="takeNoticeTitle()"
-        :text="getAllApplicants()"
-      />
-      <div style="display:inline-block;">
-        propose(s) to apply, in the
+      <div>
+        {{ takeNoticeTitle() }} to apply, in the <b>{{ serviceContact.courtLocation }}</b> 
+        court registry, for a <b>Grant of Administration Without Will Annexed</b> in relation
+        to the estate of the deceased described below who died on {{ deceased.dateOfDeath }}.
       </div>
-      <underline-form
-        class="mt-3 ml-1"
-        textwidth="20rem"
-        beforetext=""
-        :text="serviceContact.courtLocation"
-      />
-      <underline-form
-        class="mt-3"
-        textwidth="28rem"
-        beforetext="court registry, for"
-        :text="applicationType()"
-      />
-      <underline-form
-        class="mt-3"
-        textwidth="22rem"
-        beforetext="in relation to the estate of the deceased described below who died on"
-        :text="deceased.dateOfDeath"
-      />
 
-      <div style="margin:2rem 0 1rem 0rem;">Full legal name of deceased:</div>
-      <underline-form
-        class="mt-0"
-        textwidth="40rem"
-        beforetext=""
-        :text="formatDeceasedName(deceased)"
-      />
-      <div style="margin:2rem 0 1rem 0rem;">
+      <div>
+        <br/>
+        Full legal name of deceased:
+        <br/>
+        <b>{{ formatDeceasedName(deceased) }}</b>
+        <br/>
+        <br/>
+      </div>
+
+      <div>
         Last residential address of the deceased:
+        <br/>
+        <b>{{ deceased.address }}</b>
+        <br/>
+        <br/>
       </div>
-      <underline-form class="mt-0" textwidth="40rem" beforetext="" :text="deceased.address" />
 
-      <div class="mt-3">
-        This application does not relate to a will or foreign grant.
+      <div>
+        This application does not relate to a will of a foreign grant.
+        <br/>
+        <br/>
       </div>
 
-      <div class="new-page"></div>
-
-      <div style="margin:0rem 0 1rem 0rem;font-weight: 600;font-size:18px;">
+      <div style="margin:0rem 0 1rem 0rem;">
+        <br/>
         AND TAKE NOTICE THAT:
       </div>
 
@@ -144,7 +125,7 @@
         </li>
       </ol>
 
-      <div style="margin:2rem 0 0rem 0rem;font-weight: 600;font-size:18px;">
+      <div style="margin:2rem 0 0rem 0rem;">
         INFORMATION ABOUT EACH APPLICANT
       </div>
 
@@ -179,7 +160,7 @@
         <div v-if="i < 1" class="new-page"></div>
       </div>
 
-      <div style="margin:2rem 0 0rem 0rem;font-weight: 600;font-size:18px;">
+      <div style="margin:2rem 0 0rem 0rem;">
         ADDRESS FOR SERVICE OF APPLICANT(S)
       </div>
       <underline-form
@@ -393,14 +374,14 @@ export default defineComponent({
 
     const takeNoticeTitle = () => {
       if (applicantList.value.length == 1)
-        return `The applicant ${applicantList.value[0].fullName} proposes:`;
+        return `The applicant ${applicantList.value[0].fullName} proposes`;
       if (applicantList.value.length == 2)
-        return `The applicants (${applicantList.value[0].fullName} and ${applicantList.value[1].fullName}) propose:`;
+        return `The applicants (${applicantList.value[0].fullName} and ${applicantList.value[1].fullName}) propose`;
       if (applicantList.value.length >= 3)
         return `The applicants (${applicantList.value
           .slice(0, -1)
           .map(a => a.fullName)
-          .join(" ")} and ${applicantList.value.slice(-1)[0].fullName}) propose:`;
+          .join(" ")} and ${applicantList.value.slice(-1)[0].fullName}) propose`;
     };
 
     const getAllApplicants = () => {
