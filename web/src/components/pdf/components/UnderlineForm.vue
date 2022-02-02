@@ -20,7 +20,8 @@
           position: 'absolute',
           marginTop: '-1px',
           fontSize: hintFontSize,
-          color: hintFontColour
+          color: hintFontColour,
+          width: textwidth
         }"
       >
         <i v-if="italicHint">{{ hint }}</i
