@@ -13,7 +13,7 @@
         class="printcard mt-4 mb-3"
         ref="root"
       >
-        <div style="text-align:center;margin:1rem 0 0 0rem;f">
+        <div style="text-align:center;margin:1rem 0 0 0rem;">
           <b>FORM P9</b> (RULE 25-3 (2))
         </div>
 
@@ -70,7 +70,7 @@
               by mailing it/them to the following persons by ordinary mail:
             </div>
             <div :key="i" v-for="(recipient, i) of mailRecipients(applicant)">
-              <div class="fullUnderline" :key="i">
+              <div class="full-underline" :key="i">
                 <b>{{ recipient.recipientName }}</b>
                 <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
               </div>
@@ -88,7 +88,7 @@
               by handing it/them to and leaving it/them with the following persons:
             </div>
             <div :key="i" v-for="(recipient, i) of inPersonRecipients(applicant)">
-              <div class="fullUnderline" :key="i">
+              <div class="full-underline" :key="i">
                 <b>{{ recipient.recipientName }}</b>
                 <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
               </div>
@@ -106,7 +106,7 @@
               to that person:
             </div>
             <div :key="i" v-for="(recipient, i) of electronicRecipients(applicant)">
-              <div class="fullUnderline" :key="i">
+              <div class="full-underline" :key="i">
                 <b>{{ recipient.recipientName }}</b>
                 <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
               </div>
