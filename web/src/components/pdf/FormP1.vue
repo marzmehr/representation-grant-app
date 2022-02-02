@@ -164,7 +164,7 @@
         <div class="col-5">
           Date: <u><b>{{ formatMonthDayYear(new Date()) }}</b></u>
         </div>
-        <div class="col-5">
+        <div>
           <u><b>Signed Electronically by </b></u><b>{{ name.fullName }}</b>
           <div>
             Signature of {{ name.fullName }}
