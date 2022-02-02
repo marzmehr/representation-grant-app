@@ -1,6 +1,6 @@
 <template>
-  <div key="getLastUpdated" style="font-size:11pt;">
-    <div>
+  <div key="getLastUpdated">
+    <div style="font-size:11pt;">
       <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
         Print
       </b-button>
@@ -8,10 +8,10 @@
         v-for="(applicant, i) in applicantList"
         :key="i"
         id="print"
-        bg-variant="white"
-        class="mt-4 mb-3"
-        ref="root"
         style="border:1px solid; border-radius:5px;padding:3rem 4rem 2rem 4rem;"
+        bg-variant="white"
+        class="printcard mt-4 mb-3"
+        ref="root"
       >
         <div style="text-align:center;margin:1rem 0 0 0rem;f">
           <b>FORM P9</b> (RULE 25-3 (2))
@@ -438,9 +438,4 @@ export default defineComponent({
   }
 });
 </script>
-<style lang="css" scoped>
-.fullUnderline {
-   margin: 0.5rem 0px 0.5rem 50px;
-   border-bottom: 0.7px solid rgb(49, 49, 50);
-}
-</style>
+<style lang="css" scoped src="@/styles/_pdf.css"></style>

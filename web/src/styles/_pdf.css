@@ -93,6 +93,11 @@ ol li.listnumber:before {
   padding: 0px;
 }
 
+.fullUnderline {
+  margin: 0.5rem 0px 0.5rem 50px;
+  border-bottom: 0.7px solid rgb(49, 49, 50);
+}
+
 /* this is only for display */
 #print {
   max-width: 820px !important;
