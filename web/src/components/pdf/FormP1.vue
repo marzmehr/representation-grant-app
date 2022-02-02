@@ -11,49 +11,44 @@
       ref="root"
     >
       <div style="text-align:center;">
-        <div>
+        <div style="margin:1rem 0 0rem 0rem;">
           <b>FORM P1</b> (RULE 25-2 (3))
-          <br/>
+        </div>
+        <div style="margin:1rem 0 0rem 0rem;">
           <b>NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</b>
         </div>
       </div>
 
-      <div>
+      <div style="margin:1rem 0 0rem 0rem;">
         <b>TAKE NOTICE THAT:</b>
       </div>
 
-      <div>
+      <div style="margin:1rem 0 0rem 0rem;">
         {{ takeNoticeTitle() }} to apply, in the <b>{{ serviceContact.courtLocation }}</b> 
         court registry, for a <b>Grant of Administration Without Will Annexed</b> in relation
         to the estate of the deceased described below who died on {{ deceased.dateOfDeath }}.
       </div>
 
-      <div>
-        <br/>
+      <div style="margin:1rem 0 0rem 0rem;">
         Full legal name of deceased:
-        <br/>
-        <b>{{ formatDeceasedName(deceased) }}</b>
-        <br/>
-        <br/>
+        <div>
+          <b>{{ formatDeceasedName(deceased) }}</b>
+        </div>
       </div>
 
-      <div>
+      <div style="margin:1rem 0 0rem 0rem;">
         Last residential address of the deceased:
-        <br/>
-        <b>{{ deceased.address }}</b>
-        <br/>
-        <br/>
+        <div>
+          <b>{{ deceased.address }}</b>
+        </div>
       </div>
 
-      <div>
+      <div style="margin:1rem 0 0rem 0rem;">
         This application does not relate to a will of a foreign grant.
-        <br/>
-        <br/>
       </div>
 
-      <div style="margin:0rem 0 1rem 0rem;">
-        <br/>
-        AND TAKE NOTICE THAT:
+      <div style="margin:1rem 0 0rem 0rem;">
+        <b>AND TAKE NOTICE THAT:</b>
       </div>
 
       <ol class="resetcounter">
@@ -66,12 +61,12 @@
         <li class="bracketnumber">
           You have a right to oppose, by filing a notice of dispute in accordance with Rule 25-10
           (1),
-          <ol style="text-indent:2px; list-style-type:lower-alpha">
-            <li>
+          <ol class="resetcounteralpha">
+            <li class="doublebracketalpha">
               if the intended application is for an estate grant, the granting of either or both of
               an authorization to obtain estate information and the estate grant, or
             </li>
-            <li>
+            <li class="doublebracketalpha">
               if the intended application is for a resealing, the granting of either or both of an
               authorization to obtain resealing information and the resealing.
             </li>
@@ -80,10 +75,10 @@
         <li class="bracketnumber">
           You may or may not be entitled to claim against the estate for relief, including a claim
           under
-          <ol style="text-indent:2px; list-style-type:lower-alpha">
-            <li>the Family Law Act, or</li>
-            <li>
-              Division 6 of Part 4 of the Wills, Estates and Succession Act.
+          <ol class="resetcounteralpha">
+            <li class="doublebracketalpha">the <i>Family Law Act</i>, or</li>
+            <li class="doublebracketalpha">
+              Division 6 of Part 4 of the <i>Wills, Estates and Succession Act</i>.
             </li>
           </ol>
         </li>
@@ -104,7 +99,7 @@
         <li class="bracketnumber">
           An authorization to obtain estate information, an authorization to obtain resealing
           information or a grant may issue to the applicant, or a foreign grant may be resealed, on
-          any date that is at least 21 days after the date on which this notice is delivered to you
+          any date that is <i><u>at least 21 days</u></i> after the date on which this notice is delivered to you
           or on any earlier date ordered by the court.
         </li>
         <li class="bracketnumber">
@@ -125,100 +120,54 @@
         </li>
       </ol>
 
-      <div style="margin:2rem 0 0rem 0rem;">
-        INFORMATION ABOUT EACH APPLICANT
+      <div style="margin:1rem 0 0rem 0rem;">
+        <b>INFORMATION ABOUT EACH APPLICANT</b>
       </div>
 
-      <div v-for="(name, i) in applicantList" :key="i + 100">
-        <underline-form class="mt-5" textwidth="40rem" beforetext="Name:" :text="name.fullName" />
+      <div style="margin:1rem 0 0rem 0rem;" v-for="(name, i) in applicantList" :key="i + 100">
+        <div>
+          Name: <b>{{ name.fullName }}</b>
+        </div>
 
-        <underline-form
-          class="my-3"
-          textwidth="40rem"
-          beforetext="Mailing address:"
-          :text="name.address"
-        />
+        <div>
+          Mailing address: <b>{{ name.address }}</b>
+        </div>
 
-        <check-box
-          :check="name.individual && !name.differentAddress"
-          text="This applicant is an individual and ordinarily lives at the mailing address noted above."
-        />
+        <div v-if="name.individual && !name.differentAddress">
+          This applicant is an individual and ordinarily lives at the mailing address noted above.
+        </div>
 
-        <check-box
-          style="display:inline-block;"
-          shiftmark="0"
-          :check="name.differentMail"
-          text="This applicant is an individual and ordinarily lives in the following city and country:"
-        />
-        <underline-form
-          style="text-indent: 26px;"
-          class="mt-0"
-          textwidth="20rem"
-          beforetext=""
-          :text="name.differentAddress"
-        />
+        <div v-if="name.differentAddress">
+          This applicant is an individual and ordinarily lives in <b>{{ name.differentAddress }}</b>.
+        </div>
+
         <div v-if="i < 1" class="new-page"></div>
       </div>
 
-      <div style="margin:2rem 0 0rem 0rem;">
-        ADDRESS FOR SERVICE OF APPLICANT(S)
+      <div style="margin:1rem 0 0rem 0rem;">
+        <b>INFORMATION FOR SERVICE OF APPLICANT</b>
       </div>
-      <underline-form
-        class="mt-4"
-        textwidth="40rem"
-        beforetext="Street address for service"
-        :text="serviceContact.address"
-      />
-      <underline-form
-        v-if="serviceContact.fax"
-        class="mt-3"
-        textwidth="40rem"
-        beforetext="Fax number for service (if any)"
-        :text="serviceContact.fax"
-      />
-      <underline-form
-        v-if="serviceContact.email"
-        class="mt-3"
-        textwidth="40rem"
-        beforetext="E-mail address for service (if any)"
-        hint="E-mail"
-        :text="serviceContact.email"
-      />
-      <underline-form
-        class="mt-3 mb-3"
-        textwidth="40rem"
-        beforetext="Telephone number"
-        :text="serviceContact.phone"
-      />
+
+      <div style="margin:1rem 0 0rem 0rem;">
+        Street address: <b>{{ serviceContact.address }}</b>
+      </div>
+
+      <div>
+        Telephone number: <b>{{ serviceContact.phone }}</b>
+      </div>
+
+      <div>
+        E-mail address: <b>{{ serviceContact.email }}</b>
+      </div>
 
       <div class="mt-5 row" v-for="(name, i) in applicantList" :key="i">
         <div class="col-5">
-          <underline-form
-            textwidth="16rem"
-            beforetext="Date"
-            hint=""
-            :text="formatMonthDayYear(new Date())"
-          />
+          Date: <u><b>{{ formatMonthDayYear(new Date()) }}</b></u>
         </div>
-        <div class="col-7 mt-4">
-          <underline-form textwidth="20rem" beforetext="" hint="" text="" /><br />
-          <div style="display: inline-block" class="mr-4">Signature of</div>
-          <div style="display: inline-block">
-              <check-box style="display: inline-block" class="mr-4" :check="name.lawyer ? '' : 'yes'" text="" />
-              applicant <br/>
-              <check-box
-                style="display: inline-block"
-                :check="name.lawyer ? 'yes' : ''"
-                text=""
-                class="mr-4"
-              />
-              lawyer for applicant(s)
-              <underline-form
-                style="display: inline-block"
-                textwidth="20rem"
-                beforetext=""
-                :text="name.lawyer"
-              />
+        <div class="col-5">
+          <u><b>Signed Electronically by </b></u><b>{{ name.fullName }}</b>
+          <div>
+            Signature of {{ name.fullName }}
           </div>
         </div>
       </div>

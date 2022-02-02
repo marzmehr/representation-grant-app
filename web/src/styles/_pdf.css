@@ -40,7 +40,7 @@ ol li.bracketnumber {
 }
 ol li.bracketnumber:before {
   content: "(" counter(bracket-counter) ") ";
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 ol.resetcounteralpha {
@@ -56,6 +56,16 @@ ol li.bracketalpha {
 
 ol li.bracketalpha:before {
   content: counter(alpha, lower-alpha) ") ";
+}
+
+ol li.doublebracketalpha {
+  text-indent: -20px;
+  margin: 0.25rem 0;
+  counter-increment: alpha;
+}
+
+ol li.doublebracketalpha:before {
+  content: "(" counter(alpha, lower-alpha) ") ";
 }
 
 ol.resetcounterroman {
