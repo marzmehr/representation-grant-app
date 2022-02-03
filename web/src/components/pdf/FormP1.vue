@@ -1,5 +1,5 @@
 <template>
-  <div key="getLastUpdated" style="font-size: 11pt">
+  <div key="getLastUpdated" style="font-size: 11pt;">
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
       Print
     </b-button>
@@ -11,7 +11,7 @@
       ref="root"
     >
       <div style="text-align:center;">
-        <div style="margin:1rem 0 0rem 0rem;"><b>FORM P1</b> (RULE 25-2 (3))</div>
+        <div style="margin:1rem 0 0rem 0rem;"><b>FORM P1</b> (RULE 25-2 (3) )</div>
         <div style="margin:1rem 0 0rem 0rem;">
           <b>NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</b>
         </div>

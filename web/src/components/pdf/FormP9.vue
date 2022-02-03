@@ -13,7 +13,7 @@
         class="printcard mt-4 mb-3"
         ref="root"
       >
-        <div style="text-align:center;margin:1rem 0 0 0rem;"><b>FORM P9</b> (RULE 25-3 (2))</div>
+        <div style="text-align:center;margin:1rem 0 0 0rem;"><b>FORM P9</b> (RULE 25-3 (2) )</div>
 
         <div class="mt-3 m-0 p-0 row">
           <div style="margin-left: auto; text-align: right;!important">
