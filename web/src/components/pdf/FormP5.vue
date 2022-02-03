@@ -615,38 +615,38 @@ dsection:after {
   white-space: pre;
 }
 
-section.resetquestion {
+section.reset-question {
   counter-reset: question-counter;
 }
 
-ol.resetcounter {
+ol.reset-counter {
   list-style: none;
   counter-reset: bracket-counter;
 }
-ol li.bracketnumber {
+ol li.bracket-number {
   text-indent: -25px;
   text-align: justify;
   text-justify: inter-word;
   margin: 1rem 0;
   counter-increment: bracket-counter;
 }
-ol li.bracketnumber:before {
+ol li.bracket-number:before {
   content: "(" counter(bracket-counter) ") ";
   font-weight: bold;
 }
 
-ol.resetlist {
+ol.reset-list {
   list-style: none;
   counter-reset: list-counter;
 }
-ol li.listnumber {
+ol li.list-number {
   text-indent: -25px;
   text-align: justify;
   text-justify: inter-word;
   margin: 1rem 0;
   counter-increment: list-counter;
 }
-ol li.listnumber:before {
+ol li.list-number:before {
   content: counter(list-counter) ". ";
   font-weight: bold;
 }

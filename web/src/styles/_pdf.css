@@ -23,78 +23,78 @@ section:after {
   white-space: pre;
 }
 
-section.resetquestion {
+section.reset-question {
   counter-reset: question-counter;
 }
 
-ol.resetcounter {
+ol.reset-counter {
   list-style: none;
   counter-reset: bracket-counter;
 }
-ol li.bracketnumber {
+ol li.bracket-number {
   text-indent: -25px;
   text-align: justify;
   text-justify: inter-word;
   margin: 1rem 0;
   counter-increment: bracket-counter;
 }
-ol li.bracketnumber:before {
+ol li.bracket-number:before {
   content: "(" counter(bracket-counter) ") ";
   /* font-weight: bold; */
 }
 
-ol.resetcounteralpha {
+ol.reset-counter-alpha {
   list-style: none;
   counter-reset: alpha-counter;
 }
 
-ol li.bracketalpha {
+ol li.bracket-alpha {
   text-indent: -20px;
   margin: 0.25rem 0;
   counter-increment: alpha;
 }
 
-ol li.bracketalpha:before {
+ol li.bracket-alpha:before {
   content: counter(alpha, lower-alpha) ") ";
 }
 
-ol li.doublebracketalpha {
+ol li.double-bracket-alpha {
   text-indent: -20px;
   margin: 0.25rem 0;
   counter-increment: alpha;
 }
 
-ol li.doublebracketalpha:before {
+ol li.double-bracket-alpha:before {
   content: "(" counter(alpha, lower-alpha) ") ";
 }
 
-ol.resetcounterroman {
+ol.reset-counter-roman {
   list-style: none;
   counter-reset: roman-counter;
 }
 
-ol li.bracketroman {
+ol li.bracket-roman {
   text-indent: -20px;
   margin: 0.25rem 0;
   counter-increment: roman;
 }
 
-ol li.bracketroman:before {
+ol li.bracket-roman:before {
   content: counter(roman, lower-roman) ") ";
 }
 
-ol.resetlist {
+ol.reset-list {
   list-style: none;
   counter-reset: list-counter;
 }
-ol li.listnumber {
+ol li.list-number {
   text-indent: -25px;
   text-align: justify;
   text-justify: inter-word;
   margin: 1rem 0;
   counter-increment: list-counter;
 }
-ol li.listnumber:before {
+ol li.list-number:before {
   content: counter(list-counter) ". ";
   font-weight: bold;
 }
