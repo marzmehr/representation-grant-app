@@ -11,9 +11,7 @@
       ref="root"
     >
       <div style="text-align:center;">
-        <div style="margin:1rem 0 0rem 0rem;">
-          <b>FORM P1</b> (RULE 25-2 (3))
-        </div>
+        <div style="margin:1rem 0 0rem 0rem;"><b>FORM P1</b> (RULE 25-2 (3))</div>
         <div style="margin:1rem 0 0rem 0rem;">
           <b>NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</b>
         </div>
@@ -24,9 +22,9 @@
       </div>
 
       <div style="margin:1rem 0 0rem 0rem;">
-        {{ takeNoticeTitle() }} to apply, in the <b>{{ serviceContact.courtLocation }}</b> 
-        court registry, for a <b>Grant of Administration Without Will Annexed</b> in relation
-        to the estate of the deceased described below who died on {{ deceased.dateOfDeath }}.
+        {{ takeNoticeTitle() }} to apply, in the <b>{{ serviceContact.courtLocation }}</b> court
+        registry, for a <b>Grant of Administration Without Will Annexed</b> in relation to the
+        estate of the deceased described below who died on {{ deceased.dateOfDeath }}.
       </div>
 
       <div style="margin:1rem 0 0rem 0rem;">
@@ -99,8 +97,8 @@
         <li class="bracketnumber">
           An authorization to obtain estate information, an authorization to obtain resealing
           information or a grant may issue to the applicant, or a foreign grant may be resealed, on
-          any date that is <i><u>at least 21 days</u></i> after the date on which this notice is delivered to you
-          or on any earlier date ordered by the court.
+          any date that is <i><u>at least 21 days</u></i> after the date on which this notice is
+          delivered to you or on any earlier date ordered by the court.
         </li>
         <li class="bracketnumber">
           If an authorization to obtain estate information issues to the applicant, the applicant
@@ -138,7 +136,8 @@
         </div>
 
         <div v-if="name.differentAddress">
-          This applicant is an individual and ordinarily lives in <b>{{ name.differentAddress }}</b>.
+          This applicant is an individual and ordinarily lives in <b>{{ name.differentAddress }}</b
+          >.
         </div>
 
         <div v-if="i < 1" class="new-page"></div>
@@ -162,13 +161,14 @@
 
       <div class="mt-5 row" v-for="(name, i) in applicantList" :key="i">
         <div class="col-5">
-          Date: <u><b>{{ formatMonthDayYear(new Date()) }}</b></u>
+          Date:
+          <u
+            ><b>{{ formatMonthDayYear(new Date()) }}</b></u
+          >
         </div>
         <div>
           <u><b>Signed Electronically by </b></u><b>{{ name.fullName }}</b>
-          <div>
-            Signature of {{ name.fullName }}
-          </div>
+          <div>Signature of {{ name.fullName }}</div>
         </div>
       </div>
     </b-card>
@@ -265,9 +265,8 @@ export default defineComponent({
           fullName: (a as any).applicantName || "", //Brought over via survey-on-value-change (from javascript)
           address:
             a.applicantOrdinaryAddressReceiveMail == "y"
-              ? formatMailingAddress(a.applicantOrdinaryAddress) :
-              formatMailingAddress(a.applicantMailingAddress)
-              ,
+              ? formatMailingAddress(a.applicantOrdinaryAddress)
+              : formatMailingAddress(a.applicantMailingAddress),
           individual: true, // applicantNewPartOfOrg not used.
           lawyer: data.applicantHasLawyer ? data.applicantLawyerName || "" : "",
           differentMail: a.applicantOrdinaryAddressReceiveMail === "n",
@@ -288,7 +287,9 @@ export default defineComponent({
         fax: data.applicantServiceFax || "",
         email: data.applicantServiceEmail || "",
         courtLocation:
-          getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.name?.replace("Law Courts", "") ||
+          getLocations?.value
+            ?.find(l => l.id == data.applicantCourthouse)
+            ?.name?.replace("Law Courts", "") ||
           data.applicantCourthouse ||
           ""
       };
