@@ -147,14 +147,14 @@
           <div style="display:inline;">
             Attached to this affidavit as Exhibit A is a Statement of Assets, Liabilities and
             Distribution that discloses
-            <ol style="margin-left: -1.25rem;" class="resetcounter">
-              <li class="bracketalpha">
+            <ol style="margin-left: -1.25rem;" class="reset-counter">
+              <li class="bracket-alpha">
                 all of the property of the deceased, irrespective of its location, nature or value,
                 that passes to the applicant in the applicant's capacity as the deceased's personal
                 representative,
               </li>
-              <li class="bracketalpha">the value of that property, and</li>
-              <li class="bracketalpha">
+              <li class="bracket-alpha">the value of that property, and</li>
+              <li class="bracket-alpha">
                 the liabilities that charge or encumber that property.
               </li>
             </ol>
@@ -752,9 +752,7 @@ export default class FormP10 extends Vue {
     return result;
   }
 
-  public getPdf() {
-
-  }
+  public getPdf() {}
 
   public getRepGrantResultData() {}
 }
@@ -799,7 +797,7 @@ dsection:after {
   white-space: pre;
 }
 
-section.resetquestion {
+section.reset-question {
   counter-reset: question-counter;
 }
 
@@ -807,44 +805,44 @@ section.resetquestion {
   margin-top: 10rem;
 }
 
-ol.resetcounter {
+ol.reset-counter {
   list-style: none;
   counter-reset: bracket-counter;
 }
-ol li.bracketnumber {
+ol li.bracket-number {
   text-indent: -25px;
   text-align: justify;
   text-justify: inter-word;
   margin: 1rem 0;
   counter-increment: bracket-counter;
 }
-ol li.bracketnumber:before {
+ol li.bracket-number:before {
   content: "(" counter(bracket-counter) ") ";
   font-weight: bold;
 }
 
-ol.resetlist {
+ol.reset-list {
   list-style: none;
   counter-reset: list-counter;
 }
-ol li.listnumber {
+ol li.list-number {
   text-indent: -25px;
   text-align: justify;
   text-justify: inter-word;
   margin: 1rem 0;
   counter-increment: list-counter;
 }
-ol li.listnumber:before {
+ol li.list-number:before {
   content: counter(list-counter) ". ";
   font-weight: bold;
 }
 
-ol li.bracketalpha {
+ol li.bracket-alpha {
   text-indent: -20px;
   margin: 0.75rem 0;
   counter-increment: alpha;
 }
-ol li.bracketalpha:before {
+ol li.bracket-alpha:before {
   content: "(" counter(alpha, lower-alpha) ") ";
 }
 

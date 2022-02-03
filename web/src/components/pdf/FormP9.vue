@@ -13,9 +13,7 @@
         class="printcard mt-4 mb-3"
         ref="root"
       >
-        <div style="text-align:center;margin:1rem 0 0 0rem;">
-          <b>FORM P9</b> (RULE 25-3 (2))
-        </div>
+        <div style="text-align:center;margin:1rem 0 0 0rem;"><b>FORM P9</b> (RULE 25-3 (2))</div>
 
         <div class="mt-3 m-0 p-0 row">
           <div style="margin-left: auto; text-align: right;!important">
@@ -27,27 +25,26 @@
             </div>
             <div class="mt-2">
               <b>{{ applicant.courthouse }}</b>
-              <underline-form
-                textwidth="5rem"
-                beforetext="Registry No."
-                text=""
-              />
+              <underline-form textwidth="5rem" beforetext="Registry No." text="" />
             </div>
           </div>
         </div>
 
         <div style="text-align:center;margin:1rem 0 1rem 0rem;">
-          In the Matter of the Estate of <b>{{ deceased }}</b>, deceased
+          In the Matter of the Estate of <b>{{ deceased }}</b
+          >, deceased
         </div>
         <div style="text-align:center;margin:1rem 0 1rem 0rem;">
           <b>AFFIDAVIT OF DELIVERY</b>
         </div>
 
         <div>
-          I, <b>{{ applicant.fullName }}</b>, of <b>{{ applicant.address }}</b>, 
-          <b>{{ applicant.occupation }}</b>, SWEAR (OR AFFIRM) THAT:
+          I, <b>{{ applicant.fullName }}</b
+          >, of <b>{{ applicant.address }}</b
+          >, <b>{{ applicant.occupation }}</b
+          >, SWEAR (OR AFFIRM) THAT:
         </div>
-        <br/>
+        <br />
         <div style="display:inline;">
           1 Attached to this affidavit and marked as Exhibit A is a copy of a notice of proposed
           application in Form P1 (the "notice").
@@ -56,8 +53,8 @@
         <div
           v-if="
             mailRecipients(applicant).length > 0 ||
-            electronicRecipients(applicant).length > 0 ||
-            inPersonRecipients(applicant).length > 0
+              electronicRecipients(applicant).length > 0 ||
+              inPersonRecipients(applicant).length > 0
           "
           class="mt-4 text-justify"
         >
@@ -72,16 +69,20 @@
             <div :key="i" v-for="(recipient, i) of mailRecipients(applicant)">
               <div class="full-underline" :key="i">
                 <b>{{ recipient.recipientName }}</b>
-                <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
+                <div :key="i" style="float: right">
+                  on <b>{{ recipient.p1DeliveryDate }}</b>
+                </div>
               </div>
             </div>
           </div>
 
-          <br v-if="
-            mailRecipients(applicant).length > 0 &&
-            (electronicRecipients(applicant).length > 0 ||
-            inPersonRecipients(applicant).length > 0)
-          "/>
+          <br
+            v-if="
+              mailRecipients(applicant).length > 0 &&
+                (electronicRecipients(applicant).length > 0 ||
+                  inPersonRecipients(applicant).length > 0)
+            "
+          />
 
           <div v-if="inPersonRecipients(applicant).length > 0">
             <div style="margin-left: 50px;">
@@ -90,42 +91,57 @@
             <div :key="i" v-for="(recipient, i) of inPersonRecipients(applicant)">
               <div class="full-underline" :key="i">
                 <b>{{ recipient.recipientName }}</b>
-                <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
+                <div :key="i" style="float: right">
+                  on <b>{{ recipient.p1DeliveryDate }}</b>
+                </div>
               </div>
             </div>
           </div>
 
-          <br v-if="
-            inPersonRecipients(applicant).length > 0 &&
-            electronicRecipients(applicant).length > 0
-          "/>
+          <br
+            v-if="
+              inPersonRecipients(applicant).length > 0 && electronicRecipients(applicant).length > 0
+            "
+          />
 
           <div v-if="electronicRecipients(applicant).length > 0">
             <div style="margin-left: 50px;">
-              by sending it/them to the following persons by e-mail, fax or other electronic means 
+              by sending it/them to the following persons by e-mail, fax or other electronic means
               to that person:
             </div>
             <div :key="i" v-for="(recipient, i) of electronicRecipients(applicant)">
               <div class="full-underline" :key="i">
                 <b>{{ recipient.recipientName }}</b>
-                <div :key="i" style="float: right"> on <b>{{ recipient.p1DeliveryDate }}</b></div>
+                <div :key="i" style="float: right">
+                  on <b>{{ recipient.p1DeliveryDate }}</b>
+                </div>
               </div>
             </div>
-            <ul style="margin-left:30px"> 
+            <ul style="margin-left:30px">
               <li v-if="allP1DeliveryElectronicReceipt(applicant)">
                 Each of the persons who received delivery by e-mail, fax or other electronic means
                 has, in writing, acknowledged receipt of the document(s) referred to in this
                 section.
               </li>
-                
-              <li v-if="electronicRecipients(applicant).length <= 1 && allP1DeliveryElectronicReceiptRetain(applicant)">
+
+              <li
+                v-if="
+                  electronicRecipients(applicant).length <= 1 &&
+                    allP1DeliveryElectronicReceiptRetain(applicant)
+                "
+              >
                 I will retain a copy of those acknowledgements until the personal representative of
-                the deceased is discharged and will produce those acknowledgements promptly after 
-                being requested to do so by the registrar.
-                after being requested to do so by the registrar.
+                the deceased is discharged and will produce those acknowledgements promptly after
+                being requested to do so by the registrar. after being requested to do so by the
+                registrar.
               </li>
 
-              <li v-if="electronicRecipients(applicant).length > 1 && allP1DeliveryElectronicReceiptRetain(applicant)">
+              <li
+                v-if="
+                  electronicRecipients(applicant).length > 1 &&
+                    allP1DeliveryElectronicReceiptRetain(applicant)
+                "
+              >
                 We will retain a copy of those acknowledgements until the personal representative of
                 the deceased is discharged and will produce those acknowledgements promptly after
                 being requested to do so by the registrar.
@@ -140,7 +156,7 @@
               <div style="margin:0.5rem 0 1rem 0rem;">
                 SWORN (OR AFFIRMED) BEFORE ME
               </div>
-              <underline-form textwidth="10rem" beforetext="at" text=""/>
+              <underline-form textwidth="10rem" beforetext="at" text="" />
               <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
                 , British Columbia
               </div>
@@ -190,13 +206,12 @@ import {
   applicantInfoPanel,
   notifyP1DeliveryInfoPanel,
   SurveyInstance,
-  SurveyQuestionNames 
+  SurveyQuestionNames
 } from "@/types/survey-primary";
 import { SurveyDataService } from "@/services/survey-data-service";
 import {
   convertBlobAndDownload,
   formatDeceasedName,
-  formatMailingAddress,
   formatMonthDayYear,
   formPdfHtml
 } from "@/utils/utils";
@@ -296,13 +311,15 @@ export default defineComponent({
       const applicantQuestion = allQuestions.find(
         q => q.name === SurveyQuestionNames.applicantInfoPanel
       );
-      
+
       const data = survey.data as SurveyInstance;
 
       for (const i in applicants) {
         let applicant: FormP9Applicant = {
-          courthouse: 
-            getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.name?.replace("Law Courts", "")  ||
+          courthouse:
+            getLocations?.value
+              ?.find(l => l.id == data.applicantCourthouse)
+              ?.name?.replace("Law Courts", "") ||
             data.applicantCourthouse ||
             "",
           address: "",
@@ -413,7 +430,9 @@ export default defineComponent({
 
     const allP1DeliveryElectronicReceiptRetain = applicant => {
       const elecRecipients = electronicRecipients(applicant);
-      const receipts = elecRecipients.filter(r => r?.p1DeliveryElectronicReceiptRetain === "confirmed");
+      const receipts = elecRecipients.filter(
+        r => r?.p1DeliveryElectronicReceiptRetain === "confirmed"
+      );
       return elecRecipients.length === receipts.length;
     };
 

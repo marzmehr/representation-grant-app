@@ -1,5 +1,5 @@
 <template>
-  <div key="getLastUpdated">
+  <div key="getLastUpdated" style="font-size: 11pt">
     <b-button style="transform:translate(500px,0px)" variant="success" @click="onPrint()">
       Print
     </b-button>
@@ -11,128 +11,102 @@
       ref="root"
     >
       <div style="text-align:center;">
-        <div style="margin:5rem 0 0 0;font-weight: 300;font-size:20px;">
-          FORM P1 (RULE 25-2 (3))
-        </div>
-        <div style="margin:1rem 0 0 0;font-weight: 600;font-size:24px;">
-          <i>IN THE SUPREME COURT OF BRITISH COLUMBIA</i>
-        </div>
-        <div style="margin:1rem 0 5rem 0;font-weight: 600;font-size:24px;">
-          NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE
+        <div style="margin:1rem 0 0rem 0rem;"><b>FORM P1</b> (RULE 25-2 (3))</div>
+        <div style="margin:1rem 0 0rem 0rem;">
+          <b>NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</b>
         </div>
       </div>
 
-      <div style="margin:0 0 1rem 0rem;font-weight: 600;font-size:18px;">
-        TAKE NOTICE THAT:
+      <div style="margin:1rem 0 0rem 0rem;">
+        <b>TAKE NOTICE THAT:</b>
       </div>
 
-      <underline-form
-        textwidth="36rem"
-        :beforetext="takeNoticeTitle()"
-        :text="getAllApplicants()"
-      />
-      <div style="display:inline-block;">
-        propose(s) to apply, in the
+      <div style="margin:1rem 0 0rem 0rem;">
+        {{ takeNoticeTitle() }} to apply, in the <b>{{ serviceContact.courtLocation }}</b> court
+        registry, for a <b>Grant of Administration Without Will Annexed</b> in relation to the
+        estate of the deceased described below who died on {{ deceased.dateOfDeath }}.
       </div>
-      <underline-form
-        class="mt-3 ml-1"
-        textwidth="20rem"
-        beforetext=""
-        :text="serviceContact.courtLocation"
-      />
-      <underline-form
-        class="mt-3"
-        textwidth="28rem"
-        beforetext="court registry, for"
-        :text="applicationType()"
-      />
-      <underline-form
-        class="mt-3"
-        textwidth="22rem"
-        beforetext="in relation to the estate of the deceased described below who died on"
-        :text="deceased.dateOfDeath"
-      />
 
-      <div style="margin:2rem 0 1rem 0rem;">Full legal name of deceased:</div>
-      <underline-form
-        class="mt-0"
-        textwidth="40rem"
-        beforetext=""
-        :text="formatDeceasedName(deceased)"
-      />
-      <div style="margin:2rem 0 1rem 0rem;">
+      <div style="margin:1rem 0 0rem 0rem;">
+        Full legal name of deceased:
+        <div>
+          <b>{{ formatDeceasedName(deceased) }}</b>
+        </div>
+      </div>
+
+      <div style="margin:1rem 0 0rem 0rem;">
         Last residential address of the deceased:
-      </div>
-      <underline-form class="mt-0" textwidth="40rem" beforetext="" :text="deceased.address" />
-
-      <div class="mt-3">
-        This application does not relate to a will or foreign grant.
+        <div>
+          <b>{{ deceased.address }}</b>
+        </div>
       </div>
 
-      <div class="new-page"></div>
-
-      <div style="margin:0rem 0 1rem 0rem;font-weight: 600;font-size:18px;">
-        AND TAKE NOTICE THAT:
+      <div style="margin:1rem 0 0rem 0rem;">
+        This application does not relate to a will of a foreign grant.
       </div>
 
-      <ol class="resetcounter">
-        <li class="bracketnumber">
+      <div style="margin:1rem 0 0rem 0rem;">
+        <b>AND TAKE NOTICE THAT:</b>
+      </div>
+
+      <ol class="reset-counter">
+        <li class="bracket-number">
           Before obtaining the foregoing grant or resealing, the applicant may be granted an
           authorization to obtain estate information or an authorization to obtain resealing
           information, as the case may be, in relation to that grant or resealing for the purposes
           of obtaining financial information in relation to the grant or resealing.
         </li>
-        <li class="bracketnumber">
+        <li class="bracket-number">
           You have a right to oppose, by filing a notice of dispute in accordance with Rule 25-10
           (1),
-          <ol style="text-indent:2px; list-style-type:lower-alpha">
-            <li>
+          <ol class="reset-counter-alpha">
+            <li class="double-bracket-alpha">
               if the intended application is for an estate grant, the granting of either or both of
               an authorization to obtain estate information and the estate grant, or
             </li>
-            <li>
+            <li class="double-bracket-alpha">
               if the intended application is for a resealing, the granting of either or both of an
               authorization to obtain resealing information and the resealing.
             </li>
           </ol>
         </li>
-        <li class="bracketnumber">
+        <li class="bracket-number">
           You may or may not be entitled to claim against the estate for relief, including a claim
           under
-          <ol style="text-indent:2px; list-style-type:lower-alpha">
-            <li>the Family Law Act, or</li>
-            <li>
-              Division 6 of Part 4 of the Wills, Estates and Succession Act.
+          <ol class="reset-counter-alpha">
+            <li class="double-bracket-alpha">the <i>Family Law Act</i>, or</li>
+            <li class="double-bracket-alpha">
+              Division 6 of Part 4 of the <i>Wills, Estates and Succession Act</i>.
             </li>
           </ol>
         </li>
-        <li class="bracketnumber">
+        <li class="bracket-number">
           If you choose to take a step referred to in paragraph (2) or (3), you must do so within
           the time limited by any relevant rule of court or other enactment.
         </li>
-        <li class="bracketnumber">
+        <li class="bracket-number">
           You may consult with your own lawyer concerning your interest in, or rights against, the
           estate.
         </li>
-        <li class="bracketnumber">
+        <li class="bracket-number">
           After the applicant has filed a submission for estate grant or submission for resealing,
           you may apply for an order requiring the applicant to provide security unless the
           applicant is the Public Guardian and Trustee. Filing a notice of dispute will prevent a
           grant from being issued before you are able to apply for the order requiring security.
         </li>
-        <li class="bracketnumber">
+        <li class="bracket-number">
           An authorization to obtain estate information, an authorization to obtain resealing
           information or a grant may issue to the applicant, or a foreign grant may be resealed, on
-          any date that is at least 21 days after the date on which this notice is delivered to you
-          or on any earlier date ordered by the court.
+          any date that is <i><u>at least 21 days</u></i> after the date on which this notice is
+          delivered to you or on any earlier date ordered by the court.
         </li>
-        <li class="bracketnumber">
+        <li class="bracket-number">
           If an authorization to obtain estate information issues to the applicant, the applicant
           may apply for a grant without further notice. If an authorization to obtain resealing
           information issues to the applicant, the applicant may apply for the resealing of the
           foreign grant without further notice to you.
         </li>
-        <li class="bracketnumber">
+        <li class="bracket-number">
           If a grant issues to the applicant, the applicant must provide, if there is a will, to the
           beneficiaries or, if there is no will, to intestate successors of the deceased an
           accounting as to how the estate was administered and how the estate assets were
@@ -144,101 +118,57 @@
         </li>
       </ol>
 
-      <div style="margin:2rem 0 0rem 0rem;font-weight: 600;font-size:18px;">
-        INFORMATION ABOUT EACH APPLICANT
+      <div style="margin:1rem 0 0rem 0rem;">
+        <b>INFORMATION ABOUT EACH APPLICANT</b>
       </div>
 
-      <div v-for="(name, i) in applicantList" :key="i + 100">
-        <underline-form class="mt-5" textwidth="40rem" beforetext="Name:" :text="name.fullName" />
+      <div style="margin:1rem 0 0rem 0rem;" v-for="(name, i) in applicantList" :key="i + 100">
+        <div>
+          Name: <b>{{ name.fullName }}</b>
+        </div>
 
-        <underline-form
-          class="my-3"
-          textwidth="40rem"
-          beforetext="Mailing address:"
-          :text="name.address"
-        />
+        <div>
+          Mailing address: <b>{{ name.address }}</b>
+        </div>
 
-        <check-box
-          :check="name.individual && !name.differentAddress"
-          text="This applicant is an individual and ordinarily lives at the mailing address noted above."
-        />
+        <div v-if="name.individual && !name.differentAddress">
+          This applicant is an individual and ordinarily lives at the mailing address noted above.
+        </div>
 
-        <check-box
-          style="display:inline-block;"
-          shiftmark="0"
-          :check="name.differentMail"
-          text="This applicant is an individual and ordinarily lives in the following city and country:"
-        />
-        <underline-form
-          style="text-indent: 26px;"
-          class="mt-0"
-          textwidth="20rem"
-          beforetext=""
-          :text="name.differentAddress"
-        />
+        <div v-if="name.differentAddress">
+          This applicant is an individual and ordinarily lives in <b>{{ name.differentAddress }}</b
+          >.
+        </div>
+
         <div v-if="i < 1" class="new-page"></div>
       </div>
 
-      <div style="margin:2rem 0 0rem 0rem;font-weight: 600;font-size:18px;">
-        ADDRESS FOR SERVICE OF APPLICANT(S)
+      <div style="margin:1rem 0 0rem 0rem;">
+        <b>INFORMATION FOR SERVICE OF APPLICANT</b>
       </div>
-      <underline-form
-        class="mt-4"
-        textwidth="40rem"
-        beforetext="Street address for service"
-        :text="serviceContact.address"
-      />
-      <underline-form
-        v-if="serviceContact.fax"
-        class="mt-3"
-        textwidth="40rem"
-        beforetext="Fax number for service (if any)"
-        :text="serviceContact.fax"
-      />
-      <underline-form
-        v-if="serviceContact.email"
-        class="mt-3"
-        textwidth="40rem"
-        beforetext="E-mail address for service (if any)"
-        hint="E-mail"
-        :text="serviceContact.email"
-      />
-      <underline-form
-        class="mt-3 mb-3"
-        textwidth="40rem"
-        beforetext="Telephone number"
-        :text="serviceContact.phone"
-      />
+
+      <div style="margin:1rem 0 0rem 0rem;">
+        Street address: <b>{{ serviceContact.address }}</b>
+      </div>
+
+      <div>
+        Telephone number: <b>{{ serviceContact.phone }}</b>
+      </div>
+
+      <div>
+        E-mail address: <b>{{ serviceContact.email }}</b>
+      </div>
 
       <div class="mt-5 row" v-for="(name, i) in applicantList" :key="i">
         <div class="col-5">
-          <underline-form
-            textwidth="16rem"
-            beforetext="Date"
-            hint=""
-            :text="formatMonthDayYear(new Date())"
-          />
+          Date:
+          <u
+            ><b>{{ formatMonthDayYear(new Date()) }}</b></u
+          >
         </div>
-        <div class="col-7 mt-4">
-          <underline-form textwidth="20rem" beforetext="" hint="" text="" /><br />
-          <div style="display: inline-block" class="mr-4">Signature of</div>
-          <div style="display: inline-block">
-              <check-box style="display: inline-block" class="mr-4" :check="name.lawyer ? '' : 'yes'" text="" />
-              applicant <br/>
-              <check-box
-                style="display: inline-block"
-                :check="name.lawyer ? 'yes' : ''"
-                text=""
-                class="mr-4"
-              />
-              lawyer for applicant(s)
-              <underline-form
-                style="display: inline-block"
-                textwidth="20rem"
-                beforetext=""
-                :text="name.lawyer"
-              />
-          </div>
+        <div>
+          <u><b>Signed Electronically by </b></u><b>{{ name.fullName }}</b>
+          <div>Signature of {{ name.fullName }}</div>
         </div>
       </div>
     </b-card>
@@ -335,9 +265,8 @@ export default defineComponent({
           fullName: (a as any).applicantName || "", //Brought over via survey-on-value-change (from javascript)
           address:
             a.applicantOrdinaryAddressReceiveMail == "y"
-              ? formatMailingAddress(a.applicantOrdinaryAddress) :
-              formatMailingAddress(a.applicantMailingAddress)
-              ,
+              ? formatMailingAddress(a.applicantOrdinaryAddress)
+              : formatMailingAddress(a.applicantMailingAddress),
           individual: true, // applicantNewPartOfOrg not used.
           lawyer: data.applicantHasLawyer ? data.applicantLawyerName || "" : "",
           differentMail: a.applicantOrdinaryAddressReceiveMail === "n",
@@ -358,7 +287,9 @@ export default defineComponent({
         fax: data.applicantServiceFax || "",
         email: data.applicantServiceEmail || "",
         courtLocation:
-          getLocations?.value?.find(l => l.id == data.applicantCourthouse)?.name?.replace("Law Courts", "") ||
+          getLocations?.value
+            ?.find(l => l.id == data.applicantCourthouse)
+            ?.name?.replace("Law Courts", "") ||
           data.applicantCourthouse ||
           ""
       };
@@ -393,14 +324,14 @@ export default defineComponent({
 
     const takeNoticeTitle = () => {
       if (applicantList.value.length == 1)
-        return `The applicant ${applicantList.value[0].fullName} proposes:`;
+        return `The applicant ${applicantList.value[0].fullName} proposes`;
       if (applicantList.value.length == 2)
-        return `The applicants (${applicantList.value[0].fullName} and ${applicantList.value[1].fullName}) propose:`;
+        return `The applicants (${applicantList.value[0].fullName} and ${applicantList.value[1].fullName}) propose`;
       if (applicantList.value.length >= 3)
         return `The applicants (${applicantList.value
           .slice(0, -1)
           .map(a => a.fullName)
-          .join(" ")} and ${applicantList.value.slice(-1)[0].fullName}) propose:`;
+          .join(" ")} and ${applicantList.value.slice(-1)[0].fullName}) propose`;
     };
 
     const getAllApplicants = () => {
