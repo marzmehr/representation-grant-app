@@ -103,6 +103,10 @@ ol li.list-number:before {
   padding: 0px;
 }
 
+.avoid-split {
+  break-inside: avoid;
+}
+
 .full-underline {
   margin: 0.5rem 0px 0.5rem 50px;
   border-bottom: 0.7px solid rgb(49, 49, 50);

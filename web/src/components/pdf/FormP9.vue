@@ -62,7 +62,7 @@
             2 I delivered a copy of the notice to the following persons as follows:
           </div>
 
-          <div v-if="mailRecipients(applicant).length > 0">
+          <div class="avoid-break" v-if="mailRecipients(applicant).length > 0">
             <div style="margin-left: 50px;">
               by mailing it/them to the following persons by ordinary mail:
             </div>
@@ -84,7 +84,7 @@
             "
           />
 
-          <div v-if="inPersonRecipients(applicant).length > 0">
+          <div class="avoid-break" v-if="inPersonRecipients(applicant).length > 0">
             <div style="margin-left: 50px;">
               by handing it/them to and leaving it/them with the following persons:
             </div>
@@ -104,7 +104,7 @@
             "
           />
 
-          <div v-if="electronicRecipients(applicant).length > 0">
+          <div class="avoid-break" v-if="electronicRecipients(applicant).length > 0">
             <div style="margin-left: 50px;">
               by sending it/them to the following persons by e-mail, fax or other electronic means
               to that person:
@@ -150,47 +150,49 @@
           </div>
         </div>
 
-        <table class="mt-3">
-          <tr>
-            <td>
-              <div style="margin:0.5rem 0 1rem 0rem;">
-                SWORN (OR AFFIRMED) BEFORE ME
-              </div>
-              <underline-form textwidth="10rem" beforetext="at" text="" />
-              <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
-                , British Columbia
-              </div>
+        <div class="avoid-split">
+          <table class="mt-3">
+            <tr>
+              <td>
+                <div style="margin:0.5rem 0 1rem 0rem;">
+                  SWORN (OR AFFIRMED) BEFORE ME
+                </div>
+                <underline-form textwidth="10rem" beforetext="at" text="" />
+                <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
+                  , British Columbia
+                </div>
 
-              <underline-form
-                style="margin:0.75rem 0 ;"
-                textwidth="17rem"
-                beforetext="on"
-                text=""
-              />
-              <div style="margin:0.5rem 0;"></div>
-              <underline-form
-                style="margin:.5rem 0 ;"
-                textwidth="20rem"
-                beforetext=""
-                hint="A commissioner for taking affidavits for British Columbia"
-                text=""
-              />
-            </td>
-            <td>
-              <div class="col-6 border-left">
                 <underline-form
-                  style="marginTop: 7.89rem"
-                  textwidth="20rem"
-                  beforetext=""
-                  :hint="'Signature of ' + applicant.fullName"
-                  hintFontSize="11pt"
-                  :italicHint="false"
+                  style="margin:0.75rem 0 ;"
+                  textwidth="17rem"
+                  beforetext="on"
                   text=""
                 />
-              </div>
-            </td>
-          </tr>
-        </table>
+                <div style="margin:0.5rem 0;"></div>
+                <underline-form
+                  style="margin:.5rem 0 ;"
+                  textwidth="20rem"
+                  beforetext=""
+                  hint="A commissioner for taking affidavits for British Columbia"
+                  text=""
+                />
+              </td>
+              <td>
+                <div class="col-6 border-left">
+                  <underline-form
+                    style="marginTop: 7.89rem"
+                    textwidth="20rem"
+                    beforetext=""
+                    :hint="'Signature of ' + applicant.fullName"
+                    hintFontSize="11pt"
+                    :italicHint="false"
+                    text=""
+                  />
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
       </b-card>
     </div>
   </div>

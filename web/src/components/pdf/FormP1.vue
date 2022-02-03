@@ -118,57 +118,59 @@
         </li>
       </ol>
 
-      <div style="margin:1rem 0 0rem 0rem;">
-        <b>INFORMATION ABOUT EACH APPLICANT</b>
+      <div class="avoid-break">
+        <div style="margin:1rem 0 0rem 0rem;">
+          <b>INFORMATION ABOUT EACH APPLICANT</b>
+        </div>
+
+        <div style="margin:1rem 0 0rem 0rem;" v-for="(name, i) in applicantList" :key="i + 100">
+          <div>
+            Name: <b>{{ name.fullName }}</b>
+          </div>
+
+          <div>
+            Mailing address: <b>{{ name.address }}</b>
+          </div>
+
+          <div v-if="name.individual && !name.differentAddress">
+            This applicant is an individual and ordinarily lives at the mailing address noted above.
+          </div>
+
+          <div v-if="name.differentAddress">
+            This applicant is an individual and ordinarily lives in <b>{{ name.differentAddress }}</b
+            >.
+          </div>
+        </div>
       </div>
 
-      <div style="margin:1rem 0 0rem 0rem;" v-for="(name, i) in applicantList" :key="i + 100">
-        <div>
-          Name: <b>{{ name.fullName }}</b>
+      <div class="avoid-break">
+        <div style="margin:1rem 0 0rem 0rem;">
+          <b>INFORMATION FOR SERVICE OF APPLICANT</b>
+        </div>
+
+        <div style="margin:1rem 0 0rem 0rem;">
+          Street address: <b>{{ serviceContact.address }}</b>
         </div>
 
         <div>
-          Mailing address: <b>{{ name.address }}</b>
+          Telephone number: <b>{{ serviceContact.phone }}</b>
         </div>
 
-        <div v-if="name.individual && !name.differentAddress">
-          This applicant is an individual and ordinarily lives at the mailing address noted above.
-        </div>
-
-        <div v-if="name.differentAddress">
-          This applicant is an individual and ordinarily lives in <b>{{ name.differentAddress }}</b
-          >.
-        </div>
-
-        <div v-if="i < 1" class="new-page"></div>
-      </div>
-
-      <div style="margin:1rem 0 0rem 0rem;">
-        <b>INFORMATION FOR SERVICE OF APPLICANT</b>
-      </div>
-
-      <div style="margin:1rem 0 0rem 0rem;">
-        Street address: <b>{{ serviceContact.address }}</b>
-      </div>
-
-      <div>
-        Telephone number: <b>{{ serviceContact.phone }}</b>
-      </div>
-
-      <div>
-        E-mail address: <b>{{ serviceContact.email }}</b>
-      </div>
-
-      <div class="mt-5 row" v-for="(name, i) in applicantList" :key="i">
-        <div class="col-5">
-          Date:
-          <u
-            ><b>{{ formatMonthDayYear(new Date()) }}</b></u
-          >
-        </div>
         <div>
-          <u><b>Signed Electronically by </b></u><b>{{ name.fullName }}</b>
-          <div>Signature of {{ name.fullName }}</div>
+          E-mail address: <b>{{ serviceContact.email }}</b>
+        </div>
+
+        <div class="mt-5 row" v-for="(name, i) in applicantList" :key="i">
+          <div class="col-5">
+            Date:
+            <u
+              ><b>{{ formatMonthDayYear(new Date()) }}</b></u
+            >
+          </div>
+          <div>
+            <u><b>Signed Electronically by </b></u><b>{{ name.fullName }}</b>
+            <div>Signature of {{ name.fullName }}</div>
+          </div>
         </div>
       </div>
     </b-card>
@@ -315,7 +317,6 @@ export default defineComponent({
     const loadApplicantList = () => {
       if (survey) loadSurveyData(survey);
       else loadTestData();
-      //onPrint();
     };
 
     const applicationType = () => {
