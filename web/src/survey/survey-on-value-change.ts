@@ -254,6 +254,7 @@ export const toNextQuestion = options => {
     "address",
     "comment",
     "contactinfo",
+    "expression",
     "helptext",
     "matrix",
     "matrixdropdown",
@@ -265,13 +266,13 @@ export const toNextQuestion = options => {
   ];
 
   if (!options.question || typesToSkip.includes(options.question.getType())) return;
-  if (options.question.survey.platformName != "vue") return; //Disable this for sandbox mode.
+  // if (options.question.survey.platformName != "vue") return; //Disable this for sandbox mode.
 
   const filterQuestions = questions => {
     return questions.filter(
       q =>
         q.isVisible
-        && ((q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext"))
+        && ((q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext" && q.getType() !== "expression"))
     );
   };
 
@@ -285,7 +286,15 @@ export const toNextQuestion = options => {
     for (let panel of panels) {
       filtered = filterQuestions(panel.questions);
       nextQuestion = filtered.find(q => !q.value);
-      if (nextQuestion) break;
+
+      if (nextQuestion) {
+        // check if question in panel is usable
+        const currQuestionInPanel = filtered[filtered.indexOf(nextQuestion) - 1];
+        if (currQuestionInPanel && typesToSkip.includes(currQuestionInPanel.getType())) {
+          nextQuestion = null;
+        }
+        break;
+      }
     }
   }
 
@@ -302,7 +311,10 @@ export const toNextQuestion = options => {
     setTimeout(() => {
       const element = document.getElementById(nextQuestion.id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" })
+        window.scrollTo({
+          top: element.getBoundingClientRect().top + window.scrollY - 110, // leave room for the header
+          behavior: 'smooth'
+        });
       }
     }, 1);
   }
