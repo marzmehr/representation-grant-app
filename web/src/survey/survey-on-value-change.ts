@@ -266,7 +266,7 @@ export const toNextQuestion = options => {
   ];
 
   if (!options.question || typesToSkip.includes(options.question.getType())) return;
-  // if (options.question.survey.platformName != "vue") return; //Disable this for sandbox mode.
+  if (options.question.survey.platformName != "vue") return; //Disable this for editor mode.
 
   const filterQuestions = questions => {
     return questions.filter(
