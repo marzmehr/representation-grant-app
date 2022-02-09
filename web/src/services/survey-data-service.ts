@@ -64,5 +64,17 @@ export const SurveyDataService = {
       config
     );
     return response.data;
+  },
+  stats: async function() {
+    const config = {
+      responseType: "json",
+    } as AxiosRequestConfig;
+
+    const response = await axios.get(
+      `/stats/`,
+      config
+    );
+
+    return response.data;
   }
 };
