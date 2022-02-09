@@ -12,7 +12,12 @@ import {
 } from "@/state/survey-state";
 
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
-const getValueFromOptionsOrGetQuestion = (sender, options, questionName: string, getText?: boolean) => {
+const getValueFromOptionsOrGetQuestion = (
+  sender,
+  options,
+  questionName: string,
+  getText?: boolean
+) => {
   if (getText) {
     return getTextValue(sender, options, questionName);
   } else {
@@ -29,7 +34,7 @@ const getTextValue = (sender, options, questionName) => {
     const base = sender.getQuestionByName(questionName);
     return base?.choices.find(c => c.value == base?.value)?.text;
   }
-}
+};
 
 const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
   const questionNamesToWatch = [
@@ -49,7 +54,9 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
     applicantInfoPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
     applicantInfoPanel.visible = applicants.length > 0;
   }
-  const p1DeliveryInfoPanel = sender.getQuestionByName(SurveyQuestionNames.notifyP1DeliveryInfoPanel);
+  const p1DeliveryInfoPanel = sender.getQuestionByName(
+    SurveyQuestionNames.notifyP1DeliveryInfoPanel
+  );
   if (p1DeliveryInfoPanel) {
     const choices = applicants
       .map(a => potentialApplicants.find(pa => pa.key == a))
@@ -65,16 +72,19 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
 
 const clearPanel = (sender, options) => {
   if (options.name === SurveyQuestionNames.spouseExists) {
-    if (getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.spouseExists) === 'n') {
-        sender.getQuestionByName(SurveyQuestionNames.spouseInfoPanel).value = [];
+    if (
+      getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.spouseExists) === "n"
+    ) {
+      sender.getQuestionByName(SurveyQuestionNames.spouseInfoPanel).value = [];
+    }
+  } else if (options.name === SurveyQuestionNames.childExists) {
+    if (
+      getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.childExists) === "n"
+    ) {
+      sender.getQuestionByName(SurveyQuestionNames.childInfoPanel).value = [];
     }
   }
-  else if (options.name === SurveyQuestionNames.childExists) {
-    if (getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.childExists) === 'n') {
-        sender.getQuestionByName(SurveyQuestionNames.childInfoPanel).value = [];
-    }
-  }
-}
+};
 
 const determinePotentialApplicants = (sender, options) => {
   const questionNamesToWatch = [
@@ -92,7 +102,12 @@ const determinePotentialApplicants = (sender, options) => {
   const spouseExists = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[2]);
   const childExists = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[3]);
   const isFirstNations = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[4]);
-  let firstNationsPanel = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[5], true);
+  let firstNationsPanel = getValueFromOptionsOrGetQuestion(
+    sender,
+    options,
+    questionNamesToWatch[5],
+    true
+  );
 
   spousePanel = spousePanel
     .filter(s => spouseExists == "y")
@@ -201,23 +216,13 @@ export const determineEarliestSubmissionDate = (sender, options) => {
   }
 };
 
-export const collectPrevAddresses = (sender) => {
+export const collectPrevAddresses = sender => {
   let addressQuestions = [];
-  const keys = [
-    "street",
-    "city",
-    "country",
-    "state",
-    "postalCode",
-    "phone",
-    "fax",
-    "email"
-  ];
+  const keys = ["street", "city", "country", "state", "postalCode", "phone", "fax", "email"];
 
   for (const page of sender.pages) {
     for (const question of page.questions) {
       if (question.getType() === "address" && question.value) {
-        
         let hasAllValues = true;
         for (const key of keys) {
           if (question[key] && !question.value[key]) {
@@ -233,17 +238,20 @@ export const collectPrevAddresses = (sender) => {
   }
 
   // better way to get unique values?
-  const uniqueAddressQuestions = addressQuestions.filter((value, index, self) =>
-    index === self.findIndex((check) => (
-      check.street === value.street
-      && check.city === value.city
-      && check.state === value.state
-      && check.country === value.country
-      && check.postcode === value.postcode
-      && check.email === value.email
-      && check.phone === value.phone
-      && check.fax === value.fax
-    ))
+  const uniqueAddressQuestions = addressQuestions.filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex(
+        check =>
+          check.street === value.street &&
+          check.city === value.city &&
+          check.state === value.state &&
+          check.country === value.country &&
+          check.postcode === value.postcode &&
+          check.email === value.email &&
+          check.phone === value.phone &&
+          check.fax === value.fax
+      )
   );
 
   setPrevAddresses(uniqueAddressQuestions);
@@ -270,16 +278,14 @@ export const toNextQuestion = options => {
 
   const filterQuestions = questions => {
     return questions.filter(
-      q =>
-        q.isVisible
-        && ((q.getType() === "infotext" && q.isRequired) || (q.getType() !== "infotext" && q.getType() !== "helptext" && q.getType() !== "expression"))
+      q => q.isVisible && q.getType() !== "helptext" && q.getType() !== "expression"
     );
   };
 
   const currQuestion = options.question;
   let filtered;
   let nextQuestion;
-  
+
   if (currQuestion.getType() === "paneldynamic") {
     const panels = currQuestion?.panels;
 
@@ -313,7 +319,7 @@ export const toNextQuestion = options => {
       if (element) {
         window.scrollTo({
           top: element.getBoundingClientRect().top + window.scrollY - 110, // leave room for the header
-          behavior: 'smooth'
+          behavior: "smooth"
         });
       }
     }, 1);
@@ -329,4 +335,4 @@ export function onValueChanged(sender, options) {
   setLastUpdated(new Date());
   collectPrevAddresses(sender);
   toNextQuestion(options);
-};
+}
