@@ -25,7 +25,7 @@
             <b>Supported Web Browsers:</b>
             <ul>
               <li>
-                This service has been designed for Chrome and Firefox web browswers.
+                This service has been designed for Chrome and Firefox web browsers.
               </li>
               <li>
                 Do not use Internet Explorer.
@@ -58,14 +58,15 @@
             </ul>
           </b-list-group-item>
           <b-list-group-item>
-            <b> Time:</b> This service may take several hours to complete. Don't worry. You don't 
-            have to complete this all at once. This service will save your progress so you can come 
-            back later.<br />
-            The amount of time it will take you to complete your documents will depend on:
+            <b> Time:</b>
             <ul>
+              <li>This service may take several hours to complete. Don't worry. You don't have to complete this all at once. This service will save your progress so you can come back later.</li>
+              <li>The amount of time it will take you to complete your documents will depend on:</li>
               <li>If there is a <tooltip :index="0" title="Will" />.</li>
-              <li>How many people are involved</li>
-              <li>How many belongings are involved</li>
+              <ul>
+                <li>How many people are involved</li>
+                <li>How many belongings are involved</li>
+              </ul>
             </ul>
           </b-list-group-item>
           <b-list-group-item>
