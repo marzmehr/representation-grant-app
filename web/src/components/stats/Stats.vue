@@ -1,5 +1,5 @@
 <template>
-    <div v-if="overview && stats">
+    <div>
         <b-table
             hover
             head-variant="dark"
@@ -30,15 +30,15 @@ export default defineComponent({
         let overview = ref();
         const stats_fields = [
             "ID",
-            "Form P1",
-            "P1 Created Date",
-            "Form P9",
-            "P9 Created Date"
+            "FormP1",
+            "FormP1 Created Date",
+            "FormP9",
+            "FormP9 Created Date"
         ];
         const overview_fields = [
             "Total Applications",
-            "Total P1s",
-            "Total P9s"
+            "Total FormP1s",
+            "Total FormP9s"
         ];
 
         async function getStats() {

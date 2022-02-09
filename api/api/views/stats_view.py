@@ -11,6 +11,7 @@ class StatsView(APIView):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
     def get(self, request: Request):
+        forms = ["FormP1", "FormP9"]
         stats = []
 
         for app in Application.objects.all():
@@ -18,44 +19,33 @@ class StatsView(APIView):
                 "ID": app.id
             }
 
-            try:
-                p1 = PreparedPdf.objects.get(application_id=app.id, pdf_type="FormP1")
-            except:
-                p1 = False
+            for form in forms:
+                try:
+                    px = PreparedPdf.objects.get(application_id=app.id, pdf_type=form)
+                except:
+                    px = False
 
-            try:
-                p9 = PreparedPdf.objects.get(application_id=app.id, pdf_type="FormP9")
-            except:
-                p9 = False
+                form_key = f"{form}"
+                date_key = f"{form} Created Date"
+                    
+                if px:
+                    row.update({
+                        form_key: "Yes",
+                        date_key: px.created_date,
+                    })
 
-            if p1:
-                row.update({
-                    "Form P1": "Yes",
-                    "P1 Created Date": p1.created_date,
-                })
-            else:
-                row.update({
-                    "Form P1": "No",
-                    "P1 Created Date": None,
-                })
-
-            if p9:
-                row.update({
-                    "Form P9": "Yes",
-                    "P9 Created Date": p9.created_date,
-                })
-            else:
-                row.update({
-                    "Form P9": "No",
-                    "P9 Created Date": None,
-                })
-            
+                else:
+                    row.update({
+                        form_key: "No",
+                        date_key: None,
+                    })
+                
             stats.append(row)
 
         stats.append({
             "Total Applications": len(stats),
-            "Total P1s": len([True for stat in stats if stat["Form P1"] == "Yes"]),
-            "Total P9s": len([True for stat in stats if stat["Form P9"] == "Yes"])
+            "Total FormP1s": len([True for stat in stats if stat[forms[0]] == "Yes"]),
+            "Total FormP9s": len([True for stat in stats if stat[forms[1]] == "Yes"])
         })
 
         return Response(stats)
