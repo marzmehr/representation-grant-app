@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="margin: bottom 2.5em;">
         <b-table
             hover
             head-variant="dark"
