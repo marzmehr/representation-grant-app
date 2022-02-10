@@ -60,6 +60,7 @@ import Tooltip from "@/components/survey/Tooltip.vue";
 
 import { addCustomTemplating } from "@/survey/survey-templating";
 import { getUserId } from "@/state/application-state";
+import { onValueChanged } from "@/survey/survey-on-value-change";
 
 @Component({
   components: {
@@ -90,6 +91,7 @@ export default class PreQualification extends Vue {
     this.survey.showNavigationButtons = false;
     this.addSurveyListener();
     this.userId = getUserId.value;
+    this.survey.focusFirstQuestionAutomatic = false;
   }
 
   public onSubmit(evt) {
@@ -115,6 +117,7 @@ export default class PreQualification extends Vue {
   public addSurveyListener() {
     addCustomTemplating(this.survey);
     this.survey.onValueChanged.add((sender, options) => {
+      onValueChanged(sender, options);
       if (
         this.survey.data.qualifyingWillExists == "n" &&
         this.survey.data.qualifyingDiedAfterWESA == "y" &&
