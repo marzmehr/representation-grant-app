@@ -26,7 +26,8 @@
           <div class="navbar-text pt-0 pb-0" style="font-size: 12px;vertical-align:middle;">
             (also known as Probate)
           </div>
-          <span class="navbar-tag" style="vertical-align:middle;">BETA</span>
+          <span class="navbar-tag">BETA</span>
+          <button type="button" class="btn btn-primary btn-sm" style="margin-left: 20px" v-on:click="toFeedback()">Give Feedback</button>
         </div>
 
         <div class="navbar-extra">
