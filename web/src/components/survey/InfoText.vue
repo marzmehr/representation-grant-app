@@ -101,6 +101,9 @@ export default defineComponent({
         props.question.survey.onDynamicPanelRemoved.add(onDynamicPanelAdded);
 
       const q = props.question;
+
+      if (!props.question.requiredErrorText) props.question.requiredErrorText = "Please press Continue";
+
       //Hooks for SurveyEditor KO.
       if (props.isSurveyEditor) {
         q.registerFunctionOnPropertyValueChanged("title", () => {
@@ -124,6 +127,7 @@ export default defineComponent({
         });
       }
     });
+
     return {
       state,
       handleBodyTemplate,
