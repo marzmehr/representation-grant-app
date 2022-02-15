@@ -49,7 +49,7 @@ const routes = [
     component: LandingPage
   },
   {
-    path: "/is-this-service-right-for-you",
+    path: "/do-you-need-this-service",
     name: "pre-qualification",
     component: PreQualification
   },
@@ -64,13 +64,13 @@ const routes = [
     component: UnQualified
   },
   {
-    path: "/questionnaire",
+    path: "/current-application",
     name: "surveys",
     beforeEnter: authGuard,
     component: SurveyMain
   },
   {
-    path: "/dashboard",
+    path: "/applications",
     name: "applicant-status",
     beforeEnter: authGuard,
     component: ApplicationStatus

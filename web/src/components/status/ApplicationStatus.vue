@@ -4,7 +4,7 @@
       <div class="alert alert-danger mt-4" v-if="error">{{ error }}</div>
       <b-row>
         <b-col>
-          <h1>Previous Applications</h1>
+          <h1>My Applications</h1>
           <hr class="bg-light" style="height: 2px;" />
 
           <b-card
@@ -13,7 +13,7 @@
             bg-variant="white"
             v-if="!previousApplications.length"
           >
-            <span class="text-muted ml-4 mb-5">No previous applications.</span>
+            <span class="text-muted ml-4 mb-5">Your saved applications will appear here.</span>
           </b-card>
 
           <b-card v-else no-body border-variant="white" bg-variant="white">
@@ -62,7 +62,7 @@
                   variant="success"
                   class="btn-lg register-button"
                   @click="beginNewApplication()"
-                  >Begin NEW Application</b-button
+                  >Start New Application</b-button
                 >
               </b-col>
             </b-row>
