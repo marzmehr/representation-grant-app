@@ -15,11 +15,10 @@ export function addCustomTemplating(surveyRuntime: any) {
       const data = `${options.name.replace("bullets(", "").replace(")", "")}`;
       const targetName = data.split(".")[0];
       const key = data.split(".")[1];
-      const question = sender.getQuestionByName(targetName);
-      const questionValue = question?.value; 
-      if (questionValue) {
+      const question = sender.getQuestionByName(targetName)?.value;
+      if (question) {
         const bullets = [];
-        questionValue.forEach(function(element) {
+        question.forEach(function(element) {
           let value = `${key?.length > 0 ? element[key] : element}`;
           if (["spouseName", "childName"].includes(key) && value.includes("(") && value.includes(")")) value = "";
           if (value && value !== "undefined") bullets.push(`<li>${value}</li>`);
