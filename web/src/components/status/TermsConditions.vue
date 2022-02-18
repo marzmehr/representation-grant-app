@@ -33,7 +33,7 @@
 
           <p>
             You previously agreed to these terms when you clicked "Continue" on the first page of this service entitled 
-            <a href="do-you-need-this-service" target="_blank">Do you need this service?</a>
+            <a href="do-you-need-this-service" target="_blank">Is this service right for your situation?</a>
           </p>
         </b-card>
       </b-col>
