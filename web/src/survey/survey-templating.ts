@@ -19,7 +19,8 @@ export function addCustomTemplating(surveyRuntime: any) {
       if (question) {
         const bullets = [];
         question.forEach(function(element) {
-          const value = `${key?.length > 0 ? element[key] : element}`;
+          let value = `${key?.length > 0 ? element[key] : element}`;
+          if (["spouseName", "childName"].includes(key) && value.includes("(") && value.includes(")")) value = "";
           if (value && value !== "undefined") bullets.push(`<li>${value}</li>`);
         });
         options.value = bullets.join("\r\n");
