@@ -32,15 +32,13 @@ ol.reset-counter {
   counter-reset: bracket-counter;
 }
 ol li.bracket-number {
-  text-indent: -25px;
+  text-indent: -21.5px;
   text-align: justify;
   text-justify: inter-word;
-  margin: 1rem 0;
   counter-increment: bracket-counter;
 }
 ol li.bracket-number:before {
   content: "(" counter(bracket-counter) ") ";
-  /* font-weight: bold; */
 }
 
 ol.reset-counter-alpha {
@@ -50,7 +48,6 @@ ol.reset-counter-alpha {
 
 ol li.bracket-alpha {
   text-indent: -20px;
-  margin: 0.25rem 0;
   counter-increment: alpha;
 }
 
@@ -59,8 +56,7 @@ ol li.bracket-alpha:before {
 }
 
 ol li.double-bracket-alpha {
-  text-indent: -20px;
-  margin: 0.25rem 0;
+  text-indent: -40px;
   counter-increment: alpha;
 }
 
@@ -75,7 +71,7 @@ ol.reset-counter-roman {
 
 ol li.bracket-roman {
   text-indent: -20px;
-  margin: 0.25rem 0;
+  /* margin: 0.25rem 0; */
   counter-increment: roman;
 }
 
@@ -91,7 +87,7 @@ ol li.list-number {
   text-indent: -25px;
   text-align: justify;
   text-justify: inter-word;
-  margin: 1rem 0;
+  /* margin: 1rem 0; */
   counter-increment: list-counter;
 }
 ol li.list-number:before {
@@ -145,6 +141,10 @@ div.checkbox {
 body {
   font-family: "BC Sans";
   line-height: 1.6;
+}
+
+b {
+  color: black;
 }
 
 div.ch {
