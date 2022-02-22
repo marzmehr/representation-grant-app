@@ -8,12 +8,12 @@
         v-for="(applicant, i) in applicantList"
         :key="i"
         id="print"
-        style="border:1px solid; border-radius:5px;padding:3rem 4rem 2rem 4rem;"
+        style="border:1px solid; border-radius:5px;padding: 0.75in 0.75in 0.75in 0.75in"
         bg-variant="white"
         class="printcard mt-4 mb-3"
         ref="root"
       >
-        <div style="text-align:center;margin:1rem 0 0 0rem;"><b>FORM P9</b> (RULE 25-3 (2) )</div>
+        <div style="text-align:center;"><b>FORM P9</b> (RULE 25-3 (2) )</div>
 
         <div class="mt-3 m-0 p-0 row">
           <div style="margin-left: auto; text-align: right;!important">
@@ -21,28 +21,29 @@
               This is the <b>1st</b> affidavit of <b>{{ applicant.fullName }}</b> in this case
             </div>
             <div class="mt-2">
-              <underline-form textwidth="5rem" beforetext="and was made on" text="" />
+              <underline-form textwidth="12rem" beforetext="and was made on" text="" />
             </div>
             <div class="mt-2">
               <b>{{ applicant.courthouse }}</b>
-              <underline-form textwidth="5rem" beforetext="Registry No." text="" />
+              <underline-form textwidth="12rem" beforetext="Registry No." text="" />
             </div>
           </div>
         </div>
-
-        <div style="text-align:center;margin:1rem 0 1rem 0rem;">
+        <br/>
+        <div style="text-align:center;">
           In the Matter of the Estate of <b>{{ deceased }}</b
           >, deceased
         </div>
-        <div style="text-align:center;margin:1rem 0 1rem 0rem;">
+        <br/>
+        <div style="text-align:center;">
           <b>AFFIDAVIT OF DELIVERY</b>
         </div>
-
+        <br/>
         <div>
           I, <b>{{ applicant.fullName }}</b
           >, of <b>{{ applicant.address }}</b
           >, <b>{{ applicant.occupation }}</b
-          >, SWEAR (OR AFFIRM) THAT:
+          >, AFFIRM/SWEAR THAT:
         </div>
         <br />
         <div style="display:inline;">
@@ -63,8 +64,8 @@
           </div>
 
           <div class="avoid-break" v-if="mailRecipients(applicant).length > 0">
-            <div style="margin-left: 50px;">
-              by mailing it/them to the following persons by ordinary mail:
+            <div style="margin-left: 25px;">
+              by mailing it to the following persons by ordinary mail:
             </div>
             <div :key="i" v-for="(recipient, i) of mailRecipients(applicant)">
               <div class="full-underline" :key="i">
@@ -85,7 +86,7 @@
           />
 
           <div class="avoid-break" v-if="inPersonRecipients(applicant).length > 0">
-            <div style="margin-left: 50px;">
+            <div style="margin-left: 25px;">
               by handing it/them to and leaving it/them with the following persons:
             </div>
             <div :key="i" v-for="(recipient, i) of inPersonRecipients(applicant)">
@@ -105,7 +106,7 @@
           />
 
           <div class="avoid-break" v-if="electronicRecipients(applicant).length > 0">
-            <div style="margin-left: 50px;">
+            <div style="margin-left: 25px;">
               by sending it/them to the following persons by e-mail, fax or other electronic means
               to that person:
             </div>
@@ -117,7 +118,7 @@
                 </div>
               </div>
             </div>
-            <ul style="margin-left:30px">
+            <ul style="margin-left:50px">
               <li v-if="allP1DeliveryElectronicReceipt(applicant)">
                 Each of the persons who received delivery by e-mail, fax or other electronic means
                 has, in writing, acknowledged receipt of the document(s) referred to in this
@@ -149,13 +150,13 @@
             </ul>
           </div>
         </div>
-
+        <br/>
         <div class="avoid-split">
           <table class="mt-3">
             <tr>
               <td>
-                <div style="margin:0.5rem 0 1rem 0rem;">
-                  SWORN (OR AFFIRMED) BEFORE ME
+                <div>
+                  AFFIRMED/SWORN BEFORE ME
                 </div>
                 <underline-form textwidth="10rem" beforetext="at" text="" />
                 <div style="margin:0.5rem 0 ; display:inline; text-indent: 5px;">
@@ -163,15 +164,13 @@
                 </div>
 
                 <underline-form
-                  style="margin:0.75rem 0 ;"
                   textwidth="17rem"
                   beforetext="on"
                   text=""
                 />
-                <div style="margin:0.5rem 0;"></div>
                 <underline-form
                   style="margin:.5rem 0 ;"
-                  textwidth="20rem"
+                  textwidth="18.5rem"
                   beforetext=""
                   hint="A commissioner for taking affidavits for British Columbia"
                   text=""
@@ -180,7 +179,7 @@
               <td>
                 <div class="col-6 border-left">
                   <underline-form
-                    style="marginTop: 7.89rem"
+                    style="marginTop: 4rem"
                     textwidth="20rem"
                     beforetext=""
                     :hint="'Signature of ' + applicant.fullName"
@@ -272,8 +271,8 @@ export default defineComponent({
       root.value.forEach((r: HTMLElement) => (innerHTML += r.innerHTML));
       const html = formPdfHtml(
         innerHTML,
-        `Generated by 'Represent Someone Who Died' On ${formatMonthDayYear(new Date())}`,
-        "Form P9"
+        `Generated by 'Represent Someone Who Died' On ${formatMonthDayYear(new Date())}.`,
+        "P9"
       );
       const jsonData = {
         applicantList: applicantList.value
@@ -333,7 +332,7 @@ export default defineComponent({
         if (applicantQuestion) {
           const applicantPanel = applicantQuestion.value[i] as applicantInfoPanel;
           const address = applicantPanel?.applicantOrdinaryAddress;
-          applicant.address = `${address?.city}, ${address?.country}`;
+          applicant.address = `${address?.street}, ${address?.city}, ${address?.state}, ${address?.country}`;
           applicant.occupation = applicantPanel.applicantOccupation || "";
         }
 
