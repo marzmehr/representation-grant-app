@@ -71,7 +71,6 @@ ol.reset-counter-roman {
 
 ol li.bracket-roman {
   text-indent: -20px;
-  /* margin: 0.25rem 0; */
   counter-increment: roman;
 }
 
@@ -87,7 +86,6 @@ ol li.list-number {
   text-indent: -25px;
   text-align: justify;
   text-justify: inter-word;
-  /* margin: 1rem 0; */
   counter-increment: list-counter;
 }
 ol li.list-number:before {
