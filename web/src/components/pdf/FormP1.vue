@@ -5,73 +5,67 @@
     </b-button>
     <b-card
       id="print"
-      style="border:1px solid; border-radius:5px;padding:3rem 4rem 2rem 4rem;"
+      style="border:1px solid; border-radius:5px;padding: 0.75in 0.75in 0.75in 0.75in"
       bg-variant="white"
       class="printcard mt-4 mb-3"
       ref="root"
     >
       <div style="text-align:center;">
-        <div style="margin:1rem 0 0rem 0rem;"><b>FORM P1</b> (RULE 25-2 (3) )</div>
-        <div style="margin:1rem 0 0rem 0rem;">
+        <div><b>FORM P1</b> (RULE 25-2 (3) )</div>
+        <br/>
+        <div>
           <b>NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</b>
         </div>
       </div>
-
-      <div style="margin:1rem 0 0rem 0rem;">
+      <br/>
+      <div>
         <b>TAKE NOTICE THAT:</b>
       </div>
-
-      <div style="margin:1rem 0 0rem 0rem;">
-        {{ takeNoticeTitle() }} to apply, in the <b>{{ serviceContact.courtLocation }}</b> court
+      <br/>
+      <div>
+        {{ takeNoticeStart() }} <b>{{ takeNoticeApplicants() }}</b> {{ takeNoticeEnd() }} to apply, in the <b>{{ serviceContact.courtLocation }}</b> court
         registry, for a <b>Grant of Administration Without Will Annexed</b> in relation to the
         estate of the deceased described below who died on <b>{{ deceased.dateOfDeath }}</b>.
       </div>
-
-      <div style="margin:1rem 0 0rem 0rem;">
+      <br/>
+      <div>
         Full legal name of deceased:
         <div>
           <b>{{ formatDeceasedName(deceased) }}</b>
         </div>
       </div>
-
-      <div style="margin:1rem 0 0rem 0rem;">
+      <br/>
+      <div>
         Last residential address of the deceased:
         <div>
           <b>{{ deceased.address }}</b>
         </div>
       </div>
-
-      <div style="margin:1rem 0 0rem 0rem;">
-        <b>This application does not relate to a will of a foreign grant.</b>
+      <br/>
+      <div>
+        <b>This application does not relate to a will or a foreign grant.</b>
       </div>
-
-      <div style="margin:1rem 0 0rem 0rem;">
-        <b>AND TAKE NOTICE THAT:</b>
+      <br/>
+      <br/>
+      <div>
+        <b>AND TAKE NOTICE THAT:</b> 
       </div>
-
+      <br/>
       <ol class="reset-counter">
         <li class="bracket-number">
-          Before obtaining the foregoing grant or resealing, the applicant may be granted an
-          authorization to obtain estate information or an authorization to obtain resealing
-          information, as the case may be, in relation to that grant or resealing for the purposes
-          of obtaining financial information in relation to the grant or resealing.
+          Before obtaining the foregoing grant, the applicant may be granted an authorization to 
+          obtain estate information in relation to that grant for the purposes of obtaining 
+          financial information in relation to the grant.
         </li>
+        <br/>
         <li class="bracket-number">
-          You have a right to oppose, by filing a notice of dispute in accordance with Rule 25-10
-          (1),
-          <ol class="reset-counter-alpha">
-            <li class="double-bracket-alpha">
-              if the intended application is for an estate grant, the granting of either or both of
-              an authorization to obtain estate information and the estate grant, or
-            </li>
-            <li class="double-bracket-alpha">
-              if the intended application is for a resealing, the granting of either or both of an
-              authorization to obtain resealing information and the resealing.
-            </li>
-          </ol>
+          You have a right to oppose, by filing a notice of dispute in accordance with Rule 25-10 
+          (1), the granting of either or both of an authorization to obtain estate information and 
+          the estate grant.
         </li>
+        <br/>
         <li class="bracket-number">
-          You may or may not be entitled to claim against the estate for relief, including a claim
+          You may or may not be entitled to claim against the estate for relief, including a claim 
           under
           <ol class="reset-counter-alpha">
             <li class="double-bracket-alpha">the <i>Family Law Act</i>, or</li>
@@ -80,86 +74,80 @@
             </li>
           </ol>
         </li>
+        <br/>
         <li class="bracket-number">
-          If you choose to take a step referred to in paragraph (2) or (3), you must do so within
+          If you choose to take a step referred to in paragraph (2) or (3), you must do so within 
           the time limited by any relevant rule of court or other enactment.
         </li>
+        <br/>
         <li class="bracket-number">
-          You may consult with your own lawyer concerning your interest in, or rights against, the
+          You may consult with your own lawyer concerning your interest in, or rights against, the 
           estate.
         </li>
+        <br/>
         <li class="bracket-number">
-          After the applicant has filed a submission for estate grant or submission for resealing,
-          you may apply for an order requiring the applicant to provide security unless the
-          applicant is the Public Guardian and Trustee. Filing a notice of dispute will prevent a
-          grant from being issued before you are able to apply for the order requiring security.
+          After the applicant has filed a submission for estate grant, you may apply for an order 
+          requiring the applicant to provide security unless the applicant is the Public Guardian 
+          and Trustee. Filing a notice of dispute will prevent a grant from being issued before you 
+          are able to apply for the order requiring security.
         </li>
+        <br/>
         <li class="bracket-number">
-          An authorization to obtain estate information, an authorization to obtain resealing
-          information or a grant may issue to the applicant, or a foreign grant may be resealed, on
-          any date that is <i><u>at least 21 days</u></i> after the date on which this notice is
+          An authorization to obtain estate information or a grant may issue to the applicant on 
+          any date that is at <i><u>least 21 days</u></i> after the date on which this notice is 
           delivered to you or on any earlier date ordered by the court.
         </li>
+        <br/>
         <li class="bracket-number">
-          If an authorization to obtain estate information issues to the applicant, the applicant
-          may apply for a grant without further notice. If an authorization to obtain resealing
-          information issues to the applicant, the applicant may apply for the resealing of the
-          foreign grant without further notice to you.
+          If an authorization to obtain estate information issues to the applicant, the applicant 
+          may apply for a grant without further notice.
         </li>
+        <br/>
         <li class="bracket-number">
-          If a grant issues to the applicant, the applicant must provide, if there is a will, to the
-          beneficiaries or, if there is no will, to intestate successors of the deceased an
-          accounting as to how the estate was administered and how the estate assets were
-          distributed, and if a foreign grant is resealed as a result of the application, the
-          intended applicant must provide, if there is a will, to the beneficiaries or, if there is
-          no will, to intestate successors of the deceased, an accounting as to how the estate
-          comprising the assets to which the resealed grant applies was administered and how those
-          assets were distributed.
+          If a grant issues to the applicant, the applicant must provide, to intestate successors of 
+          the deceased, an accounting as to how the estate was administered and how the estate assets 
+          were distributed.
         </li>
       </ol>
+      <br/>
 
       <div class="avoid-break">
-        <div style="margin:1rem 0 0rem 0rem;">
+        <div>
           <b>INFORMATION ABOUT EACH APPLICANT</b>
         </div>
-
-        <div style="margin:1rem 0 0rem 0rem;" v-for="(name, i) in applicantList" :key="i + 100">
+        <br/>
+        <div v-for="(name, i) in applicantList" :key="i + 100">
           <div>
             Name: <b>{{ name.fullName }}</b>
           </div>
-
           <div>
             Mailing address: <b>{{ name.address }}</b>
           </div>
-
           <div v-if="name.individual && !name.differentAddress">
             This applicant is an individual and ordinarily lives at the mailing address noted above.
           </div>
-
           <div v-if="name.differentAddress">
             This applicant is an individual and ordinarily lives in <b>{{ name.differentAddress }}</b
             >.
           </div>
         </div>
       </div>
-
+      <br/>
       <div class="avoid-break">
-        <div style="margin:1rem 0 0rem 0rem;">
-          <b>INFORMATION FOR SERVICE OF APPLICANT</b>
+        <div>
+          <b>INFORMATION FOR SERVICE</b>
         </div>
-
-        <div style="margin:1rem 0 0rem 0rem;">
+        <br/>
+        <div>
           Street address: <b>{{ serviceContact.address }}</b>
         </div>
-
         <div>
           Telephone number: <b>{{ serviceContact.phone }}</b>
         </div>
-
         <div>
           E-mail address: <b>{{ serviceContact.email }}</b>
         </div>
-
+        
         <div class="mt-5 row" v-for="(name, i) in applicantList" :key="i">
           <div class="col-5">
             Date:
@@ -168,7 +156,7 @@
             >
           </div>
           <div>
-            <u><b>Signed Electronically by </b></u><b>{{ name.fullName }}</b>
+            <u><b>Signed Electronically by {{ name.fullName }}</b></u>
             <div>Signature of {{ name.fullName }}</div>
           </div>
         </div>
@@ -323,16 +311,26 @@ export default defineComponent({
       return "a Grant of Administration Without Will Annexed";
     };
 
-    const takeNoticeTitle = () => {
+    const takeNoticeStart = () => {
+      if (applicantList.value.length == 1) return "The applicant";
+      return "The applicants";
+    }
+
+    const takeNoticeEnd = () => {
+      if (applicantList.value.length == 1) return "proposes";
+      return "propose";
+    }
+
+    const takeNoticeApplicants = () => {
       if (applicantList.value.length == 1)
-        return `The applicant ${applicantList.value[0].fullName} proposes`;
+        return `${applicantList.value[0].fullName}`;
       if (applicantList.value.length == 2)
-        return `The applicants (${applicantList.value[0].fullName} and ${applicantList.value[1].fullName}) propose`;
+        return `(${applicantList.value[0].fullName} and ${applicantList.value[1].fullName})`;
       if (applicantList.value.length >= 3)
         return `The applicants (${applicantList.value
           .slice(0, -1)
           .map(a => a.fullName)
-          .join(" ")} and ${applicantList.value.slice(-1)[0].fullName}) propose`;
+          .join(" ")} and ${applicantList.value.slice(-1)[0].fullName})`;
     };
 
     const getAllApplicants = () => {
@@ -347,8 +345,8 @@ export default defineComponent({
       const formName = "FormP1";
       const html = formPdfHtml(
         root.value.innerHTML,
-        `Generated by 'Represent Someone Who Died' On ${formatMonthDayYear(new Date())}`,
-        "Form P1"
+        `Generated by 'Represent Someone Who Died' on ${formatMonthDayYear(new Date())}.`,
+        "P1"
       );
       const jsonData = {
         applicantList: applicantList.value,
@@ -379,7 +377,9 @@ export default defineComponent({
       loadApplicantList,
       deceased,
       serviceContact,
-      takeNoticeTitle,
+      takeNoticeStart,
+      takeNoticeEnd,
+      takeNoticeApplicants,
       getAllApplicants,
       applicationType,
       getApplicants,
