@@ -302,21 +302,33 @@ export const toNextQuestion = options => {
   let nextQuestion;
 
   if (currQuestion.getType() === "paneldynamic") {
-    const panels = currQuestion?.panels;
+    // avoid scrolling on dynamic panels until 
+    return;
+    
+    // const panels = currQuestion?.panels;
 
-    for (let panel of panels) {
-      filtered = filterQuestions(panel.questions);
-      nextQuestion = filtered.find(q => !q.value);
+    // for (let panel of panels) {
+    //   filtered = filterQuestions(panel.questions);
+    //   nextQuestion = filtered.find(q => !q.value);
 
-      if (nextQuestion) {
-        // check if question in panel is usable
-        const currQuestionInPanel = filtered[filtered.indexOf(nextQuestion) - 1];
-        if (currQuestionInPanel && typesToSkip.includes(currQuestionInPanel.getType())) {
-          nextQuestion = null;
-        }
-        break;
-      }
-    }
+    //   const info = panel.questions.filter(q => q.getType() === "helptext");
+    //   console.log("info", info, info.map(q => q.value));
+    //   if (info) return;
+
+    //   if (nextQuestion) {
+    //     // check if question in panel is usable
+    //     const currQuestionInPanel = filtered[filtered.indexOf(nextQuestion) - 1];
+    //     console.log("curr question:", currQuestionInPanel?.title, currQuestionInPanel);
+    //     if (currQuestionInPanel) {
+    //       console.log("type:", currQuestionInPanel.getType());
+    //     }
+    //     if (currQuestionInPanel && typesToSkip.includes(currQuestionInPanel.getType())) {
+    //       console.log("we get in here");
+    //       nextQuestion = null;
+    //     }
+    //     break;
+    //   }
+    // }
   }
 
   // if we are at the end of the panel, we get the next question the usual way
