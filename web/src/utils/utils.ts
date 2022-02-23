@@ -79,16 +79,16 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
           margin: 0.75in 0.75in 0.75in 0.75in !important;
           font-size: 11pt !important;			
           @bottom-left {
-            content: "${pageFooterLeft}"; 
+            content: '${pageFooterLeft}';
             white-space: pre;
             font-size: 8pt;
-            font-family: 'BC Sans' !important;
+            font-family: 'BC Sans Regular' !important;
             color: #606060;
           }
           @bottom-right {
             content: "${pageFooterRight} Page " counter(page) " of " counter(pages);
             font-size: 8pt;
-            font-family: 'BC Sans' !important;
+            font-family: 'BC Sans Regular' !important;
             color: #606060;
           }
         }
