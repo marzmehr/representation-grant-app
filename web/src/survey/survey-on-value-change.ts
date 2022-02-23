@@ -311,19 +311,10 @@ export const toNextQuestion = options => {
     //   filtered = filterQuestions(panel.questions);
     //   nextQuestion = filtered.find(q => !q.value);
 
-    //   const info = panel.questions.filter(q => q.getType() === "helptext");
-    //   console.log("info", info, info.map(q => q.value));
-    //   if (info) return;
-
     //   if (nextQuestion) {
     //     // check if question in panel is usable
     //     const currQuestionInPanel = filtered[filtered.indexOf(nextQuestion) - 1];
-    //     console.log("curr question:", currQuestionInPanel?.title, currQuestionInPanel);
-    //     if (currQuestionInPanel) {
-    //       console.log("type:", currQuestionInPanel.getType());
-    //     }
     //     if (currQuestionInPanel && typesToSkip.includes(currQuestionInPanel.getType())) {
-    //       console.log("we get in here");
     //       nextQuestion = null;
     //     }
     //     break;
