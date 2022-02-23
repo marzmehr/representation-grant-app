@@ -302,21 +302,24 @@ export const toNextQuestion = options => {
   let nextQuestion;
 
   if (currQuestion.getType() === "paneldynamic") {
-    const panels = currQuestion?.panels;
+    // avoid scrolling on dynamic panels until 
+    return;
+    
+    // const panels = currQuestion?.panels;
 
-    for (let panel of panels) {
-      filtered = filterQuestions(panel.questions);
-      nextQuestion = filtered.find(q => !q.value);
+    // for (let panel of panels) {
+    //   filtered = filterQuestions(panel.questions);
+    //   nextQuestion = filtered.find(q => !q.value);
 
-      if (nextQuestion) {
-        // check if question in panel is usable
-        const currQuestionInPanel = filtered[filtered.indexOf(nextQuestion) - 1];
-        if (currQuestionInPanel && typesToSkip.includes(currQuestionInPanel.getType())) {
-          nextQuestion = null;
-        }
-        break;
-      }
-    }
+    //   if (nextQuestion) {
+    //     // check if question in panel is usable
+    //     const currQuestionInPanel = filtered[filtered.indexOf(nextQuestion) - 1];
+    //     if (currQuestionInPanel && typesToSkip.includes(currQuestionInPanel.getType())) {
+    //       nextQuestion = null;
+    //     }
+    //     break;
+    //   }
+    // }
   }
 
   // if we are at the end of the panel, we get the next question the usual way
