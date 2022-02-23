@@ -103,7 +103,7 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
         </style>
       </head>
       <body>
-        <div class="container">
+        <div class="print-container">
             ${html}
         </div>
       </body>

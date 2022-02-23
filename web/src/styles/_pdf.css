@@ -113,7 +113,7 @@ ol li.list-number:before {
 }
 
 /* this is actually used for printing */
-.container {
+.print-container {
   width: 100% !important;
   max-width: 683px !important;
   min-width: 683px !important;

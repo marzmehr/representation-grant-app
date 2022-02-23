@@ -11,7 +11,7 @@
       ref="root"
     >
       <div style="text-align:center;">
-        <div><b>FORM P1</b> (RULE 25-2 (3) )</div>
+        <div><b>FORM P1</b> (RULE 25-2 (3))</div>
         <br/>
         <div>
           <b>NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</b>
