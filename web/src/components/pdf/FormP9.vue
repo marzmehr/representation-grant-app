@@ -31,8 +31,7 @@
         </div>
         <br/>
         <div style="text-align:center;">
-          In the Matter of the Estate of <b>{{ deceased }}</b
-          >, deceased
+          In the Matter of the Estate of <b>{{ deceased }}</b>, deceased
         </div>
         <br/>
         <div style="text-align:center;">
@@ -46,7 +45,7 @@
           >, AFFIRM/SWEAR THAT:
         </div>
         <br />
-        <div style="display:inline;">
+        <div>
           1 Attached to this affidavit and marked as Exhibit A is a copy of a notice of proposed
           application in Form P1 (the "notice").
         </div>
@@ -77,14 +76,6 @@
             </div>
           </div>
 
-          <br
-            v-if="
-              mailRecipients(applicant).length > 0 &&
-                (electronicRecipients(applicant).length > 0 ||
-                  inPersonRecipients(applicant).length > 0)
-            "
-          />
-
           <div class="avoid-break" v-if="inPersonRecipients(applicant).length > 0">
             <div style="margin-left: 25px;">
               by handing it/them to and leaving it/them with the following persons:
@@ -99,13 +90,7 @@
             </div>
           </div>
 
-          <br
-            v-if="
-              inPersonRecipients(applicant).length > 0 && electronicRecipients(applicant).length > 0
-            "
-          />
-
-          <div class="avoid-break" v-if="electronicRecipients(applicant).length > 0">
+          <div v-if="electronicRecipients(applicant).length > 0">
             <div style="margin-left: 25px;">
               by sending it/them to the following persons by e-mail, fax or other electronic means
               to that person:
@@ -118,36 +103,38 @@
                 </div>
               </div>
             </div>
-            <ul style="margin-left:50px">
-              <li v-if="allP1DeliveryElectronicReceipt(applicant)">
-                Each of the persons who received delivery by e-mail, fax or other electronic means
-                has, in writing, acknowledged receipt of the document(s) referred to in this
-                section.
-              </li>
+            <div class="avoid-split">
+              <ul style="margin-left:50px">
+                <li v-if="allP1DeliveryElectronicReceipt(applicant)">
+                  Each of the persons who received delivery by e-mail, fax or other electronic means
+                  has, in writing, acknowledged receipt of the document(s) referred to in this
+                  section.
+                </li>
 
-              <li
-                v-if="
-                  electronicRecipients(applicant).length <= 1 &&
-                    allP1DeliveryElectronicReceiptRetain(applicant)
-                "
-              >
-                I will retain a copy of those acknowledgements until the personal representative of
-                the deceased is discharged and will produce those acknowledgements promptly after
-                being requested to do so by the registrar. after being requested to do so by the
-                registrar.
-              </li>
+                <li
+                  v-if="
+                    electronicRecipients(applicant).length <= 1 &&
+                      allP1DeliveryElectronicReceiptRetain(applicant)
+                  "
+                >
+                  I will retain a copy of those acknowledgements until the personal representative of
+                  the deceased is discharged and will produce those acknowledgements promptly after
+                  being requested to do so by the registrar. after being requested to do so by the
+                  registrar.
+                </li>
 
-              <li
-                v-if="
-                  electronicRecipients(applicant).length > 1 &&
-                    allP1DeliveryElectronicReceiptRetain(applicant)
-                "
-              >
-                We will retain a copy of those acknowledgements until the personal representative of
-                the deceased is discharged and will produce those acknowledgements promptly after
-                being requested to do so by the registrar.
-              </li>
-            </ul>
+                <li
+                  v-if="
+                    electronicRecipients(applicant).length > 1 &&
+                      allP1DeliveryElectronicReceiptRetain(applicant)
+                  "
+                >
+                  We will retain a copy of those acknowledgements until the personal representative of
+                  the deceased is discharged and will produce those acknowledgements promptly after
+                  being requested to do so by the registrar.
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <br/>
