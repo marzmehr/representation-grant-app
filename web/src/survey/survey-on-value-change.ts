@@ -220,24 +220,39 @@ export const collectPrevAddresses = sender => {
   let addressQuestions = [];
   const keys = ["street", "city", "country", "state", "postalCode", "phone", "fax", "email"];
 
+  const validEntry = (question) => {
+    let hasAllValues = true;
+    for (const key of keys) {
+      if (question[key] && !question.value[key]) {
+        hasAllValues = false;
+      }
+    }
+
+    if (hasAllValues) {
+      addressQuestions.push(question.value);
+    }
+  };
+
+  const validPanel = (panels) => {
+    for (const panel of panels) {
+      for (const question of panel.questions) {
+        if (question.getType() === "address" && question.value) {
+          validEntry(question);
+        }
+      }
+    }
+  };
+
   for (const page of sender.pages) {
     for (const question of page.questions) {
-      if (question.getType() === "address" && question.value) {
-        let hasAllValues = true;
-        for (const key of keys) {
-          if (question[key] && !question.value[key]) {
-            hasAllValues = false;
-          }
-        }
-
-        if (hasAllValues) {
-          addressQuestions.push(question.value);
-        }
+      if (question.getType() === "paneldynamic") {
+        validPanel(question.panels);
+      } else if (question.getType() === "address" && question.value) {
+        validEntry(question);
       }
     }
   }
 
-  // better way to get unique values?
   const uniqueAddressQuestions = addressQuestions.filter(
     (value, index, self) =>
       index ===
