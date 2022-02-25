@@ -262,7 +262,7 @@ export const collectPrevAddresses = sender => {
           check.city === value.city &&
           check.state === value.state &&
           check.country === value.country &&
-          check.postcode === value.postcode &&
+          check.postalCode === value.postalCode &&
           check.email === value.email &&
           check.phone === value.phone &&
           check.fax === value.fax

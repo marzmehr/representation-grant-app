@@ -23,7 +23,7 @@ interface AddressAndContact {
     city?: string;
     state?: string;
     country?: string;
-    postcode?: string;
+    postalCode?: string;
     fax?: string;
     phone?: string;
     email?: string;

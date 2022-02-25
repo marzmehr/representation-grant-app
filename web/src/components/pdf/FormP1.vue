@@ -19,7 +19,7 @@
       </div>
       <br/>
       <div>
-        <b class="answer">TAKE NOTICE THAT:</b>
+        <b>TAKE NOTICE THAT:</b>
       </div>
       <br/>
       <div>
@@ -48,7 +48,7 @@
       <br/>
       <br/>
       <div>
-        <b class="answer">AND TAKE NOTICE THAT:</b> 
+        <b>AND TAKE NOTICE THAT:</b> 
       </div>
       <br/>
       <ol class="reset-counter">
@@ -113,7 +113,7 @@
 
       <div class="avoid-break">
         <div>
-          <b class="answer">INFORMATION ABOUT EACH APPLICANT</b>
+          <b>INFORMATION ABOUT EACH APPLICANT</b>
         </div>
         <br/>
         <div v-for="(name, i) in applicantList" :key="i + 100">
@@ -135,7 +135,7 @@
       <br/>
       <div class="avoid-break">
         <div>
-          <b class="answer">INFORMATION FOR SERVICE</b>
+          <b>INFORMATION FOR SERVICE</b>
         </div>
         <br/>
         <div>
@@ -175,6 +175,7 @@ import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types
 import { FormP1Applicant, FormP1Deceased, FormP1ServiceContact } from "@/types/application";
 import {
   formatMailingAddress,
+  formatDeceasedAddress,
   formatDeceasedName,
   formatMonthDayYear,
   formPdfHtml,
@@ -268,7 +269,7 @@ export default defineComponent({
       });
       deceased.value = {
         ...data.deceasedName,
-        address: formatMailingAddress(data.deceasedAddress) || "",
+        address: formatDeceasedAddress(data.deceasedAddress) || "",
         dateOfDeath: data.deceasedDateOfDeath ? dateFormatter(data.deceasedDateOfDeath) : ""
       };
       serviceContact.value = {

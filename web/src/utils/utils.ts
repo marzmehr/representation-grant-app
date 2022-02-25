@@ -46,8 +46,15 @@ export const getBCEIDUrl = () => {
 export const formatMailingAddress = (mailingAddress: AddressAndContact): string => {
   if (!mailingAddress) return null;
   return `${mailingAddress?.street || ""}, ${mailingAddress?.city || ""}, ${mailingAddress?.state ||
-    ""}, ${mailingAddress?.country || ""} ${mailingAddress?.postcode || ""}`;
+    ""}, ${mailingAddress?.country || ""} ${mailingAddress?.postalCode || ""}`;
 };
+
+export const formatDeceasedAddress = (mailingAddress: AddressAndContact): string => {
+  if (!mailingAddress) return null;
+  console.log("address we are working with", mailingAddress);
+  return `${mailingAddress?.street || ""}, ${mailingAddress?.city || ""}, ${mailingAddress?.state ||
+    ""}, ${mailingAddress?.postalCode || ""}, ${mailingAddress?.country || ""}`;
+}
 
 export const formatDeceasedName = (deceasedName: PersonName): string => {
   return `${deceasedName?.first || ""} ${deceasedName?.middle || ""} ${deceasedName?.last || ""}`;
