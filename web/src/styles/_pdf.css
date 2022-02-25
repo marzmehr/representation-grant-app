@@ -141,10 +141,6 @@ body {
   line-height: 1.6;
 }
 
-b {
-  color: black;
-}
-
 div.ch {
   text-align: justify;
   text-indent: 1.8rem;
@@ -153,4 +149,8 @@ div.ch {
 
 .ch::after {
   text-align: justify;
+}
+
+.answer {
+  color: black;
 }
