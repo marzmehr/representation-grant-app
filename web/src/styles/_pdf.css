@@ -32,7 +32,7 @@ ol.reset-counter {
   counter-reset: bracket-counter;
 }
 ol li.bracket-number {
-  text-indent: -21.5px;
+  text-indent: -20px;
   text-align: justify;
   text-justify: inter-word;
   counter-increment: bracket-counter;
