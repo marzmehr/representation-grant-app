@@ -51,7 +51,6 @@ export const formatMailingAddress = (mailingAddress: AddressAndContact): string 
 
 export const formatDeceasedAddress = (mailingAddress: AddressAndContact): string => {
   if (!mailingAddress) return null;
-  console.log("address we are working with", mailingAddress);
   return `${mailingAddress?.street || ""}, ${mailingAddress?.city || ""}, ${mailingAddress?.state ||
     ""}, ${mailingAddress?.postalCode || ""}, ${mailingAddress?.country || ""}`;
 }
