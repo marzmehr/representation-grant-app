@@ -32,7 +32,7 @@ ol.reset-counter {
   counter-reset: bracket-counter;
 }
 ol li.bracket-number {
-  text-indent: -20px;
+  text-indent: -20.5px;
   text-align: justify;
   text-justify: inter-word;
   counter-increment: bracket-counter;
@@ -115,9 +115,9 @@ ol li.list-number:before {
 /* this is actually used for printing */
 .print-container {
   width: 100% !important;
-  max-width: 683px !important;
-  min-width: 683px !important;
-  font-size: 10pt !important;
+  max-width: 675px !important;
+  min-width: 675px !important;
+  font-size: 11pt !important;
   font-family: "BC Sans";
   color: #313132 !important;
   padding: 0px;
