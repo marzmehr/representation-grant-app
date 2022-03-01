@@ -82,7 +82,7 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
         <style>
         @page {
           size: 8.5in 11in !important;
-          margin: 0.75in 0.75in 0.75in 0.75in !important;
+          margin: 0.68in 0.75in 0.75in 0.75in !important;
           font-size: 11pt !important;			
           @bottom-left {
             content: '${pageFooterLeft}';
