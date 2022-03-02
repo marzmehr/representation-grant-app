@@ -46,8 +46,14 @@ export const getBCEIDUrl = () => {
 export const formatMailingAddress = (mailingAddress: AddressAndContact): string => {
   if (!mailingAddress) return null;
   return `${mailingAddress?.street || ""}, ${mailingAddress?.city || ""}, ${mailingAddress?.state ||
-    ""}, ${mailingAddress?.country || ""} ${mailingAddress?.postcode || ""}`;
+    ""}, ${mailingAddress?.country || ""} ${mailingAddress?.postalCode || ""}`;
 };
+
+export const formatP1Address = (mailingAddress: AddressAndContact): string => {
+  if (!mailingAddress) return null;
+  return `${mailingAddress?.street || ""}, ${mailingAddress?.city || ""}, ${mailingAddress?.state ||
+    ""}, ${mailingAddress?.postalCode || ""}, ${mailingAddress?.country || ""}`;
+}
 
 export const formatDeceasedName = (deceasedName: PersonName): string => {
   return `${deceasedName?.first || ""} ${deceasedName?.middle || ""} ${deceasedName?.last || ""}`;
@@ -76,7 +82,7 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
         <style>
         @page {
           size: 8.5in 11in !important;
-          margin: 0.75in 0.75in 0.75in 0.75in !important;
+          margin: 0.68in 0.75in 0.75in 0.75in !important;
           font-size: 11pt !important;			
           @bottom-left {
             content: '${pageFooterLeft}';
