@@ -147,15 +147,20 @@
         <div>
           E-mail address: <b class="answer">{{ serviceContact.email }}</b>
         </div>
-        
-        <div class="mt-5 row" v-for="(name, i) in applicantList" :key="i">
-          <div class="col-5">
+        <div v-if="serviceContact.fax">
+          Fax number: <b class="answer">{{ serviceContact.fax }}</b>
+        </div>
+        <br/>
+        <br/>
+        <div class="row" style="margin-left: 0;" v-for="(name, i) in applicantList" :key="i">
+          <div class="col-*">
             Date:
             <u
               ><b class="answer">{{ formatMonthDayYear(new Date()) }}</b></u
             >
           </div>
-          <div>
+          <div class="col-1"></div>
+          <div class="col-*">
             <u><b class="answer">Signed Electronically by {{ name.fullName }}</b></u>
             <div>Signature of {{ name.fullName }}</div>
           </div>
@@ -175,7 +180,7 @@ import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types
 import { FormP1Applicant, FormP1Deceased, FormP1ServiceContact } from "@/types/application";
 import {
   formatMailingAddress,
-  formatDeceasedAddress,
+  formatP1Address,
   formatDeceasedName,
   formatMonthDayYear,
   formPdfHtml,
@@ -256,8 +261,8 @@ export default defineComponent({
           fullName: (a as any).applicantName || "", //Brought over via survey-on-value-change (from javascript)
           address:
             a.applicantOrdinaryAddressReceiveMail == "y"
-              ? formatMailingAddress(a.applicantOrdinaryAddress)
-              : formatMailingAddress(a.applicantMailingAddress),
+              ? formatP1Address(a.applicantOrdinaryAddress)
+              : formatP1Address(a.applicantMailingAddress),
           individual: true, // applicantNewPartOfOrg not used.
           lawyer: data.applicantHasLawyer ? data.applicantLawyerName || "" : "",
           differentMail: a.applicantOrdinaryAddressReceiveMail === "n",
@@ -269,11 +274,11 @@ export default defineComponent({
       });
       deceased.value = {
         ...data.deceasedName,
-        address: formatDeceasedAddress(data.deceasedAddress) || "",
+        address: formatP1Address(data.deceasedAddress) || "",
         dateOfDeath: data.deceasedDateOfDeath ? dateFormatter(data.deceasedDateOfDeath) : ""
       };
       serviceContact.value = {
-        address: formatMailingAddress(data.applicantServiceAddress) || "",
+        address: formatP1Address(data.applicantServiceAddress) || "",
         phone: data.applicantServicePhone || "",
         fax: data.applicantServiceFax || "",
         email: data.applicantServiceEmail || "",
@@ -287,7 +292,7 @@ export default defineComponent({
       if (data.applicantHasLawyer == "y") {
         serviceContact.value = {
           ...serviceContact.value,
-          address: formatMailingAddress(data.applicantLawyerFirmAddress) || "",
+          address: formatP1Address(data.applicantLawyerFirmAddress) || "",
           phone: data.applicantLawyerPhone,
           fax: data.applicantLawyerFax,
           email: data.applicantLawyerEmail
