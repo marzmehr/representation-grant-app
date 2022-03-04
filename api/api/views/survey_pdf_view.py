@@ -1,10 +1,9 @@
+from io import StringIO
 import json
 import logging
 
 from django.conf import settings
-from django.http import (
-    HttpResponse, HttpResponseNotFound
-)
+from django.http import HttpResponse, HttpResponseNotFound
 from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.template.loader import get_template
 from django.utils import timezone
@@ -16,9 +15,13 @@ from core.pdf import render as render_pdf
 from api.models.application import Application
 from api.models.prepared_pdf import PreparedPdf
 from api.utils import get_application_for_user
+from PyPDF2 import PdfFileMerger, PdfFileReader
+from io import BytesIO
+
 
 LOGGER = logging.getLogger(__name__)
 no_record_found = "No record found."
+
 
 class SurveyPdfView(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -60,13 +63,13 @@ class SurveyPdfView(generics.GenericAPIView):
     def put(self, request, application_id):
         if not request.user.is_staff and not request.user.is_superuser:
             return HttpResponseForbidden()
-        html = request.data['html']
+        html = request.data["html"]
         pdf_content = self.generate_pdf(html)
         return self.create_download_response(pdf_content)
 
     def post(self, request, application_id):
-        html = request.data['html']
-        json_data = request.data['json_data']
+        html = request.data["html"]
+        json_data = request.data["json_data"]
         user_id = request.user.id
         app = get_application_for_user(application_id, user_id)
         if not app:
@@ -78,8 +81,12 @@ class SurveyPdfView(generics.GenericAPIView):
             return HttpResponseBadRequest("Missing parameters.")
 
         try:
-            pdf_result = self.get_pdf_by_application_id_and_type(application_id, pdf_type)
+            pdf_result = self.get_pdf_by_application_id_and_type(
+                application_id, pdf_type
+            )
+
             pdf_content = self.generate_pdf(html)
+
             (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(pdf_content)
             (pdf_key_id, json_enc) = settings.ENCRYPTOR.encrypt(
                 json.dumps(json_data).encode("utf-8")
@@ -103,6 +110,32 @@ class SurveyPdfView(generics.GenericAPIView):
 
             app.last_printed = timezone.now()
             app.save()
+        except Exception as ex:
+            LOGGER.error("ERROR: Pdf generation failed %s", ex)
+            raise
+
+        try:
+            appended_forms = request.data["appended_forms"]
+            if appended_forms:
+                pdf_merger = PdfFileMerger()
+                merged_forms = BytesIO()
+                pdf_merger.append(PdfFileReader(stream=BytesIO(pdf_content)))
+
+                for appended_form in appended_forms.split(","):
+                    pdf = self.get_pdf_by_application_id_and_type(
+                        application_id, appended_form
+                    )
+
+                    to_append = PdfFileReader(
+                        stream=BytesIO(settings.ENCRYPTOR.decrypt(pdf.key_id, pdf.data))
+                    )
+                    pdf_merger.append(to_append)
+
+                pdf_merger.write(merged_forms)
+                merged_forms.seek(0)
+                pdf_content = merged_forms.read()
+                pdf_merger.close()
+
         except Exception as ex:
             LOGGER.error("ERROR: Pdf generation failed %s", ex)
             raise
