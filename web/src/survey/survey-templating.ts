@@ -33,17 +33,18 @@ export function addCustomTemplating(surveyRuntime: any) {
     //Description: Print comma list from array.
     //Example Usage: commaList(<questionName1>, <questionName2>, <questionNameN>)
     //or commaList(<panelN>.<fieldnameN>,<questionNameN>)
-    if (options.name?.includes("commaList(")) {
-      const data = `${options.name.replace("commaList(", "").replace(")", "")}`;
+    const commaListHelper = (to_replace, separator) => {
+      const data = `${options.name.replace(`${to_replace}(`, "").replace(")", "")}`;
       let commaList = [];
       const panels = [];
-
       let entries = data
         .split(",")
         .map(e => e.trim())
         .map(e => ({ targetName: e.split(".")[0], panelQuestion: e.split(".")[1] }));
+
       entries.forEach(entry => {
         const questionValue = sender.getQuestionByName(entry.targetName)?.value;
+
         if (panels.includes(entry.targetName)) return;
         if (Array.isArray(questionValue)) {
           questionValue.forEach(question => {
@@ -65,6 +66,7 @@ export function addCustomTemplating(surveyRuntime: any) {
           commaList.push(questionValue);
         }
       });
+
       commaList = commaList.filter(s => s && s != "undefined");
 
       if (commaList.length == 0) {
@@ -72,8 +74,16 @@ export function addCustomTemplating(surveyRuntime: any) {
       } else
         options.value = `${
           commaList.length > 1 ? commaList.slice(0, -1).join(", ") : commaList[0]
-        } ${commaList.length > 1 ? `and ${commaList.slice(-1)[0]}` : ``}`;
+        } ${commaList.length > 1 ? `${separator} ${commaList.slice(-1)[0]}` : ``}`;
       options.isExists = true;
+    }
+
+    if (options.name?.includes("commaListAnd")) {
+      commaListHelper("commaListAnd", "and");
+    }
+
+    if (options.name?.includes("commaListOr")) {
+      commaListHelper("commaListOr", "or");
     }
 
     //Description: Print out entire panel content.
