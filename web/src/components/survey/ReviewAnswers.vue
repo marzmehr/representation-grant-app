@@ -159,6 +159,17 @@ export default defineComponent({
         return getLocations?.value?.find(l => l.id == answer)?.name || answer;
       }
 
+      const addressHandler = (question, answer) => {
+        let filtered = {};
+        for (let key of Object.keys(answer)) {
+          if (question[key]) {
+            filtered[key] = answer[key];
+          }
+        }
+
+        return formatObject(filtered);
+      }
+
       const formatSwitchboard = (question, answer, questionType) => {
         if (!answer) {
           return "";
@@ -170,6 +181,8 @@ export default defineComponent({
           return signatureHandler(answer);
         } else if (questionType === "yesno") {
           return yesNoHandler(answer);
+        } else if (questionType === "address") {
+          return addressHandler(question, answer);
         } else if (questionType === "personname") {
           return customLabelHandler(answer, [
             question?.labelFirstName,
