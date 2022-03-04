@@ -27,7 +27,7 @@ export const SurveyDataService = {
   getApplicationList: async function() {
     return await axios.get("/app-list/");
   },
-  getPdf: async function(applicationId, formName, html, jsonData, version = "1.0") {
+  getPdf: async function(applicationId, formName, html, jsonData, version = "1.0", appendedForms = "") {
     const url = `/survey-print/${applicationId}/?pdf_type=${formName}&version=${version}`;
     const options = {
       method: window.location.pathname.includes("sandbox") ? "PUT" : "POST",
@@ -37,7 +37,8 @@ export const SurveyDataService = {
       },
       data: {
         html: html,
-        json_data: jsonData
+        json_data: jsonData,
+        appended_forms: appendedForms,
       }
     } as AxiosRequestConfig;
     return await axios(url, options);
