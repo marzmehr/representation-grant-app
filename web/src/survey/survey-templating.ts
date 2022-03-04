@@ -34,18 +34,17 @@ export function addCustomTemplating(surveyRuntime: any) {
     //Example Usage: commaList(<questionName1>, <questionName2>, <questionNameN>)
     //or commaList(<panelN>.<fieldnameN>,<questionNameN>)
     const commaListHelper = (to_replace, separator) => {
-      console.log("we do this now:", to_replace, separator);
       const data = `${options.name.replace(`${to_replace}(`, "").replace(")", "")}`;
       let commaList = [];
       const panels = [];
-      console.log("data", data);
       let entries = data
         .split(",")
         .map(e => e.trim())
         .map(e => ({ targetName: e.split(".")[0], panelQuestion: e.split(".")[1] }));
-      console.log("entries:", entries);
+
       entries.forEach(entry => {
         const questionValue = sender.getQuestionByName(entry.targetName)?.value;
+
         if (panels.includes(entry.targetName)) return;
         if (Array.isArray(questionValue)) {
           questionValue.forEach(question => {
@@ -67,9 +66,8 @@ export function addCustomTemplating(surveyRuntime: any) {
           commaList.push(questionValue);
         }
       });
-      console.log("Before filter commaList:", commaList);
+
       commaList = commaList.filter(s => s && s != "undefined");
-      console.log("After filter commaList:", commaList);
 
       if (commaList.length == 0) {
         options.value = "";
@@ -85,7 +83,6 @@ export function addCustomTemplating(surveyRuntime: any) {
     }
 
     if (options.name?.includes("commaListOr")) {
-      console.log("We're in here");
       commaListHelper("commaListOr", "or");
     }
 
