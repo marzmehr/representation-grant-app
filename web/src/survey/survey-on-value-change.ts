@@ -1,7 +1,7 @@
 //Needs to be function, otherwise this context wont work.
 import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, getDay, parseISO } from "date-fns";
-import { ItemValue } from "survey-vue";
+import { ConditionsParserError, ItemValue, Question } from "survey-vue";
 import {
   getPotentialApplicants,
   setApplicants,
@@ -32,7 +32,7 @@ const getTextValue = (sender, options, questionName) => {
     return options.question.choices.find(c => c.value == options.value)?.text;
   } else {
     const base = sender.getQuestionByName(questionName);
-    return base?.choices.find(c => c.value == base?.value)?.text;
+    return base.choices?.find(c => c.value == base?.value)?.text;
   }
 };
 
@@ -87,37 +87,47 @@ const clearPanel = (sender, options) => {
 };
 
 const determinePotentialApplicants = (sender, options) => {
-  const questionNamesToWatch = [
-    SurveyQuestionNames.spouseInfoPanel,
-    SurveyQuestionNames.childInfoPanel,
-    SurveyQuestionNames.spouseExists,
-    SurveyQuestionNames.childExists,
-    SurveyQuestionNames.deceasedFirstNations,
-    SurveyQuestionNames.deceasedFirstNationsName
-  ];
-  if (!questionNamesToWatch.includes(options.name)) return;
-  let spousePanel =
-    getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[0]) || [];
-  let childPanel = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[1]) || [];
-  const spouseExists = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[2]);
-  const childExists = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[3]);
-  const isFirstNations = getValueFromOptionsOrGetQuestion(sender, options, questionNamesToWatch[4]);
-  let firstNationsPanel = getValueFromOptionsOrGetQuestion(
-    sender,
-    options,
-    questionNamesToWatch[5],
-    true
-  );
+  enum QuestionNamesToWatch {
+    spouseInfoPanel = SurveyQuestionNames.spouseInfoPanel,
+    spouseExists = SurveyQuestionNames.spouseExists,
+    childInfoPanel = SurveyQuestionNames.childInfoPanel,
+    childExists = SurveyQuestionNames.childExists,
+    deceasedFirstNations = SurveyQuestionNames.deceasedFirstNations,
+    deceasedFirstNationsName =  SurveyQuestionNames.deceasedFirstNationsName,
+    creditorPersonInfoPanel = SurveyQuestionNames.creditorPersonInfoPanel,
+    creditorPersonExists = SurveyQuestionNames.creditorPersonExists,
+  };
+
+  if (!Object.values(QuestionNamesToWatch).includes(options.name)) return;
+
+  let spousePanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.spouseInfoPanel.toString()) || [];
+  const spouseExists = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.spouseExists.toString());
+
+  let childPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.childInfoPanel.toString()) || [];
+  const childExists = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.childExists.toString());
+
+  let firstNationsPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.deceasedFirstNations.toString(), true);
+  const isFirstNations = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.deceasedFirstNationsName.toString());
+
+  let creditorPersonPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorPersonInfoPanel.toString()) || [];
+  const creditorPersonExists = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorPersonExists.toString());
 
   spousePanel = spousePanel
     .filter(s => spouseExists == "y")
     .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "y")
     .map(s => s.spouseName);
+
   childPanel = childPanel
     .filter(s => childExists == "y")
     .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
     .map(s => s.childName);
+
   firstNationsPanel = isFirstNations == "y" && firstNationsPanel ? [firstNationsPanel] : [];
+
+  creditorPersonPanel = creditorPersonPanel
+    .filter(s => creditorPersonExists == "y")
+    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "y")
+    .map(s => `${s.creditorPersonName} ({deceasedName} owed them more than $10,000)`);
 
   const potentialApplicants = [
     ...spousePanel.map((sp, index) => ({
@@ -134,6 +144,11 @@ const determinePotentialApplicants = (sender, options) => {
       applicantRole: "firstNations",
       applicantName: f,
       key: `f${index}`
+    })),
+    ...creditorPersonPanel.map((cr, index) => ({
+      applicantRole: "creditorPerson",
+      applicantName: cr,
+      key: `cr${index}`
     }))
   ];
 
