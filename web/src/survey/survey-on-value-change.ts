@@ -1,7 +1,7 @@
 //Needs to be function, otherwise this context wont work.
 import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, getDay, parseISO } from "date-fns";
-import { ConditionsParserError, ItemValue, Question } from "survey-vue";
+import { ConditionsParserError, ItemValue, Question, Survey } from "survey-vue";
 import {
   getPotentialApplicants,
   setApplicants,
@@ -96,6 +96,8 @@ const determinePotentialApplicants = (sender, options) => {
     deceasedFirstNationsName =  SurveyQuestionNames.deceasedFirstNationsName,
     creditorPersonInfoPanel = SurveyQuestionNames.creditorPersonInfoPanel,
     creditorPersonExists = SurveyQuestionNames.creditorPersonExists,
+    creditorOrganizationInfoPanel = SurveyQuestionNames.creditorOrganizationInfoPanel,
+    creditorOrganizationExists = SurveyQuestionNames.creditorOrganizationExists,
   };
 
   if (!Object.values(QuestionNamesToWatch).includes(options.name)) return;
@@ -111,6 +113,9 @@ const determinePotentialApplicants = (sender, options) => {
 
   let creditorPersonPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorPersonInfoPanel.toString()) || [];
   const creditorPersonExists = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorPersonExists.toString());
+
+  let creditorOrganizationPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorOrganizationInfoPanel.toString()) || [];
+  const creditorOrganizationExists = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorOrganizationExists.toString());
 
   spousePanel = spousePanel
     .filter(s => spouseExists == "y")
@@ -128,6 +133,10 @@ const determinePotentialApplicants = (sender, options) => {
     .filter(s => creditorPersonExists == "y")
     .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "y")
     .map(s => `${s.creditorPersonName} ({deceasedName} owed them more than $10,000)`);
+
+  creditorOrganizationPanel = creditorOrganizationPanel
+    .filter(s => creditorOrganizationExists == "y")
+    .map(s => `${s.creditorPersonName} ({deceasedName} owed them more than $10,000)`)
 
   const potentialApplicants = [
     ...spousePanel.map((sp, index) => ({
@@ -148,8 +157,13 @@ const determinePotentialApplicants = (sender, options) => {
     ...creditorPersonPanel.map((cr, index) => ({
       applicantRole: "creditorPerson",
       applicantName: cr,
-      key: `cr${index}`
-    }))
+      key: `crp${index}`
+    })),
+    ...creditorOrganizationPanel.map((cr, index) => ({
+      applicantRole: "creditorOrganization",
+      applicantName: cr,
+      key: `cro${index}`
+    })),
   ];
 
   const applicantChoice = sender.getQuestionByName(SurveyQuestionNames.applicantChoice);
