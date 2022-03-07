@@ -136,7 +136,7 @@ const determinePotentialApplicants = (sender, options) => {
 
   creditorOrganizationPanel = creditorOrganizationPanel
     .filter(s => creditorOrganizationExists == "y")
-    .map(s => `${s.creditorPersonName} ({deceasedName} owed them more than $10,000)`)
+    .map(s => `${s.creditorOrganizationName} ({deceasedName} owed them more than $10,000)`)
 
   const potentialApplicants = [
     ...spousePanel.map((sp, index) => ({
