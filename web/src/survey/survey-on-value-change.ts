@@ -90,13 +90,10 @@ const determinePotentialApplicants = (sender, options) => {
   enum QuestionNamesToWatch {
     spouseInfoPanel = SurveyQuestionNames.spouseInfoPanel,
     spouseExists = SurveyQuestionNames.spouseExists,
-
     childInfoPanel = SurveyQuestionNames.childInfoPanel,
     childExists = SurveyQuestionNames.childExists,
-
     deceasedFirstNations = SurveyQuestionNames.deceasedFirstNations,
     deceasedFirstNationsName =  SurveyQuestionNames.deceasedFirstNationsName,
-
     creditorPersonInfoPanel = SurveyQuestionNames.creditorPersonInfoPanel,
     creditorPersonExists = SurveyQuestionNames.creditorPersonExists,
   };
