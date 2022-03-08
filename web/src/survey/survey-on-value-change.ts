@@ -29,7 +29,7 @@ const getValueFromOptionsOrGetQuestion = (
 
 const getTextValue = (sender, options, questionName) => {
   if (options.name == questionName) {
-    return options.question.choices.find(c => c.value == options.value)?.text;
+    return options.question.choices?.find(c => c.value == options.value)?.text;
   } else {
     const base = sender.getQuestionByName(questionName);
     return base.choices?.find(c => c.value == base?.value)?.text;
