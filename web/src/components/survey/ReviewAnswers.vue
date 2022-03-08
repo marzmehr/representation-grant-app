@@ -224,8 +224,9 @@ export default defineComponent({
 
           const displayables = panel.questions.filter(q => q.isVisible && !(q.getType() === "infotext" || q.getType() === "helptext"));
           displayables.forEach((displayable, j) => {
+
             const formattedAnswer = formatSwitchboard(
-              undefined,
+              displayable,
               answer[displayable.name],
               displayable.getType()
             );
