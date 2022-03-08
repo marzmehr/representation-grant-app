@@ -303,12 +303,6 @@ export default defineComponent({
       let resultList = [];
 
       let applicants = getApplicants.value;
-
-      // modify names to remove `()`, specifically for creditor names
-      applicants.forEach(function(element) {
-        element.applicantName = element.applicantName.split(" (")[0];
-      });
-
       const applicantQuestion = allQuestions.find(
         q => q.name === SurveyQuestionNames.applicantInfoPanel
       );

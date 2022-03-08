@@ -132,11 +132,11 @@ const determinePotentialApplicants = (sender, options) => {
   creditorPersonPanel = creditorPersonPanel
     .filter(s => creditorPersonExists == "y")
     .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "y")
-    .map(s => `${s.creditorPersonName} ({deceasedName} owed them more than $10,000)`);
+    .map(s => s.creditorPersonName);
 
   creditorOrganizationPanel = creditorOrganizationPanel
     .filter(s => creditorOrganizationExists == "y")
-    .map(s => `${s.creditorOrganizationName} ({deceasedName} owed them more than $10,000)`)
+    .map(s => s.creditorOrganizationName)
 
   const potentialApplicants = [
     ...spousePanel.map((sp, index) => ({
