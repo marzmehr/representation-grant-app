@@ -1,7 +1,7 @@
 //Needs to be function, otherwise this context wont work.
 import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, getDay, parseISO } from "date-fns";
-import { ConditionsParserError, ItemValue, Question, Survey } from "survey-vue";
+import { ItemValue } from "survey-vue";
 import {
   getPotentialApplicants,
   setApplicants,
@@ -108,8 +108,8 @@ const determinePotentialApplicants = (sender, options) => {
   let childPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.childInfoPanel.toString()) || [];
   const childExists = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.childExists.toString());
 
-  let firstNationsPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.deceasedFirstNations.toString(), true);
-  const isFirstNations = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.deceasedFirstNationsName.toString());
+  let isFirstNations = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.deceasedFirstNations.toString());
+  const firstNationsName = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.deceasedFirstNationsName.toString(), true);
 
   let creditorPersonPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorPersonInfoPanel.toString()) || [];
   const creditorPersonExists = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorPersonExists.toString());
@@ -127,7 +127,7 @@ const determinePotentialApplicants = (sender, options) => {
     .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
     .map(s => s.childName);
 
-  firstNationsPanel = isFirstNations == "y" && firstNationsPanel ? [firstNationsPanel] : [];
+  const firstNationsPanel = isFirstNations == "y" && firstNationsName ? [firstNationsName] : [];
 
   creditorPersonPanel = creditorPersonPanel
     .filter(s => creditorPersonExists == "y")
@@ -150,7 +150,7 @@ const determinePotentialApplicants = (sender, options) => {
       key: `c${index}`
     })),
     ...firstNationsPanel.map((f, index) => ({
-      applicantRole: "firstNations",
+      applicantRole: "firstNation",
       applicantName: f,
       key: `f${index}`
     })),
