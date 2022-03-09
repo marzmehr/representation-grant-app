@@ -166,7 +166,7 @@
               <td>
                 <div class="col-6 border-left">
                   <underline-form
-                    style="marginTop: 4.4rem; marginLeft: -1px;"
+                    style="marginTop: 4rem; marginLeft: -1px;"
                     textwidth="20rem"
                     beforetext=""
                     :hint="'Signature of ' + applicant.fullName"
