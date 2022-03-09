@@ -93,7 +93,7 @@
 
           <div v-if="electronicRecipients(applicant).length > 0">
             <div style="margin-left: 25px;">
-              by sending it/them to the following persons by e-mail, fax or other electronic means
+              by sending it to the following persons by e-mail, fax or other electronic means
               to that person:
             </div>
             <div :key="i" v-for="(recipient, i) of electronicRecipients(applicant)">
@@ -120,8 +120,7 @@
                 >
                   I will retain a copy of those acknowledgements until the personal representative of
                   the deceased is discharged and will produce those acknowledgements promptly after
-                  being requested to do so by the registrar. after being requested to do so by the
-                  registrar.
+                  being requested to do so by the registrar.
                 </li>
 
                 <li
