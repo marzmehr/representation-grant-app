@@ -11,6 +11,79 @@ import {
   setRecipients
 } from "@/state/survey-state";
 
+enum Roles {
+  spouse,
+  spouseGuardian,
+  spouseNominee,
+  spousePersonalRep,
+  child,
+  childGuardian,
+  childNominee,
+  childPersonalRep,
+  gChild,
+  gChildGuardian,
+  gChildNominee,
+  gChildPersonalRep,
+  gGChild,
+  gGChildGuardian,
+  gGChildNominee,
+  gGChildPersonalRep,
+  gGGChild,
+  gGGChildGuardian,
+  gGGChildNominee,
+  gGGChildPersonalRep,
+  descendant,
+  descendantGuardian,
+  descendantNominee,
+  descendantPersonalRep,
+  parent,
+  parentGuardian,
+  parentNominee,
+  parentPersonalRep,
+  sibling,
+  siblingGuardian,
+  siblingNominee,
+  siblingPersonalRep,
+  nibling,
+  niblingGuardian,
+  niblingNominee,
+  niblingPersonalRep,
+  gNibling,
+  gNiblingGuardian,
+  gNiblingNominee,
+  gNiblingPersonalRep,
+  gParent,
+  gParentGuardian,
+  gParentNominee,
+  gParentPersonalRep,
+  pibling,
+  piblingGuardian,
+  piblingNominee,
+  piblingPersonalRep,
+  cousin,
+  cousinGuardian,
+  cousinNominee,
+  cousinPersonalRep,
+  gGParent,
+  gGParentGuardian,
+  gGParentNominee,
+  gGParentPersonalRep,
+  gPibling,
+  gPiblingGuardian,
+  gPiblingNominee,
+  gPiblingPersonalRep,
+  firstNation,
+  executor,
+  beneficiary,
+  creditorPerson,
+  creditorOrganization,
+  foreignWillExtra,
+  citor,
+  pgt,
+  organization,
+  childWelfare,
+}
+
 //Helper function, that either grabs value from the event, or from the survey via getQuestionByName.
 const getValueFromOptionsOrGetQuestion = (
   sender,
@@ -140,27 +213,27 @@ const determinePotentialApplicants = (sender, options) => {
 
   const potentialApplicants = [
     ...spousePanel.map((sp, index) => ({
-      applicantRole: "spouse",
+      applicantRole: `${Roles.spouse}`,
       applicantName: sp,
       key: `s${index}`
     })),
     ...childPanel.map((c, index) => ({
-      applicantRole: "child",
+      applicantRole: `${Roles.child}`,
       applicantName: c,
       key: `c${index}`
     })),
     ...firstNationsPanel.map((f, index) => ({
-      applicantRole: "firstNation",
+      applicantRole: `${Roles.firstNation}`,
       applicantName: f,
       key: `f${index}`
     })),
     ...creditorPersonPanel.map((cr, index) => ({
-      applicantRole: "creditorPerson",
+      applicantRole: `${Roles.creditorPerson}`,
       applicantName: cr,
       key: `crp${index}`
     })),
     ...creditorOrganizationPanel.map((cr, index) => ({
-      applicantRole: "creditorOrganization",
+      applicantRole: `${Roles.creditorOrganization}`,
       applicantName: cr,
       key: `cro${index}`
     })),
