@@ -126,10 +126,11 @@ class SurveyPdfView(generics.GenericAPIView):
                         application_id, appended_form
                     )
 
-                    to_append = PdfFileReader(
-                        stream=BytesIO(settings.ENCRYPTOR.decrypt(pdf.key_id, pdf.data))
-                    )
-                    pdf_merger.append(to_append)
+                    if pdf:
+                        to_append = PdfFileReader(
+                            stream=BytesIO(settings.ENCRYPTOR.decrypt(pdf.key_id, pdf.data))
+                        )
+                        pdf_merger.append(to_append)
 
                 pdf_merger.write(merged_forms)
                 merged_forms.seek(0)

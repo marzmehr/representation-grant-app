@@ -14,16 +14,16 @@
         ref="root"
       >
         <div style="text-align:center;"><b>FORM P9</b> (RULE 25-3 (2))</div>
-
-        <div class="mt-3 m-0 p-0 row">
+        <br/>
+        <div class="m-0 row">
           <div style="margin-left: auto; text-align: right;!important">
             <div>
               This is the <b>1st</b> affidavit of <b>{{ applicant.fullName }}</b> in this case
             </div>
-            <div class="mt-2">
+            <div>
               <underline-form textwidth="12rem" beforetext="and was made on" text="" />
             </div>
-            <div class="mt-2">
+            <div>
               <b>{{ applicant.courthouse }}</b>
               <underline-form textwidth="12rem" beforetext="Registry No." text="" />
             </div>
@@ -137,6 +137,7 @@
             </div>
           </div>
         </div>
+        <br/>
         <br/>
         <div class="avoid-split">
           <table>
