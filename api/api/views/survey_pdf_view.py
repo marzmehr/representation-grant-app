@@ -114,32 +114,19 @@ class SurveyPdfView(generics.GenericAPIView):
             LOGGER.error("ERROR: Pdf generation failed %s", ex)
             raise
 
-        try:
-            appended_forms = request.data["appended_forms"]
-            if appended_forms:
-                pdf_merger = PdfFileMerger()
-                merged_forms = BytesIO()
-                pdf_merger.append(PdfFileReader(stream=BytesIO(pdf_content)))
+        appended_form = request.data["appended_form"]
+        if appended_form:
+            pdf_merger = PdfFileMerger()
+            merged_forms = BytesIO()
 
-                for appended_form in appended_forms.split(","):
-                    pdf = self.get_pdf_by_application_id_and_type(
-                        application_id, appended_form
-                    )
+            pdf_merger.append(PdfFileReader(stream=BytesIO(pdf_content)))
+            pdf_merger.append(PdfFileReader(stream=BytesIO(self.generate_pdf(appended_form))))
 
-                    if pdf:
-                        to_append = PdfFileReader(
-                            stream=BytesIO(settings.ENCRYPTOR.decrypt(pdf.key_id, pdf.data))
-                        )
-                        pdf_merger.append(to_append)
+            pdf_merger.write(merged_forms)
+            merged_forms.seek(0)
+            pdf_content = merged_forms.read()
 
-                pdf_merger.write(merged_forms)
-                merged_forms.seek(0)
-                pdf_content = merged_forms.read()
-                pdf_merger.close()
-
-        except Exception as ex:
-            LOGGER.error("ERROR: Pdf generation failed %s", ex)
-            raise
+            pdf_merger.close()
 
         if request.query_params.get("noDownload"):
             return HttpResponse(status=204)
