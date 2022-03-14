@@ -30,3 +30,7 @@ export const setRecipients = newRecipients => (recipients.value = newRecipients)
 const prevAddresses = ref<AddressAndContact[]>([]);
 export const getPrevAddresses = computed(() => prevAddresses.value);
 export const setPrevAddresses = newPrevAddresses => (prevAddresses.value = newPrevAddresses);
+
+const formData = ref<FormData>();
+export const getFormData = computed(() => formData.value);
+export const setFormData = newFormData => (formData.value = newFormData);

@@ -72,7 +72,7 @@ export const convertBlobAndDownload = (blob, formName) => {
   setTimeout(() => URL.revokeObjectURL(link.href), 1000);
 };
 
-export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
+export const formPdfHtml = (html, pageFooterLeft, pageFooterRight, pageHeaderRight) => {
   const body = [
     `<!DOCTYPE html>
     <html lang="en">
@@ -83,7 +83,14 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight) => {
         @page {
           size: 8.5in 11in !important;
           margin: 0.68in 0.75in 0.75in 0.75in !important;
-          font-size: 11pt !important;			
+          font-size: 11pt !important;
+          @top-right {
+            content: '${pageHeaderRight}';
+            font-size: 16pt;
+            font-family: 'BC Sans Regular' !important;
+            font-weight: bold;
+            color: #000000;
+          }
           @bottom-left {
             content: '${pageFooterLeft}';
             white-space: pre;

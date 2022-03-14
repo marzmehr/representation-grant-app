@@ -17,6 +17,11 @@ interface Recipient {
     key: string;
 }
 
+interface FormData {
+    form: string;
+    html: string;
+}
+
 //Used by codegen:
 interface AddressAndContact {
     street?: string;
