@@ -11,10 +11,10 @@
       ref="root"
     >
       <div style="text-align:center;">
-        <div><b class="answer">FORM P1</b> (RULE 25-2 (3))</div>
+        <div><b class="black">FORM P1</b> (RULE 25-2 (3))</div>
         <br/>
         <div>
-          <b class="answer">NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</b>
+          <b class="black">NOTICE OF PROPOSED APPLICATION IN RELATION TO ESTATE</b>
         </div>
       </div>
       <br/>
@@ -23,27 +23,27 @@
       </div>
       <br/>
       <div>
-        {{ takeNoticeStart() }} <b class="answer">{{ takeNoticeApplicants() }}</b> {{ takeNoticeEnd() }} to apply, in the <b class="answer">{{ serviceContact.courtLocation }}</b> court
-        registry, for a <b class="answer">Grant of Administration Without Will Annexed</b> in relation to the
-        estate of the deceased described below who died on <b class="answer">{{ deceased.dateOfDeath }}</b>.
+        {{ takeNoticeStart() }} <b class="black">{{ takeNoticeApplicants() }}</b> {{ takeNoticeEnd() }} to apply, in the <b class="black">{{ serviceContact.courtLocation }}</b> court
+        registry, for a <b class="black">Grant of Administration Without Will Annexed</b> in relation to the
+        estate of the deceased described below who died on <b class="black">{{ deceased.dateOfDeath }}</b>.
       </div>
       <br/>
       <div>
         Full legal name of deceased:
         <div>
-          <b class="answer">{{ formatDeceasedName(deceased) }}</b>
+          <b class="black">{{ formatDeceasedName(deceased) }}</b>
         </div>
       </div>
       <br/>
       <div>
         Last residential address of the deceased:
         <div>
-          <b class="answer">{{ deceased.address }}</b>
+          <b class="black">{{ deceased.address }}</b>
         </div>
       </div>
       <br/>
       <div>
-        <b class="answer">This application does not relate to a will or a foreign grant.</b>
+        <b class="black">This application does not relate to a will or a foreign grant.</b>
       </div>
       <br/>
       <br/>
@@ -118,16 +118,16 @@
         <br/>
         <div v-for="(name, i) in applicantList" :key="i + 100">
           <div>
-            Name: <b class="answer">{{ name.fullName }}</b>
+            Name: <b class="black">{{ name.fullName }}</b>
           </div>
           <div>
-            Mailing address: <b class="answer">{{ name.address }}</b>
+            Mailing address: <b class="black">{{ name.address }}</b>
           </div>
           <div v-if="name.individual && !name.differentAddress">
             This applicant is an individual and ordinarily lives at the mailing address noted above.
           </div>
           <div v-if="name.differentAddress">
-            This applicant is an individual and ordinarily lives in <b class="answer">{{ name.differentAddress }}</b
+            This applicant is an individual and ordinarily lives in <b class="black">{{ name.differentAddress }}</b
             >.
           </div>
         </div>
@@ -139,16 +139,16 @@
         </div>
         <br/>
         <div>
-          Street address: <b class="answer">{{ serviceContact.address }}</b>
+          Street address: <b class="black">{{ serviceContact.address }}</b>
         </div>
         <div>
-          Telephone number: <b class="answer">{{ serviceContact.phone }}</b>
+          Telephone number: <b class="black">{{ serviceContact.phone }}</b>
         </div>
         <div>
-          E-mail address: <b class="answer">{{ serviceContact.email }}</b>
+          E-mail address: <b class="black">{{ serviceContact.email }}</b>
         </div>
         <div v-if="serviceContact.fax">
-          Fax number: <b class="answer">{{ serviceContact.fax }}</b>
+          Fax number: <b class="black">{{ serviceContact.fax }}</b>
         </div>
         <br/>
         <br/>
@@ -156,12 +156,12 @@
           <div class="col-*">
             Date:
             <u
-              ><b class="answer">{{ formatMonthDayYear(new Date()) }}</b></u
+              ><b class="black">{{ formatMonthDayYear(new Date()) }}</b></u
             >
           </div>
           <div class="col-1"></div>
           <div class="col-*">
-            <u><b class="answer">Signed Electronically by {{ name.fullName }}</b></u>
+            <u><b class="black">Signed Electronically by {{ name.fullName }}</b></u>
             <div>Signature of {{ name.fullName }}</div>
           </div>
         </div>

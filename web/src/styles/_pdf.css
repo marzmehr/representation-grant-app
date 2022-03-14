@@ -103,6 +103,7 @@ ol li.list-number:before {
 .full-underline {
   margin-left: 50px;
   border-bottom: 0.7px solid rgb(49, 49, 50);
+  bottom: -0.7px;
 }
 
 /* this is only for display */
@@ -151,6 +152,6 @@ div.ch {
   text-align: justify;
 }
 
-.answer {
+.black {
   color: black;
 }
