@@ -13,35 +13,35 @@
         class="printcard mt-4 mb-3"
         ref="root"
       >
-        <div style="text-align:center;"><b>FORM P9</b> (RULE 25-3 (2))</div>
+        <div style="text-align:center;"><b class="black">FORM P9</b> (RULE 25-3 (2))</div>
         <br/>
         <div class="m-0 row">
           <div style="margin-left: auto; text-align: right;!important">
             <div>
-              This is the <b>1st</b> affidavit of <b>{{ applicant.fullName }}</b> in this case
+              This is the <b class="black">1st</b> affidavit of <b class="black">{{ applicant.fullName }}</b> in this case
             </div>
             <div>
               <underline-form textwidth="12rem" beforetext="and was made on" text="" />
             </div>
             <div>
-              <b>{{ applicant.courthouse }}</b>
+              <b class="black">{{ applicant.courthouse }}</b>
               <underline-form textwidth="12rem" beforetext="Registry No." text="" />
             </div>
           </div>
         </div>
         <br/>
         <div style="text-align:center;">
-          In the Matter of the Estate of <b>{{ deceased }}</b>, deceased
+          In the Matter of the Estate of <b class="black">{{ deceased }}</b>, deceased
         </div>
         <br/>
         <div style="text-align:center;">
-          <b>AFFIDAVIT OF DELIVERY</b>
+          <b class="black">AFFIDAVIT OF DELIVERY</b>
         </div>
         <br/>
         <div>
-          I, <b>{{ applicant.fullName }}</b
-          >, of <b>{{ applicant.address }}</b
-          >, <b>{{ applicant.occupation }}</b
+          I, <b class="black">{{ applicant.fullName }}</b
+          >, of <b class="black">{{ applicant.address }}</b
+          >, <b class="black">{{ applicant.occupation }}</b
           >, AFFIRM / SWEAR THAT:
         </div>
         <br />
@@ -69,9 +69,9 @@
             </div>
             <div :key="i" v-for="(recipient, i) of mailRecipients(applicant)">
               <div class="full-underline" :key="i">
-                <b>{{ recipient.recipientName }}</b>
+                <b class="black">{{ recipient.recipientName }}</b>
                 <div :key="i" style="float: right">
-                  on <b>{{ recipient.p1DeliveryDate }}</b>
+                  on <b class="black">{{ recipient.p1DeliveryDate }}</b>
                 </div>
               </div>
             </div>
@@ -83,9 +83,9 @@
             </div>
             <div :key="i" v-for="(recipient, i) of inPersonRecipients(applicant)">
               <div class="full-underline" :key="i">
-                <b>{{ recipient.recipientName }}</b>
+                <b class="black">{{ recipient.recipientName }}</b>
                 <div :key="i" style="float: right">
-                  on <b>{{ recipient.p1DeliveryDate }}</b>
+                  on <b class="black">{{ recipient.p1DeliveryDate }}</b>
                 </div>
               </div>
             </div>
@@ -98,9 +98,9 @@
             </div>
             <div :key="i" v-for="(recipient, i) of electronicRecipients(applicant)">
               <div class="full-underline" :key="i">
-                <b>{{ recipient.recipientName }}</b>
+                <b class="black">{{ recipient.recipientName }}</b>
                 <div :key="i" style="float: right">
-                  on <b>{{ recipient.p1DeliveryDate }}</b>
+                  on <b class="black">{{ recipient.p1DeliveryDate }}</b>
                 </div>
               </div>
             </div>
@@ -137,7 +137,6 @@
             </div>
           </div>
         </div>
-        <br/>
         <br/>
         <div class="avoid-split">
           <table>
