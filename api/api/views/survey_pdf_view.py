@@ -114,7 +114,7 @@ class SurveyPdfView(generics.GenericAPIView):
             LOGGER.error("ERROR: Pdf generation failed %s", ex)
             raise
 
-        appended_form = request.data["appended_form"]
+        appended_form = request.data.get("appended_form", None)
         if appended_form:
             pdf_merger = PdfFileMerger()
             merged_forms = BytesIO()
