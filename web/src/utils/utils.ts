@@ -49,7 +49,7 @@ export const formatMailingAddress = (mailingAddress: AddressAndContact): string 
     ""}, ${mailingAddress?.country || ""} ${mailingAddress?.postalCode || ""}`;
 };
 
-export const formatP1Address = (mailingAddress: AddressAndContact): string => {
+export const formatAddressWithPostalCode = (mailingAddress: AddressAndContact): string => {
   if (!mailingAddress) return null;
   return `${mailingAddress?.street || ""}, ${mailingAddress?.city || ""}, ${mailingAddress?.state ||
     ""}, ${mailingAddress?.postalCode || ""}, ${mailingAddress?.country || ""}`;
