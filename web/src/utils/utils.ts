@@ -87,7 +87,7 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight, pageHeaderRig
           @top-right {
             content: '${pageHeaderRight}';
             font-size: 16pt;
-            font-family: 'BC Sans Regular' !important;
+            font-family: 'BC Sans' !important;
             font-weight: bold;
             color: #000000;
           }
