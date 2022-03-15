@@ -179,8 +179,7 @@ import { SurveyDataService } from "@/services/survey-data-service";
 import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
 import { FormP1Applicant, FormP1Deceased, FormP1ServiceContact } from "@/types/application";
 import {
-  formatMailingAddress,
-  formatP1Address,
+  formatAddressWithPostalCode,
   formatDeceasedName,
   formatMonthDayYear,
   formPdfHtml,
@@ -261,8 +260,8 @@ export default defineComponent({
           fullName: (a as any).applicantName || "", //Brought over via survey-on-value-change (from javascript)
           address:
             a.applicantOrdinaryAddressReceiveMail == "y"
-              ? formatP1Address(a.applicantOrdinaryAddress)
-              : formatP1Address(a.applicantMailingAddress),
+              ? formatAddressWithPostalCode(a.applicantOrdinaryAddress)
+              : formatAddressWithPostalCode(a.applicantMailingAddress),
           individual: true, // applicantNewPartOfOrg not used.
           lawyer: data.applicantHasLawyer ? data.applicantLawyerName || "" : "",
           differentMail: a.applicantOrdinaryAddressReceiveMail === "n",
@@ -274,11 +273,11 @@ export default defineComponent({
       });
       deceased.value = {
         ...data.deceasedName,
-        address: formatP1Address(data.deceasedAddress) || "",
+        address: formatAddressWithPostalCode(data.deceasedAddress) || "",
         dateOfDeath: data.deceasedDateOfDeath ? dateFormatter(data.deceasedDateOfDeath) : ""
       };
       serviceContact.value = {
-        address: formatP1Address(data.applicantServiceAddress) || "",
+        address: formatAddressWithPostalCode(data.applicantServiceAddress) || "",
         phone: data.applicantServicePhone || "",
         fax: data.applicantServiceFax || "",
         email: data.applicantServiceEmail || "",
@@ -292,7 +291,7 @@ export default defineComponent({
       if (data.applicantHasLawyer == "y") {
         serviceContact.value = {
           ...serviceContact.value,
-          address: formatP1Address(data.applicantLawyerFirmAddress) || "",
+          address: formatAddressWithPostalCode(data.applicantLawyerFirmAddress) || "",
           phone: data.applicantLawyerPhone,
           fax: data.applicantLawyerFax,
           email: data.applicantLawyerEmail

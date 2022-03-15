@@ -200,6 +200,7 @@ import {
 import { SurveyDataService } from "@/services/survey-data-service";
 import {
   convertBlobAndDownload,
+  formatAddressWithPostalCode,
   formatDeceasedName,
   formatMonthDayYear,
   formPdfHtml
@@ -325,8 +326,7 @@ export default defineComponent({
 
         if (applicantQuestion) {
           const applicantPanel = applicantQuestion.value[i] as applicantInfoPanel;
-          const address = applicantPanel?.applicantOrdinaryAddress;
-          applicant.address = `${address?.street}, ${address?.city}, ${address?.state}, ${address?.country}`;
+          applicant.address = formatAddressWithPostalCode(applicantPanel.applicantOrdinaryAddress);
           applicant.occupation = applicantPanel.applicantOccupation || "";
         }
 
