@@ -1,9 +1,10 @@
 //Needs to be function, otherwise this context wont work.
 import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, getDay, parseISO } from "date-fns";
-import { ItemValue } from "survey-vue";
+import { ItemValue, Survey } from "survey-vue";
 import {
   getPotentialApplicants,
+  getRecipients,
   setApplicants,
   setLastUpdated,
   setPotentialApplicants,
@@ -171,6 +172,9 @@ const determinePotentialApplicants = (sender, options) => {
     creditorPersonExists = SurveyQuestionNames.creditorPersonExists,
     creditorOrganizationInfoPanel = SurveyQuestionNames.creditorOrganizationInfoPanel,
     creditorOrganizationExists = SurveyQuestionNames.creditorOrganizationExists,
+    citorInfoPanel = SurveyQuestionNames.applicantCitorInfoPanel,
+    cited = SurveyQuestionNames.applicantCited,
+    isNewCitation = SurveyQuestionNames.applicantCitorNew,
   };
 
   if (!Object.values(QuestionNamesToWatch).includes(options.name)) return;
@@ -189,6 +193,10 @@ const determinePotentialApplicants = (sender, options) => {
 
   let creditorOrganizationPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorOrganizationInfoPanel.toString()) || [];
   const creditorOrganizationExists = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorOrganizationExists.toString());
+
+  let citorPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.citorInfoPanel.toString()) || [];
+  const cited = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.cited.toString());
+  const isNewCitation = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.isNewCitation.toString());
 
   spousePanel = spousePanel
     .filter(s => spouseExists == "y")
@@ -209,33 +217,43 @@ const determinePotentialApplicants = (sender, options) => {
 
   creditorOrganizationPanel = creditorOrganizationPanel
     .filter(s => creditorOrganizationExists == "y")
-    .map(s => s.creditorOrganizationName)
+    .map(s => s.creditorOrganizationName);
+
+  citorPanel = citorPanel
+    .filter(s => cited == "y" && isNewCitation == "y")
+    .filter(s => s.applicantCitorAlive == "y")
+    .map(s => s.applicantCitorName);
 
   const potentialApplicants = [
     ...spousePanel.map((sp, index) => ({
-      applicantRole: `${Roles.spouse}`,
+      applicantRole: Roles[Roles.spouse],
       applicantName: sp,
       key: `s${index}`
     })),
     ...childPanel.map((c, index) => ({
-      applicantRole: `${Roles.child}`,
+      applicantRole: Roles[Roles.child],
       applicantName: c,
       key: `c${index}`
     })),
     ...firstNationsPanel.map((f, index) => ({
-      applicantRole: `${Roles.firstNation}`,
+      applicantRole: Roles[Roles.firstNation],
       applicantName: f,
       key: `f${index}`
     })),
     ...creditorPersonPanel.map((cr, index) => ({
-      applicantRole: `${Roles.creditorPerson}`,
+      applicantRole: Roles[Roles.creditorPerson],
       applicantName: cr,
       key: `crp${index}`
     })),
     ...creditorOrganizationPanel.map((cr, index) => ({
-      applicantRole: `${Roles.creditorOrganization}`,
+      applicantRole: Roles[Roles.creditorOrganization],
       applicantName: cr,
       key: `cro${index}`
+    })),
+    ...citorPanel.map((ct, index) => ({
+      applicantRole: Roles[Roles.citor],
+      applicantName: ct,
+      key: `ct${index}`
     })),
   ];
 
@@ -254,13 +272,15 @@ const determineRecipients = (sender, options) => {
     SurveyQuestionNames.spouseInfoPanel,
     SurveyQuestionNames.childInfoPanel,
     SurveyQuestionNames.deceasedFirstNations,
-    SurveyQuestionNames.deceasedFirstNationsName
+    SurveyQuestionNames.deceasedFirstNationsName,
+    SurveyQuestionNames.applicantCitorInfoPanel,
   ];
   if (!questionNamesToWatch.includes(options.name)) return;
 
   let selectedApplicants =
     getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.applicantChoice) || [];
   const potentialApplicants = getPotentialApplicants.value;
+
   //Handle both Checkbox and Radiogroup cases.
   const recipients = potentialApplicants
     .filter(
