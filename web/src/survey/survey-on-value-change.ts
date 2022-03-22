@@ -77,6 +77,7 @@ enum Roles {
   executor,
   beneficiary,
   creditorPerson,
+  creditorPersonGuardian,
   creditorOrganization,
   foreignWillExtra,
   citor,
@@ -164,17 +165,31 @@ const determinePotentialApplicants = (sender, options) => {
   enum QuestionNamesToWatch {
     spouseInfoPanel = SurveyQuestionNames.spouseInfoPanel,
     spouseExists = SurveyQuestionNames.spouseExists,
+    spouseIsAlive = SurveyQuestionNames.spouseIsAlive,
+    spouseIsAdult = SurveyQuestionNames.spouseIsAdult,
+    spouseHasGuardian = SurveyQuestionNames.spouseHasGuardian,
+    
     childInfoPanel = SurveyQuestionNames.childInfoPanel,
     childExists = SurveyQuestionNames.childExists,
+    childIsAlive = SurveyQuestionNames.childIsAlive,
+    childIsAdult = SurveyQuestionNames.childIsAdult,
+    childHasGuardian = SurveyQuestionNames.childHasGuardian,
+
     deceasedFirstNations = SurveyQuestionNames.deceasedFirstNations,
     deceasedFirstNationsName =  SurveyQuestionNames.deceasedFirstNationsName,
+    
     creditorPersonInfoPanel = SurveyQuestionNames.creditorPersonInfoPanel,
     creditorPersonExists = SurveyQuestionNames.creditorPersonExists,
+    creditorPersonIsAlive = SurveyQuestionNames.creditorPersonIsAlive,
+    creditorPersonIsAdult = SurveyQuestionNames.creditorPersonIsAdult,
+    creditorPersonHasGuardian = SurveyQuestionNames.creditorPersonHasGuardian,
+    
     creditorOrganizationInfoPanel = SurveyQuestionNames.creditorOrganizationInfoPanel,
     creditorOrganizationExists = SurveyQuestionNames.creditorOrganizationExists,
+    
     citorInfoPanel = SurveyQuestionNames.applicantCitorInfoPanel,
     cited = SurveyQuestionNames.applicantCited,
-    isNewCitation = SurveyQuestionNames.applicantCitorNew,
+    citorNew = SurveyQuestionNames.applicantCitorNew,
   };
 
   if (!Object.values(QuestionNamesToWatch).includes(options.name)) return;
@@ -196,12 +211,22 @@ const determinePotentialApplicants = (sender, options) => {
 
   let citorPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.citorInfoPanel.toString()) || [];
   const cited = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.cited.toString());
-  const isNewCitation = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.isNewCitation.toString());
+  const citorNew = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.citorNew.toString());
+
+  let spouseGuardianPanel = spousePanel
+    .filter(s => spouseExists == "y")
+    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "n" && s.spouseHasGuardian == "y")
+    .map(s => `${s.spouseGuardianName} (guardian of ${s.spouseName})`)
 
   spousePanel = spousePanel
     .filter(s => spouseExists == "y")
     .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "y")
     .map(s => s.spouseName);
+
+  let childGuardianPanel = childPanel
+    .filter(s => childExists == "y")
+    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "n" && s.childHasGuardian == "y")
+    .map(s => `${s.childGuardianName} (guardian of ${s.childName})`)
 
   childPanel = childPanel
     .filter(s => childExists == "y")
@@ -209,6 +234,11 @@ const determinePotentialApplicants = (sender, options) => {
     .map(s => s.childName);
 
   const firstNationsPanel = isFirstNations == "y" && firstNationsName ? [firstNationsName] : [];
+
+  let creditorPersonGuardianPanel = creditorPersonPanel
+    .filter(s => creditorPersonExists == "y")
+    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "n" && s.creditorPersonHasGuardian == "y")
+    .map(s => `${s.creditorPersonGuardianName} (guardian of ${s.creditorPersonName})`)
 
   creditorPersonPanel = creditorPersonPanel
     .filter(s => creditorPersonExists == "y")
@@ -220,7 +250,7 @@ const determinePotentialApplicants = (sender, options) => {
     .map(s => s.creditorOrganizationName);
 
   citorPanel = citorPanel
-    .filter(s => cited == "y" && isNewCitation == "y")
+    .filter(s => cited == "y" && citorNew == "y")
     .filter(s => s.applicantCitorAlive == "y")
     .map(s => s.applicantCitorName);
 
@@ -230,10 +260,20 @@ const determinePotentialApplicants = (sender, options) => {
       applicantName: sp,
       key: `s${index}`
     })),
+    ...spouseGuardianPanel.map((sp, index) => ({
+      applicantRole: Roles[Roles.spouseGuardian],
+      applicantName: sp,
+      key: `sg${index}`
+    })),
     ...childPanel.map((c, index) => ({
       applicantRole: Roles[Roles.child],
       applicantName: c,
       key: `c${index}`
+    })),
+    ...childGuardianPanel.map((c, index) => ({
+      applicantRole: Roles[Roles.childGuardian],
+      applicantName: c,
+      key: `cg${index}`
     })),
     ...firstNationsPanel.map((f, index) => ({
       applicantRole: Roles[Roles.firstNation],
@@ -244,6 +284,11 @@ const determinePotentialApplicants = (sender, options) => {
       applicantRole: Roles[Roles.creditorPerson],
       applicantName: cr,
       key: `crp${index}`
+    })),
+    ...creditorPersonGuardianPanel.map((cr, index) => ({
+      applicantRole: Roles[Roles.creditorPersonGuardian],
+      applicantName: cr,
+      key: `crpg${index}`
     })),
     ...creditorOrganizationPanel.map((cr, index) => ({
       applicantRole: Roles[Roles.creditorOrganization],
