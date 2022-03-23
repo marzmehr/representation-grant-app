@@ -1818,7 +1818,6 @@ export interface notifyP1DeliveryInfoPanel {
 	notifyP1DelivererNameYYYYYY?: string
 	question265?: string
 	notifyP1DelivererNameYYYYYYY?: string
-	notifyP1DelivererNameYYYYYY?: string
 	question264?: string
 	notifyP1DelivererName?: string
 	notifyP1NewDelivererName?: string
