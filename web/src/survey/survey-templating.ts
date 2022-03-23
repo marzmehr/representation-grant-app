@@ -43,7 +43,11 @@ export function addCustomTemplating(surveyRuntime: any) {
         .map(e => ({ targetName: e.split(".")[0], panelQuestion: e.split(".")[1] }));
 
       entries.forEach(entry => {
-        const questionValue = sender.getQuestionByName(entry.targetName)?.value;
+        const question = sender.getQuestionByName(entry.targetName);
+
+        const questionValue = question.getType() === "radiogroup"
+          ? question.choices.filter(c => c.value === question.value).map(c => c.text)[0]
+          : question?.value;
 
         if (panels.includes(entry.targetName)) return;
         if (Array.isArray(questionValue)) {
