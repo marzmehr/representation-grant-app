@@ -1,16 +1,16 @@
 //Needs to be function, otherwise this context wont work.
 import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
-import { addDays, format, getDay, parseISO } from "date-fns";
-import { ItemValue, Survey } from "survey-vue";
+import { addDays, format, parseISO } from "date-fns";
+import { ItemValue } from "survey-vue";
 import {
   getPotentialApplicants,
-  getRecipients,
   setApplicants,
   setLastUpdated,
   setPotentialApplicants,
   setPrevAddresses,
   setRecipients
 } from "@/state/survey-state";
+
 
 enum Roles {
   spouse,
@@ -111,13 +111,13 @@ const getTextValue = (sender, options, questionName) => {
   }
 };
 
-const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
+const populateApplicantInfoPanel = (sender, options) => {
   const questionNamesToWatch = [
     SurveyQuestionNames.applicantChoice,
     SurveyQuestionNames.spouseInfoPanel,
     SurveyQuestionNames.childInfoPanel,
     SurveyQuestionNames.spouseExists,
-    SurveyQuestionNames.childExists
+    SurveyQuestionNames.childExists,
   ];
   if (!questionNamesToWatch.includes(options.name)) return;
   const applicantChoice =
@@ -125,17 +125,37 @@ const populateApplicantInfoPanelAndP1DeliveryInfoPanel = (sender, options) => {
   const applicants = !Array.isArray(applicantChoice) ? [applicantChoice] : applicantChoice;
   const potentialApplicants = getPotentialApplicants.value || [];
   const applicantInfoPanel = sender.getQuestionByName(SurveyQuestionNames.applicantInfoPanel);
+
   if (applicantInfoPanel) {
     applicantInfoPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
     applicantInfoPanel.visible = applicants.length > 0;
   }
+};
+
+const populateP1DeliveryInfoPanel = (sender, options) => {
+  const questionNamesToWatch = [
+    SurveyQuestionNames.applicantChoice,
+    SurveyQuestionNames.spouseInfoPanel,
+    SurveyQuestionNames.childInfoPanel,
+    SurveyQuestionNames.spouseExists,
+    SurveyQuestionNames.childExists,
+    SurveyQuestionNames.applicantCitorInfoPanel,
+  ];
+  if (!questionNamesToWatch.includes(options.name)) return;
+
+  const applicantChoice =
+    sender.getQuestionByName(SurveyQuestionNames.applicantChoice)?.value || [];
+  const applicants = !Array.isArray(applicantChoice) ? [applicantChoice] : applicantChoice;
+  const potentialApplicants = getPotentialApplicants.value || [];
   const p1DeliveryInfoPanel = sender.getQuestionByName(
     SurveyQuestionNames.notifyP1DeliveryInfoPanel
   );
+
   if (p1DeliveryInfoPanel) {
     const choices = applicants
       .map(a => potentialApplicants.find(pa => pa.key == a))
       .map(p => new ItemValue(`${p.key}`, `${p.applicantName}`));
+
     for (const panel of p1DeliveryInfoPanel.panels) {
       for (const question of panel.questions) {
         if (question.name != SurveyQuestionNames.notifyP1DelivererName) continue;
@@ -515,7 +535,8 @@ export function onValueChanged(sender, options) {
   clearPanel(sender, options);
   determinePotentialApplicants(sender, options);
   determineRecipients(sender, options);
-  populateApplicantInfoPanelAndP1DeliveryInfoPanel(sender, options);
+  populateApplicantInfoPanel(sender, options);
+  populateP1DeliveryInfoPanel(sender, options);
   determineEarliestSubmissionDate(sender, options);
   setLastUpdated(new Date());
   collectPrevAddresses(sender);
