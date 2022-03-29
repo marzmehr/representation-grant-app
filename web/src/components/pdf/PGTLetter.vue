@@ -310,4 +310,10 @@ export default defineComponent({
   }
 });
 </script>
-<style lang="css" scoped src="@/styles/_pdf.css"></style>
+<style lang="css" scoped src="@/styles/_pdf.css">
+
+  .li {
+    margin-left: -20px;
+  }
+
+</style>
