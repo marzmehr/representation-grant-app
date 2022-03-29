@@ -242,8 +242,6 @@ export default defineComponent({
         }
       });
 
-      console.log("spouse value:", spouseSuccessors);
-      console.log("child value:", childSuccessors);
       let successors = [];
       for (const successor of spouseSuccessors) {
         if (successor) {
@@ -256,7 +254,6 @@ export default defineComponent({
           successors.push(successor);
         }
       }
-      console.log("New successor value:", successors);
       successorList.value = successors
     };
 
@@ -271,8 +268,6 @@ export default defineComponent({
         "PGT Letter",
         "Letter to the Public Guardian & Trustee (PGT) of British Columbia"
       );
-
-      console.log("html?", html);
 
       const jsonData = {
         applicantList: applicantList.value,
