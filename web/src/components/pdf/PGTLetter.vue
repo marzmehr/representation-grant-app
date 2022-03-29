@@ -53,20 +53,20 @@
               <li>
                 Guardian: <b class="black">{{ successor.successorGuardianName }}</b>
               </li>
-                <ul v-if="successor.successorGuardianName !== 'none'" style="list-style-type: circle;">
-                  <li>
-                    Residential Address: <b class="black">{{ successor.successorResidentialAddress }}</b>
-                  </li>
-                  <li>
-                    Postal Address: <b class="black">{{ successor.successorGuardianMailingAddress }}</b>
-                  </li>
-                  <li>
-                    Email: <b class="black">{{ successor.successorGuardianEmailAddress }}</b>
-                  </li>
-                  <li>
-                    Fax: <b class="black">{{ successor.successorGuardianFaxNumber }}</b>
-                  </li>
-                </ul>
+              <ul v-if="successor.successorGuardianName !== 'none'" style="list-style-type: circle;">
+                <li>
+                  Residential Address: <b class="black">{{ successor.successorResidentialAddress }}</b>
+                </li>
+                <li>
+                  Postal Address: <b class="black">{{ successor.successorGuardianMailingAddress }}</b>
+                </li>
+                <li>
+                  Email: <b class="black">{{ successor.successorGuardianEmailAddress }}</b>
+                </li>
+                <li>
+                  Fax: <b class="black">{{ successor.successorGuardianFaxNumber }}</b>
+                </li>
+              </ul>
             </ul>
           </ul>
         </div>
@@ -242,6 +242,7 @@ export default defineComponent({
         }
       });
 
+      // TODO: update this in the future
       let successors = [];
       for (const successor of spouseSuccessors) {
         if (successor) {
