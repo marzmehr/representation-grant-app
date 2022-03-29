@@ -1,7 +1,7 @@
 //Needs to be function, otherwise this context wont work.
 import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, parseISO } from "date-fns";
-import { ItemValue } from "survey-vue";
+import { ItemValue, QuestionPanelDynamicTemplateSurveyImpl } from "survey-vue";
 import {
   getPotentialApplicants,
   setApplicants,
@@ -347,7 +347,7 @@ const determineRecipients = (sender, options) => {
   const potentialApplicants = getPotentialApplicants.value;
 
   //Handle both Checkbox and Radiogroup cases.
-  const recipients = potentialApplicants
+  let recipients = potentialApplicants
     .filter(
       pa =>
         (Array.isArray(selectedApplicants) && !selectedApplicants.find(sa => sa == pa.key)) ||
@@ -358,6 +358,33 @@ const determineRecipients = (sender, options) => {
       recipientName: pa.applicantName,
       key: pa.key
     }));
+
+  // PGT are not applicants and are handled separately
+  let spousePanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.spouseInfoPanel) || [];
+  const spouseExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.spouseExists);
+
+  spousePanel = spousePanel
+    .filter(s => spouseExists == "y")
+    .filter(s => s.spouseIsAlive == "y" && (s.spouseIsAdult == "n" || s.spouseIsCompetent == "n"))
+    .map(s => s.spouseName);
+
+  let childPanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.childInfoPanel) || [];
+  const childExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.childExists);
+
+  childPanel = childPanel
+    .filter(s => childExists == "y")
+    .filter(s => s.childIsAlive == "y" && (s.childIsAdult == "n" && s.childIsCompetent == "n"))
+    .map(s => s.childName);
+
+  if (spousePanel.length > 0 || childPanel.length > 0) {
+    const pgt = {
+      recipientRole: Roles[Roles.pgt],
+      recipientName: "The Public Guardian & Trustee (PGT)",
+      key: `pgt0`
+    }
+
+    recipients.push(pgt);
+  }
   setRecipients(recipients);
 
   //Handle both Checkbox and Radiogroup cases.
