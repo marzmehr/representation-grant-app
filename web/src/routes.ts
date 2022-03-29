@@ -8,6 +8,7 @@ import SurveyCreatorForm from "@/components/survey/SurveyCreatorForm.vue";
 import SurveyMain from "@/components/SurveyMain.vue";
 import FormP1 from "@/components/pdf/FormP1.vue";
 import FormP9 from "@/components/pdf/FormP9.vue";
+import PGTLetter from "@/components/pdf/PGTLetter.vue";
 import { SessionService } from "@/services/session-service";
 import Feedback from "@/components/home/Feedback.vue";
 import Stats from "@/components/stats/Stats.vue";
@@ -88,6 +89,11 @@ const routes = [
   {
     path: "/formp9",
     component: FormP9,
+    beforeEnter: authGuardAdmin
+  },
+  {
+    path: "/pgtletter",
+    component: PGTLetter,
     beforeEnter: authGuardAdmin
   },
   {

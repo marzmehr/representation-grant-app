@@ -6,11 +6,13 @@
 import { onMounted, defineComponent, reactive } from "@vue/composition-api";
 import FormP1 from "@/components/pdf/FormP1.vue";
 import FormP9 from "@/components/pdf/FormP9.vue";
+import PGTLetter from "@/components/pdf/PGTLetter.vue";
 
 export default defineComponent({
   components: {
     'FormP1': FormP1,
-    'FormP9': FormP9
+    'FormP9': FormP9,
+    'PGTLetter': PGTLetter,
   },
   props: {
     question: Object,

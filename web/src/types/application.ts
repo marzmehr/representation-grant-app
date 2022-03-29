@@ -1,3 +1,5 @@
+import { StringNullableChain } from "lodash";
+
 //FormP1
 export interface FormP1Applicant {
   fullName: string;
@@ -44,4 +46,19 @@ export interface P1Panel {
   p1DeliveryDate: string;
   p1DeliveryElectronicReceipt: string;
   p1DeliveryElectronicReceiptRetain: string;
+}
+
+export interface PGTLetterSuccessor {
+  successorName?: string;
+  successorRole?: string;
+  successorDateOfBirth?: string;
+  successorResidentialAddress?: string;
+  successorMailingAddress?: string;
+  successorEmailAddress?: string;
+  successorFaxNumber?: string;
+  successorGuardianName?: string;
+  successorGuardianResidentialAddress?: string;
+  successorGuardianMailingAddress?: string;
+  successorGuardianEmailAddress?: string;
+  successorGuardianFaxNumber?: string;
 }

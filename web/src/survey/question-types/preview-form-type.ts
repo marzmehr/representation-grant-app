@@ -21,7 +21,7 @@ export function initPreviewForm(Survey: any) {
           name: "formSelect",
           category: "general",
           visibleIndex: 3,
-          choices: ["FormP1", "FormP9"],
+          choices: ["FormP1", "FormP9", "PGTLetter"],
           default: "FormP9"
         }
       ]);

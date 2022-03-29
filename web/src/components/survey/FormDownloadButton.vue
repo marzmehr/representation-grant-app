@@ -37,6 +37,7 @@
 import { onMounted, defineComponent, reactive, ref } from "@vue/composition-api";
 import FormP1 from "@/components/pdf/FormP1.vue";
 import FormP9 from "@/components/pdf/FormP9.vue";
+import PGTLetter from "@/components/pdf/PGTLetter.vue";
 import LoadingSpinner from "@/components/utils/LoadingSpinner.vue";
 import { saveSurvey } from "@/utils/utils";
 
@@ -44,6 +45,7 @@ export default defineComponent({
   components: {
     FormP1: FormP1,
     FormP9: FormP9,
+    PGTLetter: PGTLetter,
     LoadingSpinner: LoadingSpinner
   },
   name: "formdownloadbutton",
