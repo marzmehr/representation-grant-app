@@ -373,7 +373,7 @@ const determineRecipients = (sender, options) => {
 
   childPanel = childPanel
     .filter(s => childExists == "y")
-    .filter(s => s.childIsAlive == "y" && (s.childIsAdult == "n" && s.childIsCompetent == "n"))
+    .filter(s => s.childIsAlive == "y" && (s.childIsAdult == "n" || s.childIsCompetent == "n"))
     .map(s => s.childName);
 
   if (spousePanel.length > 0 || childPanel.length > 0) {
