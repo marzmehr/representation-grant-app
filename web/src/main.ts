@@ -4,7 +4,7 @@ import "@/state/survey-state";
 import App from "@/App.vue";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { Icon, IconDefinition, library } from "@fortawesome/fontawesome-svg-core";
 import {
   faUserEdit,
   faUserTie,
@@ -29,14 +29,14 @@ import "font-awesome/css/font-awesome.min.css";
 import { SessionService } from "@/services/session-service";
 import axios from "axios";
 
-library.add(faUserTie);
-library.add(faUserEdit);
-library.add(faCoins);
-library.add(faEnvelopeOpenText);
-library.add(faUsers);
-library.add(faChild);
-library.add(faPaperPlane);
-library.add(faBook);
+library.add(faUserTie as IconDefinition);
+library.add(faUserEdit as IconDefinition);
+library.add(faCoins as IconDefinition);
+library.add(faEnvelopeOpenText as IconDefinition);
+library.add(faUsers as IconDefinition);
+library.add(faChild as IconDefinition);
+library.add(faPaperPlane as IconDefinition);
+library.add(faBook as IconDefinition);
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
