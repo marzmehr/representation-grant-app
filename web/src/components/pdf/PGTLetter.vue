@@ -35,35 +35,35 @@
               Minor: <b class="black">{{ successor.successorName }}</b> ({{ deceased.first }}'s {{ successor.successorRole }})
             </li>
             <ul>
-              <li>
+              <li style="margin-left: -20px;">
                 Date of Birth: <b class="black">{{ successor.successorDateOfBirth }}</b>
               </li>
-              <li>
+              <li style="margin-left: -20px;">
                 Residential Address: <b class="black">{{ successor.successorResidentialAddress }}</b>
               </li>
-              <li>
+              <li style="margin-left: -20px;">
                 Postal Address: <b class="black">{{ successor.successorMailingAddress }}</b>
               </li>
-              <li>
+              <li style="margin-left: -20px;">
                 Email: <b class="black">{{ successor.successorEmailAddress }}</b>
               </li>
-              <li>
+              <li style="margin-left: -20px;">
                 Fax: <b class="black">{{ successor.successorFaxNumber }}</b>
               </li>
-              <li>
+              <li style="margin-left: -20px;">
                 Guardian: <b class="black">{{ successor.successorGuardianName }}</b>
               </li>
               <ul v-if="successor.successorGuardianName !== 'none'" style="list-style-type: circle;">
-                <li>
+                <li style="margin-left: -40px;">
                   Residential Address: <b class="black">{{ successor.successorResidentialAddress }}</b>
                 </li>
-                <li>
+                <li style="margin-left: -40px;">
                   Postal Address: <b class="black">{{ successor.successorGuardianMailingAddress }}</b>
                 </li>
-                <li>
+                <li style="margin-left: -40px;">
                   Email: <b class="black">{{ successor.successorGuardianEmailAddress }}</b>
                 </li>
-                <li>
+                <li style="margin-left: -40px;">
                   Fax: <b class="black">{{ successor.successorGuardianFaxNumber }}</b>
                 </li>
               </ul>
@@ -73,13 +73,13 @@
         <div>
           I can be contacted at the following:
           <ul>
-            <li>
+            <li style="margin-left: -20px;">
                <b class="black">{{ serviceContact.address}}</b>
             </li>
-            <li>
+            <li style="margin-left: -20px;">
                <b class="black">{{ serviceContact.phone}}</b>
             </li>
-            <li>
+            <li style="margin-left: -20px;">
                <b class="black">{{ serviceContact.email}}</b>
             </li>
           </ul>
@@ -310,10 +310,4 @@ export default defineComponent({
   }
 });
 </script>
-<style lang="css" scoped src="@/styles/_pdf.css">
-
-  .li {
-    margin-left: -20px;
-  }
-
-</style>
+<style lang="css" scoped src="@/styles/_pdf.css"></style>
