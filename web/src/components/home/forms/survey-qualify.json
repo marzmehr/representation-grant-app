@@ -13,7 +13,8 @@
        "name": "qualifyingIntroExplanation",
        "title": "A `Representation Grant` costs money and will take time to get. Don't waste time on this service if you don't need one.\n<br><br>\nFor example, if the `deceased` had money in their bank account, that bank may give you that money to manage without a Representation Grant. \n<br><br>\nDifferent organizations have different policies to make sure that the right person gets the deceased's assets.\n<br><br>\nAsk each of the organizations that deal with the deceased's `assets` if they will give you the asset without a Representation Grant (also known as a Grant of `Probate`). If an organization will not give you an asset, they will likely ask you to get a Representation Grant.\n<br><br>\nIn addition, ask each of organizations that provided services to the deceased, (such as an electric company, phone company, credit card company, etc) if they will let you cancel the service without a Representation Grant. ",
        "titleLocation": "hidden",
-       "isRequired": true
+       "isRequired": true,
+       "requiredErrorText": "Please press Continue"
       }
      ]
     },
@@ -34,7 +35,8 @@
        "visibleIf": "{qualifyingNeedGrant} = 'n'",
        "title": "If all of the organizations that hold the `deceased's` `assets` simply gave you those assets to manage, then you probably don't need `Representation Grant`.",
        "titleLocation": "hidden",
-       "isRequired": true
+       "isRequired": true,
+       "requiredErrorText": "Please press Continue"
       },
       {
        "type": "yesno",
@@ -48,8 +50,9 @@
        "name": "qualifyingStillNeedGrantNoError",
        "visible": false,
        "visibleIf": "{qualifyingNeedGrant} = 'n' and {qualifyingStillNeedGrant} = 'n'",
-       "title": "It seems you don't need this service to manage the `deceased's` `assets`. \n<br><br>\nThe organizations that hold the deceased's assets may ask you to sign a waiver in case there are problems in the future.\n<br><br>\n Once you have the assets, you are responsible for distributing them according to the law.\n<br><br>\nIf the deceased made a `Will`, do your best to follow instruction in the Will on how to distribute the assets.\n<br><br>\nIf the deceased did not make a Will, there are rules written in the Wills, Estates and Succession Act (WESA Part 3 Division 1) on how to distribute the assets. There are different rules depending on the deceased's family situation. \n<br><br>\nRead the rules written in <a href=\"https://www.bclaws.ca/civix/document/id/lc/statreg/09013_01#division_d2e2469\" target=\"_blank\">WESA (Part 3 Division 1) here.</a> (This link opens in a new tab)",
+       "title": "It seems you don't need this service to manage the `deceased's` `assets`. \n<br><br>\nThe organizations that hold the deceased's assets may ask you to sign a waiver in case there are problems in the future.\n<br><br>\n Once you have the assets, you are responsible for distributing them according to the law.\n<br><br>\nIf the deceased made a `Will`, do your best to follow instruction in the Will on how to distribute the assets.\n<br><br>\nIf the deceased did not make a Will, there are rules written in the Wills, Estates and Succession Act (WESA Part 3 Division 1) on how to distribute the assets. There are different rules depending on the deceased's family situation. \n<br><br>\nRead the rules written in <a href=\"https://www.bclaws.ca/civix/document/id/lc/statreg/09013_01#division_d2e2469\" target=\"_blank\">WESA (Part 3 Division 1) here.</a> (This link opens in a new tab)\n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "error"
       }
      ],
@@ -63,15 +66,16 @@
       {
        "type": "yesno",
        "name": "qualifyingTempScope",
-       "title": "As of November 30, 2021, this service has only been developed for the first step in applying for a `Representation Grant`. \n<br><br>\nThis service will:\n<ul>\n<li>Help an `applicant` create a P1 form and send it to whoever is entitled to receive one.</li>\n<li>Help the applicant create a P9 form to show who they have given the P1 to whoever is entitled to receive one.</li>\n</ul>\n<br>\nThis service has only been developed for situations where:\n<ul>\n<li>Spouse(s) of the deceased are all alive and mentally competent, and</li>\n<li>Children of the deceased are over the age of 18, are all alive and mentally competent, and</li>\n<li>The deceased does not owe a single person or a single organization more than $10,000, and</li>\n<li>Only a single spouse or child is applying for the Representation Grant, and</li>\n<li>The `applicant` has not been given a `citation`</li>\n</ul>\n<br>\nDoes this service match your situation?"
+       "title": "As of November 30, 2021, this service has only been developed for the first step in applying for a `Representation Grant`. \n<br><br>\nThis service will:\n<ul>\n<li>Help an `applicant` create a P1 form and send it to whoever is entitled to receive one.</li>\n<li>Help the applicant create a P9 form to show who they have given the P1 to whoever is entitled to receive one.</li>\n</ul>\n<br>\nThis service has only been developed for situations where:\n<ul>\n<li>Spouse(s) of the deceased are all alive and mentally competent, and</li>\n<li>Children of the deceased are over the age of 18, are all alive and mentally competent, and</li>\n<li>The deceased can owe a single person or a single organization more than $10,000 but those people need to be all alive and mentally competent, and</li>\n<li>Only a single spouse or child is applying for the Representation Grant, and</li>\n<li>The `applicant` can have been given a `citation` but the people who made the citation need to be all live and mentally competent</li>\n</ul>\n<br>\nDoes this service match your situation?"
       },
       {
        "type": "infotext",
        "name": "qualifyingTempScopeNoError",
        "visible": false,
        "visibleIf": "{qualifyingTempScope} = 'n'",
-       "title": "If the above conditions don't match your situation, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\nPlease check later to see if this service has been developed for your specific situation. This service is continuously expanding to help more and more people.\n<br><br>\nIn the mean time, the Government of British Columbia offers PDF forms that you may find helpful for your application. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"_blank\">Click here to go to the forms.</a> (This link opens in a new tab)",
+       "title": "If the above conditions don't match your situation, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\nPlease check later to see if this service has been developed for your specific situation. This service is continuously expanding to help more and more people.\n<br><br>\nIn the mean time, the Government of British Columbia offers PDF forms that you may find helpful for your application. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"_blank\">Click here to go to the forms.</a> (This link opens in a new tab)\n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "error"
       }
      ],
@@ -92,8 +96,9 @@
        "name": "qualifyingWillExistsYesError",
        "visible": false,
        "visibleIf": "{qualifyingWillExists} = 'y'",
-       "title": "If you believe the `deceased` made a `Will`, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\nThe Government of British Columbia offers PDF forms that you may find helpful for your application. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"_blank\">Click here to go to the forms.</a> (This link opens in a new tab)",
+       "title": "If you believe the `deceased` made a `Will`, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\nThe Government of British Columbia offers PDF forms that you may find helpful for your application. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"_blank\">Click here to go to the forms.</a> (This link opens in a new tab)\n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "error"
       }
      ],
@@ -117,6 +122,7 @@
        "visibleIf": "{qualifyingDiedAfterWESA} = 'n'",
        "title": "At this point in time, this service cannot help you apply for a `Representation Grant` if the `deceased` died on March 30, 2014, or before. \n<br><br>\nThe Wills, Estate and Succession Act became law on March 31, 2014. This service only supports the current laws. \n<br><br>\nIf the deceased died before to the current Wills, Estate and Succession Act became law, your `application` also needs to comply with the old Estate Administration Act. \n<br><br>\nPlease review both sets of laws to make sure your application will be successful.\n<ul>\n<li>the <a href=\"http://www.bclaws.ca/civix/document/id/consol17/consol17/00_96122_01\" target=\"blank\">Estate Administration Act</a> (This link opens in a new tab)</li>\n<li>the <a href=\"http://www.bclaws.ca/civix/document/id/complete/statreg/09013_01\" target=\"blank\">Wills, Estate and Succession Act</a> (This link opens in a new tab)</li> \n</ul>",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "error"
       }
      ],
@@ -133,6 +139,7 @@
        "title": "This service can help you apply for a `Representation Grant`. Before continuing, please read the terms for using this service.\n<br><br>\n\"Represent Someone Who Died\" is a service provided by the Government of British Columbia.\n<br><br>\n<ul>\n<li>The Supreme Court of British Columbia will review the documents that you create through this service.</li>\n<li>The Court may ask you for additional information even if you have used this service.</li>\n<li>The Court will decide whether or not to give you a Representation Grant.</li>\n</ul>\nThe Government of British Columbia may update this service at any time.\n<br><br>\n<ul>\n<li>Learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)</li>\n<li>Learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security here.</a> (This link opens in a new tab)</li>\n</ul>\n\nBy clicking \"Continue\", you are agreeing to these terms.",
        "titleLocation": "hidden",
        "isRequired": true,
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
       }
      ],
@@ -147,14 +154,16 @@
        "type": "infotext",
        "name": "qualifyingComplicationsExplanation",
        "title": "The next step is to create an account so that you can save your progress as you work through this service.",
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "qualifyingComplicationsExplanationFutureScope",
        "visible": false,
        "title": "This service can help you apply for a `Representation Grant` whether the `deceased` made a `Will` or not. \n<br><br>\nAt this point in time, this service has been developed for the most common situations.\n<br><br>\nIf your situation is unusual, this service may still be able to help you. You will be able to ask the developer of this service if they can include your specific situation.\n<br><br>\nThe next step is to create an account so that you can save your progress as you work through this service.",
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
       }
      ],
      "visible": false,
