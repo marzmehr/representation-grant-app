@@ -126,6 +126,59 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight, pageHeaderRig
   return body;
 };
 
+export const formPdfHtmlPGTLetter = (html, pageFooterLeft, pageFooterRight, pageHeaderRight) => {
+  const body = [
+    `<!DOCTYPE html>
+    <html lang="en">
+      <head>
+      <meta charset="UTF-8">
+      <title>Representation Grant</title>
+        <style>
+        @page {
+          size: 8.5in 11in !important;
+          margin: 0.68in 0.75in 0.75in 0.75in !important;
+          font-size: 11pt !important;
+          @top-right {
+            content: '${pageHeaderRight}';
+            font-size: 8pt;
+            font-family: 'BC Sans Regular' !important;
+            color: #606060;
+          }
+          @bottom-left {
+            content: '${pageFooterLeft}';
+            white-space: pre;
+            font-size: 8pt;
+            font-family: 'BC Sans Regular' !important;
+            color: #606060;
+          }
+          @bottom-right {
+            content: "${pageFooterRight} Page " counter(page) " of " counter(pages);
+            font-size: 8pt;
+            font-family: 'BC Sans Regular' !important;
+            color: #606060;
+          }
+        }
+        @media print {
+          .new-page {
+            page-break-before: always;
+            position: relative; top: 8em;
+          }
+        }
+        ${bootstrapCss}
+        ${pdfCss}
+        </style>
+      </head>
+      <body>
+        <div class="print-container">
+            ${html}
+        </div>
+      </body>
+    </html>`
+  ];
+  console.log(body[0]);
+  return body;
+};
+
 export const saveSurvey = async () => {
   try {
     const applicationId = getApplicationId.value;
