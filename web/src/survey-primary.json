@@ -9947,7 +9947,8 @@
        "visibleIf": "{panel.recipientRole} = 'pgt' and {panel.notifyP1PGTExplanation} > 0",
        "title": " ",
        "description": "It may take a few seconds for the service to create your Form P1.",
-       "buttonTitle": "Download the Letter to the Public Guardian and Trustee"
+       "buttonTitle": "Download the Letter to the Public Guardian and Trustee",
+       "formName": "PGTLetter"
       },
       {
        "type": "infotext",
@@ -10668,7 +10669,7 @@
       {
        "type": "infotext",
        "name": "p5Tip6",
-       "title": "<b>6) Priority of Applicants in an intestate estate</b>\n<br><br>\n\n<i>If <b>you are {deceasedName}'s spouse</b>, choose this option:</i>\n<br>\n<ul>☒ I a person referred to in paragraph <b>(a)</b> of section 130 of the Wills, Estates and\nSuccession Act.</ul>\n<br>\n\n<i>If <b>you are {deceasedName}'s child and {deceasedName}'s spouse wants you to apply</b>, choose this option:</i>\n<br>\n<ul>☒ I am a person nominated under paragraph\n<b>(a)</b> of section 130 of the Wills, Estates and Succession  Act.</ul>\n\n<br>\n\n<i>If you are {deceasedName}'s child and <b>{deceasedName}'s spouse did NOT want you to apply</b> but most of <b>your siblings want you to apply</b>, choose this option:</i>\n<br>\n<ul>☒ I am a person referred to in paragraph <b>(b)</b> of section 130 of the Wills, Estates and\nSuccession Act.</ul>\n\n<br>\n\n<i>If you are {deceasedName}'s child and <b>{deceasedName}'s spouse did NOT want you to apply</b> and most of <b>your siblings do NOT want you to apply</b>, choose this option:</i>\n<br>\n<ul>☒ I am a person referred to in paragraph <b>(d)</b> of section 130 of the Wills, Estates and\nSuccession Act.</ul>",
+       "title": "<b>6) Priority of Applicants in an intestate estate</b>\n<br><br>\n\n<i>If <b>you are {deceasedName}'s spouse</b>, choose this option:</i>\n<br>\n<ul>☒ I a person referred to in paragraph <b>(a)</b> of section 130 of the Wills, Estates and\nSuccession Act.</ul>\n<br>\n\n<i>If <b>you are {deceasedName}'s child and {deceasedName}'s spouse wants you to apply</b>, choose this option:</i>\n<br>\n<ul>☒ I am a person nominated under paragraph\n<b>(a)</b> of section 130 of the Wills, Estates and Succession  Act.</ul>\n\n<br>\n\n<i>If you are {deceasedName}'s child and <b>{deceasedName}'s spouse has died or is still living but does NOT want you to apply</b> but most of <b>your siblings want you to apply</b>, choose this option:</i>\n<br>\n<ul>☒ I am a person referred to in paragraph <b>(b)</b> of section 130 of the Wills, Estates and\nSuccession Act.</ul>\n\n<br>\n\n<i>If you are {deceasedName}'s child and <b>{deceasedName}'s spouse has died or is still living but does NOT want you to apply</b> and most of <b>your siblings do NOT want you to apply</b>, choose this option:</i>\n<br>\n<ul>☒ I am a person referred to in paragraph <b>(d)</b> of section 130 of the Wills, Estates and\nSuccession Act.</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10782,7 +10783,7 @@
       {
        "type": "infotext",
        "name": "p10Tip7",
-       "title": "[needs work] <b>7) Additional information</b>\n<br><br>\nGrant option\nAttached to this affidavit as Exhibit B is a Statement of Real and Tangible Property Outside of British\nColumbia that discloses\n(a) the real property and tangible personal property outside of British Columbia that passes to the\napplicant in the applicant’s capacity as the deceased’s personal representative,\n(b) the value of that property, and\n(c) the liabilities that charge or encumber that property.\nThere is no real property or tangible personal property outside of British Columbia that passes to the\napplicant in the applicant’s capacity as the deceased’s personal representative.",
+       "title": "<b>7) Grant option</b>\n<br><br>\n<i>If {deceasedName} owned land or other physical belongings that are registered outside of B.C., choose this option:</i>\n<br><br>\n<ul>\n&#9746; Attached to this affidavit as Exhibit B is a Statement of Real and Tangible Property Outside of British\nColumbia that discloses\n<ul>\n(a) the real property and tangible personal property outside of British Columbia that passes to the\napplicant in the applicant’s capacity as the deceased’s personal representative,\n<br>\n(b) the value of that property, and\n<br>\n(c) the liabilities that charge or encumber that property.\n</ul>\n</ul>\n<br>\n<i>If {deceasedName} did <b>NOT</b> owned land or other physical belongings that are registered outside of B.C., choose this option:</i>\n<br><br>\n<ul>\n&#9746; There is no real property or tangible personal property outside of British Columbia that passes to the\napplicant in the applicant’s capacity as the deceased’s personal representative.\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10796,35 +10797,35 @@
       {
        "type": "infotext",
        "name": "p10Tips9",
-       "title": "[needs work] <b>9) Other names in which the deceased held or may have held an interest in property (inside BC)</b>\n<br><br>\nThis part is very important and it is easy to get wrong. Getting it wrong is not the end of the world but will cost you time and money by having to redo some forms.\n<br><br>\n<ul>\n<i>Other names in which the deceased held or may have held an interest in property (inside BC):</i>\n</ul>",
+       "title": "<b>9) Other names in which the deceased held or may have held an interest in property (inside BC)</b>\n<br><br>\n\nThis part is very important and it is easy to get wrong. Getting it wrong will not stop your application but it may cost you time and money if you need to redo some forms.\n<br><br>\nYou need to identify any small difference in spelling that {deceasedName} may have used for different documents.\n<br><br>\nFor example, if the person who died's name is spelled as <b>Alex Bowie Clark</b> on their primary ID, but spelled as <b>Alex B. Clark</b> for a bank account, then each of these spellings should be written down.\n<br><br>\nGo through {deceasedName}'s documents to find all the different spellings or versions of their name in which they hold `assets` that you now need to manage. Write all of the other spellings or versions of their names here.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p10Tip10",
-       "title": "[needs work] <b>10) Real property within British Columbia</b>\n<br><br>\n",
+       "title": "<b>10) Real property within British Columbia</b>\n<br><br>\n\nWrite down information here for any of {deceasedName}'s houses, condominiums or other types of land <b>inside of B.C.</b> that you need a `Representation Grant` to manage.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.\n<br><br>\nThere are some houses, condominiums or land that you do not need to include here. \n<br><br>\nFor example, if {deceasedName} owned an house in Joint Tenancy and the other Joint Tenant is alive, you do not need to include that house here because the house automatically passes to the other Joint Tenant.\n<br><br>\nLook at the land title documents and talk to the <a href=\"https://ltsa.ca/\" target=\"_blank\">Land Title and Survey Authority of BC if you are not sure if you need to include a property or not.</a> (This link opens in a new tab)",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p10Tip11",
-       "title": "[needs work] <b>11) Tangible Personal property within British Columbia</b>\n<br><br>\n",
+       "title": "<b>11) Tangible Personal property within British Columbia</b>\n<br><br>\nWrite down information here for any of {deceasedName}'s physical belongings <b>inside of B.C.</b> that you need a `Representation Grant` to manage. \n<br><br>\nExamples include cash, cars, jewelry, furniture, shoe collection, etc.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p10Tip12",
-       "title": "[needs work] <b>12) Intangible Personal property within British Columbia</b>\n<br><br>\n",
+       "title": "<b>12) Intangible Personal property within British Columbia</b>\n<br><br>\n\nWrite down information here for any of {deceasedName}'s non-physical belongings <b>anywhere in the world</b> that you need a `Representation Grant` to manage. \n<br><br>\nExamples include bank accounts and investment accounts.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p10Tip13",
-       "title": "[needs work] <b>13) Gross value of assets less secured debts (inside bc)</b>\n<br><br>\nAdd up 10, 11, 12\nThis is how the amount that will be used to calculate the Probate Fee.\n",
+       "title": "<b>13) Gross value of assets less secured debts (inside bc)</b>\n<br><br>\n\nAdd up the totals in section 10, 11 and 12. This is the amount that will be used to calculate the Probate Fee.\n<br><br>\nThe `Probate Fee` is part of the cost for confirming that you are the appropriate person to manage the belongings that a person left behind after they died. \n<br><br>\nThe first $25,000 will not be charged a Probate Fee. For any amount over $25,000, the Probate Fee will be less than 1.4% of the amount. \n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/00_99004_01#section2\" target=\"_blank\">Click here to read more about the Probate Fee from the Probate Fee Act.</a> (This link opens in a new tab)",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10838,28 +10839,28 @@
       {
        "type": "infotext",
        "name": "p10Tip15",
-       "title": "[needs work] <b>15) Other names in which the deceased held or may have held an interest in property (outside BC)</b>\n<br><br>\nThis part is very important and it is easy to get wrong. Getting it wrong is not the end of the world but will cost you time and money by having to redo some forms.\n<br><br>\n<ul>\n<i>Other names in which the deceased held or may have held an interest in property (inside BC):</i>\n</ul>",
+       "title": "<b>15) Other names in which the deceased held or may have held an interest in property (outside BC)</b>\n<br><br>\nThis part is the same as section 9 but for a different page.\n<br><br>\nThis part is very important and it is easy to get wrong. Getting it wrong will not stop your application but it may cost you time and money if you need to redo some forms.\n<br><br>\nYou need to identify any small difference in spelling that {deceasedName} may have used for different documents.\n<br><br>\nFor example, if the person who died's name is spelled as <b>Alex Bowie Clark</b> on their primary ID, but spelled as <b>Alex B. Clark</b> for a bank account, then each of these spellings should be written down.\n<br><br>\nGo through {deceasedName}'s documents to find all the different spellings or versions of their name in which they hold `assets` that you now need to manage. Write all of the other spellings or versions of their names here.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p10Tip16",
-       "title": "[needs work] <b>16) Real property within British Columbia</b>\n<br><br>\n",
+       "title": "<b>16) Real property outside British Columbia</b>\n<br><br>\nWrite down information here for any of {deceasedName}'s houses, condominiums or other types of land <b>outside of B.C.</b> that you need a `Representation Grant` to manage.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.\n<br><br>\nThe items listed here will not be used to calculate the `Probate Fee`.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p10Tip17",
-       "title": "[needs work] <b>17) Tangible Personal property outside British Columbia</b>\n<br><br>\n",
+       "title": "<b>17) Tangible Personal property outside British Columbia</b>\n<br><br>\n\nWrite down information here for any of {deceasedName}'s physical belongings <b>outside of B.C.</b> that you need a `Representation Grant` to manage. \n<br><br>\nExamples include cash, cars, jewelry, furniture, shoe collection, etc.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>\nThe items listed here will not be used to calculate the `Probate Fee`.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p10Tip18",
-       "title": "[needs work] <b>18) Gross value of assets less secured debts (outside BC)</b>\n<br><br>\nAdd up 16, 17\nYou are required to document {deceasedName}'s tangible belongings outside of B.C. however this amount will NOT affect the `Probate Fee`. ",
+       "title": "<b>18) Gross value of assets less secured debts (outside BC)</b>\n \n<br><br>\nAdd up the totals in section 16 and 17.\n<br><br>\nThis is required by law but the amount that will <b>NOT</b> be used to calculate the `Probate Fee`.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
