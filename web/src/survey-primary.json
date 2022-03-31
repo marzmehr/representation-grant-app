@@ -5921,6 +5921,16 @@
       },
       {
        "type": "infotext",
+       "name": "spouseIsAliveNoError",
+       "visible": false,
+       "visibleIf": "{panel.spouseIsAlive} = \"n\"",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
        "name": "spouseIsAdultBookmark",
        "visible": false,
        "title": "Spouse Is Adult",
@@ -5935,6 +5945,16 @@
        "visibleIf": "{panel.spouseIsAlive} = 'y'",
        "title": "Is {panel.spouseName} 19 or older?",
        "isRequired": true
+      },
+      {
+       "type": "infotext",
+       "name": "spouseIsAdultNoError",
+       "visible": false,
+       "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'n'",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
       },
       {
        "type": "infotext",
@@ -5980,7 +6000,7 @@
        "type": "infotext",
        "name": "spouseIsAdultNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'n'",
+       "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'nn'",
        "title": "Because {panel.spouseName} is under the age of 19, {panel.spouseName}'s parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant. This service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.spouseName}.",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -6222,9 +6242,19 @@
       },
       {
        "type": "infotext",
-       "name": "spouseIsCompetentNoExplanation",
+       "name": "spouseIsCompetentNoError",
        "visible": false,
        "visibleIf": "{panel.spouseIsAlive} = \"y\" and {panel.spouseIsAdult} = \"y\" and {panel.spouseIsCompetent} = \"n\"",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
+       "name": "spouseIsCompetentNoExplanation",
+       "visible": false,
+       "visibleIf": "{panel.spouseIsAlive} = \"y\" and {panel.spouseIsAdult} = \"y\" and {panel.spouseIsCompetent} = \"nn\"",
        "title": "Because {panel.spouseName} is not `mentally competent`, {panel.spouseName}'s `nominee` (if they have one) needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.spouseName}.\n",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -6469,7 +6499,7 @@
        "type": "yesno",
        "name": "spouseDied5DaysAfter",
        "visible": false,
-       "visibleIf": "{panel.spouseIsAlive} = \"n\"",
+       "visibleIf": "{panel.spouseIsAlive} = \"nn\"",
        "title": "Did {panel.spouseName} die after {deceasedDateOfDeathPlus4}?",
        "isRequired": true
       },
@@ -6826,6 +6856,16 @@
       },
       {
        "type": "infotext",
+       "name": "childIsAliveNoError",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = \"n\"",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
        "name": "childIsAdultBookmark",
        "visible": false,
        "title": "Child Is Adult",
@@ -6843,6 +6883,16 @@
       },
       {
        "type": "infotext",
+       "name": "childIsAdultNoError",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\"",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
        "name": "childIsAdultLogic",
        "visible": false,
        "title": "Logic Documentation - [childIsAdult] = 'n'",
@@ -6855,7 +6905,7 @@
        "type": "infotext",
        "name": "childIsAdultNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"nn\"",
        "title": "Because {panel.childName} is under the age of 19, {panel.childName}'s other parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.childName}.",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -7089,9 +7139,19 @@
       },
       {
        "type": "infotext",
-       "name": "childIsCompetentNoExplanation",
+       "name": "childIsCompetentNoError",
        "visible": false,
        "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"y\" and {panel.childIsCompetent} = \"n\"",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
+       "name": "childIsCompetentNoExplanation",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"y\" and {panel.childIsCompetent} = \"nn\"",
        "title": "Because {panel.childName} is not `mentally competent`, {panel.childName}'s `nominee` (if they have one) needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.childName}.",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -7337,7 +7397,7 @@
        "type": "yesno",
        "name": "childDied5DaysAfter",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = \"nn\"",
        "title": "Did {panel.childName} die after {deceasedDateOfDeathPlus4}?",
        "isRequired": true
       },
@@ -7948,6 +8008,16 @@
       },
       {
        "type": "infotext",
+       "name": "creditorPersonIsAliveNoError",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n'",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
        "name": "creditorPersonIsAdultBookmark",
        "visible": false,
        "title": "Creditor Is Adult",
@@ -7965,6 +8035,16 @@
       },
       {
        "type": "infotext",
+       "name": "creditorPersonIsAdultNoError",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"n\"",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
        "name": "creditorPersonIsAdultLogic",
        "visible": false,
        "title": "Logic Documentation - [creditorPersonIsAdult] = 'n'",
@@ -7977,7 +8057,7 @@
        "type": "infotext",
        "name": "creditorPersonIsAdultNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"n\"",
+       "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"nn\"",
        "title": "Because {panel.creditorPersonName} is under the age of 19, {panel.creditorPersonName}'s parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -8191,9 +8271,19 @@
       },
       {
        "type": "infotext",
-       "name": "creditorPersonIsCompetentNoExplanation",
+       "name": "creditorPersonIsCompetentNoError",
        "visible": false,
        "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"y\" and {panel.creditorPersonIsCompetent} = \"n\"",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
+       "name": "creditorPersonIsCompetentNoExplanation",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"y\" and {panel.creditorPersonIsCompetent} = \"nn\"",
        "title": "Because {panel.creditorPersonName} is not `mentally competent`, {panel.creditorPersonName}'s `nominee` (if they have one) needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -9399,6 +9489,16 @@
         },
         {
          "type": "infotext",
+         "name": "applicantCitorAliveNoError",
+         "visible": false,
+         "visibleIf": "{panel.applicantCitorAlive} = 'n'",
+         "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+         "titleLocation": "hidden",
+         "requiredErrorText": "Please press Continue",
+         "messageStyle": "error"
+        },
+        {
+         "type": "infotext",
          "name": "applicantCitorAliveNoExplanation",
          "visible": false,
          "visibleIf": "{applicantCitorAlive} = 'n'",
@@ -9936,7 +10036,7 @@
        "visibleIf": "{panel.recipientRole} = 'pgt'",
        "title": "Because your application involves a child under the age of 19 or an adult who is not `mentally competent`, you will need to let the Public Guardian and Trustee (PGT) know that you are applying for a `Representation Grant`.\n<br><br>\nThe PGT will review to ensure the children and adults who are not mentally competent will be treated fairly. The PGT charges $315.00 for their review.\n<br><br>\n<a href=\"https://www.trustee.bc.ca/services/Pages/Grant-Application-Review-Services-(GARS).aspx\" target=\"_blank\">For more information, click here to read about the PGT's role in your application.</a> (This link opens in a new tab)\n<br><br>\nYou will need to give the PGT:\n<ul>\n<li>a Form P1</li>\n<li>a letter to explain your application\n<li>a cheque or bank draft for $315.00 payable to \"Public Guardian and Trustee\"</li>\n</ul>\nThis service will now create the letter that you need.",
        "titleLocation": "hidden",
-       "description": "The required fees are detailed in their list of fees (section for Wills, Estates and Succession Act, item (d)). \nhttp://www.trustee.bc.ca/fees/Documents/PGT%20Fee%20Schedule.pdf\n\nThis letter will also have the Form P1 already attached.\n\nYou will only need to send the letter once even if your application involves more than 1 child.\n\nYou will only need to send the letter once even if your application involves more than 1 child or adult who is not mentally competent.\n\nIf an adult who is not mentally competent has a formal nominee, attach a copy of the ",
+       "description": "\nYou will only need to send the letter once even if your application involves more than 1 child.\n\nYou will only need to send the letter once even if your application involves more than 1 child or adult who is not mentally competent.\n\nIf an adult who is not mentally competent has a formal nominee, attach a copy of the ",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
       },
@@ -9946,7 +10046,7 @@
        "visible": false,
        "visibleIf": "{panel.recipientRole} = 'pgt' and {panel.notifyP1PGTExplanation} > 0",
        "title": " ",
-       "description": "It may take a few seconds for the service to create your Form P1.",
+       "description": "It may take a few seconds for the service to create your Letter to the PGT.\n<br><br>\nThis letter will also have the Form P1 already attached.\n",
        "buttonTitle": "Download the Letter to the Public Guardian and Trustee",
        "formName": "PGTLetter"
       },
@@ -10648,7 +10748,7 @@
       {
        "type": "infotext",
        "name": "p5Tip3",
-       "title": "<b>3) Information about the Applicant</b>\n<br><br>\nName: <b>{applicantChoice}</b>\n<br>\nAddress: <b>{applicantInfoPanel[0].applicantOrdinaryAddress}</b>\n<br>\nOccupation: <b>{applicantInfoPanel[0].applicantOccupation}</b>\n<br>\nI am: <b>the applicant</b>",
+       "title": "<b>3) Information about the Applicant</b>\n<br><br>\nName: <b>{applicantChoice}</b>\n<br>\nAddress: <b>{applicantInfoPanel[0].applicantOrdinaryAddress.street}, {applicantInfoPanel[0].applicantOrdinaryAddress.city}, {applicantInfoPanel[0].applicantOrdinaryAddress.state}, {applicantInfoPanel[0].applicantOrdinaryAddress.postalCode}, {applicantInfoPanel[0].applicantOrdinaryAddress.country}</b>\n<br>\nOccupation: <b>{applicantInfoPanel[0].applicantOccupation}</b>\n<br>\nI am: <b>the applicant</b>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10662,7 +10762,7 @@
       {
        "type": "infotext",
        "name": "p5Tip5",
-       "title": "<b>5) Additional Information about the Applicant</b>\n<br><br>\n☒ I am an individual and ordinarily live at the following location:\n<br><br>\nCity/town | Province State | Country \n<br>\n<b>{applicantInfoPanel[0].applicantOrdinaryAddress}</b>\n",
+       "title": "<b>5) Additional Information about the Applicant</b>\n<br><br>\n☒ I am an individual and ordinarily live at the following location:\n<br><br>\nCity/town: <b>{applicantInfoPanel[0].applicantOrdinaryAddress.city}</b>\n<br>\nProvince / State: <b>{applicantInfoPanel[0].applicantOrdinaryAddress.state}</b>\n<br>\nCountry: <b>{applicantInfoPanel[0].applicantOrdinaryAddress.country}</b>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10676,7 +10776,7 @@
       {
        "type": "infotext",
        "name": "p5Tip7",
-       "title": "<b>7) Delivery</b>\n<br><br>\n<i>If you did NOT need to give a Form P1 to the Public Guardian and Trustee (PGT), choose this option:</i>\n<br><br>\n<ul>☒ I am not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the\nPublic Guardian and Trustee.\n</ul>\n<br>\n<i>If you needed to give a Form P1 to the Public Guardian and Trustee (PGT), choose this option:</i>\n<br><br>\n<ul>☒ I am obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the\nPublic Guardian and Trustee.</ul>\n\n\n",
+       "title": "<b>7) Delivery</b>\n<br><br>\n<i>If you did NOT need to give a Form P1 to the Public Guardian and Trustee (PGT), choose this option:</i>\n<br><br>\n<ul>☒ I am not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the\nPublic Guardian and Trustee.\n</ul>\n<br>\n<i>If you needed to give a Form P1 to the Public Guardian and Trustee (PGT), choose this option:</i>\n<br><br>\n<ul>☒ I am obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to the\nPublic Guardian and Trustee.</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10704,7 +10804,7 @@
       {
        "type": "infotext",
        "name": "p5TipPrint",
-       "title": "<b>Save the document</b>\n<br><br>\nSave the information you entered into the Form P5.\n<br><br>\nPress <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P5. ",
+       "title": "<b>Save the document</b>\n<br><br>\nSave the information you entered into the Form P5.\n<br><br>\nPress <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P5. \n<br><br>\nIf you have any feedback about the Form P5 tips in this step, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       }
@@ -10755,7 +10855,7 @@
       {
        "type": "infotext",
        "name": "p10Tip3",
-       "title": "<b>3) Information about the Applicant</b>\n<br><br>\nName: <b>{applicantChoice}</b>\n<br>\nAddress: <b>{applicantInfoPanel[0].applicantOrdinaryAddress}</b>\n<br>\nOccupation: <b>{applicantInfoPanel[0].applicantOccupation}</b>",
+       "title": "<b>3) Information about the Applicant</b>\n<br><br>\nName: <b>{applicantChoice}</b>\n<br>\nAddress: <b>{applicantInfoPanel[0].applicantOrdinaryAddress.street}, {applicantInfoPanel[0].applicantOrdinaryAddress.city}, {applicantInfoPanel[0].applicantOrdinaryAddress.state}, {applicantInfoPanel[0].applicantOrdinaryAddress.postalCode}, {applicantInfoPanel[0].applicantOrdinaryAddress.country}</b>\n<br>\nOccupation: <b>{applicantInfoPanel[0].applicantOccupation}</b>\n",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10804,21 +10904,21 @@
       {
        "type": "infotext",
        "name": "p10Tip10",
-       "title": "<b>10) Real property within British Columbia</b>\n<br><br>\n\nWrite down information here for any of {deceasedName}'s houses, condominiums or other types of land <b>inside of B.C.</b> that you need a `Representation Grant` to manage.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.\n<br><br>\nThere are some houses, condominiums or land that you do not need to include here. \n<br><br>\nFor example, if {deceasedName} owned an house in Joint Tenancy and the other Joint Tenant is alive, you do not need to include that house here because the house automatically passes to the other Joint Tenant.\n<br><br>\nLook at the land title documents and talk to the <a href=\"https://ltsa.ca/\" target=\"_blank\">Land Title and Survey Authority of BC if you are not sure if you need to include a property or not.</a> (This link opens in a new tab)",
+       "title": "<b>10) Real property within British Columbia</b>\n<br><br>\n\nWrite down information here for any of {deceasedName}'s houses, condominiums or other types of land <b>inside of B.C.</b> that you need a `Representation Grant` to manage.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.\n<br><br>\nThere are some houses, condominiums or land that you do not need to include here. \n<br><br>\nFor example, if {deceasedName} owned an house in Joint Tenancy and the other Joint Tenant is alive, you do not need to include that house here because the house automatically passes to the other Joint Tenant.\n<br><br>\nLook at the land title documents and talk to the <a href=\"https://ltsa.ca/\" target=\"_blank\">Land Title and Survey Authority of BC if you are not sure if you need to include a property or not.</a> (This link opens in a new tab)\n<br><br>\n<ul>If you need information for this Form P10 and the organizations holding the `asset` are <b>NOT</b> giving it to you, you can apply for a court document that forces those organizations give you information. There will be a section on the Form P2 to ask for this court document. Get as much information as you can for now and know that there is a path forward.</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p10Tip11",
-       "title": "<b>11) Tangible Personal property within British Columbia</b>\n<br><br>\nWrite down information here for any of {deceasedName}'s physical belongings <b>inside of B.C.</b> that you need a `Representation Grant` to manage. \n<br><br>\nExamples include cash, cars, jewelry, furniture, shoe collection, etc.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.",
+       "title": "<b>11) Tangible Personal property within British Columbia</b>\n<br><br>\nWrite down information here for any of {deceasedName}'s physical belongings <b>inside of B.C.</b> that you need a `Representation Grant` to manage. \n<br><br>\nExamples include cash, cars, jewelry, furniture, shoe collection, etc.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.\n<br><br>\n<ul>If you need information for this Form P10 and the organizations holding the `asset` are <b>NOT</b> giving it to you, you can apply for a court document that forces those organizations give you information. There will be a section on the Form P2 to ask for this court document. Get as much information as you can for now and know that there is a path forward.</i>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p10Tip12",
-       "title": "<b>12) Intangible Personal property within British Columbia</b>\n<br><br>\n\nWrite down information here for any of {deceasedName}'s non-physical belongings <b>anywhere in the world</b> that you need a `Representation Grant` to manage. \n<br><br>\nExamples include bank accounts and investment accounts.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.",
+       "title": "<b>12) Intangible Personal property within British Columbia</b>\n<br><br>\n\nWrite down information here for any of {deceasedName}'s non-physical belongings <b>anywhere in the world</b> that you need a `Representation Grant` to manage. \n<br><br>\nExamples include bank accounts and investment accounts.\n<br><br>\nIf there is nothing here to mention, type in <b>none</b>.\n<br><br>\n<ul>If you need information for this Form P10 and the organizations holding the `asset` are <b>NOT</b> giving it to you, you can apply for a court document that forces those organizations give you information. There will be a section on the Form P2 to ask for this court document. Get as much information as you can for now and know that there is a path forward.</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10867,7 +10967,7 @@
       {
        "type": "infotext",
        "name": "p10TipPrint",
-       "title": "<b>Save the document</b>\n<br><br>\nSave the information you entered into the Form P10.\n<br><br>\nPress <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P10. ",
+       "title": "<b>Save the document</b>\n<br><br>\nSave the information you entered into the Form P10.\n<br><br>\nPress <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P10. \n<br><br>\nIf you have any feedback about the Form P10 tips in this step, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       }
@@ -10890,7 +10990,7 @@
       {
        "type": "infotext",
        "name": "willSearchDownloadExplanation",
-       "title": "<a href=\"https://www2.gov.bc.ca/assets/gov/health/forms/vital-statistics/vsa532_fill.pdf\" target=\"blank\">click here to download a blank form</a>. (This link opens in a new tab)\n<br><br>\nTo open the PDF, you may need Adobe Reader (free to download) or other similar software. \n<br><br>\n<a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)",
+       "title": "This step will help you fill out the \"Application for Search of Wills Notice\". You need to do this step even if {deceasedName} did not make a `Will` so that The Court sees extra evidence that there is no Will. \n<br><br>\nIf you have already applied for a Search of Wills Notice, ensure that it was done with all of the names you identified in the Form P10. \n<br><br>\nIf there are different spellings or versions of {deceasedName}'s name on the Form P10 that aren't in your original Search of Wills Notice, you will need to do another \"Application for Search of Wills Notice\" with the extra names.\n<br><br>\n<a href=\"https://www2.gov.bc.ca/assets/gov/health/forms/vital-statistics/vsa532_fill.pdf\" target=\"blank\">Click here to download a blank \"Application for Search of Wills Notice\"</a>. (This link opens in a new tab)\n<br><br>\nTo open the PDF, you may need Adobe Reader (free to download) or other similar software. \n<br><br>\n<a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)\n<br><br>\nClick \"Continue\" to get some tips on how to fill out the Form P10 based on the information you've already provided in this service.\n",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -10899,12 +10999,40 @@
     },
     {
      "type": "panel",
-     "name": "willSearchDownloadTipsPanel",
+     "name": "willSearchTipsPanel",
      "elements": [
       {
        "type": "infotext",
-       "name": "question206",
-       "title": "<b>Save the document</b>\n<br><br>\nSave the information you entered into the Form P5.\n<br><br>\nPress <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P5. ",
+       "name": "willSearchTip1",
+       "title": "<b>Applicant's Information</b>\n<br><br>\n\"RELATIONSHIP TO THE SUBJECT OF THE WILL SEARCH\" means your relationship to {deceasedName}. This should be either spouse or child.",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "willSearchTipA",
+       "title": "<b>SECTION A - APPLICATION FOR WILLS SEARCH</b>\n<br><br>\nMake sure you have a photo copy of the `death certificate` included when you send your \"Application fo Search of Wills Notice.\"",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "willSearchTipB",
+       "title": "<b>SECTION B - SOLICITORS OR NOTARIES ONLY</b>\n<br><br>\nLeave this section blank.",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "willSearchTipC",
+       "title": "<b>SECTION C - SEARCH REQUEST DETAILS</b>\n<br><br>\n\n\"SURNAME\" also means Last Name or Family name.\n<br>\n\"Given Name\" also means First Name and Middle Names.\n<br><br>\nWhen you fill out the names, start with the Surname, and then add the given names. \n<ul>For example, with Alex Bowie Clark, the Surname is Clark and the given names are Alex Bowie. For this form, write the name in as Clark, Alex Bowie.</ul>\nMake sure to include all the the different spellings and versions of {deceasedName}'s name you wrote down for the Form P10. \n",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "willSearchTipPrint",
+       "title": "<b>Save the document</b>\n<br><br>\nSave and Print the information you entered into the Application for Search of Wills Notice.\n<br><br>\nSend the Application for Search of Wills Notice to Vital Statistics Agency using the contact information on Page 2. This form does not go to The Court. \n<br><br>\nVital Statistics Agency will send you a document called \"Search of Wills Notice\" when they are done with their search. <b>You will need to include 2 copies of the \"Search of Wills Notice\"in your application to The Court.</b>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       }
@@ -10948,7 +11076,7 @@
       {
        "type": "infotext",
        "name": "p2Tip2",
-       "title": "[needs work]<b>2) Submission for estate grant submitted by/on behalf of (name(s) of applicant(s))</b>\n<br><br>\nNumber of Certified copies required [Indicate how many court certified copies of the estate grant/authorization you require.]\n<br><br>\nI/we request ☐ [number of copies]\ncertified copy(ies) of the estate grant.\n<br><br>\nI/we request ☐ [number of copies]\ncertified copy(ies) of the estate authorization to obtain estate information.\n<br><br>\nI/we request ☐ [number of copies]\ncertified copy(ies) of the Affidavit of Assets and Liabilities\nfor Domiciled Estate Grant.\n<br><br>\nI/we request ☐ [number of copies] certified copy(ies) of the Affidavit of Assets and Liabilities for Non-Domiciled Estate Grant.\n",
+       "title": "<b>2) Number of Certified copies required</b>\n<br><br>\n\nCertified copies are copies with The Court's seal on them. They are not regular photocopies. Each certified copy costs <b>$40</b> from The Court. \n<br><br>\n<br>\n<i>This option is for the Representation Grant itself. Ask the organizations who are holding {deceasedName}'s `assets` if they need a certified copy or if a regular photo copy will be good enough.</i>\n<br><br>\n<ul>I/we request ☐ [number of copies] certified copy(ies) of the estate grant.</ul>\n<br><br>\n\n<i>This is the court document that forces organizations to give you information about {deceasedName}'s assets they are holding. If they give you all the information you need to fill out the Form P10, you do not need this document.</i>\n<br><br>\n<ul>I/we request ☐ [number of copies] certified copy(ies) of the estate authorization to obtain estate information.</ul>\n<br><br>\n\n<i>This is talking about the Form P10. Ask the organizations who are holding {deceasedName}'s `assets` if they need a certified copy or if a regular photo copy will be good enough.</i>\n<br><br>\n<ul>I/we request ☐ [number of copies] certified copy(ies) of the Affidavit of Assets and Liabilities for Domiciled Estate Grant.</ul>\n\n<br><br>\n<i>Based on your answers, do <b>NOT</b> choose this option:</i>\n<br><br>\n<ul>\nI/we request [number of copies] certified copy(ies) of the Affidavit of Assets and Liabilities for Non-Domiciled Estate Grant.\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10962,7 +11090,7 @@
       {
        "type": "infotext",
        "name": "p2Tip4",
-       "title": "<b>4) Contact Information for the Applicant(s)</b>\n<br><br>\nStreet address: <b>{applicantServiceAddress}</b>\n<br>\nFax number (if any): {displayIf({applicantHasFax} = n, <b>no fax</b>)}\n{displayIf({spouseExists} = y, <b>{applicantServiceFax}</b>)}\n<br>\nE-mail (if any): <b>{applicantServiceEmail}</b>\n<br>\nPhone number: <b>{applicantServicePhone}</b>\n\n",
+       "title": "<b>4) Contact Information for the Applicant(s)</b>\n<br><br>\nStreet address: <b>{applicantServiceAddress.street}, {applicantServiceAddress.city}, {applicantServiceAddress.state}, {applicantServiceAddress.postalCode}, {applicantServiceAddress.country}</b>\n<br>\nFax number (if any): {displayIf({applicantHasFax} = n, <b>no fax</b>)}\n{displayIf({spouseExists} = y, <b>{applicantServiceFax}</b>)}\n<br>\nE-mail (if any): <b>{applicantServiceEmail}</b>\n<br>\nPhone number: <b>{applicantServicePhone}</b>\n\n",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10976,42 +11104,42 @@
       {
        "type": "infotext",
        "name": "p2Tip6",
-       "title": "[needs work] <b>6) Submission for Estate Grant</b>\n<br><br>\n\nI am/We are submitting with this submission for estate grant an affidavit of assets and liabilities in\nForm P10 or P11 and therefore do not require an authorization to obtain estate information.\n<br><br>\nI am/We are seeking an authorization to obtain estate information so that I/we can secure the\ninformation necessary to prepare and submit an affidavit of assets and liabilities for estate grant.",
+       "title": "<b>6) Submission for Estate Grant</b>\n<br><br>\n\n<i>This option is for the Representation Grant itself. If you were able to fill out the Form P10 with all information, including account numbers and dollar amounts, you can pick this option:</i>\n<br><br>\n<ul>&#9746; I am/We are submitting with this submission for estate grant an affidavit of assets and liabilities in\nForm P10 or P11 and therefore do not require an authorization to obtain estate information.</ul>\n<br>\n\n\n<i>This is the court document that forces organizations to give you information about {deceasedName}'s assets they are holding. If you are <b>NOT</b> able to fill out the Form P10, for example if the asset organization will not give you account numbers or dollar amounts, choose this option:</i>\n<br><br>\n<ul>&#9746; I am/We are seeking an authorization to obtain estate information so that I/we can secure the\ninformation necessary to prepare and submit an affidavit of assets and liabilities for estate grant.</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p2Tip7",
-       "title": "[needs work] <b>7) Information about the Deceased</b>\n<br><br>\n\nFirst Name | Middle Names | Last Name\n<br>\n<b>{deceasedName}</b>\n<br>\nDate of Death: <b>{deceasedDateOfDeath}</b>\n<br><br>\nAlias name: \n\nThis is important. Add all the the different spellings and versions of {deceasedName} you found while listing  `assets` for the P10. names you found Other names in which the deceased held or may have held an interest in property:\n",
+       "title": "<b>7) Information about the Deceased</b>\n<br><br>\n\nFirst Name | Middle Names | Last Name\n<br>\n<b>{deceasedName}</b>\n<br>\nDate of Death: <b>{deceasedDateOfDeath}</b>\n<br><br>\nAlias name: <b>Copy all the the different spellings and versions of {deceasedName}'s name you wrote down for the Form P10. </b>\n<br><br>\n<ul>\nFor example, if the person who died's name is spelled as <b>Alex Bowie Clark</b> on their primary ID, but spelled as <b>Alex B. Clark</b> for a bank account, then each of these spellings should be written down.\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p2Tip8",
-       "title": "<b>8) Last residential address of the deceased</b>\n<br><br>\n\n&#9746; Street number and street name:\n<br>\nStreet number and name | City/town | Province/state | Country | Postal Code/Zip Code\n<br>\n<b>{deceasedAddress}</b>",
+       "title": "<b>8) Last residential address of the deceased</b>\n<br><br>\n\n&#9746; Street number and street name:\n<br>\nStreet number and name: <b>{deceasedAddress.street}</b>\n<br>\nCity/town: <b>{deceasedAddress.city}</b>\n<br>\nProvince/state: <b>{deceasedAddress.state}</b>\n<br>\nCountry: <b>{deceasedAddress.country}</b>\n<br>\nPostal Code/Zip Code: <b>{deceasedAddress.postalCode}</b>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p2Tip9",
-       "title": "[needs work] <b>9) First Nations information</b>\n<br>\n\n{displayIf({deceasedFirstNations} = n, The deceased was neither a Nisg̱a'a citizen nor a member of a treaty first nation.)}\n\n{displayIf({deceasedFirstNations} = y and {deceasedFirstNationsName} == nisgaa, The deceased was a Nisg̱a'a citizen.)}\n\n{displayIf({deceasedFirstNations} = y and {deceasedFirstNationsName} != nisgaa, The deceased was a member of the {deceasedFirstNationsName} treaty first nation.)}",
+       "title": "<b>9) First Nations information</b>\n<br>\n\n{displayIf({deceasedFirstNations} = n, The deceased was neither a Nisg̱a'a citizen nor a member of a treaty first nation.)}\n\n{displayIf({deceasedFirstNations} = y and #deceasedFirstNationsName = 'nisgaa', The deceased was a Nisg̱a'a citizen.)}\n\n{displayIf({deceasedFirstNations} = y and #deceasedFirstNationsName != 'nisgaa', The deceased was a member of the <b>{deceasedFirstNationsName}</b> treaty first nation.)}",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p2Tip10",
-       "title": "<b>10) Documents Filed with this Submission for Estate Grant</b>\n<br><br>\n\n&#9746; There is one applicant to this submission for estate grant and a <b>P5</b> affidavit is filedwith this submission for estate grant.",
+       "title": "<b>10) Documents Filed with this Submission for Estate Grant</b>\n<br>\n\n&#9746; There is one applicant to this submission for estate grant and a <b>P5</b> affidavit is filedwith this submission for estate grant.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "p2Tip11",
-       "title": "<b>11) Affidavits for Delivery filed with this submission for estate grant</b>\n<br><br>\n\n<i>If you needed to give someone a Form P1, choose this option:</i>\n<br>\n<ul>&#9746; Filed with this submission for estate grant is/are the following Affidavit(s) of Delivery in Form P9\n<br><br>\nAffidavit of (name): <b>{applicantChoice}</b>\n<br>\nSworn Date: <b>leave blank;</b> fill in the date <b>after</b> the P9 is affirmed / sworn\n</ul>\n<br>\n\n<i>If you did NOT need to give someone a Form P1, choose this option:</i>\n<br>\n<ul>&#9746; No affidavit of delivery is attached. In accordance with Rule 25-2, no one, other than the applicant\n(s), is entitled to notice.</ul>",
+       "title": "<b>11) Affidavits for Delivery filed with this submission for estate grant</b>\n<br>\n\n<i>If you needed to give someone a Form P1, choose this option:</i>\n<br>\n<ul>&#9746; Filed with this submission for estate grant is/are the following Affidavit(s) of Delivery in Form P9\n<br><br>\nAffidavit of (name): <b>{applicantChoice}</b>\n<br>\nSworn Date: <b>leave blank;</b> fill in the date <b>after</b> the P9 is affirmed / sworn\n</ul>\n<br>\n\n<i>If you did NOT need to give someone a Form P1, choose this option:</i>\n<br>\n<ul>&#9746; No affidavit of delivery is attached. In accordance with Rule 25-2, no one, other than the applicant\n(s), is entitled to notice.</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -11067,7 +11195,22 @@
       {
        "type": "infotext",
        "name": "p2TipPrint",
-       "title": "<b>Save the document</b>\n<br><br>\nSave the information you entered into the Form P2.\n<br><br>\nPress <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P2. ",
+       "title": "<b>Save the document</b>\n<br><br>\nSave the information you entered into the Form P2.\n<br><br>\nPress <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P2.",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{p2IntroExplanation} > 0"
+    },
+    {
+     "type": "panel",
+     "name": "p2TipFilingPanel",
+     "elements": [
+      {
+       "type": "infotext",
+       "name": "p2TipFiling",
+       "title": "<b>Filing Instructions</b>\n<br><br>\nNow that you have completed all your forms, you need to file them at the {applicantChoice} Registry. \n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/courthouse-locations\" target=\"_blank\">Click here to find the address of {applicantChoice} from the list of Courthouse Locations in B.C.</a>\n<br><br>\nRemember to bring your:\n<ul>\n<li>Form P2</li>\n<li>Form P5</li>\n<li>Form P9 (which already has a P1 attached)</li>\n<li>2 copies of the Will Search Notice</li>\n<ul><li>Form P10 (If you were able to get all the information you need)</li>\n</ul>\n</ul>\n<ul>If you would like your own stamped copy of the forms, bring an extra set of copies for yourself.\n</ul>\n<br>\nYou will need to bring cash, cheque or bank draft for:\n<ul>\n<li>$200 filing fee if the `estate` is worth more than $25,000</li>\n<li>$40 for each `affidavit` you need to affirm / swear (Form P5 & Form P9) \n</ul>\n<br>\nYou do not need to have your `Probate Fee` ready right away. The Court will review your application and confirm how much is owed for Probate Fees.\n<br><br>\n<hr>\n<br>\nIf you have any feedback about this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       }
