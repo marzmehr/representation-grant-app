@@ -183,7 +183,9 @@ import {
   formatDeceasedName,
   formatMonthDayYear,
   formPdfHtml,
-  convertBlobAndDownload
+  convertBlobAndDownload,
+  formatCityCountry,
+  dateFormatter
 } from "@/utils/utils";
 import { getApplicationId, getLocations } from "@/state/application-state";
 
@@ -304,14 +306,6 @@ export default defineComponent({
           email: data.applicantLawyerEmail
         };
       }
-    };
-
-    const dateFormatter = dateString => {
-      return formatMonthDayYear(new Date(dateString.replace(/-/g, "/")));
-    };
-
-    const formatCityCountry = mailingAddress => {
-      return `${mailingAddress?.city}, ${mailingAddress?.country}`;
     };
 
     const loadApplicantList = () => {

@@ -43,6 +43,14 @@ export const getBCEIDUrl = () => {
   }
 };
 
+export const dateFormatter = dateString => {
+  return formatMonthDayYear(new Date(dateString.replace(/-/g, "/")));
+};
+
+export const formatCityCountry = mailingAddress => {
+  return `${mailingAddress?.city}, ${mailingAddress?.country}`;
+};
+
 export const formatMailingAddress = (mailingAddress: AddressAndContact): string => {
   if (!mailingAddress) return null;
   return `${mailingAddress?.street || ""}, ${mailingAddress?.city || ""}, ${mailingAddress?.state ||
@@ -72,7 +80,21 @@ export const convertBlobAndDownload = (blob, formName) => {
   setTimeout(() => URL.revokeObjectURL(link.href), 1000);
 };
 
-export const formPdfHtml = (html, pageFooterLeft, pageFooterRight, pageHeaderRight) => {
+export const formPdfHtml = (html, footerLeft, footerRight, headerRight, headerFormat = "") => {
+  const header = headerFormat === "pgt"
+    ? {
+        "fontSize": "8pt",
+        "fontFamily": "BC Sans Regular",
+        "fontWeight": "normal",
+        "colour": "#606060"
+      }
+    : {
+        "fontSize": "16pt",
+        "fontFamily": "BC Sans",
+        "fontWeight": "bold",
+        "colour": "#000000"
+      };
+
   const body = [
     `<!DOCTYPE html>
     <html lang="en">
@@ -85,74 +107,21 @@ export const formPdfHtml = (html, pageFooterLeft, pageFooterRight, pageHeaderRig
           margin: 0.68in 0.75in 0.75in 0.75in !important;
           font-size: 11pt !important;
           @top-right {
-            content: '${pageHeaderRight}';
-            font-size: 16pt;
-            font-family: 'BC Sans' !important;
-            font-weight: bold;
-            color: #000000;
+            content: '${headerRight}';
+            font-size: ${header.fontSize};
+            font-family: '${header.fontFamily}' !important;
+            font-weight: ${header.fontWeight};
+            color: ${header.colour};
           }
           @bottom-left {
-            content: '${pageFooterLeft}';
+            content: '${footerLeft}';
             white-space: pre;
             font-size: 8pt;
             font-family: 'BC Sans Regular' !important;
             color: #606060;
           }
           @bottom-right {
-            content: "${pageFooterRight} Page " counter(page) " of " counter(pages);
-            font-size: 8pt;
-            font-family: 'BC Sans Regular' !important;
-            color: #606060;
-          }
-        }
-        @media print {
-          .new-page {
-            page-break-before: always;
-            position: relative; top: 8em;
-          }
-        }
-        ${bootstrapCss}
-        ${pdfCss}
-        </style>
-      </head>
-      <body>
-        <div class="print-container">
-            ${html}
-        </div>
-      </body>
-    </html>`
-  ];
-  console.log(body[0]);
-  return body;
-};
-
-export const formPdfHtmlPGTLetter = (html, pageFooterLeft, pageFooterRight, pageHeaderRight) => {
-  const body = [
-    `<!DOCTYPE html>
-    <html lang="en">
-      <head>
-      <meta charset="UTF-8">
-      <title>Representation Grant</title>
-        <style>
-        @page {
-          size: 8.5in 11in !important;
-          margin: 0.68in 0.75in 0.75in 0.75in !important;
-          font-size: 11pt !important;
-          @top-right {
-            content: '${pageHeaderRight}';
-            font-size: 8pt;
-            font-family: 'BC Sans Regular' !important;
-            color: #606060;
-          }
-          @bottom-left {
-            content: '${pageFooterLeft}';
-            white-space: pre;
-            font-size: 8pt;
-            font-family: 'BC Sans Regular' !important;
-            color: #606060;
-          }
-          @bottom-right {
-            content: "${pageFooterRight} Page " counter(page) " of " counter(pages);
+            content: "${footerRight} Page " counter(page) " of " counter(pages);
             font-size: 8pt;
             font-family: 'BC Sans Regular' !important;
             color: #606060;
