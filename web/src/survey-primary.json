@@ -6885,7 +6885,7 @@
        "type": "infotext",
        "name": "childIsAdultNoError",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"nn\"",
        "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
@@ -6905,7 +6905,7 @@
        "type": "infotext",
        "name": "childIsAdultNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"nn\"",
+       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\"",
        "title": "Because {panel.childName} is under the age of 19, {panel.childName}'s other parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.childName}.",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -9609,10 +9609,20 @@
        "isRequired": true
       },
       {
+       "type": "infotext",
+       "name": "question32",
+       "visible": false,
+       "visibleIf": "{applicantHasLawyer} = 'y'",
+       "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
        "type": "text",
        "name": "applicantLawyerName",
        "visible": false,
-       "visibleIf": "{applicantHasLawyer} = 'y'",
+       "visibleIf": "{applicantHasLawyer} = 'yy'",
        "title": "What is your lawyer's name?",
        "isRequired": true,
        "defaultSubstitution": "(your lawyer)"
@@ -9621,7 +9631,7 @@
        "type": "text",
        "name": "applicantLawyerFirmName",
        "visible": false,
-       "visibleIf": "{applicantHasLawyer} = 'y'",
+       "visibleIf": "{applicantHasLawyer} = 'yy'",
        "title": "What is name of {applicantLawyerName}'s law firm?",
        "isRequired": true,
        "defaultSubstitution": "(the law firm)"
@@ -9630,7 +9640,7 @@
        "type": "address",
        "name": "applicantLawyerFirmAddress",
        "visible": false,
-       "visibleIf": "{applicantHasLawyer} = 'y'",
+       "visibleIf": "{applicantHasLawyer} = 'yy'",
        "title": "What is {applicantLawyerFirmName}'s address?",
        "isRequired": true
       },
@@ -9638,7 +9648,7 @@
        "type": "text",
        "name": "applicantLawyerPhone",
        "visible": false,
-       "visibleIf": "{applicantHasLawyer} = 'y'",
+       "visibleIf": "{applicantHasLawyer} = 'yy'",
        "title": "What is {applicantLawyerName}'s phone number?",
        "isRequired": true,
        "inputType": "tel"
@@ -9647,7 +9657,7 @@
        "type": "text",
        "name": "applicantLawyerEmail",
        "visible": false,
-       "visibleIf": "{applicantHasLawyer} = 'y'",
+       "visibleIf": "{applicantHasLawyer} = 'yy'",
        "title": "What is {applicantLawyerName}'s email address?",
        "isRequired": true,
        "inputType": "email"
@@ -9656,7 +9666,7 @@
        "type": "yesno",
        "name": "applicantLawyerHasFax",
        "visible": false,
-       "visibleIf": "{applicantHasLawyer} = 'y'",
+       "visibleIf": "{applicantHasLawyer} = 'yy'",
        "title": "Does {applicantLawyerName} have a fax number?",
        "isRequired": true
       },
@@ -11011,7 +11021,7 @@
       {
        "type": "infotext",
        "name": "willSearchTipA",
-       "title": "<b>SECTION A - APPLICATION FOR WILLS SEARCH</b>\n<br><br>\nMake sure you have a photo copy of the `death certificate` included when you send your \"Application fo Search of Wills Notice.\"",
+       "title": "<b>SECTION A - APPLICATION FOR WILLS SEARCH</b>\n<br><br>\nMake sure you have a photo copy of the `Certificate of Death` included when you send your \"Application fo Search of Wills Notice.\"",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
