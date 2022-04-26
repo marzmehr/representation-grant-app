@@ -97,6 +97,7 @@ class SurveyPdfView(generics.GenericAPIView):
                 pdf_result.key_id = pdf_key_id
                 pdf_result.pdf_type = pdf_type
                 pdf_result.version = version
+                pdf_result.last_updated = timezone.now()
             else:
                 pdf_result = PreparedPdf(
                     application_id=application_id,

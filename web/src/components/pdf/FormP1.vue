@@ -156,7 +156,7 @@
           <div class="col-*">
             Date:
             <u
-              ><b class="black">{{ formatMonthDayYear(new Date()) }}</b></u
+              ><b class="black">{{ generateDate() }}</b></u
             >
           </div>
           <div class="col-1"></div>
@@ -174,7 +174,7 @@
 import { defineComponent, onMounted, ref, watch } from "@vue/composition-api";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import CheckBox from "@/components/pdf/components/CheckBox.vue";
-import { getLastUpdated, getApplicants, getFormData, setFormData } from "@/state/survey-state";
+import { getLastUpdated, getApplicants, getFormData, setFormData, getFormDownloaded, setFormDownloaded } from "@/state/survey-state";
 import { SurveyDataService } from "@/services/survey-data-service";
 import { applicantInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
 import { FormP1Applicant, FormP1Deceased, FormP1ServiceContact } from "@/types/application";
@@ -205,16 +205,19 @@ export default defineComponent({
     let applicantList = ref<FormP1Applicant[]>([]);
     let deceased = ref<FormP1Deceased>({} as FormP1Deceased);
     let serviceContact = ref<FormP1ServiceContact>({} as FormP1ServiceContact);
+    setFormDownloaded(false);
 
     watch(getLastUpdated, () => {
-      loadSurveyData(survey);
+      if(!getFormDownloaded.value) {
+        loadSurveyData(survey);
 
-      // save to state to append to P9 later
-      let entry: FormData = {
-        form: "FormP1",
-        html: root.value.innerHTML
-      } as FormData;
-      setFormData(entry);
+        // save to state to append to P9 later
+        let entry: FormData = {
+          form: "FormP1",
+          html: root.value.innerHTML
+        } as FormData;
+        setFormData(entry);
+      }
     });
 
     const loadTestData = () => {
@@ -374,13 +377,20 @@ export default defineComponent({
       } catch (err) {
         console.log(err);
       }
+      // Once downloaded we don't want the P1 content to update
+      setFormDownloaded(true);
     };
+
+    const generateDate = () => {
+      return formatMonthDayYear(new Date())
+    }
 
     onMounted(() => {
       loadApplicantList();
     });
 
     return {
+      generateDate,
       SurveyDataService,
       applicantList,
       loadApplicantList,

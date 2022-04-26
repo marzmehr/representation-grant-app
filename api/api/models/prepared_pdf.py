@@ -6,6 +6,7 @@ class PreparedPdf(models.Model):
         auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
     )
     created_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(blank=True, null=True)
 
     # stored encrypted when key_id is set
     data = models.BinaryField(blank=True, null=True)
