@@ -27,6 +27,7 @@ class StatsView(APIView):
                     {
                         f"{form}": "Yes" if px else "No",
                         f"{form} Created Date": px.created_date if px else None,
+                        f"{form} Last Updated": px.last_updated if px and px.last_updated else None,
                     }
                 )
 

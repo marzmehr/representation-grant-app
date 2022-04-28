@@ -156,7 +156,7 @@
           <div class="col-*">
             Date:
             <u
-              ><b class="black">{{ formatMonthDayYear(new Date()) }}</b></u
+              ><b class="black">{{ date }}</b></u
             >
           </div>
           <div class="col-1"></div>
@@ -205,9 +205,11 @@ export default defineComponent({
     let applicantList = ref<FormP1Applicant[]>([]);
     let deceased = ref<FormP1Deceased>({} as FormP1Deceased);
     let serviceContact = ref<FormP1ServiceContact>({} as FormP1ServiceContact);
+    let date = ref<String>(formatMonthDayYear(new Date()));
 
     watch(getLastUpdated, () => {
       loadSurveyData(survey);
+      generateDate(date);
 
       // save to state to append to P9 later
       let entry: FormData = {
@@ -347,6 +349,9 @@ export default defineComponent({
     };
 
     const onPrint = async () => {
+      // make sure the date is today
+      date.value = formatMonthDayYear(new Date());
+
       const applicationId = getApplicationId.value || 9999999999;
       const formName = "FormP1";
       const innerHTML = root.value.innerHTML;
@@ -376,11 +381,27 @@ export default defineComponent({
       }
     };
 
+    const generateDate = (currDate) => {
+      let response = SurveyDataService.stats();
+
+      response.then( (stats) => {
+        const target = stats.find(stat => stat["ID"] === getApplicationId.value);
+        if (target) {
+          date.value = target["FormP1 Last Updated"] 
+            ? formatMonthDayYear(target["FormP1 Last Updated"])
+            : target["FormP1 Created Date"]
+              ? formatMonthDayYear(target["FormP1 Created Date"])
+              : currDate.value;
+        }
+      });
+    }
+
     onMounted(() => {
       loadApplicantList();
     });
 
     return {
+      date,
       SurveyDataService,
       applicantList,
       loadApplicantList,

@@ -32,8 +32,10 @@ export default defineComponent({
             "ID",
             "FormP1",
             "FormP1 Created Date",
+            "FormP1 Last Updated",
             "FormP9",
-            "FormP9 Created Date"
+            "FormP9 Created Date",
+            "FormP9 Last Updated"
         ];
         const overview_fields = [
             "Total Applications",
