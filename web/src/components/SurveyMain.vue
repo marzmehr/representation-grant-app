@@ -24,6 +24,7 @@ import { SurveyDataService } from "@/services/survey-data-service";
 import { LocationService } from "@/services/location-service";
 import { SurveyQuestionNames } from "@/types/survey-primary";
 import { getApplicationId, setLocations } from "@/state/application-state";
+import { determinePotentialApplicants, determineRecipients, populateApplicantInfoPanel, populateP1DeliveryInfoPanel, determineEarliestSubmissionDate } from "@/survey/survey-on-value-change";
 
 export default defineComponent({
   name: "SurveyMain",
@@ -39,9 +40,46 @@ export default defineComponent({
     const Survey = SurveyVue;
     const survey = getSurvey;
     let updatedKey = ref(0);
+    let populated = false;
     SurveyInit.loadQuestionTypesVueAndSetCss(Survey);
 
     onMounted(() => {});
+
+    /**
+     * TODO: Replace this with better solution (REPGRANT-334)
+     *
+     * This method is an intermediate solution to fix some of the issues we are
+     * seeing when navigating off `/current-applications` and back. It forces
+     * the code to manually populate questions that use `applicantChoice`. The
+     * real issue is related to saving and will need to be addressed at some
+     * point.
+     */
+    const initialPop = (sender) => {
+      if (!populated) {
+        // Options that will force the population of questions
+        const options1 = {
+          name: "applicantChoice",
+          value: sender.getQuestionByName("applicantChoice")?.value
+        };
+        const options2 = {
+          name: "spouseInfoPanel",
+          value: sender.getQuestionByName("spouseInfoPanel")?.value
+        };
+        const options3 = {
+          name: "notifyP1DeliveryInfoPanel",
+          value: sender.getQuestionByName("notifyDeliveryInfoPanel")?.value
+        };
+
+        determinePotentialApplicants(sender, options2);
+        determineRecipients(sender, options1);
+        populateApplicantInfoPanel(sender, options1);
+        populateP1DeliveryInfoPanel(sender, options1);
+        determineEarliestSubmissionDate(sender, options3);
+
+        // we only want to do this once
+        populated = true;
+      }
+    }
 
     const getApplication = async () => {
       try {
@@ -119,6 +157,7 @@ export default defineComponent({
 
       survey.value.onCurrentPageChanged.add((sender, options) => {
         updatedKey.value++;
+        initialPop(survey.value);
         saveTimer();
         Vue.nextTick(() => {
           const el = document.getElementById("sidebar-title");

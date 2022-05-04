@@ -382,7 +382,6 @@ export default defineComponent({
     };
 
     const generateDate = (currDate = formatMonthDayYear(new Date())) => {
-      console.log("Generating form date");
       let response = SurveyDataService.stats();
 
       response.then( (stats) => {
