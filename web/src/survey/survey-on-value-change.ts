@@ -1,7 +1,7 @@
 //Needs to be function, otherwise this context wont work.
 import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, parseISO } from "date-fns";
-import { ItemValue, QuestionPanelDynamicTemplateSurveyImpl } from "survey-vue";
+import { ItemValue } from "survey-vue";
 import {
   getPotentialApplicants,
   setApplicants,
@@ -111,7 +111,7 @@ const getTextValue = (sender, options, questionName) => {
   }
 };
 
-const populateApplicantInfoPanel = (sender, options) => {
+export const populateApplicantInfoPanel = (sender, options) => {
   const questionNamesToWatch = [
     SurveyQuestionNames.applicantChoice,
     SurveyQuestionNames.spouseInfoPanel,
@@ -125,14 +125,13 @@ const populateApplicantInfoPanel = (sender, options) => {
   const applicants = !Array.isArray(applicantChoice) ? [applicantChoice] : applicantChoice;
   const potentialApplicants = getPotentialApplicants.value || [];
   const applicantInfoPanel = sender.getQuestionByName(SurveyQuestionNames.applicantInfoPanel);
-
   if (applicantInfoPanel) {
     applicantInfoPanel.value = applicants.map(a => potentialApplicants.find(pa => pa.key == a));
     applicantInfoPanel.visible = applicants.length > 0;
   }
 };
 
-const populateP1DeliveryInfoPanel = (sender, options) => {
+export const populateP1DeliveryInfoPanel = (sender, options) => {
   const questionNamesToWatch = [
     SurveyQuestionNames.applicantChoice,
     SurveyQuestionNames.spouseInfoPanel,
@@ -142,7 +141,6 @@ const populateP1DeliveryInfoPanel = (sender, options) => {
     SurveyQuestionNames.applicantCitorInfoPanel,
   ];
   if (!questionNamesToWatch.includes(options.name)) return;
-
   const applicantChoice =
     sender.getQuestionByName(SurveyQuestionNames.applicantChoice)?.value || [];
   const applicants = !Array.isArray(applicantChoice) ? [applicantChoice] : applicantChoice;
@@ -181,7 +179,7 @@ const clearPanel = (sender, options) => {
   }
 };
 
-const determinePotentialApplicants = (sender, options) => {
+export const determinePotentialApplicants = (sender, options) => {
   enum QuestionNamesToWatch {
     spouseInfoPanel = SurveyQuestionNames.spouseInfoPanel,
     spouseExists = SurveyQuestionNames.spouseExists,
@@ -331,7 +329,7 @@ const determinePotentialApplicants = (sender, options) => {
   setPotentialApplicants(potentialApplicants);
 };
 
-const determineRecipients = (sender, options) => {
+export const determineRecipients = (sender, options) => {
   const questionNamesToWatch = [
     SurveyQuestionNames.applicantChoice,
     SurveyQuestionNames.spouseInfoPanel,
