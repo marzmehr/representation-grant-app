@@ -5122,6 +5122,7 @@
      "name": "question212",
      "title": "Dani (Chilliwack) says that this could go to a Master (??) by consent order (Form 31 + Draft Order 35) if no one files a Notice of Dispute. It would get seen at the time of submission, result recorded, P2 will go into the queue after. Do we have a question asking if a Notice of Dispute is filed? Will also cost $80 (same as P42). This process might skip notifying the beneficiaries of an older will (they wouldn't get a P1 but would get a P42). ",
      "titleLocation": "hidden",
+     "requiredErrorText": "Please press Continue",
      "messageStyle": "error"
     },
     {
@@ -5132,13 +5133,15 @@
        "type": "infotext",
        "name": "question179",
        "title": "intro info. jumped here from Will page",
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "question182",
        "title": "For P43 form generation, insert the text \"Re: [insert names], on behalf of the estate of {deceasedName}\"",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
       },
       {
@@ -5170,7 +5173,8 @@
        "type": "infotext",
        "name": "question183",
        "title": "[P43] This proceeding is brought for the relief set out below, by {names of applicants} (the petitioner(s) )",
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
       },
       {
        "type": "dropdown",
@@ -5197,6 +5201,7 @@
        "name": "question187",
        "title": "Part 1: ORDER(S) SOUGHT\n\nThe petitioner(s) seek(s) the following order under section 58 (2) (a) of the Wills, Estates and Succession Act:\n\n[indent] 1 that the attached record, document or writing represents the testamentary intentions of a deceased person\n",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
       },
       {
@@ -5204,6 +5209,7 @@
        "name": "question188",
        "title": "Part 2: FACTUAL BASIS<br>\n<br>\n[Using numbered paragraphs, set out the material facts on which this petition is based.]\n<br>\n1\n<br>\n2",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
       },
       {
@@ -5233,6 +5239,7 @@
        "name": "question190",
        "title": "Part 3: LEGAL BASIS\n<br>\n[Using numbered paragraphs, specify any rule or other enactment relied on and provide a brief summary of any other legal bases on which the petitioner(s) intend(s) to rely in support of the orders sought.]\nPara1 1 Section 58 of WESA empowers the court to give the relief requested.\n\nCourt order curing deficiencies\n58   (1)In this section, \"record\" includes data that\n\n(a)is recorded or stored electronically,\n\n(b)can be read by a person, and\n\n(c)is capable of reproduction in a visible form.\n\n(2)On application, the court may make an order under subsection (3) if the court determines that a record, document or writing or marking on a will or document represents\n\n(a)the testamentary intentions of a deceased person,\n\n(b)the intention of a deceased person to revoke, alter or revive a will or testamentary disposition of the deceased person, or\n\n(c)the intention of a deceased person to revoke, alter or revive a testamentary disposition contained in a document other than a will.\n\n(3)Even though the making, revocation, alteration or revival of a will does not comply with this Act, the court may, as the circumstances require, order that a record or document or writing or marking on a will or document be fully effective as though it had been made\n\n(a)as the will or part of the will of the deceased person,\n\n(b)as a revocation, alteration or revival of a will of the deceased person, or\n\n(c)as the testamentary intention of the deceased person.\n\n(4)If an alteration to a will makes a word or provision illegible and the court is satisfied that the alteration was not made in accordance with this Act, the court may reinstate the original word or provision if there is evidence to establish what the original word or provision was.",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
       },
       {
@@ -5240,6 +5247,7 @@
        "name": "question192",
        "title": "Set up CanLII citation alert for Hadley. (should come in 2 days). Up to product manager to decide to change or not the legal basis that gets printed on the form.",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
       },
       {
@@ -5247,7 +5255,8 @@
        "name": "question191",
        "title": "[Disclaimer] \nYou may want to include more research that you do on your own.\nHadley is the leading Case Law. [link to CanLII] \nRead this, on your own or with help, to see if your situation is similar. ",
        "titleLocation": "hidden",
-       "isRequired": true
+       "isRequired": true,
+       "requiredErrorText": "Please press Continue"
       },
       {
        "type": "yesno",
@@ -5259,6 +5268,7 @@
        "name": "question196",
        "title": "[Printed Reference to Hadley]\nHadley Estate (Re), 2017 BCCA 311 is the leading case on what the court should consider when determining whether to grant and order under Sec 58 of WESA. \nhttps://www.canlii.org/en/bc/bcca/doc/2017/2017bcca311/2017bcca311.html",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
       },
       {
@@ -5266,13 +5276,15 @@
        "name": "question195",
        "title": "There are links to other cases that reference Hadley to find more information as to why the court should recognize the \"flawed\" will. [Link here}\n\n",
        "titleLocation": "hidden",
-       "isRequired": true
+       "isRequired": true,
+       "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
        "name": "question213",
        "title": "Hadley Estate - https://www.canlii.org/en/bc/bcca/doc/2017/2017bcca311/2017bcca311.html<br>\nHubschi Estate - https://www.canlii.org/en/bc/bcsc/doc/2019/2019bcsc2040/2019bcsc2040.html<br>\nYoung Estate - \nhttps://www.canlii.org/en/bc/bcsc/doc/2015/2015bcsc182/2015bcsc182.html",
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
       },
       {
        "type": "yesno",
@@ -5307,13 +5319,15 @@
        "name": "question198",
        "title": "Part 4: MATERIAL TO BE RELIED ON\n\n1 \"Affidavit #......... of ..........[name].........., made ........[dd/mmm/yyyy]........\".]\n2 \"Affidavit #......... of ..........[name].........., made ........[dd/mmm/yyyy]........\".]\n",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
       },
       {
        "type": "infotext",
        "name": "question201",
        "title": "you can have multiple people writing affidavits. they can comment on the same facts.",
-       "titleLocation": "hidden"
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
       },
       {
        "type": "text",
@@ -5365,6 +5379,7 @@
        "name": "question205",
        "title": "P42 This matter is not within the jurisdiction of a master.",
        "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
       }
      ]
@@ -5373,7 +5388,8 @@
      "type": "infotext",
      "name": "question208",
      "title": "this will produce a document will help the court review if they should recognize this will. \nin the mean time, proceed with the rest of app as if this will is valid\n\n[Jump back to appropriate Will Question?? There are multiple entry points - DO we need multiple messages with jump backs based on how they got here?]",
-     "titleLocation": "hidden"
+     "titleLocation": "hidden",
+     "requiredErrorText": "Please press Continue"
     }
    ],
    "visible": false
@@ -6885,7 +6901,7 @@
        "type": "infotext",
        "name": "childIsAdultNoError",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"nn\"",
+       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\"",
        "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
@@ -6905,7 +6921,7 @@
        "type": "infotext",
        "name": "childIsAdultNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"nn\"",
        "title": "Because {panel.childName} is under the age of 19, {panel.childName}'s other parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.childName}.",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -8520,7 +8536,8 @@
        "type": "infotext",
        "name": "creditorPersonIsDeadExplanation",
        "visible": false,
-       "title": "Because {panel.creditorPersonName} has died, {panel.creditorPersonName}'s `personal representative` needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nIt is your responsibility to check with {panel.creditorPersonName}'s family and friends to find out who is {panel.creditorPersonName}'s personal representative.\n<br><br>\nIf you find out that {panel.creditorPersonName} does not have a `personal representative`, this service will help tell that to The Court.",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'nn'",
+       "title": "Because {panel.creditorPersonName} has died, {panel.creditorPersonName}'s `personal representative` needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nIt is your responsibility to check with {panel.creditorPersonName}'s family and friends to find out who is {panel.creditorPersonName}'s personal representative.\n<br><br>\nIf you find out that {panel.creditorPersonName} does not have a `personal representative`, this service will help you tell that to The Court.",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -8529,31 +8546,41 @@
        "type": "radiogroup",
        "name": "creditorPersonPersonalRepExists",
        "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonIsDeadExplanation} > 0",
        "title": "Do you know if {panel.creditorPersonName} has a `personal representative`?",
-       "description": "If {panel.creditorPersonName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {panel.creditorPersonName}. ",
+       "description": "If {panel.creditorPersonName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {panel.creditorPersonName}. \n<br><br>\nIf someone is planning on becoming {panel.creditorPersonName}'s personal representative but hasn't done so yet, it is safer for you to include them as {panel.creditorPersonName}'s personal representative.\n",
        "isRequired": true,
        "choices": [
         {
-         "value": "item1",
-         "text": "I know {panel.creditorPersonName} has a personal representative"
+         "value": "y",
+         "text": "I know {panel.creditorPersonName} <b>has</b> a personal representative"
         },
         {
-         "value": "item2",
-         "text": "I know {panel.creditorPersonName} does NOT have a personal representative"
+         "value": "n",
+         "text": "I know {panel.creditorPersonName} <b>does NOT have</b> a personal representative"
         },
         {
-         "value": "item3",
-         "text": "I don't know if {panel.creditorPersonName} has a personal representative"
+         "value": "dk",
+         "text": "I <b>don't know</b> if {panel.creditorPersonName} has a personal representative"
         }
        ]
+      },
+      {
+       "type": "infotext",
+       "name": "creditorPersonPersonalRepExistsYesBookmark",
+       "visible": false,
+       "title": "Creditor has Personal Rep ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "inline"
       },
       {
        "type": "text",
        "name": "creditorPersonPersonalRepName",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y' and {panel.creditorPersonHasPersonalRep} = 'y'",
-       "title": "What is the name of {panel.creditorPersonName}'s `personal representative`",
-       "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'y'",
+       "title": "What is the name of {panel.creditorPersonName}'s `personal representative`?",
+       "description": "\nThis name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
        "isRequired": true
       },
       {
@@ -8567,91 +8594,238 @@
       },
       {
        "type": "infotext",
-       "name": "creditorPersonPersonalRepExistsNoExplanation",
+       "name": "creditorPersonPersonalRepExistsNoBookmark",
        "visible": false,
-       "title": "You are responsible for finding and contacting enough of {panel.creditorPersonName}'s family and friends who are able to tell you for sure if {panel.creditorPersonName} has a `personal representative`.",
+       "title": "Creditor doesn't have Personal Rep",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "inline"
+      },
+      {
+       "type": "checkbox",
+       "name": "creditorPersonPersonalRepExistsNoConfirmed",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n'",
+       "title": "How do you know that {panel.creditorPersonName} does NOT have a `personal representative`?",
+       "description": "Check all the answers that apply",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "family",
+         "text": "their family told me {panel.creditorPersonName} <b>does NOT have</b> a personal representative"
+        },
+        {
+         "value": "friend",
+         "text": "their friends told me {panel.creditorPersonName} <b>does NOT have</b> a personal representative"
+        },
+        {
+         "value": "investigator",
+         "text": "professional investigator(s) told me they <b>could NOT find</b> a personal representative for {panel.creditorPersonName}"
+        }
+       ],
+       "hasOther": true,
+       "otherText": "I want to describe a different way how I know that {panel.creditorPersonName} does NOT have a personal representative"
+      },
+      {
+       "type": "text",
+       "name": "creditorPersonPersonalRepExistsNoConfirmedFamily",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'family'",
+       "title": "List Moe's family members you talked to",
+       "description": "separate names with a comma  (like this , Lisa Simpson, Bart Simpson)",
+       "isRequired": true
+      },
+      {
+       "type": "text",
+       "name": "creditorPersonPersonalRepExistsNoConfirmedFriends",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'friend'",
+       "title": "List the friends of Moe members you talked to",
+       "isRequired": true
+      },
+      {
+       "type": "checkbox",
+       "name": "creditorPersonPersonalRepExistsNoConfirmedInvestigatorType",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator'",
+       "title": "What profession investigator(s) did you hire to find out if {panel.creditorPersonName} has a`personal representative`?",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "private",
+         "text": "a Private Investigator"
+        },
+        {
+         "value": "hier",
+         "text": "an Heir Tracer"
+        }
+       ],
+       "hasOther": true,
+       "otherText": "another kind of investigator (describe)"
+      },
+      {
+       "type": "yesno",
+       "name": "creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidence",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator' and {panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidence} = 'y'",
+       "title": "Do you have evidence that you want to share with the court that you tried hard?\n",
+       "description": "examples: bills, reports\nthis becomes exhibit to P41 along with the sample order\n<br>\nbill for PI. contract for heir tracer; other written communication ",
+       "isRequired": true
+      },
+      {
+       "type": "file",
+       "name": "creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidenceYes",
+       "visible": false,
+       "title": "Upload or just verbal instructions to bring copies with P9 / P41?",
+       "isRequired": true,
+       "allowMultiple": true
+      },
+      {
+       "type": "infotext",
+       "name": "creditorPersonPersonalRepExistsNoConfirmedExplanation",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y' and {panel.creditorPersonHasPersonalRep} = 'y'  and {panel.creditorPersonPersonalRepName} notempty",
+       "title": "[needs work] \n<br>You will need to tell The Court that {panel.creditorPersonName} has died and you have confirmed {panel.creditorPersonName} does NOT have a `personal representative`.\n<br><br>\nThis service will create the documents you need <strike>to tell The Court that you can't tell {panel.creditorPersonName} does not have a personal representative.</strike>\n<br><br>\n[maybe explain the 3 actions the app will do?]\n",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "question242",
+       "visible": false,
+       "title": "yes invoice\n<br><br>\nthis service will 3 things\n<br>1. parapgraph in the P9 saying you tried but weren't successful to notify person (including hiring a Pro)\n<br>2. generate P41 that will say you tried family/friends/social media with no luck and you are asking the court to allow you to not need to notify person.\n<br>\n3. a sample order for the court to sign\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\n<b>For P9</b> - I don't know and I was not able to find where [person] lives or works. I made an effort to find [person]'s friends, family and other acquaintances. I asked [person]'s friends, family and other acquaintances if they knew where [person] lives or works.\n<br>\nyes pro\n<br>\nI hired a [commaListAnd] and they were not able to find where [person] lives, works or receives mail.\n<br>\nno pro\n<br>\ndon't need to add anything\n<br>\nyes social but no response sentence\n<br>\nI sent [person] a Form P1 through [commaListAnd]. However, [person] did not provide a written response confirming they received the Form P1.\n<br>\nno social media sentence\n<br>\nI was not able to find a way to contact [person] through email, fax or other electronic means, including social media.\n\n",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "question238",
+       "visible": false,
+       "title": "no pros\n<br>\nthis service will 3 things\n<br>1. parapgraph in the P9 saying you tried but weren't successful to notify person (including hiring a Pro)\n<br>2. generate P41 that will say you tried family/friends/social media with no luck and you are asking the court to allow you to not need to notify person.\n<br>\n3. a sample order for the court to sign\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\n<b>For P9</b> - I don't know and I was not able to find where [person] lives or works. I made an effort to find their friends, family and other acquaintances. I asked [person]'s friends, family and other acquaintances if they knew where [person] lives or works.\n<br>\nyes social but no response sentence\nI sent [person] a Form P1 through [commaListAnd]. However, [person[ did not provide a written response confirming they received the Form P1.\n<br>\nno social media sentence\nI was not able to find a way to contact [person] through email, fax or other electronic means, including social media.\n\n",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "creditorPersonPersonalRepExistsDKBookmark",
+       "visible": false,
+       "title": "Creditor Personal Rep unknown",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "inline"
+      },
+      {
+       "type": "infotext",
+       "name": "creditorPersonPersonalRepExistsDKExplanation",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk'",
+       "title": "You are responsible for knowing for sure if {panel.creditorPersonName} has a `personal representative`.\n<br><br>\nBecause you are not sure if {panel.creditorPersonName} has a personal representative, it is safer for you to check with as many of {panel.creditorPersonName}'s family and friends as you can find.\n<br><br>\nYou want as much transparency in your application as possible in case {panel.creditorPersonName} does have a personal representative and The Court doesn't think you've given enough people a fair chance.\n",
+       "titleLocation": "hidden",
+       "isRequired": true,
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "radiogroup",
+       "name": "creditorPersonPersonalRepExistsDKFamilyConfirmed",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKExplanation} > 0",
+       "title": "What did {panel.creditorPersonName}'s family or friends tell you about {panel.creditorPersonName}'s `personal representative`?",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "y",
+         "text": "they told me {panel.creditorPersonName} <b>has a personal representative"
+        },
+        {
+         "value": "n",
+         "text": "they told me {panel.creditorPersonName} <b>does NOT have</b> a personal representative"
+        },
+        {
+         "value": "dk",
+         "text": "they told me <b>they don't know</b> if {panel.creditorPersonName} has a personal representative"
+        }
+       ]
+      },
+      {
+       "type": "infotext",
+       "name": "creditorPersonPersonalRepExistsDKFamilyConfirmedYesExplanation",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'y'",
+       "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>has</b> a personal representative\n</li>\n</ul>\n",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "creditorPersonPersonalRepExistsDKFamilyConfirmedNoExplanation",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'n'",
+       "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "creditorPersonPersonalRepExistsDKFamilyConfirmedDKExplanation",
+       "visible": false,
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk'",
+       "title": "they told me they don't know if {panel.creditorPersonName} has a personal representative (explain - hire pros?)\n<br><br>\n\noption to hire a pro?\n<br><br>\nwhat are pros?\n<br><br>\ngotta try your hardest to\noptions include\nshow the court you tried blah blah\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\nthe court needs to be satisfied that you made an effort. if the court isn't satisfied, the court will ask you make more effort to find this person (delay your application)\n<br><br>\nyou don't have to.\nthe court will decide whether you can skip serving Moe. however hiring a professional would give you more credibility in the eye's of the court.",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "yesno",
-       "name": "creditorPersonPersonalRepExistsNoConfirmed",
+       "name": "creditorPersonPersonalRepExistsDKHireInvestigator",
        "visible": false,
-       "title": "Did {panel.creditorPersonName}'s family and friends confirm that {panel.creditorPersonName} does NOT have a `personal representative`?"
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmedDKExplanation} > 0",
+       "title": "Do you want to hire a professional investigator to find out if {panel.creditorPersonName} has a`personal representative`?",
+       "isRequired": true
       },
       {
        "type": "infotext",
-       "name": "creditorPersonPersonalRepExistsNoConfirmedYesExplanation",
+       "name": "creditorPersonPersonalRepExistsDKHireInvestigatorNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y' and {panel.creditorPersonHasPersonalRep} = 'y'  and {panel.creditorPersonPersonalRepName} notempty",
-       "title": "Because {panel.creditorPersonName} has died, and their family and friends have confirmed {panel.creditorPersonName} does NOT have a `personal representative`, \n<br><br>\n[needs work]\nthis service will create the documents you need to ask The Court to skip notifying them. [maybe explain the 3 actions the app will do?]\n",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'n'",
+       "title": "[needs work]\n<br><b>This may be a risk to your application</b> if {panel.creditorPersonName}'s family or friends don't know for sure if {panel.creditorPersonName} has a `personal representative` and you don't want keep investigating. \n<br><br>\nThe Court may not think you tried hard enough\n...\n<br>\nIf you want to continue down this route,\n<br><br>\nScroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
-       "type": "yesno",
-       "name": "question238",
-       "visible": false,
-       "title": "Did you talk to {panel.creditorPersonName}'s family and friends to know if {panel.creditorPersonName} has a `personal representative`?"
-      },
-      {
-       "type": "infotext",
-       "name": "question1",
-       "visible": false,
-       "title": "no - Contact them dummy",
-       "titleLocation": "hidden",
-       "requiredErrorText": "Please press Continue",
-       "messageStyle": "error"
-      },
-      {
        "type": "radiogroup",
-       "name": "question262",
+       "name": "creditorPersonPersonalRepExistsDKHireInvestigatorConfirmed",
        "visible": false,
-       "title": "Does {panel.creditorPersonName} have a `personal representative?`?",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'y'",
+       "title": "What did the private investigator(s) tell you about {panel.creditorPersonName}'s `personal representative`?",
+       "isRequired": true,
        "choices": [
         {
-         "value": "item1",
-         "text": "yes - scroll up"
+         "value": "y",
+         "text": "they told me {panel.creditorPersonName} <b>has</b> a personal representative"
         },
         {
-         "value": "item3",
-         "text": "no - done"
-        },
-        {
-         "value": "item4",
-         "text": "family and friends don't know - hire pros?"
+         "value": "n",
+         "text": "they told me they <b>could NOT find</b> a personal representative for {panel.creditorPersonName}"
         }
        ]
       },
       {
        "type": "infotext",
-       "name": "question259",
+       "name": "creditorPersonPersonalRepExistsDKHireInvestigatorConfirmedYesExplanation",
        "visible": false,
-       "title": "hire a pro",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'y' and {panel.creditorPersonPersonalRepExistsDKHireInvestigatorConfirmed} = 'y'",
+       "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>has</b> a personal representative\n</li>\n</ul>\n",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
-      },
-      {
-       "type": "yesno",
-       "name": "question258",
-       "visible": false,
-       "title": "Did {panel.creditorPersonName}'s family or friends tell you that {panel.creditorPersonName} currently has a `personal representative`?"
       },
       {
        "type": "infotext",
-       "name": "question242",
+       "name": "creditorPersonPersonalRepExistsDKHireInvestigatorConfirmedNoExplanation",
        "visible": false,
-       "title": "contact them and ask if they are the personal rep or if they know if something else. \nif successful, say yes\nif not, do know moe's friends/family",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'y' and {panel.creditorPersonPersonalRepExistsDKHireInvestigatorConfirmed} = 'n'",
+       "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
-      },
-      {
-       "type": "yesno",
-       "name": "question253",
-       "visible": false,
-       "title": "want to hire a professional?",
-       "description": "you don't have to. the court will decide whether you can skip serving Moe. however hiring a professional would give you more credibility in the eye'ss of the court."
       }
      ],
      "panelCount": 1,
@@ -8660,6 +8834,15 @@
      "confirmDeleteText": "Are you sure you want to delete this person?",
      "panelAddText": "Add another person who is owed more than $10,000",
      "panelRemoveText": "Delete this person"
+    },
+    {
+     "type": "infotext",
+     "name": "creditorPageError",
+     "visible": false,
+     "title": "Need to add conditions to disable next section if any instance of {creditorPersonPersonalRepExists} = 'dk'",
+     "titleLocation": "hidden",
+     "requiredErrorText": "Please press Continue",
+     "messageStyle": "error"
     },
     {
      "type": "infotext",
@@ -8783,7 +8966,8 @@
    ],
    "visible": false,
    "visibleIf": "(isContainerReady('childPage') and {childCompleted} = 'y') or {surveyEnvironment} = 'DEV' ",
-   "title": "{deceasedName}'s Creditors"
+   "title": "{deceasedName}'s Creditors",
+   "description": "did you talk to reasonably enough family / friends"
   },
   {
    "name": "foreignGrantExtraPage",
@@ -9610,7 +9794,7 @@
       },
       {
        "type": "infotext",
-       "name": "question32",
+       "name": "applicantHasLawyerYesError",
        "visible": false,
        "visibleIf": "{applicantHasLawyer} = 'y'",
        "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
@@ -10044,7 +10228,7 @@
        "name": "notifyP1PGTExplanation",
        "visible": false,
        "visibleIf": "{panel.recipientRole} = 'pgt'",
-       "title": "Because your application involves a child under the age of 19 or an adult who is not `mentally competent`, you will need to let the Public Guardian and Trustee (PGT) know that you are applying for a `Representation Grant`.\n<br><br>\nThe PGT will review to ensure the children and adults who are not mentally competent will be treated fairly. The PGT charges $315.00 for their review.\n<br><br>\n<a href=\"https://www.trustee.bc.ca/services/Pages/Grant-Application-Review-Services-(GARS).aspx\" target=\"_blank\">For more information, click here to read about the PGT's role in your application.</a> (This link opens in a new tab)\n<br><br>\nYou will need to give the PGT:\n<ul>\n<li>a Form P1</li>\n<li>a letter to explain your application\n<li>a cheque or bank draft for $315.00 payable to \"Public Guardian and Trustee\"</li>\n</ul>\nThis service will now create the letter that you need.",
+       "title": "Because your application involves a child under the age of 19 or an adult who is not `mentally competent`, you will need to let the Public Guardian and Trustee (PGT) know that you are applying for a `Representation Grant`.\n<br><br>\nThe PGT will review to ensure the children and adults who are not mentally competent will be treated fairly. The legislated fee for the PGT's review is $315.00.\n<br><br>\n<a href=\"https://www.trustee.bc.ca/services/Pages/Grant-Application-Review-Services-(GARS).aspx\" target=\"_blank\">For more information, click here to read about the PGT's role in your application.</a> (This link opens in a new tab)\n<br><br>\nYou will need to give the PGT:\n<ul>\n<li>a Form P1</li>\n<li>a letter to explain your application\n<li>a cheque or bank draft for $315.00 payable to \"Public Guardian and Trustee\"</li>\n</ul>\nThis service will now create the letter that you need.",
        "titleLocation": "hidden",
        "description": "\nYou will only need to send the letter once even if your application involves more than 1 child.\n\nYou will only need to send the letter once even if your application involves more than 1 child or adult who is not mentally competent.\n\nIf an adult who is not mentally competent has a formal nominee, attach a copy of the ",
        "isRequired": true,
@@ -10065,7 +10249,7 @@
        "name": "notifyP1PGTContact",
        "visible": false,
        "visibleIf": "{panel.recipientRole} = 'pgt' and {panel.notifyP1PGTExplanation} > 0",
-       "title": "Here is how you can give the letter to the Public Guardian and Trustee (PGT).\n<br><br>\n<b>In-person or Physical mail</b>:\n<ul>\n<li>GARS<br>\n#700-808 W. Hastings Street<br>\nVancouver BC<br>\nV6C 3L3</li>\n</ul>\n<b>Email:</b>\n<ul>\n<li>GARS@trustee.bc.ca</li>\n<li>Use the subject title: \"Re: Representation Grant Application\"\n</ul>\n<b>Fax:</b>\n<ul>\n<li>604-775-2429</li>\n<li>Use the subject title: “GARS”</li>\n</ul>\n<br>\nThe PGT will start their review when they receive the Form P1 and the letter explaining your application even if they don't get the $315.00 right away.\n<br><br>\nYou can choose to:\n<ul>\n<li>give the documents and the $315.00 fee together in-person or by physical mail,</li>\nor,\n<li> give them the documents by email or fax now and give them the $315.00 fee later.</li>\n</ul>\nTo do their review, someone from the PGT will be contacting you to ask for more information.\n<br><br>\nAfter the PGT does their review, they will send a document called \"PGT Comments\" to your mailing address. You will get the PGT Comments after the PGT receives the $315.00 fee.\n<br><br>\n This service will remind you to file the original signed copy of the PGT Comments at {applicantCourthouse} in a later step.",
+       "title": "Here is how you can give the letter to the Public Guardian and Trustee (PGT).\n<br><br>\n<b>In-person or Physical mail</b>:\n<ul>\n<li>GARS<br>\n#700-808 W. Hastings Street<br>\nVancouver BC<br>\nV6C 3L3</li>\n</ul>\n<b>Email:</b>\n<ul>\n<li>GARS@trustee.bc.ca</li>\n<li>Use the subject title: \"Re: Representation Grant Application\"\n</ul>\n<b>Fax:</b>\n<ul>\n<li>604-775-2429</li>\n<li>Use the subject title: “GARS”</li>\n</ul>\n<br>\nThe PGT will start their review when they receive the Form P1 and the letter explaining your application even if they don't get the $315.00 fee right away.\n<br><br>\nYou can choose to:\n<ul>\n<li>give the documents and the $315.00 fee together in-person or by physical mail,</li>\nor,\n<li> give them the documents by email or fax now and give them the $315.00 fee later.</li>\n</ul>\nTo do their review, someone from the PGT will be contacting you to ask for more information.\n<br><br>\nAfter the PGT does their review, they will send a document called \"PGT Comments\" to your mailing address. You will get the PGT Comments after the PGT receives the $315.00 fee.\n<br><br>\n This service will remind you to file the original signed copy of the PGT Comments at {applicantCourthouse} in a later step.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10205,7 +10389,7 @@
        "type": "infotext",
        "name": "notifyP1NotDeliveredKnowElectronicYesReceiptYesExplanation",
        "visible": false,
-       "title": "yes - awesome, scroll back up to the question asking \"was someone able to give person a Form P1\" and select \"YES\"",
+       "title": "yes - awesome, scroll back up to the question asking \"was someone able to give person a Form P1\" and select \"YES\"\nsorry you'll have to do this twice",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -10519,7 +10703,7 @@
       {
        "type": "yesno",
        "name": "notifyP1PGTResponse",
-       "title": "Did you get a written response from PGT?"
+       "title": "Did you get PGT Comments? (not the same thing as acknowledgement that they received your email)"
       },
       {
        "type": "infotext",
@@ -10528,19 +10712,6 @@
        "title": "Make sure you provide a copy to the court. We'll remind you later. [In the future. Scan and upload?]",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
-      },
-      {
-       "type": "infotext",
-       "name": "question403",
-       "titleLocation": "hidden",
-       "requiredErrorText": "Please press Continue",
-       "body": "[JIRA] Parse address of child or mentally incapable person. If outside of BC, they need to serve another PGT or equivalent"
-      },
-      {
-       "type": "text",
-       "name": "notifyP1PGTOutsideBCName",
-       "title": "Name other PGT equivalent outside of BC. + regular service options.",
-       "description": "You are responsible for knowing the requirements to serve them, including additoinal info they need and to pay the filing fee. (there may not be a filing fee)."
       }
      ],
      "visible": false
@@ -10570,6 +10741,7 @@
       {
        "type": "helptext",
        "name": "notifyEarliestSubmissionDateFAQ1",
+       "visibleIf": "isContainerReady('notifyP1DeliveryInfoPanel')",
        "title": "How was this date calculated?",
        "titleLocation": "hidden",
        "body": "This service added 21 days to the last date you gave a Form P1. The same calculation is used even if you sent a Form P1 by physical mail and do not know when the person received it."
@@ -10577,6 +10749,7 @@
       {
        "type": "helptext",
        "name": "notifyEarliestSubmissionDateFAQ2",
+       "visibleIf": "isContainerReady('notifyP1DeliveryInfoPanel')",
        "title": "What if I got a Notice of Dispute (Form P29) after I delivered the Form P1?\n\n",
        "titleLocation": "hidden",
        "body": "A Notice of Dispute (Form P29) is the way someone can tell the Court that they don't think you should manage {deceasedName}'s belongings. \n<br><br>\nYou can continue to use this service to complete and file your `application`, but the Court will not give you a Representation Grant until the Notice of Dispute (Form P29) is resolved.\n<br><br>\nTo resolve a Notice of Dispute (Form P29), you can:\n<ul>\n<li>wait for a year until the Notice of Dispute (Form P29) expires (and is not renewed), or</li>\n<li>talk things through with the disputant and see if they will withdraw it using the Form P30, or</li>\n<li>use a Form P31 to apply to the Court to remove the Notice of Dispute (Form P29), if you believe the reason for the dispute is not valid.</li>\n</ul>"
@@ -11220,7 +11393,7 @@
       {
        "type": "infotext",
        "name": "p2TipFiling",
-       "title": "<b>Filing Instructions</b>\n<br><br>\nNow that you have completed all your forms, you need to file them at the {applicantChoice} Registry. \n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/courthouse-locations\" target=\"_blank\">Click here to find the address of {applicantChoice} from the list of Courthouse Locations in B.C.</a>\n<br><br>\nRemember to bring your:\n<ul>\n<li>Form P2</li>\n<li>Form P5</li>\n<li>Form P9 (which already has a P1 attached)</li>\n<li>2 copies of the Will Search Notice</li>\n<ul><li>Form P10 (If you were able to get all the information you need)</li>\n</ul>\n</ul>\n<ul>If you would like your own stamped copy of the forms, bring an extra set of copies for yourself.\n</ul>\n<br>\nYou will need to bring cash, cheque or bank draft for:\n<ul>\n<li>$200 filing fee if the `estate` is worth more than $25,000</li>\n<li>$40 for each `affidavit` you need to affirm / swear (Form P5 & Form P9) \n</ul>\n<br>\nYou do not need to have your `Probate Fee` ready right away. The Court will review your application and confirm how much is owed for Probate Fees.\n<br><br>\n<hr>\n<br>\nIf you have any feedback about this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "title": "<b>Filing Instructions</b>\n<br><br>\nNow that you have completed all your forms, you need to file them at the {applicantCourthouse} Registry. \n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/courthouse-locations\" target=\"_blank\">Click here to find the address of {applicantCourthouse} from the list of Courthouse Locations in B.C.</a>\n<br><br>\nRemember to bring your:\n<ul>\n<li>Form P2</li>\n<li>Form P5</li>\n<li>Form P9 (which already has a P1 attached)</li>\n<li>2 copies of the Will Search Notice</li>\n<ul><li>Form P10 (If you were able to get all the information you need)</li>\n</ul>\n</ul>\n<ul>If you would like your own stamped copy of the forms, bring an extra set of copies for yourself.\n</ul>\n<br>\nYou will need to bring cash, cheque or bank draft for:\n<ul>\n<li>$200 filing fee if the `estate` is worth more than $25,000</li>\n<li>$40 for each `affidavit` you need to affirm / swear (Form P5 & Form P9) \n</ul>\n<br>\nYou do not need to have your `Probate Fee` ready right away. The Court will review your application and confirm how much is owed for Probate Fees.\n<br><br>\n<hr>\n<br>\nIf you have any feedback about this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       }
