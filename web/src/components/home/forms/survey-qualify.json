@@ -11,7 +11,7 @@
       {
        "type": "infotext",
        "name": "qualifyingIntroExplanation",
-       "title": "A `Representation Grant` costs money and will take time to get. Don't waste time on this service if you don't need one.\n<br><br>\nFor example, if the `deceased` had money in their bank account, that bank may give you that money to manage without a Representation Grant. \n<br><br>\nDifferent organizations have different policies to make sure that the right person gets the deceased's assets.\n<br><br>\nAsk each of the organizations that deal with the deceased's `assets` if they will give you the asset without a Representation Grant (also known as a Grant of `Probate`). If an organization will not give you an asset, they will likely ask you to get a Representation Grant.\n<br><br>\nIn addition, ask each of organizations that provided services to the deceased, (such as an electric company, phone company, credit card company, etc) if they will let you cancel the service without a Representation Grant. ",
+       "title": "A `Representation Grant` costs money and will take time to get. Don't waste time on this service if you don't need one.\n<br><br>\nFor example, if the `deceased` had money in their bank account, that bank may give you that money to manage without a Representation Grant. \n<br><br>\nDifferent organizations have different policies to make sure that the right person gets the deceased's `assets`.\n<br><br>\nAsk each of the organizations that deal with the decased's assets if they will give you the asset without a Representation Grant (also known as a Grant of `Probate`). If an organization will not give you an asset, they will likely ask you to get a Representation Grant.\n<br><br>\nIn addition, ask each of organizations that provided services to the deceased, (such as an electric company, phone company, credit card company, etc) if they will let you cancel the service without a Representation Grant. ",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -25,7 +25,8 @@
       {
        "type": "yesno",
        "name": "qualifyingNeedGrant",
-       "title": "Were you asked to get a `Representation Grant` (or a Grant of `Probate`) by any of the organizations that hold the `deceased's` `assets` or provided a serviced to the deceased?",
+       "title": "Were you asked by an organization to get a `Representation Grant` (or a Grant of `Probate`)?",
+       "description": "This question is asking about organizations that hold the `deceased`'s `assets` or provided a serviced to the deceased.",
        "isRequired": true
       },
       {
@@ -33,7 +34,7 @@
        "name": "qualifyingNeedGrantNoExplanation",
        "visible": false,
        "visibleIf": "{qualifyingNeedGrant} = 'n'",
-       "title": "If all of the organizations that hold the `deceased's` `assets` simply gave you those assets to manage, then you probably don't need `Representation Grant`.",
+       "title": "If all of the organizations that hold the `deceased`'s `assets` simply gave you those assets to manage, then you probably don't need `Representation Grant`.",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -50,7 +51,7 @@
        "name": "qualifyingStillNeedGrantNoError",
        "visible": false,
        "visibleIf": "{qualifyingNeedGrant} = 'n' and {qualifyingStillNeedGrant} = 'n'",
-       "title": "It seems you don't need this service to manage the `deceased's` `assets`. \n<br><br>\nThe organizations that hold the deceased's assets may ask you to sign a waiver in case there are problems in the future.\n<br><br>\n Once you have the assets, you are responsible for distributing them according to the law.\n<br><br>\nIf the deceased made a `Will`, do your best to follow instruction in the Will on how to distribute the assets.\n<br><br>\nIf the deceased did not make a Will, there are rules written in the Wills, Estates and Succession Act (WESA Part 3 Division 1) on how to distribute the assets. There are different rules depending on the deceased's family situation. \n<br><br>\nRead the rules written in <a href=\"https://www.bclaws.ca/civix/document/id/lc/statreg/09013_01#division_d2e2469\" target=\"_blank\">WESA (Part 3 Division 1) here.</a> (This link opens in a new tab)\n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "title": "It seems you don't need this service to manage the `deceased`'s `assets`. \n<br><br>\nThe organizations that hold the the deceased's assets may ask you to sign a waiver in case there are problems in the future.\n<br><br>\n Once you have the assets, you are responsible for distributing them according to the law.\n<br><br>\nIf the deceased made a `Will`, do your best to follow instruction in the Will on how to distribute the assets.\n<br><br>\nIf the deceased did not make a Will, there are rules written in the Wills, Estates and Succession Act (WESA Part 3 Division 1) on how to distribute the assets. There are different rules depending on the deceased's family situation. \n<br><br>\nRead the rules written in <a href=\"https://www.bclaws.ca/civix/document/id/lc/statreg/09013_01#division_d2e2469\" target=\"_blank\">WESA (Part 3 Division 1) here.</a> (This link opens in a new tab)",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
        "messageStyle": "error"
@@ -64,9 +65,17 @@
      "name": "qualifyingTempScopePanel",
      "elements": [
       {
+       "type": "infotext",
+       "name": "qualifyingTempScopeExplanation",
+       "title": "As of March 31, 2022, this service has only been developed for the first step in applying for a `Representation Grant`. \n<br><br>\nThis service will:\n<ul>\n<li>Help an `applicant` create a Form P1 and send it to whoever is required to receive one.</li>\n<li>Help the applicant create a Form P9 to show who they have given the P1 to whoever is required to receive one.</li>\n</ul>\n<br>\nThis service has only been developed for situations where:\n<ul>\n<li>Only a single person can is applying for the Representation Grant, and</li>\n<li>You are either the spouse or child of the `deceased`, and</li>\n<li>Each of the spouse(s) and children are alive, and</li>\n<li>Each of the spouse(s) and children are adults (19 or older), and</li>\n<li>Each of the spouse(s) and children are mentally competent (they can make decisions on their own), and</li>\n<li>If the deceased owed more than $10,000 to a single person, that person needs to be alive, an adult and mentally competent, and</li>\n<li>If someone gave you a citation (Form P32) that person needs to be alive, an adult and mentally competent.</li>\n</ul>",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
        "type": "yesno",
        "name": "qualifyingTempScope",
-       "title": "As of November 30, 2021, this service has only been developed for the first step in applying for a `Representation Grant`. \n<br><br>\nThis service will:\n<ul>\n<li>Help an `applicant` create a P1 form and send it to whoever is entitled to receive one.</li>\n<li>Help the applicant create a P9 form to show who they have given the P1 to whoever is entitled to receive one.</li>\n</ul>\n<br>\nThis service has only been developed for situations where:\n<ul>\n<li>Spouse(s) of the deceased are all alive and mentally competent, and</li>\n<li>Children of the deceased are over the age of 18, are all alive and mentally competent, and</li>\n<li>The deceased can owe a single person or a single organization more than $10,000 but those people need to be all alive and mentally competent, and</li>\n<li>Only a single spouse or child is applying for the Representation Grant, and</li>\n<li>The `applicant` can have been given a `citation` but the people who made the citation need to be all live and mentally competent</li>\n</ul>\n<br>\nDoes this service match your situation?"
+       "title": "Does the above situation match your situation?",
+       "description": "\n\n \n\n\n\n\n\n\n"
       },
       {
        "type": "infotext",
@@ -83,12 +92,63 @@
     },
     {
      "type": "panel",
+     "name": "qualifyingUghl",
+     "elements": [
+      {
+       "type": "yesno",
+       "name": "qualifyingRegisteredIndian",
+       "title": "Was the `deceased` a Registered Indian under the Government of Canada's Indian Act?",
+       "description": "For more information about who is considered a Registered Indian, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-1.html\" target=\"_blank\">click here to go to the Government of Canada's Indian Act.</a> (This link opens in a new tab) \n<br><br>\nPlease Note: The name of this act and its policies are not under the control of the Government of British Columbia. ",
+       "isRequired": true
+      },
+      {
+       "type": "yesno",
+       "name": "qualifyingRegisteredIndianEntitled",
+       "visible": false,
+       "visibleIf": "{qualifyingRegisteredIndian} = 'n'",
+       "title": "Was the `deceased` entitled to register under the Government of Canada's Indian Act?",
+       "description": "The deceased was entitled to be registered if at least one of the their parents is registered or entitled to be registered under <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-1.html#h-331795\" target=\"_blank\">section 6 of the Indian Act.</a> (This link opens in a new tab)\n<br><br>\nIf anyone in the deceased's immediate or extended family registered or entitled to be registered, it may mean the deceased was entitled to register as well.\n",
+       "isRequired": true
+      },
+      {
+       "type": "yesno",
+       "name": "qualifyingRegisteredIndianReferredToBC",
+       "visible": false,
+       "visibleIf": "{qualifyingRegisteredIndian} = 'y' or ({qualifyingRegisteredIndian} = 'n' and {qualifyingRegisteredIndianEntitled} = 'y')",
+       "title": "Did Canada's Minister of Indigenous Services tell you to go to the Supreme Court of British Columbia to get a `Representation Grant` for the `deceased`?"
+      },
+      {
+       "type": "infotext",
+       "name": "qualifyingRegisteredIndianYesExplanation",
+       "visible": false,
+       "visibleIf": "{qualifyingRegisteredIndian} = 'y' and {qualifyingRegisteredIndianReferredToBC} = 'n'",
+       "title": "If the `deceased` was a Registered Indian and Canada's Minister of Indigenous Services did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nAccording to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of a Registered Indian who has died.\n<br><br>\nFor more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)\n<br><br>\nPlease Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. The Government of Canada's laws overpower the Government of British Columbia's laws and the Supreme Court of British Columbia's orders.  The creators of this service apologize for the restrictions placed on you by the Indian Act.",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      },
+      {
+       "type": "infotext",
+       "name": "qualifyingRegisteredIndianEntitledNoExplanation",
+       "visible": false,
+       "visibleIf": "{qualifyingRegisteredIndian} = 'n' and {qualifyingRegisteredIndianEntitled} = 'y' and {qualifyingRegisteredIndianReferredToBC} = 'n'",
+       "title": "If the `deceased` was entitled to register under the Government of Canada's Indian Act and Canada's Minister of Indigenous Services did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nAccording to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of someone who was entitled to register under the Government of Canada's Indian Act.\n<br><br>\nFor more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)\n<br><br>\nPlease Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. The Government of Canada's laws overpower the Government of British Columbia's laws and the Supreme Court of British Columbia's orders.  The creators of this service apologize for the restrictions placed on you by the Indian Act.",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "error"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "({qualifyingNeedGrant} = 'y' or ({qualifyingNeedGrant} = 'n' and {qualifyingStillNeedGrant} = 'y')) and {qualifyingTempScope} = 'y'"
+    },
+    {
+     "type": "panel",
      "name": "qualifyingWillExistsPanel",
      "elements": [
       {
        "type": "yesno",
        "name": "qualifyingWillExists",
-       "title": "Do you believe the `deceased` made a `Will`",
+       "title": "Do you believe the `deceased` made a `Will`?",
        "isRequired": true
       },
       {
@@ -103,7 +163,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "({qualifyingNeedGrant} = 'y' or ({qualifyingNeedGrant} = 'n' and {qualifyingStillNeedGrant} = 'y')) and {qualifyingTempScope} = 'y'"
+     "visibleIf": "({qualifyingNeedGrant} = 'y' or ({qualifyingNeedGrant} = 'n' and {qualifyingStillNeedGrant} = 'y')) and {qualifyingTempScope} = 'y' and (({qualifyingRegisteredIndian} = 'n' and {qualifyingRegisteredIndianEntitled} = 'n') or (({qualifyingRegisteredIndian} = 'y' or ({qualifyingRegisteredIndian} = 'n' and {qualifyingRegisteredIndianEntitled} = 'y')) and {qualifyingRegisteredIndianReferredToBC} = 'y'))"
     },
     {
      "type": "panel",
@@ -127,7 +187,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "({qualifyingNeedGrant} = 'y' or ({qualifyingNeedGrant} = 'n' and {qualifyingStillNeedGrant} = 'y')) and {qualifyingTempScope} = 'y' and {qualifyingWillExists} = 'n'"
+     "visibleIf": "({qualifyingNeedGrant} = 'y' or ({qualifyingNeedGrant} = 'n' and {qualifyingStillNeedGrant} = 'y')) and {qualifyingTempScope} = 'y' and (({qualifyingRegisteredIndian} = 'n' and {qualifyingRegisteredIndianEntitled} = 'n') or (({qualifyingRegisteredIndian} = 'y' or ({qualifyingRegisteredIndian} = 'n' and {qualifyingRegisteredIndianEntitled} = 'y')) and {qualifyingRegisteredIndianReferredToBC} = 'y')) and {qualifyingWillExists} = 'n'"
     },
     {
      "type": "panel",
@@ -144,7 +204,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "(((({qualifyingNeedGrant} == 'y') or (({qualifyingNeedGrant} == 'n') and ({qualifyingStillNeedGrant} == 'y'))) and ({qualifyingWillExists} == 'n')) and ({qualifyingDiedAfterWESA} == 'y'))"
+     "visibleIf": "(((({qualifyingNeedGrant} == 'y') or (({qualifyingNeedGrant} == 'n') and ({qualifyingStillNeedGrant} == 'y'))) and \n(({qualifyingRegisteredIndian} = 'n' and {qualifyingRegisteredIndianEntitled} = 'n') or (({qualifyingRegisteredIndian} = 'y' or ({qualifyingRegisteredIndian} = 'n' and {qualifyingRegisteredIndianEntitled} = 'y')) and {qualifyingRegisteredIndianReferredToBC} = 'y'))\nand ({qualifyingWillExists} == 'n')) and ({qualifyingDiedAfterWESA} == 'y'))"
     },
     {
      "type": "panel",
