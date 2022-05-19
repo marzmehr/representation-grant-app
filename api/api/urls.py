@@ -34,6 +34,7 @@ from api.views import (
     SandboxSurveyView,
     FeedbackView,
     StatsView,
+    StatsSingleView,
 )
 
 
@@ -62,6 +63,7 @@ urlpatterns = [
     path("sandbox-survey/", SandboxSurveyView.as_view()),
     path("feedback/", FeedbackView.as_view()),
     path("stats/", StatsView.as_view()),
+    path("statsSingle/<int:pk>/", StatsSingleView.as_view()),
 ]
 
 if settings.OIDC_ENABLED:

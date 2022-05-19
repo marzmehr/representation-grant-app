@@ -9,3 +9,4 @@ from .survey_pdf_view import SurveyPdfView
 from .user_view import UserView
 from .feedback_view import FeedbackView
 from .stats_view import StatsView
+from .stats_single_view import StatsSingleView

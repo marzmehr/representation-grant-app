@@ -77,5 +77,17 @@ export const SurveyDataService = {
     );
 
     return response.data;
+  },
+  statsSingle: async function(applicationId) {
+    const config = {
+      responseType: "json",
+    } as AxiosRequestConfig;
+
+    const response = await axios.get(
+      `/statsSingle/${applicationId}`,
+      config
+    );
+
+    return response.data;
   }
 };
