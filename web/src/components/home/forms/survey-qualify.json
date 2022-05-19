@@ -11,7 +11,7 @@
       {
        "type": "infotext",
        "name": "qualifyingIntroExplanation",
-       "title": "A `Representation Grant` costs money and will take time to get. Don't waste time on this service if you don't need one.\n<br><br>\nFor example, if the `deceased` had money in their bank account, that bank may give you that money to manage without a Representation Grant. \n<br><br>\nDifferent organizations have different policies to make sure that the right person gets the deceased's `assets`.\n<br><br>\nAsk each of the organizations that deal with the decased's assets if they will give you the asset without a Representation Grant (also known as a Grant of `Probate`). If an organization will not give you an asset, they will likely ask you to get a Representation Grant.\n<br><br>\nIn addition, ask each of organizations that provided services to the deceased, (such as an electric company, phone company, credit card company, etc) if they will let you cancel the service without a Representation Grant. ",
+       "title": "A `Representation Grant` costs money and will take time to get. Don't waste time on this service if you don't need one.\n<br><br>\nFor example, if the `deceased` had money in their bank account, that bank may give you that money to manage without a Representation Grant. \n<br><br>\nDifferent organizations have different policies to make sure that the right person gets the deceased's `assets`.\n<br><br>\nAsk each of the organizations that deal with the deceased's assets if they will give you the asset without a Representation Grant (also known as a Grant of `Probate`). If an organization will not give you an asset, they will likely ask you to get a Representation Grant.\n<br><br>\nIn addition, ask each of organizations that provided services to the deceased, (such as an electric company, phone company, credit card company, etc) if they will let you cancel the service without a Representation Grant. ",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -67,7 +67,7 @@
       {
        "type": "infotext",
        "name": "qualifyingTempScopeExplanation",
-       "title": "As of March 31, 2022, this service has only been developed for the first step in applying for a `Representation Grant`. \n<br><br>\nThis service will:\n<ul>\n<li>Help an `applicant` create a Form P1 and send it to whoever is required to receive one.</li>\n<li>Help the applicant create a Form P9 to show who they have given the P1 to whoever is required to receive one.</li>\n</ul>\n<br>\nThis service has only been developed for situations where:\n<ul>\n<li>Only a single person can is applying for the Representation Grant, and</li>\n<li>You are either the spouse or child of the `deceased`, and</li>\n<li>Each of the spouse(s) and children are alive, and</li>\n<li>Each of the spouse(s) and children are adults (19 or older), and</li>\n<li>Each of the spouse(s) and children are mentally competent (they can make decisions on their own), and</li>\n<li>If the deceased owed more than $10,000 to a single person, that person needs to be alive, an adult and mentally competent, and</li>\n<li>If someone gave you a citation (Form P32) that person needs to be alive, an adult and mentally competent.</li>\n</ul>",
+       "title": "As of March 31, 2022, this service has only been developed for the first step in applying for a `Representation Grant`. \n<br><br>\nThis service will:\n<ul>\n<li>Help an `applicant` create a Form P1 and send it to whoever is required to receive one.</li>\n<li>Help the applicant create a Form P9 to show who they have given the P1 to whoever is required to receive one.</li>\n</ul>\n<br>\nThis service has only been developed for situations where:\n<ul>\n<li>Only a single person is applying for the Representation Grant, and</li>\n<li>You are either the spouse or child of the `deceased`, and</li>\n<li>Each of the spouse(s) and children are alive, and</li>\n<li>Each of the spouse(s) and children are adults (19 or older), and</li>\n<li>Each of the spouse(s) and children are mentally competent (they can make decisions on their own), and</li>\n<li>If the deceased owed more than $10,000 to a single person, that person who is owed money needs to be alive, an adult and mentally competent, and</li>\n<li>If someone gave you a citation (Form P32) that person needs to be alive, an adult and mentally competent.</li>\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -92,13 +92,20 @@
     },
     {
      "type": "panel",
-     "name": "qualifyingUghl",
+     "name": "qualifyingIndianActPanel",
      "elements": [
+      {
+       "type": "infotext",
+       "name": "qualifyingIndianActExplanation",
+       "title": "This service needs to know if the `deceased` was either a Registered Indian or entitled to be Registered under the Government of Canada's Indian Act when they died.\n<br><br>\nFor more information about who is considered a Registered Indian or entitled to be a Registered Indian, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-1.html\" target=\"_blank\">click here to go to the Government of Canada's Indian Act.</a> (This link opens in a new tab) \n<br><br>\nPlease Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. \n",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
       {
        "type": "yesno",
        "name": "qualifyingRegisteredIndian",
-       "title": "Was the `deceased` a Registered Indian under the Government of Canada's Indian Act?",
-       "description": "For more information about who is considered a Registered Indian, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-1.html\" target=\"_blank\">click here to go to the Government of Canada's Indian Act.</a> (This link opens in a new tab) \n<br><br>\nPlease Note: The name of this act and its policies are not under the control of the Government of British Columbia. ",
+       "title": "Was the `deceased` a Registered Indian under the Government of Canada's Indian Act when they died?",
+       "description": "If the deceased was a Nisga'a citizen or a member of a Treaty First Nation in British Columbia, select \"NO.\" This service will have more questions about this situation in a later step.",
        "isRequired": true
       },
       {
@@ -106,8 +113,8 @@
        "name": "qualifyingRegisteredIndianEntitled",
        "visible": false,
        "visibleIf": "{qualifyingRegisteredIndian} = 'n'",
-       "title": "Was the `deceased` entitled to register under the Government of Canada's Indian Act?",
-       "description": "The deceased was entitled to be registered if at least one of the their parents is registered or entitled to be registered under <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-1.html#h-331795\" target=\"_blank\">section 6 of the Indian Act.</a> (This link opens in a new tab)\n<br><br>\nIf anyone in the deceased's immediate or extended family registered or entitled to be registered, it may mean the deceased was entitled to register as well.\n",
+       "title": "Was the `deceased` entitled to register under the Government of Canada's Indian Act when they died?",
+       "description": "If the deceased was a Nisga'a citizen or a member of a Treaty First Nation in British Columbia, select \"NO.\" This service will have more questions about this situation in a later step.\n<br><br>\nThe deceased was entitled to be registered if at least one of the their parents is registered or entitled to be registered under <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-1.html#h-331795\" target=\"_blank\">section 6 of the Indian Act.</a> (This link opens in a new tab)\n<br><br>\nIf anyone in the deceased's immediate or extended family registered or entitled to be registered, it may mean the deceased was entitled to register as well.\n",
        "isRequired": true
       },
       {
@@ -122,7 +129,7 @@
        "name": "qualifyingRegisteredIndianYesExplanation",
        "visible": false,
        "visibleIf": "{qualifyingRegisteredIndian} = 'y' and {qualifyingRegisteredIndianReferredToBC} = 'n'",
-       "title": "If the `deceased` was a Registered Indian and Canada's Minister of Indigenous Services did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nAccording to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of a Registered Indian who has died.\n<br><br>\nFor more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)\n<br><br>\nPlease Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. The Government of Canada's laws overpower the Government of British Columbia's laws and the Supreme Court of British Columbia's orders.  The creators of this service apologize for the restrictions placed on you by the Indian Act.",
+       "title": "If the `deceased` was a Registered Indian and Canada's Minister of Indigenous Services did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nAccording to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of a Registered Indian who has died.\n<br><br>\nFor more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)\n<br><br>\nPlease Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. The Government of Canada's laws overpower the Government of British Columbia's laws and the Supreme Court of British Columbia's orders. This service apologizes for the restrictions placed on you by the Indian Act.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
        "messageStyle": "error"
@@ -132,7 +139,7 @@
        "name": "qualifyingRegisteredIndianEntitledNoExplanation",
        "visible": false,
        "visibleIf": "{qualifyingRegisteredIndian} = 'n' and {qualifyingRegisteredIndianEntitled} = 'y' and {qualifyingRegisteredIndianReferredToBC} = 'n'",
-       "title": "If the `deceased` was entitled to register under the Government of Canada's Indian Act and Canada's Minister of Indigenous Services did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nAccording to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of someone who was entitled to register under the Government of Canada's Indian Act.\n<br><br>\nFor more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)\n<br><br>\nPlease Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. The Government of Canada's laws overpower the Government of British Columbia's laws and the Supreme Court of British Columbia's orders.  The creators of this service apologize for the restrictions placed on you by the Indian Act.",
+       "title": "If the `deceased` was entitled to register under the Government of Canada's Indian Act and Canada's Minister of Indigenous Services did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nAccording to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of someone who was entitled to register under the Government of Canada's Indian Act.\n<br><br>\nFor more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)\n<br><br>\nPlease Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. The Government of Canada's laws overpower the Government of British Columbia's laws and the Supreme Court of British Columbia's orders. This service apologizes for the restrictions placed on you by the Indian Act.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
        "messageStyle": "error"
