@@ -35,7 +35,7 @@
       {
        "type": "helptext",
        "name": "deceasedNameFAQ1",
-       "title": "What if the {deceasedName} used more than one spelling or version of their name?",
+       "title": "What if {deceasedName} used more than one spelling or version of their name?",
        "titleLocation": "hidden",
        "body": "This service will ask you for other spellings and versions of {deceasedName}'s name in a later step."
       },
@@ -6684,6 +6684,7 @@
      "title": "Child Intro",
      "titleLocation": "hidden",
      "requiredErrorText": "Please press Continue",
+     "body": "add back (isContainerReady('spousePage') as a condition?",
      "messageStyle": "inline"
     },
     {
@@ -7649,7 +7650,7 @@
     }
    ],
    "visible": false,
-   "visibleIf": "(isContainerReady('spousePage') and {spouseCompleted} = 'y') or {surveyEnvironment} = 'DEV'",
+   "visibleIf": "{spouseCompleted} = 'y' or {surveyEnvironment} = 'DEV'",
    "title": "{deceasedName}'s Children"
   },
   {
@@ -7908,6 +7909,7 @@
      "title": "Creditor Intro",
      "titleLocation": "hidden",
      "requiredErrorText": "Please press Continue",
+     "body": "add back (isContainerReady('childPage') as a condition?\n<br><br>\n(isContainerReady('childPage') and {childCompleted} = 'y') or {surveyEnvironment} = 'DEV' ",
      "messageStyle": "inline"
     },
     {
@@ -8631,8 +8633,8 @@
        "name": "creditorPersonPersonalRepExistsNoConfirmedFamily",
        "visible": false,
        "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'family'",
-       "title": "List Moe's family members you talked to",
-       "description": "separate names with a comma  (like this , Lisa Simpson, Bart Simpson)",
+       "title": "List the members of {panel.creditorPersonName}'s family that you talked to:",
+       "description": "To list more than 1 family member, add a space and a comma between each person like this:  (Drew Emory, Francis Guo)",
        "isRequired": true
       },
       {
@@ -8640,7 +8642,8 @@
        "name": "creditorPersonPersonalRepExistsNoConfirmedFriends",
        "visible": false,
        "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'friend'",
-       "title": "List the friends of Moe members you talked to",
+       "title": "List the friends of {panel.creditorPersonName} that you talked to:",
+       "description": "To list more than 1 family member, add a space and a comma between each person like this:  (Drew Emory, Francis Guo)",
        "isRequired": true
       },
       {
@@ -8648,7 +8651,7 @@
        "name": "creditorPersonPersonalRepExistsNoConfirmedInvestigatorType",
        "visible": false,
        "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator'",
-       "title": "What profession investigator(s) did you hire to find out if {panel.creditorPersonName} has a`personal representative`?",
+       "title": "What professional investigator(s) did you hire to find out if {panel.creditorPersonName} has a`personal representative`?",
        "isRequired": true,
        "choices": [
         {
@@ -8668,8 +8671,8 @@
        "name": "creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidence",
        "visible": false,
        "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator' and {panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidence} = 'y'",
-       "title": "Do you have evidence that you want to share with the court that you tried hard?\n",
-       "description": "examples: bills, reports\nthis becomes exhibit to P41 along with the sample order\n<br>\nbill for PI. contract for heir tracer; other written communication ",
+       "title": "Do you have any documents from the professional investigator(s)?",
+       "description": "Examples of documentation can include contracts, invoices, receipts or reports.\n",
        "isRequired": true
       },
       {
@@ -8685,7 +8688,7 @@
        "name": "creditorPersonPersonalRepExistsNoConfirmedExplanation",
        "visible": false,
        "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y' and {panel.creditorPersonHasPersonalRep} = 'y'  and {panel.creditorPersonPersonalRepName} notempty",
-       "title": "[needs work] \n<br>You will need to tell The Court that {panel.creditorPersonName} has died and you have confirmed {panel.creditorPersonName} does NOT have a `personal representative`.\n<br><br>\nThis service will create the documents you need <strike>to tell The Court that you can't tell {panel.creditorPersonName} does not have a personal representative.</strike>\n<br><br>\n[maybe explain the 3 actions the app will do?]\n",
+       "title": "You will need to tell The Court that {panel.creditorPersonName} has died and you have confirmed {panel.creditorPersonName} does NOT have a `personal representative`.\n<br><br>\nThis service will create the documents you need to do this, in a later step.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -8693,17 +8696,17 @@
        "type": "infotext",
        "name": "question242",
        "visible": false,
-       "title": "yes invoice\n<br><br>\nthis service will 3 things\n<br>1. parapgraph in the P9 saying you tried but weren't successful to notify person (including hiring a Pro)\n<br>2. generate P41 that will say you tried family/friends/social media with no luck and you are asking the court to allow you to not need to notify person.\n<br>\n3. a sample order for the court to sign\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\n<b>For P9</b> - I don't know and I was not able to find where [person] lives or works. I made an effort to find [person]'s friends, family and other acquaintances. I asked [person]'s friends, family and other acquaintances if they knew where [person] lives or works.\n<br>\nyes pro\n<br>\nI hired a [commaListAnd] and they were not able to find where [person] lives, works or receives mail.\n<br>\nno pro\n<br>\ndon't need to add anything\n<br>\nyes social but no response sentence\n<br>\nI sent [person] a Form P1 through [commaListAnd]. However, [person] did not provide a written response confirming they received the Form P1.\n<br>\nno social media sentence\n<br>\nI was not able to find a way to contact [person] through email, fax or other electronic means, including social media.\n\n",
        "titleLocation": "hidden",
-       "requiredErrorText": "Please press Continue"
+       "requiredErrorText": "Please press Continue",
+       "body": "yes invoice\n<br><br>\nthis service will 3 things\n<br>1. parapgraph in the P9 saying you tried but weren't successful to notify person (including hiring a Pro)\n<br>2. generate P41 that will say you tried family/friends/social media with no luck and you are asking the court to allow you to not need to notify person.\n<br>\n3. a sample order for the court to sign\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\n<b>For P9</b> - I don't know and I was not able to find where [person] lives or works. I made an effort to find [person]'s friends, family and other acquaintances. I asked [person]'s friends, family and other acquaintances if they knew where [person] lives or works.\n<br>\nyes pro\n<br>\nI hired a [commaListAnd] and they were not able to find where [person] lives, works or receives mail.\n<br>\nno pro\n<br>\ndon't need to add anything\n<br>\nyes social but no response sentence\n<br>\nI sent [person] a Form P1 through [commaListAnd]. However, [person] did not provide a written response confirming they received the Form P1.\n<br>\nno social media sentence\n<br>\nI was not able to find a way to contact [person] through email, fax or other electronic means, including social media.\n\n"
       },
       {
        "type": "infotext",
        "name": "question238",
        "visible": false,
-       "title": "no pros\n<br>\nthis service will 3 things\n<br>1. parapgraph in the P9 saying you tried but weren't successful to notify person (including hiring a Pro)\n<br>2. generate P41 that will say you tried family/friends/social media with no luck and you are asking the court to allow you to not need to notify person.\n<br>\n3. a sample order for the court to sign\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\n<b>For P9</b> - I don't know and I was not able to find where [person] lives or works. I made an effort to find their friends, family and other acquaintances. I asked [person]'s friends, family and other acquaintances if they knew where [person] lives or works.\n<br>\nyes social but no response sentence\nI sent [person] a Form P1 through [commaListAnd]. However, [person[ did not provide a written response confirming they received the Form P1.\n<br>\nno social media sentence\nI was not able to find a way to contact [person] through email, fax or other electronic means, including social media.\n\n",
        "titleLocation": "hidden",
-       "requiredErrorText": "Please press Continue"
+       "requiredErrorText": "Please press Continue",
+       "body": "no pros\n<br>\nthis service will 3 things\n<br>1. parapgraph in the P9 saying you tried but weren't successful to notify person (including hiring a Pro)\n<br>2. generate P41 that will say you tried family/friends/social media with no luck and you are asking the court to allow you to not need to notify person.\n<br>\n3. a sample order for the court to sign\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\n<b>For P9</b> - I don't know and I was not able to find where [person] lives or works. I made an effort to find their friends, family and other acquaintances. I asked [person]'s friends, family and other acquaintances if they knew where [person] lives or works.\n<br>\nyes social but no response sentence\nI sent [person] a Form P1 through [commaListAnd]. However, [person[ did not provide a written response confirming they received the Form P1.\n<br>\nno social media sentence\nI was not able to find a way to contact [person] through email, fax or other electronic means, including social media.\n\n"
       },
       {
        "type": "infotext",
@@ -8965,7 +8968,7 @@
     }
    ],
    "visible": false,
-   "visibleIf": "(isContainerReady('childPage') and {childCompleted} = 'y') or {surveyEnvironment} = 'DEV' ",
+   "visibleIf": "{childCompleted} = 'y' or {surveyEnvironment} = 'DEV'",
    "title": "{deceasedName}'s Creditors",
    "description": "did you talk to reasonably enough family / friends"
   },
@@ -9022,7 +9025,7 @@
      "elements": [
       {
        "type": "infotext",
-       "name": "jiraRepGrant245a",
+       "name": "jiraRepGrant250a",
        "visible": false,
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
@@ -10174,12 +10177,12 @@
     },
     {
      "type": "infotext",
-     "name": "jiraRepGrant245b",
+     "name": "jiraRepGrant250b",
      "visible": false,
-     "title": "JIRA REPGRANT-245b - P1 Recipient Logic Documentation",
+     "title": "JIRA REPGRANT-250b - P1 Recipient Logic Documentation",
      "titleLocation": "hidden",
      "requiredErrorText": "Please press Continue",
-     "body": "<b>Current Receipients</b>\n<br><br>\nInclude [successorName] (spouse or child) if\n<li>[successorName] is NOT an [applicant]</li>\n<li>[successorExists] = 'y'</li>\n<li>[successorIsAlive] = 'y'</li>\n<li>[successorIsAdult] = 'y'</li>\n<li>[successorIsCompetent] = 'y'</li>\n<br>\n\nInclude [creditorPersonName] if\n<li>[creditorPersonName] is NOT an [applicant]</li>\n<li>[creditorPersonExists] = 'y',</li>\n<li>[creditorPersonIsAlive] = 'y',</li>\n<li>[creditorPersonIsAdult] = 'y',</li>\n<li>[creditorPersonIsCompetent] = 'y'</li>\n<br>\n\nInclude [creditorOrganizationName] if\n<li>[creditorOrganizationName] is NOT an [applicant]</li>\n<li>[creditorOrganizationExists] = 'y'</li>\n<br>\n\nInclude \"[applicantCitorName]\" if\n<li>[applicantCitorName] is NOT an [applicant]</li>\n<li>[panel.applicantCited] = 'y'</li>\n<li>[panel.applicantCitorNewExists] = 'y'</li> \n<li>[panel.applicantCitorAlive] = 'y'</li>\n<li><strike>[creditorPersonIsAdult] = 'y'</strike></li>\n<li><strike>[creditorPersonIsCompetent] = 'y'</strike> To be updated</li>\n<br>\n\nDisplay \"[successorGuardianName] ([successorName]'s Guardian)\" if\n<li>[successorGuardianName] is NOT an [applicant]</li>\n<li>[successorIsAlive] = 'y',</li>\n<li>[successorIsAdult] = 'n'</li>\n<li>[successorHasGuardian] = 'y'</li>\n<br>\n\nInclude [deceasedFirstNationsName] (the text, not the value) if\n<li>[deceasedFirstNationsName] is NOT an [applicant]</li>\n<li>[deceasedFirstNations] = 'y'</li>\n<ul><li>If feasible, sequence this recipient second last, ahead of PGT </li></ul>\n\n<hr>\n\n<b>New for REPGRANT-245</b>\n<br><br>\n<b>PGT</b> (multiple scenarios)\n<br>\nInclude \"<b>The Public Guardian & Trustee (PGT)</b>\" if\n<li>PGT is NOT an [applicant]</li>\n<li>[successorIsAlive] = 'y'</li>\n<li><b>[successorIsAdult] = 'n' <b>or</b> [successorIsCompetent] = 'n'</b></li>\n<ul><li>If feasible, sequence this recipient last</li></ul>\n<br>\n\n<hr>\n\n<b>New for REPGRANT-308</b>\n<br><br>\n<b>Alive - Not Adult - No Guardian</b>\n<br>\nInclude \"<b>[successorName]</b>\" if\n<li>[successorName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<b><li>[successorIsAdult] = 'n', and</li>\n<li>[successorHasGuardian] = 'n'</b></li>\n<br>\n\n<b>The Provincial Director of Child Welfare</b> for Alive - Not Adult - No Guardian\n<br>\nInclude \"<b>the Provincial Director of Child Welfare</b>\" if\n<li>the Provincial Director of Child Welfare is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<b><li>[successorIsAdult] = 'n', and</li>\n<li>[successorHasGuardian] = 'n'</b></li>\n<ul><li>If feasible, sequence this third last, ahead of PGT and First Nations</li></ul>\n<br>\n\n<hr>\n\n<b>New for REPGRANT-250</b>\n<br><br>\n<b>Alive - Adult - Not Competent - Yes Nominee</b>\n<br>\nInclude \"<b>[successorName]</b>\" if\n<li>[successorName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<li>[successorIsAdult] = 'y', and</li>\n<b><li>[successorIsCompetent] = 'n', and</li>\n<li>[successorHasNominee] = 'y'</b></li>\n<br>\n\n<b>[successorNomineeName] (Nominee of [successorName])</b> for Alive - Adult - Not Competent - Yes Nominee\nInclude \"<b>[successorNomineeName] (Nominee of [successorName])</b>\" if\n<li>[successorNomineeName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<li>[successorIsAdult] = 'y', and</li>\n<b><li>[successorIsCompetent] = 'n', and</li>\n<li>[successorHasNominee] = 'y'</b></li>\n<br>\n\n<b>Alive - Adult - Not Competent - No Nominee</b>\n<br>\nInclude \"<b>[successorName]</b>\" if\n<li>[successorName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<li>[successorIsAdult] = 'y', and</li>\n<li><b>[successorIsCompetent] = 'n', and</li>\n<li>[successorHasNominee] = 'n'</b></li>\n<br>\n\n<hr>\n\n\n\n\n<b>New for REPGRANT-248</b>\n<br><br>\n\n<hr>\n\n\nFuture Scope for Q1 2022\n<br><br>\n\n<b>Alive - Adult - Competent</b>\n<br>\nInclude <i>[successorName]</i> if\n<li>[successorName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<li>[successorIsAdult] = 'y', and</li>\n<li>[successorIsCompetent] = 'y'</li>\n<br><br>\n\n<b>Not Alive - Official Personal Rep</b>\n<br>\nInclude <i>[successorPersonalRepName] (Personal Representative for [successorName])</i> if\n<li><b>[successorIsAlive] = 'n', and</b></li>\n<li>[successorDied5DaysAfter] = 'y', and</li>\n<li><b>[successorHasPersonalRep] = 'y'</b></li>\n<br><br>\n\n<b>Not Alive - Informal Personal Rep</b>\n<br>\nInclude <i>[successorInformalPersonalRepName] (Personal Representative for [successorName])</i> if\n<li><b>[successorIsAlive] = 'n', and</b></li>\n<li>[successorDied5DaysAfter] = 'y', and</li>\n<li><b>[successorHasPersonalRep] = 'n'</b></li>"
+     "body": "<b>Current Receipients</b>\n<br><br>\nInclude [successorName] (spouse or child) if\n<li>[successorName] is NOT an [applicant]</li>\n<li>[successorExists] = 'y'</li>\n<li>[successorIsAlive] = 'y'</li>\n<li>[successorIsAdult] = 'y'</li>\n<li>[successorIsCompetent] = 'y'</li>\n<br>\n\nInclude [creditorPersonName] if\n<li>[creditorPersonName] is NOT an [applicant]</li>\n<li>[creditorPersonExists] = 'y',</li>\n<li>[creditorPersonIsAlive] = 'y',</li>\n<li>[creditorPersonIsAdult] = 'y',</li>\n<li>[creditorPersonIsCompetent] = 'y'</li>\n<br>\n\nInclude [creditorOrganizationName] if\n<li>[creditorOrganizationName] is NOT an [applicant]</li>\n<li>[creditorOrganizationExists] = 'y'</li>\n<br>\n\nInclude \"[applicantCitorName]\" if\n<li>[applicantCitorName] is NOT an [applicant]</li>\n<li>[panel.applicantCited] = 'y'</li>\n<li>[panel.applicantCitorNewExists] = 'y'</li> \n<li>[panel.applicantCitorAlive] = 'y'</li>\n<li><strike>[creditorPersonIsAdult] = 'y'</strike></li>\n<li><strike>[creditorPersonIsCompetent] = 'y'</strike> To be updated</li>\n<br>\n\nInclude \"[successorGuardianName] ([successorName]'s Guardian)\" if\n<li>[successorGuardianName] is NOT an [applicant]</li>\n<li>[successorIsAlive] = 'y',</li>\n<li>[successorIsAdult] = 'n'</li>\n<li>[successorHasGuardian] = 'y'</li>\n<br>\n\nInclude [deceasedFirstNationsName] (the text, not the value) if\n<li>[deceasedFirstNationsName] is NOT an [applicant]</li>\n<li>[deceasedFirstNations] = 'y'</li>\n<ul><li>If feasible, sequence this recipient second last, ahead of PGT </li></ul>\n<br>\n\n<hr>\n\n<b>New for REPGRANT-250</b>\n<br><br>\n<b>Alive - Adult - Not Competent - Yes Nominee</b>\n<br>\nInclude \"<b>[successorName]</b>\" if\n<li>[successorName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<li>[successorIsAdult] = 'y', and</li>\n<b><li>[successorIsCompetent] = 'n', and</li>\n<li>[successorHasNominee] = 'y'</b></li>\n<br>\n\n<b>[successorNomineeName] ([successorName]'s Nominee)</b> for Alive - Adult - Not Competent - Yes Nominee\nInclude \"<b>[successorNomineeName] (Nominee of [successorName])</b>\" if\n<li>[successorNomineeName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<li>[successorIsAdult] = 'y', and</li>\n<b><li>[successorIsCompetent] = 'n', and</li>\n<li>[successorHasNominee] = 'y'</b></li>\n<br>\n\n\n\nInclude \"The Public Guardian & Trustee (PGT)\" if\n<li>PGT is NOT an [applicant]</li>\n<li>[successorIsAlive] = 'y'</li>\n<li>[successorIsAdult] = 'n' <b>or [successorIsCompetent] = 'n'</b></li>\n<ul><li>If feasible, sequence this recipient last</li></ul>\n<br>\n<hr>\n\n<b>New for REPGRANT-366</b>\n<br><br>\n<b>Alive - Not Adult - No Guardian</b>\n<br>\nInclude \"<b>[successorName] (Minor without a Guardian)</b>\" if\n<li>[successorName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<b><li>[successorIsAdult] = 'n', and</li>\n<li>[successorHasGuardian] = 'n'</b></li>\n<br>\n\n<hr>\n\n<b>New for REPGRANT-367</b>\n<br><br>\n<b>Alive - Adult - Not Competent - No Nominee</b>\n<br>\nInclude \"<b>[successorName] (Mentally Incompetent without a Nominee)</b>\" if\n<li>[successorName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<li>[successorIsAdult] = 'y', and</li>\n<b><li>[successorIsCompetent] = 'n', and</li>\n<li>[successorHasNominee] = 'n'</b></li>\n<br>\n\n<hr>\n\nFuture Scope\n<br><br>\n\n<b>Alive - Adult - Competent</b>\n<br>\nInclude <i>[successorName]</i> if\n<li>[successorName] is NOT an [applicant], and</li>\n<li>[successorIsAlive] = 'y', and</li>\n<li>[successorIsAdult] = 'y', and</li>\n<li>[successorIsCompetent] = 'y'</li>\n<br><br>\n\n<b>Not Alive - Official Personal Rep</b>\n<br>\nInclude <i>[successorPersonalRepName] (Personal Representative for [successorName])</i> if\n<li><b>[successorIsAlive] = 'n', and</b></li>\n<li>[successorDied5DaysAfter] = 'y', and</li>\n<li><b>[successorHasPersonalRep] = 'y'</b></li>\n<br><br>\n\n<b>Not Alive - Informal Personal Rep</b>\n<br>\nInclude <i>[successorInformalPersonalRepName] (Personal Representative for [successorName])</i> if\n<li><b>[successorIsAlive] = 'n', and</b></li>\n<li>[successorDied5DaysAfter] = 'y', and</li>\n<li><b>[successorHasPersonalRep] = 'n'</b></li>"
     },
     {
      "type": "paneldynamic",
@@ -10741,6 +10744,7 @@
       {
        "type": "helptext",
        "name": "notifyEarliestSubmissionDateFAQ1",
+       "visible": false,
        "visibleIf": "isContainerReady('notifyP1DeliveryInfoPanel')",
        "title": "How was this date calculated?",
        "titleLocation": "hidden",
@@ -10749,6 +10753,7 @@
       {
        "type": "helptext",
        "name": "notifyEarliestSubmissionDateFAQ2",
+       "visible": false,
        "visibleIf": "isContainerReady('notifyP1DeliveryInfoPanel')",
        "title": "What if I got a Notice of Dispute (Form P29) after I delivered the Form P1?\n\n",
        "titleLocation": "hidden",
@@ -11073,7 +11078,7 @@
       {
        "type": "infotext",
        "name": "p10Tip8",
-       "title": "<b>8) Affidavit Information for Exhibit An</b>\n<br><br>\nAffidavit of: <b>{applicantChoice}</b>\n<br>\nDate: <b>leave blank</b>",
+       "title": "<b>8) Affidavit Information for Exhibit A</b>\n<br><br>\nAffidavit of: <b>{applicantChoice}</b>\n<br>\nDate: <b>leave blank</b>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -11481,6 +11486,11 @@
        "type": "yesno",
        "name": "landExistsBC",
        "title": "[Temp Question] Land Inside BC?"
+      },
+      {
+       "type": "yesno",
+       "name": "landExistsReserve",
+       "title": "[Temp Question] Land on Reserve as defined by the Indian Act of Canada?"
       },
       {
        "type": "infotext",
