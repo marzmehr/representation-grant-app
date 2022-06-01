@@ -322,7 +322,14 @@
        "name": "willCheckFAQ2",
        "title": "Do I have to get a \"Search of Wills Notice\" right now?",
        "titleLocation": "hidden",
-       "body": "A \"Search of Wills Notice\" is a document from the Vital Statistics Agency of British Columbia that might be able to tell you where to find {deceasedName} `Will` (if they made one). \n<br><br>\nYou will need a \"Search of Wills Notice\" as part of your `Representation Grant` `application`. You can get a \"Search of Wills Notice\" on your own at anytime, or you can wait for this service to help you get this document in a later step.\n<br><br>\nThe reason this service helps you get a \"Search of Wills Notice\" in a later step is because it needs to include all of the different names and spellings that {deceasedName} used in their Will and for their `assets`.\n<br><br>\nIf you believe {deceasedName} made a `Will` and you feel you need help finding it now, you may consider getting a \"Search of Wills Notice\" right now. \n<br><br>\nIf you want to get a \"Search of Wills Notice\" right now,  <a href=\"https://www2.gov.bc.ca/assets/gov/health/forms/vital-statistics/vsa532_fill.pdf\" target=\"blank\">click here to download a blank form</a>. (This link opens in a new tab)\n<br><br>\nIt is up to you whether you want to get a \"Search of Wills Notice\" on your own, or if you want to wait and have this service help you get one in a later step. Whichever the choice, this service will check that your \"Search of Wills Notice\" was done correctly for your application."
+       "body": "A \"Search of Wills Notice\" is a document from the Vital Statistics Agency of British Columbia that might be able to tell you where to find {deceasedName} `Will` (if they made one). \n<br><br>\nYou will need a \"Search of Wills Notice\" as part of your `Representation Grant` `application`. You can get a \"Search of Wills Notice\" on your own at anytime, or you can wait for this service to help you get this document in a later step.\n<br><br>\nThe reason this service helps you get a \"Search of Wills Notice\" in a later step is because it needs to include all of the different names and spellings that {deceasedName} used in their Will and for their `assets`.\n<br><br>\nIf you believe {deceasedName} made a `Will` and you feel you need help finding it now, you may consider getting a \"Search of Wills Notice\" right now. \n<br><br>\nIf you want to get a \"Search of Wills Notice\" right now,  <a href=\"https://www2.gov.bc.ca/assets/gov/health/forms/vital-statistics/vsa532_fill.pdf\" target=\"blank\">click here to download a blank form</a>. (This link opens in a new tab)\n<br><br>\nIt is up to you whether you want to get a \"Search of Wills Notice\" on your own, or if you want to wait and have this service help you get one in a later step. "
+      },
+      {
+       "type": "infotext",
+       "name": "willCheckFAQ2TemporaryRemovedText",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "body": "Whichever the choice, this service will check that your \"Search of Wills Notice\" was done correctly for your application."
       },
       {
        "type": "infotext",
@@ -5829,7 +5836,7 @@
      "name": "spouseInfoPanel",
      "visible": false,
      "visibleIf": "{spouseExists} = 'y'",
-     "title": "Add information about {deceasedName}'s `spouse`.",
+     "title": " ",
      "defaultValue": [
       {
        "spouseName": "(the person who died's spouse)"
@@ -5966,7 +5973,7 @@
        "type": "infotext",
        "name": "spouseIsAdultNoError",
        "visible": false,
-       "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'n'",
+       "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'nn'",
        "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
@@ -6016,7 +6023,7 @@
        "type": "infotext",
        "name": "spouseIsAdultNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'nn'",
+       "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'n'",
        "title": "Because {panel.spouseName} is under the age of 19, {panel.spouseName}'s parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant. This service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.spouseName}.",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -6029,7 +6036,7 @@
        "visibleIf": "{panel.spouseIsAlive} = 'y' and {panel.spouseIsAdult} = 'n' and {panel.spouseIsAdultNoExplanation} > 0",
        "title": "When was {panel.spouseName} born?",
        "isRequired": true,
-       "yearsBehind": 150
+       "yearsBehind": 19
       },
       {
        "type": "address",
@@ -6693,15 +6700,6 @@
      "elements": [
       {
        "type": "infotext",
-       "name": "childGPAWWIntroExplanation",
-       "visible": false,
-       "title": "Will version TBD:\n<br>\nFuture, note about if you already entered yourself as executor, do so again here (with a different name if applicable). ",
-       "titleLocation": "hidden",
-       "isRequired": true,
-       "requiredErrorText": "Please press Continue"
-      },
-      {
-       "type": "infotext",
        "name": "childAWOWIntroExplanation",
        "title": "The next step is to identify if {deceasedName} had any children.",
        "titleLocation": "hidden",
@@ -6715,7 +6713,7 @@
        "title": "To Do List:",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
-       "body": "- content for GP/AWW intro that explains there may be overlap with executors\n- create intro and logic for AGAWOW\n- create intro and logic for AGP/AGAWW\n- create intro and logic for RAWOW\n- create intro and logic for RGP/RAWW",
+       "body": "- content for GP/AWW intro that explains there may be overlap with executors\n<br>\nIf you already entered yourself as executor, do so again here (with a different name if applicable). \n<br><br>\n- create intro and logic for AGAWOW\n<br>\n- create intro and logic for AGP/AGAWW\n<br>\n- create intro and logic for RAWOW\n<br>\n- create intro and logic for RGP/RAWW",
        "messageStyle": "error"
       }
      ]
@@ -6785,7 +6783,7 @@
      "name": "childInfoPanel",
      "visible": false,
      "visibleIf": "{childExists} = \"y\"",
-     "title": "Add information about {deceasedName}'s children.",
+     "title": " ",
      "templateElements": [
       {
        "type": "text",
@@ -6902,7 +6900,7 @@
        "type": "infotext",
        "name": "childIsAdultNoError",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"nn\"",
        "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
@@ -6922,7 +6920,7 @@
        "type": "infotext",
        "name": "childIsAdultNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"nn\"",
+       "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"n\"",
        "title": "Because {panel.childName} is under the age of 19, {panel.childName}'s other parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.childName}.",
        "titleLocation": "hidden",
        "isRequired": true,
@@ -7412,125 +7410,361 @@
       },
       {
        "type": "yesno",
-       "name": "childDied5DaysAfter",
+       "name": "childDiedAfter",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"nn\"",
+       "visibleIf": "{panel.childIsAlive} = 'nn'",
        "title": "Did {panel.childName} die after {deceasedDateOfDeathPlus4}?",
        "isRequired": true
       },
       {
        "type": "helptext",
-       "name": "childDied5DaysAfterFAQ1",
+       "name": "childDiedAfterFAQ1",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = 'nn'",
        "title": "Why does this date matter?",
        "titleLocation": "hidden",
        "body": "Under the law, in order for {panel.childName} to qualify for {deceasedName}'s `assets`, {panel.childName} must have lived for at least 5 days after {deceasedName} died. Once {panel.childName} has qualified, it doesn't matter if {panel.childName} is now dead.\n<br><br>\nThe people managing {panel.childName}'s belongings need to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section10\" target=\"_blank\">For more information, click here for the Five-day survival rule from the  <i>Wills, Estate and Succession Act</i> (WESA).</a> (This link opens in a new tab)"
       },
       {
        "type": "yesno",
-       "name": "childDied5DaysAfterNoGchildExists",
+       "name": "childDiedAfterNoGchildExists",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
        "title": "Did {panel.childName} have any children?",
        "isRequired": true
       },
       {
        "type": "helptext",
-       "name": "childDied5DaysAfterNoGchildExistsFAQ1",
+       "name": "childDiedAfterNoGchildExistsFAQ1",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
        "title": "Do I include {panel.childName}'s legally adopted children?",
        "titleLocation": "hidden",
        "body": "Yes, you must include {panel.childName}'s legally adopted children. All of {panel.childName}'s biological and legally adopted children need to know that you are apply for a `Representation Grant`.\n<br><br>\nIf you are not sure if a person was legally adopted by {panel.childName} or not, it is safer for you to include this person. You want as much transparency in your application as possible in case this person was legally adopted by {panel.childName}.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {panel.childName}'s `estate`. "
       },
       {
        "type": "helptext",
-       "name": "childDied5DaysAfterNoGchildExistsFAQ2",
+       "name": "childDied5AfterNoGchildExistsFAQ2",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
        "title": "Do I include {panel.childName}'s step-children?",
        "titleLocation": "hidden",
        "body": "No, you do not need to include {panel.childName}'s step-children because {panel.childName} did not legally adopt them. Only {panel.childName}'s biological or legally adopted children need to know that you are apply for a `Representation Grant`. \n<br><br>\nIf you are not sure if a person was legally adopted by {panel.childName} or not, it is safer for you to include this person. You want as much transparency in your application as possible in case this personal was legally adopted by {panel.childName}.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {panel.childName}'s `estate`. "
       },
       {
        "type": "helptext",
-       "name": "childDied5DaysAfterNoGchildExistsFAQ3",
+       "name": "childDiedAfterNoGchildExistsFAQ3",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
        "title": "Do I include {panel.childName}'s children (biological or legally adopted) that were legally adopted by someone else?",
        "titleLocation": "hidden",
        "body": "The answer depends if {panel.childName} was alive when someone else legally adopted their children, and, if {panel.childName} gave up their parenting rights or not.\n<br><br>\nIf {panel.childName} was alive at the time someone else legally adopted {panel.childName}'s children, and {panel.childName} gave up their parenting rights, {panel.childName}'s former children <b>DO NOT</b> need to be included. \n<br><br>\nIf {panel.childName} had already died when {panel.childName}'s children were legally adopted by someone else, these children <b>DO</b> need to be included. \n<br><br>\nIf {panel.childName} was alive when {panel.childName}'s children were legally adopted by someone else, but {panel.childName} did not give up their parenting rights, these children <b>DO</b> need to be included. \n<br><br>\nThis last situation may happen if the children's other parent(s) gave up their parenting rights but {panel.childName} still kept their parenting rights. \n<br><br>\nIf you are not sure if someone who has been adopted is still considered {panel.childName}'s child or not, it is safer for you to include this person. You want as much transparency in your application as possible in case the Court considers this person {panel.childName}'s child.\n<br><br>\nEven though you are telling this person you are applying for a `Representation Grant`, if they are not {panel.childName}'s child anymore, they don't automatically get part of {panel.childName}'s `estate`.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96005_01#section37\" target=\"_blank\">\nFor more information, click here to read about who should be included as {panel.childName}'s children, if they were adopt, from the <i>Adoption Act</i>.</a> (This link opens in a new tab)"
       },
       {
        "type": "helptext",
-       "name": "childDied5DaysAfterNoGchildExistsFAQ4",
+       "name": "childDiedAfterNoGchildExistsFAQ4",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
        "title": "Do I need to include {panel.childName}'s children-in-law?",
        "titleLocation": "hidden",
        "body": "No, you do not need to include {panel.childName}'s children-in-law (the `spouses` of {panel.childName}'s biological or legally adopted children)."
       },
       {
        "type": "infotext",
-       "name": "childDied5DaysAfterNo",
+       "name": "childDiedAfterNoGchildExistsNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\" and {panel.childDied5DaysAfterNoGchildExists} = \"n\"",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n' and {panel.childDiedAfterNoGchildExists} = 'n'",
        "title": "Because {panel.childName} died before {deceasedDateOfDeathPlus4} and {panel.childName} did not have children, the people managing {panel.childName}'s belongings do not need to know that you are applying for a `Representation Grant` for {deceasedName}.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
-       "name": "childDied5DaysAfterYes",
+       "name": "childDiedAfterNoGchildExistsYesExplanation",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"n\"  and {panel.childDied5DaysAfterNoGchildExists} = \"y\"",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'  and {panel.childDiedAfterNoGchildExists} = 'y'",
        "title": "Because {panel.childName} died before {deceasedDateOfDeathPlus4}, {panel.childName}'s children need to know that you are applying a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will ask about {panel.childName}'s children in the next step. \n<br><br>\nFor now, continue identifying {deceasedName}'s children until you have included them all.\n",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
-       "type": "yesno",
-       "name": "childHasPersonalRep",
+       "type": "infotext",
+       "name": "childDiedAfterYesExplanation",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"y\"",
-       "title": "Does {panel.childName} have a `personal representative`?",
-       "description": "If {panel.childName}'s personal representative is not alive anymore, select \"NO\".",
-       "isRequired": true
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y'",
+       "title": "Because {panel.childName} has died after {deceasedDateOfDeathPlus4}, {panel.childName}'s `personal representative` needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nIt is your responsibility to check with {panel.childName}'s family and friends to find out who is {panel.childName}'s personal representative.\n<br><br>\nIf you find out that {panel.childName} does not have a personal representative, this service will help you tell that to The Court.\n",
+       "titleLocation": "hidden",
+       "isRequired": true,
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "radiogroup",
+       "name": "childPersonalRepExists",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' ",
+       "title": "Do you know if {panel.childName} has a `personal representative`?",
+       "description": "If {panel.childName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {panel.childName}. \n<br><br>\nIf someone is planning on becoming {panel.childName}'s personal representative but hasn't done so yet, it is safer for you to include them as {panel.childPersonName}'s personal representative.",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "y",
+         "text": "I know {panel.childName} <b>has</b> a personal representative"
+        },
+        {
+         "value": "n",
+         "text": "I know {panel.childName} <b>does NOT have</b> a personal representative"
+        },
+        {
+         "value": "dk",
+         "text": "I <b>don't know</b> if {panel.childName} has a personal representative"
+        }
+       ]
+      },
+      {
+       "type": "infotext",
+       "name": "childPersonalRepExistsYesBookmark",
+       "visible": false,
+       "title": "Child has Personal Rep ",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "inline"
       },
       {
        "type": "text",
        "name": "childPersonalRepName",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"y\" and {panel.childHasPersonalRep} = \"y\"",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childPersonalRepExists} = 'y'",
        "title": "What is the name of {panel.childName}'s `personal representative`",
        "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
        "isRequired": true
       },
       {
        "type": "infotext",
-       "name": "childPersonalRepNameExplanation",
+       "name": "childDied5DaysAfterNoGchildExistsNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"y\" and {panel.childHasPersonalRep} = \"y\"  and {panel.childPersonalRepName} notempty",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childPersonalRepExists} = 'y'  and {panel.childPersonalRepName} notempty",
        "title": "Because {panel.childName} died after {deceasedDateOfDeathPlus4}, {panel.childPersonalRepName} needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will tell you how to let them know in a later step.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
-       "type": "text",
-       "name": "childInformalPersonalRepName",
+       "type": "infotext",
+       "name": "childPersonalRepExistsNoBookmark",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"y\" and {panel.childHasPersonalRep} = \"n\"",
-       "title": "What is the name of the person most likely to manage {panel.childName}'s money and belongings?",
-       "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+       "title": "Child doesn't have Personal Rep",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "inline"
+      },
+      {
+       "type": "checkbox",
+       "name": "childPersonalRepExistsNoConfirmed",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'n'",
+       "title": "How do you know that {panel.childName} does NOT have a `personal representative`?",
+       "description": "Check all the answers that apply",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "family",
+         "text": "their family told me {panel.creditorPersonName} <b>does NOT have</b> a personal representative"
+        },
+        {
+         "value": "friend",
+         "text": "their friends told me {panel.creditorPersonName} <b>does NOT have</b> a personal representative"
+        },
+        {
+         "value": "investigator",
+         "text": "professional investigator(s) told me they <b>could NOT find</b> a personal representative for {panel.creditorPersonName}"
+        }
+       ],
+       "hasOther": true,
+       "otherText": "I want to describe a different way how I know that {panel.creditorPersonName} does NOT have a personal representative"
+      },
+      {
+       "type": "text",
+       "name": "childPersonalRepExistsNoConfirmedFamily",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'n' and {panel.childPersonalRepExistsNoConfirmed} = 'family'",
+       "title": "List the members of {panel.creditorPersonName}'s family that you talked to:",
+       "description": "Include each family member's relationship to {panel.creditorPersonName} in brackets.<br><br>To list more than 1 family member, add a space and a comma between each person like this:  (Drew Emory (spouse), Francis Guo (sibling))",
+       "isRequired": true
+      },
+      {
+       "type": "text",
+       "name": "childPersonalRepExistsNoConfirmedFriend",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'n' and {panel.childPersonalRepExistsNoConfirmed} = 'friend'",
+       "title": "List the friends of {panel.childName} that you talked to:",
+       "description": "To list more than 1 friend, add a space and a comma between each person like this:  (Hallam Ismael, Jean Kurosawa)\n ",
+       "isRequired": true
+      },
+      {
+       "type": "checkbox",
+       "name": "childPersonalRepExistsNoConfirmedInvestigatorType",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'n' and {panel.childPersonalRepExistsNoConfirmed} = 'investigator'",
+       "title": "What professional investigator(s) did you hire to find out if {panel.childName} has a`personal representative`?",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "privateInvestigator",
+         "text": "a Private Investigator"
+        },
+        {
+         "value": "hierTracer",
+         "text": "an Heir Tracer"
+        }
+       ],
+       "hasOther": true,
+       "otherText": "another kind of investigator (describe)"
+      },
+      {
+       "type": "yesno",
+       "name": "childPersonalRepExistsNoConfirmedInvestigatorEvidence",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'n' and {panel.childPersonalRepExistsNoConfirmed} = 'investigator' and {panel.childPersonalRepExistsNoConfirmedInvestigatorType} notempty",
+       "title": "Do you have any documents from the professional investigator(s)?",
+       "description": "Examples of documentation can include contracts, invoices, receipts or reports.\n",
+       "isRequired": true
+      },
+      {
+       "type": "file",
+       "name": "childPersonalRepExistsNoConfirmedInvestigatorEvidenceYes",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'n' and {panel.childPersonalRepExistsNoConfirmed} = 'investigator' and {panel.childPersonalRepExistsNoConfirmedInvestigatorType} notempty and {panel.childPersonalRepExistsNoConfirmedInvestigatorEvidence} = 'y'",
+       "title": "[needs work] Upload or just verbal instructions to bring copies with P9 / P41?",
+       "isRequired": true,
+       "allowMultiple": true
+      },
+      {
+       "type": "infotext",
+       "name": "childPersonalRepExistsNoConfirmedExplanation",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'n' and {panel.childPersonalRepExistsNoConfirmed} notempty and\n(({panel.childPersonalRepExistsNoConfirmed} = 'family' and {panel.childPersonalRepExistsNoConfirmedFamily} notempty)\nor\n({panel.childPersonalRepExistsNoConfirmed} = 'friend' and \n{panel.childPersonalRepExistsNoConfirmedFriend} notempty)\nor \n({panel.childPersonalRepExistsNoConfirmed} = 'investigator' and \n{panel.childPersonalRepExistsNoConfirmedInvestigatorType} notempty and {panel.childPersonalRepExistsNoConfirmedInvestigatorEvidence} = 'n' or \n({panel.childPersonalRepExistsNoConfirmedInvestigatorEvidence} = 'y' and \n{panel.childPersonalRepExistsNoConfirmedInvestigatorEvidenceYes} notempty)))",
+       "title": "You will need to tell The Court that {panel.childName} has died and you have confirmed {panel.childName} does NOT have a `personal representative`.\n<br><br>\nThis service will create the documents you need to do this, in a later step.",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "childPersonalRepExistsDKBookmark",
+       "visible": false,
+       "title": "Child Personal Rep unknown",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "messageStyle": "inline"
+      },
+      {
+       "type": "infotext",
+       "name": "childPersonalRepExistsDKExplanation",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk'",
+       "title": "You are responsible for knowing for sure if {panel.childName} has a `personal representative`.\n<br><br>\nBecause you are not sure if {panel.childName} has a personal representative, it is safer for you to check with as many of {panel.childName}'s family and friends as you can find.\n<br><br>\nYou want as much transparency in your application as possible in case {panel.childName} does have a personal representative and The Court doesn't think you've given enough people a fair chance.",
+       "titleLocation": "hidden",
+       "isRequired": true,
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "radiogroup",
+       "name": "childPersonalRepExistsDKFamilyConfirmed",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk' and {panel.childPersonalRepExistsDKExplanation} > 0",
+       "title": "What did {panel.childName}'s family or friends tell you about {panel.childName}'s `personal representative`?",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "y",
+         "text": "they told me {panel.childName} <b>has a personal representative"
+        },
+        {
+         "value": "n",
+         "text": "they told me {panel.childName} <b>does NOT have</b> a personal representative"
+        },
+        {
+         "value": "dk",
+         "text": "they told me <b>they don't know</b> if {panel.childName} has a personal representative"
+        }
+       ]
+      },
+      {
+       "type": "infotext",
+       "name": "childPersonalRepExistsDKFamilyConfirmedYesExplanation",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk' and {panel.childPersonalRepExistsDKFamilyConfirmed} = 'y'",
+       "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>has</b> a personal representative\n</li>\n</ul>",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "childPersonalRepExistsDKFamilyConfirmedNoExplanation",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk' and {panel.childPersonalRepExistsDKFamilyConfirmed} = 'n'",
+       "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "childPersonalRepExistsDKFamilyConfirmedDKExplanation",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk' and {panel.childPersonalRepExistsDKFamilyConfirmed} = 'dk'",
+       "title": "If {panel.childName}'s family or friends do not know if {panel.childName} has a `personal representative`, you can hire professional investigators to try and find out for sure.\n<br><br>\nExamples of professional investigators include private investigators, heir tracers and other similar services.\n<br><br>\nYou do not have to hire a professional investigator if you don't want to. \n<br><br>\nThe reason you may want to hire a professional investigator is to show The Court that you did all you could to find {panel.childName}'s personal representative.\n<br><br>\nThe Court will ultimately decide whether or not you have made enough of an effort to find {panel.childName}'s personal representative.\n<br><br>\nIf you do hire a professional investigator, you will need to pay their fees yourself. If The Court gives you a `Representation Grant` for {deceasedName}, you will be able to get that money back from {deceasedName}'s `estate`.",
+       "titleLocation": "hidden",
+       "isRequired": true,
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "yesno",
+       "name": "childPersonalRepExistsDKHireInvestigator",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk' and {panel.childPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.childPersonalRepExistsDKFamilyConfirmedDKExplanation} > 0",
+       "title": "Do you want to hire a professional investigator to find out if {panel.childName} has a`personal representative`?",
        "isRequired": true
       },
       {
        "type": "infotext",
-       "name": "childInformalPersonalRepNameExplanation",
+       "name": "childPersonalRepExistsDKHireInvestigatorNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.childIsAlive} = \"n\" and {panel.childDied5DaysAfter} = \"y\" and {panel.childHasPersonalRep} = \"n\"  and {panel.childInformalPersonalRepName} notempty",
-       "title": "Because {panel.childName} died after {deceasedDateOfDeathPlus4}, {panel.childInformalPersonalRepName} should know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk' and {panel.childPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.childPersonalRepExistsDKHireInvestigator} = 'n'",
+       "title": "<b>You may be a risk a delay to your application</b> if {panel.childName}'s family or friends don't know for sure if {panel.childName} has a `personal representative` and you don't keep investigating. \n<br><br>\nIf the Court does not think that you did all you could to find {panel.childName}'s personal representative, they may ask you to hire a professional investigator before they will give a `Representation Grant` for {deceasedName}.\n<br><br>\nIf you don't want to hire a professional investigator right now, scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "radiogroup",
+       "name": "childPersonalRepExistsDKHireInvestigatorConfirmed",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk' and {panel.childPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.childPersonalRepExistsDKHireInvestigator} = 'y'",
+       "title": "What did the private investigator(s) tell you about {panel.childName}'s `personal representative`?",
+       "isRequired": true,
+       "choices": [
+        {
+         "value": "y",
+         "text": "they told me {panel.childName} <b>has</b> a personal representative"
+        },
+        {
+         "value": "n",
+         "text": "they told me they <b>could NOT find</b> a personal representative for {panel.childName}"
+        }
+       ]
+      },
+      {
+       "type": "infotext",
+       "name": "childPersonalRepExistsDKHireInvestigatorConfirmedYesExplanation",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk' and {panel.childPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.childPersonalRepExistsDKHireInvestigator} = 'y' and {panel.childPersonalRepExistsDKHireInvestigatorConfirmed} = 'y'",
+       "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>has</b> a personal representative\n</li>\n</ul>",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "childPersonalRepExistsDKHireInvestigatorConfirmedNoExplanation",
+       "visible": false,
+       "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childPersonalRepExists} = 'dk' and {panel.childPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.childPersonalRepExistsDKHireInvestigator} = 'y' and {panel.childPersonalRepExistsDKHireInvestigatorConfirmed} = 'n'",
+       "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       }
@@ -7652,6 +7886,105 @@
    "visible": false,
    "visibleIf": "{spouseCompleted} = 'y' or {surveyEnvironment} = 'DEV'",
    "title": "{deceasedName}'s Children"
+  },
+  {
+   "name": "successorTemplate",
+   "elements": [
+    {
+     "type": "infotext",
+     "name": "successorIntroBookmark",
+     "visible": false,
+     "title": "Successor Intro",
+     "titleLocation": "hidden",
+     "requiredErrorText": "Please press Continue",
+     "messageStyle": "inline"
+    },
+    {
+     "type": "panel",
+     "name": "successorIntroPanel",
+     "elements": [
+      {
+       "type": "infotext",
+       "name": "successorIntroExplanation",
+       "title": "The next step is to identify if {deceasedName} had any children.",
+       "titleLocation": "hidden",
+       "isRequired": true,
+       "requiredErrorText": "Please press Continue"
+      },
+      {
+       "type": "infotext",
+       "name": "successorIntroPanelToDo",
+       "visible": false,
+       "title": "To Do List:",
+       "titleLocation": "hidden",
+       "requiredErrorText": "Please press Continue",
+       "body": "- content for GP/AWW intro that explains there may be overlap with executors\n<br>\nIf you already entered yourself as executor, do so again here (with a different name if applicable). \n<br><br>\n- create intro and logic for AGAWOW\n<br>\n- create intro and logic for AGP/AGAWW\n<br>\n- create intro and logic for RAWOW\n<br>\n- create intro and logic for RGP/RAWW",
+       "messageStyle": "error"
+      }
+     ]
+    },
+    {
+     "type": "infotext",
+     "name": "successorExistsBookmark",
+     "visible": false,
+     "title": "Successor Exists",
+     "titleLocation": "hidden",
+     "requiredErrorText": "Please press Continue",
+     "messageStyle": "inline"
+    },
+    {
+     "type": "panel",
+     "name": "successorExistsPanel",
+     "elements": [
+      {
+       "type": "yesno",
+       "name": "successorExists",
+       "title": "Did {deceasedName} have any children when they died?",
+       "isRequired": true
+      },
+      {
+       "type": "helptext",
+       "name": "successorExistsFAQ1",
+       "title": "Do I include {deceasedName}'s legally adopted children?",
+       "titleLocation": "hidden",
+       "body": "Yes, you must include {deceasedName}'s legally adopted children. All of {deceasedName}'s biological and legally adopted children need to know that you are apply for a `Representation Grant`.\n<br><br>\nIf you are not sure if a person was legally adopted by {deceasedName} or not, it is safer for you to include this person. You want as much transparency in your application as possible in case this person was legally adopted by {deceasedName}.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {deceasedName}'s `estate`. "
+      },
+      {
+       "type": "helptext",
+       "name": "successorExistsFAQ2",
+       "title": "Do I include {deceasedName}'s step-children?",
+       "titleLocation": "hidden",
+       "body": "No, you do not need to include {deceasedName}'s step-children because {deceasedName} did not legally adopt them. Only {deceasedName}'s biological or legally adopted children need to know that you are applying for a `Representation Grant`. \n<br><br>\nIf you are not sure if a person was legally adopted by {deceasedName} or not, it is safer for you to include this person. You want as much transparency in your application as possible in case this person was legally adopted by {deceasedName}.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {deceasedName}'s `estate`. "
+      },
+      {
+       "type": "helptext",
+       "name": "successorExistsFAQ3",
+       "title": "Do I include {deceasedName}'s children (biological or legally adopted) that were legally adopted by someone else?",
+       "titleLocation": "hidden",
+       "body": "The answer depends if {deceasedName} was alive when someone else legally adopted their children, and, if {deceasedName} gave up their parenting rights or not.\n<br><br>\nIf {deceasedName} was alive at the time someone else legally adopted {deceasedName}'s children, and {deceasedName} gave up their parenting rights, {deceasedName}'s former children <b>DO NOT</b> need to be included. \n<br><br>\nIf {deceasedName} had already died when {deceasedName}'s children were legally adopted by someone else, these children <b>DO</b> need to be included. \n<br><br>\nIf {deceasedName} was alive when {deceasedName}'s children were legally adopted by someone else, but {deceasedName} did not give up their parenting rights, these children <b>DO</b> need to be included. \n<br><br>\nThis last situation may happen if the children's other parent(s) gave up their parenting rights but {deceasedName} still kept their parenting rights. \n<br><br>\nIf you are not sure if someone who has been adopted is still considered {deceasedName}'s child or not, it is safer for you to include this person. You want as much transparency in your application as possible in case the Court considers this person {deceasedName}'s child.\n<br><br>\nEven though you are telling this person you are applying for a `Representation Grant`, if they are not {deceasedName}'s child anymore, they don't automatically get part of {deceasedName}'s `estate`.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96005_01#section37\" target=\"_blank\">\nFor more information, click here to read about who should be included as {deceasedName}'s children, if they were adopted, from the <i>Adoption Act</i>.</a> (This link opens in a new tab)"
+      },
+      {
+       "type": "helptext",
+       "name": "successorExistsFAQ4",
+       "title": "Do I need to include {deceasedName}'s children-in-law?",
+       "titleLocation": "hidden",
+       "body": "No, you do not need to include {deceasedName}'s children-in-law (the `spouses` of {deceasedName}'s biological or legally adopted children)."
+      }
+     ],
+     "visibleIf": "isContainerReady('successorIntroPanel') = \"true\""
+    },
+    {
+     "type": "infotext",
+     "name": "successorInfoBookmark",
+     "visible": false,
+     "title": "Successor Info",
+     "titleLocation": "hidden",
+     "requiredErrorText": "Please press Continue",
+     "messageStyle": "inline"
+    }
+   ],
+   "visible": false,
+   "title": "{deceasedName}'s successor"
   },
   {
    "name": "gChildPage",
@@ -8055,7 +8388,7 @@
        "type": "infotext",
        "name": "creditorPersonIsAdultNoError",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"n\"",
+       "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"nn\"",
        "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
@@ -8075,20 +8408,20 @@
        "type": "infotext",
        "name": "creditorPersonIsAdultNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"nn\"",
+       "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"n\"",
        "title": "Because {panel.creditorPersonName} is under the age of 19, {panel.creditorPersonName}'s parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
       },
       {
-       "type": "text",
+       "type": "customdate",
        "name": "creditorPersonIsAdultNoDOB",
        "visible": false,
        "visibleIf": "{panel.creditorPersonIsAlive} = 'y' and {panel.creditorPersonIsAdult} = 'n' and {panel.creditorPersonIsAdultNoExplanation} > 0",
        "title": "When was {panel.creditorPersonName} born?",
        "isRequired": true,
-       "inputType": "date"
+       "yearsBehind": 19
       },
       {
        "type": "address",
@@ -8308,13 +8641,13 @@
        "requiredErrorText": "Please press Continue"
       },
       {
-       "type": "text",
+       "type": "customdate",
        "name": "creditorPersonIsCompetentNoDOB",
        "visible": false,
        "visibleIf": "{panel.creditorPersonIsAlive} = \"y\" and {panel.creditorPersonIsAdult} = \"y\" and {panel.creditorPersonIsCompetent} = \"n\" and {panel.creditorPersonIsCompetentNoExplanation} > 0",
-       "title": "When was {panel.creditorPersonName} born?",
+       "title": "When was {panel.childName} born?",
        "isRequired": true,
-       "inputType": "date"
+       "yearsBehind": 150
       },
       {
        "type": "address",
@@ -8596,9 +8929,9 @@
       },
       {
        "type": "infotext",
-       "name": "creditorPersonPersonalRepExistsNoBookmark",
+       "name": "creditorPersonPersonalRepExistsDKBookmark",
        "visible": false,
-       "title": "Creditor doesn't have Personal Rep",
+       "title": "Creditor Personal Rep unknown",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
@@ -8607,7 +8940,7 @@
        "type": "checkbox",
        "name": "creditorPersonPersonalRepExistsNoConfirmed",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'n'",
        "title": "How do you know that {panel.creditorPersonName} does NOT have a `personal representative`?",
        "description": "Check all the answers that apply",
        "isRequired": true,
@@ -8632,34 +8965,34 @@
        "type": "text",
        "name": "creditorPersonPersonalRepExistsNoConfirmedFamily",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'family'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'family'",
        "title": "List the members of {panel.creditorPersonName}'s family that you talked to:",
        "description": "To list more than 1 family member, add a space and a comma between each person like this:  (Drew Emory, Francis Guo)",
        "isRequired": true
       },
       {
        "type": "text",
-       "name": "creditorPersonPersonalRepExistsNoConfirmedFriends",
+       "name": "creditorPersonPersonalRepExistsNoConfirmedFriend",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'friend'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'friend'",
        "title": "List the friends of {panel.creditorPersonName} that you talked to:",
-       "description": "To list more than 1 family member, add a space and a comma between each person like this:  (Drew Emory, Francis Guo)",
+       "description": "To list more than 1 friend, add a space and a comma between each person like this:  (Hallam Ismael, Jean Kurosawa) ",
        "isRequired": true
       },
       {
        "type": "checkbox",
        "name": "creditorPersonPersonalRepExistsNoConfirmedInvestigatorType",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator'",
        "title": "What professional investigator(s) did you hire to find out if {panel.creditorPersonName} has a`personal representative`?",
        "isRequired": true,
        "choices": [
         {
-         "value": "private",
+         "value": "privateInvestigator",
          "text": "a Private Investigator"
         },
         {
-         "value": "hier",
+         "value": "hierTracer",
          "text": "an Heir Tracer"
         }
        ],
@@ -8670,7 +9003,7 @@
        "type": "yesno",
        "name": "creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidence",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator' and {panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidence} = 'y'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator' and {panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorType} notempty",
        "title": "Do you have any documents from the professional investigator(s)?",
        "description": "Examples of documentation can include contracts, invoices, receipts or reports.\n",
        "isRequired": true
@@ -8679,7 +9012,8 @@
        "type": "file",
        "name": "creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidenceYes",
        "visible": false,
-       "title": "Upload or just verbal instructions to bring copies with P9 / P41?",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator' and {panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorType} notempty and {panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidence} = 'y'",
+       "title": "[needs work] Upload or just verbal instructions to bring copies with P9 / P41?",
        "isRequired": true,
        "allowMultiple": true
       },
@@ -8687,32 +9021,16 @@
        "type": "infotext",
        "name": "creditorPersonPersonalRepExistsNoConfirmedExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonDied5DaysAfter} = 'y' and {panel.creditorPersonHasPersonalRep} = 'y'  and {panel.creditorPersonPersonalRepName} notempty",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'n' and {panel.creditorPersonPersonalRepExistsNoConfirmed} notempty and\n(({panel.creditorPersonPersonalRepExistsNoConfirmed} = 'family' and {panel.creditorPersonPersonalRepExistsNoConfirmedFamily} notempty)\nor\n({panel.creditorPersonPersonalRepExistsNoConfirmed} = 'friend' and \n{panel.creditorPersonPersonalRepExistsNoConfirmedFriend} notempty)\nor \n({panel.creditorPersonPersonalRepExistsNoConfirmed} = 'investigator' and \n{panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorType} notempty and {panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidence} = 'n' or \n({panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidence} = 'y' and \n{panel.creditorPersonPersonalRepExistsNoConfirmedInvestigatorEvidenceYes} notempty)))",
        "title": "You will need to tell The Court that {panel.creditorPersonName} has died and you have confirmed {panel.creditorPersonName} does NOT have a `personal representative`.\n<br><br>\nThis service will create the documents you need to do this, in a later step.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
       {
        "type": "infotext",
-       "name": "question242",
+       "name": "creditorPersonPersonalRepExistsNoBookmark",
        "visible": false,
-       "titleLocation": "hidden",
-       "requiredErrorText": "Please press Continue",
-       "body": "yes invoice\n<br><br>\nthis service will 3 things\n<br>1. parapgraph in the P9 saying you tried but weren't successful to notify person (including hiring a Pro)\n<br>2. generate P41 that will say you tried family/friends/social media with no luck and you are asking the court to allow you to not need to notify person.\n<br>\n3. a sample order for the court to sign\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\n<b>For P9</b> - I don't know and I was not able to find where [person] lives or works. I made an effort to find [person]'s friends, family and other acquaintances. I asked [person]'s friends, family and other acquaintances if they knew where [person] lives or works.\n<br>\nyes pro\n<br>\nI hired a [commaListAnd] and they were not able to find where [person] lives, works or receives mail.\n<br>\nno pro\n<br>\ndon't need to add anything\n<br>\nyes social but no response sentence\n<br>\nI sent [person] a Form P1 through [commaListAnd]. However, [person] did not provide a written response confirming they received the Form P1.\n<br>\nno social media sentence\n<br>\nI was not able to find a way to contact [person] through email, fax or other electronic means, including social media.\n\n"
-      },
-      {
-       "type": "infotext",
-       "name": "question238",
-       "visible": false,
-       "titleLocation": "hidden",
-       "requiredErrorText": "Please press Continue",
-       "body": "no pros\n<br>\nthis service will 3 things\n<br>1. parapgraph in the P9 saying you tried but weren't successful to notify person (including hiring a Pro)\n<br>2. generate P41 that will say you tried family/friends/social media with no luck and you are asking the court to allow you to not need to notify person.\n<br>\n3. a sample order for the court to sign\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\n<b>For P9</b> - I don't know and I was not able to find where [person] lives or works. I made an effort to find their friends, family and other acquaintances. I asked [person]'s friends, family and other acquaintances if they knew where [person] lives or works.\n<br>\nyes social but no response sentence\nI sent [person] a Form P1 through [commaListAnd]. However, [person[ did not provide a written response confirming they received the Form P1.\n<br>\nno social media sentence\nI was not able to find a way to contact [person] through email, fax or other electronic means, including social media.\n\n"
-      },
-      {
-       "type": "infotext",
-       "name": "creditorPersonPersonalRepExistsDKBookmark",
-       "visible": false,
-       "title": "Creditor Personal Rep unknown",
+       "title": "Creditor doesn't have Personal Rep",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
        "messageStyle": "inline"
@@ -8721,8 +9039,8 @@
        "type": "infotext",
        "name": "creditorPersonPersonalRepExistsDKExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk'",
-       "title": "You are responsible for knowing for sure if {panel.creditorPersonName} has a `personal representative`.\n<br><br>\nBecause you are not sure if {panel.creditorPersonName} has a personal representative, it is safer for you to check with as many of {panel.creditorPersonName}'s family and friends as you can find.\n<br><br>\nYou want as much transparency in your application as possible in case {panel.creditorPersonName} does have a personal representative and The Court doesn't think you've given enough people a fair chance.\n",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk'",
+       "title": "You are responsible for knowing for sure if {panel.creditorPersonName} has a `personal representative`.\n<br><br>\nBecause you are not sure if {panel.creditorPersonName} has a personal representative, it is safer for you to check with as many of {panel.creditorPersonName}'s family and friends as you can find.\n<br><br>\nYou want as much transparency in your application as possible in case {panel.creditorPersonName} does have a personal representative and The Court doesn't think you've given enough people a fair chance.",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -8731,7 +9049,7 @@
        "type": "radiogroup",
        "name": "creditorPersonPersonalRepExistsDKFamilyConfirmed",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKExplanation} > 0",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk' and {panel.creditorPersonPersonalRepExistsDKExplanation} > 0",
        "title": "What did {panel.creditorPersonName}'s family or friends tell you about {panel.creditorPersonName}'s `personal representative`?",
        "isRequired": true,
        "choices": [
@@ -8753,7 +9071,7 @@
        "type": "infotext",
        "name": "creditorPersonPersonalRepExistsDKFamilyConfirmedYesExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'y'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'y'",
        "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>has</b> a personal representative\n</li>\n</ul>\n",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
@@ -8762,7 +9080,7 @@
        "type": "infotext",
        "name": "creditorPersonPersonalRepExistsDKFamilyConfirmedNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'n'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'n'",
        "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
@@ -8771,8 +9089,8 @@
        "type": "infotext",
        "name": "creditorPersonPersonalRepExistsDKFamilyConfirmedDKExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk'",
-       "title": "they told me they don't know if {panel.creditorPersonName} has a personal representative (explain - hire pros?)\n<br><br>\n\noption to hire a pro?\n<br><br>\nwhat are pros?\n<br><br>\ngotta try your hardest to\noptions include\nshow the court you tried blah blah\n<br><br>\nCourt may decided you haven't tried hard enough.\n<br><br>\nthe court needs to be satisfied that you made an effort. if the court isn't satisfied, the court will ask you make more effort to find this person (delay your application)\n<br><br>\nyou don't have to.\nthe court will decide whether you can skip serving Moe. however hiring a professional would give you more credibility in the eye's of the court.",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk'",
+       "title": "If {panel.creditorPersonName}'s family or friends do not know if {panel.creditorPersonName} has a `personal representative`, you can hire professional investigators to try and find out for sure.\n<br><br>\nExamples of professional investigators include private investigators, heir tracers and other similar services.\n<br><br>\nYou do not have to hire a professional investigator if you don't want to. \n<br><br>\nThe reason you may want to hire a professional investigator is to show The Court that you did all you could to find {panel.creditorPersonName}'s personal representative.\n<br><br>\nThe Court will ultimately decide whether or not you have made enough of an effort to find {panel.creditorPersonName}'s personal representative.\n<br><br>\nIf you do hire a professional investigator, you will need to pay their fees yourself. If The Court gives you a `Representation Grant` for {deceasedName}, you will be able to get that money back from {deceasedName}'s `estate`.",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -8781,7 +9099,7 @@
        "type": "yesno",
        "name": "creditorPersonPersonalRepExistsDKHireInvestigator",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmedDKExplanation} > 0",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmedDKExplanation} > 0",
        "title": "Do you want to hire a professional investigator to find out if {panel.creditorPersonName} has a`personal representative`?",
        "isRequired": true
       },
@@ -8789,8 +9107,8 @@
        "type": "infotext",
        "name": "creditorPersonPersonalRepExistsDKHireInvestigatorNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'n'",
-       "title": "[needs work]\n<br><b>This may be a risk to your application</b> if {panel.creditorPersonName}'s family or friends don't know for sure if {panel.creditorPersonName} has a `personal representative` and you don't want keep investigating. \n<br><br>\nThe Court may not think you tried hard enough\n...\n<br>\nIf you want to continue down this route,\n<br><br>\nScroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'n'",
+       "title": "<b>You may be a risk a delay to your application</b> if {panel.creditorPersonName}'s family or friends don't know for sure if {panel.creditorPersonName} has a `personal representative` and you don't keep investigating. \n<br><br>\nIf the Court does not think that you did all you could to find {panel.creditorPersonName}'s personal representative, they may ask you to hire a professional investigator before they will give a `Representation Grant` for {deceasedName}.\n<br><br>\nIf you don't want to hire a professional investigator right now, scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -8798,7 +9116,7 @@
        "type": "radiogroup",
        "name": "creditorPersonPersonalRepExistsDKHireInvestigatorConfirmed",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'y'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'y'",
        "title": "What did the private investigator(s) tell you about {panel.creditorPersonName}'s `personal representative`?",
        "isRequired": true,
        "choices": [
@@ -8816,7 +9134,7 @@
        "type": "infotext",
        "name": "creditorPersonPersonalRepExistsDKHireInvestigatorConfirmedYesExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'y' and {panel.creditorPersonPersonalRepExistsDKHireInvestigatorConfirmed} = 'y'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'y' and {panel.creditorPersonPersonalRepExistsDKHireInvestigatorConfirmed} = 'y'",
        "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>has</b> a personal representative\n</li>\n</ul>\n",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
@@ -8825,7 +9143,7 @@
        "type": "infotext",
        "name": "creditorPersonPersonalRepExistsDKHireInvestigatorConfirmedNoExplanation",
        "visible": false,
-       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonHasPersonalRep} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'y' and {panel.creditorPersonPersonalRepExistsDKHireInvestigatorConfirmed} = 'n'",
+       "visibleIf": "{panel.creditorPersonIsAlive} = 'n' and {panel.creditorPersonPersonalRepExists} = 'dk' and {panel.creditorPersonPersonalRepExistsDKFamilyConfirmed} = 'dk' and {panel.creditorPersonPersonalRepExistsDKHireInvestigator} = 'y' and {panel.creditorPersonPersonalRepExistsDKHireInvestigatorConfirmed} = 'n'",
        "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.creditorPersonName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.creditorPersonName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
@@ -10158,7 +10476,7 @@
       {
        "type": "infotext",
        "name": "notifyP1InstructionsExplanation",
-       "title": "There are many ways you can give someone a Form P1:\n<ul>\n<li>In person (print the Form P1)</li>\n<li>Physical mail (print the Form P1)</li>\n<li>Electronically (e-mail, fax, direct/private messages, etc)</li>\n<ul>\n<li>If you give someone a Form P1 electronically, you need to ask them to write back to tell you they got it.</li>\n<li>Their response could be as simple as  \"thanks\" or \"I have received your email\".</li>\n</ul>\n</ul>\n<br>\nBelow is a list of people (you identified in earlier steps) who you need to give a Form P1.\n<br><br>\nIf you choose to give a Form P1 to people not on this list, you do not need to keep track of them in this service.\n",
+       "title": "There are many ways you can give someone a Form P1:\n<ul>\n<li>In person (print the Form P1)</li>\n<li>Physical mail (print the Form P1)</li> \n<ul>\n<li>(do NOT send it by Registered Mail)</li>\n</ul>\n<li>Electronically (e-mail, fax, direct/private messages, etc)</li>\n<ul>\n<li>If you give someone a Form P1 electronically, you need to ask them to write back to tell you they got it.</li>\n<li>Their response could be as simple as  \"thanks\" or \"I have received your email\".</li>\n</ul>\n</ul>\n<br>\nBelow is a list of people (you identified in earlier steps) who you need to give a Form P1.\n<br><br>\nIf you choose to give a Form P1 to people not on this list, you do not need to keep track of them in this service.\n",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -10892,7 +11210,7 @@
       {
        "type": "infotext",
        "name": "p5IntroExplanation",
-       "title": "The next few steps will tell you where to download the remaining forms you need to finish your application.\n<br><br>\nBased on your answers so far, you will need to finish the following forms:\n<ul>\n<li>Form P5,</li>\n<li>Form P10,</li>\n<li>Application for Search of Wills Notice (if you haven't finished one already), and </li>\n<li>From P2</li>\n</ul>\nThis step will tell you where to download the Form P5 and help explain some of its complicated questions. \n",
+       "title": "The next few steps will tell you where to download the remaining forms you need to finish your application.\n<br><br>\nBased on your answers so far, you will need to finish the following forms:\n<ul>\n<li>Form P5,</li>\n<li>Form P10,</li>\n<li>Application for Search of Wills Notice (if you haven't finished one already), and </li>\n<li>Form P2</li>\n</ul>\nThis step will tell you where to download the Form P5 and help explain some of its complicated questions. \n",
        "titleLocation": "hidden",
        "isRequired": true,
        "requiredErrorText": "Please press Continue"
@@ -11148,7 +11466,7 @@
       {
        "type": "infotext",
        "name": "p10Tip18",
-       "title": "<b>18) Gross value of assets less secured debts (outside BC)</b>\n \n<br><br>\nAdd up the totals in section 16 and 17.\n<br><br>\nThis is required by law but the amount that will <b>NOT</b> be used to calculate the `Probate Fee`.",
+       "title": "<b>18) Gross value of assets less secured debts (outside BC)</b>\n \n<br><br>\nAdd up the totals in section 16 and 17.\n<br><br>\nThis is required by law but that amount will <b>NOT</b> be used to calculate the `Probate Fee`.",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       },
@@ -14245,10 +14563,6 @@
    ],
    "visible": false,
    "title": "Review and Print Final Forms"
-  },
-  {
-   "name": "page1",
-   "visible": false
   }
  ],
  "showQuestionNumbers": "off",
