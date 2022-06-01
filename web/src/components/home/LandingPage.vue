@@ -25,7 +25,7 @@
             <b>Supported Web Browsers:</b>
             <ul>
               <li>
-                This service has been designed for Chrome and Firefox web browsers.
+                This service has been designed for Chrome and Microsoft Edge web browsers.
               </li>
               <li>
                 Do not use Internet Explorer.
@@ -60,7 +60,7 @@
           <b-list-group-item>
             <b> Time:</b>
             <ul>
-              <li>This service may take several hours to complete. Don't worry. You don't have to complete this all at once. This service will save your progress so you can come back later.</li>
+              <li>This service may take an hour to complete. Don't worry. You don't have to complete this all at once. This service will save your progress so you can come back later.</li>
               <li>The amount of time it will take you to complete your documents will depend on:</li>
               <li>If there is a <tooltip :index="0" title="Will" />.</li>
               <ul>
@@ -128,7 +128,6 @@
 import { Component, Vue } from "vue-property-decorator";
 import Tooltip from "@/components/survey/Tooltip.vue";
 import { setHideHeaderFooter } from "@/state/application-state";
-
 @Component({
   components: {
     Tooltip
@@ -137,7 +136,6 @@ import { setHideHeaderFooter } from "@/state/application-state";
 export default class LandingPage extends Vue {
   isLoggedIn = false;
   pageReady = true;
-
   mounted() {
     setHideHeaderFooter(false);
     if (document?.referrer?.includes('bceid.ca'))
@@ -155,7 +153,6 @@ export default class LandingPage extends Vue {
 
 <style scoped lang="scss">
 @import "@/styles/_common";
-
 .list-group-item {
   border-color: white;
   border: 2px solid rgba($gov-pale-grey, 0.3);
@@ -164,7 +161,6 @@ export default class LandingPage extends Vue {
   margin-top: 0.5rem;
   color: $gov-white;
 }
-
 .survey-button {
   color: black;
   border: 2px solid rgba($gov-pale-grey, 0.3);
@@ -177,7 +173,6 @@ export default class LandingPage extends Vue {
     border: 2px solid rgba($gov-white, 0.8);
   }
 }
-
 .login-button {
   color: black;
   margin-top: 1rem;
