@@ -19,7 +19,7 @@ import { onValueChanged } from "@/survey/survey-on-value-change";
 import { defineComponent, onMounted, ref } from "@vue/composition-api";
 import { getSurveyEnvironment, saveSurvey } from "@/utils/utils";
 import surveyJson from "@/survey-primary.json";
-import { getSurvey, setSurvey } from "@/state/survey-state";
+import { getSurvey, setSurvey, setSurveyData } from "@/state/survey-state";
 import { SurveyDataService } from "@/services/survey-data-service";
 import { LocationService } from "@/services/location-service";
 import { SurveyQuestionNames } from "@/types/survey-primary";
@@ -70,7 +70,7 @@ export default defineComponent({
           value: sender.getQuestionByName("notifyDeliveryInfoPanel")?.value
         };
 
-        determinePotentialApplicants(sender, options2);
+      determinePotentialApplicants(sender, options2);
         determineRecipients(sender, options1);
         populateApplicantInfoPanel(sender, options1);
         populateP1DeliveryInfoPanel(sender, options1);
@@ -91,6 +91,7 @@ export default defineComponent({
         }
         const surveyData = await SurveyDataService.getApplication(applicationId);
         survey.value.data = surveyData?.data.steps;
+        setSurveyData(surveyData?.data.steps);
       } catch (err) {
         console.log(err);
       }

@@ -34,3 +34,7 @@ export const setPrevAddresses = newPrevAddresses => (prevAddresses.value = newPr
 const formData = ref<FormData>();
 export const getFormData = computed(() => formData.value);
 export const setFormData = newFormData => (formData.value = newFormData);
+
+const surveyData = ref();
+export const getSurveyData = computed(() => surveyData.value);
+export const setSurveyData = newSurveyData => (surveyData.value = newSurveyData);
