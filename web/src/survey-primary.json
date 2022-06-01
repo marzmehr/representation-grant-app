@@ -327,6 +327,7 @@
       {
        "type": "infotext",
        "name": "willCheckFAQ2TemporaryRemovedText",
+       "visible": false,
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue",
        "body": "Whichever the choice, this service will check that your \"Search of Wills Notice\" was done correctly for your application."
@@ -11167,7 +11168,7 @@
       {
        "type": "infotext",
        "name": "notifyExitExplanation",
-       "title": "<b>As of March 31, 2022, this service is still needs more development work.</b>\n<br><br>\nIn the next steps, this service will tell you what other forms you need to finish your application. However, you will have to download and fill out the blank PDFs yourself. \n<br><br>\nThis service has not been developed enough yet to create the other forms for you like it did for the Form P1 and Form P9.\n<br><br>\nYou can choose to fill out the remaining forms yourself or wait until enough functionality has been added to on this service to finish your application.\n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+       "title": "<b>As of June 1, 2022, this service is still needs more development work.</b>\n<br><br>\nIn the next steps, this service will tell you what other forms you need to finish your application. However, you will have to download and fill out the blank PDFs yourself. \n<br><br>\nThis service has not been developed enough yet to create the other forms for you like it did for the Form P1 and Form P9.\n<br><br>\nYou can choose to fill out the remaining forms yourself or wait until enough functionality has been added to on this service to finish your application.\n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
        "titleLocation": "hidden",
        "requiredErrorText": "Please press Continue"
       }
