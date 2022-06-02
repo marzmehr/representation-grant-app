@@ -18,8 +18,8 @@
         </div>
         <br/>
         <div>
-            I, <b class="black">{{ applicant.fullName }}</b> ({{ deceased.first }}'s {{ applicantRole }}), am 
-            requesting you review my application for a Representation Grant for <b class="black">{{ deceased.first }}</b>, of 
+            I, <b class="black">{{ applicant.fullName }}</b> ({{ deceasedFullName }}'s {{ applicantRole }}), am 
+            requesting you review my application for a Representation Grant for <b class="black">{{ deceasedFullName }}</b>, of 
             <b class="black">{{ deceased.address }}</b>, who died on <b class="black">{{ deceased.dateOfDeath }}</b>.
         </div>
         <br/>
@@ -32,7 +32,7 @@
         <div v-for="(successor, i) in successorList" :key="i + 100">
           <ul>
             <li>
-              Minor: <b class="black">{{ successor.successorName }}</b> ({{ deceased.first }}'s {{ successor.successorRole }})
+              Minor: <b class="black">{{ successor.successorName }}</b> ({{ deceasedFullName }}'s {{ successor.successorRole }})
             </li>
             <ul>
               <li style="margin-left: -20px;">
@@ -123,6 +123,7 @@ export default defineComponent({
     let successorList = ref<PGTLetterSuccessor[]>([]);
     let deceased = ref<FormP1Deceased>({} as FormP1Deceased);
     let serviceContact = ref<FormP1ServiceContact>({} as FormP1ServiceContact);
+    let deceasedFullName = ref<String>("");
 
     watch(getLastUpdated, () => {
       loadSurveyData(survey);
@@ -179,6 +180,10 @@ export default defineComponent({
         address: formatAddressWithPostalCode(data.deceasedAddress) || "",
         dateOfDeath: data.deceasedDateOfDeath ? dateFormatter(data.deceasedDateOfDeath) : ""
       };
+
+      let names = [deceased.value.first, deceased.value.middle, deceased.value.last];
+      names = names.filter(n => n && n.length !== 0);
+      deceasedFullName.value = names.join(" ");
       
       const spousePanel = data[SurveyQuestionNames.spouseInfoPanel] || [];
       
@@ -294,6 +299,7 @@ export default defineComponent({
       applicantList,
       applicantRole,
       deceased,
+      deceasedFullName,
       successorList,
       serviceContact,
       onPrint
