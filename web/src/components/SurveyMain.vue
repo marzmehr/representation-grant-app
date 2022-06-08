@@ -19,7 +19,7 @@ import { onValueChanged } from "@/survey/survey-on-value-change";
 import { defineComponent, onMounted, ref } from "@vue/composition-api";
 import { getSurveyEnvironment, saveSurvey } from "@/utils/utils";
 import surveyJson from "@/survey-primary.json";
-import { getSurvey, setSurvey } from "@/state/survey-state";
+import { getSurvey, setSurvey, setSurveyData, getSurveyData } from "@/state/survey-state";
 import { SurveyDataService } from "@/services/survey-data-service";
 import { LocationService } from "@/services/location-service";
 import { SurveyQuestionNames } from "@/types/survey-primary";
@@ -45,15 +45,6 @@ export default defineComponent({
 
     onMounted(() => {});
 
-    /**
-     * TODO: Replace this with better solution (REPGRANT-334)
-     *
-     * This method is an intermediate solution to fix some of the issues we are
-     * seeing when navigating off `/current-applications` and back. It forces
-     * the code to manually populate questions that use `applicantChoice`. The
-     * real issue is related to saving and will need to be addressed at some
-     * point.
-     */
     const initialPop = (sender) => {
       if (!populated) {
         // Options that will force the population of questions
@@ -76,7 +67,10 @@ export default defineComponent({
         populateP1DeliveryInfoPanel(sender, options1);
         determineEarliestSubmissionDate(sender, options3);
 
-        // we only want to do this once
+        // fills in any missing data that got wiped from dynamic questions
+        survey.value.data = getSurveyData.value;
+
+        // only do this once
         populated = true;
       }
     }
@@ -91,6 +85,8 @@ export default defineComponent({
         }
         const surveyData = await SurveyDataService.getApplication(applicationId);
         survey.value.data = surveyData?.data.steps;
+        setSurveyData(surveyData?.data.steps);
+
       } catch (err) {
         console.log(err);
       }
