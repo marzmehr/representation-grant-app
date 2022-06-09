@@ -68,7 +68,7 @@ export default defineComponent({
         determineEarliestSubmissionDate(sender, options3);
 
         // fills in any missing data that got wiped from dynamic questions
-        survey.value.data = getSurveyData.value;
+        if (Object.keys(getSurveyData.value).length !== 0) survey.value.data = getSurveyData.value;
 
         // only do this once
         populated = true;
