@@ -50,15 +50,15 @@ export default defineComponent({
         // Options that will force the population of questions
         const options1 = {
           name: "applicantChoice",
-          value: sender.getQuestionByName("applicantChoice")?.value
+          value: getSurveyData.value.applicantChoice
         };
         const options2 = {
           name: "spouseInfoPanel",
-          value: sender.getQuestionByName("spouseInfoPanel")?.value
+          value: getSurveyData.value.spouseInfoPanel
         };
         const options3 = {
           name: "notifyP1DeliveryInfoPanel",
-          value: sender.getQuestionByName("notifyDeliveryInfoPanel")?.value
+          value: getSurveyData.value.notifyP1DeliveryInfoPanel
         };
 
         determinePotentialApplicants(sender, options2);
