@@ -78,6 +78,7 @@ enum Roles {
   beneficiary,
   creditorPerson,
   creditorPersonGuardian,
+  creditorPersonNominee,
   creditorOrganization,
   foreignWillExtra,
   citor,
@@ -231,10 +232,16 @@ export const determinePotentialApplicants = (sender, options) => {
   const cited = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.cited.toString());
   const citorNew = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.citorNew.toString());
 
+  // todo: refactor this into sections
   let spouseGuardianPanel = spousePanel
     .filter(s => spouseExists == "y")
     .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "n" && s.spouseHasGuardian == "y")
     .map(s => `${s.spouseGuardianName} (${s.spouseName}'s Guardian)`)
+
+  let spouseNomineePanel = spousePanel
+    .filter(s => spouseExists == "y")
+    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "n" && s.spouseHasNominee)
+    .map(s => `${s.spouseNomineeName} (as ${s.spouseName}'s Nominee)`);
 
   spousePanel = spousePanel
     .filter(s => spouseExists == "y")
@@ -245,6 +252,11 @@ export const determinePotentialApplicants = (sender, options) => {
     .filter(s => childExists == "y")
     .filter(s => s.childIsAlive == "y" && s.childIsAdult == "n" && s.childHasGuardian == "y")
     .map(s => `${s.childGuardianName} (${s.childName}'s Guardian)`)
+
+  let childNomineePanel = childPanel
+    .filter(s => childExists == "y")
+    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "n" && s.childHasNominee)
+    .map(s => `${s.childNomineeName} (as ${s.childName}'s Nominee)`);
 
   childPanel = childPanel
     .filter(s => childExists == "y")
@@ -257,6 +269,11 @@ export const determinePotentialApplicants = (sender, options) => {
     .filter(s => creditorPersonExists == "y")
     .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "n" && s.creditorPersonHasGuardian == "y")
     .map(s => `${s.creditorPersonGuardianName} (${s.creditorPersonName}'s Guardian)`)
+
+  let creditorPersonNomineePanel = creditorPersonPanel
+    .filter(s => creditorPersonExists == "y")
+    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "n" && s.creditorPersonHasNominee)
+    .map(s => `${s.creditorPersonNomineeName} (as ${s.creditorPersonName}'s Nominee)`);
 
   creditorPersonPanel = creditorPersonPanel
     .filter(s => creditorPersonExists == "y")
@@ -283,6 +300,11 @@ export const determinePotentialApplicants = (sender, options) => {
       applicantName: sp,
       key: `sg${index}`
     })),
+    ...spouseNomineePanel.map((sp, index) => ({
+      applicantRole: Roles[Roles.spouseNominee],
+      applicantName: sp,
+      key: `sg${index}`
+    })),
     ...childPanel.map((c, index) => ({
       applicantRole: Roles[Roles.child],
       applicantName: c,
@@ -290,6 +312,11 @@ export const determinePotentialApplicants = (sender, options) => {
     })),
     ...childGuardianPanel.map((c, index) => ({
       applicantRole: Roles[Roles.childGuardian],
+      applicantName: c,
+      key: `cg${index}`
+    })),
+    ...childNomineePanel.map((c, index) => ({
+      applicantRole: Roles[Roles.childNominee],
       applicantName: c,
       key: `cg${index}`
     })),
@@ -305,6 +332,11 @@ export const determinePotentialApplicants = (sender, options) => {
     })),
     ...creditorPersonGuardianPanel.map((cr, index) => ({
       applicantRole: Roles[Roles.creditorPersonGuardian],
+      applicantName: cr,
+      key: `crpg${index}`
+    })),
+    ...creditorPersonNomineePanel.map((cr, index) => ({
+      applicantRole: Roles[Roles.creditorPersonNominee],
       applicantName: cr,
       key: `crpg${index}`
     })),
