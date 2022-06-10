@@ -236,31 +236,31 @@ export const determinePotentialApplicants = (sender, options) => {
   let spouseGuardianPanel = spousePanel
     .filter(s => spouseExists == "y")
     .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "n" && s.spouseHasGuardian == "y")
-    .map(s => `${s.spouseGuardianName} (${s.spouseName}'s Guardian)`)
+    .map(s => `${s.spouseGuardianName} (as ${s.spouseName}'s Guardian)`)
 
   let spouseNomineePanel = spousePanel
     .filter(s => spouseExists == "y")
-    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "n" && s.spouseHasNominee)
+    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "n" && s.spouseHasNominee == "y")
     .map(s => `${s.spouseNomineeName} (as ${s.spouseName}'s Nominee)`);
 
   spousePanel = spousePanel
     .filter(s => spouseExists == "y")
-    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "y")
+    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y")
     .map(s => s.spouseName);
 
   let childGuardianPanel = childPanel
     .filter(s => childExists == "y")
     .filter(s => s.childIsAlive == "y" && s.childIsAdult == "n" && s.childHasGuardian == "y")
-    .map(s => `${s.childGuardianName} (${s.childName}'s Guardian)`)
+    .map(s => `${s.childGuardianName} (as ${s.childName}'s Guardian)`)
 
   let childNomineePanel = childPanel
     .filter(s => childExists == "y")
-    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "n" && s.childHasNominee)
+    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "n" && s.childHasNominee == "y")
     .map(s => `${s.childNomineeName} (as ${s.childName}'s Nominee)`);
 
   childPanel = childPanel
     .filter(s => childExists == "y")
-    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
+    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y")
     .map(s => s.childName);
 
   const firstNationsPanel = isFirstNations == "y" && firstNationsName ? [firstNationsName] : [];
@@ -268,16 +268,16 @@ export const determinePotentialApplicants = (sender, options) => {
   let creditorPersonGuardianPanel = creditorPersonPanel
     .filter(s => creditorPersonExists == "y")
     .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "n" && s.creditorPersonHasGuardian == "y")
-    .map(s => `${s.creditorPersonGuardianName} (${s.creditorPersonName}'s Guardian)`)
+    .map(s => `${s.creditorPersonGuardianName} (as ${s.creditorPersonName}'s Guardian)`)
 
   let creditorPersonNomineePanel = creditorPersonPanel
     .filter(s => creditorPersonExists == "y")
-    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "n" && s.creditorPersonHasNominee)
+    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "n" && s.creditorPersonHasNominee == "y")
     .map(s => `${s.creditorPersonNomineeName} (as ${s.creditorPersonName}'s Nominee)`);
 
   creditorPersonPanel = creditorPersonPanel
     .filter(s => creditorPersonExists == "y")
-    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "y")
+    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y")
     .map(s => s.creditorPersonName);
 
   creditorOrganizationPanel = creditorOrganizationPanel
