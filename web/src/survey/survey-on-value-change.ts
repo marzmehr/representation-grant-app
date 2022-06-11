@@ -419,9 +419,7 @@ export const determineRecipients = (sender, options) => {
     recipients.push(pgt);
   }
 
-  // Nominee's has special conditions
-  console.log("Recipients at this point:", recipients);
-
+  // REPGRANT-331
   let creditorPersonPanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.creditorPersonInfoPanel) || [];
   const creditorPersonExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.creditorPersonExists);
 
@@ -511,7 +509,48 @@ export const determineRecipients = (sender, options) => {
     recipients.push(s);
   };
 
-  console.log("post calc recipients:", recipients);
+  // REPGRANT-366
+  let spouseMinorNoGuardian = spousePanel
+    .filter(s => spouseExists == "y")
+    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "n" && s.spouseHasGuardian == "n")
+    .map(s => `${s.spouseName} (Minor without a Guardian)`);
+
+  let childMinorNoGuardian = childPanel
+    .filter(s => childExists == "y")
+    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "n" && s.childHasGuardian == "n")
+    .map(s => `${s.childName} (Minor without a Guardian)`);
+
+  let creditorPersonMinorNoGuardian = creditorPersonPanel
+    .filter(s => creditorPersonExists == "y")
+    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "n" && s.creditorPersonHasGuardian == "n")
+    .map(s => `${s.creditorPersonName} (Minor without a Guardian)`);
+
+  for (const key in spouseMinorNoGuardian) {
+    const s = {
+      recipientRole: Roles[Roles.spouse],
+      recipientName: spouseMinorNoGuardian[key],
+      key: `s${key}`
+    }
+    recipients.push(s);
+  };
+
+  for (const key in childMinorNoGuardian) {
+    const s = {
+      recipientRole: Roles[Roles.child],
+      recipientName: childMinorNoGuardian[key],
+      key: `c${key}`
+    }
+    recipients.push(s);
+  };
+
+  for (const key in creditorPersonMinorNoGuardian) {
+    const s = {
+      recipientRole: Roles[Roles.creditorPerson],
+      recipientName: creditorPersonMinorNoGuardian[key],
+      key: `cr${key}`
+    }
+    recipients.push(s);
+  };
 
   setRecipients(recipients);
 
