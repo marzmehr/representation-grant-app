@@ -12,6 +12,8 @@ import {
 } from "@/state/survey-state";
 
 
+// TODO: We really need to pull the applicant and recipient methods apart to clean things up
+
 enum Roles {
   spouse,
   spouseGuardian,
@@ -452,7 +454,7 @@ export const determineRecipients = (sender, options) => {
     const s = {
       recipientRole: Roles[Roles.child],
       recipientName: childSuccessor[key],
-      key: `s${key}`
+      key: `c${key}`
     }
     recipients.push(s);
   };
@@ -461,7 +463,50 @@ export const determineRecipients = (sender, options) => {
     const s = {
       recipientRole: Roles[Roles.creditorPerson],
       recipientName: creditorPersonSuccessor[key],
+      key: `cr${key}`
+    }
+    recipients.push(s);
+  };
+
+  // REPGRANT-368
+  let spouseIncompetent = spousePanel
+  .filter(s => spouseExists == "y")
+  .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "n" && s.spouseHasNominee == "n")
+  .map(s => `${s.spouseName} (Mentally Incompetent Adult without a Nominee)`);
+
+  let childIncompetent = childPanel
+    .filter(s => childExists == "y")
+    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "n" && s.childHasNominee == "n")
+    .map(s => `${s.childName} (Mentally Incompetent Adult without a Nominee)`);
+
+  let creditorPersonIncompetent = creditorPersonPanel
+    .filter(s => creditorPersonExists == "y")
+    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "n" && s.creditorPersonHasNominee == "n")
+    .map(s => `${s.creditorPersonName} (Mentally Incompetent Adult without a Nominee)`);
+
+  for (const key in spouseIncompetent) {
+    const s = {
+      recipientRole: Roles[Roles.spouse],
+      recipientName: spouseIncompetent[key],
       key: `s${key}`
+    }
+    recipients.push(s);
+  };
+
+  for (const key in childIncompetent) {
+    const s = {
+      recipientRole: Roles[Roles.child],
+      recipientName: childIncompetent[key],
+      key: `c${key}`
+    }
+    recipients.push(s);
+  };
+
+  for (const key in creditorPersonIncompetent) {
+    const s = {
+      recipientRole: Roles[Roles.creditorPerson],
+      recipientName: creditorPersonIncompetent[key],
+      key: `cr${key}`
     }
     recipients.push(s);
   };
