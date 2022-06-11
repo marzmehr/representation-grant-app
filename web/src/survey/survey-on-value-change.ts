@@ -1,7 +1,7 @@
 //Needs to be function, otherwise this context wont work.
 import { notifyP1DeliveryInfoPanel, SurveyQuestionNames } from "@/types/survey-primary";
 import { addDays, format, parseISO } from "date-fns";
-import { ItemValue } from "survey-vue";
+import { ItemValue, Survey } from "survey-vue";
 import {
   getPotentialApplicants,
   setApplicants,
@@ -245,7 +245,7 @@ export const determinePotentialApplicants = (sender, options) => {
 
   spousePanel = spousePanel
     .filter(s => spouseExists == "y")
-    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y")
+    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "y")
     .map(s => s.spouseName);
 
   let childGuardianPanel = childPanel
@@ -260,7 +260,7 @@ export const determinePotentialApplicants = (sender, options) => {
 
   childPanel = childPanel
     .filter(s => childExists == "y")
-    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y")
+    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "y")
     .map(s => s.childName);
 
   const firstNationsPanel = isFirstNations == "y" && firstNationsName ? [firstNationsName] : [];
@@ -277,7 +277,7 @@ export const determinePotentialApplicants = (sender, options) => {
 
   creditorPersonPanel = creditorPersonPanel
     .filter(s => creditorPersonExists == "y")
-    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y")
+    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "y")
     .map(s => s.creditorPersonName);
 
   creditorOrganizationPanel = creditorOrganizationPanel
@@ -369,6 +369,7 @@ export const determineRecipients = (sender, options) => {
     SurveyQuestionNames.deceasedFirstNations,
     SurveyQuestionNames.deceasedFirstNationsName,
     SurveyQuestionNames.applicantCitorInfoPanel,
+    SurveyQuestionNames.creditorPersonInfoPanel,
   ];
   if (!questionNamesToWatch.includes(options.name)) return;
 
@@ -393,7 +394,7 @@ export const determineRecipients = (sender, options) => {
   let spousePanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.spouseInfoPanel) || [];
   const spouseExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.spouseExists);
 
-  spousePanel = spousePanel
+  let spousePGT = spousePanel
     .filter(s => spouseExists == "y")
     .filter(s => s.spouseIsAlive == "y" && (s.spouseIsAdult == "n" || s.spouseIsCompetent == "n"))
     .map(s => s.spouseName);
@@ -401,12 +402,12 @@ export const determineRecipients = (sender, options) => {
   let childPanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.childInfoPanel) || [];
   const childExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.childExists);
 
-  childPanel = childPanel
+  let childPGT = childPanel
     .filter(s => childExists == "y")
     .filter(s => s.childIsAlive == "y" && (s.childIsAdult == "n" || s.childIsCompetent == "n"))
     .map(s => s.childName);
 
-  if (spousePanel.length > 0 || childPanel.length > 0) {
+  if (spousePGT.length > 0 || childPGT.length > 0) {
     const pgt = {
       recipientRole: Roles[Roles.pgt],
       recipientName: "The Public Guardian & Trustee (PGT)",
@@ -415,6 +416,58 @@ export const determineRecipients = (sender, options) => {
 
     recipients.push(pgt);
   }
+
+  // Nominee's has special conditions
+  console.log("Recipients at this point:", recipients);
+
+  let creditorPersonPanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.creditorPersonInfoPanel) || [];
+  const creditorPersonExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.creditorPersonExists);
+
+  let spouseSuccessor = spousePanel
+    .filter(s => spouseExists == "y")
+    .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "n" && s.spouseHasNominee == "y")
+    .map(s => s.spouseName);
+  
+  let childSuccessor = childPanel
+    .filter(s => childExists == "y")
+    .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "n" && s.childHasNominee == "y")
+    .map(s => s.childName);
+
+  let creditorPersonSuccessor = creditorPersonPanel
+    .filter(s => creditorPersonExists == "y")
+    .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "n" && s.creditorPersonHasNominee == "y")
+    .map(s => s.creditorPersonName);
+
+  
+  for (const key in spouseSuccessor) {
+    const s = {
+      recipientRole: Roles[Roles.spouse],
+      recipientName: spouseSuccessor[key],
+      key: `s${key}`
+    }
+    recipients.push(s);
+  };
+
+  for (const key in childSuccessor) {
+    const s = {
+      recipientRole: Roles[Roles.child],
+      recipientName: childSuccessor[key],
+      key: `s${key}`
+    }
+    recipients.push(s);
+  };
+
+  for (const key in creditorPersonSuccessor) {
+    const s = {
+      recipientRole: Roles[Roles.creditorPerson],
+      recipientName: creditorPersonSuccessor[key],
+      key: `s${key}`
+    }
+    recipients.push(s);
+  };
+
+  console.log("post calc recipients:", recipients);
+
   setRecipients(recipients);
 
   //Handle both Checkbox and Radiogroup cases.
