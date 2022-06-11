@@ -23,13 +23,13 @@
             <b class="black">{{ deceased.address }}</b>, who died on <b class="black">{{ deceased.dateOfDeath }}</b>.
         </div>
         <br/>
-        <div v-if="successorList.length == 1">
+        <div v-if="successorMinorList.length == 1">
           My application involves a minor:
         </div>
-        <div v-else-if="successorList.length > 1">
+        <div v-else-if="successorMinorList.length > 1">
           My application involves minors:
         </div>
-        <div v-for="(successor, i) in successorList" :key="i + 100">
+        <div v-for="(successor, i) in successorMinorList" :key="i + 100">
           <ul>
             <li>
               Minor: <b class="black">{{ successor.successorName }}</b> ({{ deceasedFullName }}'s {{ successor.successorRole }})
@@ -70,6 +70,55 @@
             </ul>
           </ul>
         </div>
+
+        <div v-if="successorIncompetentList.length == 1">
+          My application involves an incapable adult:
+        </div>
+        <div v-else-if="successorIncompetentList.length > 1">
+          My application involves incapable adults:
+        </div>
+        <div v-for="(successor, i) in successorIncompetentList" :key="i + 200">
+          <ul>
+            <li>
+              Incapable Adult: <b class="black">{{ successor.successorName }}</b> ({{ deceasedFullName }}'s {{ successor.successorRole }})
+            </li>
+            <ul>
+              <li style="margin-left: -20px;">
+                Date of Birth: <b class="black">{{ successor.successorDateOfBirth }}</b>
+              </li>
+              <li style="margin-left: -20px;">
+                Residential Address: <b class="black">{{ successor.successorResidentialAddress }}</b>
+              </li>
+              <li style="margin-left: -20px;">
+                Postal Address: <b class="black">{{ successor.successorMailingAddress }}</b>
+              </li>
+              <li style="margin-left: -20px;">
+                Email: <b class="black">{{ successor.successorEmailAddress }}</b>
+              </li>
+              <li style="margin-left: -20px;">
+                Fax: <b class="black">{{ successor.successorFaxNumber }}</b>
+              </li>
+              <li style="margin-left: -20px;">
+                Nominee: <b class="black">{{ successor.successorNomineeName }}</b>
+              </li>
+              <ul v-if="successor.successorNomineeName !== 'none'" style="list-style-type: circle;">
+                <li style="margin-left: -40px;">
+                  Residential Address: <b class="black">{{ successor.successorNomineeResidentialAddress }}</b>
+                </li>
+                <li style="margin-left: -40px;">
+                  Postal Address: <b class="black">{{ successor.successorNomineeMailingAddress }}</b>
+                </li>
+                <li style="margin-left: -40px;">
+                  Email: <b class="black">{{ successor.successorNomineeEmailAddress }}</b>
+                </li>
+                <li style="margin-left: -40px;">
+                  Fax: <b class="black">{{ successor.successorNomineeFaxNumber }}</b>
+                </li>
+              </ul>
+            </ul>
+          </ul>
+        </div>
+
         <div>
           I can be contacted at the following:
           <ul>
@@ -120,7 +169,8 @@ export default defineComponent({
     const root = ref(null);
     let applicantList = ref<FormP1Applicant[]>([]);
     let applicantRole = ref();
-    let successorList = ref<PGTLetterSuccessor[]>([]);
+    let successorMinorList = ref<PGTLetterSuccessor[]>([]);
+    let successorIncompetentList = ref<PGTLetterSuccessor[]>([]);
     let deceased = ref<FormP1Deceased>({} as FormP1Deceased);
     let serviceContact = ref<FormP1ServiceContact>({} as FormP1ServiceContact);
     let deceasedFullName = ref<String>("");
@@ -135,8 +185,8 @@ export default defineComponent({
 
     const processSuccessor = (spouseSuccessors, childSuccessors) => {
       let successors = [];
-      for (const successorList of [spouseSuccessors, childSuccessors]) {
-        for (const successor of successorList) {
+      for (const successorMinorList of [spouseSuccessors, childSuccessors]) {
+        for (const successor of successorMinorList) {
           if (successor) {
             successors.push(successor);
           }
@@ -187,7 +237,7 @@ export default defineComponent({
       
       const spousePanel = data[SurveyQuestionNames.spouseInfoPanel] || [];
       
-      const spouseSuccessors = spousePanel.map((s: spouseInfoPanel) => {
+      const spouseSuccessorsMinor = spousePanel.map((s: spouseInfoPanel) => {
         if (s.spouseIsAlive == "y" && s.spouseIsAdult == "n") {
           return {
             successorName: (s as any).spouseName || "",
@@ -216,23 +266,58 @@ export default defineComponent({
             successorGuardianFaxNumber: s.spouseGuardianFax == "y" ? s.spouseGuardianFaxNumber : "none"
           } as PGTLetterSuccessor;
         }
-      });    
+      });
+
+      const spouseSuccessorIncompetent = spousePanel.map((s: spouseInfoPanel) => {
+        if (s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "n") {
+          return {
+            successorName: (s as any).spouseName || "",
+            successorRole: "spouse",
+            successorDateOfBirth: dateFormatter(s.spouseIsCompetentNoDOB),
+            successorResidentialAddress: formatAddressWithPostalCode(s.spouseIsCompetentNoResidentialAddress),
+
+            successorMailingAddress: s.spouseIsCompetentNoResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(s.spouseIsCompetentNoResidentialAddress)
+              : s.spouseIsCompetentNoResidentialReceiveMail == "n" && s.spouseIsCompetentNoHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(s.spouseIsCompetentNoMailingAddress)
+                : "none",
+
+            successorEmailAddress: s.spouseIsCompetentNoEmail == "y" ? s.spouseIsCompetentNoEmailAddress : "none",
+            successorFaxNumber: s.spouseIsCompetentNoFax == "y" ? s.spouseIsCompetentNoFaxNumber : "none",
+            successorNomineeName: s.spouseHasNominee == "y" && s.spouseNomineeFormal == "y"
+              ? `${s.spouseNomineeName} (formally appointed)`
+              : s.spouseHasNominee == "y" && s.spouseNomineeFormal == "n"
+                ? `${s.spouseNomineeName} (not formally appointed)`
+                : "none",
+            successorNomineeResidentialAddress: formatAddressWithPostalCode(s.spouseNomineeResidentialAddress),
+
+            successorNomineeMailingAddress: s.spouseNomineeResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(s.spouseNomineeResidentialAddress)
+              : s.spouseNomineeResidentialReceiveMail == "n" && s.spouseNomineeHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(s.spouseNomineeMailingAddress)
+                : "none",
+
+            successorNomineeEmailAddress: s.spouseNomineeEmail == "y" ? s.spouseNomineeEmailAddress : "",
+            successorNomineeFaxNumber: s.spouseNomineeFax == "y" ? s.spouseNomineeFaxNumber : "none"
+          } as PGTLetterSuccessor;
+        }
+      });
 
       const childPanel = data[SurveyQuestionNames.childInfoPanel] || [];
-      const childSuccessors = childPanel.map((c: childInfoPanel) => {
+      const childSuccessorsMinor = childPanel.map((c: childInfoPanel) => {
         if (c.childIsAlive == "y" && c.childIsAdult == "n") {
           return {
             successorName: (c as any).childName || "",
             successorRole: "child",
             successorDateOfBirth: dateFormatter(c.childIsAdultNoDOB),
             successorResidentialAddress: formatAddressWithPostalCode(c.childIsAdultNoResidentialAddress),
-            
+
             successorMailingAddress: c.childIsAdultNoResidentialReceiveMail == "y"
               ? formatAddressWithPostalCode(c.childIsAdultNoResidentialAddress)
               : c.childIsAdultNoResidentialReceiveMail == "n" && c.childIsAdultNoHasMailingAddress == "y"
                 ? formatAddressWithPostalCode(c.childIsAdultNoMailingAddress)
                 : "none",
-            
+
             successorEmailAddress: c.childIsAdultNoEmail == "y" ? c.childIsAdultNoEmailAddress : "none",
             successorFaxNumber: c.childIsAdultNoFax == "y" ? c.childIsAdultNoFaxNumber : "none",
             successorGuardianName: c.childHasGuardian == "y" ? c.childGuardianName : "none",
@@ -250,7 +335,43 @@ export default defineComponent({
         }
       });
 
-      successorList.value = processSuccessor(spouseSuccessors, childSuccessors);
+      const childSuccessorsIncompetent = childPanel.map((c: childInfoPanel) => {
+        if (c.childIsAlive == "y" && c.childIsAdult == "n" && c.childIsCompetent == "n") {
+          return {
+            successorName: (c as any).childName || "",
+            successorRole: "child",
+            successorDateOfBirth: dateFormatter(c.childIsCompetentNoDOB),
+            successorResidentialAddress: formatAddressWithPostalCode(c.childIsCompetentNoResidentialAddress),
+
+            successorMailingAddress: c.childIsCompetentNoResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.childIsCompetentNoResidentialAddress)
+              : c.childIsCompetentNoResidentialReceiveMail == "n" && c.childIsCompetentNoHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.childIsCompetentNoMailingAddress)
+                : "none",
+
+            successorEmailAddress: c.childIsCompetentNoEmail == "y" ? c.childIsCompetentNoEmailAddress : "none",
+            successorFaxNumber: c.childIsCompetentNoFax == "y" ? c.childIsCompetentNoFaxNumber : "none",
+            successorNomineeName: c.childHasNominee == "y" && c.childNomineeFormal == "y"
+              ? `${c.childNomineeName} (formally appointed)`
+              : c.childHasNominee == "y" && c.childNomineeFormal == "n"
+                ? `${c.childNomineeName} (not formally appointed)`
+                : "none",
+            successorNomineeResidentialAddress: formatAddressWithPostalCode(c.childNomineeResidentialAddress),
+
+            successorNomineeMailingAddress: c.childNomineeResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.childNomineeResidentialAddress)
+              : c.childNomineeResidentialReceiveMail == "n" && c.childNomineeHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.childNomineeMailingAddress)
+                : "none",
+
+            successorNomineeEmailAddress: c.childNomineeEmail == "y" ? c.childNomineeEmailAddress : "",
+            successorNomineeFaxNumber: c.childNomineeFax == "y" ? c.childNomineeFaxNumber : "none"
+          } as PGTLetterSuccessor;
+        }
+      });
+
+      successorMinorList.value = processSuccessor(spouseSuccessorsMinor, childSuccessorsMinor);
+      successorIncompetentList.value = processSuccessor(spouseSuccessorIncompetent, childSuccessorsIncompetent);
     };
 
     const onPrint = async () => {
@@ -300,7 +421,8 @@ export default defineComponent({
       applicantRole,
       deceased,
       deceasedFullName,
-      successorList,
+      successorMinorList,
+      successorIncompetentList,
       serviceContact,
       onPrint
     };
