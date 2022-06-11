@@ -56,9 +56,18 @@ export interface PGTLetterSuccessor {
   successorMailingAddress?: string;
   successorEmailAddress?: string;
   successorFaxNumber?: string;
+
   successorGuardianName?: string;
   successorGuardianResidentialAddress?: string;
   successorGuardianMailingAddress?: string;
   successorGuardianEmailAddress?: string;
   successorGuardianFaxNumber?: string;
+
+  successorNomineeName?: string;
+  successorHasNominee?: string;
+  successorNomineeFormal?: string;
+  successorNomineeResidentialAddress?: string;
+  successorNomineeMailingAddress?: string;
+  successorNomineeEmailAddress?: string;
+  successorNomineeFaxNumber?: string;
 }
