@@ -150,7 +150,7 @@ import { defineComponent, onMounted, watch, ref } from "@vue/composition-api";
 import { getApplicants, getLastUpdated, getFormData } from "@/state/survey-state";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import { FormP1Applicant, FormP1Deceased, PGTLetterSuccessor, FormP1ServiceContact } from "@/types/application";
-import { applicantInfoPanel, spouseInfoPanel, childInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
+import { applicantInfoPanel, spouseInfoPanel, childInfoPanel, creditorPersonInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
 import { formatAddressWithPostalCode, formatMonthDayYear, formPdfHtml, convertBlobAndDownload, formatCityCountry, dateFormatter } from "@/utils/utils";
 import { getApplicationId } from "@/state/application-state";
 import { SurveyDataService } from "@/services/survey-data-service";
@@ -183,10 +183,10 @@ export default defineComponent({
       if (survey) loadSurveyData(survey);
     });
 
-    const processSuccessor = (spouseSuccessors, childSuccessors) => {
+    const processSuccessor = (spouseSuccessors, childSuccessors, creditorPersonSuccessors) => {
       let successors = [];
-      for (const successorMinorList of [spouseSuccessors, childSuccessors]) {
-        for (const successor of successorMinorList) {
+      for (const successorList of [spouseSuccessors, childSuccessors, creditorPersonSuccessors]) {
+        for (const successor of successorList) {
           if (successor) {
             successors.push(successor);
           }
@@ -266,7 +266,7 @@ export default defineComponent({
               : s.spouseGuardianResidentialReceiveMail == "n" && s.spouseGuardianHasMailingAddress == "y"
                 ? formatAddressWithPostalCode(s.spouseGuardianMailingAddress)
                 : "none",
-            
+
             successorGuardianEmailAddress: s.spouseGuardianEmail == "y" ? s.spouseGuardianEmailAddress : "none",
             successorGuardianFaxNumber: s.spouseGuardianFax == "y" ? s.spouseGuardianFaxNumber : "none"
           } as PGTLetterSuccessor;
@@ -333,7 +333,7 @@ export default defineComponent({
               : c.childGuardianResidentialReceiveMail == "n" && c.childGuardianHasMailingAddress == "y"
                 ? formatAddressWithPostalCode(c.childGuardianMailingAddress)
                 : "none",
-            
+
             successorGuardianEmailAddress: c.childGuardianEmail == "y" ? c.childGuardianEmailAddress : "none",
             successorGuardianFaxNumber: c.childGuardianFax == "y" ? c.childGuardianFaxNumber : "none"
           } as PGTLetterSuccessor;
@@ -375,8 +375,75 @@ export default defineComponent({
         }
       });
 
-      successorMinorList.value = processSuccessor(spouseSuccessorsMinor, childSuccessorsMinor);
-      successorIncompetentList.value = processSuccessor(spouseSuccessorIncompetent, childSuccessorsIncompetent);
+      const creditorPersonPanel = data[SurveyQuestionNames.creditorPersonInfoPanel] || [];
+      const creditorPersonSuccessorsMinor = creditorPersonPanel.map((c: creditorPersonInfoPanel) => {
+        if (c.creditorPersonIsAlive == "y" && c.creditorPersonIsAdult == "n") {
+          return {
+            successorName: (c as any).creditorPersonName || "",
+            successorRole: "creditor",
+            successorDateOfBirth: dateFormatter(c.creditorPersonIsAdultNoDOB),
+            successorResidentialAddress: formatAddressWithPostalCode(c.creditorPersonIsAdultNoResidentialAddress),
+
+            successorMailingAddress: c.creditorPersonIsAdultNoResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.creditorPersonIsAdultNoResidentialAddress)
+              : c.creditorPersonIsAdultNoResidentialReceiveMail == "n" && c.creditorPersonIsAdultNoHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.creditorPersonIsAdultNoMailingAddress)
+                : "none",
+
+            successorEmailAddress: c.creditorPersonIsAdultNoEmail == "y" ? c.creditorPersonIsAdultNoEmailAddress : "none",
+            successorFaxNumber: c.creditorPersonIsAdultNoFax == "y" ? c.creditorPersonIsAdultNoFaxNumber : "none",
+            successorGuardianName: c.creditorPersonHasGuardian == "y" ? c.creditorPersonGuardianName : "none",
+            successorGuardianResidentialAddress: formatAddressWithPostalCode(c.creditorPersonGuardianResidentialAddress),
+
+            successorGuardianMailingAddress: c.creditorPersonGuardianResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.creditorPersonGuardianResidentialAddress)
+              : c.creditorPersonGuardianResidentialReceiveMail == "n" && c.creditorPersonGuardianHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.creditorPersonGuardianMailingAddress)
+                : "none",
+
+            successorGuardianEmailAddress: c.creditorPersonGuardianEmail == "y" ? c.creditorPersonGuardianEmailAddress : "none",
+            successorGuardianFaxNumber: c.creditorPersonGuardianFax == "y" ? c.creditorPersonGuardianFaxNumber : "none"
+          } as PGTLetterSuccessor;
+        }
+      });
+
+      const creditorPersonSuccessorsIncompetent = creditorPersonPanel.map((c: creditorPersonInfoPanel) => {
+        if (c.creditorPersonIsAlive == "y" && c.creditorPersonIsAdult == "y" && c.creditorPersonIsCompetent == "n") {
+          return {
+            successorName: (c as any).creditorPersonName || "",
+            successorRole: "creditor",
+            successorDateOfBirth: dateFormatter(c.creditorPersonIsCompetentNoDOB),
+            successorResidentialAddress: formatAddressWithPostalCode(c.creditorPersonIsCompetentNoResidentialAddress),
+
+            successorMailingAddress: c.creditorPersonIsCompetentNoResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.creditorPersonIsCompetentNoResidentialAddress)
+              : c.creditorPersonIsCompetentNoResidentialReceiveMail == "n" && c.creditorPersonIsCompetentNoHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.creditorPersonIsCompetentNoMailingAddress)
+                : "none",
+
+            successorEmailAddress: c.creditorPersonIsCompetentNoEmail == "y" ? c.creditorPersonIsCompetentNoEmailAddress : "none",
+            successorFaxNumber: c.creditorPersonIsCompetentNoFax == "y" ? c.creditorPersonIsCompetentNoFaxNumber : "none",
+            successorNomineeName: c.creditorPersonHasNominee == "y" && c.creditorPersonNomineeFormal == "y"
+              ? `${c.creditorPersonNomineeName} (formally appointed)`
+              : c.creditorPersonHasNominee == "y" && c.creditorPersonNomineeFormal == "n"
+                ? `${c.creditorPersonNomineeName} (not formally appointed)`
+                : "none",
+            successorNomineeResidentialAddress: formatAddressWithPostalCode(c.creditorPersonNomineeResidentialAddress),
+
+            successorNomineeMailingAddress: c.creditorPersonNomineeResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.creditorPersonNomineeResidentialAddress)
+              : c.creditorPersonNomineeResidentialReceiveMail == "n" && c.creditorPersonNomineeHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.creditorPersonNomineeMailingAddress)
+                : "none",
+
+            successorNomineeEmailAddress: c.creditorPersonNomineeEmail == "y" ? c.creditorPersonNomineeEmailAddress : "none",
+            successorNomineeFaxNumber: c.creditorPersonNomineeFax == "y" ? c.creditorPersonNomineeFaxNumber : "none"
+          } as PGTLetterSuccessor;
+        }
+      });
+
+      successorMinorList.value = processSuccessor(spouseSuccessorsMinor, childSuccessorsMinor, creditorPersonSuccessorsMinor);
+      successorIncompetentList.value = processSuccessor(spouseSuccessorIncompetent, childSuccessorsIncompetent, creditorPersonSuccessorsIncompetent);
     };
 
     const onPrint = async () => {
