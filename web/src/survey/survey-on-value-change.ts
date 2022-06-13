@@ -84,7 +84,7 @@ enum Roles {
   creditorPersonPersonalRep,
   creditorOrganization,
   foreignWillExtra,
-  citor,
+  applicantCitor,
   pgt,
   organization,
   childWelfare,
@@ -304,7 +304,7 @@ export const determinePotentialApplicants = (sender, options) => {
 
   citorPanel = citorPanel
     .filter(s => cited == "y" && citorNew == "y")
-    .filter(s => s.applicantCitorAlive == "y")
+    .filter(s => s.applicantCitorAlive == "y" && s.applicantCitorIsAdult == "y" && s.applicantCitorIsCompetent == "y")
     .map(s => s.applicantCitorName);
 
   const potentialApplicants = [
@@ -378,10 +378,10 @@ export const determinePotentialApplicants = (sender, options) => {
       applicantName: cr,
       key: `cro${index}`
     })),
-    ...citorPanel.map((ct, index) => ({
-      applicantRole: Roles[Roles.citor],
-      applicantName: ct,
-      key: `ct${index}`
+    ...citorPanel.map((ac, index) => ({
+      applicantRole: Roles[Roles.applicantCitor],
+      applicantName: ac,
+      key: `ac${index}`
     })),
   ];
 
@@ -440,7 +440,24 @@ export const determineRecipients = (sender, options) => {
     .filter(s => s.childIsAlive == "y" && (s.childIsAdult == "n" || s.childIsCompetent == "n"))
     .map(s => s.childName);
 
-  if (spousePGT.length > 0 || childPGT.length > 0) {
+  let creditorPersonPanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.creditorPersonInfoPanel) || [];
+  const creditorPersonExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.creditorPersonExists);
+
+  let creditorPersonPGT = creditorPersonPanel
+    .filter(s => creditorPersonExists == "y")
+    .filter(s => s.creditorPersonIsAlive == "y" && (s.creditorPersonIsAdult == "n" || s.creditorPersonIsCompetent == "n"))
+    .map(s => s.creditorPersonName);
+
+  let applicantCitorPanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.applicantCitorInfoPanel) || [];
+  const applicantCitorExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.applicantCitorNewExists);
+
+  let applicantCitorPGT = applicantCitorPanel
+    .filter(s => applicantCitorExists == "y")
+    .filter(s => s.applicantCitorIsAlive == "y" && (s.applicantCitorIsAdult == "n" || s.applicantCitorIsCompetent == "n"))
+    .map(s => s.applicantCitorName);
+
+  const isPGT = spousePGT.length + childPGT.length + creditorPersonPGT.length + applicantCitorPGT.length;
+  if (isPGT > 0) {
     const pgt = {
       recipientRole: Roles[Roles.pgt],
       recipientName: "The Public Guardian & Trustee (PGT)",
@@ -451,9 +468,6 @@ export const determineRecipients = (sender, options) => {
   }
 
   // REPGRANT-331
-  let creditorPersonPanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.creditorPersonInfoPanel) || [];
-  const creditorPersonExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.creditorPersonExists);
-
   let spouseSuccessor = spousePanel
     .filter(s => spouseExists == "y")
     .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "n" && s.spouseHasNominee == "y")
@@ -469,7 +483,11 @@ export const determineRecipients = (sender, options) => {
     .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "n" && s.creditorPersonHasNominee == "y")
     .map(s => s.creditorPersonName);
 
-  
+  let applicantCitorSuccessor = applicantCitorPanel
+    .filter(s => applicantCitorExists == "y")
+    .filter(s => s.applicantCitorIsAlive == "y" && s.applicantCitorIsAdult == "y" && s.applicantCitorIsCompetent == "n" && s.applicantCitorHasNominee == "y")
+    .map(s => s.applicantCitorName);
+
   for (const key in spouseSuccessor) {
     const s = {
       recipientRole: Roles[Roles.spouse],
@@ -497,6 +515,15 @@ export const determineRecipients = (sender, options) => {
     recipients.push(s);
   };
 
+  for (const key in applicantCitorSuccessor) {
+    const s = {
+      recipientRole: Roles[Roles.applicantCitor],
+      recipientName: applicantCitorSuccessor[key],
+      key: `ac${key}`
+    }
+    recipients.push(s);
+  };
+
   // REPGRANT-368
   let spouseIncompetent = spousePanel
   .filter(s => spouseExists == "y")
@@ -512,6 +539,11 @@ export const determineRecipients = (sender, options) => {
     .filter(s => creditorPersonExists == "y")
     .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "n" && s.creditorPersonHasNominee == "n")
     .map(s => `${s.creditorPersonName} (Mentally Incompetent Adult without a Nominee)`);
+
+  let applicantCitorIncompetent = applicantCitorPanel
+    .filter(s => applicantCitorExists == "y")
+    .filter(s => s.applicantCitorIsAlive == "y" && s.applicantCitorIsAdult == "y" && s.applicantCitorIsCompetent == "n" && s.applicantCitorHasNominee == "n")
+    .map(s => `${s.applicantCitorName} (Mentally Incompetent Adult without a Nominee)`);
 
   for (const key in spouseIncompetent) {
     const s = {
@@ -540,6 +572,15 @@ export const determineRecipients = (sender, options) => {
     recipients.push(s);
   };
 
+  for (const key in applicantCitorIncompetent) {
+    const s = {
+      recipientRole: Roles[Roles.applicantCitor],
+      recipientName: applicantCitorIncompetent[key],
+      key: `ac${key}`
+    }
+    recipients.push(s);
+  };
+
   // REPGRANT-366
   let spouseMinorNoGuardian = spousePanel
     .filter(s => spouseExists == "y")
@@ -555,6 +596,11 @@ export const determineRecipients = (sender, options) => {
     .filter(s => creditorPersonExists == "y")
     .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "n" && s.creditorPersonHasGuardian == "n")
     .map(s => `${s.creditorPersonName} (Minor without a Guardian)`);
+
+  let applicantCitorMinorNoGuardian = applicantCitorPanel
+    .filter(s => applicantCitorExists == "y")
+    .filter(s => s.applicantCitorIsAlive == "y" && s.applicantCitorIsAdult == "n" && s.applicantCitorHasGuardian == "n")
+    .map(s => `${s.applicantCitorName} (Minor without a Guardian)`);
 
   for (const key in spouseMinorNoGuardian) {
     const s = {
@@ -579,6 +625,15 @@ export const determineRecipients = (sender, options) => {
       recipientRole: Roles[Roles.creditorPerson],
       recipientName: creditorPersonMinorNoGuardian[key],
       key: `cr${key}`
+    }
+    recipients.push(s);
+  };
+
+  for (const key in applicantCitorMinorNoGuardian) {
+    const s = {
+      recipientRole: Roles[Roles.applicantCitor],
+      recipientName: applicantCitorMinorNoGuardian[key],
+      key: `ac${key}`
     }
     recipients.push(s);
   };
