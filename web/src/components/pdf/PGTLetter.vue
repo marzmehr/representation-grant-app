@@ -341,7 +341,7 @@ export default defineComponent({
       });
 
       const childSuccessorsIncompetent = childPanel.map((c: childInfoPanel) => {
-        if (c.childIsAlive == "y" && c.childIsAdult == "n" && c.childIsCompetent == "n") {
+        if (c.childIsAlive == "y" && c.childIsAdult == "y" && c.childIsCompetent == "n") {
           return {
             successorName: (c as any).childName || "",
             successorRole: "child",
