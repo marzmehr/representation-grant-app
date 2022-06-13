@@ -386,9 +386,9 @@ export default defineComponent({
 
       response.then( (stats) => {
         date.value = stats["FormP1 Last Updated"]
-          ? formatMonthDayYear(stats["FormP1 Last Updated"])
+          ? dateFormatter(stats["FormP1 Last Updated"].split("T")[0])
           : stats["FormP1 Created Date"]
-            ? formatMonthDayYear(stats["FormP1 Created Date"])
+            ? dateFormatter(stats["FormP1 Created Date"].split("T")[0])
             : currDate;
         }
       )
