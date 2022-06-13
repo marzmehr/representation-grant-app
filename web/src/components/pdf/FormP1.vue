@@ -382,16 +382,18 @@ export default defineComponent({
     };
 
     const generateDate = (currDate = formatMonthDayYear(new Date())) => {
-      let response = SurveyDataService.statsSingle(getApplicationId.value);
-
-      response.then( (stats) => {
-        date.value = stats["FormP1 Last Updated"]
-          ? dateFormatter(stats["FormP1 Last Updated"].split("T")[0])
-          : stats["FormP1 Created Date"]
-            ? dateFormatter(stats["FormP1 Created Date"].split("T")[0])
-            : currDate;
+      if (getApplicationId.value) {
+        let response = SurveyDataService.statsSingle(getApplicationId.value);
+        if (response) {
+          response.then( (stats) => {
+            date.value = stats["FormP1 Last Updated"]
+              ? dateFormatter(stats["FormP1 Last Updated"].split("T")[0])
+              : stats["FormP1 Created Date"]
+                ? dateFormatter(stats["FormP1 Created Date"].split("T")[0])
+                : currDate;
+          });
         }
-      )
+      }
     };
 
     onMounted(() => {
