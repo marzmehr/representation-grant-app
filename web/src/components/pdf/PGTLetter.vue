@@ -31,7 +31,10 @@
         </div>
         <div v-for="(successor, i) in successorMinorList" :key="i + 100">
           <ul>
-            <li>
+            <li v-if="successor.successorRole == 'citor'">
+              Minor: <b class="black">{{ successor.successorName }}</b> ({{ successor.successorRole }})
+            </li>
+            <li v-else>
               Minor: <b class="black">{{ successor.successorName }}</b> ({{ deceasedFullName }}'s {{ successor.successorRole }})
             </li>
             <ul>
@@ -79,7 +82,10 @@
         </div>
         <div v-for="(successor, i) in successorIncompetentList" :key="i + 200">
           <ul>
-            <li>
+            <li v-if="successor.successorRole == 'citor'">
+              Incapable Adult: <b class="black">{{ successor.successorName }}</b> ({{ successor.successorRole }})
+            </li>
+            <li v-else>
               Incapable Adult: <b class="black">{{ successor.successorName }}</b> ({{ deceasedFullName }}'s {{ successor.successorRole }})
             </li>
             <ul>
@@ -150,7 +156,7 @@ import { defineComponent, onMounted, watch, ref } from "@vue/composition-api";
 import { getApplicants, getLastUpdated, getFormData } from "@/state/survey-state";
 import UnderlineForm from "@/components/pdf/components/UnderlineForm.vue";
 import { FormP1Applicant, FormP1Deceased, PGTLetterSuccessor, FormP1ServiceContact } from "@/types/application";
-import { applicantInfoPanel, spouseInfoPanel, childInfoPanel, creditorPersonInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
+import { applicantInfoPanel, spouseInfoPanel, childInfoPanel, creditorPersonInfoPanel, applicantCitorInfoPanel, SurveyInstance, SurveyQuestionNames } from "@/types/survey-primary";
 import { formatAddressWithPostalCode, formatMonthDayYear, formPdfHtml, convertBlobAndDownload, formatCityCountry, dateFormatter } from "@/utils/utils";
 import { getApplicationId } from "@/state/application-state";
 import { SurveyDataService } from "@/services/survey-data-service";
@@ -183,9 +189,9 @@ export default defineComponent({
       if (survey) loadSurveyData(survey);
     });
 
-    const processSuccessor = (spouseSuccessors, childSuccessors, creditorPersonSuccessors) => {
+    const processSuccessor = successorLists => {
       let successors = [];
-      for (const successorList of [spouseSuccessors, childSuccessors, creditorPersonSuccessors]) {
+      for (const successorList of successorLists) {
         for (const successor of successorList) {
           if (successor) {
             successors.push(successor);
@@ -442,8 +448,85 @@ export default defineComponent({
         }
       });
 
-      successorMinorList.value = processSuccessor(spouseSuccessorsMinor, childSuccessorsMinor, creditorPersonSuccessorsMinor);
-      successorIncompetentList.value = processSuccessor(spouseSuccessorIncompetent, childSuccessorsIncompetent, creditorPersonSuccessorsIncompetent);
+      const applicantCitorPanel = data[SurveyQuestionNames.applicantCitorInfoPanel] || [];
+      const applicantCitorSuccessorsMinor = applicantCitorPanel.map((c: applicantCitorInfoPanel) => {
+        if (c.applicantCitorIsAlive == "y" && c.applicantCitorIsAdult == "n") {
+          return {
+            successorName: (c as any).applicantCitorName || "",
+            successorRole: "citor",
+            successorDateOfBirth: dateFormatter(c.applicantCitorIsAdultNoDOB),
+            successorResidentialAddress: formatAddressWithPostalCode(c.applicantCitorIsAdultNoResidentialAddress),
+
+            successorMailingAddress: c.applicantCitorIsAdultNoResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.applicantCitorIsAdultNoResidentialAddress)
+              : c.applicantCitorIsAdultNoResidentialReceiveMail == "n" && c.applicantCitorIsAdultNoHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.applicantCitorIsAdultNoMailingAddress)
+                : "none",
+
+            successorEmailAddress: c.applicantCitorIsAdultNoEmail == "y" ? c.applicantCitorIsAdultNoEmailAddress : "none",
+            successorFaxNumber: c.applicantCitorIsAdultNoFax == "y" ? c.applicantCitorIsAdultNoFaxNumber : "none",
+            successorGuardianName: c.applicantCitorHasGuardian == "y" ? c.applicantCitorGuardianName : "none",
+            successorGuardianResidentialAddress: formatAddressWithPostalCode(c.applicantCitorGuardianResidentialAddress),
+
+            successorGuardianMailingAddress: c.applicantCitorGuardianResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.applicantCitorGuardianResidentialAddress)
+              : c.applicantCitorGuardianResidentialReceiveMail == "n" && c.applicantCitorGuardianHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.applicantCitorGuardianMailingAddress)
+                : "none",
+
+            successorGuardianEmailAddress: c.applicantCitorGuardianEmail == "y" ? c.applicantCitorGuardianEmailAddress : "none",
+            successorGuardianFaxNumber: c.applicantCitorGuardianFax == "y" ? c.applicantCitorGuardianFaxNumber : "none"
+          } as PGTLetterSuccessor;
+        }
+      });
+
+      const applicantCitorSuccessorsIncompetent = applicantCitorPanel.map((c: applicantCitorInfoPanel) => {
+        if (c.applicantCitorIsAlive == "y" && c.applicantCitorIsAdult == "y" && c.applicantCitorIsCompetent == "n") {
+          return {
+            successorName: (c as any).applicantCitorName || "",
+            successorRole: "citor",
+            successorDateOfBirth: dateFormatter(c.applicantCitorIsCompetentNoDOB),
+            successorResidentialAddress: formatAddressWithPostalCode(c.applicantCitorIsCompetentNoResidentialAddress),
+
+            successorMailingAddress: c.applicantCitorIsCompetentNoResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.applicantCitorIsCompetentNoResidentialAddress)
+              : c.applicantCitorIsCompetentNoResidentialReceiveMail == "n" && c.applicantCitorIsCompetentNoHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.applicantCitorIsCompetentNoMailingAddress)
+                : "none",
+
+            successorEmailAddress: c.applicantCitorIsCompetentNoEmail == "y" ? c.applicantCitorIsCompetentNoEmailAddress : "none",
+            successorFaxNumber: c.applicantCitorIsCompetentNoFax == "y" ? c.applicantCitorIsCompetentNoFaxNumber : "none",
+            successorNomineeName: c.applicantCitorHasNominee == "y" && c.applicantCitorNomineeFormal == "y"
+              ? `${c.applicantCitorNomineeName} (formally appointed)`
+              : c.applicantCitorHasNominee == "y" && c.applicantCitorNomineeFormal == "n"
+                ? `${c.applicantCitorNomineeName} (not formally appointed)`
+                : "none",
+            successorNomineeResidentialAddress: formatAddressWithPostalCode(c.applicantCitorNomineeResidentialAddress),
+
+            successorNomineeMailingAddress: c.applicantCitorNomineeResidentialReceiveMail == "y"
+              ? formatAddressWithPostalCode(c.applicantCitorNomineeResidentialAddress)
+              : c.applicantCitorNomineeResidentialReceiveMail == "n" && c.applicantCitorNomineeHasMailingAddress == "y"
+                ? formatAddressWithPostalCode(c.applicantCitorNomineeMailingAddress)
+                : "none",
+
+            successorNomineeEmailAddress: c.applicantCitorNomineeEmail == "y" ? c.applicantCitorNomineeEmailAddress : "none",
+            successorNomineeFaxNumber: c.applicantCitorNomineeFax == "y" ? c.applicantCitorNomineeFaxNumber : "none"
+          } as PGTLetterSuccessor;
+        }
+      });
+
+      successorMinorList.value = processSuccessor([
+        spouseSuccessorsMinor,
+        childSuccessorsMinor,
+        creditorPersonSuccessorsMinor,
+        applicantCitorSuccessorsMinor
+      ]);
+      successorIncompetentList.value = processSuccessor([
+        spouseSuccessorIncompetent,
+        childSuccessorsIncompetent,
+        creditorPersonSuccessorsIncompetent,
+        applicantCitorSuccessorsIncompetent
+        ]);
     };
 
     const onPrint = async () => {
