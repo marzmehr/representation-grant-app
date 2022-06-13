@@ -123,13 +123,13 @@
           I can be contacted at the following:
           <ul>
             <li style="margin-left: -20px;">
-               <b class="black">{{ serviceContact.address}}</b>
+               <b class="black">{{ serviceContact.address }}</b>
             </li>
             <li style="margin-left: -20px;">
-               <b class="black">{{ serviceContact.phone}}</b>
+               <b class="black">{{ serviceContact.phone }}</b>
             </li>
             <li style="margin-left: -20px;">
-               <b class="black">{{ serviceContact.email}}</b>
+               <b class="black">{{ serviceContact.email }}</b>
             </li>
           </ul>
         </div>
@@ -217,7 +217,12 @@ export default defineComponent({
       });
 
       // TODO: Better solution when we have multiple applicants
-      applicantRole.value = getApplicants.value.filter(a => a.applicantName == applicantList.value[0].fullName).map(a => a.applicantRole)[0];
+      applicantRole.value = getApplicants.value
+        .filter(a => a.applicantName == applicantList.value[0].fullName)
+        .map(a => a.applicantRole)[0]
+        .split(/(?=[A-Z])/)
+        .map(element => element.toLowerCase())
+        .join(" ");
 
       serviceContact.value = {
         address: formatAddressWithPostalCode(data.applicantServiceAddress) || "",
@@ -262,7 +267,7 @@ export default defineComponent({
                 ? formatAddressWithPostalCode(s.spouseGuardianMailingAddress)
                 : "none",
             
-            successorGuardianEmailAddress: s.spouseGuardianEmail == "y" ? s.spouseGuardianEmailAddress : "",
+            successorGuardianEmailAddress: s.spouseGuardianEmail == "y" ? s.spouseGuardianEmailAddress : "none",
             successorGuardianFaxNumber: s.spouseGuardianFax == "y" ? s.spouseGuardianFaxNumber : "none"
           } as PGTLetterSuccessor;
         }
@@ -297,7 +302,7 @@ export default defineComponent({
                 ? formatAddressWithPostalCode(s.spouseNomineeMailingAddress)
                 : "none",
 
-            successorNomineeEmailAddress: s.spouseNomineeEmail == "y" ? s.spouseNomineeEmailAddress : "",
+            successorNomineeEmailAddress: s.spouseNomineeEmail == "y" ? s.spouseNomineeEmailAddress : "none",
             successorNomineeFaxNumber: s.spouseNomineeFax == "y" ? s.spouseNomineeFaxNumber : "none"
           } as PGTLetterSuccessor;
         }
@@ -329,7 +334,7 @@ export default defineComponent({
                 ? formatAddressWithPostalCode(c.childGuardianMailingAddress)
                 : "none",
             
-            successorGuardianEmailAddress: c.childGuardianEmail == "y" ? c.childGuardianEmailAddress : "",
+            successorGuardianEmailAddress: c.childGuardianEmail == "y" ? c.childGuardianEmailAddress : "none",
             successorGuardianFaxNumber: c.childGuardianFax == "y" ? c.childGuardianFaxNumber : "none"
           } as PGTLetterSuccessor;
         }
@@ -364,7 +369,7 @@ export default defineComponent({
                 ? formatAddressWithPostalCode(c.childNomineeMailingAddress)
                 : "none",
 
-            successorNomineeEmailAddress: c.childNomineeEmail == "y" ? c.childNomineeEmailAddress : "",
+            successorNomineeEmailAddress: c.childNomineeEmail == "y" ? c.childNomineeEmailAddress : "none",
             successorNomineeFaxNumber: c.childNomineeFax == "y" ? c.childNomineeFaxNumber : "none"
           } as PGTLetterSuccessor;
         }
