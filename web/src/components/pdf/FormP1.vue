@@ -379,6 +379,13 @@ export default defineComponent({
       } catch (err) {
         console.log(err);
       }
+
+      // save to state to append to P9 later
+      let entry: FormData = {
+        form: "FormP1",
+        html: root.value.innerHTML
+      } as FormData;
+      setFormData(entry);
     };
 
     const generateDate = (currDate = formatMonthDayYear(new Date())) => {
