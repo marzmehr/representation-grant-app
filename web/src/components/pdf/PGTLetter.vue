@@ -58,7 +58,7 @@
               </li>
               <ul v-if="successor.successorGuardianName !== 'none'" style="list-style-type: circle;">
                 <li style="margin-left: -40px;">
-                  Residential Address: <b class="black">{{ successor.successorResidentialAddress }}</b>
+                  Residential Address: <b class="black">{{ successor.successorGuardianResidentialAddress }}</b>
                 </li>
                 <li style="margin-left: -40px;">
                   Postal Address: <b class="black">{{ successor.successorGuardianMailingAddress }}</b>
