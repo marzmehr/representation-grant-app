@@ -85,6 +85,9 @@ enum Roles {
   creditorOrganization,
   foreignWillExtra,
   applicantCitor,
+  applicantCitorNominee,
+  applicantCitorGuardian,
+  applicantCitorPersonalRep,
   pgt,
   organization,
   childWelfare,
@@ -208,10 +211,6 @@ export const determinePotentialApplicants = (sender, options) => {
     
     creditorOrganizationInfoPanel = SurveyQuestionNames.creditorOrganizationInfoPanel,
     creditorOrganizationExists = SurveyQuestionNames.creditorOrganizationExists,
-    
-    citorInfoPanel = SurveyQuestionNames.applicantCitorInfoPanel,
-    cited = SurveyQuestionNames.applicantCited,
-    citorNew = SurveyQuestionNames.applicantCitorNewExists,
   };
 
   if (!Object.values(QuestionNamesToWatch).includes(options.name)) return;
@@ -230,10 +229,6 @@ export const determinePotentialApplicants = (sender, options) => {
 
   let creditorOrganizationPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorOrganizationInfoPanel.toString()) || [];
   const creditorOrganizationExists = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.creditorOrganizationExists.toString());
-
-  let citorPanel = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.citorInfoPanel.toString()) || [];
-  const cited = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.cited.toString());
-  const citorNew = getValueFromOptionsOrGetQuestion(sender, options, QuestionNamesToWatch.citorNew.toString());
 
   // todo: refactor this into sections
   let spouseGuardianPanel = spousePanel
@@ -301,11 +296,6 @@ export const determinePotentialApplicants = (sender, options) => {
   creditorOrganizationPanel = creditorOrganizationPanel
     .filter(s => creditorOrganizationExists == "y")
     .map(s => s.creditorOrganizationName);
-
-  citorPanel = citorPanel
-    .filter(s => cited == "y" && citorNew == "y")
-    .filter(s => s.applicantCitorAlive == "y" && s.applicantCitorIsAdult == "y" && s.applicantCitorIsCompetent == "y")
-    .map(s => s.applicantCitorName);
 
   const potentialApplicants = [
     ...spousePanel.map((sp, index) => ({
@@ -378,11 +368,6 @@ export const determinePotentialApplicants = (sender, options) => {
       applicantName: cr,
       key: `cro${index}`
     })),
-    ...citorPanel.map((ac, index) => ({
-      applicantRole: Roles[Roles.applicantCitor],
-      applicantName: ac,
-      key: `ac${index}`
-    })),
   ];
 
   const applicantChoice = sender.getQuestionByName(SurveyQuestionNames.applicantChoice);
@@ -450,6 +435,21 @@ export const determineRecipients = (sender, options) => {
 
   let applicantCitorPanel = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.applicantCitorInfoPanel) || [];
   const applicantCitorExists = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.applicantCitorNewExists);
+  const applicantCited = getValueFromOptionsOrGetQuestion(sender, options, SurveyQuestionNames.applicantCited);
+
+  const citorRegular = applicantCitorPanel
+    .filter(s => applicantCited == "y" && applicantCitorExists == "y")
+    .filter(s => s.applicantCitorIsAlive == "y" && s.applicantCitorIsAdult == "y" && s.applicantCitorIsCompetent == "y")
+    .map(s => s.applicantCitorName);
+
+  for (const key in citorRegular) {
+    const s = {
+      recipientRole: Roles[Roles.applicantCitor],
+      recipientName: citorRegular[key],
+      key: `ac${key}`
+    }
+    recipients.push(s);
+  };
 
   let applicantCitorPGT = applicantCitorPanel
     .filter(s => applicantCitorExists == "y")
@@ -488,6 +488,11 @@ export const determineRecipients = (sender, options) => {
     .filter(s => s.applicantCitorIsAlive == "y" && s.applicantCitorIsAdult == "y" && s.applicantCitorIsCompetent == "n" && s.applicantCitorHasNominee == "y")
     .map(s => s.applicantCitorName);
 
+  let applicantCitorNominee = applicantCitorPanel
+    .filter(s => applicantCitorExists == "y")
+    .filter(s => s.applicantCitorIsAlive == "y" && s.applicantCitorIsAdult == "y" && s.applicantCitorIsCompetent == "n" && s.applicantCitorHasNominee == "y")
+    .map(s => `${s.applicantCitorNomineeName} (as ${s.applicantCitorName}'s Nominee)`);
+
   for (const key in spouseSuccessor) {
     const s = {
       recipientRole: Roles[Roles.spouse],
@@ -520,6 +525,15 @@ export const determineRecipients = (sender, options) => {
       recipientRole: Roles[Roles.applicantCitor],
       recipientName: applicantCitorSuccessor[key],
       key: `ac${key}`
+    }
+    recipients.push(s);
+  };
+
+  for (const key in applicantCitorNominee) {
+    const s = {
+      recipientRole: Roles[Roles.applicantCitorNominee],
+      recipientName: applicantCitorNominee[key],
+      key: `acn${key}`
     }
     recipients.push(s);
   };
@@ -602,6 +616,11 @@ export const determineRecipients = (sender, options) => {
     .filter(s => s.applicantCitorIsAlive == "y" && s.applicantCitorIsAdult == "n" && s.applicantCitorHasGuardian == "n")
     .map(s => `${s.applicantCitorName} (Minor without a Guardian)`);
 
+  let applicantCitorGuardian = applicantCitorPanel
+    .filter(s => applicantCitorExists == "y")
+    .filter(s => s.applicantCitorIsAlive == "y" && s.applicantCitorIsAdult == "n" && s.applicantCitorHasGuardian == "y")
+    .map(s => `${s.applicantCitorGuardianName} (as ${s.applicantCitorName}'s Guardian)`)
+
   for (const key in spouseMinorNoGuardian) {
     const s = {
       recipientRole: Roles[Roles.spouse],
@@ -634,6 +653,29 @@ export const determineRecipients = (sender, options) => {
       recipientRole: Roles[Roles.applicantCitor],
       recipientName: applicantCitorMinorNoGuardian[key],
       key: `ac${key}`
+    }
+    recipients.push(s);
+  };
+
+  for (const key in applicantCitorGuardian) {
+    const s = {
+      recipientRole: Roles[Roles.applicantCitorGuardian],
+      recipientName: applicantCitorGuardian[key],
+      key: `acg${key}`
+    }
+    recipients.push(s);
+  };
+
+  let applicantCitorPersonalRep = applicantCitorPanel
+    .filter(s => applicantCitorExists == "y")
+    .filter(s => s.applicantCitorIsAlive == "n" && s.applicantCitorHasPersonalRep == "y")
+    .map(s => `${s.applicantCitorPersonalRepName} (as ${s.applicantCitorName}'s Personal Representative)`);
+
+  for (const key in applicantCitorPersonalRep) {
+    const s = {
+      recipientRole: Roles[Roles.applicantCitorPersonalRep],
+      recipientName: applicantCitorPersonalRep[key],
+      key: `acpr${key}`
     }
     recipients.push(s);
   };
