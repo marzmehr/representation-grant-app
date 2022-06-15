@@ -542,22 +542,22 @@ export const determineRecipients = (sender, options) => {
   let spouseIncompetent = spousePanel
   .filter(s => spouseExists == "y")
   .filter(s => s.spouseIsAlive == "y" && s.spouseIsAdult == "y" && s.spouseIsCompetent == "n" && s.spouseHasNominee == "n")
-  .map(s => `${s.spouseName} (Mentally Incompetent Adult without a Nominee)`);
+  .map(s => `${s.spouseName} (Incompetent Adult without a Nominee)`);
 
   let childIncompetent = childPanel
     .filter(s => childExists == "y")
     .filter(s => s.childIsAlive == "y" && s.childIsAdult == "y" && s.childIsCompetent == "n" && s.childHasNominee == "n")
-    .map(s => `${s.childName} (Mentally Incompetent Adult without a Nominee)`);
+    .map(s => `${s.childName} (Incompetent Adult without a Nominee)`);
 
   let creditorPersonIncompetent = creditorPersonPanel
     .filter(s => creditorPersonExists == "y")
     .filter(s => s.creditorPersonIsAlive == "y" && s.creditorPersonIsAdult == "y" && s.creditorPersonIsCompetent == "n" && s.creditorPersonHasNominee == "n")
-    .map(s => `${s.creditorPersonName} (Mentally Incompetent Adult without a Nominee)`);
+    .map(s => `${s.creditorPersonName} (Incompetent Adult without a Nominee)`);
 
   let applicantCitorIncompetent = applicantCitorPanel
     .filter(s => applicantCitorExists == "y")
     .filter(s => s.applicantCitorIsAlive == "y" && s.applicantCitorIsAdult == "y" && s.applicantCitorIsCompetent == "n" && s.applicantCitorHasNominee == "n")
-    .map(s => `${s.applicantCitorName} (Mentally Incompetent Adult without a Nominee)`);
+    .map(s => `${s.applicantCitorName} (Incompetent Adult without a Nominee)`);
 
   for (const key in spouseIncompetent) {
     const s = {
