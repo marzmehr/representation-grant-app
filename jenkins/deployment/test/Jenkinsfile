@@ -1,5 +1,5 @@
 node {
-  def config = load "../workspace@script/jenkins/config.groovy"
+  def config = load "../workspace@script/971514f8ad5815b65f5fb046eb1bfaecf1b4ea41d50cda67bca08c1161735177/jenkins/config.groovy"
   def source = config.DEV_ENV
   def destination = config.TEST_ENV
   def namespace = config.NAME_SPACE
