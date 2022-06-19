@@ -389,25 +389,18 @@ export default defineComponent({
     };
 
     const generateDate = (currDate = formatMonthDayYear(new Date())) => {
-      date.value = currDate;
-      /* The complex date solution needs a bit more work, save it for when
-       * we have more funding.
-       * Main issue is that the db is holding the dates in UTC so when updated
-       * at the wrong time you can end up with the incorrect date. On top of 
-       * that we need to ensure the logic is correct here.
-       */
-      // if (getApplicationId.value) {
-      //   let response = SurveyDataService.statsSingle(getApplicationId.value);
-      //   if (response) {
-      //     response.then( (stats) => {
-      //       date.value = stats["FormP1 Last Updated"]
-      //         ? dateFormatter(stats["FormP1 Last Updated"].split("T")[0])
-      //         : stats["FormP1 Created Date"]
-      //           ? dateFormatter(stats["FormP1 Created Date"].split("T")[0])
-      //           : currDate;
-      //     });
-      //   }
-      // }
+      if (getApplicationId.value) {
+        let response = SurveyDataService.statsSingle(getApplicationId.value);
+        if (response) {
+          response.then( (stats) => {
+            date.value = stats["FormP1 Last Updated"]
+              ? formatMonthDayYear(new Date(stats["FormP1 Last Updated"]))
+              : stats["FormP1 Created Date"]
+                ? formatMonthDayYear(new Date(stats["FormP1 Created Date"]))
+                : currDate;
+          });
+        }
+      }
     };
 
     onMounted(() => {
