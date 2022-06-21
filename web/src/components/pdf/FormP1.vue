@@ -349,9 +349,6 @@ export default defineComponent({
     };
 
     const onPrint = async () => {
-      // make sure the date is today
-      date.value = formatMonthDayYear(new Date());
-
       const applicationId = getApplicationId.value || 9999999999;
       const formName = "FormP1";
       const innerHTML = root.value.innerHTML;
@@ -362,6 +359,7 @@ export default defineComponent({
         "P1",
         ""
       );
+
       const jsonData = {
         applicantList: applicantList.value,
         deceased: deceased.value,
@@ -389,15 +387,13 @@ export default defineComponent({
     };
 
     const generateDate = (currDate = formatMonthDayYear(new Date())) => {
-      if (getApplicationId.value) {
+      if (getApplicationId.value && !date.value) {
         let response = SurveyDataService.statsSingle(getApplicationId.value);
         if (response) {
           response.then( (stats) => {
-            date.value = stats["FormP1 Last Updated"]
-              ? formatMonthDayYear(new Date(stats["FormP1 Last Updated"]))
-              : stats["FormP1 Created Date"]
-                ? formatMonthDayYear(new Date(stats["FormP1 Created Date"]))
-                : currDate;
+            date.value = stats["FormP1 Created Date"]
+              ? formatMonthDayYear(new Date(stats["FormP1 Created Date"]))
+              : currDate
           });
         }
       }
@@ -406,6 +402,13 @@ export default defineComponent({
     onMounted(() => {
       loadApplicantList();
       generateDate();
+
+      // save to state to append to P9 later
+      let entry: FormData = {
+        form: "FormP1",
+        html: root.value.innerHTML
+      } as FormData;
+      setFormData(entry);
     });
 
     return {
