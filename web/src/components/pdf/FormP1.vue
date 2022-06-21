@@ -402,13 +402,6 @@ export default defineComponent({
     onMounted(() => {
       loadApplicantList();
       generateDate();
-
-      // save to state to append to P9 later
-      let entry: FormData = {
-        form: "FormP1",
-        html: root.value.innerHTML
-      } as FormData;
-      setFormData(entry);
     });
 
     return {
