@@ -2,99 +2,56 @@
   <b-card v-if="pageReady" id="landing-page" class="container" border-variant="white">
     <b-row class="mt-3">
       <b-col>
-        <span class="text-primary h2 ml-4"
-          >Represent Someone Who Died (also known as Probate)</span
+        <div 
+        class="text-primary h1"
+        style="text-align:center"
+          >Represent Someone Who Died (also known as Probate)*</div
         >
+        <div 
+        class="h3"
+        style="text-align:center">
+          <b>This service will allow you to apply for a <tooltip :index="0" title="Representation Grant" /> from the Supreme Court of British Columbia</b>
+        </div>
+        <div style="text-align:center">
+          <b>*At present this application is limited to complete the forms required when the deceased did not leave a will</b>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div
+        class="h3"
+        style="text-align:center">
+          How it Works?
+        </div>
+        <b-list-group-item>
+          <div class="row">
+            <div class="col-md-6">
+              <ol type="1">
+                <li>
+                  Register of login
+                  <br/>
+                  To use this application, you will need to setup a Basic BCeID account. If you do not currently have a Basic BCeID account you can register for one by clicking the Registrar button.
+                </li>
+                <br/>
+                <li>
+                  Answer Questions
+                  <br/>
+                  Our secure online questionnaire will ensure that this service is appropriate for you to use and will save your work so, you can proceed at your own pace.
+                </li>
+              </ol>
+            </div>
+            <div class="col-md-6">
+              <ol type="1" start="3">
+                <li>
+                  Print Your Forms
+                  <br/>
+                  Once you're done with the question, you will need to print your documents and file at your local court registry.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </b-list-group-item>
         <b-card border-variant="white">
-          <p>
-            Use this service to apply for a
-            <tooltip :index="0" title="Representation Grant" /> from the Supreme Court of British
-            Columbia. A Representation Grant is a court document that confirms you are the
-            appropriate person to manage the property, money and other belongings that a person left
-            behind after they died. The collection of <tooltip :index="0" title="assets" /> that a
-            person left behind is called their <tooltip :index="0" title="estate" />.
-          </p>
-
-          <p>
-            Representation Grant is an umbrella term that includes different types of these court 
-            documents. A Grant of Probate is a type of Representation Grant specifically for executors 
-            named in a <tooltip :index="0" title="Will" />.
-          </p>
-
-          <b-list-group-item>
-            <b>Supported Web Browsers:</b>
-            <ul>
-              <li>
-                This service has been designed for Chrome and Microsoft Edge web browsers.
-              </li>
-              <li>
-                Do not use Internet Explorer.
-              </li>
-            </ul>
-          </b-list-group-item>
-          <b-list-group-item>
-            <b>Cost:</b>
-            <ul>
-              <li>
-                There is no cost to use this service.
-              </li>
-              <li>
-                This service will create the documents you need to file with the Court.
-              </li>
-              <li>
-                There will either be a $200 filing fee or a $0 filing fee (if the 
-                <tooltip :index="0" title="estate" /> is worth less than $25,000).
-              </li>
-              <li>
-                There will be costs for swearing or affirming the 
-                <tooltip :index="0" title="affidavits" /> that this service will create for you. 
-                Each affidavit costs $40 to swear or affirm at a courthouse. An application usually 
-                has 3 or more affidavits.
-              </li>
-              <li>
-                There will be probate fees if the <tooltip :index="0" title="estate" /> is worth 
-                more than $25,000. This fee will be a small percentage of the total value.
-              </li>
-            </ul>
-          </b-list-group-item>
-          <b-list-group-item>
-            <b> Time:</b>
-            <ul>
-              <li>This service may take an hour to complete. Don't worry. You don't have to complete this all at once. This service will save your progress so you can come back later.</li>
-              <li>The amount of time it will take you to complete your documents will depend on:</li>
-              <li>If there is a <tooltip :index="0" title="Will" />.</li>
-              <ul>
-                <li>How many people are involved</li>
-                <li>How many belongings are involved</li>
-              </ul>
-            </ul>
-          </b-list-group-item>
-          <b-list-group-item>
-            <b> Print:</b>
-            <ul>
-              <li>
-                This service will create your documents as Adobe PDFs.
-              </li>
-              <li>
-                You will need free software like Adobe Reader or Apple Preview to open the PDFs.
-              </li>
-              <li>
-                You will need a printer to print the PDFs.
-              </li>
-            </ul>
-          </b-list-group-item>
-
-          <!-- <b-card border-variant="white" class="mt-3">
-                            <span class="text-primary h3">Filing Your Application</span>
-                            <p class="mt-3">You can use this service to file your application online. </p>
-                            <p>If there is a <tooltip :index="1" title='Will'/> and it is written on paper, you can still 
-                                file online. However, you need to mail the Will to a courthouse or file it in person.
-                            </p>
-                            <p>You may also choose to print your application and file the whole package, including 
-                                the Will, in person at a courthouse.
-                            </p>
-                        </b-card>  -->
-
           <b-card border-variant="white" v-if="!isLoggedIn">
             <b-row class="justify-content-center">
               <b-button
