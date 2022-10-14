@@ -5,6 +5,15 @@
    "name": "Qualifying Questions",
    "elements": [
     {
+     "type": "infotext",
+     "name": "qualifyIntroText",
+     "title": "<b style=\"color: #003366\">Represent Someone Who Died (also known as Probate)</b>\n<br><br>\nUse this service to apply for a `Representation Grant` from the Supreme Court of British Columbia. A Representation Grant is a court document that confirms you are the appropriate person to manage the property, money and other belongings that a person left behind after they died. The collection of assets ? that a person left behind is called their `estate`\n<br><br>\nRepresentation Grant is an umbrella term that includes different types of these court documents. A Grant of Probate is a type of Representation Grant specifically for executors named in a `Will`\nThere is no cost to use this service and the service will create the documents you need to file with the Court. There will be costs associated when filing which are:\n<ul>\n<li>There will either be a $200 filing fee or a $0 filing fee (if the `estate` is worth less than $25,000).</li>\n<li> There will be costs for swearing or affirming the `affidavits` that this service will create for you. Each affidavit costs $40 to swear or affirm at a courthouse. An application usually has 3 or more affidavits.</li>\n<li>There will be probate fees if the `estate` is worth more than $25,000. This fee will be a small percentage of the total value.",
+     "titleLocation": "hidden",
+     "requiredErrorText": "Please press Continue",
+     "body": "\n",
+     "messageStyle": "inline"
+    },
+    {
      "type": "panel",
      "name": "qualifyingIntroPanel",
      "elements": [
