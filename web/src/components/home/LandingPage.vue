@@ -144,7 +144,7 @@ export default class LandingPage extends Vue {
 .login-button {
   color: black;
   margin-top: 1rem;
-  border: 2px solid rgb($gov-pale-grey, 0.8);
+  border: 2px solid rgb($gov-pale-grey, 0.3);
   &:hover,
   &:focus {
     color: blue;
