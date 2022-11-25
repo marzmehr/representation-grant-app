@@ -166,7 +166,7 @@ export default class LandingPage extends Vue {
   width: 100%;
   height: 100%;
   opacity: 0.5;
-  background-image: url('/images/legislature-dome.jpg');
+  background-image: url('../../../public/images/legislature-dome.jpg');
   background-size: cover;
 }
 
