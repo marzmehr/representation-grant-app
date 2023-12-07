@@ -84,7 +84,7 @@ export default class SurveyCreatorForm extends Vue {
         editorThemeColors["$primary-text-color"] = textColor;
         editorThemeColors["$selection-border-color"] = mainColor;
 
-        SurveyCreator.StylesManager.applySurveyTheme = () => null; // disable editor's reference to survey theme
+        // SurveyCreator.StylesManager.applySurveyTheme = () => null; // disable editor's reference to survey theme
         SurveyKO.StylesManager.applyTheme("bootstrap");
         SurveyCreator.StylesManager.applyTheme("bootstrap");        
     }
