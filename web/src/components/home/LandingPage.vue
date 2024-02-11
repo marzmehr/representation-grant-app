@@ -1,88 +1,81 @@
 <template>
-    <b-card v-if="pageReady" id="landing-page" class="container" border-variant="white">
+    <b-card v-if="pageReady" id="landing-page" class="background fill-body" border-variant="white">
        
-            <b-row class="mt-3">
-                <b-col>
-                    <span class="text-primary h2 ml-4">Apply to Represent Someone Who Died (also know as Probate)</span>
-                    <b-card border-variant="white">
-                        <p>Use this service to apply for a <tooltip :index="0" title='Representation Grant'/> from the Supreme Court of British Columbia.
-                             A Representation Grant is a court document that confirms you are the appropriate person to manage 
-                             the property, money and other belongings that a person left behind after they died. The collection 
-                             of <tooltip :index="0" title='assets'/> that a person left behind is call their <tooltip :index="0" title='estate'/>. 
-                        </p>
-
-                        <p>Representation Grant is an umbrella term that includes different types of grants. A Grant of Probate
-                             is a type of Representation Grant specifically for executors named in the Will. 
-                        </p>                      
-
-                        <b-list-group-item>
-                            <b-icon-credit-card variant="primary"/><b> Cost:</b>
-                            <ul>
-                                <li>This service is provided for free by the Government of British Columbia.
-                                </li>
-                                <li>This service will help you complete your <tooltip :index="0" title='application'/>
-                                </li>
-                                <li>Once your application is complete, there will usually be a $200 fee to file 
-                                    your application with the court. If the <tooltip :index="2" title='estate'/> is worth less than $25,000,
-                                    the application will be free to file.
-                                </li>
-                                <li>There will be costs for swearing or affirming the <tooltip :index="0" title='affidavit'/>s
-                                     you will need for the application. Each affidavit costs $40 to swear or affirm at a courthouse. 
-                                    An application usually has 3 or more affidavits.
-                                </li>
-                                <li>There will be <tooltip :index="0" title='probate fees'/> if the <tooltip :index="1" title='estate'/> is worth more than $25,000. 
-                                    This fee will be a percentage of the total value.
-                                </li>
-                            </ul>
-                        </b-list-group-item>
-                        <b-list-group-item >
-                            <b-icon-clock-history variant="primary"/><b> Time:</b>
-                            The average time that people spend using this service is 6 hours. Don't worry. You don't have to 
-                            complete this all at once. This service will save your progress so you can come back later.<br>
-                            The amount of time it will take you to complete your application will depend on:
-                            <ul>
-                                <li>If there is a <tooltip :index="0" title='Will'/>. </li>
-                                <li>How many people are involved</li>
-                                <li>How many belongings are involved</li>
-                            </ul>
-
-                        </b-list-group-item>
-                        <b-list-group-item>
-                            <b-icon-printer variant="primary"/><b> Print:</b>
-                            You will need a printer to print your application.
-                        </b-list-group-item>
-
+        <b-row class="mt-3">
+            <b-col>
+                <b-row class="h1 justify-content-center" style="color: black;">Represent Someone Who Died (also known as Probate)</b-row>
+                <b-card style="border: none; color: black;" bg-variant="transparent">
+                    
+                    <b-row class="h4 justify-content-center mb-5" style="margin-left: 25rem;margin-right: 25rem;">
+                        This service will help you fill out the court forms required to apply for a <tooltip class="ml-1" :index="0" title='Representation Grant'/> 
+                        from the Supreme Court of British Columbia when the deceased did not leave a will. 
+                    </b-row>
+                    
+                    <b-row class="mt-5 justify-content-center">
+                        <h3>How it Works?</h3>
+                    </b-row>
+                    
+                    <b-row style="margin-left: 15rem;margin-right: 15rem;" class="info-section mb-2">
                         
-                        <!-- <b-card border-variant="white" class="mt-3">
-                            <span class="text-primary h3">Filing Your Application</span>
-                            <p class="mt-3">You can use this service to file your application online. </p>
-                            <p>If there is a <tooltip :index="1" title='Will'/> and it is written on paper, you can still 
-                                file online. However, you need to mail the Will to a courthouse or file it in person.
+                        <b-col cols="6" style="padding: 1rem 1rem 0rem 2rem;">
+                            <p style="font-weight: bold; margin-bottom: 0;">Step 1: Pre-qualify Questions</p>
+                            <p class="mb-3">
+                                Answer qualifying questions to ensure that this service is appropriate for you to use. 
+                                Start by clicking New User – Let’s get started.
+                            </p>                            
+                            <p style="font-weight: bold; margin-bottom: 0;">Step 2: Register or Login</p>
+                            <p>
+                                You will need a Basic BCeID account. If you do not currently have a Basic BCeID account 
+                                you can register for one after completing Step 1.
                             </p>
-                            <p>You may also choose to print your application and file the whole package, including 
-                                the Will, in person at a courthouse.
+                        </b-col>
+                        <b-col cols="6" style="padding: 1rem 1rem 0rem 1rem;">
+                            <p style="font-weight: bold; margin-bottom: 0;">Step 3: Answer Questions</p>
+                            <p>
+                                Our secure online questionnaire uses your answers to fill out the court forms required. 
+                                You can save your work so you can proceed at your own pace, any time.
                             </p>
-                        </b-card>  -->
-                       
+                            <p style="font-weight: bold; margin-bottom: 0;">Step 4: Print Your Forms</p>
+                            <p>
+                                Once you're done with the questionnaire, you will need to print your court forms and 
+                                file them at your local 
+                                <a 
+                                    href="https://www2.gov.bc.ca/gov/content/justice/courthouse-services/courthouse-locations"
+                                    target="_blank">
+                                    Supreme Court registry
+                                </a>.
+                            </p>
+                        </b-col>                           
+                    </b-row>
 
+                    <b-card v-if="!isLoggedIn" style="border: none; margin-left: 25rem;margin-right: 25rem;" bg-variant="transparent">
+                        <b-row class="how-works-section my-4">
+                            <b-col style="padding: 0;"> 
+                                <b-row class="user-type justify-content-center">
+                                    New Users
+                                </b-row>
+                                <div class="row justify-content-center">                       
+                                    <a class="btn btn-primary text-white btn-lg register-button" style="padding-left: 4.5rem; padding-right: 4.5rem;" @click="navigate('new')">
+                                        Lets get started
+                                    </a>                        
+                                </div>
+                            </b-col>
 
-                        <b-card border-variant="white" v-if="!isLoggedIn">
-                            <b-row class="justify-content-center">
-                                <b-button variant="primary" size="lg" class="survey-button text-white" @click="navigate('new')">
-                                    <strong>New User</strong> - Let’s get started
-                                </b-button>
-                            </b-row>
-
-                            <b-row class="justify-content-center">
-                                <b-button variant="warning"  class="login-button text-primary" @click="navigate('returning')">
-                                    <strong>Returning User?</strong>
-                                    <br />Log in with BCeID
-                                 </b-button>
-                            </b-row>
-                        </b-card>
+                            <b-col style="padding: 0;">
+                                <b-row class="user-type">
+                                    Returning Users
+                                </b-row>
+                                <div class="row justify-content-center">
+                                    <a class="btn btn-primary btn-lg bg-warning login-button" @click="navigate('returning')">
+                                        Login with my <strong> Basic BCeID</strong>                                                                               
+                                    </a>
+                                </div>
+                            </b-col>
+                        </b-row>
                     </b-card>
-                </b-col>
-            </b-row>
+                </b-card>
+            </b-col>
+        </b-row>
 
     </b-card>
 </template>
@@ -154,10 +147,10 @@ export default class LandingPage extends Vue {
         color: $gov-white;
     } 
    
-    .survey-button {
+    .register-button {
         color: black;
         border: 2px solid rgba($gov-pale-grey, 0.3);
-        margin-top: 2.5rem;
+        margin-top: 1rem;
         &:hover,
         &:focus {
             color: rgb(247, 214, 126);
@@ -166,17 +159,69 @@ export default class LandingPage extends Vue {
             border: 2px solid rgba($gov-white, 0.8);
         }
     }
-    
-    .login-button {
+    .login-button {        
         color: black;
         margin-top: 1rem;
         border: 2px solid rgb(231, 231, 231);
         &:hover,
         &:focus {
             color: blue;
+            border-color: rgba(17, 60, 139, 0.904);
         }
         &:active {
             border: 2px solid rgba($gov-white, 0.8);
+        }
+    }
+
+    .wrap {
+        position: relative;
+    }
+
+    .background {
+        background-image: url('../../../public/images/legislature-dome.jpg');
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        opacity: 0.9;
+    }
+
+    .wrap:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        background-image: url('../../../public/images/legislature-dome.jpg');
+        background-size: cover;
+    }
+
+    .content  {
+        position: relative;
+    }
+
+    .info-section {
+        border: 2px solid rgba($gov-pale-grey, 0.8);
+        border-radius: 18px;
+        margin-top: 0.5rem;
+        background-color: rgba($gov-pale-grey, 0.5);
+        color: black;
+    }
+
+    .user-type {
+        justify-content: center;
+        font-weight: 700;
+        font-size: 24px;
+        color: rgba($gov-white, 1)
+    }
+
+    .how-works-section {
+        font-size: 18px;
+        p {
+            margin: 0 0 0 0;
         }
     }
 

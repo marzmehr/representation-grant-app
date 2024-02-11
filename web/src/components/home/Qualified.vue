@@ -17,9 +17,9 @@
                             <b-button 
                                 variant="success"                               
                                 class="survey-button text-white" 
-                                style="padding: 0.75rem 1rem; font-weight: bold; font-size: 15px;" 
+                                style="padding: 0.75rem 1rem; font-size: 15px;" 
                                 @click="navigate('new')">
-                                Create a new BCeID
+                                Register for a <b>Basic</b> BCeID
                             </b-button>
                         </b-row>                       
                     </b-card>
@@ -31,9 +31,9 @@
                             <b-button 
                                 variant="success"                                
                                 class="survey-button text-white" 
-                                style="padding: 0.75rem 1rem; font-weight: bold; font-size: 15px;" 
+                                style="padding: 0.75rem 1rem;font-size: 15px;" 
                                 @click="navigate('returning')">
-                                Use an existing BCeID
+                                Use an existing <b>Basic</b> BCeID
                             </b-button>
                         </b-row>                       
                     </b-card>                    
@@ -45,23 +45,19 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { namespace } from "vuex-class";   
-import "@/store/modules/application";
-const applicationState = namespace("Application");
+
+import { getBCEIDUrl } from "@/components/utils/utils";
 
 @Component
 export default class LandingPage extends Vue { 
     
-    @applicationState.Action
-    public UpdateUserType!: (newUserType) => void
     
   
-    public navigate(userType) {      
-
-        //this.UpdateUserType(userType);          
+    public navigate(userType) {
+            
         if (userType === "new") {
               //Register a BCeID
-              this.$router.push({ name: "surveys" });
+              window.location.replace(getBCEIDUrl());
         } else if (userType === "returning") {
               //Login BCeID
               this.$router.push({ name: "surveys" });
