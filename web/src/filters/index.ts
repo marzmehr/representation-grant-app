@@ -59,29 +59,29 @@ Vue.filter('getFullName',function(nameObject){
 })
 
 Vue.filter('getFullAddress',function(nameObject){
-	if (nameObject) {
-		return nameObject.street +
-			", " +
-			nameObject.city +
-			", " +
-			nameObject.state+
-			", " +
-			nameObject.country+
-			", " +
-			nameObject.postcode;
+
+	if (nameObject && Object.keys(nameObject).length) {
+		return 	(nameObject.street?(nameObject.street +", "):'') +
+				(nameObject.city?(nameObject.city +", "):'') +
+				(nameObject.state?(nameObject.state +", "):'') +
+				(nameObject.country?(nameObject.country +", "):'') +
+				(nameObject.postcode?(nameObject.postcode ):' ');
 	} else{
 		return " "
 	}
 })
 
 Vue.filter('getFullContactInfo',function(nameObject){
-	if (nameObject) {
-		return "Phone: " +
-			nameObject.phone +
-			", Email: " +
-			nameObject.email +
-			", Fax: " +
-			nameObject.fax;
+
+    const pre = "<div style='display:inline; color:#10669c'>"
+	const post = "</div>"
+	if (nameObject && Object.keys(nameObject).length) {
+		return pre+"Phone: "+post+
+			(nameObject.phone? nameObject.phone:' - ') +
+			" "+pre+"Email: "+post+
+			(nameObject.email? nameObject.email:' - ') +
+			" "+pre+"fax: "+post+
+			(nameObject.fax? nameObject.fax:' - ');			
 	} else{
 		return " "
 	}

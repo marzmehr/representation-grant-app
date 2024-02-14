@@ -3,6 +3,7 @@ import { Vue } from 'vue-property-decorator';
 import moment from 'moment-timezone';
 import { stepInfoType, pageInfoType, belongingsInfoType } from "@/types/Application";
 import { supportingDocumentInfoType } from "@/types/Common";
+import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
 
 @Module({
     namespaced: true
@@ -47,6 +48,8 @@ class Application extends VuexModule {
     public documentTypesJson = [];
     public supportingDocuments: supportingDocumentInfoType[] = [];
     public generatedForms: string[] = [];
+
+    public stPgNo = {} as stepsAndPagesNumberInfoType;
 
     @Mutation
     public init(): void {
