@@ -9,13 +9,17 @@
 
   "applicants": "An applicant is someone doing the work to get a Representation Grant.\n\n More than one applicant can work together to get a Representation Grant.\n\n A Representation Grant is a court document that confirms you are the appropriate person to manage the property, money and belongings that a person left behind after they died.",
 
+  "applicant(s)": "An applicant is someone doing the work to get a Representation Grant.\n\n More than one applicant can work together to get a Representation Grant.\n\n A Representation Grant is a court document that confirms you are the appropriate person to manage the property, money and belongings that a person left behind after they died.",
+  
   "application": "An application is the package of all the documents that you will need to file with the court to get a Representation Grant.\n\n This service will help you figure out which documents you will need.",
 
   "asset": "An asset can be any kind of belonging that a person owned, including property and money. The whole collection of these assets is called an estate.",
 
   "assets": "An asset can be any kind of belonging that a person owned, including property and money. The whole collection of these assets is called an estate.",
   
-  "certificate of death": "Placeholder for the definition. Talk about information it provides such as date of death etc",
+  "certificate of death":  "A Certificate of Death is a document from the Government of British Columbia that has information about when someone died.\n\n If someone died outside of British Columbia, the document may be called by something else but it will have the same purpose.",
+
+  "citation": "A citation is a document that forces you to quickly apply for a Representation Grant. If you do not apply quickly enough, it may result in you giving up your right to apply.",
 
   "court certified copy": "A Court Certified Copy is a document that is stamped and sealed by the Court. It is not a regular photocopy.\n\n Some organizations will accept a regular photocopy while other organizations will only accept a Court Certified Copy.\n\n AA Court Certified Copy costs $40 each. You will need to ask the organizations if they will accept a regular photocopy.",
 
@@ -39,9 +43,9 @@
 
   "mentally competent": "Mentally Competent means an adult who is generally able to make everyday decisions about their finances and their legal situations.\n\n If you are not sure if this person will be able to understand their legal rights, then it is better to be safe and select 'No' for this question.\n\n An adult who is not mentally competent cannot make their own financial or legal decisions. They need another adult to make these decisions for them.",
 
-  "other testamentary document": "An 'other testamentary document' is like a Will but is not complete under B.C. law. An 'other testamentary document' still explains how a person wants their property, money and belongings to be managed after they died; but it might be not be signed. For example:\n - unwitnessed Wills\n  - unfinished Wills (Google Docs notes)\n - email conversations\n - diary or journal entries\n - text messages\n  - notes on a napkin\n\n  Unwritten conversations (rumors or hearsay) do not count as 'other testamentary documents'.",
+  "other testamentary document": "An 'other testamentary document' is like a Will but is not complete under B.C. law. An 'other testamentary document' still explains how a person wants their property, money and belongings to be managed after they died; but it might be not be signed. For example:<ul><li>unwitnessed Wills</li><li>unfinished Wills (Google Docs notes)</li><li>email conversations</li><li>diary or journal entries</li><li>text messages</li><li>notes on a napkin</li><li>Unwritten conversations</li></ul> (rumors or hearsay) do not count as 'other testamentary documents'.",
 
-  "other testamentary documents": "An 'other testamentary document' is like a Will but is not complete under B.C. law. An 'other testamentary document' still explains how a person wants their property, money and belongings to be managed after they died; but it might be not be signed. For example:\n - unwitnessed Wills\n  - unfinished Wills (Google Docs notes)\n - email conversations\n - diary or journal entries\n - text messages\n  - notes on a napkin\n\n  Unwritten conversations (rumors or hearsay) do not count as 'other testamentary documents'.",
+  "other testamentary documents": "An 'other testamentary document' is like a Will but is not complete under B.C. law. An 'other testamentary document' still explains how a person wants their property, money and belongings to be managed after they died; but it might be not be signed. For example:<ul><li>unwitnessed Wills</li><li>unfinished Wills (Google Docs notes)</li><li>email conversations</li><li>diary or journal entries</li><li>text messages</li><li>notes on a napkin</li><li>Unwritten conversations</li></ul> (rumors or hearsay) do not count as 'other testamentary documents'.",
 
   "peace bond": "A peace bond is a protection order from criminal court. It is a list of conditions set by a judge to protect one person from another person. This usually means no visits to your home or workplace, no phone calls, emails, or letters, and no messages through a friend or relative.\n\n  [Click here for more information](https://www2.gov.bc.ca/gov/content/justice/criminal-justice/bcs-criminal-justice-system/if-you-are-convicted-of-a-crime/no-contact/peace-bond)",
 
@@ -53,14 +57,13 @@
 
   "probate fee": "The Probate Fee is part of the cost for confirming that you are the appropriate person to manage the belongings that a person left behind after they died.\n\n The Probate Fee will be less than 1.4% of the assets. There will be a Probate Fee calculator at the end of this service to tell you the total cost.\n\n [Click here for more information.](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/00_99004_01#section2) (This link opens in a new tab)",
 
-
-
-
   "protection order": "A Protection Order is a list of conditions set by a judge that a person must follow. This usually means no visits to your home or workplace, no phone calls, emails, or letters, and no messages through a friend or relative. If the person doesn't follow the conditions, they may face criminal charges.",
 
-  "representation grant": "<b>What is a “Representation Grant”?</b><br>A Representation Grant is issued by the court to confirm who will manage the property, money and belongings of the deceased.Sometimes institutions like banks will also require a representation grant (also sometimes called an estate grant). This is a document that says you have been legally proven to be the executor named in the will. ",
+  "representation grant": "<b>What is a “Representation Grant”?</b><br>A Representation Grant is issued by the court to confirm who will manage the property, money and belongings of the deceased. Sometimes institutions like banks will also require a representation grant (also sometimes called an estate grant). This is a document that says you have been legally proven to be the executor named in the will. ",
 
-  "spouse": "A spouse is someone who was married to {deceasedName} and they did not get a divorce.\n\n A spouse is also someone who was living together, for at least two years, in a marriage-like relationship with {decreasedName} and that relationship still continued until {deceasedName} died. This type of relationship is also known as a common-law marriage.",
+  "spouse": "A spouse is someone who was married (with a marriage certificate) to the person who died and they did not get a divorce. \n\n A spouse is also someone who was living together, for at least two years, in a marriage-like relationship with the person who died and that relationship still continued until the person died. This type of relationship is also known as a common-law marriage.",
+
+  "spouses": "A spouse is someone who was married (with a marriage certificate) to the person who died and they did not get a divorce. \n\n A spouse is also someone who was living together, for at least two years, in a marriage-like relationship with the person who died and that relationship still continued until the person died. This type of relationship is also known as a common-law marriage.",
 
   "unsafe": "When a family member makes you feel unsafe, this is called Family Violence. Family violence includes many things such as:\n - physical abuse (or attempted abuse)\n  - emotional or mental abuse (stalking, threats, intimidation or harassment)\n - sexual abuse (or attempted abuse)\n - denying food or other basic needs\n  - children being exposed to family violence\n\n  [Click here for more information for what counts as Family Violence](http://www.justice.gc.ca/eng/cj-jp/fv-vf/laws-lois.html).",
 

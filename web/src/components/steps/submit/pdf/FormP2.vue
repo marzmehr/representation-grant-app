@@ -321,7 +321,7 @@ export default class FormP2 extends Vue {
             
             if (deceasedInfoSurvey.deceasedFirstNations == 'y'){
                 this.deceasedFirstNations = true;
-                this.deceasedNisaga = deceasedInfoSurvey.deceasedFirstNationsName == "Nisga'a";
+                this.deceasedNisaga = deceasedInfoSurvey.deceasedFirstNationsName == "Nisg̱a'a Nation";
                 this.deceasedFirstNationsName = deceasedInfoSurvey.deceasedFirstNationsName;
 
             } else {

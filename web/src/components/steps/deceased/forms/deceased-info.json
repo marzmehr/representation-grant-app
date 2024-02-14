@@ -135,51 +135,18 @@
                "type": "panel",
                "name": "deceasedAddressPanel",
                "elements": [
-                  {
-                     "type": "address",
-                     "name": "deceasedAddress",
-                     "title": "What was {deceasedName}'s last known address?",
-                     "description": "If {deceasedName} was homeless:\n<ul>\n<li>write \"no fixed address\" for the street address</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
-                  },
-                  {
-                     "type": "helptext",
-                     "name": "deceasedAddressFAQ1",
-                     "visible": false,
-                     "title": "[obsolete unless the description version is too cumbersom/bulky] What if {deceasedName} was homeless?",
-                     "titleLocation": "hidden",
-                     "body": "If {deceasedName} was homeless, write \"no fixed address\" for the street number and street name. \n\nWrite the city/town, province and country where they lived.\n\nWrite \"n/a\" for their postal code."
-                  },
-                  {
-                     "type": "helptext",
-                     "name": "deceasedAddressFAQ2",
-                     "visible": false,
-                     "title": "[Obsolete?] \nWhat if {deceasedName} spent equal time in more than one place? [Add lawyer info]",
-                     "titleLocation": "hidden",
-                     "body": "If {deceased} spent equal in more than one place, choose the place where they had most of their financial and social connections.\n<br><br>\nIf you're still not sure which address you should choose, you may want to talk to a lawyer.\n<br><br>\nClick here to get lawyer info if you need to find one."
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question438",
-                     "title": "[Location triggered Explanation Obsolete here?? - Will questions determine which asset affidavit to use regardless of where the address is]\n<br><br>\nThis service can help you extend the powers of a `Representation Grant` from another place.\n<br><br>\nIt makes sense to first get a `Representation Grant` from where {deceasedName} spent most of their time. There may be benefits to getting grants in this order that a lawyer can explain to you. [link to lawyer info]\n<br><br>\nIf you don't already have a Representation Grant from the place where {deceasedName} spent most of their time, this service can still help you apply for a B.C. Representation Grant.  ",
-                     "titleLocation": "hidden",
-                     "visible": false
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question415",
-                     "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - PO Box</a>\n<br><br>TB Finished\n(pick either “Street number and street name:” or “Post office box:” the other options can be deleted)\n<br><br>Maybe irrelevant if the person can just write in PO Box in street number/name? But change label??",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error",
-                     "visible": false
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question332",
-                     "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-3X\" target=\"_blank\">JIRA ticket REPGRANT3X - Homeless postal code</a>\n<br><br>TB Finished\nIf the person had no fixed address, they don't have a postal code so validation needs to ignore that sometimes but validate most of the time.\n<br><br>\nInput mask? Probably not because we don't know postal codes around the world work.",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error",
-                     "visible": false
-                  }
+                    {
+                        "type": "address",
+                        "name": "deceasedAddress",
+                        "title": "What was {deceasedName}'s last known address?"
+                    },
+                    {
+                        "type": "helptext",
+                        "name": "deceasedAddressFAQ1",
+                        "title": "What if {deceasedName} was homeless?",
+                        "titleLocation": "hidden",
+                        "body": "If {deceasedName} was homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                    } 
                ],
                "visible": false,
                "visibleIf": "(!{invalidDateOfDeathError}) and {deceasedIntroExplanation} > 0"
@@ -191,31 +158,33 @@
                   {
                      "type": "yesno",
                      "name": "deceasedFirstNations",
-                     "title": "Was {deceasedName} a Nisga'a citizen or a member of a Treaty First Nation?",
-                     "description": "If yes, the Nation needs to know that {deceasedName} has died."
+                     "title": "Was {deceasedName} a Nisga'a citizen or a member of a Treaty First Nation in British Columbia?",
+                     "description": "If you are unsure which Nations are Treaty First Nations in British Columbia, select \"YES\" to see a list.",
+                     "isRequired": true
                   },
                   {
                      "type": "radiogroup",
                      "name": "deceasedFirstNationsName",
                      "visible": false,
                      "visibleIf": "{deceasedFirstNations} = \"y\"",
-                     "title": "Which Nation did {deceasedName} belong to? [was a member of? check with an Indigenous authority]",
-                     "choices": [
-                        "Nisga'a",
-                        "Huu-ay-aht",
-                        "Ka:'yu:'k't'h'/Chek'tles7et'h'",
-                        "Tla'amin",
-                        "Toquaht",
-                        "Tsawwassen",
-                        "Uchucklesaht",
-                        "Ucluelet"
-                     ]
+                     "title": "Which Nation in British Columbia was {deceasedName} a citizen/member of?",
+                    "description": "If {deceasedName} was a member of a Nation that is not in this list, go back to the last question and select \"NO\"",
+                    "choices": [
+                       "Huu-ay-aht First Nations",
+                       "Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht)",
+                       "Nisg̱a'a Nation",
+                       "Tla'amin Nation",
+                       "Toquaht Nation",
+                       "Tsawwassen First Nation",
+                       "Uchucklesaht Tribe",
+                       "Yuułuʔiłʔatḥ First Nation (Ucluelet)"
+                    ]
                   },
                   {
                      "type": "infotext",
                      "name": "deceasedFirstNationsNotifyExplanation",
                      "visible": false,
-                     "visibleIf": "{deceasedFirstNations} =\"y\" and {deceasedFirstNationsName} notempty",
+                     "visibleIf": "{deceasedFirstNations} ='y' and {deceasedFirstNationsName} notempty",
                      "title": "You will need to tell the {deceasedFirstNationsName} Nation that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will help you tell the {deceasedFirstNationsName} Nation in a later step.",
                      "isRequired": true,
                      "titleLocation": "hidden"
@@ -239,12 +208,12 @@
                   {
                      "type": "infotext",
                      "name": "deceasedExitExplanation",
-                     "title": "Next, this service will ask if {deceasedName} made any `Wills`\n",
+                     "title": "Next, this service will ask if {deceasedName} made any `Wills`",
                      "titleLocation": "hidden"
                   }
                ],
                "visible": false,
-               "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and (!{invalidDateOfDeathError}) and {deceasedAddress} notempty and (({deceasedFirstNations} = \"n\") or ({deceasedFirstNations} = \"y\" and {deceasedFirstNationsName} notempty and {deceasedFirstNationsNotifyExplanation} >0))"
+               "visibleIf": "{deceasedName} notempty and {deceasedDateOfDeath} notempty and (!{invalidDateOfDeathError}) and {deceasedAddress} notempty and (({deceasedFirstNations} = 'n') or ({deceasedFirstNations} = 'y' and {deceasedFirstNationsName} notempty and {deceasedFirstNationsNotifyExplanation} >0))"
             }
          ],
          "title": "Information about {deceasedName}"
