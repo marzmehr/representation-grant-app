@@ -1,3 +1,9 @@
+import { applicantSurveyInfoType } from "./Applicant";
+import { childCommonSurveyInfoType } from "./Children";
+import { deceasedInfoSurveyInfoType } from "./DeceasedInfo";
+import { deceasedWillSurveyInfoType } from "./DeceasedWill";
+import { spouseInfoSurveyInfoType } from "./Spouse";
+
 export interface applicationInfoType {   
     id?: string;
     type: string;
@@ -21,15 +27,15 @@ export interface applicationInfoType {
 
 export interface stepInfoType {
     id?: string;
+    name?: string;
     type: string;
     label: string;
     icon: string;
-    result: {};
-    metadata?: object;
+    result?: resultInfoType;    
     pages?: pageInfoType[];
-    currentPage: number;
+    currentPage?: number | string;
     active: boolean;
-    lastUpdate: Date;
+    lastUpdate?: Date | null;
   }
 
   export interface pageInfoType {
@@ -53,3 +59,20 @@ export interface stepInfoType {
     personalItem: any[];
   }
 
+  export interface resultInfoType {
+
+    //__Step 1 Deceased
+    deceasedInfoSurvey?: deceasedInfoSurveyInfoType;
+
+    //__Step 2 Will
+    deceasedWillSurvey?: deceasedWillSurveyInfoType;
+
+    //__Step 3 Related People
+    spouseExists?: string;
+    spouseSurvey?: spouseInfoSurveyInfoType;
+    spouseCompleted?: string;
+    childExists?: string;
+    childrenSurvey?: childCommonSurveyInfoType;
+    childCompleted?: string;
+    applicantSurvey?: applicantSurveyInfoType;
+  }

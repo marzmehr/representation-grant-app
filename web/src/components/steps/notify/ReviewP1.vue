@@ -172,7 +172,7 @@ export default class ReviewP1 extends Vue {
         }
 
         this.thisStep = this.currentStep;        
-        this.currentPage = this.steps[this.currentStep].currentPage;
+        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, this.reviewed?100:50, false);
     }
 

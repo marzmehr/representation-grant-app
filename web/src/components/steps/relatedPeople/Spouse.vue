@@ -39,9 +39,6 @@ export default class Spouse extends Vue {
     public spouseCompleted!: boolean;
 
     @applicationState.State
-    public childrenCompleted!: boolean;
-
-    @applicationState.State
     public relatedPeopleInfo!: any;
 
     @applicationState.State
@@ -125,7 +122,7 @@ export default class Spouse extends Vue {
             this.UpdateSpouseCompleted(false);
         }
 
-        if (this.spouseCompleted && this.childrenCompleted && this.relatedPeopleInfo.length>0) {
+        if (this.spouseCompleted && this.spouseCompleted && this.relatedPeopleInfo.length>0) {
             this.toggleSteps([3,8], true);            
         } else {
             this.toggleSteps([3, 4, 5, 6, 7, 8], false);
@@ -143,7 +140,8 @@ export default class Spouse extends Vue {
 
         this.thisStep = this.currentStep;
       
-        this.currentPage = this.steps[this.currentStep].currentPage;
+        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
+
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
@@ -170,13 +168,13 @@ export default class Spouse extends Vue {
             }                       
         }        
 
-        if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
-            const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
-            const childrenInfo = (childrenSurvey.data.child=='y'&& childrenSurvey.data.childInfoPanel)?childrenSurvey.data.childInfoPanel:[]
+        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
+            const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
+            const spouseInfo = (this.steps[2].result.spouseExists=='y'&& spouseSurvey.data)?spouseSurvey.data:[]
                 
-            for (const child of childrenInfo) {
-                if (child.childIsAlive == "y") {
-                    relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
+            for (const spouse of spouseInfo) {
+                if (spouse.spouseIsAlive == "y") {
+                    relatedPeopleInfo.push({relationShip: "spouse", name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
                 }                       
             }
         }

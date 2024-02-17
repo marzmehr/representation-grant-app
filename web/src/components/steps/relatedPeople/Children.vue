@@ -226,11 +226,11 @@ export default class Children extends Vue {
 
         this.thisStep = this.currentStep;
       
-        this.currentPage = this.steps[this.currentStep].currentPage;
+        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
 
         //console.log(this.steps[2].result['spouseSurvey'].data.spouseExists)
-        if(this.steps[2].result['spouseSurvey'].data.spouseExists == 'y'){
+        if(this.steps[2].result.childExists == 'y'){
             this.spouseExist = true;
         }else{
             this.spouseExist = false;
@@ -261,7 +261,7 @@ export default class Children extends Vue {
         if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
             const spouseSurvey = this.steps[2].result && this.steps[2].result["spouseSurvey"];
             //console.log(spouseSurvey)
-            const spouseInfo = (spouseSurvey.data.spouseExists =='y' && spouseSurvey.data.spouseInfoPanel)?spouseSurvey.data.spouseInfoPanel:[];
+            const spouseInfo = (this.steps[2].result.spouseExists =='y' && spouseSurvey.data)?spouseSurvey.data:[];
                    
             for (const spouse of spouseInfo) {
                 if (spouse.spouseIsAlive == "y") {

@@ -1,7 +1,7 @@
 <template>
   <step-base v-bind:step="step">
     <!-- <executors v-bind:step="step" v-if="step.currentPage == 0"></executors> -->
-    <spouse v-bind:step="step" v-if="step.currentPage == 0"></spouse>
+    <spouse-info v-bind:step="step" v-if="step.currentPage == 0"></spouse-info>
     <children v-bind:step="step" v-if="step.currentPage == 1"></children>
     <parents v-bind:step="step" v-if="step.currentPage == 2"></parents>
     <grand-children v-bind:step="step" v-if="step.currentPage == 3"></grand-children>
@@ -17,7 +17,7 @@ import { Component, Vue, Prop} from 'vue-property-decorator';
 import StepBase from "../StepBase.vue";
 import { stepInfoType } from "@/types/Application";
 import Executors from "./Executors.vue";
-import Spouse from "./Spouse.vue";
+import SpouseInfo from "./spouseComponent/SpouseInfo.vue";
 import Children from "./Children.vue";
 import Parents from "./Parents.vue";
 import GrandChildren from "./GrandChildren.vue";
@@ -30,7 +30,7 @@ import Creditors from "./Creditors.vue";
     components:{
         StepBase,
         Executors,
-        Spouse,
+        SpouseInfo,
         Children,
         Parents,
         GrandChildren,

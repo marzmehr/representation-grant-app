@@ -1,0 +1,580 @@
+{
+   "title": "Spouse(s) Information",
+   "pages": [
+        {
+            "name": "spousePage",
+            "elements":  [
+                {
+                    "type": "text",
+                    "name": "spouseName",
+                    "title": "What is the full name of {deceasedName}'s spouse?",
+                    "description": "Use the name as it appears on their primary identification (if you can get it).<br><br>This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                    "defaultValue": "(the person who died's spouse)",
+                    "correctAnswer": "(the person who died's spouse)",
+                    "isRequired": true,
+                    "defaultSubstitution": "(the person who died's spouse)"
+                },
+                {
+                    "type": "yesno",
+                    "name": "spouseIsAlive",
+                    "title": "Is {spouseName} alive?",
+                    "isRequired": true
+                },
+                {
+                    "type": "helptext",
+                    "name": "spouseIsAliveFAQ1",
+                    "title": "What if {spouseName} is on life support?",
+                    "titleLocation": "hidden",
+                    "body": "{spouseName} is considered alive."
+                },
+                {
+                    "type": "yesno",
+                    "name": "spouseIsAdult",
+                    "visible": false,
+                    "visibleIf": "{spouseIsAlive} = 'y'",
+                    "title": "Is {spouseName} 19 or older?",
+                    "isRequired": true
+                },
+                {
+                    "type": "infotext",
+                    "name": "spouseIsAdultNoExplanation",
+                    "visible": false,
+                    "visibleIf": "{spouseIsAlive} = 'y' and {spouseIsAdult} = 'n'",
+                    "title": "Because {spouseName} is under the age of 19, {spouseName}'s parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant. This service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {spouseName}.",
+                    "titleLocation": "hidden",
+                    "isRequired": true,
+                    "requiredErrorText": "Please press Continue"
+                },
+                {
+                    "type": "panel",
+                    "name": "SpouseAliveMinorPanel",
+                    "elements":[
+                        {
+                            "type": "text",
+                            "inputType": "date",
+                            "name": "spouseIsAdultNoDOB",                            
+                            "title": "When was {spouseName} born?",
+                            "isRequired": true,
+                            "dateYearsAhead": 0,
+                            "dateYearsBehind": 19
+                        },
+                        {
+                            "type": "address",
+                            "name": "spouseIsAdultNoResidentialAddress",                            
+                            "title": "Where does {spouseName} live?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "spouseIsAdultNoResidentialAddressFAQ1",                            
+                            "title": "What if {spouseName} is homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If {spouseName} was homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseIsAdultNoResidentialReceiveMail",                            
+                            "title": "Does {spouseName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseIsAdultNoHasMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsAdultNoResidentialReceiveMail} = 'n'",
+                            "title": "Does {spouseName} have a different address where they receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "spouseIsAdultNoMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsAdultNoResidentialReceiveMail} = 'n' and {spouseIsAdultNoHasMailingAddress} = 'y'",
+                            "title": "Where does {spouseName} receive mail?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseIsAdultNoEmail",                            
+                            "title": "Does {spouseName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseIsAdultNoEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsAdultNoEmail} = 'y'",
+                            "title": "What is {spouseName}'s email address?",
+                            "isRequired": true,
+                            "inputType": "email"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseIsAdultNoFax",                            
+                            "title": "Does {spouseName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseIsAdultNoFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{spouseIsAdultNoFax} = 'y'",
+                            "title": "What is {spouseName}'s fax number?",
+                            "isRequired": true,
+                            "inputType": "tel"
+                        },            
+                        {
+                            "type": "yesno",
+                            "name": "spouseHasGuardian",                            
+                            "title": "Does {spouseName} have a parent (who is alive) or a legal guardian (who is alive)?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "spouseHasGuardianNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'n'",
+                            "title": "Because {spouseName} is under the age of 19, but they do not have a parent or guardian, you need to let {spouseName} know directly that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseGuardianName",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y'",
+                            "title": "Please enter the full name of a parent or guardian (who is currently alive) for {spouseName}:",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "spouseGuardianResidentialAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y'",
+                            "title": "Where does {spouseGuardianName} live?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "spouseGuardianResidentialAddressFAQ1",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y'",
+                            "title": "What if {spouseGuardianName} is homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If {spouseGuardianName} was homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseGuardianResidentialReceiveMail",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y'",
+                            "title": "Does {spouseGuardianName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseGuardianHasMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y' and {spouseGuardianResidentialReceiveMail} = 'n'",
+                            "title": "Does {spouseGuardianName} have a different address where they receive mail?"
+                        },
+                        {
+                            "type": "address",
+                            "name": "spouseGuardianMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y' and {spouseGuardianResidentialReceiveMail} = 'n' and {spouseGuardianHasMailingAddress} = 'y'",
+                            "title": "Where does {spouseGuardianName} receive mail?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseGuardianEmail",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y'",
+                            "title": "Does {spouseGuardianName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseGuardianEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y' and {spouseGuardianEmail} = 'y'",
+                            "title": "What is {spouseGuardianName}'s email address?",
+                            "isRequired": true,
+                            "inputType": "email",
+                            "inputMask": "email"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseGuardianFax",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y'",
+                            "title": "Does {spouseGuardianName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseGuardianFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{spouseHasGuardian} = 'y' and {spouseGuardianFax} = 'y'",
+                            "title": "What is {spouseGuardianName}'s fax number?",
+                            "isRequired": true
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{spouseIsAlive} = 'y' and {spouseIsAdult} = 'n' and {spouseIsAdultNoExplanation} > 0"
+                },
+                {
+                    "type": "panel",
+                    "name": "SpouseAliveAdultPanel",
+                    "elements": [
+                        {
+                            "type": "yesno",
+                            "name": "spouseIsCompetent",                            
+                            "title": "Is {spouseName} `mentally competent`?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "spouseIsCompetentNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n'",
+                            "title": "Because {spouseName} is not `mentally competent`, {spouseName}'s `nominee` (if they have one) needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {spouseName}.\n",
+                            "titleLocation": "hidden",
+                            "isRequired": true,
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "text",
+                            "inputType": "date",
+                            "name": "spouseIsCompetentNoDOB",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoExplanation} > 0",
+                            "title": "When was {spouseName} born?",
+                            "isRequired": true,
+                            "dateYearsBehind": "150",
+                            "dateYearsAhead": "0"
+                        },
+                        {
+                            "type": "address",
+                            "name": "spouseIsCompetentNoResidentialAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoExplanation} > 0",
+                            "title": "Where does {spouseName} live?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "spouseIsCompetentNoResidentialAddressFAQ1",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoExplanation} > 0",
+                            "title": "What if {spouseName} is homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If {spouseName} was homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseIsCompetentNoResidentialReceiveMail",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoExplanation} > 0",
+                            "title": "Does {spouseName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseIsCompetentNoHasMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoResidentialReceiveMail} = 'n'",
+                            "title": "Does {spouseName} have a different address where they receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "spouseIsCompetentNoMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoResidentialReceiveMail} = 'n' and {spouseIsCompetentNoHasMailingAddress} = 'y'",
+                            "title": "Where does {spouseName} receive mail?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseIsCompetentNoEmail",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoExplanation} > 0",
+                            "title": "Does {spouseName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseIsCompetentNoEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoEmail} = 'y'",
+                            "title": "What is {spouseName}'s email address?",
+                            "isRequired": true,
+                            "inputType": "email"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseIsCompetentNoFax",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoExplanation} > 0",
+                            "title": "Does {spouseName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseIsCompetentNoFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoFax} = 'y'",
+                            "title": "What is {spouseName}'s fax number?",
+                            "isRequired": true,
+                            "inputType": "tel"
+                        },                
+                        {
+                            "type": "yesno",
+                            "name": "spouseHasNominee",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseIsCompetentNoExplanation} > 0",
+                            "title": "Is there someone who helps {spouseName} manage their money and legal decisions?",
+                            "description": "This person would be considered {spouseName}'s `Nominee`. If {spouseName}'s Nominee is not alive anymore, select \"NO\".",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "spouseHasNomineeNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'n'",
+                            "title": "Because {spouseName} is not `mentally competent`, but they do not have a `nominee`, you need to let {spouseName} know directly that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseNomineeName",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y'",
+                            "title": "What is the name of the person who helps {spouseName} manage their money and legal decisions?",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseNomineeFormal",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y'",
+                            "title": "Was {spouseNomineeName} formally appointed to help {spouseName} manage their money and legal decisions?",
+                            "description": "These are the ways someone can be formally appointed.\n<ul>\n<li>\n{spouseName} could have signed a document that gave someone else the power of attorney using the Power of Attorney Act,\n</li>\n<li>\n{spouseName} could have signed a document that appointed someone as a representative using the Representation Agreement Act, or\n</li>\n<li>\na person can be appointed by the Court using the Patients Property Act,\n</li>\n<li>\na person could have been appointed either the Minister of Aboriginal Affairs and Northern Development or by the Court using the Indian Act\n</li>\n</ul>",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "spouseNomineeFormalYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and {spouseNomineeFormal} = 'y'",
+                            "title": "The Public Guardian and Trustee (PGT) will need a copy of the legal document that proves that {spouseNomineeName} was formally appointed as {spouseName}'s `nominee`. \n<br><br>\nYou can get a head start by asking {spouseNomineeName} for that document now, or, you can wait for this service to remind you in a later step.\n<br><br>\nFor now, please continue answering questions about {spouseNomineeName}.\n",
+                            "titleLocation": "hidden",
+                            "isRequired": true,
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "spouseNomineeFormalNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and {spouseNomineeFormal} = 'n'",
+                            "title": "Even if {spouseNomineeName} was not formally appointed to help {spouseName}, it is still best to let both {spouseNomineeName} and {spouseName} know that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {spouseNomineeName}.\n",
+                            "titleLocation": "hidden",
+                            "isRequired": true,
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "address",
+                            "name": "spouseNomineeResidentialAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and (({spouseNomineeFormal} = 'n' and {spouseNomineeFormalNoExplanation} > 0) or ({spouseNomineeFormal} = 'y' and {spouseNomineeFormalYesExplanation} > 0))",
+                            "title": "Where does {spouseNomineeName} live?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "spouseNomineeResidentialAddressFAQ1",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and (({spouseNomineeFormal} = 'n' and {spouseNomineeFormalNoExplanation} > 0) or ({spouseNomineeFormal} = 'y' and {spouseNomineeFormalYesExplanation} > 0))",
+                            "title": "What if {spouseNomineeName} is homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If {spouseNomineeName} was homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseNomineeResidentialReceiveMail",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and (({spouseNomineeFormal} = 'n' and {spouseNomineeFormalNoExplanation} > 0) or ({spouseNomineeFormal} = 'y' and {spouseNomineeFormalYesExplanation} > 0))",
+                            "title": "Does {spouseNomineeName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseNomineeHasMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and (({spouseNomineeFormal} = 'n' and {spouseNomineeFormalNoExplanation} > 0) or ({spouseNomineeFormal} = 'y' and {spouseNomineeFormalYesExplanation} > 0)) and {spouseNomineeResidentialReceiveMail} = 'n'",
+                            "title": "Does {spouseNomineeName} have a different address where they receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "spouseNomineeMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and (({spouseNomineeFormal} = 'n' and {spouseNomineeFormalNoExplanation} > 0) or ({spouseNomineeFormal} = 'y' and {spouseNomineeFormalYesExplanation} > 0)) and {spouseNomineeResidentialReceiveMail} = 'n' and {spouseNomineeHasMailingAddress} = 'y'",
+                            "title": "Where does {spouseNomineeName} receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseNomineeEmail",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and (({spouseNomineeFormal} = 'n' and {spouseNomineeFormalNoExplanation} > 0) or ({spouseNomineeFormal} = 'y' and {spouseNomineeFormalYesExplanation} > 0))",
+                            "title": "Does {spouseNomineeName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseNomineeEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and (({spouseNomineeFormal} = 'n' and {spouseNomineeFormalNoExplanation} > 0) or ({spouseNomineeFormal} = 'y' and {spouseNomineeFormalYesExplanation} > 0)) and {spouseNomineeEmail} = 'y'",
+                            "title": "What is {spouseNomineeName}'s email address?",
+                            "isRequired": true,
+                            "inputType": "email"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "spouseNomineeFax",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and (({spouseNomineeFormal} = 'n' and {spouseNomineeFormalNoExplanation} > 0) or ({spouseNomineeFormal} = 'y' and {spouseNomineeFormalYesExplanation} > 0))",
+                            "title": "Does {spouseNomineeName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "spouseNomineeFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{spouseIsCompetent} = 'n' and {spouseHasNominee} = 'y' and (({spouseNomineeFormal} = 'n' and {spouseNomineeFormalNoExplanation} > 0) or ({spouseNomineeFormal} = 'y' and {spouseNomineeFormalYesExplanation} > 0)) and {spouseNomineeFax} = 'y'",
+                            "title": "What is {spouseNomineeName}'s fax number?",
+                            "isRequired": true
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{spouseIsAlive} = 'y' and {spouseIsAdult} = 'y'"
+                },  
+                {
+                    "type": "panel",
+                    "name": "SpouseAliveAdultPanel",
+                    "elements":[
+                        {
+                            "type": "yesno",
+                            "name": "spouseDied5DaysAfter",                            
+                            "title": "Did {spouseName} die after {deceasedDateOfDeathPlus4}?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "spouseDiedAfterFAQ1",                            
+                            "title": "Why does this date matter?",
+                            "titleLocation": "hidden",
+                            "body": "Under the law, in order for {spouseName} to qualify for {deceasedName}'s `assets`, {spouseName} must have lived for at least 5 days after {deceasedName} died. Once {spouseName} has qualified, it doesn't matter if {spouseName} is now dead.\n<br><br>\nThe people managing {spouseName}'s belongings need to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section10\" target=\"_blank\">For more information, click here for the Five-day survival rule from the  <i>Wills, Estate and Succession Act</i> (WESA).</a> (This link opens in a new tab)"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "spouseDiedAfterNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{spouseDiedAfter} = 'n'",
+                            "title": "Because {spouseName} died before {deceasedDateOfDeathPlus4}, the people managing {spouseName}'s belongings do not need to know that you are applying for a `Representation Grant` for {deceasedName}.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "spouseDiedAfterYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{spouseDiedAfter} = 'y'",
+                            "title": "Because {spouseName} has died after {deceasedDateOfDeathPlus4}, {spouseName}'s `personal representative` needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nIt is your responsibility to check with {spouseName}'s family and friends to find out who is {spouseName}'s personal representative.\n<br><br>\nIf you find out that {spouseName} does not have a personal representative, this service will help you tell that to The Court.\n",
+                            "titleLocation": "hidden",
+                            "isRequired": true,
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "radiogroup",
+                            "name": "spouseHasPersonalRep",
+                            "visible": false,
+                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseDiedAfterYesExplanation} > 0",
+                            "title": "Do you know if {spouseName} has a `personal representative`?",
+                            "description": "If {spouseName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {spouseName}. \n<br><br>\nIf someone is planning on becoming {spouseName}'s personal representative but hasn't done so yet, it is safer for you to include them as {spousePersonName}'s personal representative.",
+                            "isRequired": true,
+                            "choices": [
+                                {
+                                    "value": "y",
+                                    "text": "I know {spouseName} <b>has</b> a personal representative"
+                                },
+                                {
+                                    "value": "n",
+                                    "text": "I know {spouseName} <b>does NOT have</b> a personal representative"
+                                },
+                                {
+                                    "value": "dk",
+                                    "text": "I <b>don't know</b> if {spouseName} has a personal representative"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "text",
+                            "name": "spousePersonalRepName",
+                            "visible": false,
+                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseHasPersonalRep} = 'y'",
+                            "title": "What is the name of {spouseName}'s `personal representative`",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "spouseHasPersonalRepYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseHasPersonalRep} = 'y'  and {spousePersonalRepName} notempty",
+                            "title": "Because {spouseName} died after {deceasedDateOfDeathPlus4}, {spousePersonalRepName} needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },            
+                        {
+                            "type": "infotext",
+                            "name": "spouseHasPersonalRepNoTempError",
+                            "visible": false,
+                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseHasPersonalRep} = 'n'",
+                            "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a Representation Grant.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue",
+                            "messageStyle": "error"
+                        },                        
+                        {
+                            "type": "infotext",
+                            "name": "spouseHasPersonalRepDKError",
+                            "visible": false,
+                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseHasPersonalRep} = 'dk'",
+                            "title": "Because you are not sure if {spouseName} has a personal representative, you may want to check with as many of {spouseName}'s family and friends as you can find.<br><br>If {spouseName}'s family or friends do not know if {spouseName} has a personal representative, one option may be hiring a professional investigator to try and find out for sure.<br><br>Examples of professional investigators include private investigators, heir tracers and other similar services.<br><br>For transparency of your application, you want to show the court all efforts made to find out whether {spouseName} has a personal representative. The Court will ultimately decide whether sufficient effort has been made to find this information.",
+                            "titleLocation": "hidden",                
+                            "messageStyle": "error"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{spouseIsAlive} = 'n'"
+                }                    
+
+            ]
+        }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}

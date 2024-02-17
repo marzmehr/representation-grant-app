@@ -925,16 +925,16 @@ class Application extends VuexModule {
     public loadSpouseInfo(): void{
         if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
             const spouseSurvey = this.steps[2].result["spouseSurvey"];
-            const spouseInfo = (spouseSurvey.data.spouseExists=='y' && spouseSurvey.data.spouseInfoPanel)? spouseSurvey.data.spouseInfoPanel:[];    
+            const spouseInfo = (this.steps[2].result.spouseExists=='y' && spouseSurvey.data)? spouseSurvey.data:[];    
             for (const spouse of spouseInfo) {
                 if (spouse.spouseIsAlive == "y") {
                     this.relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
                 }                       
             }
             
-            if (spouseSurvey.data && spouseSurvey.data.spouseExists == "n") {
+            if (spouseSurvey.data && this.steps[2].result.spouseExists == "n") {
                 this.spouseCompleted = true;
-            } else if (spouseSurvey.data.spouseCompleted && spouseSurvey.data.spouseCompleted == "y") {
+            } else if (this.steps[2].result.spouseCompleted && this.steps[2].result.spouseCompleted == "y") {
                 this.spouseCompleted = true;
             } else {
                 this.spouseCompleted = false;
@@ -945,7 +945,7 @@ class Application extends VuexModule {
     public loadChildrenInfo(): void{
         if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
             const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
-            const childrenInfo = (childrenSurvey.data.child=='y'&& childrenSurvey.data.childInfoPanel)? childrenSurvey.data.childInfoPanel:[]
+            const childrenInfo = (this.steps[2].result.childExists=='y'&& childrenSurvey.data)? childrenSurvey.data:[]
             const deceasedChildren = [];        
             for (const child of childrenInfo) {
                 if (child.childIsAlive == "n"           && 
@@ -962,10 +962,10 @@ class Application extends VuexModule {
                 this.deceasedChildrenInfo = [];
             }
 
-            if (childrenSurvey.data.child) {
-                if (childrenSurvey.data.child == "n") {
+            if (this.steps[2].result.childExists) {
+                if (this.steps[2].result.childExists == "n") {
                     this.childrenCompleted = true;
-                }else if (childrenSurvey.data.childCompleted && childrenSurvey.data.childCompleted == "y") {
+                }else if (this.steps[2].result.childCompleted && this.steps[2].result.childCompleted == "y") {
                     this.childrenCompleted = true;
                 } else {
                     this.childrenCompleted = false;
@@ -1142,13 +1142,13 @@ class Application extends VuexModule {
 
     get getPrevStepPage(): { prevStep: number; prevPage: number } {
 
-        let prevStepPage: { prevStep: number; prevPage: number };
-        let sIndex = this.currentStep;
-        let pIndex = this.steps[sIndex].currentPage - 1;
-
+        let prevStepPage: { prevStep: number; prevPage: number };    
+        let sIndex = Number(this.currentStep);
+        let pIndex = Number(this.steps[sIndex].currentPage) - 1;
+    
         while (prevStepPage == null && sIndex >= 0) {
             const s = this.steps[sIndex];
-
+        
             if (s.active) {
                 while (prevStepPage == null && pIndex >= 0) {
                     if (s.pages[pIndex].active) {
@@ -1158,30 +1158,27 @@ class Application extends VuexModule {
                     }
                 }
             }
-
+        
             // go to previous step
             sIndex--;
-
+        
             if (sIndex >= 0) {
                 pIndex = this.steps[sIndex].pages.length - 1;
             }
         }
-
+    
         return prevStepPage;
     }
 
-
-
     get getNextStepPage(): { nextStep: number; nextPage: number } {
 
-        //console.log("nextStep")
-
-        let nextStepPage: { nextStep: number; nextPage: number };
-        let sIndex = this.currentStep;
-        let pIndex = this.steps[sIndex].currentPage + 1;
+        let nextStepPage: { nextStep: number; nextPage: number };    
+        let sIndex = Number(this.currentStep);       
+        let pIndex = Number(this.steps[sIndex].currentPage) + 1;
+        
         while (nextStepPage == null && sIndex < this.steps.length) {
             const s = this.steps[sIndex];
-
+        
             if (s.active) {
                 while (nextStepPage == null && pIndex < s.pages.length) {
                     if (s.pages[pIndex] && s.pages[pIndex].active) {
@@ -1191,18 +1188,17 @@ class Application extends VuexModule {
                     }
                 }
             }
-
+    
             // go to next step
             sIndex++;
-
+    
             if (sIndex < this.steps.length) {
                 pIndex = 0;
             }
         }
-        //console.log(nextStepPage)
+
         return nextStepPage;
     }
-
 }
 
 export default Application

@@ -55,35 +55,7 @@
                ],
                "visible": false,
                "visibleIf": "{deceasedIntroExplanation} > 0"
-            },
-            {
-               "type": "panel",
-               "name": "nicknamePanel",
-               "elements": [
-                  {
-                     "type": "yesno",
-                     "name": "deceasedNameReplace",
-                     "title": "This service will ask a lot of questions using the full name of the person who died: \"{deceasedName}\".\n<br><br>\nWould you like this service to show you a more familiar name instead?",
-                     "description": "This familiar name is only used to personalize your experience with this service. It will not appear on the actual `Representation Grant`."
-                  },
-                  {
-                     "type": "text",
-                     "name": "deceasedNickname",
-                     "visible": false,
-                     "visibleIf": "{deceasedNameReplace} = \"y\"",
-                     "title": "What name would you like to see instead of \"{deceasedName}\"?",
-                     "description": "You can choose any name you like. For example, \"your husband\" or \"Uncle Jesse\" or \"Cousin Stavros\". \n<br><br>\nYou can always come back to change this name at any time."
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "jiraRepgrant29",
-                     "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-29\" target=\"_blank\">JIRA ticket REPGRANT-29 - Deceased Nickname Substitution</a>",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error"
-                  }
-               ],
-               "visible": false
-            },
+            },            
             {
                "type": "panel",
                "name": "deceasedDateOfDeathPanel",
@@ -111,21 +83,6 @@
                      "title": "How do I get a `Certificate of Death`",
                      "titleLocation": "hidden",
                      "body": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. You can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\" target=\"_blank\">Click here for more information from the Government of British Columbia's website.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of British Columbia but still inside of Canada, you must get a Certificate of Death from the province or territory where they died. \n<br><br>\n<a href=\"https://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\" target=\"_blank\">Click here for other Vital Statistics Agencies in Canada.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. "
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question412",
-                     "title": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. You can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\" target=\"_blank\">Click here for more information from the Government of British Columbia's website.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of British Columbia but still inside of Canada, you must get a Certificate of Death from the province or territory where they died. \n<br><br>\n<a href=\"https://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\" target=\"_blank\">Click here for other Vital Statistics Agencies in Canada.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. \n",
-                     "titleLocation": "hidden",
-                     "visible": false
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "jiraRepgrant32",
-                     "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-32\" target=\"_blank\">JIRA ticket REPGRANT32 - Deceased Death Data as Validation</a>",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error",
-                     "visible": false
                   }
                ],
                "visible": false,
@@ -188,14 +145,6 @@
                      "title": "You will need to tell the {deceasedFirstNationsName} Nation that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will help you tell the {deceasedFirstNationsName} Nation in a later step.",
                      "isRequired": true,
                      "titleLocation": "hidden"
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "question13",
-                     "visible": false,
-                     "title": "double check that the variable substitution from {deceasedFirstNationsName} updates in real-time in the deployed version for {deceasedFirstNationsNotifyExplanation}",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error"
                   }
                ],
                "visible": false,
