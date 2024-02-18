@@ -1,5 +1,5 @@
 <template>
-    <page-base :disableNext="disableNextButton" v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
+    <page-base :disableNext="disableNextButton" v-on:onPrev="onPrev()" v-on:onNext="onNext()">
         <survey v-bind:survey="survey"></survey>
     </page-base>
 </template>
@@ -13,9 +13,11 @@ import * as surveyEnv from "@/components/survey/survey-glossary"
 
 import PageBase from "../PageBase.vue";
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
+import { togglePages, toggleStep } from '@/components/utils/TogglePages';
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
+import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
 const applicationState = namespace("Application");
 
 @Component({
@@ -30,19 +32,14 @@ export default class DeceasedInfo extends Vue {
     step!: stepInfoType;
 
     @applicationState.State
-    public steps!: stepInfoType[];
+    public stPgNo!: stepsAndPagesNumberInfoType;
 
     @applicationState.State
-    public currentStep!: number;
+    public steps!: stepInfoType[];
 
     @applicationState.State
     public deceasedName!: string;
 
-    @applicationState.Action
-    public UpdateGotoPrevStepPage!: () => void
-
-    @applicationState.Action
-    public UpdateGotoNextStepPage!: () => void
 
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
@@ -69,11 +66,12 @@ export default class DeceasedInfo extends Vue {
     public UpdateGeneratedForms!: (newGeneratedForms) => void
 
     survey = new SurveyVue.Model(surveyJson);
+    currentStep =0;
+    currentPage =0;
+
     disableNextButton = false;   
-    currentPage=0;
     earliestDeathDate = "";
     today = "";
-    thisStep = 0;
 
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -89,7 +87,7 @@ export default class DeceasedInfo extends Vue {
 
     created() {
         this.disableNextButton = false;
-        if (this.step.result && this.step.result['deceasedInfoSurvey']) { 
+        if (this.step.result?.informationAboutDeceasedSurvey) { 
             this.disableNextButton = false;           
         }
     }
@@ -110,6 +108,10 @@ export default class DeceasedInfo extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
+            
+            if(this.survey.data.deceasedIntroExplanation == true){
+                toggleStep(this.stPgNo.WILL._StepNo, true)
+            }
 
             console.log(options)
             //console.log(this.steps[4].result['reviewP1Survey'].data.p1ReviewInfoCorrect)
@@ -148,60 +150,31 @@ export default class DeceasedInfo extends Vue {
 
     public reloadPageInformation() {
         //console.log(this.step.result)
+        this.currentStep = this.$store.state.Application.currentStep;        
+        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
+
         this.earliestDeathDate = moment("2014-03-30").format();
         this.today = moment().format();
 
-        if (this.step.result && this.step.result["deceasedInfoSurvey"]){
-            this.survey.data = this.step.result["deceasedInfoSurvey"].data;
+        if (this.step.result?.informationAboutDeceasedSurvey){
+            this.survey.data = this.step.result.informationAboutDeceasedSurvey.data;
+            Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);
         }
         
-        this.thisStep = this.currentStep;
-        
-        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);        
-        
-   }
-
-    public activateStep(stepActive) {
-        this.UpdateStepActive( {
-            currentStep: 0,
-            active: stepActive
-        });
     }
 
 
-    public togglePages(pageArr, activeIndicator) {
-        this.activateStep(activeIndicator);
-        for (let i = 0; i < pageArr.length; i++) {
-            this.UpdatePageActive({
-                currentStep: 0,
-                currentPage: pageArr[i],
-                active: activeIndicator
-            });
-        }
-    }
-
-    public toggleStep(step, active) {
-        this.UpdateStepActive({
-            currentStep: step,
-            active: active
-        });
-    }
 
     public onPrev() {
-        this.UpdateGotoPrevStepPage()
+        Vue.prototype.$UpdateGotoPrevStepPage()
     }
 
     public onNext() {
-        //if(!this.survey.isCurrentPageHasErrors) {
-        if(this.survey.data.deceasedIntroExplanation == true)    
-            this.UpdateGotoNextStepPage()
-        //}
+        if(!this.survey.isCurrentPageHasErrors)    
+            Vue.prototype.$UpdateGotoNextStepPage()
     }
     
-    public onComplete() {
-        this.UpdateAllCompleted(true);
-    }
 
     public isDisableNext() {
         // demo
@@ -214,11 +187,8 @@ export default class DeceasedInfo extends Vue {
     }    
 
     beforeDestroy() {
-
-        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
-       
-        this.UpdateStepResultData({step:this.step, data: {deceasedInfoSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
-
+        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);       
+        this.UpdateStepResultData({step:this.step, data: {informationAboutDeceasedSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}});
     }
 };
 </script>

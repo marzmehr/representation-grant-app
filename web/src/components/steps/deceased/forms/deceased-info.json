@@ -80,7 +80,7 @@
                   {
                      "type": "helptext",
                      "name": "deceasedDateOfDeathFAQ1",
-                     "title": "How do I get a `Certificate of Death`",
+                     "title": "How do I get a Certificate of Death",
                      "titleLocation": "hidden",
                      "body": "A `Certificate of Death` comes from the place where {deceasedName} died.\n<br><br>\nIf {deceasedName} died in British Columbia, their Certificate of Death comes from the Vital Statistics Agency of British Columbia. You can get a Certificate of Death directly from Vital Statistics or you can ask a funeral home to get a Certificate of Death for you.\n<br><br>\n<a href=\"https://www2.gov.bc.ca/gov/content/life-events/death/death-certificates\" target=\"_blank\">Click here for more information from the Government of British Columbia's website.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of British Columbia but still inside of Canada, you must get a Certificate of Death from the province or territory where they died. \n<br><br>\n<a href=\"https://www.statcan.gc.ca/eng/about/relevant/vscc/organisations\" target=\"_blank\">Click here for other Vital Statistics Agencies in Canada.</a> (This link opens in a new tab)\n<br><br>\nIf {deceasedName} died outside of Canada, you must get a Certificate of Death from the state or country where they died. "
                   }

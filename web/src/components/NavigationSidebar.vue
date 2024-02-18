@@ -100,13 +100,13 @@ export default class NavigationSidebar extends Vue {
     error = "";
     updateSidebar = 0;   
 
-    public  onSelectStep(event) {
+    public onSelectStep(event) {
       
         const next = event.currentTarget;
         const nextIndex = parseInt(next.getAttribute("index"));     
         
         this.UpdateCurrentStep(nextIndex);      
-        Vue.nextTick().then(()=>{this.saveChanges();});
+        Vue.nextTick().then(()=>{Vue.prototype.$saveChanges();});
     }
    
     public onSelectPage(event) {
@@ -118,7 +118,7 @@ export default class NavigationSidebar extends Vue {
         if(this.steps[currStepIndex].pages[nextPageIndex].progress == 0) return
 
         this.UpdateCurrentStepPage({currentStep: currStepIndex, currentPage: nextPageIndex });
-        Vue.nextTick().then(()=>{this.saveChanges();});
+        Vue.nextTick().then(()=>{Vue.prototype.$saveChanges();});
     }
 
     public getNavigation() {        
@@ -157,28 +157,6 @@ export default class NavigationSidebar extends Vue {
 
     public getStepPageId(stepIndex, pageIndex) {
         return this.getStepId(stepIndex) + "-page-" + pageIndex;
-    }
-
-    public saveChanges() {
-        const lastUpdated = moment().format();
-        this.UpdateLastUpdated(lastUpdated);
-        const application = this.$store.state.Application; 
-        
-        const header = {
-            responseType: "json",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        } 
-
-        this.$http.put("/app/"+ this.id + "/", application, header)
-        .then(res => {
-            //console.log(res.data); 
-            this.error = "";
-        }, err => {
-            console.error(err);
-            this.error = err;
-        });        
     }
     
     public isStepTouched(nextStepIndex){

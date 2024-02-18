@@ -41,6 +41,7 @@ export interface stepInfoType {
   export interface pageInfoType {
     key: string;
     label: string;
+    name?: string;
     progress: number;
     active: boolean;
     clickable: boolean;
@@ -61,18 +62,55 @@ export interface stepInfoType {
 
   export interface resultInfoType {
 
-    //__Step 1 Deceased
-    deceasedInfoSurvey?: deceasedInfoSurveyInfoType;
+    //__Step 0 DECEASED
+    informationAboutDeceasedSurvey?: deceasedInfoSurveyInfoType;
 
-    //__Step 2 Will
+    //__Step 1 WILL
     deceasedWillSurvey?: deceasedWillSurveyInfoType;
 
-    //__Step 3 Related People
+    //__Step 2 RELATIONS
     spouseExists?: string;
     spouseSurvey?: spouseInfoSurveyInfoType;
     spouseCompleted?: string;
     childExists?: string;
     childrenSurvey?: childCommonSurveyInfoType;
     childCompleted?: string;
-    applicantSurvey?: applicantSurveyInfoType;
+
+    parentsSurvey?: any;
+    grandChildrenSurvey?: any;
+    greatGrandChildrenSurvey?: any;
+    creditorsSurvey?: any;    
+
+    //__Step 3 APPLICANT
+    informationAboutApplicantSurvey?: applicantSurveyInfoType;
+
+    //__Step 4 NOTIFY
+    confirmDebtSurvey?: any;
+    reviewSurvey?: any;
+    notifyPeopleSurvey?: any;
+
+    //__Step 5 BELONGINGS
+    LandBuildingsSurvey?: any;
+    VehiclesSurvey?: any;
+    BankAccountsSurvey?: any;
+    PensionsInsuranceSurvey?: any;
+    PersonalItemsSurvey?: any;
+
+    //__Step 6 NOWILL
+    NoWillNotificationSurvey?: any;
+
+    //__Step 7 OVERVIEW
+    WillSearchCheckSurvey?: any;
+    FinalizeAssetValuesSurvey?: any;
+
+    //__Step 8 REVIEW
+    ReviewYourAnswersSurvey?: any;
+
+    //__Step 9 SUBMIT
+    FilingOptionsSurvey?: any;
+    ReviewAndPrintSurvey?: any;
+    ReviewAndSaveSurvey?: any;
+    ReviewAndSubmitSurvey?: any; 
+    NextStepsSurvey?: any;
+
   }

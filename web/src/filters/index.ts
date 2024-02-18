@@ -3,6 +3,17 @@ import moment from 'moment-timezone';
 import store from '@/store';
 import {customCss} from './bootstrapCSS'
 
+Vue.filter('get-current-version', function(){	
+	//___________________________
+    //___________________________
+    //___________________________NEW VERSION goes here _________________
+    const CURRENT_VERSION = "1.0";
+    //__________________________
+    //___________________________
+    //___________________________
+	return CURRENT_VERSION
+})
+
 Vue.filter('beautify-date', function(date){
 	enum MonthList {'Jan' = 1, 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'}
 	if(date)
@@ -113,17 +124,22 @@ Vue.filter('setSurveyProgress', function(survey, currentStep: number, currentPag
 	
 	if(survey && store.state.Application.steps[currentStep].pages[currentPage].progress)
 		progress = survey.isCurrentPageHasErrors? 50 : 100;
-	//console.log(store.state.Application.steps[currentStep].pages[currentPage].progress)
+
 	store.commit("Application/setPageProgress", { currentStep: currentStep, currentPage:currentPage, progress:progress });
 	
-	const reviewProgress = store.state.Application.steps[8].pages[0].progress
-	if(currentStep < 8 && reviewProgress){
-		console.log('review required')
-		console.log(currentStep)
-		store.commit("Application/setPageProgress", { currentStep: 8, currentPage:0, progress:50 });
-	}
+	// const reviewProgress = store.state.Application.steps[8].pages[0].progress
+	// if(currentStep < 8 && reviewProgress){
+	// 	console.log('review required')
+	// 	console.log(currentStep)
+	// 	store.commit("Application/setPageProgress", { currentStep: 8, currentPage:0, progress:50 });
+	// }
 })
 
+Vue.filter('setProgressForPages', function(currentStep: number, pageNumbers: number[], progress: number){
+	for (const page of pageNumbers)
+		if(store.state.Application.steps[currentStep].pages[page].progress)
+			store.commit("Application/setPageProgress", { currentStep: currentStep, currentPage:page, progress:progress });
+})
 
 Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage: number){
 	//____________________________________________________________________
