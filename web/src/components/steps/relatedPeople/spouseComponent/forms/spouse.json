@@ -23,9 +23,9 @@
                 {
                     "type": "helptext",
                     "name": "spouseIsAliveFAQ1",
-                    "title": "What if {spouseName} is on life support?",
+                    "title": "What if the spouse is on life support?",
                     "titleLocation": "hidden",
-                    "body": "{spouseName} is considered alive."
+                    "body": "The spouse is considered alive."
                 },
                 {
                     "type": "yesno",
@@ -483,25 +483,25 @@
                         },
                         {
                             "type": "helptext",
-                            "name": "spouseDiedAfterFAQ1",                            
+                            "name": "spouseDied5DaysAfterFAQ1",                            
                             "title": "Why does this date matter?",
                             "titleLocation": "hidden",
                             "body": "Under the law, in order for {spouseName} to qualify for {deceasedName}'s `assets`, {spouseName} must have lived for at least 5 days after {deceasedName} died. Once {spouseName} has qualified, it doesn't matter if {spouseName} is now dead.\n<br><br>\nThe people managing {spouseName}'s belongings need to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section10\" target=\"_blank\">For more information, click here for the Five-day survival rule from the  <i>Wills, Estate and Succession Act</i> (WESA).</a> (This link opens in a new tab)"
                         },
                         {
                             "type": "infotext",
-                            "name": "spouseDiedAfterNoExplanation",
+                            "name": "spouseDied5DaysAfterNoExplanation",
                             "visible": false,
-                            "visibleIf": "{spouseDiedAfter} = 'n'",
+                            "visibleIf": "{spouseDied5DaysAfter} = 'n'",
                             "title": "Because {spouseName} died before {deceasedDateOfDeathPlus4}, the people managing {spouseName}'s belongings do not need to know that you are applying for a `Representation Grant` for {deceasedName}.",
                             "titleLocation": "hidden",
                             "requiredErrorText": "Please press Continue"
                         },
                         {
                             "type": "infotext",
-                            "name": "spouseDiedAfterYesExplanation",
+                            "name": "spouseDied5DaysAfterYesExplanation",
                             "visible": false,
-                            "visibleIf": "{spouseDiedAfter} = 'y'",
+                            "visibleIf": "{spouseDied5DaysAfter} = 'y'",
                             "title": "Because {spouseName} has died after {deceasedDateOfDeathPlus4}, {spouseName}'s `personal representative` needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nIt is your responsibility to check with {spouseName}'s family and friends to find out who is {spouseName}'s personal representative.\n<br><br>\nIf you find out that {spouseName} does not have a personal representative, this service will help you tell that to The Court.\n",
                             "titleLocation": "hidden",
                             "isRequired": true,
@@ -511,9 +511,9 @@
                             "type": "radiogroup",
                             "name": "spouseHasPersonalRep",
                             "visible": false,
-                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseDiedAfterYesExplanation} > 0",
+                            "visibleIf": "{spouseDied5DaysAfter} = 'y' and {spouseDied5DaysAfterYesExplanation} > 0",
                             "title": "Do you know if {spouseName} has a `personal representative`?",
-                            "description": "If {spouseName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {spouseName}. \n<br><br>\nIf someone is planning on becoming {spouseName}'s personal representative but hasn't done so yet, it is safer for you to include them as {spousePersonName}'s personal representative.",
+                            "description": "If {spouseName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {spouseName}. \n<br><br>\nIf someone is planning on becoming {spouseName}'s personal representative but hasn't done so yet, it is safer for you to include them as {spouseName}'s personal representative.",
                             "isRequired": true,
                             "choices": [
                                 {
@@ -534,7 +534,7 @@
                             "type": "text",
                             "name": "spousePersonalRepName",
                             "visible": false,
-                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseHasPersonalRep} = 'y'",
+                            "visibleIf": "{spouseDied5DaysAfter} = 'y' and {spouseHasPersonalRep} = 'y'",
                             "title": "What is the name of {spouseName}'s `personal representative`",
                             "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
                             "isRequired": true
@@ -543,7 +543,7 @@
                             "type": "infotext",
                             "name": "spouseHasPersonalRepYesExplanation",
                             "visible": false,
-                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseHasPersonalRep} = 'y'  and {spousePersonalRepName} notempty",
+                            "visibleIf": "{spouseDied5DaysAfter} = 'y' and {spouseHasPersonalRep} = 'y'  and {spousePersonalRepName} notempty",
                             "title": "Because {spouseName} died after {deceasedDateOfDeathPlus4}, {spousePersonalRepName} needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will tell you how to let them know in a later step.",
                             "titleLocation": "hidden",
                             "requiredErrorText": "Please press Continue"
@@ -552,7 +552,7 @@
                             "type": "infotext",
                             "name": "spouseHasPersonalRepNoTempError",
                             "visible": false,
-                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseHasPersonalRep} = 'n'",
+                            "visibleIf": "{spouseDied5DaysAfter} = 'y' and {spouseHasPersonalRep} = 'n'",
                             "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a Representation Grant.",
                             "titleLocation": "hidden",
                             "requiredErrorText": "Please press Continue",
@@ -562,7 +562,7 @@
                             "type": "infotext",
                             "name": "spouseHasPersonalRepDKError",
                             "visible": false,
-                            "visibleIf": "{spouseDiedAfter} = 'y' and {spouseHasPersonalRep} = 'dk'",
+                            "visibleIf": "{spouseDied5DaysAfter} = 'y' and {spouseHasPersonalRep} = 'dk'",
                             "title": "Because you are not sure if {spouseName} has a personal representative, you may want to check with as many of {spouseName}'s family and friends as you can find.<br><br>If {spouseName}'s family or friends do not know if {spouseName} has a personal representative, one option may be hiring a professional investigator to try and find out for sure.<br><br>Examples of professional investigators include private investigators, heir tracers and other similar services.<br><br>For transparency of your application, you want to show the court all efforts made to find out whether {spouseName} has a personal representative. The Court will ultimately decide whether sufficient effort has been made to find this information.",
                             "titleLocation": "hidden",                
                             "messageStyle": "error"

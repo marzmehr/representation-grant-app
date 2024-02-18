@@ -4,6 +4,7 @@ export interface spouseInfoType {
     spouseName?: string;
     spouseIsAlive?: string;
     spouseIsAdult?: string;
+    spouseIsAdultNoExplanation?: boolean;
     spouseIsAdultNoDOB?: string;
     spouseIsAdultNoResidentialAddress?: addressInfoType;
     spouseIsAdultNoResidentialReceiveMail?: string;
@@ -24,6 +25,7 @@ export interface spouseInfoType {
     spouseGuardianFax?: string;
     spouseGuardianFaxNumber?: string;
     spouseIsCompetent?: string;
+    spouseIsCompetentNoExplanation?: boolean;
     spouseIsCompetentNoDOB?: string;
     spouseIsCompetentNoResidentialAddress?: addressInfoType;
     spouseIsCompetentNoResidentialReceiveMail?: string;
@@ -36,6 +38,8 @@ export interface spouseInfoType {
     spouseHasNominee?: string;
     spouseNomineeName?: string;
     spouseNomineeFormal?: string;
+    spouseNomineeFormalNoExplanation?: boolean;
+    spouseNomineeFormalYesExplanation?: boolean;
     spouseNomineeResidentialAddress?: addressInfoType;
     spouseNomineeResidentialReceiveMail?: string;
     spouseNomineeHasMailingAddress?: string;

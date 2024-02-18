@@ -63,7 +63,7 @@ export default class DeceasedInfo extends Vue {
     public UpdateDeceasedDateOfDeath!: (newDeceasedDateOfDeath) => void
 
     @applicationState.Action
-    public UpdateDeceasedDateOfDeathPlus4!: (newDeceasedDateOfDeathPlus4) => void
+    public UpdatedeceasedDateOfDeathPlus4!: (newdeceasedDateOfDeathPlus4) => void
 
     @applicationState.Action
     public UpdateGeneratedForms!: (newGeneratedForms) => void
@@ -140,7 +140,7 @@ export default class DeceasedInfo extends Vue {
                 this.UpdateDeceasedDateOfDeath(options.value);
                 const deceasedDateOfDeathPlus4 = moment(options.value, "YYYY-MM-DD").add(4, 'days').format();
                 console.log(deceasedDateOfDeathPlus4)
-                this.UpdateDeceasedDateOfDeathPlus4(Vue.filter('beautify-full-date')(deceasedDateOfDeathPlus4));
+                this.UpdatedeceasedDateOfDeathPlus4(Vue.filter('beautify-full-date')(deceasedDateOfDeathPlus4));
             }            
             
         })   

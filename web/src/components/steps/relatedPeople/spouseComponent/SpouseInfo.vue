@@ -216,16 +216,148 @@
 
                 <div class="col-md-12" v-if="!showTable" id="spouse-info-survey">
                     <spouse-survey :step="step" v-on:showTable="spouseComponentData" v-on:surveyData="populateSurveyData" v-on:editedData="editRow" :editRowProp="anyRowToBeEdited" :deceasedName="deceasedName" />
-                </div>
-
-                
-               
+                </div>               
             </div>
         </div>
        
-        <b-card v-if="incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body>
+        <b-card v-if="spouseExists== 'Yes' && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body>
             <div>Required Spouse information is missing. Click the "Edit button <div class="d-inline fa fa-edit"></div> " to fix it. </div>
-        </b-card>   
+        </b-card> 
+
+        <b-card v-else-if="spouseExists== 'Yes' && !incompleteError && showTable" >  
+            <b-row no-body class="info-box my-4">
+                <b-col cols="1" class="m-0" style="padding-right: 0;">
+                    <b-icon-exclamation-circle-fill class="text-primary"/>
+                </b-col>
+                <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                    <p>
+                        In this step you have identified that, {{deceasedName | getFullName}}'s spouses may include:                       
+                        <ul>
+                            <li v-for="spouse in spouseData" :key="spouse.id">
+                                {{ spouse.spouseName }}
+                            </li>
+                        </ul>                       
+                    </p>
+                    <p>
+                        Before moving on to the next step, please make sure that you have identified everyone 
+                        who may be considered {{deceasedName | getFullName}}'s spouse.
+                    </p>
+                    <p>
+                        Sometimes people forget to include themselves while using this service. 
+                        If you are {{deceasedName | getFullName}}'s spouse but you haven't included yourself yet, 
+                        please add information about yourself.
+                    </p>
+                </b-col>
+            </b-row>
+        </b-card>
+   
+        <b-card v-else-if="spouseExists== 'No'" no-body class="info-box mt-4">  
+            <b-row>
+                <b-col cols="1" class="m-0" style="padding-right: 0;">
+                    <b-icon-exclamation-circle-fill class="text-primary"/>
+                </b-col>
+                <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                    <p>
+                        In this step you have identified that there is no one who would be considered
+                        {{deceasedName | getFullName}}'s at the time {{deceasedName | getFullName}} died.
+                    </p>
+                    <p>
+                        Before moving on to the next step, please make sure that you have identified everyone 
+                        who may be considered {{deceasedName | getFullName}}'s spouse.
+                    </p>
+                    <p>
+                        Sometimes people forget to include themselves while using this service. 
+                        If you are {{deceasedName | getFullName}}'s spouse but you haven't included yourself yet, 
+                        please add information about yourself.
+                    </p>
+                </b-col>
+            </b-row>
+        </b-card> 
+
+        <b-card v-if="spouseExists!= null" no-body class="my-4">  
+            <b-row class="mx-4 mt-4">
+                <b-form-group>
+                    <div style="color:#556077; font-size:1.40em; font-weight:bold;">
+                        Have you identified everyone who may be considered {{deceasedName | getFullName}}'s spouse?
+                    </div>
+                    <b-form-radio-group
+                        v-model="spouseCompleted"
+                        @change="updatedSpouse+1"
+                        class="mt-2 ml-3 survey-yesno-vue"
+                        style="font-size:1.40em; display: inline-block;">
+                        <b-form-radio class="mr-5" value="Yes"><div style="transform:translate(5px,-5px);">Yes</div></b-form-radio>
+                        <b-form-radio value="No"><div style="transform:translate(5px,-5px);">No</div></b-form-radio>               
+                    </b-form-radio-group>
+                </b-form-group>
+
+                <div>
+                    <div class="my-4 text-primary" @click="showSpouseInfo= !showSpouseInfo" style="border-bottom:1px solid; width: 24.5rem;">
+                        <span style="font-size:1.2rem;" class="fa fa-question-circle" /> 
+                        How can someone have more than 1 spouse?        
+                        <span v-if="showSpouseInfo" class='ml-2 fa fa-chevron-up'/>
+                        <span v-if="!showSpouseInfo" class='ml-2 fa fa-chevron-down'/>
+                    </div>
+                    <div v-if="showSpouseInfo">
+                        <p>
+                            Someone can have more than 1 spouse depending on the laws where they live.
+                        </p>
+                        <p>
+                            Under B.C. law, if a person is legally married and they separate from their spouse 
+                            but did not get a divorce, the person they separated from is still considered their spouse. 
+                            If that same person then starts a new marriage-like relationship with a new partner, 
+                            this new partner could be considered a spouse.
+                        </p>
+                        <p>
+                            In this situation, the person could have 2 spouses because they didn't divorce their first spouse.                           
+                        </p>
+                        <p>
+                            <a href='https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section2' target='_blank'>
+                                For more information, click here to read about who should be included as {{deceasedName | getFullName}}'s spouse 
+                                from the <i>Wills, Estate and Succession Act</i> (WESA).
+                            </a>
+                            (This link opens in a new tab)
+                        </p>
+                    </div>
+                </div>
+
+            </b-row>
+
+            <b-card v-if="spouseCompleted == 'No'" no-body class="error-box my-4 mx-4">  
+                <b-row>
+                    <b-col cols="1" class="m-0" style="padding-right: 0;">
+                        <b-icon-slash-circle-fill class="text-danger"/>
+                    </b-col>
+                    <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important; padding-right: 3rem !important;">
+                        <p>
+                            Please identify everyone who may be considered {{deceasedName | getFullName}}'s spouse 
+                            at the time {{deceasedName | getFullName}} died. They should know that you are applying for a 
+                            Representation Grant for {{deceasedName | getFullName}}.
+                        </p>
+                        <p>  
+                            You want as much transparency in your application as possible in case the Court 
+                            decides that this person should be considered {{deceasedName | getFullName}}'s spouse.
+                        </p>
+                        <p>
+                            Just because you are giving this person notice, it may not mean that they get part of 
+                            {{deceasedName | getFullName}}'s estate.                            
+                        </p>
+
+                        <p>
+                            <a href='https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section2' target='_blank'>
+                                For more information, click here to read about who should be included as {{deceasedName | getFullName}}'s spouse 
+                                from the <i>Wills, Estate and Succession Act</i> (WESA).
+                            </a>
+                            (This link opens in a new tab)
+                        </p>
+
+                    </b-col>
+                </b-row> 
+            </b-card>
+
+
+
+        </b-card> 
+
     </page-base>
 </template>
 
@@ -260,13 +392,43 @@ export default class SpouseInfo extends Vue {
     public stPgNo!: stepsAndPagesNumberInfoType;
 
     @applicationState.State
-    public steps!: stepInfoType[];    
+    public steps!: stepInfoType[]; 
+    
+    @applicationState.State
+    public childrenCompleted!: boolean;
+
+    @applicationState.State
+    public relatedPeopleInfo!: any;
+
+    @applicationState.State
+    public deceasedName!: string;
 
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
 
-    @applicationState.State
-    public deceasedName!: string;
+    @applicationState.Action
+    public UpdateGotoPrevStepPage!: () => void
+
+    @applicationState.Action
+    public UpdateGotoNextStepPage!: () => void
+
+    @applicationState.Action
+    public UpdateRelatedPeopleInfo!: (newRelatedPeopleInfo) => void
+
+    @applicationState.Action
+    public UpdateStepActive!: (newStepActive) => void
+
+    @applicationState.Action
+    public UpdateSpouseCompleted!: (newSpouseCompleted: boolean) => void
+
+    @applicationState.Action
+    public UpdateAllCompleted!: (newAllCompleted) => void
+
+    @applicationState.Action
+    public UpdateSpouseNames!: (newSpouseNames) => void
+
+    @applicationState.Action
+    public UpdateGeneratedForms!: (newGeneratedForms) => void    
 
     currentStep =0;
     currentPage =0;
@@ -276,10 +438,13 @@ export default class SpouseInfo extends Vue {
     editId = null; 
     incompleteError =  false;   
     spouseExists = null; 
+    spouseCompleted = null;
     updated = 0;
+    updatedSpouse = 0;
     showSeparatedInfo = false;
     showCommonLawInfo = false;
     showCommonLawOffInfo = false;
+    showSpouseInfo = false;
     
     public openForm(anyRowToBeEdited?) {
         this.showTable = false;
@@ -329,11 +494,11 @@ export default class SpouseInfo extends Vue {
     }
 
     public onPrev() {
-       Vue.prototype.$UpdateGotoPrevStepPage();
+       this.UpdateGotoPrevStepPage();
     }
 
     public onNext() {
-        Vue.prototype.$UpdateGotoNextStepPage();
+        this.UpdateGotoNextStepPage();
     }
 
     created() {
@@ -342,7 +507,7 @@ export default class SpouseInfo extends Vue {
             this.spouseExists = this.step.result.spouseExists;
         }
 
-        if (this.step.result?.spouseSurvey) {
+        if (this.step.result?.spouseSurvey?.data) {
             this.spouseData = this.step.result.spouseSurvey.data;
         }           
     }
@@ -361,7 +526,7 @@ export default class SpouseInfo extends Vue {
 
         this.incompleteError =  false;        
         for(const spouse of this.spouseData){
-            if (!spouse.dob || !spouse.relation || !spouse.opRelation || !spouse.currentLiving){            
+            if (!spouse.spouseName || !spouse.spouseIsAlive){            
                 this.incompleteError = true;  
                 progress = 50;    
                 break
@@ -369,22 +534,20 @@ export default class SpouseInfo extends Vue {
         }        
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, progress, false);
     }
-
     
     public isDisableNext() {
         return (!this.spouseExists || (this.spouseExists == 'Yes' && this.spouseData?.length <= 0 ) || 
-            (this.spouseData?.length <= 0));
+            (this.spouseData?.length <= 0) || !this.spouseCompleted || this.spouseCompleted == 'No');
     }
 
     beforeDestroy() {
         this.surveyHasError();  
         
-        let spouseInfo = this.getSpouseResults()
-        
+        let spouseInfo = this.getSpouseResults();        
        
         if(this.spouseExists == 'No')
             spouseInfo = null
-        
+
         this.UpdateStepResultData({step:this.step, data: {spouseExists: this.spouseExists, spouseSurvey: spouseInfo}})       
     }
 
@@ -462,6 +625,16 @@ export default class SpouseInfo extends Vue {
 
 .info-box {
     background: #e7efff;
+    border: 1px solid #c9d0e3;
+    border-radius: 4px;
+    margin: 0.5em 0 0 0;
+    padding: 0.5em;
+    line-height: 1.4;
+    font-size: 18px;
+}
+
+.error-box {
+    background: #f5c8c3;
     border: 1px solid #c9d0e3;
     border-radius: 4px;
     margin: 0.5em 0 0 0;

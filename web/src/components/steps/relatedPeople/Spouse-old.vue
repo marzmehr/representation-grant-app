@@ -39,6 +39,9 @@ export default class Spouse extends Vue {
     public spouseCompleted!: boolean;
 
     @applicationState.State
+    public childrenCompleted!: boolean;
+
+    @applicationState.State
     public relatedPeopleInfo!: any;
 
     @applicationState.State

@@ -719,12 +719,12 @@ class Application extends VuexModule {
     }
 
     @Mutation
-    public setDeceasedDateOfDeathPlus4(deceasedDateOfDeathPlus4): void {
+    public setdeceasedDateOfDeathPlus4(deceasedDateOfDeathPlus4): void {
         this.deceasedDateOfDeathPlus4 = deceasedDateOfDeathPlus4;
     }
     @Action
-    public UpdateDeceasedDateOfDeathPlus4(newDeceasedDateOfDeathPlus4) {
-        this.context.commit("setDeceasedDateOfDeathPlus4", newDeceasedDateOfDeathPlus4);
+    public UpdatedeceasedDateOfDeathPlus4(newdeceasedDateOfDeathPlus4) {
+        this.context.commit("setdeceasedDateOfDeathPlus4", newdeceasedDateOfDeathPlus4);
     }
 
     @Mutation
@@ -910,7 +910,7 @@ class Application extends VuexModule {
         this.context.commit("setCurrentApplication", newApplication);
         this.context.commit("loadSpouseInfo");
         this.context.commit("loadChildrenInfo")
-        this.context.commit("loadGrandChildrenInfo")
+        this.context.commit("loadGrandChildrenInfo");
         this.context.commit("loadNotifyInfo");
         // this.context.commit("loadBelongingsInfo");
         this.context.commit("loadLandInfo");

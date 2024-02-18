@@ -46,6 +46,10 @@ Vue.filter('scrollToLocation', function(locationName){
 	}
 })
 
+Vue.filter('styleTitle',function(title){
+	return "<div style='display:inline; color:#29877c'>" + title + "</div>"
+})
+
 Vue.filter('getFullName',function(nameObject){
 	if (nameObject) {
 		return nameObject.first +
