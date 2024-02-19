@@ -7,7 +7,7 @@
                 <b-card style="border: none; color: black;" bg-variant="transparent">
                     
                     <b-row class="h4 justify-content-center mb-5" style="margin-left: 25rem;margin-right: 25rem;">
-                        This service will help you fill out the court forms required to apply for a <tooltip class="ml-1" :index="0" title='Representation Grant'/> 
+                        This service will help you fill out the court forms required to apply for a <tooltip class="ml-1" size="xl" :index="0" title='Representation Grant'/> 
                         from the Supreme Court of British Columbia when the deceased did not leave a will. 
                     </b-row>
                     

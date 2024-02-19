@@ -43,15 +43,7 @@
                      "title": "What if {deceasedName}'s name is originally in a different language?",
                      "titleLocation": "hidden",
                      "body": "You will need a version of {deceasedName}'s name that is written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet. "
-                  },
-                  {
-                     "type": "infotext",
-                     "name": "jiraRepgrant28",
-                     "title": "<a href=\"https://justice.gov.bc.ca/jira/browse/REPGRANT-28\" target=\"_blank\">JIRA ticket REPGRANT-28 - Name Capitalization based on Input Device</a>",
-                     "titleLocation": "hidden",
-                     "messageStyle": "error",
-                     "visible": false
-                  }
+                  }                  
                ],
                "visible": false,
                "visibleIf": "{deceasedIntroExplanation} > 0"
@@ -66,7 +58,8 @@
                      "title": "When did {deceasedName} die?",
                      "description": "If you are unsure, this date can be found on {deceasedName}'s `Certificate of Death`.",
                      "inputType": "date",
-                     "dateYearsBehind": 7
+                     "isRequired":true,
+                     "dateYearsBehind": 10
                   },
                   {
                      "type": "infotext",

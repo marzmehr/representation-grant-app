@@ -23,6 +23,7 @@ export interface applicationInfoType {
     deceasedChildrenInfo: [];
     deceasedGrandChildrenInfo: [];
     applicationLocation: string;
+    version: string;
 }
 
 export interface stepInfoType {

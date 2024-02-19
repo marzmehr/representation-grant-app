@@ -69,7 +69,8 @@
         color:blue;
         border-bottom: 1px dotted blue;
         margin: 0; 
-        padding: 0;           
+        padding: 0;
+        cursor: default;          
     }
 
     .custombadge{

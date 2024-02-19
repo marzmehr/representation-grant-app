@@ -54,7 +54,6 @@
 <script lang="ts">
 import { Component, Vue} from 'vue-property-decorator';
 import { SessionManager } from "@/components/utils/utils";
-import moment from "moment-timezone";
 import { namespace } from "vuex-class";   
 
 import "@/store/modules/common";
@@ -94,7 +93,8 @@ export default class NavigationTopbar extends Vue {
     }
 
     public viewStatus() {
-        this.$router.push({ name: "applicant-status" });
+        if(this.$route.name != "applicant-status")
+            this.$router.push({ name: "applicant-status" });
     }
 
     public isDevEnv(){

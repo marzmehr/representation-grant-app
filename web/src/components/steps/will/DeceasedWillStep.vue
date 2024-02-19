@@ -1,17 +1,19 @@
 <template>
   <step-base v-bind:step="step">
-    <deceased-will v-bind:step="step" v-if="step.currentPage == 0" ></deceased-will>
+    <deceased-will v-bind:step="step" v-if="step.currentPage == stPgNo.WILL.DeceasedWill" ></deceased-will>
   </step-base>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
+import { Component, Vue, Prop} from 'vue-property-decorator';
 import StepBase from "../StepBase.vue";
 import DeceasedWill from "./DeceasedWill.vue";
 import { stepInfoType } from "@/types/Application";
-import * as SurveyVue from "survey-vue";
-import surveyJson from "./forms/deceased-will.json";
+import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
 
+import { namespace } from "vuex-class";   
+import "@/store/modules/application";
+const applicationState = namespace("Application");
 
 @Component({
     components:{
@@ -22,12 +24,14 @@ import surveyJson from "./forms/deceased-will.json";
 export default class DeceasedWillStep extends Vue {
   
   @Prop({required: true})
-  step!: stepInfoType | Object
+  step!: stepInfoType;
+
+  @applicationState.State
+  public stPgNo!: stepsAndPagesNumberInfoType;
 
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import "../../../styles/survey";
 </style>

@@ -43,23 +43,23 @@
                         sticky-header="600px"                            
                         >
                         <template v-slot:cell(edit)="row">
-                            <b-button v-if="row.item.lastFiled == 0" size="sm" variant="transparent" class="my-0 py-0"
+                            <b-button v-if="row.item.lastFiled == 0" size="sm" variant="transparent" class="my-0 py-0 border-0"
                                 @click="removeApplication(row.item, row.index)"
-                                v-b-tooltip.hover.noninteractive
+                                v-b-tooltip.hover.noninteractive.left.v-danger
                                 title="Remove Application">
                                 <b-icon-trash-fill font-scale="1.25" variant="danger"></b-icon-trash-fill>                    
                             </b-button>
 
-                            <b-button size="sm" variant="transparent" class="my-0 py-0"
+                            <b-button size="sm" variant="transparent" class="my-0 py-0 border-0"
                                 @click="resumeApplication(row.item.id)"
-                                v-b-tooltip.hover.noninteractive
+                                v-b-tooltip.hover.noninteractive.left.v-success
                                 title="Resume Application">
                                 <b-icon-pencil-square font-scale="1.25" variant="primary"></b-icon-pencil-square>                    
                             </b-button>
 
-                            <b-button v-if="row.item.lastFiled != 0" size="sm" variant="transparent" class="my-0 py-0"
+                            <b-button v-if="row.item.lastFiled != 0" size="sm" variant="transparent" class="my-0 py-0 border-0"
                                 @click="navigateToEFilingHub(row.item.id)"
-                                v-b-tooltip.hover.noninteractive
+                                v-b-tooltip.hover.noninteractive.left.v-info
                                 title="Navigate To Submitted Application">
                                 <span class="fa fa-paper-plane btn-icon-left text-info"/>                    
                             </b-button>
@@ -115,7 +115,7 @@
             <template v-slot:modal-title>
                 <h2 class="mb-0 text-light">Confirm Delete Application</h2>                                  
             </template>
-            <h4 >Are you sure you want to delete your <b>"{{applicationToDelete.app_type}}"</b> application?</h4>            
+            <h4 >Are you sure you want to delete your <b>"{{applicationToDelete['app_type']}}"</b> application?</h4>            
             <template v-slot:modal-footer>
                 <b-button variant="danger" @click="confirmRemoveApplication()">Confirm</b-button>
                 <b-button variant="primary" @click="$bvModal.hide('bv-modal-confirm-delete')">Cancel</b-button>
@@ -135,6 +135,7 @@ import * as SurveyVue from "survey-vue";
 import * as surveyEnv from "@/components/survey/survey-glossary";
 import moment from 'moment-timezone';
 import {applicationInfoType} from "@/types/Application"
+import {MigrateStore} from './MigrateStore';
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -175,10 +176,12 @@ export default class ApplicationStatus extends Vue {
 
     previousApplications = []
     previousApplicationFields = [
-        { key: 'app_type',    label: 'Application Type', sortable:true, tdClass: 'border-top'},
-        { key: 'lastUpdated', label: 'Last Updated', sortable:true, tdClass: 'border-top'},
-        { key: 'lastFiled',   label: 'Last Filed', sortable:true, tdClass: 'border-top'},
-        { key: 'edit',        label: '', sortable:false, tdClass: 'border-top'}
+        { key: 'app_type',    label: 'Application Type', sortable:true,  tdClass: 'border-top', thStyle:'font-size:11pt; width:20%;'},
+        { key: 'lastUpdated', label: 'Last Updated',     sortable:true,  tdClass: 'border-top', thStyle:'font-size:11pt; width:20%;'},
+        { key: 'lastFiled',   label: 'Last Filed',       sortable:true,  tdClass: 'border-top', thStyle:'font-size:11pt; width:20%;'},
+        { key: 'status',      label: 'Status',           sortable:true,  tdClass: 'border-top', thStyle:'font-size:10pt; width:15%;'},
+        { key: 'packageNum',  label: 'Package#',         sortable:false, tdClass: 'border-top', thStyle:'font-size:10pt; width:15%;'},
+        { key: 'edit',        label: '',                 sortable:false, tdClass: 'border-top', thStyle:'font-size:10pt; width:10%;'}
     ]
     confirmDelete = false;
     currentApplication = {} as applicationInfoType;
@@ -298,26 +301,9 @@ export default class ApplicationStatus extends Vue {
         .then((response) => {
             const applicationData = response.data
 
-            //console.log(applicationData)
-            
-            this.currentApplication.id = applicationId;
-            this.currentApplication.allCompleted = applicationData.allCompleted;
-            this.currentApplication.applicantName = applicationData.applicantName;
-            this.currentApplication.currentStep = applicationData.currentStep;
-            this.currentApplication.lastUpdate = applicationData.lastUpdated;
-            this.currentApplication.lastPrinted = applicationData.lastPrinted;
-            this.currentApplication.deceasedName = applicationData.deceasedName;
-            this.currentApplication.deceasedDateOfDeath = applicationData.deceasedDateOfDeath;
-            this.currentApplication.dateOfWill = applicationData.dateOfWill;
-            this.currentApplication.applicationLocation = applicationData.applicationLocation;
-            
-            this.currentApplication.type = applicationData.type;
-            this.currentApplication.userId = applicationData.user;
-            this.currentApplication.userName = applicationData.userName;
-            this.currentApplication.userType = applicationData.userType;        
-            this.currentApplication.steps = applicationData.steps;
-            this.UpdateCurrentApplication(this.currentApplication);
-            this.UpdateExistingApplication(true);      
+            // console.log(applicationData)
+            const storeMigrationFn = new MigrateStore() 
+            this.currentApplication = storeMigrationFn.migrate(applicationData, Vue.filter('get-current-version')());   
 
             this.$router.push({name: "surveys" })        
         }, err => {

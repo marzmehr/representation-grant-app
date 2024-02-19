@@ -13,7 +13,7 @@ import * as surveyEnv from "@/components/survey/survey-glossary"
 
 import PageBase from "../PageBase.vue";
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
-import { togglePages, toggleStep } from '@/components/utils/TogglePages';
+import { toggleStep } from '@/components/utils/TogglePages';
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
@@ -85,13 +85,6 @@ export default class DeceasedInfo extends Vue {
         surveyEnv.loadGlossary();
     }
 
-    created() {
-        this.disableNextButton = false;
-        if (this.step.result?.informationAboutDeceasedSurvey) { 
-            this.disableNextButton = false;           
-        }
-    }
-
     mounted(){
         this.initializeSurvey();
         this.addSurveyListener();
@@ -113,7 +106,7 @@ export default class DeceasedInfo extends Vue {
                 toggleStep(this.stPgNo.WILL._StepNo, true)
             }
 
-            console.log(options)
+            // console.log(options)
             //console.log(this.steps[4].result['reviewP1Survey'].data.p1ReviewInfoCorrect)
             this.UpdateGeneratedForms([]);
 
@@ -122,13 +115,12 @@ export default class DeceasedInfo extends Vue {
             }
 
             if(options.name == "deceasedDateOfDeath") {
-                if (this.earliestDeathDate < options.value && this.today > options.value) {
 
+                if (this.earliestDeathDate < options.value && this.today > options.value) {
                     this.survey.setVariable("invalidDateOfDeathError", false);
                     this.disableNextButton = false;
 
                 } else {
-
                     this.disableNextButton = true;
                     this.survey.setVariable("invalidDateOfDeathError", true);
 
@@ -164,8 +156,6 @@ export default class DeceasedInfo extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);        
     }
 
-
-
     public onPrev() {
         Vue.prototype.$UpdateGotoPrevStepPage()
     }
@@ -174,17 +164,6 @@ export default class DeceasedInfo extends Vue {
         if(!this.survey.isCurrentPageHasErrors)    
             Vue.prototype.$UpdateGotoNextStepPage()
     }
-    
-
-    public isDisableNext() {
-        // demo
-        return Object.keys(this.survey.data).length == 0;
-    }
-
-    public getDisableNextText() {
-        // demo
-        return "You will need to answer the question above to continue";
-    }    
 
     beforeDestroy() {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);       
@@ -193,7 +172,6 @@ export default class DeceasedInfo extends Vue {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import "../../../styles/survey";
 </style>

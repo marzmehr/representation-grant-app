@@ -21,22 +21,24 @@ function UpdateGotoNextStepPage(){
 }
 
 function saveChanges(){
-    const lastUpdated = moment().format();
-    store.commit("Application/setLastUpdated", lastUpdated); 
-    const application = store.state.Application;
-    const applicationId = application.id;
-       
-    const header = {
-        responseType: "json",
-        headers: {
-            "Content-Type": "application/json",
+    Vue.nextTick(() => {
+        const lastUpdated = moment().format();
+        store.commit("Application/setLastUpdated", lastUpdated); 
+        const application = store.state.Application;
+        const applicationId = application.id;
+        
+        const header = {
+            responseType: "json",
+            headers: {
+                "Content-Type": "application/json",
+            }
         }
-    }
-
-    Vue.prototype.$http.put("/app/"+ applicationId + "/", application, header)
-    .then(res => {
-        //this.error = "";
-    }, err => {
-        console.error(err);
+        
+        Vue.prototype.$http.put("/app/"+ applicationId + "/", application, header)
+        .then(res => {
+            //this.error = "";
+        }, err => {
+            console.error(err);
+        });
     });    
 }

@@ -926,6 +926,7 @@ class Application extends VuexModule {
         console.log(this.steps[2]); 
 
         this.applicationLocation = application.applicationLocation;
+        this.version = application.version;
     }
     @Action
     public UpdateCurrentApplication(newApplication) {
