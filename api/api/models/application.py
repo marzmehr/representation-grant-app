@@ -24,6 +24,8 @@ class Application(models.Model):
     # stored encrypted when key_id is set
     steps = models.BinaryField(blank=True, null=True)
 
+    version = models.CharField(max_length=32, blank=True, null=True)
+
     user = models.ForeignKey(
         "User",
         related_name="app_user_Id",

@@ -3,6 +3,7 @@ import { Vue } from 'vue-property-decorator';
 import moment from 'moment-timezone';
 import { stepInfoType, pageInfoType, belongingsInfoType } from "@/types/Application";
 import { supportingDocumentInfoType } from "@/types/Common";
+import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
 
 @Module({
     namespaced: true
@@ -11,6 +12,7 @@ class Application extends VuexModule {
 
     public id = ""
     public type = ""
+    public version = "";
     public steps = new Array<stepInfoType>()
     public lastUpdate = null
     public lastPrinted = null
@@ -48,6 +50,8 @@ class Application extends VuexModule {
     public supportingDocuments: supportingDocumentInfoType[] = [];
     public generatedForms: string[] = [];
 
+    public stPgNo = {} as stepsAndPagesNumberInfoType;
+
     @Mutation
     public init(): void {
         this.allCompleted = false;
@@ -70,11 +74,13 @@ class Application extends VuexModule {
         this.packageNumber = "";
         this.eFilingHubLink = "";
         this.steps = new Array<stepInfoType>();
+
         // Deceased Info START
         let s = {} as stepInfoType;
 
         s.active = true;
         s.id = "0";
+        s.name = "DECEASED"
         s.label = "Deceased";
         s.icon = "tomb-stone";
         s.lastUpdate = null;
@@ -84,21 +90,21 @@ class Application extends VuexModule {
 
         let p = {} as pageInfoType;
         p.key = "0";
+        p.name = "InformationAboutDeceased";
         p.label = "Information About Deceased";
         p.active = true;
         p.progress = 0;
-
         s.pages.push(p);
 
         this.steps.push(s);
 
         // Deceased Info STOP
         // Deceased Will START
-
         s = {} as stepInfoType;
-        //TODO: turn active to false
-        s.active = true;
+        
+        s.active = false;
         s.id = "1";
+        s.name = "WILL";
         s.label = "Deceased's Will";
         s.icon = "book";
         s.lastUpdate = null;
@@ -108,11 +114,10 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Deceased's Will";
-        //TODO: turn active to false
+        p.name = "DeceasedWill";
+        p.label = "Deceased's Will";        
         p.active = true;
         p.progress = 0;
-
         s.pages.push(p);
 
         this.steps.push(s);
@@ -120,9 +125,10 @@ class Application extends VuexModule {
         // Deceased Will STOP
         // Related People START
         s = {} as stepInfoType;
-        //TODO: turn active to false
-        s.active = true;
+        
+        s.active = false;
         s.id = "2";
+        s.name = "RELATIONS";
         s.label = "Related People";
         s.icon = "users";
         s.lastUpdate = null;
@@ -130,87 +136,63 @@ class Application extends VuexModule {
         s.pages = new Array<pageInfoType>();
         s.currentPage = 0;
 
-        // p = {} as pageInfoType;
-        // p.key = "0";
-        // p.label = "Executors";
-        // //TODO: turn active to false
-        // p.active = false;
-        // p.progress = 0;
-
-        // s.pages.push(p);
-
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Spouse";
-        //TODO: turn active to false
+        p.name = "Spouse";
+        p.label = "Spouse";        
         p.active = true;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "1";
-        p.label = "Children";
-        //TODO: turn active to false
-        p.active = true;
+        p.name = "Children";
+        p.label = "Children";        
+        p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "2";
-        p.label = "Parents";
-        //TODO: turn active to false
+        p.name = "Parents";
+        p.label = "Parents";        
         p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "3";
-        p.label = "Grand Children";
-        //TODO: turn active to false
+        p.name = "GrandChildren";
+        p.label = "Grand Children";        
         p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "4";
-        p.label = "Great Grand Children";
-        //TODO: turn active to false
+        p.name = "GreatGrandChildren";
+        p.label = "Great Grand Children";        
         p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
-        // p = {} as pageInfoType;
-        // p.key = "5";
-        // p.label = "Beneficiaries";
-        // //TODO: turn active to false
-        // p.active = false;
-        // p.progress = 0;
-
-        // s.pages.push(p);
-
-
-        // p = {} as pageInfoType;
-        // p.key = "5";
-        // p.label = "Creditors";
-        // //TODO: turn active to false
-        // p.active = true;
-        // p.progress = 0;
-
-        // s.pages.push(p);
+        p = {} as pageInfoType;
+        p.key = "5";
+        p.name = "Creditors";
+        p.label = "Creditors";        
+        p.active = false;
+        p.progress = 0;
+        s.pages.push(p);
 
         this.steps.push(s);
 
         //Related People STOP
         //Applicant START
         s = {} as stepInfoType;
-        //TODO: turn active to false
+        
         s.active = false;
         s.id = "3";
+        s.name = "APPLICANT";
         s.label = "Applicant";
         s.icon = "user-tie";
         s.lastUpdate = null;
@@ -220,20 +202,21 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Information About Applicant";
-        //TODO: turn active to false
+        p.name = "InformationAboutApplicant";
+        p.label = "Information About Applicant";        
         p.active = true;
         p.progress = 0;
-
         s.pages.push(p);
-        this.steps.push(s);
-        //Applicant STOP
 
+        this.steps.push(s);
+        
+        //Applicant STOP
         // Notify START
         s = {} as stepInfoType;
-        //TODO: turn active to false
+        
         s.active = false;
         s.id = "4";
+        s.name = "NOTIFY";
         s.label = "Notify";
         s.icon = "envelope-open-text";
         s.lastUpdate = null;
@@ -243,36 +226,37 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Confirm Debt";
-        //TODO: turn active to false
+        p.name = "ConfirmDebt";
+        p.label = "Confirm Debt";        
         p.active = true;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "1";
+        p.name = "Review";
         p.label = "Review";        
-        p.active = true;
+        p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "2";
+        p.name = "NotifyPeople";
         p.label = "Notify People";       
-        p.active = true;
+        p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
         this.steps.push(s);
+
         //Notify STOP
         //Deceased's Belongings START
         s = {} as stepInfoType;
-        //TODO: turn active to false
+        
         s.active = false;
         s.id = "5";
+        s.name = "BELONGINGS";
         s.label = "Deceased's Belongings";
         s.icon = "coins";
         s.lastUpdate = null;
@@ -282,53 +266,53 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
+        p.name = "LandBuildings";
         p.label = "Land and Buildings";        
         p.active = true;
         p.progress = 1;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "1";
+        p.name = "Vehicles";
         p.label = "Vehicles";       
-        p.active = true;
+        p.active = false;
         p.progress = 1;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "2";
+        p.name = "BankAccounts";
         p.label = "Bank Accounts";        
-        p.active = true;
+        p.active = false;
         p.progress = 1;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "3";
+        p.name = "PensionsInsurance";
         p.label = "Pensions and Insurance";        
-        p.active = true;
+        p.active = false;
         p.progress = 1;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "4";
+        p.name = "PersonalItems";
         p.label = "Personal Items";        
-        p.active = true;
+        p.active = false;
         p.progress = 1;
-
         s.pages.push(p);
 
-
-
         this.steps.push(s);
+
         //Belongings STOP
         //No Will Notify START
         s = {} as stepInfoType;
-        //TODO: turn active to false
+        
         s.active = false;
         s.id = "6";
+        s.name = "NOWILL";
         s.label = "No Will Notification";
         s.icon = "envelope-open-text";
         s.lastUpdate = null;
@@ -338,21 +322,23 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "No Will Notification";
-        //TODO: turn active to false
+        p.name = "NoWillNotification";
+        p.label = "No Will Notification";        
         p.active = true;
         p.progress = 0;
-
         s.pages.push(p);
+
         this.steps.push(s);
+
         //No Will Notify STOP
         //Overview START
         s = {} as stepInfoType;
-        //TODO: turn active to false
+        
         s.active = false;
         s.id = "7";
+        s.name = "OVERVIEW";
         s.label = "Overview";
-        s.icon = "user-edit";
+        s.icon = "file-lines";
         s.lastUpdate = null;
         s.type = "overviewStep";
         s.pages = new Array<pageInfoType>();
@@ -360,31 +346,54 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Will Search Check";
-        //TODO: turn active to false
+        p.name = "WillSearchCheck";
+        p.label = "Will Search Check";        
         p.active = true;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "1";
-        p.label = "Finalize Asset Values";
-        //TODO: turn active to false
-        p.active = true;
+        p.name = "FinalizeAssetValues";
+        p.label = "Finalize Asset Values";        
+        p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
+        this.steps.push(s);
+
+        //Overview STOP
+        //Review START
+        s = {} as stepInfoType;
+        
+        s.active = false;
+        s.id = "8";
+        s.name = "REVIEW";
+        s.label = "Review";
+        s.icon = "file-circle-check";
+        s.lastUpdate = null;
+        s.type = "review";
+        s.pages = new Array<pageInfoType>();
+        s.currentPage = 0;
+
+        p = {} as pageInfoType;
+        p.key = "0";
+        p.name = "ReviewYourAnswers";
+        p.label = "Review Your Answers";        
+        p.active = true;
+        p.progress = 0;
+        s.pages.push(p);
 
         this.steps.push(s);
-        //Overview STOP
+
+        //Review STOP
         //Submit START
         s = {} as stepInfoType;
-        //TODO: turn active to false
-        s.active = true;
-        s.id = "8";
-        s.label = "Review and File";
+        
+        s.active = false;        
+        s.id = "9";
+        s.name = "SUBMIT";
+        s.label = "File";
         s.icon = "paper-plane";
         s.lastUpdate = null;
         s.type = "submit";
@@ -393,56 +402,42 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.label = "Review Your Answers";
-        //TODO: turn active to false
+        p.name = "FilingOptions";
+        p.label = "Filing Options";        
         p.active = true;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "1";
-        p.label = "Filing Options";
-        //TODO: turn active to false
-        p.active = true;
+        p.name = "ReviewAndPrint";
+        p.label = "Review and Print";        
+        p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "2";
-        p.label = "Review and Print";
-        //TODO: turn active to false
-        p.active = true;
+        p.name = "ReviewAndSave";
+        p.label = "Review and Save";        
+        p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "3";
-        p.label = "Review and Save";
-        //TODO: turn active to false
-        p.active = true;
+        p.name = "ReviewAndSubmit";
+        p.label = "Review and Submit";        
+        p.active = false;
         p.progress = 0;
-
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "4";
-        p.label = "Review and Submit";
-        //TODO: turn active to false
-        p.active = true;
+        p.name = "NextSteps";
+        p.label = "Next Steps";        
+        p.active = false;
         p.progress = 0;
-
-        s.pages.push(p);
-
-        p = {} as pageInfoType;
-        p.key = "5";
-        p.label = "Next Steps";
-        //TODO: turn active to false
-        p.active = true;
-        p.progress = 0;
-
         s.pages.push(p);
 
         this.steps.push(s);
@@ -452,8 +447,19 @@ class Application extends VuexModule {
 
     }
     @Action
-    public UpdateInit() {
+    public UpdateInit(newVersion: string) {
         this.context.commit("init");
+        this.context.commit("setVersion", newVersion)
+        this.context.dispatch("UpdateStPgNo");
+    }
+
+    @Mutation
+    public setVersion(version: string): void {
+        this.version = version;
+    }
+    @Action
+    public UpdateVersion(newVersion: string) {
+        this.context.commit("setVersion", newVersion);
     }
 
     @Mutation
@@ -499,6 +505,25 @@ class Application extends VuexModule {
     @Action
     public UpdateUserId(newUserId) {
         this.context.commit("setUserId", newUserId);
+    }
+
+    @Mutation
+    public setStPgNo(stPgNo): void {
+        this.stPgNo = stPgNo;
+    }
+    @Action
+    public UpdateStPgNo(newStPgNo) {
+        const stepsAndPagesNumber = {DECEASED: {}, WILL:{}, RELATIONS: {}, APPLICANT: {}, NOTIFY: {}, 
+            BELONGINGS: {}, NOWILL: {}, OVERVIEW: {}, REVIEW: {}, SUBMIT: {}
+        } as stepsAndPagesNumberInfoType;
+        const steps = this.steps
+        for(const step of steps){
+            stepsAndPagesNumber[step.name]._StepNo = Number(step.id)           
+            for(const page of step.pages){
+                stepsAndPagesNumber[step.name][page.name] = Number(page.key)
+            }
+        }
+        this.context.commit("setStPgNo", stepsAndPagesNumber);
     }
 
     @Mutation
@@ -602,8 +627,8 @@ class Application extends VuexModule {
     @Action
     public UpdateStepResultData({ step, data }) {
         this.context.commit("setScrollToLocationName", "");
-        console.log(step)
-        console.log(data)
+        console.log(step) //TODO REMOVE
+        console.log(data) //TODO REMOVE
         this.context.commit("setStepResultData", { step, data });
     }
 
@@ -716,12 +741,12 @@ class Application extends VuexModule {
     }
 
     @Mutation
-    public setDeceasedDateOfDeathPlus4(deceasedDateOfDeathPlus4): void {
+    public setdeceasedDateOfDeathPlus4(deceasedDateOfDeathPlus4): void {
         this.deceasedDateOfDeathPlus4 = deceasedDateOfDeathPlus4;
     }
     @Action
-    public UpdateDeceasedDateOfDeathPlus4(newDeceasedDateOfDeathPlus4) {
-        this.context.commit("setDeceasedDateOfDeathPlus4", newDeceasedDateOfDeathPlus4);
+    public UpdatedeceasedDateOfDeathPlus4(newdeceasedDateOfDeathPlus4) {
+        this.context.commit("setdeceasedDateOfDeathPlus4", newdeceasedDateOfDeathPlus4);
     }
 
     @Mutation
@@ -901,13 +926,14 @@ class Application extends VuexModule {
         console.log(this.steps[2]); 
 
         this.applicationLocation = application.applicationLocation;
+        this.version = application.version;
     }
     @Action
     public UpdateCurrentApplication(newApplication) {
         this.context.commit("setCurrentApplication", newApplication);
         this.context.commit("loadSpouseInfo");
         this.context.commit("loadChildrenInfo")
-        this.context.commit("loadGrandChildrenInfo")
+        this.context.commit("loadGrandChildrenInfo");
         this.context.commit("loadNotifyInfo");
         // this.context.commit("loadBelongingsInfo");
         this.context.commit("loadLandInfo");
@@ -922,16 +948,16 @@ class Application extends VuexModule {
     public loadSpouseInfo(): void{
         if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
             const spouseSurvey = this.steps[2].result["spouseSurvey"];
-            const spouseInfo = (spouseSurvey.data.spouseExists=='y' && spouseSurvey.data.spouseInfoPanel)? spouseSurvey.data.spouseInfoPanel:[];    
+            const spouseInfo = (this.steps[2].result.spouseExists=='y' && spouseSurvey.data)? spouseSurvey.data:[];    
             for (const spouse of spouseInfo) {
                 if (spouse.spouseIsAlive == "y") {
                     this.relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
                 }                       
             }
             
-            if (spouseSurvey.data && spouseSurvey.data.spouseExists == "n") {
+            if (spouseSurvey.data && this.steps[2].result.spouseExists == "n") {
                 this.spouseCompleted = true;
-            } else if (spouseSurvey.data.spouseCompleted && spouseSurvey.data.spouseCompleted == "y") {
+            } else if (this.steps[2].result.spouseCompleted && this.steps[2].result.spouseCompleted == "y") {
                 this.spouseCompleted = true;
             } else {
                 this.spouseCompleted = false;
@@ -942,7 +968,7 @@ class Application extends VuexModule {
     public loadChildrenInfo(): void{
         if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
             const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
-            const childrenInfo = (childrenSurvey.data.child=='y'&& childrenSurvey.data.childInfoPanel)? childrenSurvey.data.childInfoPanel:[]
+            const childrenInfo = (this.steps[2].result.childExists=='y'&& childrenSurvey.data)? childrenSurvey.data:[]
             const deceasedChildren = [];        
             for (const child of childrenInfo) {
                 if (child.childIsAlive == "n"           && 
@@ -959,10 +985,10 @@ class Application extends VuexModule {
                 this.deceasedChildrenInfo = [];
             }
 
-            if (childrenSurvey.data.child) {
-                if (childrenSurvey.data.child == "n") {
+            if (this.steps[2].result.childExists) {
+                if (this.steps[2].result.childExists == "n") {
                     this.childrenCompleted = true;
-                }else if (childrenSurvey.data.childCompleted && childrenSurvey.data.childCompleted == "y") {
+                }else if (this.steps[2].result.childCompleted && this.steps[2].result.childCompleted == "y") {
                     this.childrenCompleted = true;
                 } else {
                     this.childrenCompleted = false;
@@ -1139,13 +1165,13 @@ class Application extends VuexModule {
 
     get getPrevStepPage(): { prevStep: number; prevPage: number } {
 
-        let prevStepPage: { prevStep: number; prevPage: number };
-        let sIndex = this.currentStep;
-        let pIndex = this.steps[sIndex].currentPage - 1;
-
+        let prevStepPage: { prevStep: number; prevPage: number };    
+        let sIndex = Number(this.currentStep);
+        let pIndex = Number(this.steps[sIndex].currentPage) - 1;
+    
         while (prevStepPage == null && sIndex >= 0) {
             const s = this.steps[sIndex];
-
+        
             if (s.active) {
                 while (prevStepPage == null && pIndex >= 0) {
                     if (s.pages[pIndex].active) {
@@ -1155,30 +1181,27 @@ class Application extends VuexModule {
                     }
                 }
             }
-
+        
             // go to previous step
             sIndex--;
-
+        
             if (sIndex >= 0) {
                 pIndex = this.steps[sIndex].pages.length - 1;
             }
         }
-
+    
         return prevStepPage;
     }
 
-
-
     get getNextStepPage(): { nextStep: number; nextPage: number } {
 
-        //console.log("nextStep")
-
-        let nextStepPage: { nextStep: number; nextPage: number };
-        let sIndex = this.currentStep;
-        let pIndex = this.steps[sIndex].currentPage + 1;
+        let nextStepPage: { nextStep: number; nextPage: number };    
+        let sIndex = Number(this.currentStep);       
+        let pIndex = Number(this.steps[sIndex].currentPage) + 1;
+        
         while (nextStepPage == null && sIndex < this.steps.length) {
             const s = this.steps[sIndex];
-
+        
             if (s.active) {
                 while (nextStepPage == null && pIndex < s.pages.length) {
                     if (s.pages[pIndex] && s.pages[pIndex].active) {
@@ -1188,18 +1211,17 @@ class Application extends VuexModule {
                     }
                 }
             }
-
+    
             // go to next step
             sIndex++;
-
+    
             if (sIndex < this.steps.length) {
                 pIndex = 0;
             }
         }
-        //console.log(nextStepPage)
+
         return nextStepPage;
     }
-
 }
 
 export default Application

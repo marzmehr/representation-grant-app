@@ -10,8 +10,17 @@
                     "elements": [
                         {
                             "type": "infotext",
+                            "name": "qualifyIntroText",
+                            "title": "<b style='color: #003366'>Represent Someone Who Died (also known as Probate)</b><br><br>Use this service to apply for a `Representation Grant` from the Supreme Court of British Columbia. A Representation Grant is a court document that confirms you are the appropriate person to manage the property, money and other belongings that a person left behind after they died. The collection of `assets` that a person left behind is called their `estate`<br><br>Representation Grant is an umbrella term that includes different types of these court documents. A Grant of Probate is a type of Representation Grant specifically for executors named in a `Will`.<br><br><b style='color: #003366'>Court Costs and Fees</b><br>There is no cost to use this service and the service will create the documents you need to file with the Court. There will be costs associated when filing which are:\n<ul>\n<li>There will either be a $200 filing fee or a $0 filing fee (if the estate is worth less than $25,000).</li>\n<li> There will be costs for swearing or affirming the `affidavits` that this service will create for you. Each affidavit costs $40 to swear or affirm at a courthouse. An application usually has 3 or more affidavits.</li>\n<li>There will be probate fees if the estate is worth more than $25,000. This fee will be a small percentage of the total value.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue",
+                            "body": "\n",
+                            "messageStyle": "inline"
+                        },
+                        {
+                            "type": "infotext",
                             "name": "qualifyingIntroExplanation",
-                            "title": "A `Representation Grant` costs money and will take time to get. Don't waste time on this service if you don't need one.\n<br><br>\nFor example, if the `deceased` had money in their bank account, that bank may give you that money to manage without a Representation Grant. However, this may depend on your relationship to the deceased. \n<br><br>\nDifferent organizations have different policies to make sure that the right person gets the deceased's assets.\n<br><br>\nAsk each of the organizations that hold the deceased's `assets` if they will give you the asset without a Representation Grant (also known as a Grant of `Probate`).",
+                            "title": "A Representation Grant costs money and will take time to get. Don't waste time on this service if you don't need one.\n<br><br>\nFor example, if the `deceased` had money in their bank account, that bank may give you that money to manage without a Representation Grant.<br><br>Different organizations have different policies to make sure that the right person gets the deceased's `assets`.\n<br><br>\nAsk each of the organizations that deal with the deceased's assets if they will give you the asset without a Representation Grant (also known as a Grant of `Probate`). If an organization will not give you an asset, they will likely ask you to get a Representation Grant.\n<br><br>\nIn addition, ask each of organizations that provided services to the deceased, (such as an electric company, phone company, credit card company, etc) if they will let you cancel the service without a Representation Grant.",
                             "isRequired": true,
                             "titleLocation": "hidden"
                         }
@@ -24,24 +33,16 @@
                         {
                             "type": "yesno",
                             "name": "needGrant",
-                            "title": "Were you asked to get a `Representation Grant` (or a Grant of `Probate`) by any of the organizations that hold the `deceased's` `assets`",
+                            "title": "Were you asked by an organization to get a Representation Grant (or a Grant of `Probate`)?",
+                            "description": "This question is asking about organizations that hold the deceased's assets or provided a serviced to the deceased.",
                             "isRequired": true
-                        },
-                        {
-                            "type": "infotext",
-                            "name": "needGrantYesExplanation",
-                            "visible": false,
-                            "visibleIf": "{needGrant} = \"y\"",
-                            "title": "The organizations that hold the `deceased's` `assets` will respect a `Representation Grant` and let you to manage the asset.\n<br><br>\nContinue with this service to apply for a Representation Grant.",
-                            "isRequired": true,
-                            "titleLocation": "hidden"
                         },
                         {
                             "type": "infotext",
                             "name": "needGrantNoExplanation",
                             "visible": false,
-                            "visibleIf": "{needGrant} = \"n\"",
-                            "title": "If all of the organizations that hold the `deceased's` `assets` simply gave you those assets to manage, then you probably don't need `Representation Grant`.",
+                            "visibleIf": "{needGrant} = 'n'",
+                            "title": "If all of the organizations that hold the deceased's assets simply gave you those assets to manage, then you probably don't need Representation Grant.",
                             "isRequired": true,
                             "titleLocation": "hidden"
                         },
@@ -49,15 +50,15 @@
                             "type": "yesno",
                             "name": "stillNeedGrant",
                             "visible": false,
-                            "visibleIf": "{needGrant} = \"n\" and {needGrantNoExplanation} > 0",
-                            "title": "Do you still want to use this service to apply for a `Representation Grant`"
+                            "visibleIf": "{needGrant} = 'n' and {needGrantNoExplanation} > 0",
+                            "title": "Do you still want to use this service to apply for a Representation Grant?"
                         },
                         {
                             "type": "infotext",
                             "name": "stillNeedGrantNoError",
                             "visible": false,
-                            "visibleIf": "{needGrant} = \"n\" and {stillNeedGrant} = \"n\"",
-                            "title": "It seems you don't need this service to manage the `deceased's` `assets`. \n<br><br>\nThe organizations that hold the deceased's assets may ask you to sign a waiver in case there are problems in the future.\n<br><br>\n Once you have the assets, you are responsible for distributing them according to the law.\n<br><br>\nIf the deceased made a `Will`, do your best to follow instruction in the Will on how to distribute the assets.\n<br><br>\nIf the deceased did not make a Will, there are rules written in the Wills, Estates and Succession Act (WESA Part 3 Division 1) on how to distribute the assets. There are different rules depending on the deceased's family situation. \n<br><br>\nRead the rules written in <a href=\"https://www.bclaws.ca/civix/document/id/lc/statreg/09013_01#division_d2e2469\" target=\"_blank\">WESA (Part 3 Division 1) here.</a> (This link opens in a new tab)\n<br><br>\n[Jack to follow up with ServiceBC/Service Design & Integration to see if there is a better plain language resource]",
+                            "visibleIf": "{needGrant} = 'n' and {stillNeedGrant} = 'n'",
+                            "title": "It seems you don't need this service to manage the deceased's assets. <br><br>The organizations that hold the the deceased's assets may ask you to sign a waiver in case there are problems in the future.<br><br> Once you have the assets, you are responsible for distributing them according to the law.<br><br>If the deceased made a Will, do your best to follow instruction in the Will on how to distribute the assets.<br><br>If the deceased did not make a Will, there are rules written in the Wills, Estates and Succession Act (WESA Part 3 Division 1) on how to distribute the assets. There are different rules depending on the deceased's family situation. <br><br>Read the rules written in <a href=\"https://www.bclaws.ca/civix/document/id/lc/statreg/09013_01#division_d2e2469\" target=\"_blank\">WESA (Part 3 Division 1) here.</a> (This link opens in a new tab)",
                             "titleLocation": "hidden",
                             "messageStyle": "error"
                         }
@@ -67,26 +68,113 @@
                 },
                 {
                     "type": "panel",
-                    "name": "qualifyingWillExistsPanel",
+                    "name": "qualifyingTempScopePanel",
                     "elements": [
                         {
+                            "type": "infotext",
+                            "name": "qualifyingTempScopeExplanation",
+                            "title": "As of June 21, 2022, this service has only been developed for the first step in applying for a Representation Grant.<br><br>This service will:<ul><li>Help an `applicant` create a Form P1 and send it to whoever is required to receive one.</li><li>Help the applicant create a Form P9 that lists the people they gave a Form P1.</li></ul><br>This service has only been developed for situations where:<ul><li>Only a single person is applying for the Representation Grant.</li><li>You are one of the following:</li><ul><li>a `spouse` of the deceased,</li><li>a child of the deceased,</li><li>someone who the deceased owed more than $10,000, or</li><li>you can also be a `legal guardian`, `nominee` or `personal representative` for someone listed above.</li></ul></ul><br><b>Note:</b> Even if you are one of the people listed above, this service can <b>NOT</b> help you if one of the deceased’s children has died before them and that child has children of their own.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
                             "type": "yesno",
-                            "name": "qualifyingWillExists",
-                            "title": "Do you believe the `deceased` made a `Will`",
-                            "isRequired": true
+                            "name": "qualifyingTempScope",
+                            "title": "Does the above situation match your situation?"
                         },
                         {
                             "type": "infotext",
-                            "name": "qualifyingWillExistsYesError",
+                            "name": "qualifyingTempScopeNoError",
                             "visible": false,
-                            "visibleIf": "{qualifyingWillExists} = \"y\"",
-                            "title": "If you believe the `deceased` made a `Will`, this service cannot help you apply for a `Representation Grant` at this point in time.\n<br><br>\nFor now, this service has only been developed for a limited number of situations.\n<br><br>\n[Jack to decide what additional help text is required here]",
+                            "visibleIf": "{qualifyingTempScope} = 'n'",
+                            "title": "If the above conditions don't match your situation, this service cannot help you apply for a Representation Grant at this point in time.<br><br>For now, this service has only been developed for a limited number of situations.<br><br>Please check later to see if this service has been developed for your specific situation. This service is continuously expanding to help more and more people.<br><br>In the mean time, the Government of British Columbia offers PDF forms that you may find helpful for your application. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"_blank\">Click here to go to the forms.</a> (This link opens in a new tab)",
                             "titleLocation": "hidden",
                             "messageStyle": "error"
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "({needGrant} = \"y\" and {needGrantYesExplanation} > 0) or ({needGrant} = \"n\" and {stillNeedGrant} = \"y\")"
+                    "visibleIf": "({qualifyingIntroExplanation} > 0) and ({needGrant} = 'y' or ({needGrant} = 'n' and {stillNeedGrant} = 'y'))"    
+                },
+                {
+                    "type": "panel",
+                    "name": "indianActPanel",
+                    "elements": [
+                        {
+                            "type": "infotext",
+                            "name": "indianActExplanation",
+                            "title": "This service needs to know if the deceased was either a Registered Indian or entitled to be Registered under the Government of Canada's Indian Act when they died.\n<br><br>\nFor more information about who is considered a Registered Indian or entitled to be a Registered Indian, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-1.html\" target=\"_blank\">click here to go to the Government of Canada's Indian Act.</a> (This link opens in a new tab) \n<br><br>\nPlease Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. \n",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "registeredIndian",
+                            "title": "Was the deceased a Registered Indian under the Government of Canada's Indian Act when they died?",
+                            "description": "If the deceased was a Nisga'a citizen or a member of a Treaty First Nation in British Columbia, select \"NO.\" This service will have more questions about this situation in a later step.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "registeredIndianEntitled",
+                            "visible": false,
+                            "visibleIf": "{registeredIndian} = 'n'",
+                            "title": "Was the deceased entitled to register under the Government of Canada's Indian Act when they died?",
+                            "description": "If the deceased was a Nisga'a citizen or a member of a Treaty First Nation in British Columbia, select \"NO.\" This service will have more questions about this situation in a later step.<br><br>The deceased was entitled to be registered if at least one of the their parents is registered or entitled to be registered under <a href='https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-1.html#h-331795' target='_blank'>section 6 of the Indian Act.</a> (This link opens in a new tab)<br><br>If anyone in the deceased’s immediate or extended family registered or was entitled to be registered, it may mean the deceased was entitled to register as well. If you are unsure, Indigenous Services Canada estate officers can help you. They can't give you legal advice. Call:<br>604-775-5100 (Greater Vancouver)<br>1-888-917-9977 (elsewhere in BC)",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "registeredIndianReferredToBC",
+                            "visible": false,
+                            "visibleIf": "{registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y')",
+                            "title": "Have you contacted an estate officer at Indigenous Services Canada?"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "registeredIndianYesExplanation",
+                            "visible": false,
+                            "visibleIf": "({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y')) and {registeredIndianReferredToBC} = 'n'",
+                            "title": "According to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of a Registered Indian who has died.<br><br>An Estate Officer at Indigenous Services Canada can assist you with this. For more information, <a href='file:///home/marzieh/Desktop/Court-Services/repgrant/REPGRANT-415/click%20here%20to%20access%20Indigenous%20Relations%20Canada' target='_blank'>click here to access Indigenous Relations Canada</a>. (This link opens in a new tab)<br><br>For more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue",
+                            "messageStyle": "error"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "registeredIndianEntitledNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'n'",
+                            "title": "If the deceased was entitled to register under the Government of Canada's Indian Act and Canada's Minister of Indigenous Services did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a Representation Grant.<br><br>According to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of someone who was entitled to register under the Government of Canada's Indian Act.<br><br>For more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)<br><br>Please Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. The Government of Canada's laws overpower the Government of British Columbia's laws and the Supreme Court of British Columbia's orders. This service apologizes for the restrictions placed on you by the Indian Act.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue",
+                            "messageStyle": "error"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "(({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0)"
+                },
+                {
+                    "type": "panel",
+                    "name": "willExistsPanel",
+                    "elements": [
+                        {
+                            "type": "yesno",
+                            "name": "willExists",
+                            "title": "Do you believe the deceased made a Will?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "willExistsYesError",
+                            "visible": false,
+                            "visibleIf": "{willExists} = 'y'",
+                            "title": "If you believe the deceased made a Will, this service cannot help you apply for a Representation Grant at this point in time.<br><br>For now, this service has only been developed for a limited number of situations.<br><br>The Government of British Columbia offers PDF forms that you may find helpful for your application. <a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/documents-forms-records/court-forms/probate-forms\" target=\"_blank\">Click here to go to the forms.</a> (This link opens in a new tab).",
+                            "titleLocation": "hidden",
+                            "messageStyle": "error"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or {registeredIndian} = 'n')  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0)"
                 },
                 {
                     "type": "panel",
@@ -95,21 +183,21 @@
                         {
                             "type": "yesno",
                             "name": "qualifyingDiedAfterWESA",
-                            "title": "Did the `deceased` die after March 30, 2014?",
+                            "title": "Did the deceased die after March 30, 2014?",
                             "isRequired": true
                         },
                         {
                             "type": "infotext",
                             "name": "qualifyingDiedAfterWESANoError",
                             "visible": false,
-                            "visibleIf": "{qualifyingDiedAfterWESA} = \"n\"",
-                            "title": "At this point in time, this service cannot help you apply for a `Representation Grant` if the `deceased` died on March 30, 2014, or before. \n<br><br>\nThe Wills, Estate and Succession Act became law on March 31, 2014. This service only supports the current laws. \n<br><br>\nIf the deceased died before to the current Wills, Estate and Succession Act became law, your `application` also needs to comply with the old Estate Administration Act. \n<br><br>\nPlease review both sets of laws to make sure your application will be successful.\n<ul>\n<li>the <a href=\"http://www.bclaws.ca/civix/document/id/consol17/consol17/00_96122_01\" target=\"blank\">Estate Administration Act</a> (This link opens in a new tab)</li>\n<li>the <a href=\"http://www.bclaws.ca/civix/document/id/complete/statreg/09013_01\" target=\"blank\">Wills, Estate and Succession Act</a> (This link opens in a new tab)</li> \n</ul>",
+                            "visibleIf": "{qualifyingDiedAfterWESA} = 'n'",
+                            "title": "At this point in time, this service cannot help you apply for a Representation Grant if the deceased died on March 30, 2014, or before. <br><br>The Wills, Estate and Succession Act became law on March 31, 2014. This service only supports the current laws.<br><br>If the deceased died before the current Wills, Estate and Succession Act came into effect, your application also needs to comply with the old Estate Administration Act.<br><br>Please review both sets of laws to make sure your application will be successful.<ul><li>the <a href=\"http://www.bclaws.ca/civix/document/id/consol17/consol17/00_96122_01\" target=\"blank\">Estate Administration Act</a> (This link opens in a new tab)</li><li>the <a href=\"http://www.bclaws.ca/civix/document/id/complete/statreg/09013_01\" target=\"blank\">Wills, Estate and Succession Act</a> (This link opens in a new tab)</li></ul>",
                             "titleLocation": "hidden",
                             "messageStyle": "error"
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "(({needGrant} = \"y\" and {needGrantYesExplanation} > 0) or ({needGrant} = \"n\" and {stillNeedGrant} = \"y\")) and {qualifyingWillExists} = \"n\""
+                    "visibleIf": "({willExists} = 'n') and (({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or {registeredIndian} = 'n')  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0))"
                 },
                 {
                     "type": "panel",
@@ -119,13 +207,13 @@
                             "isRequired": true,
                             "messageStyle": "inline",
                             "name": "qualifyingTerms",
-                            "title": "This service can help you apply for a `Representation Grant`. Before continuing, please read the terms for using this service.\n<br><br>\n\"Apply to Represent Someone Who Died\" is a service provided by the Government of British Columbia.\n<br><br>\nThe Government of British Columbia has the right to change this service at any time.\n<br><br>\n<ul>\n<li>Learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)</li>\n<li>Learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security here.</a> (This link opens in a new tab)</li>\n</ul>\nThe Supreme Court of British Columbia will review your `application`. The Court will decide to give you a Representation Grant or not.\n<br><br>\nBy pressing \"Continue\", you are agreeing to these terms.",
+                            "title": "This service can help you apply for a Representation Grant. Before continuing, please read the terms for using this service.<br><br>'Representation Grant Application' is a service provided by the Government of British Columbia.<br><br><ul><li>The Supreme Court of British Columbia will review the documents that you create through this service.</li><li>The Court may ask you for additional information even if you have used this service.</li><li>The Court will decide whether or not to give you a Representation Grant.</li></ul>The Government of British Columbia may update this service at any time.\n<br><br>\n<ul>\n<li>Learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/disclaimer\" target=\"_blank\">the disclaimer and liability here.</a> (This link opens in a new tab)</li><li>Learn more about <a href=\"https://www2.gov.bc.ca/gov/content/home/privacy\" target=\"_blank\">privacy and security here.</a> (This link opens in a new tab)</li></ul>By clicking \"Continue\", you are agreeing to these terms.",
                             "titleLocation": "hidden",
                             "type": "infotext"
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "(({needGrant} = \"y\" and {needGrantYesExplanation} > 0) or ({needGrant} = \"n\" and {stillNeedGrant} = \"y\")) and {qualifyingWillExists} = \"n\" and {qualifyingDiedAfterWESA} = \"y\" "
+                    "visibleIf": "({qualifyingDiedAfterWESA} = 'y') and (({willExists} = 'n') and (({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or {registeredIndian} = 'n')  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0)))"
                 },
                 {
                     "type": "panel",
@@ -146,10 +234,10 @@
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "(({needGrant} = \"y\" and {needGrantYesExplanation} > 0) or ({needGrant} = \"n\" and {stillNeedGrant} = \"y\")) and {qualifyingWillExists} = \"n\" and {qualifyingDiedAfterWESA} = \"y\" and {qualifyingTerms}>0"
+                    "visibleIf": "({qualifyingTerms}>0) and (({qualifyingDiedAfterWESA} = 'y') and (({willExists} = 'n') and (({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or {registeredIndian} = 'n')  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0))))"
                 }
             ],
-            "title": "Is this service right for your situation?"
+            "title": "What is a Representation Grant?"
         }
     ],
     "showQuestionNumbers": "off",
