@@ -5,7 +5,24 @@
 				<span class="text-primary h1 ml-4">Terms and Conditions</span>
 				<b-card border-variant="white">
                     
-					<p>"Apply to Represent Someone Who Died" is a service provided by the Government of British Columbia.</p>
+					<p>
+                        Represent Someone Who Died is a service provided by 
+                        the Government of British Columbia to help you apply for a
+                        <tooltip :index="0" title='Representation Grant' size="lg"/>
+                    </p>
+
+                    <ul>
+						<li>
+                            The Supreme Court of British Columbia will review the documents that you create through this service.                            
+						</li>
+						<li>
+                            The Court may ask you for additional information even if you have used this service.                            
+						</li>  
+                        <li>
+                            The Court will decide whether or not to give you a Representation Grant.                            
+						</li>                
+					</ul>
+
 					<p>The Government of British Columbia has the right to change this service at any time.</p>
 					<ul>
 						<li>Learn more about the disclaimer and liability 
@@ -19,8 +36,10 @@
 					</ul>
 
 					
-					<p>The Supreme Court of British Columbia will review your <tooltip :index="0" title='application'/>. 
-					The Court will decide to give you a <tooltip :index="0" title='Representation Grant'/> or not.
+					<p>
+                        You previously agreed to these terms when you clicked "Continue" on the first page of 
+                        this service entitled 
+                        <a href="qualify" target="_blank">Is this service right for your situation?</a>                        
 					</p>
 				</b-card>
 				<b-button variant="primary" class="ml-4" style="font-size:22px;font-weight:bold;" size="lg" @click="navigate()">Accept</b-button>
@@ -45,6 +64,12 @@ export default class terms extends Vue {
 	public navigate() {
         
         this.$router.push({ name: "applicant-status" });
+         
+    }
+
+    public openQualify() {
+        
+        this.$router.push({ name: "pre-qualification" });
          
     }
 

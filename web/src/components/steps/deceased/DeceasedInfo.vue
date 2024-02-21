@@ -40,18 +40,8 @@ export default class DeceasedInfo extends Vue {
     @applicationState.State
     public deceasedName!: string;
 
-
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
-
-    @applicationState.Action
-    public UpdateStepActive!: (newStepActive) => void
-
-    @applicationState.Action
-    public UpdatePageActive!: (newPageActive) => void
-
-    @applicationState.Action
-    public UpdateAllCompleted!: (newAllCompleted) => void
 
     @applicationState.Action
     public UpdateDeceasedName!: (newDeceasedName) => void

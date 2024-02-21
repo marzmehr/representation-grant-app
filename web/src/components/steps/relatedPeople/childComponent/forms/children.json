@@ -1,0 +1,735 @@
+{
+   "title": "Child's Information",
+   "pages": [
+      {
+         "name": "childPage",
+         "elements": [
+            {
+             "type": "text",
+             "name": "childName",
+             "title": "What is the full name of {deceasedName}'s child?",
+             "description": "Use the name as it appears on their primary identification (if you can get it).\n<br><br>\nThis name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+             "isRequired": true,
+             "defaultSubstitution": "(the person who died's child)"
+            }, 
+            {
+             "type": "yesno",
+             "name": "childIsAlive",
+             "title": "Is {panel.childName} alive?",
+             "isRequired": true
+            },
+            {
+             "type": "helptext",
+             "name": "childIsAliveFAQ1",
+             "title": "What if {panel.childName} is on life support?",
+             "titleLocation": "hidden",
+             "body": "{panel.childName} is considered alive."
+            },      
+            {
+             "type": "yesno",
+             "name": "childIsAdult",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = \"y\"",
+             "title": "Is {panel.childName} 19 or older?",
+             "isRequired": true
+            },
+           
+            {
+             "type": "infotext",
+             "name": "childIsAdultNoExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n'",
+             "title": "Because {panel.childName} is under the age of 19, {panel.childName}'s other parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.childName}.",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "customdate",
+             "name": "childIsAdultNoDOB",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoExplanation} > 0",
+             "title": "When was {panel.childName} born?",
+             "isRequired": true,
+             "yearsBehind": 19,
+             "yearsAhead": 1
+            },
+            {
+             "type": "address",
+             "name": "childIsAdultNoResidentialAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoExplanation} > 0",
+             "title": "Where does {panel.childName} live?",
+             "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+             "isRequired": true
+            },
+            {
+             "type": "helptext",
+             "name": "childIsAdultNoResidentialAddressFAQ1",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoExplanation} > 0",
+             "title": "What if {panel.childName} is homeless?",
+             "titleLocation": "hidden",
+             "body": "If {panel.childName} is homeless:\n<ul>\n<li>write \"no fixed address\" for the street address</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
+            },
+            {
+             "type": "yesno",
+             "name": "childIsAdultNoResidentialReceiveMail",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoExplanation} > 0",
+             "title": "Does {panel.childName} receive mail at this address?",
+             "isRequired": true
+            },
+            {
+             "type": "yesno",
+             "name": "childIsAdultNoHasMailingAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoResidentialReceiveMail} = 'n'",
+             "title": "Does {panel.childName} have a different address where they receive mail?",
+             "isRequired": true
+            },
+            {
+             "type": "address",
+             "name": "childIsAdultNoMailingAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoResidentialReceiveMail} = 'n' and {panel.childIsAdultNoHasMailingAddress} = 'y'",
+             "title": "Where does {panel.childName} receive mail?",
+             "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+             "isRequired": true
+            },
+            {
+             "type": "yesno",
+             "name": "childIsAdultNoEmail",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoExplanation} > 0",
+             "title": "Does {panel.childName} have an email address?",
+             "isRequired": true
+            },
+            {
+             "type": "text",
+             "name": "childIsAdultNoEmailAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoEmail} = 'y'",
+             "title": "What is {panel.childName}'s email address?",
+             "isRequired": true,
+             "inputType": "email"
+            },
+            {
+             "type": "yesno",
+             "name": "childIsAdultNoFax",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoExplanation} > 0",
+             "title": "Does {panel.childName} have a fax number?",
+             "isRequired": true
+            },
+            {
+             "type": "text",
+             "name": "childIsAdultNoFaxNumber",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoFax} = 'y'",
+             "title": "What is {panel.childName}'s fax number?",
+             "isRequired": true,
+             "inputType": "tel"
+            },     
+            {
+             "type": "yesno",
+             "name": "childHasGuardian",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childIsAdultNoExplanation} > 0",
+             "title": "Does {panel.childName} have a parent (who is alive) or a legal guardian (who is alive)?",
+             "isRequired": true
+            },
+            {
+             "type": "infotext",
+             "name": "childHasGuardianNoExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'n'",
+             "title": "Because {panel.childName} is under the age of 19, but they do not have a parent or guardian, you need to let {panel.childName} know directly that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "text",
+             "name": "childGuardianName",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y'",
+             "title": "Please enter the full name of a parent or guardian (who is currently alive) for {panel.childName}:",
+             "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+             "isRequired": true
+            },
+            {
+             "type": "address",
+             "name": "childGuardianResidentialAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y'",
+             "title": "Where does {panel.childGuardianName} live?",
+             "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+             "isRequired": true
+            },
+            {
+             "type": "helptext",
+             "name": "childGuardianResidentialAddressFAQ1",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y'",
+             "title": "What if {panel.childGuardianName} is homeless?",
+             "titleLocation": "hidden",
+             "body": "If {panel.childGuardianName} is homeless:\n<ul>\n<li>write \"no fixed address\" for the street address</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
+            },
+            {
+             "type": "yesno",
+             "name": "childGuardianResidentialReceiveMail",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y'",
+             "title": "Does {panel.childGuardianName} receive mail at this address?",
+             "isRequired": true
+            },
+            {
+             "type": "yesno",
+             "name": "childGuardianHasMailingAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y' and {panel.childGuardianResidentialReceiveMail} = 'n'",
+             "title": "Does {panel.childGuardianName} have a different address where they receive mail?",
+             "isRequired": true
+            },
+            {
+             "type": "address",
+             "name": "childGuardianMailingAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y' and {panel.childGuardianResidentialReceiveMail} = 'n' and {panel.childGuardianHasMailingAddress} = 'y'",
+             "title": "Where does {panel.childGuardianName} receive mail?",
+             "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+             "isRequired": true
+            },
+            {
+             "type": "yesno",
+             "name": "childGuardianEmail",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y'",
+             "title": "Does {panel.childGuardianName} have an email address?",
+             "isRequired": true
+            },
+            {
+             "type": "text",
+             "name": "childGuardianEmailAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y' and {panel.childGuardianEmail} = 'y'",
+             "title": "What is {panel.childGuardianName}'s email address?",
+             "isRequired": true,
+             "inputType": "email"
+            },
+            {
+             "type": "yesno",
+             "name": "childGuardianFax",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y'",
+             "title": "Does {panel.childGuardianName} have a fax number?",
+             "isRequired": true
+            },
+            {
+             "type": "text",
+             "name": "childGuardianFaxNumber",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'n' and {panel.childHasGuardian} = 'y' and {panel.childGuardianFax} = 'y'",
+             "title": "What is {panel.childGuardianName}'s fax number?",
+             "isRequired": true,
+             "inputType": "tel"
+            },     
+           
+            {
+             "type": "yesno",
+             "name": "childIsCompetent",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y'",
+             "title": "Is {panel.childName} `mentally competent`?",
+             "isRequired": true
+            },
+            {
+             "type": "infotext",
+             "name": "childIsCompetentNoExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n'",
+             "title": "Because {panel.childName} is not `mentally competent`, {panel.childName}'s `nominee` (if they have one) needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.childName}.",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "customdate",
+             "name": "childIsCompetentNoDOB",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childIsCompetentNoExplanation} > 0",
+             "title": "When was {panel.childName} born?",
+             "isRequired": true,
+             "yearsBehind": 150,
+             "yearsAhead": -18
+            },
+            {
+             "type": "address",
+             "name": "childIsCompetentNoResidentialAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childIsCompetentNoExplanation} > 0",
+             "title": "Where does {panel.childName} live?",
+             "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+             "isRequired": true
+            },
+            {
+             "type": "helptext",
+             "name": "childIsCompetentNoResidentialAddressFAQ1",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childIsCompetentNoExplanation} > 0",
+             "title": "What if {panel.childName} is homeless?",
+             "titleLocation": "hidden",
+             "body": "If {panel.childName} is homeless:\n<ul>\n<li>write \"no fixed address\" for the street address</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
+            },
+            {
+             "type": "yesno",
+             "name": "childIsCompetentNoResidentialReceiveMail",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childIsCompetentNoExplanation} > 0",
+             "title": "Does {panel.childName} receive mail at this address?",
+             "isRequired": true
+            },
+            {
+             "type": "yesno",
+             "name": "childIsCompetentNoHasMailingAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childIsCompetentNoResidentialReceiveMail} = 'n'",
+             "title": "Does {panel.childName} have a different address where they receive mail?",
+             "isRequired": true
+            },
+            {
+             "type": "address",
+             "name": "childIsCompetentNoMailingAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childIsCompetentNoResidentialReceiveMail} = 'n' and {panel.childIsCompetentNoHasMailingAddress} = 'y'",
+             "title": "Where does {panel.childName} receive mail?",
+             "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+             "isRequired": true
+            },
+            {
+             "type": "yesno",
+             "name": "childIsCompetentNoEmail",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childIsCompetentNoExplanation} > 0",
+             "title": "Does {panel.childName} have an email address?",
+             "isRequired": true
+            },
+            {
+             "type": "text",
+             "name": "childIsCompetentNoEmailAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"y\" and {panel.childIsCompetent} = \"n\" and {panel.childIsCompetentNoEmail} = \"y\"",
+             "title": "What is {panel.childName}'s email address?",
+             "isRequired": true,
+             "inputType": "email"
+            },
+            {
+             "type": "yesno",
+             "name": "childIsCompetentNoFax",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childIsCompetentNoExplanation} > 0",
+             "title": "Does {panel.childName} have a fax number?",
+             "isRequired": true
+            },
+            {
+             "type": "text",
+             "name": "childIsCompetentNoFaxNumber",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = \"y\" and {panel.childIsAdult} = \"y\" and {panel.childIsCompetent} = \"n\" and {panel.childIsCompetentNoFax} = \"y\"",
+             "title": "What is {panel.childName}'s fax number?",
+             "isRequired": true,
+             "inputType": "tel"
+            },      
+            {
+             "type": "yesno",
+             "name": "childHasNominee",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childIsCompetentNoExplanation} > 0",
+             "title": "Is there someone who helps {panel.childName} manage their money and legal decisions?",
+             "description": "This person would be considered {panel.childName}'s `Nominee`. If {panel.childName}'s Nominee is not alive anymore, select \"NO\".",
+             "isRequired": true
+            },
+            {
+             "type": "infotext",
+             "name": "childHasNomineeNoExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'n'",
+             "title": "Because {panel.childName} is not `mentally competent`, but they do not have a `nominee`, you need to let {panel.childName} know directly that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "text",
+             "name": "childNomineeName",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y'",
+             "title": "What is the name of the person who helps {panel.childName} manage their money and legal decisions?",
+             "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+             "isRequired": true
+            },
+            {
+             "type": "yesno",
+             "name": "childNomineeFormal",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y'",
+             "title": "Was {panel.childNomineeName} formally appointed to help {panel.childName} manage their money and legal decisions?",
+             "description": "These are the ways someone can be formally appointed.\n<ul>\n<li>\n{panel.childName} could have signed a document that gave someone else the power of attorney using the Power of Attorney Act,\n</li>\n<li>\n{panel.childName} could have signed a document that appointed someone as a representative using the Representation Agreement Act, or\n</li>\n<li>\na person can be appointed by the Court using the Patients Property Act,\n</li>\n<li>\na person could have been appointed either the Minister of Aboriginal Affairs and Northern Development or by the Court using the Indian Act\n</li>\n</ul>",
+             "isRequired": true
+            },
+            {
+             "type": "infotext",
+             "name": "childNomineeFormalYesExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childNomineeFormal} = 'y'",
+             "title": "The Public Guardian and Trustee (PGT) will need a copy of the legal document that proves that {panel.childNomineeName} was formally appointed as {panel.childName}'s `nominee`. \n<br><br>\nYou can get a head start by asking {panel.childNomineeName} for that document now, or, you can wait for this service to remind you in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.childNomineeName}.",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "childNomineeFormalNoExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childNomineeFormal} = 'n'",
+             "title": "Even if {panel.childNomineeName} was not formally appointed to help {panel.childName}, it is still best to let both {panel.childNomineeName} and {panel.childName} know that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {panel.childNomineeName}.",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "address",
+             "name": "childNomineeResidentialAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and (({panel.childNomineeFormal} = 'n' and {panel.childNomineeFormalNoExplanation} > 0) or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))",
+             "title": "Where does {panel.childNomineeName} live?",
+             "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+             "isRequired": true
+            },
+            {
+             "type": "helptext",
+             "name": "childNomineeResidentialAddressFAQ1",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and (({panel.childNomineeFormal} = 'n' and {panel.childNomineeFormalNoExplanation} > 0) or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))",
+             "title": "What if {panel.childNomineeName} is homeless?",
+             "titleLocation": "hidden",
+             "body": "If {panel.childNomineeName} was homeless:<ul>\n<li>write \"no fixed address\" for the street address</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
+            },
+            {
+             "type": "yesno",
+             "name": "childNomineeResidentialReceiveMail",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and (({panel.childNomineeFormal} = 'n' and {panel.childNomineeFormalNoExplanation} > 0) or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))",
+             "title": "Does {panel.childNomineeName} receive mail at this address?",
+             "isRequired": true
+            },
+            {
+             "type": "yesno",
+             "name": "childNomineeHasMailingAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and (({panel.childNomineeFormal} = 'n' and {panel.childNomineeFormalNoExplanation} > 0) or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0)) and {panel.childNomineeResidentialReceiveMail} = 'n'",
+             "title": "Does {panel.childNomineeName} have a different address where they receive mail?",
+             "isRequired": true
+            },
+            {
+             "type": "address",
+             "name": "childNomineeMailingAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and (({panel.childNomineeFormal} = 'n' and {panel.childNomineeFormalNoExplanation} > 0) or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))and {panel.childNomineeResidentialReceiveMail} = 'n' and {panel.childNomineeHasMailingAddress} = 'y'",
+             "title": "Where does {panel.childNomineeName} receive mail?",
+             "isRequired": true
+            },
+            {
+             "type": "yesno",
+             "name": "childNomineeEmail",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and (({panel.childNomineeFormal} = 'n' and {panel.childNomineeFormalNoExplanation} > 0) or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))",
+             "title": "Does {panel.childNomineeName} have an email address?",
+             "isRequired": true
+            },
+            {
+             "type": "text",
+             "name": "childNomineeEmailAddress",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and (({panel.childNomineeFormal} = 'n' and {panel.childNomineeFormalNoExplanation} > 0) or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0)) and {panel.childNomineeEmail} = 'y'",
+             "title": "What is {panel.childNomineeName}'s email address?",
+             "isRequired": true,
+             "inputType": "email"
+            },
+            {
+             "type": "yesno",
+             "name": "childNomineeFax",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and (({panel.childNomineeFormal} = 'n' and {panel.childNomineeFormalNoExplanation} > 0) or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))",
+             "title": "Does {panel.childNomineeName} have a fax number?",
+             "isRequired": true
+            },
+            {
+             "type": "text",
+             "name": "childNomineeFaxNumber",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'y' and {panel.childIsAdult} = 'y' and {panel.childIsCompetent} = 'n' and {panel.childHasNominee} = 'y' and (({panel.childNomineeFormal} = 'n' and {panel.childNomineeFormalNoExplanation} > 0) or ({panel.childNomineeFormal} = 'y' and\n{panel.childNomineeFormalYesExplanation} > 0))and {panel.childNomineeFax} = 'y'",
+             "title": "What is {panel.childNomineeName}'s fax number?",
+             "isRequired": true,
+             "inputType": "tel"
+            },     
+            {
+             "type": "yesno",
+             "name": "childDiedAfter",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n'",
+             "title": "Did {panel.childName} die after {deceasedDateOfDeathPlus4}?",
+             "isRequired": true
+            },
+            {
+             "type": "helptext",
+             "name": "childDiedAfterFAQ1",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n'",
+             "title": "Why does this date matter?",
+             "titleLocation": "hidden",
+             "body": "Under the law, in order for {panel.childName} to qualify for {deceasedName}'s `assets`, {panel.childName} must have lived for at least 5 days after {deceasedName} died. Once {panel.childName} has qualified, it doesn't matter if {panel.childName} is now dead.\n<br><br>\nThe people managing {panel.childName}'s belongings need to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section10\" target=\"_blank\">For more information, click here for the Five-day survival rule from the  <i>Wills, Estate and Succession Act</i> (WESA).</a> (This link opens in a new tab)"
+            },
+            {
+             "type": "yesno",
+             "name": "childDiedAfterNoGchildExists",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
+             "title": "Did {panel.childName} have any children?",
+             "isRequired": true
+            },
+            {
+             "type": "helptext",
+             "name": "childDiedAfterNoGchildExistsFAQ1",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
+             "title": "Do I include {panel.childName}'s legally adopted children?",
+             "titleLocation": "hidden",
+             "body": "Yes, you must include {panel.childName}'s legally adopted children. All of {panel.childName}'s biological and legally adopted children need to know that you are apply for a `Representation Grant`.\n<br><br>\nIf you are not sure if a person was legally adopted by {panel.childName} or not, it is safer for you to include this person. You want as much transparency in your application as possible in case this person was legally adopted by {panel.childName}.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {panel.childName}'s `estate`. "
+            },
+            {
+             "type": "helptext",
+             "name": "childDiedAfterNoGchildExistsFAQ2",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
+             "title": "Do I include {panel.childName}'s step-children?",
+             "titleLocation": "hidden",
+             "body": "No, you do not need to include {panel.childName}'s step-children because {panel.childName} did not legally adopt them. Only {panel.childName}'s biological or legally adopted children need to know that you are apply for a `Representation Grant`. \n<br><br>\nIf you are not sure if a person was legally adopted by {panel.childName} or not, it is safer for you to include this person. You want as much transparency in your application as possible in case this personal was legally adopted by {panel.childName}.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {panel.childName}'s `estate`. "
+            },
+            {
+             "type": "helptext",
+             "name": "childDiedAfterNoGchildExistsFAQ3",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
+             "title": "Do I include {panel.childName}'s children (biological or legally adopted) that were legally adopted by someone else?",
+             "titleLocation": "hidden",
+             "body": "The answer depends if {panel.childName} was alive when someone else legally adopted their children, and, if {panel.childName} gave up their parenting rights or not.\n<br><br>\nIf {panel.childName} was alive at the time someone else legally adopted {panel.childName}'s children, and {panel.childName} gave up their parenting rights, {panel.childName}'s former children <b>DO NOT</b> need to be included. \n<br><br>\nIf {panel.childName} had already died when {panel.childName}'s children were legally adopted by someone else, these children <b>DO</b> need to be included. \n<br><br>\nIf {panel.childName} was alive when {panel.childName}'s children were legally adopted by someone else, but {panel.childName} did not give up their parenting rights, these children <b>DO</b> need to be included. \n<br><br>\nThis last situation may happen if the children's other parent(s) gave up their parenting rights but {panel.childName} still kept their parenting rights. \n<br><br>\nIf you are not sure if someone who has been adopted is still considered {panel.childName}'s child or not, it is safer for you to include this person. You want as much transparency in your application as possible in case the Court considers this person {panel.childName}'s child.\n<br><br>\nEven though you are telling this person you are applying for a `Representation Grant`, if they are not {panel.childName}'s child anymore, they don't automatically get part of {panel.childName}'s `estate`.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96005_01#section37\" target=\"_blank\">\nFor more information, click here to read about who should be included as {panel.childName}'s children, if they were adopt, from the <i>Adoption Act</i>.</a> (This link opens in a new tab)"
+            },
+            {
+             "type": "helptext",
+             "name": "childDiedAfterNoGchildExistsFAQ4",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'",
+             "title": "Do I need to include {panel.childName}'s children-in-law?",
+             "titleLocation": "hidden",
+             "body": "No, you do not need to include {panel.childName}'s children-in-law (the `spouses` of {panel.childName}'s biological or legally adopted children)."
+            },
+            {
+             "type": "infotext",
+             "name": "childDiedAfterNoGchildExistsNoExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n' and {panel.childDiedAfterNoGchildExists} = 'n'",
+             "title": "Because {panel.childName} died before {deceasedDateOfDeathPlus4} and {panel.childName} did not have children, the people managing {panel.childName}'s belongings do not need to know that you are applying for a `Representation Grant` for {deceasedName}.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "childDiedAfterNoGchildExistsYesTempError",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'n'  and {panel.childDiedAfterNoGchildExists} = 'y'",
+             "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue",
+             "messageStyle": "error"
+            },      
+            {
+             "type": "infotext",
+             "name": "childDiedAfterYesExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y'",
+             "title": "Because {panel.childName} has died after {deceasedDateOfDeathPlus4}, {panel.childName}'s `personal representative` needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nIt is your responsibility to check with {panel.childName}'s family and friends to find out who is {panel.childName}'s personal representative.\n<br><br>\nIf you find out that {panel.childName} does not have a personal representative, this service will help you tell that to The Court.\n",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "radiogroup",
+             "name": "childHasPersonalRep",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childDiedAfterYesExplanation} > 0",
+             "title": "Do you know if {panel.childName} has a `personal representative`?",
+             "description": "If {panel.childName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {panel.childName}. \n<br><br>\nIf someone is planning on becoming {panel.childName}'s personal representative but hasn't done so yet, it is safer for you to include them as {panel.childPersonName}'s personal representative.",
+             "isRequired": true,
+             "choices": [
+              {
+               "value": "y",
+               "text": "I know {panel.childName} <b>has</b> a personal representative"
+              },
+              {
+               "value": "n",
+               "text": "I know {panel.childName} <b>does NOT have</b> a personal representative"
+              },
+              {
+               "value": "dk",
+               "text": "I <b>don't know</b> if {panel.childName} has a personal representative"
+              }
+             ]
+            },      
+            {
+             "type": "text",
+             "name": "childPersonalRepName",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'y'",
+             "title": "What is the name of {panel.childName}'s `personal representative`",
+             "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+             "isRequired": true
+            },
+            {
+             "type": "infotext",
+             "name": "childHasPersonalRepYesExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'y'  and {panel.childPersonalRepName} notempty",
+             "title": "Because {panel.childName} died after {deceasedDateOfDeathPlus4}, {panel.childPersonalRepName} needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },     
+            {
+             "type": "infotext",
+             "name": "childHasPersonalRepNoTempError",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'n'",
+             "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue",
+             "messageStyle": "error"
+            },     
+            {
+             "type": "infotext",
+             "name": "childHasPersonalRepDKExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk'",
+             "title": "You are responsible for knowing for sure if {panel.childName} has a `personal representative`.\n<br><br>\nBecause you are not sure if {panel.childName} has a personal representative, it is safer for you to check with as many of {panel.childName}'s family and friends as you can find.\n<br><br>\nYou want as much transparency in your application as possible in case {panel.childName} does have a personal representative and The Court doesn't think you've given enough people a fair chance.",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "radiogroup",
+             "name": "childHasPersonalRepDKFamilyConfirmed",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk' and {panel.childHasPersonalRepDKExplanation} > 0",
+             "title": "What did {panel.childName}'s family or friends tell you about {panel.childName}'s `personal representative`?",
+             "isRequired": true,
+             "choices": [
+              {
+               "value": "y",
+               "text": "they told me {panel.childName} <b>has a personal representative"
+              },
+              {
+               "value": "n",
+               "text": "they told me {panel.childName} <b>does NOT have</b> a personal representative"
+              },
+              {
+               "value": "dk",
+               "text": "they told me <b>they don't know</b> if {panel.childName} has a personal representative"
+              }
+             ]
+            },
+            {
+             "type": "infotext",
+             "name": "childHasPersonalRepDKFamilyConfirmedYesExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk' and {panel.childHasPersonalRepDKFamilyConfirmed} = 'y'",
+             "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>has</b> a personal representative\n</li>\n</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "childHasPersonalRepDKFamilyConfirmedNoExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk' and {panel.childHasPersonalRepDKFamilyConfirmed} = 'n'",
+             "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "childHasPersonalRepDKFamilyConfirmedDKExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk' and {panel.childHasPersonalRepDKFamilyConfirmed} = 'dk'",
+             "title": "If {panel.childName}'s family or friends do not know if {panel.childName} has a `personal representative`, you can hire professional investigators to try and find out for sure.\n<br><br>\nExamples of professional investigators include private investigators, heir tracers and other similar services.\n<br><br>\nYou do not have to hire a professional investigator if you don't want to. \n<br><br>\nThe reason you may want to hire a professional investigator is to show The Court that you did all you could to find {panel.childName}'s personal representative.\n<br><br>\nThe Court will ultimately decide whether or not you have made enough of an effort to find {panel.childName}'s personal representative.\n<br><br>\nIf you do hire a professional investigator, you will need to pay their fees yourself. If The Court gives you a `Representation Grant` for {deceasedName}, you will be able to get that money back from {deceasedName}'s `estate`.",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "yesno",
+             "name": "childHasPersonalRepDKHireInvestigator",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk' and {panel.childHasPersonalRepDKFamilyConfirmed} = 'dk' and {panel.childHasPersonalRepDKFamilyConfirmedDKExplanation} > 0",
+             "title": "Do you want to hire a professional investigator to find out if {panel.childName} has a `personal representative`?",
+             "isRequired": true
+            },
+            {
+             "type": "infotext",
+             "name": "childHasPersonalRepDKHireInvestigatorNoExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk' and {panel.childHasPersonalRepDKFamilyConfirmed} = 'dk' and {panel.childHasPersonalRepDKHireInvestigator} = 'n'",
+             "title": "<b>You may be risking a delay to your application</b> if {panel.childName}'s family or friends don't know for sure if {panel.childName} has a `personal representative` and you don't keep investigating. \n<br><br>\nIf the Court does not think that you did all you could to find {panel.childName}'s personal representative, they may ask you to hire a professional investigator before they will give a `Representation Grant` for {deceasedName}.\n<br><br>\nIf you don't want to hire a professional investigator right now, scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "radiogroup",
+             "name": "childHasPersonalRepDKHireInvestigatorConfirmed",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk' and {panel.childHasPersonalRepDKFamilyConfirmed} = 'dk' and {panel.childHasPersonalRepDKHireInvestigator} = 'y'",
+             "title": "What did the professional investigator(s) tell you about {panel.childName}'s `personal representative`?",
+             "isRequired": true,
+             "choices": [
+              {
+               "value": "y",
+               "text": "they told me {panel.childName} <b>has</b> a personal representative"
+              },
+              {
+               "value": "n",
+               "text": "they told me they <b>could NOT find</b> a personal representative for {panel.childName}"
+              }
+             ]
+            },
+            {
+             "type": "infotext",
+             "name": "childHasPersonalRepDKHireInvestigatorConfirmedYesExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk' and {panel.childHasPersonalRepDKFamilyConfirmed} = 'dk' and {panel.childHasPersonalRepDKHireInvestigator} = 'y' and {panel.childHasPersonalRepDKHireInvestigatorConfirmed} = 'y'",
+             "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>has</b> a personal representative\n</li>\n</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "childHasPersonalRepDKHireInvestigatorConfirmedNoExplanation",
+             "visible": false,
+             "visibleIf": "{panel.childIsAlive} = 'n' and {panel.childDiedAfter} = 'y' and {panel.childHasPersonalRep} = 'dk' and {panel.childHasPersonalRepDKFamilyConfirmed} = 'dk' and {panel.childHasPersonalRepDKHireInvestigator} = 'y' and {panel.childHasPersonalRepDKHireInvestigatorConfirmed} = 'n'",
+             "title": "Scroll back up to the question:\n<ul>\n<li><b>Do you know if {panel.childName} has a `personal representative`?</b></li>\n</ul>\nChange your answer to:\n<ul>\n<li>\nI know {panel.childName} <b>does NOT have</b> a personal representative\n</li>\n</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            }
+           ],
+         "title": "Child's Information"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}

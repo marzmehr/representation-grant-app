@@ -148,7 +148,7 @@ class Application extends VuexModule {
         p.key = "1";
         p.name = "Children";
         p.label = "Children";        
-        p.active = false;
+        p.active = true;
         p.progress = 0;
         s.pages.push(p);
 

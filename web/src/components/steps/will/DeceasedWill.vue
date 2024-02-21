@@ -13,7 +13,7 @@ import surveyJson from "./forms/deceased-will.json";
 
 import PageBase from "../PageBase.vue";
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
-import { togglePages, toggleSteps, toggleAllSteps } from '@/components/utils/TogglePages';
+import { toggleSteps, toggleAllSteps } from '@/components/utils/TogglePages';
 import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
 
 import { namespace } from "vuex-class";   
@@ -83,8 +83,7 @@ export default class DeceasedWill extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
 
-            this.UpdateGeneratedForms([]);
-            console.log(options)
+            this.UpdateGeneratedForms([]);            
             if(options.name == "willCheck")
                 this.hideNextSteps(options.value == "n")
 
@@ -93,14 +92,13 @@ export default class DeceasedWill extends Vue {
 
             if(options.name == "willGrantExists")
                 this.hideNextSteps(options.value == "y")
-            console.log(this.survey.data)
+
             if(options.name == "willOtherDocRecognize")
                 this.hideNextSteps(this.survey?.data?.willOtherDocExists=="y" && options.value == "y");
         })
     }
     
-    public reloadPageInformation() {
-        //console.log(this.step.result)
+    public reloadPageInformation() {        
 
         this.currentStep = this.$store.state.Application.currentStep;        
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
