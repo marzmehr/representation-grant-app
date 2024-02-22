@@ -219,11 +219,11 @@
                 </div>               
             </div>
        
-            <b-card v-if="spouseExists== 'Yes' && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body>
+            <b-card v-if="spouseExists== 'Yes' && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body :key="updated+1">
                 <div>Required Spouse information is missing. Click the "Edit button <div class="d-inline fa fa-edit"></div> " to fix it. </div>
             </b-card> 
 
-            <b-card v-else-if="spouseExists== 'Yes' && !incompleteError && showTable" class="my-4">  
+            <b-card v-else-if="spouseExists== 'Yes' && !incompleteError && showTable" class="my-4" :key="updated+2">  
                 <b-row no-body class="info-box">
                     <b-col cols="1" class="m-0" style="padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>
@@ -250,7 +250,7 @@
                 </b-row>
             </b-card>
     
-            <b-card v-else-if="spouseExists== 'No'" class="mt-4">  
+            <b-card v-else-if="spouseExists== 'No'" class="mt-4" :key="updated+3">  
                 <b-row no-body class="info-box">
                     <b-col cols="1" class="m-0" style="padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>
@@ -273,7 +273,7 @@
                 </b-row>
             </b-card> 
 
-            <b-card v-if="spouseExists!= null" no-body class="my-4">  
+            <b-card v-if="spouseExists!= null" no-body class="my-4" :key="updated+4">  
                 <b-row class="mx-4 mt-4">
                     <b-form-group>
                         <div style="color:#556077; font-size:1.40em; font-weight:bold;">
@@ -321,7 +321,7 @@
 
                 </b-row>
 
-                <b-card v-if="spouseCompleted == 'No'" no-body class="error-box my-4 mx-4">  
+                <b-card v-if="spouseCompleted == 'No'" no-body class="error-box my-4 mx-4" :key="updatedSpouse">  
                     <b-row>
                         <b-col cols="1" class="m-0" style="padding-right: 0;">
                             <b-icon-slash-circle-fill class="text-danger"/>

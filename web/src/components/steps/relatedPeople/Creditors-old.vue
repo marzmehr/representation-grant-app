@@ -92,8 +92,8 @@ export default class Creditors extends Vue {
     
     public reloadPageInformation() {
         //console.log(this.step.result)
-        if (this.step.result && this.step.result['creditorsSurvey']) {
-            this.survey.data = this.step.result['creditorsSurvey'].data;
+        if (this.step.result && this.step.result['creditorSurvey']) {
+            this.survey.data = this.step.result['creditorSurvey'].data;
             Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
         }
 
@@ -124,7 +124,7 @@ export default class Creditors extends Vue {
     beforeDestroy() {
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
-        this.UpdateStepResultData({step:this.step, data: {creditorsSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
+        this.UpdateStepResultData({step:this.step, data: {creditorSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
 
     }
 }

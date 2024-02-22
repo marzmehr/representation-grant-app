@@ -180,7 +180,7 @@ class Application extends VuexModule {
         p.key = "5";
         p.name = "Creditors";
         p.label = "Creditors";        
-        p.active = false;
+        p.active = true;
         p.progress = 0;
         s.pages.push(p);
 

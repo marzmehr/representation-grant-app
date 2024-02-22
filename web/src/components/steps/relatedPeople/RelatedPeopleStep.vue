@@ -2,11 +2,11 @@
   <step-base v-bind:step="step">    
     <spouse-info v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Spouse"></spouse-info>
     <child-info v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Children"></child-info>
+    <creditor-info v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Creditors"></creditor-info>
     <parents v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Parents"></parents>
     <grand-children v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.GrandChildren"></grand-children>
     <great-grand-children v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.GreatGrandChildren"></great-grand-children>
-    
-    <creditors v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Creditors"></creditors>
+        
   </step-base>
 </template>
 
@@ -17,11 +17,11 @@ import StepBase from "../StepBase.vue";
 import Executors from "./Executors.vue";
 import SpouseInfo from "./spouseComponent/SpouseInfo.vue";
 import ChildInfo from "./childComponent/ChildrenInfo.vue";
+import CreditorInfo from "./creditorComponent/CreditorInfo.vue";
 import Parents from "./Parents.vue";
 import GrandChildren from "./GrandChildren.vue";
 import GreatGrandChildren from "./GreatGrandChildren.vue";
 import Beneficiaries from "./Beneficiaries.vue";
-import Creditors from "./Creditors.vue";
 
 import { stepInfoType } from "@/types/Application";
 import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
@@ -41,7 +41,7 @@ const applicationState = namespace("Application");
         GrandChildren,
         GreatGrandChildren,
         Beneficiaries,
-        Creditors
+        CreditorInfo
     }
 })
 
