@@ -1,7 +1,7 @@
 import { addressInfoType, contactInfoType, nameInfoType, questionInfoType } from "@/types/Common";
 
 export interface childDetailsDataInfoType {
-    childName: nameInfoType;
+    childName: string;
     childIsAlive: string;
     childDied5DaysAfter?: string;
     knowDob: string;
