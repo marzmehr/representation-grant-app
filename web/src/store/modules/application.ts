@@ -931,236 +931,236 @@ class Application extends VuexModule {
     @Action
     public UpdateCurrentApplication(newApplication) {
         this.context.commit("setCurrentApplication", newApplication);
-        this.context.commit("loadSpouseInfo");
-        this.context.commit("loadChildrenInfo")
-        this.context.commit("loadGrandChildrenInfo");
-        this.context.commit("loadNotifyInfo");
-        // this.context.commit("loadBelongingsInfo");
-        this.context.commit("loadLandInfo");
-        this.context.commit("loadVehicleInfo");
-        this.context.commit("loadBankAccountInfo");
-        this.context.commit("loadPensionInfo");
-        this.context.commit("loadPersonalItemInfo");
+        // this.context.commit("loadSpouseInfo");
+        // this.context.commit("loadChildrenInfo")
+        // this.context.commit("loadGrandChildrenInfo");
+        // this.context.commit("loadNotifyInfo");
+        // // this.context.commit("loadBelongingsInfo");
+        // this.context.commit("loadLandInfo");
+        // this.context.commit("loadVehicleInfo");
+        // this.context.commit("loadBankAccountInfo");
+        // this.context.commit("loadPensionInfo");
+        // this.context.commit("loadPersonalItemInfo");
 
 
     }
-    @Mutation
-    public loadSpouseInfo(): void{
-        if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
-            const spouseSurvey = this.steps[2].result["spouseSurvey"];
-            const spouseInfo = (this.steps[2].result.spouseExists=='y' && spouseSurvey.data)? spouseSurvey.data:[];    
-            for (const spouse of spouseInfo) {
-                if (spouse.spouseIsAlive == "y") {
-                    this.relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
-                }                       
-            }
+    // @Mutation
+    // public loadSpouseInfo(): void{
+    //     if(this.steps[2].result && this.steps[2].result["spouseSurvey"]){
+    //         const spouseSurvey = this.steps[2].result["spouseSurvey"];
+    //         const spouseInfo = (this.steps[2].result.spouseExists=='y' && spouseSurvey.data)? spouseSurvey.data:[];    
+    //         for (const spouse of spouseInfo) {
+    //             if (spouse.spouseIsAlive == "y") {
+    //                 this.relatedPeopleInfo.push({relationShip: "spouse",name:spouse.spouseName, isAlive:spouse.spouseIsAlive, info: spouse});
+    //             }                       
+    //         }
             
-            if (spouseSurvey.data && this.steps[2].result.spouseExists == "n") {
-                this.spouseCompleted = true;
-            } else if (this.steps[2].result.spouseCompleted && this.steps[2].result.spouseCompleted == "y") {
-                this.spouseCompleted = true;
-            } else {
-                this.spouseCompleted = false;
-            }
-        } 
-    }    
-    @Mutation
-    public loadChildrenInfo(): void{
-        if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
-            const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
-            const childrenInfo = (this.steps[2].result.childExists=='y'&& childrenSurvey.data)? childrenSurvey.data:[]
-            const deceasedChildren = [];        
-            for (const child of childrenInfo) {
-                if (child.childIsAlive == "n"           && 
-                    child.childDied5DaysAfter == "n"    &&
-                    child.childName) {
-                        deceasedChildren.push(Vue.filter('getFullName')(child.childName));                    
-                } else if (child.childIsAlive == "y") {
-                    this.relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
-                }                       
-            }
-            if (deceasedChildren.length > 0) {
-                this.deceasedChildrenInfo = deceasedChildren;        
-            } else {
-                this.deceasedChildrenInfo = [];
-            }
+    //         if (spouseSurvey.data && this.steps[2].result.spouseExists == "n") {
+    //             this.spouseCompleted = true;
+    //         } else if (this.steps[2].result.spouseCompleted && this.steps[2].result.spouseCompleted == "y") {
+    //             this.spouseCompleted = true;
+    //         } else {
+    //             this.spouseCompleted = false;
+    //         }
+    //     } 
+    // }    
+    // @Mutation
+    // public loadChildrenInfo(): void{
+    //     if(this.steps[2].result && this.steps[2].result["childrenSurvey"]){
+    //         const childrenSurvey = this.steps[2].result && this.steps[2].result["childrenSurvey"];
+    //         const childrenInfo = (this.steps[2].result.childExists=='y'&& childrenSurvey.data)? childrenSurvey.data:[]
+    //         const deceasedChildren = [];        
+    //         for (const child of childrenInfo) {
+    //             if (child.childIsAlive == "n"           && 
+    //                 child.childDied5DaysAfter == "n"    &&
+    //                 child.childName) {
+    //                     deceasedChildren.push(Vue.filter('getFullName')(child.childName));                    
+    //             } else if (child.childIsAlive == "y") {
+    //                 this.relatedPeopleInfo.push({relationShip: "child", name:child.childName, isAlive:child.childIsAlive, info: child});
+    //             }                       
+    //         }
+    //         if (deceasedChildren.length > 0) {
+    //             this.deceasedChildrenInfo = deceasedChildren;        
+    //         } else {
+    //             this.deceasedChildrenInfo = [];
+    //         }
 
-            if (this.steps[2].result.childExists) {
-                if (this.steps[2].result.childExists == "n") {
-                    this.childrenCompleted = true;
-                }else if (this.steps[2].result.childCompleted && this.steps[2].result.childCompleted == "y") {
-                    this.childrenCompleted = true;
-                } else {
-                    this.childrenCompleted = false;
-                }
-            }
-        } 
-    }       
-    @Mutation
-    public loadGrandChildrenInfo(): void{
-        if(this.steps[2].result && this.steps[2].result["grandChildrenSurvey"]){
-            const deceasedGrandChildren = []; 
-            const grandChildrenSurvey = this.steps[2].result["grandChildrenSurvey"];
-            console.log(grandChildrenSurvey)
+    //         if (this.steps[2].result.childExists) {
+    //             if (this.steps[2].result.childExists == "n") {
+    //                 this.childrenCompleted = true;
+    //             }else if (this.steps[2].result.childCompleted && this.steps[2].result.childCompleted == "y") {
+    //                 this.childrenCompleted = true;
+    //             } else {
+    //                 this.childrenCompleted = false;
+    //             }
+    //         }
+    //     } 
+    // }       
+    // @Mutation
+    // public loadGrandChildrenInfo(): void{
+    //     if(this.steps[2].result && this.steps[2].result["grandChildrenSurvey"]){
+    //         const deceasedGrandChildren = []; 
+    //         const grandChildrenSurvey = this.steps[2].result["grandChildrenSurvey"];
+    //         console.log(grandChildrenSurvey)
             
-            for(const deceasedChild in this.deceasedChildrenInfo){
-                const panel =  "grandchildPanel["+deceasedChild+"]";
-                console.log(grandChildrenSurvey.data[panel])
-                for (const grandChild of grandChildrenSurvey.data[panel]) {
-                    if (grandChild.grandchildIsAlive == "n"           && 
-                        grandChild.grandchildDied5DaysAfter == "n"    &&
-                        grandChild.grandchildName) {
-                        deceasedGrandChildren.push(Vue.filter('getFullName')(grandChild.grandchildName));                    
-                    }                      
-                }
-            }
-            if (deceasedGrandChildren.length > 0) {
-                this.deceasedGrandChildrenInfo = deceasedGrandChildren;        
-            } else {
-                this.deceasedGrandChildrenInfo = [];
-            }
-        }       
-        console.log(this.deceasedGrandChildrenInfo)
-    }
+    //         for(const deceasedChild in this.deceasedChildrenInfo){
+    //             const panel =  "grandchildPanel["+deceasedChild+"]";
+    //             console.log(grandChildrenSurvey.data[panel])
+    //             for (const grandChild of grandChildrenSurvey.data[panel]) {
+    //                 if (grandChild.grandchildIsAlive == "n"           && 
+    //                     grandChild.grandchildDied5DaysAfter == "n"    &&
+    //                     grandChild.grandchildName) {
+    //                     deceasedGrandChildren.push(Vue.filter('getFullName')(grandChild.grandchildName));                    
+    //                 }                      
+    //             }
+    //         }
+    //         if (deceasedGrandChildren.length > 0) {
+    //             this.deceasedGrandChildrenInfo = deceasedGrandChildren;        
+    //         } else {
+    //             this.deceasedGrandChildrenInfo = [];
+    //         }
+    //     }       
+    //     console.log(this.deceasedGrandChildrenInfo)
+    // }
 
-    @Mutation
-    public loadLandInfo(): void{
-        console.log(this.steps[5].result)
-        if(this.steps[5].result && this.steps[5].result["landSurvey"] && this.steps[5].result["landSurvey"].data){
+    // @Mutation
+    // public loadLandInfo(): void{
+    //     console.log(this.steps[5].result)
+    //     if(this.steps[5].result && this.steps[5].result["landSurvey"] && this.steps[5].result["landSurvey"].data){
 
-            const landSurvey = this.steps[5].result["landSurvey"].data;
-            if (landSurvey.landExists && landSurvey.landExists == "n") {
-                this.landCompleted = true;
-            }else if(landSurvey.landCompleted && landSurvey.landCompleted == "y") {
-                this.landCompleted = true;
-            }else{
-                this.landCompleted = false;
-            }
+    //         const landSurvey = this.steps[5].result["landSurvey"].data;
+    //         if (landSurvey.landExists && landSurvey.landExists == "n") {
+    //             this.landCompleted = true;
+    //         }else if(landSurvey.landCompleted && landSurvey.landCompleted == "y") {
+    //             this.landCompleted = true;
+    //         }else{
+    //             this.landCompleted = false;
+    //         }
 
-            this.belongingsInfo.land = [];
+    //         this.belongingsInfo.land = [];
 
-            const landInfo = (landSurvey.landExists && landSurvey.landExists == "y" && landSurvey.landInfoPanel)?landSurvey.landInfoPanel:[];
+    //         const landInfo = (landSurvey.landExists && landSurvey.landExists == "y" && landSurvey.landInfoPanel)?landSurvey.landInfoPanel:[];
             
-            for (const land of landInfo) {            
-                this.belongingsInfo.land.push(land);                                   
-            }
-        }
-    }
+    //         for (const land of landInfo) {            
+    //             this.belongingsInfo.land.push(land);                                   
+    //         }
+    //     }
+    // }
 
-    @Mutation
-    public loadVehicleInfo(): void{        
+    // @Mutation
+    // public loadVehicleInfo(): void{        
 
-        if(this.steps[5].result && this.steps[5].result["vehiclesSurvey"] && this.steps[5].result["vehiclesSurvey"].data){
+    //     if(this.steps[5].result && this.steps[5].result["vehiclesSurvey"] && this.steps[5].result["vehiclesSurvey"].data){
 
-            const vehiclesSurvey = this.steps[5].result["vehiclesSurvey"].data;
-            if (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == "n") {
-                this.vehiclesCompleted = true;
-            }else{
-                this.vehiclesCompleted = false;
-            }
+    //         const vehiclesSurvey = this.steps[5].result["vehiclesSurvey"].data;
+    //         if (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == "n") {
+    //             this.vehiclesCompleted = true;
+    //         }else{
+    //             this.vehiclesCompleted = false;
+    //         }
 
-            this.belongingsInfo.vehicle = [];
-            const vehicleInfo = (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == "y" && vehiclesSurvey.vehicleInfoPanel)?vehiclesSurvey.vehicleInfoPanel:[];
+    //         this.belongingsInfo.vehicle = [];
+    //         const vehicleInfo = (vehiclesSurvey.vehicleExists && vehiclesSurvey.vehicleExists == "y" && vehiclesSurvey.vehicleInfoPanel)?vehiclesSurvey.vehicleInfoPanel:[];
             
-            for (const vehicle of vehicleInfo) {            
-                this.belongingsInfo.vehicle.push(vehicle);                                   
-            }
-        }
-    }
+    //         for (const vehicle of vehicleInfo) {            
+    //             this.belongingsInfo.vehicle.push(vehicle);                                   
+    //         }
+    //     }
+    // }
 
-    @Mutation
-    public loadBankAccountInfo(): void{
-        console.log(this.steps[5].result)       
+    // @Mutation
+    // public loadBankAccountInfo(): void{
+    //     console.log(this.steps[5].result)       
 
-        if(this.steps[5].result && this.steps[5].result["bankAccountsSurvey"] && this.steps[5].result["bankAccountsSurvey"].data){
+    //     if(this.steps[5].result && this.steps[5].result["bankAccountsSurvey"] && this.steps[5].result["bankAccountsSurvey"].data){
 
-            const bankAccountsSurvey = this.steps[5].result["bankAccountsSurvey"].data;
-            if (bankAccountsSurvey.bankAccountExists && bankAccountsSurvey.bankAccountExists == "n") {
-                this.bankAccountsCompleted = true;
-            }else if(bankAccountsSurvey.bankAccountExists && 
-                    bankAccountsSurvey.bankAccountExists == "y" &&
-                    bankAccountsSurvey.banksCompleted && 
-                    bankAccountsSurvey.banksCompleted == "y") {
-                        this.bankAccountsCompleted = true;
-            }else{
-                this.bankAccountsCompleted = false;
-            }
+    //         const bankAccountsSurvey = this.steps[5].result["bankAccountsSurvey"].data;
+    //         if (bankAccountsSurvey.bankAccountExists && bankAccountsSurvey.bankAccountExists == "n") {
+    //             this.bankAccountsCompleted = true;
+    //         }else if(bankAccountsSurvey.bankAccountExists && 
+    //                 bankAccountsSurvey.bankAccountExists == "y" &&
+    //                 bankAccountsSurvey.banksCompleted && 
+    //                 bankAccountsSurvey.banksCompleted == "y") {
+    //                     this.bankAccountsCompleted = true;
+    //         }else{
+    //             this.bankAccountsCompleted = false;
+    //         }
 
-            this.belongingsInfo.bankAccount = [];
-            this.deceasedAliases = [];
-            const bankAccountInfo = (bankAccountsSurvey.bankAccountExists && bankAccountsSurvey.bankAccountExists == "y" && bankAccountsSurvey.bankAccountInfoPanel)?bankAccountsSurvey.bankAccountInfoPanel:[];
+    //         this.belongingsInfo.bankAccount = [];
+    //         this.deceasedAliases = [];
+    //         const bankAccountInfo = (bankAccountsSurvey.bankAccountExists && bankAccountsSurvey.bankAccountExists == "y" && bankAccountsSurvey.bankAccountInfoPanel)?bankAccountsSurvey.bankAccountInfoPanel:[];
             
-            for (const bankAccount of bankAccountInfo) {            
-                this.belongingsInfo.bankAccount.push(bankAccount);
-                if (bankAccount.bankNameMatch == 'n' && bankAccount.alias) {
-                    this.deceasedAliases.push(bankAccount.alias);
-                } 
-            } 
-        }
-    }
+    //         for (const bankAccount of bankAccountInfo) {            
+    //             this.belongingsInfo.bankAccount.push(bankAccount);
+    //             if (bankAccount.bankNameMatch == 'n' && bankAccount.alias) {
+    //                 this.deceasedAliases.push(bankAccount.alias);
+    //             } 
+    //         } 
+    //     }
+    // }
 
-    @Mutation
-    public loadPensionInfo(): void{       
+    // @Mutation
+    // public loadPensionInfo(): void{       
 
-        if(this.steps[5].result && this.steps[5].result["pensionSurvey"] && this.steps[5].result["pensionSurvey"].data){
+    //     if(this.steps[5].result && this.steps[5].result["pensionSurvey"] && this.steps[5].result["pensionSurvey"].data){
 
-            const pensionSurvey = this.steps[5].result["pensionSurvey"].data;
+    //         const pensionSurvey = this.steps[5].result["pensionSurvey"].data;
 
-            if (pensionSurvey.payCPP && pensionSurvey.payCPP == "n" &&
-                pensionSurvey.otherPensionExists && pensionSurvey.otherPensionExists == "n" &&
-                pensionSurvey.lifeInsuranceExists && pensionSurvey.lifeInsuranceExists == "n") {
-                this.pensionCompleted = true;
-            }else{
-                this.pensionCompleted = false;
-            }
+    //         if (pensionSurvey.payCPP && pensionSurvey.payCPP == "n" &&
+    //             pensionSurvey.otherPensionExists && pensionSurvey.otherPensionExists == "n" &&
+    //             pensionSurvey.lifeInsuranceExists && pensionSurvey.lifeInsuranceExists == "n") {
+    //             this.pensionCompleted = true;
+    //         }else{
+    //             this.pensionCompleted = false;
+    //         }
 
-            this.belongingsInfo.pension = [];
-            const pensionInfo = (pensionSurvey)?pensionSurvey:[];
-            this.belongingsInfo.pension.push(pensionInfo);                
-        }
-    }
+    //         this.belongingsInfo.pension = [];
+    //         const pensionInfo = (pensionSurvey)?pensionSurvey:[];
+    //         this.belongingsInfo.pension.push(pensionInfo);                
+    //     }
+    // }
 
-    @Mutation
-    public loadPersonalItemInfo(): void{
+    // @Mutation
+    // public loadPersonalItemInfo(): void{
         
-        if(this.steps[5].result && this.steps[5].result["personalItemsSurvey"] && this.steps[5].result["personalItemsSurvey"].data){
+    //     if(this.steps[5].result && this.steps[5].result["personalItemsSurvey"] && this.steps[5].result["personalItemsSurvey"].data){
 
-            const personalItemsSurvey = this.steps[5].result["personalItemsSurvey"].data;
+    //         const personalItemsSurvey = this.steps[5].result["personalItemsSurvey"].data;
 
-            if (personalItemsSurvey.otherAssetsExists && personalItemsSurvey.otherAssetsExists == "n") {
-                this.personalItemsCompleted = true;
-            }else if(personalItemsSurvey.otherAssetsExists && 
-                personalItemsSurvey.otherAssetsExists == "y" &&
-                personalItemsSurvey.otherAssetsCompleted && 
-                personalItemsSurvey.otherAssetsCompleted == "y") {
-                    this.personalItemsCompleted = true;
-            }else{
-                this.personalItemsCompleted = false;
-            }
+    //         if (personalItemsSurvey.otherAssetsExists && personalItemsSurvey.otherAssetsExists == "n") {
+    //             this.personalItemsCompleted = true;
+    //         }else if(personalItemsSurvey.otherAssetsExists && 
+    //             personalItemsSurvey.otherAssetsExists == "y" &&
+    //             personalItemsSurvey.otherAssetsCompleted && 
+    //             personalItemsSurvey.otherAssetsCompleted == "y") {
+    //                 this.personalItemsCompleted = true;
+    //         }else{
+    //             this.personalItemsCompleted = false;
+    //         }
 
-            this.belongingsInfo.personalItem = [];
-            const personalItemInfo = (personalItemsSurvey.otherAssetsExists && personalItemsSurvey.otherAssetsExists == "y")?personalItemsSurvey:[];
+    //         this.belongingsInfo.personalItem = [];
+    //         const personalItemInfo = (personalItemsSurvey.otherAssetsExists && personalItemsSurvey.otherAssetsExists == "y")?personalItemsSurvey:[];
                             
-            this.belongingsInfo.personalItem.push(personalItemInfo);  
+    //         this.belongingsInfo.personalItem.push(personalItemInfo);  
 
-        }
-    }
-    @Mutation
-    public loadNotifyInfo(): void{
+    //     }
+    // }
+    // @Mutation
+    // public loadNotifyInfo(): void{
 
-        //console.log(this.steps[4].result["notifySurvey"].data)
+    //     //console.log(this.steps[4].result["notifySurvey"].data)
 
-        if(this.steps[4].result && this.steps[4].result["notifySurvey"]){
-            const notifySurvey = this.steps[4].result["notifySurvey"].data;
+    //     if(this.steps[4].result && this.steps[4].result["notifySurvey"]){
+    //         const notifySurvey = this.steps[4].result["notifySurvey"].data;
             
-            if (notifySurvey.p1EarlyNoWillOwe10k && 
-                notifySurvey.p1EarlyNoWillOwe10k == "y") {
-                    this.noWillNotifyStepRequired = true;
-            } else {
-                this.noWillNotifyStepRequired = false;
-            }
-        } 
-    } 
+    //         if (notifySurvey.p1EarlyNoWillOwe10k && 
+    //             notifySurvey.p1EarlyNoWillOwe10k == "y") {
+    //                 this.noWillNotifyStepRequired = true;
+    //         } else {
+    //             this.noWillNotifyStepRequired = false;
+    //         }
+    //     } 
+    // } 
 
 
     get getPrevStepPage(): { prevStep: number; prevPage: number } {

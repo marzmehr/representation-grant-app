@@ -213,11 +213,11 @@
             </div>
         
        
-            <b-card v-if="childExists== 'Yes' && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body>
+            <b-card v-if="childExists== 'Yes' && (childData.length > 0) && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body>
                 <div>Required Children information is missing. Click the "Edit button <div class="d-inline fa fa-edit"></div> " to fix it. </div>
             </b-card> 
 
-            <b-card v-else-if="childExists== 'Yes' && !incompleteError && showTable" class="my-4">  
+            <b-card v-else-if="childExists== 'Yes' && (childData.length > 0) && !incompleteError && showTable" class="my-4">  
                 <b-row no-body class="info-box">
                     <b-col cols="1" class="m-0" style="padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>
@@ -268,7 +268,7 @@
                 </b-row>
             </b-card> 
 
-            <b-card v-if="childExists!= null" no-body class="my-4">  
+            <b-card v-if="childExists!= null && showTable" no-body class="my-4">  
                 <b-row class="mx-4 mt-4">
                     <b-form-group>
                         <div style="color:#556077; font-size:1.40em; font-weight:bold;">

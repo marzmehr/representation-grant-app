@@ -6,7 +6,7 @@
                 <button type="button" class="btn btn-secondary" @click="goBack()">Cancel</button>
             </div>
             <div class="col-6">
-                <button type="button" class="btn btn-success" @click="saveSpouse()">Save</button>
+                <button type="button" class="btn btn-success" @click="saveChild()">Save</button>
             </div>
         </div>
         <br />
@@ -24,11 +24,11 @@ import "@/store/modules/application";
 const applicationState = namespace("Application");
 
 import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
-import { spouseInfoType } from '@/types/Application/Spouse';
 import { nameInfoType } from '@/types/Common';
+import { childDetailsDataInfoType } from '@/types/Application/Children';
 
 @Component
-export default class SpouseSurvey extends Vue {
+export default class ChildSurvey extends Vue {
     
     @Prop({required: true})
     editRowProp!: Object;   
@@ -42,7 +42,7 @@ export default class SpouseSurvey extends Vue {
     @applicationState.State
     public stPgNo!: stepsAndPagesNumberInfoType;
     
-    spouse = {} as spouseInfoType;
+    child = {} as childDetailsDataInfoType;
 
     survey = new SurveyVue.Model(surveyJson);
     currentStep =0;
@@ -70,12 +70,12 @@ export default class SpouseSurvey extends Vue {
     public addSurveyListener(){
         //TODO: Vue.filter('surveyChanged')('replyFlm')        
         this.survey.onComplete.add((sender, options) => {
-            this.populateSpouseModel(sender.data);
+            this.populateChildModel(sender.data);
             let id = sender.getVariable("id");
             if (id === null || id === undefined) {
-                this.$emit("surveyData", this.spouse);
+                this.$emit("surveyData", this.child);
             } else {
-                this.$emit("editedData", { ...this.spouse, id });
+                this.$emit("editedData", { ...this.child, id });
                 id = null;
             }
         });
@@ -103,119 +103,121 @@ export default class SpouseSurvey extends Vue {
         this.$emit("showTable", true);
     }
     
-    public saveSpouse() {
+    public saveChild() {
         
         this.survey.completeLastPage();
     }
 
-    public populateSpouseModel(spouseData) {
-        if(spouseData){
-            this.spouse.spouseName = spouseData.spouseName;       
-            this.spouse.spouseIsAlive = spouseData.spouseIsAlive;
-            this.spouse.spouseIsAdult = spouseData.spouseIsAdult;
-            this.spouse.spouseIsAdultNoExplanation = spouseData.spouseIsAdultNoExplanation;
-            this.spouse.spouseIsAdultNoDOB = spouseData.spouseIsAdultNoDOB;
-            this.spouse.spouseIsAdultNoResidentialAddress = spouseData.spouseIsAdultNoResidentialAddress;
-            this.spouse.spouseIsAdultNoResidentialReceiveMail = spouseData.spouseIsAdultNoResidentialReceiveMail;
-            this.spouse.spouseIsAdultNoHasMailingAddress = spouseData.spouseIsAdultNoHasMailingAddress;
-            this.spouse.spouseIsAdultNoMailingAddress = spouseData.spouseIsAdultNoMailingAddress;
-            this.spouse.spouseIsAdultNoEmail = spouseData.spouseIsAdultNoEmail;
-            this.spouse.spouseIsAdultNoEmailAddress = spouseData.spouseIsAdultNoEmailAddress;
-            this.spouse.spouseIsAdultNoFax = spouseData.spouseIsAdultNoFax;
-            this.spouse.spouseIsAdultNoFaxNumber = spouseData.spouseIsAdultNoFaxNumber;
-            this.spouse.spouseHasGuardian = spouseData.spouseHasGuardian;   
-            this.spouse.spouseGuardianName = spouseData.spouseGuardianName;
-            this.spouse.spouseGuardianResidentialAddress = spouseData.spouseGuardianResidentialAddress;
-            this.spouse.spouseGuardianResidentialReceiveMail = spouseData.spouseGuardianResidentialReceiveMail;
-            this.spouse.spouseGuardianHasMailingAddress = spouseData.spouseGuardianHasMailingAddress;
-            this.spouse.spouseGuardianMailingAddress = spouseData.spouseGuardianMailingAddress;
-            this.spouse.spouseGuardianEmail = spouseData.spouseGuardianEmail;
-            this.spouse.spouseGuardianEmailAddress = spouseData.spouseGuardianEmailAddress;
-            this.spouse.spouseGuardianFax = spouseData.spouseGuardianFax;
-            this.spouse.spouseGuardianFaxNumber = spouseData.spouseGuardianFaxNumber;
-            this.spouse.spouseIsCompetent = spouseData.spouseIsCompetent;
-            this.spouse.spouseIsCompetentNoExplanation = spouseData.spouseIsCompetentNoExplanation;
-            this.spouse.spouseIsCompetentNoDOB = spouseData.spouseIsCompetentNoDOB;
-            this.spouse.spouseIsCompetentNoResidentialAddress = spouseData.spouseIsCompetentNoResidentialAddress;
-            this.spouse.spouseIsCompetentNoResidentialReceiveMail = spouseData.spouseIsCompetentNoResidentialReceiveMail;
-            this.spouse.spouseIsCompetentNoHasMailingAddress = spouseData.spouseIsCompetentNoHasMailingAddress;
-            this.spouse.spouseIsCompetentNoMailingAddress = spouseData.spouseIsCompetentNoMailingAddress;
-            this.spouse.spouseIsCompetentNoEmail = spouseData.spouseIsCompetentNoEmail;
-            this.spouse.spouseIsCompetentNoEmailAddress = spouseData.spouseIsCompetentNoEmailAddress;
-            this.spouse.spouseIsCompetentNoFax = spouseData.spouseIsCompetentNoFax;
-            this.spouse.spouseIsCompetentNoFaxNumber = spouseData.spouseIsCompetentNoFaxNumber;
-            this.spouse.spouseHasNominee = spouseData.spouseHasNominee;
-            this.spouse.spouseNomineeName = spouseData.spouseNomineeName;
-            this.spouse.spouseNomineeFormal = spouseData.spouseNomineeFormal;
-            this.spouse.spouseNomineeFormalNoExplanation = spouseData.spouseNomineeFormalNoExplanation;
-            this.spouse.spouseNomineeFormalYesExplanation = spouseData.spouseNomineeFormalYesExplanation;
-            this.spouse.spouseNomineeResidentialAddress = spouseData.spouseNomineeResidentialAddress;
-            this.spouse.spouseNomineeResidentialReceiveMail = spouseData.spouseNomineeResidentialReceiveMail;
-            this.spouse.spouseNomineeHasMailingAddress = spouseData.spouseNomineeHasMailingAddress;
-            this.spouse.spouseNomineeMailingAddress = spouseData.spouseNomineeMailingAddress;
-            this.spouse.spouseNomineeEmail = spouseData.spouseNomineeEmail;
-            this.spouse.spouseNomineeEmailAddress = spouseData.spouseNomineeEmailAddress;
-            this.spouse.spouseNomineeFax = spouseData.spouseNomineeFax;
-            this.spouse.spouseNomineeFaxNumber = spouseData.spouseNomineeFaxNumber;
-            this.spouse.spouseDied5DaysAfter = spouseData.spouseDied5DaysAfter;
-            this.spouse.spouseHasPersonalRep = spouseData.spouseHasPersonalRep;
-            this.spouse.spousePersonalRepName = spouseData.spousePersonalRepName;
+    public populateChildModel(childData) {
+        if(childData){
+            this.child.childName = childData.childName;       
+            this.child.childIsAlive = childData.childIsAlive;
+            this.child.childIsAdult = childData.childIsAdult;
+            this.child.childIsAdultNoExplanation = childData.childIsAdultNoExplanation;
+            this.child.childIsAdultNoDOB = childData.childIsAdultNoDOB; 
+            this.child.childIsAdultNoResidentialAddress = childData.childIsAdultNoResidentialAddress;
+            this.child.childIsAdultNoResidentialReceiveMail = childData.childIsAdultNoResidentialReceiveMail;
+            this.child.childIsAdultNoHasMailingAddress = childData.childIsAdultNoHasMailingAddress;
+            this.child.childIsAdultNoMailingAddress = childData.childIsAdultNoMailingAddress;
+            this.child.childIsAdultNoEmail = childData.childIsAdultNoEmail;
+            this.child.childIsAdultNoEmailAddress = childData.childIsAdultNoEmailAddress;
+            this.child.childIsAdultNoFax = childData.childIsAdultNoFax;
+            this.child.childIsAdultNoFaxNumber = childData.childIsAdultNoFaxNumber;
+            this.child.childHasGuardian = childData.childHasGuardian;   
+            this.child.childGuardianName = childData.childGuardianName;
+            this.child.childGuardianResidentialAddress = childData.childGuardianResidentialAddress;
+            this.child.childGuardianResidentialReceiveMail = childData.childGuardianResidentialReceiveMail;
+            this.child.childGuardianHasMailingAddress = childData.childGuardianHasMailingAddress;
+            this.child.childGuardianMailingAddress = childData.childGuardianMailingAddress;
+            this.child.childGuardianEmail = childData.childGuardianEmail;
+            this.child.childGuardianEmailAddress = childData.childGuardianEmailAddress;
+            this.child.childGuardianFax = childData.childGuardianFax;
+            this.child.childGuardianFaxNumber = childData.childGuardianFaxNumber;
+            this.child.childIsCompetent = childData.childIsCompetent;
+            this.child.childIsCompetentNoExplanation = childData.childIsCompetentNoExplanation;
+            this.child.childIsCompetentNoDOB = childData.childIsCompetentNoDOB;
+            this.child.childIsCompetentNoResidentialAddress = childData.childIsCompetentNoResidentialAddress;
+            this.child.childIsCompetentNoResidentialReceiveMail = childData.childIsCompetentNoResidentialReceiveMail;
+            this.child.childIsCompetentNoHasMailingAddress = childData.childIsCompetentNoHasMailingAddress;
+            this.child.childIsCompetentNoMailingAddress = childData.childIsCompetentNoMailingAddress;
+            this.child.childIsCompetentNoEmail = childData.childIsCompetentNoEmail;
+            this.child.childIsCompetentNoEmailAddress = childData.childIsCompetentNoEmailAddress;
+            this.child.childIsCompetentNoFax = childData.childIsCompetentNoFax;
+            this.child.childIsCompetentNoFaxNumber = childData.childIsCompetentNoFaxNumber;
+            this.child.childHasNominee = childData.childHasNominee;
+            this.child.childNomineeName = childData.childNomineeName;
+            this.child.childNomineeFormal = childData.childNomineeFormal;
+            this.child.childNomineeFormalNoExplanation = childData.childNomineeFormalNoExplanation;
+            this.child.childNomineeFormalYesExplanation = childData.childNomineeFormalYesExplanation;
+            this.child.childNomineeResidentialAddress = childData.childNomineeResidentialAddress;
+            this.child.childNomineeResidentialReceiveMail = childData.childNomineeResidentialReceiveMail;
+            this.child.childNomineeHasMailingAddress = childData.childNomineeHasMailingAddress;
+            this.child.childNomineeMailingAddress = childData.childNomineeMailingAddress;
+            this.child.childNomineeEmail = childData.childNomineeEmail;
+            this.child.childNomineeEmailAddress = childData.childNomineeEmailAddress;
+            this.child.childNomineeFax = childData.childNomineeFax;
+            this.child.childNomineeFaxNumber = childData.childNomineeFaxNumber;
+            this.child.childDiedAfter = childData.childDiedAfter;
+            this.child.childDiedAfterNoGchildExists = childData.childDiedAfterNoGchildExists;
+            this.child.childHasPersonalRep = childData.childHasPersonalRep;
+            this.child.childPersonalRepName = childData.childPersonalRepName;           
         }
     }
 
     public populateFormWithPreExistingValues(editRowProp, survey) {
         survey.data = {
-            spouseName: editRowProp.spouseName
+            childName: editRowProp.childName
         };
-        survey.setValue("spouseIsAlive", editRowProp.spouseIsAlive);
-        survey.setValue("spouseIsAdult", editRowProp.spouseIsAdult);
-        survey.setValue("spouseIsAdultNoExplanation", editRowProp.spouseIsAdultNoExplanation);
-        survey.setValue("spouseIsAdultNoDOB", editRowProp.spouseIsAdultNoDOB);
-        survey.setValue("spouseIsAdultNoResidentialAddress", editRowProp.spouseIsAdultNoResidentialAddress);
-        survey.setValue("spouseIsAdultNoResidentialReceiveMail", editRowProp.spouseIsAdultNoResidentialReceiveMail);
-        survey.setValue("spouseIsAdultNoHasMailingAddress", editRowProp.spouseIsAdultNoHasMailingAddress);
-        survey.setValue("spouseIsAdultNoMailingAddress", editRowProp.spouseIsAdultNoMailingAddress);
-        survey.setValue("spouseIsAdultNoEmail", editRowProp.spouseIsAdultNoEmail);
-        survey.setValue("spouseIsAdultNoEmailAddress", editRowProp.spouseIsAdultNoEmailAddress);
-        survey.setValue("spouseIsAdultNoFax", editRowProp.spouseIsAdultNoFax);
-        survey.setValue("spouseIsAdultNoFaxNumber", editRowProp.spouseIsAdultNoFaxNumber);
-        survey.setValue("spouseHasGuardian", editRowProp.spouseHasGuardian);   
-        survey.setValue("spouseGuardianName", editRowProp.spouseGuardianName);
-        survey.setValue("spouseGuardianResidentialAddress", editRowProp.spouseGuardianResidentialAddress);
-        survey.setValue("spouseGuardianResidentialReceiveMail", editRowProp.spouseGuardianResidentialReceiveMail);
-        survey.setValue("spouseGuardianHasMailingAddress", editRowProp.spouseGuardianHasMailingAddress);
-        survey.setValue("spouseGuardianMailingAddress", editRowProp.spouseGuardianMailingAddress);
-        survey.setValue("spouseGuardianEmail", editRowProp.spouseGuardianEmail);
-        survey.setValue("spouseGuardianEmailAddress", editRowProp.spouseGuardianEmailAddress);
-        survey.setValue("spouseGuardianFax", editRowProp.spouseGuardianFax);
-        survey.setValue("spouseGuardianFaxNumber", editRowProp.spouseGuardianFaxNumber);
-        survey.setValue("spouseIsCompetent", editRowProp.spouseIsCompetent);
-        survey.setValue("spouseIsCompetentNoExplanation", editRowProp.spouseIsCompetentNoExplanation);
-        survey.setValue("spouseIsCompetentNoDOB", editRowProp.spouseIsCompetentNoDOB);
-        survey.setValue("spouseIsCompetentNoResidentialAddress", editRowProp.spouseIsCompetentNoResidentialAddress);
-        survey.setValue("spouseIsCompetentNoResidentialReceiveMail", editRowProp.spouseIsCompetentNoResidentialReceiveMail);
-        survey.setValue("spouseIsCompetentNoHasMailingAddress", editRowProp.spouseIsCompetentNoHasMailingAddress);
-        survey.setValue("spouseIsCompetentNoMailingAddress", editRowProp.spouseIsCompetentNoMailingAddress);
-        survey.setValue("spouseIsCompetentNoEmail", editRowProp.spouseIsCompetentNoEmail);
-        survey.setValue("spouseIsCompetentNoEmailAddress", editRowProp.spouseIsCompetentNoEmailAddress);
-        survey.setValue("spouseIsCompetentNoFax", editRowProp.spouseIsCompetentNoFax);
-        survey.setValue("spouseIsCompetentNoFaxNumber", editRowProp.spouseIsCompetentNoFaxNumber);
-        survey.setValue("spouseHasNominee", editRowProp.spouseHasNominee);
-        survey.setValue("spouseNomineeName", editRowProp.spouseNomineeName);
-        survey.setValue("spouseNomineeFormal", editRowProp.spouseNomineeFormal);
-        survey.setValue("spouseNomineeFormalNoExplanation", editRowProp.spouseNomineeFormalNoExplanation);
-        survey.setValue("spouseNomineeFormalYesExplanation", editRowProp.spouseNomineeFormalYesExplanation);
-        survey.setValue("spouseNomineeResidentialAddress", editRowProp.spouseNomineeResidentialAddress);
-        survey.setValue("spouseNomineeResidentialReceiveMail", editRowProp.spouseNomineeResidentialReceiveMail);
-        survey.setValue("spouseNomineeHasMailingAddress", editRowProp.spouseNomineeHasMailingAddress);
-        survey.setValue("spouseNomineeMailingAddress", editRowProp.spouseNomineeMailingAddress);
-        survey.setValue("spouseNomineeEmail", editRowProp.spouseNomineeEmail);
-        survey.setValue("spouseNomineeEmailAddress", editRowProp.spouseNomineeEmailAddress);
-        survey.setValue("spouseNomineeFax", editRowProp.spouseNomineeFax);
-        survey.setValue("spouseNomineeFaxNumber", editRowProp.spouseNomineeFaxNumber);
-        survey.setValue("spouseDied5DaysAfter", editRowProp.spouseDied5DaysAfter);
-        survey.setValue("spouseHasPersonalRep", editRowProp.spouseHasPersonalRep);
-        survey.setValue("spousePersonalRepName", editRowProp.spousePersonalRepName);
+        survey.setValue("childIsAlive", editRowProp.childIsAlive);
+        survey.setValue("childIsAdult", editRowProp.childIsAdult);
+        survey.setValue("childIsAdultNoExplanation", editRowProp.childIsAdultNoExplanation);
+        survey.setValue("childIsAdultNoDOB", editRowProp.childIsAdultNoDOB);
+        survey.setValue("childIsAdultNoResidentialAddress", editRowProp.childIsAdultNoResidentialAddress);
+        survey.setValue("childIsAdultNoResidentialReceiveMail", editRowProp.childIsAdultNoResidentialReceiveMail);
+        survey.setValue("childIsAdultNoHasMailingAddress", editRowProp.childIsAdultNoHasMailingAddress);
+        survey.setValue("childIsAdultNoMailingAddress", editRowProp.childIsAdultNoMailingAddress);
+        survey.setValue("childIsAdultNoEmail", editRowProp.childIsAdultNoEmail);
+        survey.setValue("childIsAdultNoEmailAddress", editRowProp.childIsAdultNoEmailAddress);
+        survey.setValue("childIsAdultNoFax", editRowProp.childIsAdultNoFax);
+        survey.setValue("childIsAdultNoFaxNumber", editRowProp.childIsAdultNoFaxNumber);
+        survey.setValue("childHasGuardian", editRowProp.childHasGuardian);   
+        survey.setValue("childGuardianName", editRowProp.childGuardianName);
+        survey.setValue("childGuardianResidentialAddress", editRowProp.childGuardianResidentialAddress);
+        survey.setValue("childGuardianResidentialReceiveMail", editRowProp.childGuardianResidentialReceiveMail);
+        survey.setValue("childGuardianHasMailingAddress", editRowProp.childGuardianHasMailingAddress);
+        survey.setValue("childGuardianMailingAddress", editRowProp.childGuardianMailingAddress);
+        survey.setValue("childGuardianEmail", editRowProp.childGuardianEmail);
+        survey.setValue("childGuardianEmailAddress", editRowProp.childGuardianEmailAddress);
+        survey.setValue("childGuardianFax", editRowProp.childGuardianFax);
+        survey.setValue("childGuardianFaxNumber", editRowProp.childGuardianFaxNumber);
+        survey.setValue("childIsCompetent", editRowProp.childIsCompetent);
+        survey.setValue("childIsCompetentNoExplanation", editRowProp.childIsCompetentNoExplanation);
+        survey.setValue("childIsCompetentNoDOB", editRowProp.childIsCompetentNoDOB);
+        survey.setValue("childIsCompetentNoResidentialAddress", editRowProp.childIsCompetentNoResidentialAddress);
+        survey.setValue("childIsCompetentNoResidentialReceiveMail", editRowProp.childIsCompetentNoResidentialReceiveMail);
+        survey.setValue("childIsCompetentNoHasMailingAddress", editRowProp.childIsCompetentNoHasMailingAddress);
+        survey.setValue("childIsCompetentNoMailingAddress", editRowProp.childIsCompetentNoMailingAddress);
+        survey.setValue("childIsCompetentNoEmail", editRowProp.childIsCompetentNoEmail);
+        survey.setValue("childIsCompetentNoEmailAddress", editRowProp.childIsCompetentNoEmailAddress);
+        survey.setValue("childIsCompetentNoFax", editRowProp.childIsCompetentNoFax);
+        survey.setValue("childIsCompetentNoFaxNumber", editRowProp.childIsCompetentNoFaxNumber);
+        survey.setValue("childHasNominee", editRowProp.childHasNominee);
+        survey.setValue("childNomineeName", editRowProp.childNomineeName);
+        survey.setValue("childNomineeFormal", editRowProp.childNomineeFormal);
+        survey.setValue("childNomineeFormalNoExplanation", editRowProp.childNomineeFormalNoExplanation);
+        survey.setValue("childNomineeFormalYesExplanation", editRowProp.childNomineeFormalYesExplanation);
+        survey.setValue("childNomineeResidentialAddress", editRowProp.childNomineeResidentialAddress);
+        survey.setValue("childNomineeResidentialReceiveMail", editRowProp.childNomineeResidentialReceiveMail);
+        survey.setValue("childNomineeHasMailingAddress", editRowProp.childNomineeHasMailingAddress);
+        survey.setValue("childNomineeMailingAddress", editRowProp.childNomineeMailingAddress);
+        survey.setValue("childNomineeEmail", editRowProp.childNomineeEmail);
+        survey.setValue("childNomineeEmailAddress", editRowProp.childNomineeEmailAddress);
+        survey.setValue("childNomineeFax", editRowProp.childNomineeFax);
+        survey.setValue("childNomineeFaxNumber", editRowProp.childNomineeFaxNumber);
+        survey.setValue("childDiedAfter", editRowProp.childDiedAfter);
+        survey.setValue("childDiedAfterNoGchildExists", editRowProp.childDiedAfterNoGchildExists);
+        survey.setValue("childHasPersonalRep", editRowProp.childHasPersonalRep);
+        survey.setValue("childPersonalRepName", editRowProp.childPersonalRepName);
         survey.setVariable("id", editRowProp.id);
     }
 
