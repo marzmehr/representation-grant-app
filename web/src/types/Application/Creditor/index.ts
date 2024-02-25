@@ -1,61 +1,70 @@
 import { addressInfoType, questionInfoType } from "@/types/Common";
 
-export interface creditorInfoType {
-    creditorName?: string;
-    creditorIsAlive?: string;
-    creditorIsAdult?: string;
-    creditorIsAdultNoExplanation?: boolean;
-    creditorIsAdultNoDOB?: string;
-    creditorIsAdultNoResidentialAddress?: addressInfoType;
-    creditorIsAdultNoResidentialReceiveMail?: string;
-    creditorIsAdultNoHasMailingAddress?: string;
-    creditorIsAdultNoMailingAddress?: addressInfoType;
-    creditorIsAdultNoEmail?: string;
-    creditorIsAdultNoEmailAddress?: string;
-    creditorIsAdultNoFax?: string;
-    creditorIsAdultNoFaxNumber?: string;
-    creditorHasGuardian?: string;    
-    creditorGuardianName?: string;
-    creditorGuardianResidentialAddress?: addressInfoType;
-    creditorGuardianResidentialReceiveMail?: string;
-    creditorGuardianHasMailingAddress?: string;
-    creditorGuardianMailingAddress?: addressInfoType;
-    creditorGuardianEmail?: string;
-    creditorGuardianEmailAddress?: string;
-    creditorGuardianFax?: string;
-    creditorGuardianFaxNumber?: string;
-    creditorIsCompetent?: string;
-    creditorIsCompetentNoExplanation?: boolean;
-    creditorIsCompetentNoDOB?: string;
-    creditorIsCompetentNoResidentialAddress?: addressInfoType;
-    creditorIsCompetentNoResidentialReceiveMail?: string;
-    creditorIsCompetentNoHasMailingAddress?: string;
-    creditorIsCompetentNoMailingAddress?: string;
-    creditorIsCompetentNoEmail?: string;
-    creditorIsCompetentNoEmailAddress?: string;
-    creditorIsCompetentNoFax?: string;
-    creditorIsCompetentNoFaxNumber?: string;
-    creditorHasNominee?: string;
-    creditorNomineeName?: string;
-    creditorNomineeFormal?: string;
-    creditorNomineeFormalNoExplanation?: boolean;
-    creditorNomineeFormalYesExplanation?: boolean;
-    creditorNomineeResidentialAddress?: addressInfoType;
-    creditorNomineeResidentialReceiveMail?: string;
-    creditorNomineeHasMailingAddress?: string;
-    creditorNomineeMailingAddress?: addressInfoType;
-    creditorNomineeEmail?: string;
-    creditorNomineeEmailAddress?: string;
-    creditorNomineeFax?: string;
-    creditorNomineeFaxNumber?: string;
-    creditorDied5DaysAfter?: string;
-    creditorHasPersonalRep?: string;
-    creditorPersonalRepName?: string;
+export interface creditorPersonInfoType {
+    creditorPersonName?: string;
+    creditorPersonIsAlive?: string;
+    creditorPersonIsAdult?: string;
+    creditorPersonIsAdultNoExplanation?: boolean;
+    creditorPersonIsAdultNoDOB?: string;
+    creditorPersonIsAdultNoResidentialAddress?: addressInfoType;
+    creditorPersonIsAdultNoResidentialReceiveMail?: string;
+    creditorPersonIsAdultNoHasMailingAddress?: string;
+    creditorPersonIsAdultNoMailingAddress?: addressInfoType;
+    creditorPersonIsAdultNoEmail?: string;
+    creditorPersonIsAdultNoEmailAddress?: string;
+    creditorPersonIsAdultNoFax?: string;
+    creditorPersonIsAdultNoFaxNumber?: string;
+    creditorPersonHasGuardian?: string;
+    creditorPersonGuardianName?: string;
+    creditorPersonGuardianResidentialAddress?: addressInfoType;
+    creditorPersonGuardianResidentialReceiveMail?: string;
+    creditorPersonGuardianHasMailingAddress?: string;
+    creditorPersonGuardianMailingAddress?: addressInfoType;
+    creditorPersonGuardianEmail?: string;
+    creditorPersonGuardianEmailAddress?: string;
+    creditorPersonGuardianFax?: string;
+    creditorPersonGuardianFaxNumber?: string;
+    creditorPersonIsCompetent?: string;
+    creditorPersonIsCompetentNoExplanation?: boolean;
+    creditorPersonIsCompetentNoDOB?: string;
+    creditorPersonIsCompetentNoResidentialAddress?: addressInfoType;
+    creditorPersonIsCompetentNoResidentialReceiveMail?: string;
+    creditorPersonIsCompetentNoHasMailingAddress?: string;
+    creditorPersonIsCompetentNoMailingAddress?: string;
+    creditorPersonIsCompetentNoEmail?: string;
+    creditorPersonIsCompetentNoEmailAddress?: string;
+    creditorPersonIsCompetentNoFax?: string;
+    creditorPersonIsCompetentNoFaxNumber?: string;
+    creditorPersonHasNominee?: string;
+    creditorPersonNomineeName?: string;
+    creditorPersonNomineeFormal?: string;
+    creditorPersonNomineeFormalNoExplanation?: boolean;
+    creditorPersonNomineeFormalYesExplanation?: boolean;
+    creditorPersonNomineeResidentialAddress?: addressInfoType;
+    creditorPersonNomineeResidentialReceiveMail?: string;
+    creditorPersonNomineeHasMailingAddress?: string;
+    creditorPersonNomineeMailingAddress?: addressInfoType;
+    creditorPersonNomineeEmail?: string;
+    creditorPersonNomineeEmailAddress?: string;
+    creditorPersonNomineeFax?: string;
+    creditorPersonNomineeFaxNumber?: string;
+    creditorPersonIsDeadExplanation?: boolean;
+    creditorPersonHasPersonalRep?: string;
+    creditorPersonPersonalRepName?: string;
     id?: number;
+  }
+
+  export interface creditorOrgInfoType {
+    creditorOrganizationName?: string;
+  }
+
+  export interface creditorInfoType {
+    creditorPersons?: creditorPersonInfoType[];
+    creditorOrgs?: creditorOrgInfoType[];
   }
   
   export interface creditorInfoSurveyInfoType {
-    data?: creditorInfoType[];
+    data?: creditorInfoType;
     questions?: questionInfoType[];
     pageName?: string;
     currentStep?: number | string;

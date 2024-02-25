@@ -47,10 +47,7 @@
                                         <li>
                                             
                                         </li>
-                                        <!-- <b>\n{bullets(spouseInfoPanel.spouseName)}\n{bullets(spouseInfoPanel.spouseGuardianName)}\n
-                                            {bullets(spouseInfoPanel.spouseNomineeName)}\n{bullets(spouseInfoPanel.spousePersonalRepName)}
-                                            \n{bullets(childInfoPanel.childName)}\n{bullets(childInfoPanel.childGuardianName)}
-                                            \n{bullets(childInfoPanel.childNomineeName)}\n{bullets(childInfoPanel.childPersonalRepName)}\n</b>\n -->
+                                        
                                     </ul>
                                     Because you are already letting these people know that you are applying for a Representation Grant, 
                                     do not identify them again in this step.                            
@@ -157,7 +154,7 @@
 
                 </div>
 
-                <div class="col-md-12" v-if="!showTable" id="creditor-info-survey">
+                <div class="col-md-12" v-if="!showTable && creditorPersonExists == 'Yes'" id="creditor-info-survey">
                     <creditor-survey 
                         :step="step" 
                         v-on:showTable="creditorComponentData" 
@@ -170,8 +167,89 @@
             
             <b-card v-if="creditorPersonExists== 'Yes' && creditorData && (creditorData.length > 0) && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body :key="updated+1">
                 <div>Required Creditors information is missing. Click the "Edit button <div class="d-inline fa fa-edit"></div> " to fix it. </div>
-            </b-card>
-            
+            </b-card> 
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <b-card class="mt-5" v-if="showOrgTable">
+                        <b-form-group>
+                            <div style="color:#556077; font-size:1.40em; font-weight:bold;">                                
+                                Did {{deceasedName | getFullName}} owe more than $10,000 to a single organization?
+                            </div> 
+                            <p> 
+                                For example: 
+                                <ul>
+                                    <li>a bank for a mortgage or a line of credit,</li>
+                                    <li>a city or town for property taxes,</li>
+                                    <li>a utility like BC Hydro,</li>
+                                    <li>a contractor for home repairs</li>
+                                </ul>
+                            </p>    
+                                                
+                            <b-form-radio-group
+                                v-model="creditorOrgExists"
+                                @change="updatedOrg+1"
+                                class="mt-2 ml-3 survey-yesno-vue"
+                                style="font-size:1.40em; display: inline-block;">
+                                <b-form-radio class="mr-5" value="Yes"><div style="transform:translate(5px,-5px);">Yes</div></b-form-radio>
+                                <b-form-radio value="No"><div style="transform:translate(5px,-5px);">No</div></b-form-radio>               
+                            </b-form-radio-group>
+                        </b-form-group>
+                    </b-card>
+
+                    <div class="mt-5" v-if="creditorOrgExists == 'Yes'" :key="updatedOrg">
+                        <h1>Creditor Organizations Details</h1>
+                        <p>
+                            You have indicated the deceased has organization creditor(s).
+                        </p>
+                        <p>
+                            Please enter the details of the organization in the fields below. To add an organization, 
+                            click the “Add Creditor” button. If you are done entering all the organizations, 
+                            click the “Next” button.
+                        </p>
+                        <div class="creditorSection" v-if="showOrgTable">
+                            <div class="creditorAlign">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">Creditor organization's name</th>                                       
+                                        <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <div></div>
+                                        
+                                        <tr v-for="creditor in creditorOrgData" :key="creditor.id">
+                                        <td>{{creditor.creditorOrganizationName}}</td>                                        
+                                        <td><a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteOrgRow(creditor.id)"><i class="fa fa-trash"></i></a> &nbsp;&nbsp; 
+                                        <a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Edit" @click="openOrgForm(creditor)"><i class="fa fa-edit"></i></a></td>
+                                        </tr>
+                                        <tr class="clickableRow" @click="openOrgForm()">
+                                        <td colspan = "7">
+                                            <a :class="isDisableNext()?'text-danger h4 my-2':'h4 my-2'" style="cursor: pointer;"
+                                            >+Add Creditor</a>
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" v-if="!showOrgTable" id="creditor-org-info-survey">
+                    <creditor-org-survey
+                        :step="step" 
+                        v-on:showTable="creditorOrgComponentData" 
+                        v-on:surveyData="populateOrgSurveyData" 
+                        v-on:editedData="editOrgRow" 
+                        :editRowProp="anyOrgRowToBeEdited" 
+                        :deceasedName="deceasedName"/>
+                </div>
+
+            </div>
+
             <b-card v-if="(creditorPersonExists== 'Yes' && creditorData && (creditorData.length > 0) && !incompleteError && showTable) || 
                 (creditorOrgExists== 'Yes' && creditorOrgData && (creditorOrgData.length > 0) && !incompleteOrgError && showOrgTable)" 
                 class="my-4" :key="updated+2+updatedOrg">  

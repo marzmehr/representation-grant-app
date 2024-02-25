@@ -60,7 +60,7 @@
                             "title": "When was {childName} born?",
                             "isRequired": true,
                             "dateYearsBehind": 19,
-                            "dateYearsAhead": 1
+                            "dateYearsAhead": 0
                         },
                         {
                             "type": "address",
@@ -595,7 +595,7 @@
                             "name": "childPersonalRepName",
                             "visible": false,
                             "visibleIf": "{childHasPersonalRep} = 'y'",
-                            "title": "What is the name of {childName}'s personal representative",
+                            "title": "What is the name of {childName}'s personal representative?",
                             "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
                             "isRequired": true
                         },

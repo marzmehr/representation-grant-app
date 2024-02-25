@@ -78,6 +78,7 @@ export interface stepInfoType {
     childrenSurvey?: childCommonSurveyInfoType;
     childCompleted?: string;
     creditorPersonExists?: string;
+    creditorOrgExists?: string;
     creditorSurvey?: creditorInfoSurveyInfoType;
     creditorCompleted?: string;
 
