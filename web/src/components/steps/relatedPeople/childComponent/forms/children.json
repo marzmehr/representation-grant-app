@@ -572,7 +572,7 @@
                         {
                             "type": "radiogroup",
                             "name": "childHasPersonalRep",                            
-                            "title": "Do you know if {childName} has a `personal representative`?",
+                            "title": "Do you know if {childName} has a personal representative?",
                             "description": "If {childName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {childName}. \n<br><br>\nIf someone is planning on becoming {childName}'s personal representative but hasn't done so yet, it is safer for you to include them as {childName}'s personal representative.",
                             "isRequired": true,
                             "choices": [

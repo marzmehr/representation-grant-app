@@ -447,7 +447,11 @@ export default class ChildrenInfo extends Vue {
 
         if (this.step.result?.childrenSurvey?.data) {
             this.childData = this.step.result.childrenSurvey.data;
-        }           
+        }       
+        
+        if (this.step.result?.childCompleted) {
+            this.childCompleted = this.step.result.childCompleted;
+        }  
     }
 
     mounted(){
@@ -486,7 +490,7 @@ export default class ChildrenInfo extends Vue {
         if(this.childExists == 'No')
             childInfo = null
 
-        this.UpdateStepResultData({step:this.step, data: {childExists: this.childExists, childrenSurvey: childInfo}})       
+        this.UpdateStepResultData({step:this.step, data: {childExists: this.childExists, childrenSurvey: childInfo, childCompleted: this.childCompleted}})       
     }
 
     public getChildrenResults(){

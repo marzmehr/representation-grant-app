@@ -37,18 +37,17 @@
                             </b-col>
                             <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
                                 
-                                <p v-if="!relativesExist">
+                                <p v-if="relativesList.length<=0">
                                     In past steps, you have not yet identified anyone who needs to know that 
                                     you are applying for a Representation Grant for {{deceasedName | getFullName}}.                                    
                                 </p>
                                 <p v-else>
                                     In past steps, you have already identified the following people:
                                     <ul>
-                                        <li>
-                                            
+                                        <li v-for="relative, ind of relativesList" :key="ind">
+                                            {{ relative }}
                                         </li>
-                                        
-                                    </ul>
+                                    </ul> 
                                     Because you are already letting these people know that you are applying for a Representation Grant, 
                                     do not identify them again in this step.                            
                                 </p>                               
@@ -58,7 +57,7 @@
 
                     <b-card class="mt-5">
                         <b-form-group>
-                            <div style="color:#556077; font-size:1.40em; font-weight:bold;" v-if="!relativesExist">                                
+                            <div style="color:#556077; font-size:1.40em; font-weight:bold;" v-if="relativesList.length<=0">                                
                                 Did {{deceasedName | getFullName}} owe more than $10,000 to any one person?
                             </div>     
                             <div style="color:#556077; font-size:1.40em; font-weight:bold;" v-else>
@@ -94,7 +93,7 @@
                                 </p>
                                 <p>
                                     You want as much transparency in your application as possible in case the Court decides that you 
-                                    should have let this person know you were applying for a `Representation Grant` for {deceasedName}.
+                                    should have let this person know you were applying for a Representation Grant for {{deceasedName | getFullName}}.
                                 </p>
                                 <p>
                                     Even though you are telling this person you are applying for a Representation Grant, they don't 
@@ -113,66 +112,20 @@
 
                     </b-card>
 
-                    <div class="mt-5" v-if="creditorPersonExists == 'Yes'" :key="updated">
-                        <h1>Creditors Details</h1>
-                        <p>
-                            You have indicated the deceased has creditor(s).
-                        </p>
-                        <p>
-                            Please enter the details of the creditor in the fields below. To add a creditor, 
-                            click the “Add Creditor” button. If you are done entering all the creditors, 
-                            click the “Next” button.
-                        </p>
-                        <div class="creditorSection" v-if="showTable">
-                            <div class="creditorAlign">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                        <th scope="col">Creditor's name</th>                                       
-                                        <th scope="col"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <div></div>
-                                        
-                                        <tr v-for="creditor in creditorData" :key="creditor.id">
-                                        <td>{{creditor.creditorPersonName}}</td>                                        
-                                        <td><a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(creditor.id)"><i class="fa fa-trash"></i></a> &nbsp;&nbsp; 
-                                        <a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Edit" @click="openForm(creditor)"><i class="fa fa-edit"></i></a></td>
-                                        </tr>
-                                        <tr class="clickableRow" @click="openForm()">
-                                        <td colspan = "7">
-                                            <a :class="isDisableNext()?'text-danger h4 my-2':'h4 my-2'" style="cursor: pointer;"
-                                            >+Add Creditor</a>
-                                        </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <creditor-info 
+                        class="mt-5" 
+                        v-if="creditorPersonExists == 'Yes'" 
+                        :key="updated"
+                        :step="step"
+                        :creditorData="creditorData"/>
 
-                </div>
-
-                <div class="col-md-12" v-if="!showTable && creditorPersonExists == 'Yes'" id="creditor-info-survey">
-                    <creditor-survey 
-                        :step="step" 
-                        v-on:showTable="creditorComponentData" 
-                        v-on:surveyData="populateSurveyData" 
-                        v-on:editedData="editRow" 
-                        :editRowProp="anyRowToBeEdited" 
-                        :deceasedName="deceasedName"/>
-                </div>               
-            </div>
-            
-            <b-card v-if="creditorPersonExists== 'Yes' && creditorData && (creditorData.length > 0) && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body :key="updated+1">
-                <div>Required Creditors information is missing. Click the "Edit button <div class="d-inline fa fa-edit"></div> " to fix it. </div>
-            </b-card> 
+                </div>                            
+            </div>            
 
             <div class="row">
                 <div class="col-md-12">
 
-                    <b-card class="mt-5" v-if="showOrgTable">
+                    <b-card class="mt-5">
                         <b-form-group>
                             <div style="color:#556077; font-size:1.40em; font-weight:bold;">                                
                                 Did {{deceasedName | getFullName}} owe more than $10,000 to a single organization?
@@ -198,55 +151,13 @@
                         </b-form-group>
                     </b-card>
 
-                    <div class="mt-5" v-if="creditorOrgExists == 'Yes'" :key="updatedOrg">
-                        <h1>Creditor Organizations Details</h1>
-                        <p>
-                            You have indicated the deceased has organization creditor(s).
-                        </p>
-                        <p>
-                            Please enter the details of the organization in the fields below. To add an organization, 
-                            click the “Add Creditor” button. If you are done entering all the organizations, 
-                            click the “Next” button.
-                        </p>
-                        <div class="creditorSection" v-if="showOrgTable">
-                            <div class="creditorAlign">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                        <th scope="col">Creditor organization's name</th>                                       
-                                        <th scope="col"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <div></div>
-                                        
-                                        <tr v-for="creditor in creditorOrgData" :key="creditor.id">
-                                        <td>{{creditor.creditorOrganizationName}}</td>                                        
-                                        <td><a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteOrgRow(creditor.id)"><i class="fa fa-trash"></i></a> &nbsp;&nbsp; 
-                                        <a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Edit" @click="openOrgForm(creditor)"><i class="fa fa-edit"></i></a></td>
-                                        </tr>
-                                        <tr class="clickableRow" @click="openOrgForm()">
-                                        <td colspan = "7">
-                                            <a :class="isDisableNext()?'text-danger h4 my-2':'h4 my-2'" style="cursor: pointer;"
-                                            >+Add Creditor</a>
-                                        </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12" v-if="!showOrgTable" id="creditor-org-info-survey">
-                    <creditor-org-survey
-                        :step="step" 
-                        v-on:showTable="creditorOrgComponentData" 
-                        v-on:surveyData="populateOrgSurveyData" 
-                        v-on:editedData="editOrgRow" 
-                        :editRowProp="anyOrgRowToBeEdited" 
-                        :deceasedName="deceasedName"/>
-                </div>
+                    <creditor-org-info 
+                        class="mt-5" 
+                        v-if="creditorOrgExists == 'Yes'" 
+                        :key="updatedOrg"
+                        :step="step"
+                        :creditorOrgData="creditorOrgData"/>                    
+                </div>               
 
             </div>
 
@@ -381,8 +292,8 @@ import { Component, Vue, Prop} from 'vue-property-decorator';
 import { namespace } from "vuex-class";  
 
 import PageBase from "../../PageBase.vue";
-import CreditorSurvey from './CreditorSurvey.vue';
-import CreditorOrgSurvey from './CreditorOrgSurvey.vue';
+import CreditorInfo from './CreditorInfo.vue';
+import CreditorOrgInfo from './CreditorOrgInfo.vue';
 import Tooltip from "@/components/survey/Tooltip.vue";
  
 import "@/store/modules/application";
@@ -390,17 +301,20 @@ const applicationState = namespace("Application");
 
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
 import { stepsAndPagesNumberInfoType } from "@/types/Application/StepsAndPages";
+import { nameInfoType } from '@/types/Common';
+import { spouseInfoType } from '@/types/Application/Spouse';
+import { childDetailsDataInfoType } from '@/types/Application/Children';
 
 
 @Component({
     components:{
-      CreditorSurvey,
-      CreditorOrgSurvey,
+      CreditorInfo,
+      CreditorOrgInfo,
       PageBase,
       Tooltip
     }
 })
-export default class CreditorInfo extends Vue {
+export default class Creditors extends Vue {
 
     @Prop({required: true})
     step!: stepInfoType;
@@ -412,23 +326,19 @@ export default class CreditorInfo extends Vue {
     public steps!: stepInfoType[];    
 
     @applicationState.State
-    public deceasedName!: string;
+    public deceasedName!: nameInfoType;
 
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
 
-
     currentStep =0;
     currentPage =0;
-    relativesExist = null;//TODO
     showTable = true;
     showOrgTable = true;
     creditorData = [];
     creditorOrgData = [];
-    anyRowToBeEdited = null;
-    anyOrgRowToBeEdited = null;
-    editId = null; 
-    editOrgId = null; 
+    relativesList = [];
+   
     incompleteError =  false;  
     incompleteOrgError =  false; 
     creditorPersonExists = null; 
@@ -437,101 +347,7 @@ export default class CreditorInfo extends Vue {
     updated = 0;
     updatedOrg = 0;
     updatedCreditors = 0;
-    showLessMoneyInfo = false;
-    
-    public openForm(anyRowToBeEdited?) {
-        this.showTable = false;
-         Vue.nextTick(()=>{
-            const el = document.getElementById('creditor-info-survey')
-            if(el) el.scrollIntoView();
-        })
-        if(anyRowToBeEdited) {
-            this.editId = anyRowToBeEdited.id;
-            this.anyRowToBeEdited = anyRowToBeEdited;
-        } else {
-            this.anyRowToBeEdited = null;
-        }
-    }
-
-    public openOrgForm(anyRowToBeEdited?) {
-        this.showOrgTable = false;
-         Vue.nextTick(()=>{
-            const el = document.getElementById('creditor-org-info-survey')
-            if(el) el.scrollIntoView();
-        })
-        if(anyRowToBeEdited) {
-            this.editOrgId = anyRowToBeEdited.id;
-            this.anyOrgRowToBeEdited = anyRowToBeEdited;
-        } else {
-            this.anyOrgRowToBeEdited = null;
-        }
-    }
-
-    public creditorComponentData(value) {       
-        this.showTable = value;
-    }
-
-    public creditorOrgComponentData(value) {       
-        this.showOrgTable = value;
-    }
-
-    public populateSurveyData(creditorValue) {
-
-        const currentIndexValue = this.creditorData?.length > 0 ? this.creditorData[this.creditorData.length - 1].id : 0;
-        const id = currentIndexValue + 1;
-        const newCreditor = { ...creditorValue, id };
-        this.creditorData = [...this.creditorData, newCreditor];
-
-        this.showTable = true; 
-        this.resetCreditorRelatedPages(this.creditorData);
-    }
-
-    public populateOrgSurveyData(creditorValue) {
-
-        const currentIndexValue = this.creditorOrgData?.length > 0 ? this.creditorOrgData[this.creditorOrgData.length - 1].id : 0;
-        const id = currentIndexValue + 1;
-        const newCreditor = { ...creditorValue, id };
-        this.creditorOrgData = [...this.creditorOrgData, newCreditor];
-
-        this.showOrgTable = true; 
-        this.resetCreditorRelatedPages(this.creditorOrgData);
-    }
-
-    public deleteRow(rowToBeDeleted) {
-       
-        this.creditorData = this.creditorData.filter(data => {
-            return data.id !== rowToBeDeleted;
-        }); 
-        this.resetCreditorRelatedPages(this.creditorData);
-        this.surveyHasError();
-    }
-
-    public deleteOrgRow(rowToBeDeleted) {
-       
-       this.creditorOrgData = this.creditorOrgData.filter(data => {
-           return data.id !== rowToBeDeleted;
-       }); 
-       this.resetCreditorRelatedPages(this.creditorOrgData);
-       this.surveyHasError();
-    }
-
-    public editRow(editedRow) {
-        this.creditorData = this.creditorData.map(data => {
-            return data.id === this.editId ? editedRow : data;
-        });
-        this.showTable = true;
-        this.surveyHasError();
-        this.resetCreditorRelatedPages(this.creditorData);
-    }
-
-    public editOrgRow(editedRow) {
-        this.creditorOrgData = this.creditorOrgData.map(data => {
-            return data.id === this.editOrgId ? editedRow : data;
-        });
-        this.showOrgTable = true;
-        this.surveyHasError();
-        this.resetCreditorRelatedPages(this.creditorOrgData);
-    }
+    showLessMoneyInfo = false;     
 
     public onPrev() {
         Vue.prototype.$UpdateGotoPrevStepPage()
@@ -556,30 +372,84 @@ export default class CreditorInfo extends Vue {
         if (this.step.result?.creditorOrgExists) {
             this.creditorOrgExists = this.step.result.creditorOrgExists;
         }        
+
+        if (this.step.result?.creditorCompleted) {
+            this.creditorCompleted = this.step.result.creditorCompleted;
+        }   
     }
 
     mounted(){
         this.updated = 0;
         this.updatedOrg = 0;
         this.updatedCreditors = 0;
+        this.relativesList = this.getRelativesInfo();
         Vue.nextTick(()=>this.surveyHasError());
         this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;        
     }
 
+    public getRelativesInfo(){
+
+        const relatives = [];
+        let spouseList: spouseInfoType[] = [];
+        let childList: childDetailsDataInfoType[] = [];
+        if (this.step.result?.spouseSurvey?.data) {
+            spouseList = this.step.result.spouseSurvey.data;
+        } 
+
+        for (const spouse of spouseList){
+            relatives.push(spouse.spouseName);
+
+            if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'n' &&
+            spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianName?.length>0){
+
+                relatives.push(spouse.spouseGuardianName);
+            }
+
+            if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'y' &&
+                spouse.spouseIsCompetent == 'n' && spouse.spouseHasNominee == 'y' && spouse.spouseNomineeName?.length>0){
+                relatives.push(spouse.spouseNomineeName);
+            }
+
+            if(spouse.spouseIsAlive == 'n' && spouse.spouseDied5DaysAfter == 'y' &&
+            spouse.spouseHasPersonalRep == 'y' && spouse.spousePersonalRepName?.length>0){
+                relatives.push(spouse.spousePersonalRepName);
+            }
+        }
+
+        if (this.step.result?.childrenSurvey?.data) {
+            childList = this.step.result.childrenSurvey.data;
+        } 
+
+        for (const child of childList){
+            relatives.push(child.childName);
+
+            if(child.childIsAlive == 'y' && child.childIsAdult == 'n' &&
+                child.childHasGuardian == 'y' && child.childGuardianName?.length>0){
+
+                relatives.push(child.childGuardianName);
+            }
+
+            if(child.childIsAlive == 'y' && child.childIsAdult == 'y' &&
+                child.childIsCompetent == 'n' && child.childHasNominee == 'y' && child.childNomineeName?.length>0){
+                relatives.push(child.childNomineeName);
+            }
+
+            if(child.childIsAlive == 'n' && child.childDiedAfter == 'y' &&
+                child.childHasPersonalRep == 'y' && child.childPersonalRepName?.length>0){
+                relatives.push(child.childPersonalRepName);
+            }
+        }
+        return relatives;
+    }
+
     public surveyHasError(){
         let progress = (this.creditorData.length==0 && this.creditorOrgData.length==0)? 50 : 100;
         
-        if(this.creditorPersonExists == 'No' && this.creditorOrgExists == 'No') progress =100;
+        if(this.creditorPersonExists == 'No' && this.creditorOrgExists == 'No' && this.creditorCompleted == 'Yes') progress =100;
 
         this.incompleteError =  false;        
-        for(const creditor of this.creditorData){
-            if (!creditor.creditorPersonName || !creditor.creditorPersonIsAlive){            
-                this.incompleteError = true;  
-                progress = 50;    
-                break
-            }
-        }        
+        //TODO: update with data coming from the components    
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, progress, false);
     }
     
@@ -597,7 +467,7 @@ export default class CreditorInfo extends Vue {
         if(this.creditorPersonExists == 'No')
             creditorInfo = null
 
-        this.UpdateStepResultData({step:this.step, data: {creditorPersonExists: this.creditorPersonExists, creditorOrgExists: this.creditorOrgExists, creditorSurvey: creditorInfo}})       
+        this.UpdateStepResultData({step:this.step, data: {creditorPersonExists: this.creditorPersonExists, creditorOrgExists: this.creditorOrgExists, creditorSurvey: creditorInfo, creditorCompleted: this.creditorCompleted}})       
     }
 
     public getCreditorResults(){
@@ -618,7 +488,7 @@ export default class CreditorInfo extends Vue {
     public getCreditorInfo(creditor){
         const resultString = [];
 
-        resultString.push(Vue.filter('styleTitle')("Name: ")+creditor.creditorName);        
+        resultString.push(Vue.filter('styleTitle')("Name: ")+creditor.creditorPersonName);        
         
         return resultString;
     }  
@@ -665,24 +535,6 @@ export default class CreditorInfo extends Vue {
     padding-top: 2rem;
     max-width: 950px;
     color: black;
-}
-.creditorSection {
-    border: 2px solid rgba($gov-pale-grey, 0.7);
-    border-radius: 18px;
-    width: 100%
-}
-.creditorAlign {
-    padding: 20px;
-}
-.table, td, th{
-    border: 1px solid rgba($gov-pale-grey, 0.9);
-  
-}
-.clickableRow {
-    background-color: rgba($gov-pale-grey, 0.5);
-    td a {
-        display: block;
-    }
 }
 
 .info-box {

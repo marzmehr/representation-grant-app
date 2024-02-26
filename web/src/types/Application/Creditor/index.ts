@@ -56,15 +56,16 @@ export interface creditorPersonInfoType {
 
   export interface creditorOrgInfoType {
     creditorOrganizationName?: string;
+    id?: number;
   }
 
-  export interface creditorInfoType {
+  export interface creditorsType {
     creditorPersons?: creditorPersonInfoType[];
     creditorOrgs?: creditorOrgInfoType[];
   }
   
-  export interface creditorInfoSurveyInfoType {
-    data?: creditorInfoType;
+  export interface creditorsSurveyInfoType {
+    data?: creditorsType;
     questions?: questionInfoType[];
     pageName?: string;
     currentStep?: number | string;

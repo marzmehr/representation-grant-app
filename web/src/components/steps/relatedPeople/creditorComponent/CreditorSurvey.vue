@@ -19,11 +19,6 @@ import * as SurveyVue from "survey-vue";
 import surveyJson from "./forms/creditors.json";
 import * as surveyEnv from "@/components/survey/survey-glossary";
 
-import { namespace } from "vuex-class";   
-import "@/store/modules/application";
-const applicationState = namespace("Application");
-
-import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
 import { nameInfoType } from '@/types/Common';
 import { creditorPersonInfoType } from '@/types/Application/Creditor';
 
@@ -34,10 +29,7 @@ export default class CreditorSurvey extends Vue {
     editRowProp!: Object;   
     
     @Prop({required: true})
-    deceasedName!: nameInfoType;   
-
-    @applicationState.State
-    public stPgNo!: stepsAndPagesNumberInfoType;
+    deceasedName!: nameInfoType;     
     
     creditor = {} as creditorPersonInfoType;
 

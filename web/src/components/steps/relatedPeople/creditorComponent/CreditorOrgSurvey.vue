@@ -1,6 +1,5 @@
 <template>
-    <div>
-        hello
+    <div>        
         <survey v-bind:survey="survey"></survey>
         <div class="row">
             <div class="col-6">
@@ -20,11 +19,6 @@ import * as SurveyVue from "survey-vue";
 import surveyJson from "./forms/creditorsOrg.json";
 import * as surveyEnv from "@/components/survey/survey-glossary";
 
-import { namespace } from "vuex-class";   
-import "@/store/modules/application";
-const applicationState = namespace("Application");
-
-import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
 import { nameInfoType } from '@/types/Common';
 import { creditorOrgInfoType } from '@/types/Application/Creditor';
 
@@ -35,10 +29,7 @@ export default class CreditorOrgSurvey extends Vue {
     editRowProp!: Object;   
     
     @Prop({required: true})
-    deceasedName!: nameInfoType;
-
-    @applicationState.State
-    public stPgNo!: stepsAndPagesNumberInfoType;
+    deceasedName!: nameInfoType;   
     
     creditor = {} as creditorOrgInfoType;
 

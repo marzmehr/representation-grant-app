@@ -481,7 +481,11 @@ export default class SpouseInfo extends Vue {
 
         if (this.step.result?.spouseSurvey?.data) {
             this.spouseData = this.step.result.spouseSurvey.data;
-        }           
+        }       
+        
+        if (this.step.result?.spouseCompleted) {
+            this.spouseCompleted = this.step.result.spouseCompleted;
+        }            
     }
 
     mounted(){
@@ -520,7 +524,7 @@ export default class SpouseInfo extends Vue {
         if(this.spouseExists == 'No')
             spouseInfo = null
 
-        this.UpdateStepResultData({step:this.step, data: {spouseExists: this.spouseExists, spouseSurvey: spouseInfo}})       
+        this.UpdateStepResultData({step:this.step, data: {spouseExists: this.spouseExists, spouseSurvey: spouseInfo, spouseCompleted: this.spouseCompleted}})       
     }
 
     public getSpouseResults(){
