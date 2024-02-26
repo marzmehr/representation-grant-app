@@ -1,0 +1,641 @@
+{
+   "title": "Child's Information",
+   "pages": [
+        {
+            "name": "childPage",
+            "elements": [
+                {
+                    "type": "text",
+                    "name": "childName",
+                    "title": "What is the full name of {deceasedName}'s child?",
+                    "description": "Use the name as it appears on their primary identification (if you can get it).\n<br><br>\nThis name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                    "isRequired": true,
+                    "defaultValue": "(the person who died's child)",
+                    "correctAnswer": "(the person who died's child)",
+                    "defaultSubstitution": "(the person who died's child)"
+                }, 
+                {
+                    "type": "yesno",
+                    "name": "childIsAlive",
+                    "title": "Is {childName} alive?",
+                    "isRequired": true,
+                    "visible": false,
+                    "visibleIf": "{childName} notempty"
+                },
+                {
+                    "type": "helptext",
+                    "name": "childIsAliveFAQ1",
+                    "title": "What if the child is on life support?",
+                    "titleLocation": "hidden",
+                    "body": "The child is considered alive.",
+                    "visible": false,
+                    "visibleIf": "{childName} notempty"
+                },      
+                {
+                    "type": "yesno",
+                    "name": "childIsAdult",
+                    "visible": false,
+                    "visibleIf": "({childIsAlive} = 'y') and ({childName} notempty)",
+                    "title": "Is {childName} 19 or older?",
+                    "isRequired": true
+                },
+                {
+                    "type": "infotext",
+                    "name": "childIsAdultNoExplanation",
+                    "visible": false,
+                    "visibleIf": "{childIsAlive} = 'y' and {childIsAdult} = 'n' and ({childName} notempty)",
+                    "title": "Because {childName} is under the age of 19, {childName}'s other parent or guardian needs to know that you are applying for a `Representation Grant`.<br><br>The Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.<br><br>This service will tell you how to let them know in a later step.<br><br>For now, please continue answering questions about {childName}.",
+                    "titleLocation": "hidden",
+                    "isRequired": true,
+                    "requiredErrorText": "Please press Continue"
+                }, 
+                {
+                    "type": "panel",
+                    "name": "ChildAliveMinorPanel",
+                    "elements": [
+                        {
+                            "type": "text",
+                            "inputType": "date",
+                            "name": "childIsAdultNoDOB",                        
+                            "title": "When was {childName} born?",
+                            "isRequired": true,
+                            "dateYearsBehind": 19,
+                            "dateYearsAhead": 0
+                        },
+                        {
+                            "type": "address",
+                            "name": "childIsAdultNoResidentialAddress",                       
+                            "title": "Where does {childName} live?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "childIsAdultNoResidentialAddressFAQ1",                        
+                            "title": "What if the child is homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If the child is homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "childIsAdultNoResidentialReceiveMail",                        
+                            "title": "Does {childName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "childIsAdultNoHasMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{childIsAdultNoResidentialReceiveMail} = 'n'",
+                            "title": "Does {childName} have a different address where they receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "childIsAdultNoMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{childIsAdultNoResidentialReceiveMail} = 'n' and {childIsAdultNoHasMailingAddress} = 'y'",
+                            "title": "Where does {childName} receive mail?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "childIsAdultNoEmail",                        
+                            "title": "Does {childName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "childIsAdultNoEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{childIsAdultNoEmail} = 'y'",
+                            "title": "What is {childName}'s email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "childIsAdultNoFax",                       
+                            "title": "Does {childName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "childIsAdultNoFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{childIsAdultNoFax} = 'y'",
+                            "title": "What is {childName}'s fax number?",
+                            "isRequired": true
+                        },     
+                        {
+                            "type": "yesno",
+                            "name": "childHasGuardian",                        
+                            "title": "Does {childName} have a parent (who is alive) or a legal guardian (who is alive)?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "childGuardianName",                                    
+                            "title": "Please enter the full name of a parent or guardian (who is currently alive) for {childName}:",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true,
+                            "visible": false,
+                            "visibleIf": "{childHasGuardian} = 'y'"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "childHasGuardianNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{childHasGuardian} = 'n'",
+                            "title": "Because {childName} is under the age of 19, but they do not have a parent or guardian, you need to let {childName} know directly that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "panel",
+                            "name": "ChildHasGuardianPanel",
+                            "elements":[                                
+                                {
+                                    "type": "address",
+                                    "name": "childGuardianResidentialAddress",                                    
+                                    "title": "Where does {childGuardianName} live?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "childGuardianResidentialAddressFAQ1",                                    
+                                    "title": "What if the child's parent or guardian is homeless?",
+                                    "titleLocation": "hidden",
+                                    "body": "If the child's parent or guardian is homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "childGuardianResidentialReceiveMail",                                    
+                                    "title": "Does {childGuardianName} receive mail at this address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "childGuardianHasMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "{childGuardianResidentialReceiveMail} = 'n'",
+                                    "title": "Does {childGuardianName} have a different address where they receive mail?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "childGuardianMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "{childGuardianResidentialReceiveMail} = 'n' and {childGuardianHasMailingAddress} = 'y'",
+                                    "title": "Where does {childGuardianName} receive mail?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "childGuardianEmail",                                    
+                                    "title": "Does {childGuardianName} have an email address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "childGuardianEmailAddress",
+                                    "visible": false,
+                                    "visibleIf": "{childGuardianEmail} = 'y'",
+                                    "title": "What is {childGuardianName}'s email address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "childGuardianFax",                                    
+                                    "title": "Does {childGuardianName} have a fax number?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "childGuardianFaxNumber",
+                                    "visible": false,
+                                    "visibleIf": "{childGuardianFax} = 'y'",
+                                    "title": "What is {childGuardianName}'s fax number?",
+                                    "isRequired": true
+                                }
+                            ],
+                            "visible": false,
+                            "visibleIf": "({childGuardianName} notempty) and {childHasGuardian} = 'y'"
+                        }
+                        
+                    ],
+                    "visible": false,
+                    "visibleIf": "({childName} notempty) and {childIsAlive} = 'y' and {childIsAdult} = 'n' and {childIsAdultNoExplanation} > 0"
+                },
+                {
+                    "type": "panel",
+                    "name": "ChildAliveAdultPanel",
+                    "elements": [
+                        {
+                            "type": "yesno",
+                            "name": "childIsCompetent",                            
+                            "title": "Is {childName} `mentally competent`?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "childIsCompetentNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n'",
+                            "title": "Because {childName} is not mentally competent, {childName}'s `nominee` (if they have one) needs to know that you are applying for a Representation Grant.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {childName}.",
+                            "titleLocation": "hidden",
+                            "isRequired": true,
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "text",
+                            "inputType": "date",
+                            "name": "childIsCompetentNoDOB",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoExplanation} > 0",
+                            "title": "When was {childName} born?",
+                            "isRequired": true,
+                            "dateYearsBehind": 150,
+                            "dateYearsAhead": 0
+                        },
+                        {
+                            "type": "address",
+                            "name": "childIsCompetentNoResidentialAddress",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoExplanation} > 0",
+                            "title": "Where does {childName} live?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "childIsCompetentNoResidentialAddressFAQ1",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoExplanation} > 0",
+                            "title": "What if the child is homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If the child is homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "childIsCompetentNoResidentialReceiveMail",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoExplanation} > 0",
+                            "title": "Does {childName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "childIsCompetentNoHasMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoResidentialReceiveMail} = 'n'",
+                            "title": "Does {childName} have a different address where they receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "childIsCompetentNoMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoResidentialReceiveMail} = 'n' and {childIsCompetentNoHasMailingAddress} = 'y'",
+                            "title": "Where does {childName} receive mail?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "childIsCompetentNoEmail",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoExplanation} > 0",
+                            "title": "Does {childName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "childIsCompetentNoEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoEmail} = 'y'",
+                            "title": "What is {childName}'s email address?",
+                            "isRequired": true,
+                            "inputType": "email"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "childIsCompetentNoFax",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoExplanation} > 0",
+                            "title": "Does {childName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "childIsCompetentNoFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoFax} = 'y'",
+                            "title": "What is {childName}'s fax number?",
+                            "isRequired": true
+                        },      
+                        {
+                            "type": "yesno",
+                            "name": "childHasNominee",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childIsCompetentNoExplanation} > 0",
+                            "title": "Is there someone who helps {childName} manage their money and legal decisions?",
+                            "description": "This person would be considered {childName}'s Nominee. If {childName}'s Nominee is not alive anymore, select \"NO\".",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "childHasNomineeNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childHasNominee} = 'n'",
+                            "title": "Because {childName} is not mentally competent, but they do not have a nominee, you need to let {childName} know directly that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "text",
+                            "name": "childNomineeName",
+                            "visible": false,
+                            "visibleIf": "{childIsCompetent} = 'n' and {childHasNominee} = 'y'",
+                            "title": "What is the name of the person who helps {childName} manage their money and legal decisions?",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "panel",
+                            "name": "ChildHasNomineePanel",
+                            "elements":[
+                                {
+                                    "type": "yesno",
+                                    "name": "childNomineeFormal",                                   
+                                    "title": "Was {childNomineeName} formally appointed to help {childName} manage their money and legal decisions?",
+                                    "description": "These are the ways someone can be formally appointed.\n<ul>\n<li>\n{childName} could have signed a document that gave someone else the power of attorney using the Power of Attorney Act,\n</li>\n<li>\n{childName} could have signed a document that appointed someone as a representative using the Representation Agreement Act, or\n</li>\n<li>\na person can be appointed by the Court using the Patients Property Act,\n</li>\n<li>\na person could have been appointed either the Minister of Aboriginal Affairs and Northern Development or by the Court using the Indian Act\n</li>\n</ul>",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "childNomineeFormalYesExplanation",
+                                    "visible": false,
+                                    "visibleIf": "{childNomineeFormal} = 'y'",
+                                    "title": "The Public Guardian and Trustee (PGT) will need a copy of the legal document that proves that {childNomineeName} was formally appointed as {childName}'s nominee. <br><br>You can get a head start by asking {childNomineeName} for that document now, or, you can wait for this service to remind you in a later step.\n<br><br>\nFor now, please continue answering questions about {childNomineeName}.",
+                                    "titleLocation": "hidden",
+                                    "isRequired": true,
+                                    "requiredErrorText": "Please press Continue"
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "childNomineeFormalNoExplanation",
+                                    "visible": false,
+                                    "visibleIf": "{childNomineeFormal} = 'n'",
+                                    "title": "Even if {childNomineeName} was not formally appointed to help {childName}, it is still best to let both {childNomineeName} and {childName} know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.\n<br><br>\nFor now, please continue answering questions about {childNomineeName}.",
+                                    "titleLocation": "hidden",
+                                    "isRequired": true,
+                                    "requiredErrorText": "Please press Continue"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "childNomineeResidentialAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({childNomineeFormal} = 'n' and {childNomineeFormalNoExplanation} > 0) or ({childNomineeFormal} = 'y' and {childNomineeFormalYesExplanation} > 0))",
+                                    "title": "Where does {childNomineeName} live?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "childNomineeResidentialAddressFAQ1",
+                                    "visible": false,
+                                    "visibleIf": "(({childNomineeFormal} = 'n' and {childNomineeFormalNoExplanation} > 0) or ({childNomineeFormal} = 'y' and {childNomineeFormalYesExplanation} > 0))",
+                                    "title": "What if {childNomineeName} is homeless?",
+                                    "titleLocation": "hidden",
+                                    "body": "If {childNomineeName} is homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "childNomineeResidentialReceiveMail",
+                                    "visible": false,
+                                    "visibleIf": "(({childNomineeFormal} = 'n' and {childNomineeFormalNoExplanation} > 0) or ({childNomineeFormal} = 'y' and {childNomineeFormalYesExplanation} > 0))",
+                                    "title": "Does {childNomineeName} receive mail at this address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "childNomineeHasMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({childNomineeFormal} = 'n' and {childNomineeFormalNoExplanation} > 0) or ({childNomineeFormal} = 'y' and {childNomineeFormalYesExplanation} > 0)) and {childNomineeResidentialReceiveMail} = 'n'",
+                                    "title": "Does {childNomineeName} have a different address where they receive mail?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "childNomineeMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({childNomineeFormal} = 'n' and {childNomineeFormalNoExplanation} > 0) or ({childNomineeFormal} = 'y' and {childNomineeFormalYesExplanation} > 0)) and {childNomineeResidentialReceiveMail} = 'n' and {childNomineeHasMailingAddress} = 'y'",
+                                    "title": "Where does {childNomineeName} receive mail?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "childNomineeEmail",
+                                    "visible": false,
+                                    "visibleIf": "(({childNomineeFormal} = 'n' and {childNomineeFormalNoExplanation} > 0) or ({childNomineeFormal} = 'y' and {childNomineeFormalYesExplanation} > 0))",
+                                    "title": "Does {childNomineeName} have an email address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "childNomineeEmailAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({childNomineeFormal} = 'n' and {childNomineeFormalNoExplanation} > 0) or ({childNomineeFormal} = 'y' and {childNomineeFormalYesExplanation} > 0)) and {childNomineeEmail} = 'y'",
+                                    "title": "What is {childNomineeName}'s email address?",
+                                    "isRequired": true,
+                                    "inputType": "email"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "childNomineeFax",
+                                    "visible": false,
+                                    "visibleIf": "(({childNomineeFormal} = 'n' and {childNomineeFormalNoExplanation} > 0) or ({childNomineeFormal} = 'y' and {childNomineeFormalYesExplanation} > 0))",
+                                    "title": "Does {childNomineeName} have a fax number?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "childNomineeFaxNumber",
+                                    "visible": false,
+                                    "visibleIf": "(({childNomineeFormal} = 'n' and {childNomineeFormalNoExplanation} > 0) or ({childNomineeFormal} = 'y' and {childNomineeFormalYesExplanation} > 0)) and {childNomineeFax} = 'y'",
+                                    "title": "What is {childNomineeName}'s fax number?",
+                                    "isRequired": true
+                                }
+                            ],
+                            "visible": false,
+                            "visibleIf": "({childNomineeName} notempty) and {childIsCompetent} = 'n' and {childHasNominee} = 'y'"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "({childName} notempty) and {childIsAlive} = 'y' and {childIsAdult} = 'y'"
+                },
+                {
+                    "type": "yesno",
+                    "name": "childDiedAfter",
+                    "visible": false,
+                    "visibleIf": "({childName} notempty) and {childIsAlive} = 'n'",
+                    "title": "Did {childName} die after {deceasedDateOfDeathPlus4}?",
+                    "isRequired": true
+                },
+                {
+                    "type": "helptext",
+                    "name": "childDiedAfterFAQ1",
+                    "visible": false,
+                    "visibleIf": "({childName} notempty) and {childIsAlive} = 'n'",
+                    "title": "Why does this date matter?",
+                    "titleLocation": "hidden",
+                    "body": "Under the law, in order for {childName} to qualify for {deceasedName}'s `assets`, {childName} must have lived for at least 5 days after {deceasedName} died. Once {childName} has qualified, it doesn't matter if {childName} is now dead.\n<br><br>\nThe people managing {childName}'s belongings need to know that you are applying for a Representation Grant for {deceasedName}.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section10\" target=\"_blank\">For more information, click here for the Five-day survival rule from the  <i>Wills, Estate and Succession Act</i> (WESA).</a> (This link opens in a new tab)"
+                },
+                {
+                    "type": "panel",
+                    "name": "ChildNotAliveDiedBeforePanel",
+                    "elements":[
+                        {
+                            "type": "yesno",
+                            "name": "childDiedAfterNoGchildExists",                            
+                            "title": "Did {childName} have any children?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "childDiedAfterNoGchildExistsFAQ1",                            
+                            "title": "Do I include {childName}'s legally adopted children?",
+                            "titleLocation": "hidden",
+                            "body": "Yes, you must include {childName}'s legally adopted children. All of {childName}'s biological and legally adopted children need to know that you are apply for a Representation Grant.\n<br><br>\nIf you are not sure if a person was legally adopted by {childName} or not, it is safer for you to include this person. You want as much transparency in your application as possible in case this person was legally adopted by {childName}.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {childName}'s `estate`. "
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "childDiedAfterNoGchildExistsFAQ2",                            
+                            "title": "Do I include {childName}'s step-children?",
+                            "titleLocation": "hidden",
+                            "body": "No, you do not need to include {childName}'s step-children because {childName} did not legally adopt them. Only {childName}'s biological or legally adopted children need to know that you are apply for a Representation Grant. \n<br><br>\nIf you are not sure if a person was legally adopted by {childName} or not, it is safer for you to include this person. You want as much transparency in your application as possible in case this personal was legally adopted by {childName}.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, they don't automatically get part of {childName}'s `estate`. "
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "childDiedAfterNoGchildExistsFAQ3",                            
+                            "title": "Do I include {childName}'s children (biological or legally adopted) that were legally adopted by someone else?",
+                            "titleLocation": "hidden",
+                            "body": "The answer depends if {childName} was alive when someone else legally adopted their children, and, if {childName} gave up their parenting rights or not.\n<br><br>\nIf {childName} was alive at the time someone else legally adopted {childName}'s children, and {childName} gave up their parenting rights, {childName}'s former children <b>DO NOT</b> need to be included. \n<br><br>\nIf {childName} had already died when {childName}'s children were legally adopted by someone else, these children <b>DO</b> need to be included. \n<br><br>\nIf {childName} was alive when {childName}'s children were legally adopted by someone else, but {childName} did not give up their parenting rights, these children <b>DO</b> need to be included. \n<br><br>\nThis last situation may happen if the children's other parent(s) gave up their parenting rights but {childName} still kept their parenting rights. \n<br><br>\nIf you are not sure if someone who has been adopted is still considered {childName}'s child or not, it is safer for you to include this person. You want as much transparency in your application as possible in case the Court considers this person {childName}'s child.\n<br><br>\nEven though you are telling this person you are applying for a Representation Grant, if they are not {childName}'s child anymore, they don't automatically get part of {childName}'s `estate`.\n<br><br>\n<a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96005_01#section37\" target=\"_blank\">\nFor more information, click here to read about who should be included as {childName}'s children, if they were adopt, from the <i>Adoption Act</i>.</a> (This link opens in a new tab)"
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "childDiedAfterNoGchildExistsFAQ4",                            
+                            "title": "Do I need to include {childName}'s children-in-law?",
+                            "titleLocation": "hidden",
+                            "body": "No, you do not need to include {childName}'s children-in-law (the `spouses` of {childName}'s biological or legally adopted children)."
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "childDiedAfterNoGchildExistsNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{childDiedAfterNoGchildExists} = 'n'",
+                            "title": "Because {childName} died before {deceasedDateOfDeathPlus4} and {childName} did not have children, the people managing {childName}'s belongings do not need to know that you are applying for a Representation Grant for {deceasedName}.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "childDiedAfterNoGchildExistsYesTempError",
+                            "visible": false,
+                            "visibleIf": "{childDiedAfterNoGchildExists} = 'y'",
+                            "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a Representation Grant.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue",
+                            "messageStyle": "error"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "({childName} notempty) and {childIsAlive} = 'n' and {childDiedAfter} = 'n'"
+                },
+                {
+                    "type": "infotext",
+                    "name": "childDiedAfterYesExplanation",                            
+                    "title": "Because {childName} has died after {deceasedDateOfDeathPlus4}, {childName}'s `personal representative` needs to know that you are applying for a Representation Grant for {deceasedName}.\n<br><br>\nIt is your responsibility to check with {childName}'s family and friends to find out who is {childName}'s personal representative.\n<br><br>\nIf you find out that {childName} does not have a personal representative, this service will help you tell that to The Court.\n",
+                    "titleLocation": "hidden",
+                    "visible": false,
+                    "visibleIf": "({childName} notempty) and {childIsAlive} = 'n' and {childDiedAfter} = 'y'",
+                    "isRequired": true,
+                    "requiredErrorText": "Please press Continue"
+                },
+                {
+                    "type": "panel",
+                    "name": "ChildNotAliveDiedAfterPanel",
+                    "elements":[                        
+                        {
+                            "type": "radiogroup",
+                            "name": "childHasPersonalRep",                            
+                            "title": "Do you know if {childName} has a `personal representative`?",
+                            "description": "If {childName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {childName}. \n<br><br>\nIf someone is planning on becoming {childName}'s personal representative but hasn't done so yet, it is safer for you to include them as {childName}'s personal representative.",
+                            "isRequired": true,
+                            "choices": [
+                                {
+                                    "value": "y",
+                                    "text": "I know {childName} <b>has</b> a personal representative"
+                                },
+                                {
+                                    "value": "n",
+                                    "text": "I know {childName} <b>does NOT have</b> a personal representative"
+                                },
+                                {
+                                    "value": "dk",
+                                    "text": "I <b>don't know</b> if {childName} has a personal representative"
+                                }
+                            ]
+                        },      
+                        {
+                            "type": "text",
+                            "name": "childPersonalRepName",
+                            "visible": false,
+                            "visibleIf": "{childHasPersonalRep} = 'y'",
+                            "title": "What is the name of {childName}'s personal representative?",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "childHasPersonalRepYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{childHasPersonalRep} = 'y'  and {childPersonalRepName} notempty",
+                            "title": "Because {childName} died after {deceasedDateOfDeathPlus4}, {childPersonalRepName} needs to know that you are applying for a Representation Grant for {deceasedName}.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },     
+                        {
+                            "type": "infotext",
+                            "name": "childHasPersonalRepNoTempError",
+                            "visible": false,
+                            "visibleIf": "{childHasPersonalRep} = 'n'",
+                            "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a Representation Grant.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue",
+                            "messageStyle": "error"
+                        },     
+                        {
+                            "type": "infotext",
+                            "name": "childHasPersonalRepDKError",
+                            "visible": false,
+                            "visibleIf": "{childHasPersonalRep} = 'dk'",
+                            "title": "Because you are not sure if {childName} has a personal representative, you may want to check with as many of {childName}'s family and friends as you can find.<br><br>If {childName}'s family or friends do not know if {childName} has a personal representative, one option may be hiring a professional investigator to try and find out for sure.<br><br>Examples of professional investigators include private investigators, heir tracers and other similar services.<br><br>For transparency of your application, you want to show the court all efforts made to find out whether {childName} has a personal representative. The Court will ultimately decide whether sufficient effort has been made to find this information.",
+                            "titleLocation": "hidden",                
+                            "messageStyle": "error"
+                        }                        
+                    ],
+                    "visible": false,
+                    "visibleIf": "({childName} notempty) and {childIsAlive} = 'n' and {childDiedAfter} = 'y' and {childDiedAfterYesExplanation} > 0"
+                }      
+                
+           ],
+           "title": "Child's Information"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}

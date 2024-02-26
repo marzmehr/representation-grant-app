@@ -12,8 +12,8 @@
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/terms" target="_blank">Terms of Use</a>
-        </li>
+            <a class="nav-link" @click="openTerms()">Terms of Use</a>
+        </li>       
         <li class="nav-item">
           <a
             class="nav-link"
@@ -83,6 +83,10 @@ export default class NavigationFooter extends Vue {
     mounted() {
 		this.contactUs = false;
 	}
+
+    public openTerms() {
+        this.$router.push({name: "terms"})
+    }
 
 }
 </script>

@@ -1,0 +1,542 @@
+{
+    "title": "Creditor's Information",
+    "pages": [
+        {
+            "name": "creditorsPage",
+            "elements": [
+                {
+                    "type": "text",
+                    "name": "creditorPersonName",
+                    "title": "What is the full name of person who {deceasedName} owes more than $10,000?",
+                    "description": "Use the name as it appears on their primary identification (if you can get it).\n<br><br>\nThis name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                    "isRequired": true,
+                    "defaultSubstitution": "(the person who is owned more than $10,000)"
+                },
+                {
+                    "type": "yesno",
+                    "name": "creditorPersonIsAlive",
+                    "title": "Is {creditorPersonName} alive?",
+                    "visible": false,
+                    "visibleIf": "({creditorPersonName} notempty)",
+                    "isRequired": true
+                },
+                {
+                    "type": "helptext",
+                    "name": "creditorPersonIsAliveFAQ1",
+                    "title": "What if {creditorPersonName} is on life support?",
+                    "titleLocation": "hidden",
+                    "body": "{creditorPersonName} is considered alive.",
+                    "visible": false,
+                    "visibleIf": "({creditorPersonName} notempty)"
+                },
+                {
+                    "type": "yesno",
+                    "name": "creditorPersonIsAdult",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'y' and ({creditorPersonName} notempty)",
+                    "title": "Is {creditorPersonName} 19 or older?",
+                    "isRequired": true
+                },
+                {
+                    "type": "infotext",
+                    "name": "creditorPersonIsAdultNoExplanation",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'y' and {creditorPersonIsAdult} = 'n' and ({creditorPersonName} notempty)",
+                    "title": "Because {creditorPersonName} is under the age of 19, {creditorPersonName}'s parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                    "titleLocation": "hidden",
+                    "isRequired": true,
+                    "requiredErrorText": "Please press Continue"
+                },
+                {
+                    "type": "panel",
+                    "name": "CreditorAliveMinorPanel",
+                    "elements": [
+                        {
+                            "type": "date",
+                            "name": "creditorPersonIsAdultNoDOB",                            
+                            "title": "When was {creditorPersonName} born?",
+                            "isRequired": true,
+                            "dateYearsBehind": 19,
+                            "dateYearsAhead": 0                            
+                        },
+                        {
+                            "type": "address",
+                            "name": "creditorPersonIsAdultNoResidentialAddress",                           
+                            "title": "Where does {creditorPersonName} live?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "creditorPersonIsAdultNoResidentialAddressFAQ1",                            
+                            "title": "What if creditor is homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If the creditor is homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonIsAdultNoResidentialReceiveMail",                            
+                            "title": "Does {creditorPersonName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonIsAdultNoHasMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonIsAdultNoResidentialReceiveMail} = 'n'",
+                            "title": "Does {creditorPersonName} have a different address where they receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "creditorPersonIsAdultNoMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonIsAdultNoResidentialReceiveMail} = 'n' and {creditorPersonIsAdultNoHasMailingAddress} = 'y'",
+                            "title": "Where does {creditorPersonName} receive mail?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonIsAdultNoEmail",                            
+                            "title": "Does {creditorPersonName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "creditorPersonIsAdultNoEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonIsAdultNoEmail} = 'y'",
+                            "title": "What is {creditorPersonName}'s email address?",
+                            "isRequired": true,
+                            "inputType": "email"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonIsAdultNoFax",                            
+                            "title": "Does {creditorPersonName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "creditorPersonIsAdultNoFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonIsAdultNoFax} = 'y'",
+                            "title": "What is {creditorPersonName}'s fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonHasGuardian",                            
+                            "title": "Does {creditorPersonName} have a parent (who is alive) or a legal guardian (who is alive)?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "creditorPersonHasGuardianNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonHasGuardian} = 'n'",
+                            "title": "Because {creditorPersonName} is under the age of 19, but they do not have a parent or guardian, you need to let {creditorPersonName} know directly that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "text",
+                            "name": "creditorPersonGuardianName",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonHasGuardian} = 'y'",
+                            "title": "Please enter the full name of a parent or guardian (who is currently alive) for {creditorPersonName}:",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "panel",
+                            "name": "creditorHasGuardianPanel",
+                            "elements":[
+                                {
+                                    "type": "address",
+                                    "name": "creditorPersonGuardianResidentialAddress",                                    
+                                    "title": "Where does {creditorPersonGuardianName} live?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "creditorPersonGuardianResidentialAddressFAQ1",                                    
+                                    "title": "What if the guardian is homeless?",
+                                    "titleLocation": "hidden",
+                                    "body": "If the guardian is homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "creditorPersonGuardianResidentialReceiveMail",                                    
+                                    "title": "Does {creditorPersonGuardianName} receive mail at this address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "creditorPersonGuardianHasMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "{creditorPersonGuardianResidentialReceiveMail} = 'n'",
+                                    "title": "Does {creditorPersonGuardianName} have a different address where they receive mail?"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "creditorPersonGuardianMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "{creditorPersonGuardianResidentialReceiveMail} = 'n' and {creditorPersonGuardianHasMailingAddress} = 'y'",
+                                    "title": "Where does {creditorPersonGuardianName} receive mail?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "creditorPersonGuardianEmail",                                   
+                                    "title": "Does {creditorPersonGuardianName} have an email address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "creditorPersonGuardianEmailAddress",
+                                    "visible": false,
+                                    "visibleIf": "{creditorPersonGuardianEmail} = 'y'",
+                                    "title": "What is {creditorPersonGuardianName}'s email address?",
+                                    "isRequired": true,
+                                    "inputType": "email"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "creditorPersonGuardianFax",                                    
+                                    "title": "Does {creditorPersonGuardianName} have a fax number?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "creditorPersonGuardianFaxNumber",
+                                    "visible": false,
+                                    "visibleIf": "{creditorPersonGuardianFax} = 'y'",
+                                    "title": "What is {creditorPersonGuardianName}'s fax number?",
+                                    "isRequired": true
+                                }
+
+                            ],
+                            "visible": false,
+                            "visibleIf": "{creditorPersonHasGuardian} = 'y' and {creditorPersonGuardianName} notempty"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'y' and {creditorPersonIsAdult} = 'n' and ({creditorPersonIsAdultNoExplanation} > 0) and ({creditorPersonName} notempty)"
+                },
+                {
+                    "type": "yesno",
+                    "name": "creditorPersonIsCompetent",                            
+                    "title": "Is {creditorPersonName} `mentally competent`?",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'y' and {creditorPersonIsAdult} = 'y' and ({creditorPersonName} notempty)",
+                    "isRequired": true
+                },
+                {
+                    "type": "infotext",
+                    "name": "creditorPersonIsCompetentNoExplanation",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'y' and {creditorPersonIsAdult} = 'y' and ({creditorPersonName} notempty) and {creditorPersonIsCompetent} = 'n'",
+                    "title": "Because {creditorPersonName} is not `mentally competent`, {creditorPersonName}'s `nominee` (if they have one) needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                    "titleLocation": "hidden",
+                    "isRequired": true,
+                    "requiredErrorText": "Please press Continue"
+                },
+                {
+                    "type": "panel",
+                    "name": "CreditorAliveAdultPanel",
+                    "elements": [                        
+                        {
+                            "type": "date",
+                            "name": "creditorPersonIsCompetentNoDOB",                            
+                            "title": "When was {creditorPersonName} born?",
+                            "isRequired": true,
+                            "dateYearsBehind": 150,
+                            "dateYearsAhead": -18                            
+                        },
+                        {
+                            "type": "address",
+                            "name": "creditorPersonIsCompetentNoResidentialAddress",                            
+                            "title": "Where does {creditorPersonName} live?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "creditorPersonIsCompetentNoResidentialAddressFAQ1",                            
+                            "title": "What if {creditorPersonName} is homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If {creditorPersonName} is homeless:\n<ul>\n<li>write \"no fixed address\" for the street address</li>\n<li>Write the city/town, province and country where they lived.</li>\n<li>Write \"n/a\" for their postal code.</li>\n</ul>"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonIsCompetentNoResidentialReceiveMail",                            
+                            "title": "Does {creditorPersonName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonIsCompetentNoHasMailingAddress",                           
+                            "title": "Does {creditorPersonName} have a different address where they receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "creditorPersonIsCompetentNoMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonIsCompetentNoResidentialReceiveMail} = 'n' and {creditorPersonIsCompetentNoHasMailingAddress} = 'y'",
+                            "title": "Where does {creditorPersonName} receive mail?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonIsCompetentNoEmail",                            
+                            "title": "Does {creditorPersonName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "creditorPersonIsCompetentNoEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonIsCompetentNoEmail} = 'y'",
+                            "title": "What is {creditorPersonName}'s email address?",
+                            "isRequired": true,
+                            "inputType": "email"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonIsCompetentNoFax",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonIsCompetentNoExplanation} > 0",
+                            "title": "Does {creditorPersonName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "creditorPersonIsCompetentNoFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonIsCompetentNoFax} = 'y'",
+                            "title": "What is {creditorPersonName}'s fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "creditorPersonHasNominee",                           
+                            "title": "Is there someone who helps {creditorPersonName} manage their money and legal decisions?",
+                            "description": "This person would be considered {creditorPersonName}'s `Nominee`. If {creditorPersonName}'s Nominee is not alive anymore, select \"NO\".",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "creditorPersonHasNomineeNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonHasNominee} = 'n'",
+                            "title": "Because {creditorPersonName} is not `mentally competent`, but they do not have a `nominee`, you need to let {creditorPersonName} know directly that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "text",
+                            "name": "creditorPersonNomineeName",
+                            "visible": false,
+                            "visibleIf": "{creditorPersonHasNominee} = 'y'",
+                            "title": "What is the name of the person who helps {creditorPersonName} manage their money and legal decisions?",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "panel",
+                            "name": "CreditorHasNomineePanel",
+                            "elements":[
+                                {
+                                    "type": "yesno",
+                                    "name": "creditorPersonNomineeFormal",                                   
+                                    "title": "Was {creditorPersonNomineeName} formally appointed to help {creditorPersonName} manage their money and legal decisions?",
+                                    "description": "These are the ways someone can be formally appointed.\n<ul>\n<li>\n{creditorPersonName} could have signed a document that gave someone else the power of attorney using the Power of Attorney Act,\n</li>\n<li>\n{creditorPersonName} could have signed a document that appointed someone as a representative using the Representation Agreement Act, or\n</li>\n<li>\na person can be appointed by the Court using the Patients Property Act,\n</li>\n<li>\na person could have been appointed either the Minister of Aboriginal Affairs and Northern Development or by the Court using the Indian Act\n</li>\n</ul>",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "creditorPersonNomineeFormalYesExplanation",
+                                    "visible": false,
+                                    "visibleIf": "{creditorPersonNomineeFormal} = 'y'",
+                                    "title": "The Public Guardian and Trustee (PGT) will need a copy of the legal document that proves that {creditorPersonNomineeName} was formally appointed as {creditorPersonName}'s `nominee`. \n<br><br>\nYou can get a head start by asking {creditorPersonNomineeName} for that document now, or, you can wait for this service to remind you in a later step.",
+                                    "titleLocation": "hidden",
+                                    "isRequired": true,
+                                    "requiredErrorText": "Please press Continue"
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "creditorPersonNomineeFormalNoExplanation",
+                                    "visible": false,
+                                    "visibleIf": "{creditorPersonNomineeFormal} = 'n'",
+                                    "title": "Even if {creditorPersonNomineeName} was not formally appointed to help {creditorPersonName}, it is still best to let both {creditorPersonNomineeName} and {creditorPersonName} know that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                                    "titleLocation": "hidden",
+                                    "isRequired": true,
+                                    "requiredErrorText": "Please press Continue"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "creditorPersonNomineeResidentialAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({creditorPersonNomineeFormal} = 'n' and {creditorPersonNomineeFormalNoExplanation} > 0) or ({creditorPersonNomineeFormal} = 'y' and {creditorPersonNomineeFormalYesExplanation} > 0))",
+                                    "title": "Where does {creditorPersonNomineeName} live?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "creditorPersonNomineeResidentialAddressFAQ1",
+                                    "visible": false,
+                                    "visibleIf": "(({creditorPersonNomineeFormal} = 'n' and {creditorPersonNomineeFormalNoExplanation} > 0) or ({creditorPersonNomineeFormal} = 'y' and {creditorPersonNomineeFormalYesExplanation} > 0))",
+                                    "title": "What if the creditor is homeless?",
+                                    "titleLocation": "hidden",
+                                    "body": "If the creditor is homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "creditorPersonNomineeResidentialReceiveMail",
+                                    "visible": false,
+                                    "visibleIf": "(({creditorPersonNomineeFormal} = 'n' and {creditorPersonNomineeFormalNoExplanation} > 0) or ({creditorPersonNomineeFormal} = 'y' and\n{creditorPersonNomineeFormalYesExplanation} > 0))",
+                                    "title": "Does {creditorPersonNomineeName} receive mail at this address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "creditorPersonNomineeHasMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({creditorPersonNomineeFormal} = 'n' and {creditorPersonNomineeFormalNoExplanation} > 0) or ({creditorPersonNomineeFormal} = 'y' and {creditorPersonNomineeFormalYesExplanation} > 0)) and {creditorPersonNomineeResidentialReceiveMail} = 'n'",
+                                    "title": "Does {creditorPersonNomineeName} have a different address where they receive mail?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "creditorPersonNomineeMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({creditorPersonNomineeFormal} = 'n' and {creditorPersonNomineeFormalNoExplanation} > 0) or ({creditorPersonNomineeFormal} = 'y' and {creditorPersonNomineeFormalYesExplanation} > 0)) and {creditorPersonNomineeResidentialReceiveMail} = 'n' and {creditorPersonNomineeHasMailingAddress} = 'y'",
+                                    "title": "Where does {creditorPersonNomineeName} receive mail?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "creditorPersonNomineeEmail",
+                                    "visible": false,
+                                    "visibleIf": "(({creditorPersonNomineeFormal} = 'n' and {creditorPersonNomineeFormalNoExplanation} > 0) or ({creditorPersonNomineeFormal} = 'y' and {creditorPersonNomineeFormalYesExplanation} > 0))",
+                                    "title": "Does {creditorPersonNomineeName} have an email address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "creditorPersonNomineeEmailAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({creditorPersonNomineeFormal} = 'n' and {creditorPersonNomineeFormalNoExplanation} > 0) or ({creditorPersonNomineeFormal} = 'y' and {creditorPersonNomineeFormalYesExplanation} > 0)) and {creditorPersonNomineeEmail} = 'y'",
+                                    "title": "What is {creditorPersonNomineeName}'s email address?",
+                                    "isRequired": true,
+                                    "inputType": "email"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "creditorPersonNomineeFax",
+                                    "visible": false,
+                                    "visibleIf": "(({creditorPersonNomineeFormal} = 'n' and {creditorPersonNomineeFormalNoExplanation} > 0) or ({creditorPersonNomineeFormal} = 'y' and {creditorPersonNomineeFormalYesExplanation} > 0))",
+                                    "title": "Does {creditorPersonNomineeName} have a fax number?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "creditorPersonNomineeFaxNumber",
+                                    "visible": false,
+                                    "visibleIf": "(({creditorPersonNomineeFormal} = 'n' and {creditorPersonNomineeFormalNoExplanation} > 0) or ({creditorPersonNomineeFormal} = 'y' and {creditorPersonNomineeFormalYesExplanation} > 0)) and {creditorPersonNomineeFax} = 'y'",
+                                    "title": "What is {creditorPersonNomineeName}'s fax number?",
+                                    "isRequired": true
+                                }
+                            ],
+                            "visible": false,
+                            "visibleIf": "{creditorPersonHasNominee} = 'y' and ({creditorPersonNomineeName} notempty)"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'y' and {creditorPersonIsAdult} = 'y' and ({creditorPersonName} notempty) and {creditorPersonIsCompetent} = 'n' and {creditorPersonIsCompetentNoExplanation} > 0"
+                },
+                {
+                    "type": "infotext",
+                    "name": "creditorPersonIsDeadExplanation",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'n'",
+                    "title": "Because {creditorPersonName} has died, {creditorPersonName}'s `personal representative` needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nIt is your responsibility to check with {creditorPersonName}'s family and friends to find out who is {creditorPersonName}'s personal representative.\n<br><br>\nIf you find out that {creditorPersonName} does not have a `personal representative`, this service will help you tell that to The Court.",
+                    "titleLocation": "hidden",
+                    "isRequired": true,
+                    "requiredErrorText": "Please press Continue"
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "creditorPersonHasPersonalRep",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'n' and {creditorPersonIsDeadExplanation} > 0 ",
+                    "title": "Do you know if {creditorPersonName} has a `personal representative`?",
+                    "description": "If {creditorPersonName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {creditorPersonName}. \n<br><br>\nIf someone is planning on becoming {creditorPersonName}'s personal representative but hasn't done so yet, it is safer for you to include them as {creditorPersonName}'s personal representative.\n",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "y",
+                            "text": "I know {creditorPersonName} <b>has</b> a personal representative"
+                        },
+                        {
+                            "value": "n",
+                            "text": "I know {creditorPersonName} <b>does NOT have</b> a personal representative"
+                        },
+                        {
+                            "value": "dk",
+                            "text": "I <b>don't know</b> if {creditorPersonName} has a personal representative"
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "name": "creditorPersonPersonalRepName",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'n' and {creditorPersonHasPersonalRep} = 'y'",
+                    "title": "What is the name of {creditorPersonName}'s `personal representative`?",
+                    "description": "\nThis name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                    "isRequired": true
+                },
+                {
+                    "type": "infotext",
+                    "name": "creditorPersonHasPersonalRepYesExplanation",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'n' and {creditorPersonHasPersonalRep} = 'y'  and {creditorPersonPersonalRepName} notempty",
+                    "title": "Because {creditorPersonName} has died, {creditorPersonPersonalRepName} needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will tell you how to let {creditorPersonPersonalRepName} know in a later step.",
+                    "titleLocation": "hidden",
+                    "requiredErrorText": "Please press Continue"
+                },
+                {
+                    "type": "infotext",
+                    "name": "creditorPersonHasPersonalRepNoTempError",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'n' and {creditorPersonHasPersonalRep} = 'n'",
+                    "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`.",
+                    "titleLocation": "hidden",
+                    "requiredErrorText": "Please press Continue",
+                    "messageStyle": "error"
+                },
+                {
+                    "type": "infotext",
+                    "name": "creditorPersonHasPersonalRepDKExplanation",
+                    "visible": false,
+                    "visibleIf": "{creditorPersonIsAlive} = 'n' and {creditorPersonHasPersonalRep} = 'dk'",
+                    "title": "Because you are not sure if {creditorPersonName} has a personal representative, you may want to check with as many of {creditorPersonName}'s family and friends as you can find.<br><br>If {creditorPersonName}'s family or friends do not know if {creditorPersonName} has a personal representative, one option may be hiring a professional investigator to try and find out for sure.<br><br>Examples of professional investigators include private investigators, heir tracers and other similar services.<br><br>For transparency of your application, you want to show the court all efforts made to find out whether {creditorPersonName} has a personal representative. The Court will ultimately decide whether sufficient effort has been made to find this information.",
+                    "titleLocation": "hidden",                
+                    "messageStyle": "error"
+                }
+            ],
+            "title": "Creditor's Information"
+        }
+    ],
+    "showQuestionNumbers": "off",
+    "requiredText": ""
+}
