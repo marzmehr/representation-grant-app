@@ -331,6 +331,9 @@ export default class Creditors extends Vue {
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
 
+    @applicationState.Action
+    public UpdateRelatedPeopleInfo!: (newRelatedPeopleInfo) => void
+
     currentStep =0;
     currentPage =0;
     showTable = true;
@@ -440,6 +443,7 @@ export default class Creditors extends Vue {
                 relatives.push(child.childPersonalRepName);
             }
         }
+        this.UpdateRelatedPeopleInfo(relatives);
         return relatives;
     }
 
