@@ -40,7 +40,9 @@ export interface RELATIONSstPgTypes{
 
 export interface APPLICANTstPgTypes{
     _StepNo: number;
-    InformationAboutApplicant: number;
+    ApplicantInfo: number;
+    ApplicantCitor: number;
+    ApplicantService: number;
 }
 
 export interface NOTIFYstPgTypes{

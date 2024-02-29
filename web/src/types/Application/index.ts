@@ -1,4 +1,4 @@
-import { applicantSurveyInfoType } from "./Applicant";
+import { applicantCitorSurveyInfoType, applicantInfoSurveyInfoType, applicantServiceSurveyInfoType } from "./Applicant";
 import { childCommonSurveyInfoType } from "./Children";
 import { deceasedInfoSurveyInfoType } from "./DeceasedInfo";
 import { deceasedWillSurveyInfoType } from "./DeceasedWill";
@@ -88,7 +88,11 @@ export interface stepInfoType {
    
 
     //__Step 3 APPLICANT
-    informationAboutApplicantSurvey?: applicantSurveyInfoType;
+    applicantInfoSurvey?: applicantInfoSurveyInfoType;
+    citorCompleted?: string;
+    applicantCitorSurvey?: applicantCitorSurveyInfoType;
+    applicantServiceSurvey?: applicantServiceSurveyInfoType;
+
 
     //__Step 4 NOTIFY
     confirmDebtSurvey?: any;

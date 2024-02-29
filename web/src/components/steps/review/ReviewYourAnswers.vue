@@ -101,6 +101,7 @@ export default class ReviewYourAnswers extends Vue {
         let adjQuestion = question
         adjQuestion = adjQuestion.replace(/{deceasedName}/g, Vue.filter('getFullName')(this.$store.state.Application.deceasedName));
         adjQuestion = adjQuestion.replace(/<br>/g,'');
+        adjQuestion = adjQuestion.replace(/`/g,'');
         adjQuestion = adjQuestion.replace(/<br\/>/g,'');
         //adjQuestion = adjQuestion.replace("{panel.bankName}", this.tempBankName);
         return adjQuestion

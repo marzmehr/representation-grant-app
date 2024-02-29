@@ -202,9 +202,25 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.name = "InformationAboutApplicant";
+        p.name = "ApplicantInfo";
         p.label = "Information About Applicant";        
         p.active = true;
+        p.progress = 0;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "1";
+        p.name = "ApplicantCitor";
+        p.label = "Citor";        
+        p.active = false;
+        p.progress = 0;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "2";
+        p.name = "ApplicantService";
+        p.label = "Applicant Service";        
+        p.active = false;
         p.progress = 0;
         s.pages.push(p);
 

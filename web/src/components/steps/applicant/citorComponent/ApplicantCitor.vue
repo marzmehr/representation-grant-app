@@ -3,9 +3,7 @@
         <div class="home-content">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>{{applicantName}}'s Citor</h1>                 
-
-                    <div class="mt-5">
+                    <div >
                         <h1>Citor Details</h1>
                         <p>
                             You have indicated the applicant has citor(s).
@@ -20,7 +18,7 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                        <th scope="col">Citor's name</th>                                       
+                                        <th scope="col">Applicant Citor's name</th>                                       
                                         <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -28,7 +26,7 @@
                                         <div></div>
                                         
                                         <tr v-for="citor in citorData" :key="citor.id">
-                                        <td>{{citor.citorName}}</td>                                        
+                                        <td>{{citor.applicantCitorName}}</td>                                        
                                         <td><a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(citor.id)"><i class="fa fa-trash"></i></a> &nbsp;&nbsp; 
                                         <a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Edit" @click="openForm(citor)"><i class="fa fa-edit"></i></a></td>
                                         </tr>
@@ -47,48 +45,26 @@
                 </div>
 
                 <div class="col-md-12" v-if="!showTable" id="citor-info-survey">
-                    <citor-survey :step="step" v-on:showTable="citorComponentData" v-on:surveyData="populateSurveyData" v-on:editedData="editRow" :editRowProp="anyRowToBeEdited" :deceasedName="deceasedName" />
+                    <citor-survey 
+                        :step="step" 
+                        v-on:showTable="citorComponentData" 
+                        v-on:surveyData="populateSurveyData" 
+                        v-on:editedData="editRow" 
+                        :editRowProp="anyRowToBeEdited" 
+                        :deceasedName="deceasedName"
+                        :applicantName="applicantName" />
                 </div>               
             </div>
        
-            <b-card v-if="citorExists== 'Yes' && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body :key="updated+1">
+            <b-card v-if="incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body :key="updated">
                 <div>Required Citor information is missing. Click the "Edit button <div class="d-inline fa fa-edit"></div> " to fix it. </div>
-            </b-card> 
+            </b-card>           
 
-            <b-card v-else-if="citorExists== 'Yes' && !incompleteError && showTable" class="my-4" :key="updated+2">  
-                <b-row no-body class="info-box">
-                    <b-col cols="1" class="m-0" style="padding-right: 0;">
-                        <b-icon-exclamation-circle-fill class="text-primary"/>
-                    </b-col>
-                    <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
-                        <p>
-                            In this step you have identified that, {{deceasedName | getFullName}}'s citors may include:                       
-                            <ul>
-                                <li v-for="citor in citorData" :key="citor.id">
-                                    {{ citor.citorName }}
-                                </li>
-                            </ul>                       
-                        </p>
-                        <p>
-                            Before moving on to the next step, please make sure that you have identified everyone 
-                            who may be considered {{deceasedName | getFullName}}'s citor.
-                        </p>
-                        <p>
-                            Sometimes people forget to include themselves while using this service. 
-                            If you are {{deceasedName | getFullName}}'s citor but you haven't included yourself yet, 
-                            please add information about yourself.
-                        </p>
-                    </b-col>
-                </b-row>
-            </b-card>
-    
-          
-
-            <b-card v-if="citorExists!= null" no-body class="my-4" :key="updated+4">  
+            <b-card v-if="showTable" no-body class="my-4" :key="updated+1">  
                 <b-row class="mx-4 mt-4">
                     <b-form-group>
-                        <div style="color:#556077; font-size:1.40em; font-weight:bold;">
-                            Have you identified everyone who may be considered {{deceasedName | getFullName}}'s citor?
+                        <div style="color:#556077; font-size:1.40em; font-weight:bold;">                           
+                            Have all the people who gave {{applicantName}} a citation now been identified?
                         </div>
                         <b-form-radio-group
                             v-model="citorCompleted"
@@ -98,37 +74,7 @@
                             <b-form-radio class="mr-5" value="Yes"><div style="transform:translate(5px,-5px);">Yes</div></b-form-radio>
                             <b-form-radio value="No"><div style="transform:translate(5px,-5px);">No</div></b-form-radio>               
                         </b-form-radio-group>
-                    </b-form-group>
-
-                    <div>
-                        <div class="my-4 text-primary" @click="showCitorInfo= !showCitorInfo" style="border-bottom:1px solid; width: 24.5rem;">
-                            <span style="font-size:1.2rem;" class="fa fa-question-circle" /> 
-                            How can someone have more than 1 citor?        
-                            <span v-if="showCitorInfo" class='ml-2 fa fa-chevron-up'/>
-                            <span v-if="!showCitorInfo" class='ml-2 fa fa-chevron-down'/>
-                        </div>
-                        <div v-if="showCitorInfo">
-                            <p>
-                                Someone can have more than 1 citor depending on the laws where they live.
-                            </p>
-                            <p>
-                                Under B.C. law, if a person is legally married and they separate from their citor 
-                                but did not get a divorce, the person they separated from is still considered their citor. 
-                                If that same person then starts a new marriage-like relationship with a new partner, 
-                                this new partner could be considered a citor.
-                            </p>
-                            <p>
-                                In this situation, the person could have 2 citors because they didn't divorce their first citor.                           
-                            </p>
-                            <p>
-                                <a href='https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section2' target='_blank'>
-                                    For more information, click here to read about who should be included as {{deceasedName | getFullName}}'s citor 
-                                    from the <i>Wills, Estate and Succession Act</i> (WESA).
-                                </a>
-                                (This link opens in a new tab)
-                            </p>
-                        </div>
-                    </div>
+                    </b-form-group>                   
 
                 </b-row>
 
@@ -139,32 +85,27 @@
                         </b-col>
                         <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important; padding-right: 3rem !important;">
                             <p>
-                                Please identify everyone who may be considered {{deceasedName | getFullName}}'s citor 
-                                at the time {{deceasedName | getFullName}} died. They should know that you are applying for a 
-                                Representation Grant for {{deceasedName | getFullName}}.
+                                Please identify anyone who gave {{applicantName}} a citation. 
+                                These people need to know that you are applying for a Representation 
+                                Grant for {{deceasedName | getFullName}}. 
                             </p>
                             <p>  
-                                You want as much transparency in your application as possible in case the Court 
-                                decides that this person should be considered {{deceasedName | getFullName}}'s citor.
+                                You want as much transparency in your application as possible.
                             </p>
                             <p>
-                                Just because you are giving this person notice, it may not mean that they get part of 
-                                {{deceasedName | getFullName}}'s estate.                            
+                                Even though you are telling this person you are applying for a Representation Grant, 
+                                they don't automatically get part of {{deceasedName | getFullName}}'s estate.                            
                             </p>
-
+                            
                             <p>
-                                <a href='https://www.bclaws.gov.bc.ca/civix/document/id/lc/statreg/09013_01#section2' target='_blank'>
-                                    For more information, click here to read about who should be included as {{deceasedName | getFullName}}'s citor 
-                                    from the <i>Wills, Estate and Succession Act</i> (WESA).
-                                </a>
-                                (This link opens in a new tab)
+                                <a href='https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/168_2009_03_1#part25' target='_blank'>
+                                    Click here to go to the <i>Supreme Court Civil Rules</i> for more information about citations.
+                                </a> Scroll down to Rule 25-11 — Citations. (This link opens in a new tab)",
                             </p>
 
                         </b-col>
                     </b-row> 
                 </b-card>
-
-
 
             </b-card> 
         </div>
@@ -194,7 +135,7 @@ import { stepsAndPagesNumberInfoType } from "@/types/Application/StepsAndPages";
       Tooltip
     }
 })
-export default class CitorInfo extends Vue {
+export default class ApplicantCitor extends Vue {
 
     @Prop({required: true})
     step!: stepInfoType;
@@ -213,19 +154,18 @@ export default class CitorInfo extends Vue {
 
     currentStep =0;
     currentPage =0;
+
+    applicantName = "";
     
     showTable = true;
     citorData = [];
     anyRowToBeEdited = null;
     editId = null; 
     incompleteError =  false;   
-    citorExists = null; 
     citorCompleted = null;
     updated = 0;
     updatedCitor = 0;
-    showSeparatedInfo = false;
-    showCommonLawInfo = false;
-    showCommonLawOffInfo = false;
+
     showCitorInfo = false;
     
     public openForm(anyRowToBeEdited?) {
@@ -242,7 +182,8 @@ export default class CitorInfo extends Vue {
         }
     }
 
-    public citorComponentData(value) {       
+    public citorComponentData(value) {  
+        this.updated ++;     
         this.showTable = value;
     }
 
@@ -286,21 +227,22 @@ export default class CitorInfo extends Vue {
 
     created() {
 
-        if (this.step.result?.citorExists) {
-            this.citorExists = this.step.result.citorExists;
-        }
-
-        if (this.step.result?.citorSurvey?.data) {
-            this.citorData = this.step.result.citorSurvey.data;
+        if (this.step.result?.applicantCitorSurvey?.data) {
+            this.citorData = this.step.result.applicantCitorSurvey.data;
         }       
         
         if (this.step.result?.citorCompleted) {
             this.citorCompleted = this.step.result.citorCompleted;
-        }            
+        }       
+        
+        if (this.step.result?.applicantInfoSurvey?.data?.applicantName){
+            this.applicantName = this.step.result.applicantInfoSurvey.data.applicantName;
+        }
     }
 
     mounted(){
         this.updated = 0;
+        this.updatedCitor = 0;
         Vue.nextTick(()=>this.surveyHasError());
         this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;        
@@ -309,10 +251,9 @@ export default class CitorInfo extends Vue {
     public surveyHasError(){
         let progress = this.citorData.length==0? 50 : 100;
     
-
         this.incompleteError =  false;        
         for(const citor of this.citorData){
-            if (!citor.citorName || !citor.citorIsAlive){            
+            if (!citor.applicantCitorName || !citor.applicantCitorIsAlive){            
                 this.incompleteError = true;  
                 progress = 50;    
                 break
@@ -322,8 +263,8 @@ export default class CitorInfo extends Vue {
     }
     
     public isDisableNext() {
-        return (this.citorExists == null || (this.citorExists == 'Yes' && this.citorData?.length <= 0 ) || 
-            !this.citorCompleted || this.citorCompleted == 'No');
+        return this.citorData?.length <= 0  || 
+            !this.citorCompleted || this.citorCompleted == 'No';
     }
 
     beforeDestroy() {
@@ -331,14 +272,14 @@ export default class CitorInfo extends Vue {
         
         let citorInfo = this.getCitorResults(); 
 
-        this.UpdateStepResultData({step:this.step, data: {citorSurvey: citorInfo, citorCompleted: this.citorCompleted}})       
+        this.UpdateStepResultData({step:this.step, data: {applicantCitorSurvey: citorInfo, citorCompleted: this.citorCompleted}})       
     }
 
     public getCitorResults(){
         const questionResults: {name:string; value: any; title:string; inputType:string}[] =[];
         for(const citor of this.citorData)
         {
-            questionResults.push({name:'citorSurvey', value: this.getCitorInfo(citor), title:'Citor '+citor.id +' Information', inputType:''})
+            questionResults.push({name:'applicantCitorSurvey', value: this.getCitorInfo(citor), title:'Citor '+citor.id +' Information', inputType:''})
         }
         
         return {data: this.citorData, questions:questionResults, pageName:'Citor Information', currentStep: this.currentStep, currentPage:this.currentPage}
@@ -347,7 +288,7 @@ export default class CitorInfo extends Vue {
     public getCitorInfo(citor){
 
         const resultString = [];
-        resultString.push(Vue.filter('styleTitle')("Name: ")+citor.citorName);        
+        resultString.push(Vue.filter('styleTitle')("Name: ")+citor.applicantCitorName);        
         
         return resultString;
     }  

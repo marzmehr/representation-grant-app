@@ -2,6 +2,8 @@ import Vue from 'vue'
 import moment from 'moment-timezone';
 import store from '@/store';
 import {customCss} from './bootstrapCSS'
+import { childDetailsDataInfoType } from '@/types/Application/Children';
+import { spouseInfoType } from '@/types/Application/Spouse';
 
 Vue.filter('get-current-version', function(){	
 	//___________________________
@@ -203,6 +205,62 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 	// console.log(result)
 	// console.log(document.getElementsByName("inCourtForPO"))
 	return {data: survey.data, questions:questionResults, pageName:survey.currentPage.title, currentStep: currentStep, currentPage:currentPage}
+})
+
+
+Vue.filter('getRelatedPeopleInfo', function(step){
+	const relatives = [];
+    let spouseList: spouseInfoType[] = [];
+    let childList: childDetailsDataInfoType[] = [];
+    if (step.result?.spouseSurvey?.data) {
+        spouseList = step.result.spouseSurvey.data;
+    } 
+
+    for (const spouse of spouseList){
+        relatives.push(spouse.spouseName);
+
+        if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'n' &&
+        spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianName?.length>0){
+
+            relatives.push(spouse.spouseGuardianName);
+        }
+
+        if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'y' &&
+            spouse.spouseIsCompetent == 'n' && spouse.spouseHasNominee == 'y' && spouse.spouseNomineeName?.length>0){
+            relatives.push(spouse.spouseNomineeName);
+        }
+
+        if(spouse.spouseIsAlive == 'n' && spouse.spouseDied5DaysAfter == 'y' &&
+        spouse.spouseHasPersonalRep == 'y' && spouse.spousePersonalRepName?.length>0){
+            relatives.push(spouse.spousePersonalRepName);
+        }
+    }
+
+    if (step.result?.childrenSurvey?.data) {
+        childList = step.result.childrenSurvey.data;
+    } 
+
+    for (const child of childList){
+        relatives.push(child.childName);
+
+        if(child.childIsAlive == 'y' && child.childIsAdult == 'n' &&
+            child.childHasGuardian == 'y' && child.childGuardianName?.length>0){
+
+            relatives.push(child.childGuardianName);
+        }
+
+        if(child.childIsAlive == 'y' && child.childIsAdult == 'y' &&
+            child.childIsCompetent == 'n' && child.childHasNominee == 'y' && child.childNomineeName?.length>0){
+            relatives.push(child.childNomineeName);
+        }
+
+        if(child.childIsAlive == 'n' && child.childDiedAfter == 'y' &&
+            child.childHasPersonalRep == 'y' && child.childPersonalRepName?.length>0){
+            relatives.push(child.childPersonalRepName);
+        }
+    }
+    
+    return relatives;
 })
 
 

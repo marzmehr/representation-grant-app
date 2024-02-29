@@ -23,8 +23,7 @@
                                     tell to the Court.
                                 </p>
                                 <p>
-                                    This step will start by asking about people first, and then follow up with 
-                                    organizations second.                            
+                                    This step will start by asking about persons first, followed by organizations.                            
                                 </p>
                             </b-col>
                         </b-row> 
@@ -302,9 +301,6 @@ const applicationState = namespace("Application");
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
 import { stepsAndPagesNumberInfoType } from "@/types/Application/StepsAndPages";
 import { nameInfoType } from '@/types/Common';
-import { spouseInfoType } from '@/types/Application/Spouse';
-import { childDetailsDataInfoType } from '@/types/Application/Children';
-
 
 @Component({
     components:{
@@ -330,9 +326,6 @@ export default class Creditors extends Vue {
 
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
-
-    @applicationState.Action
-    public UpdateRelatedPeopleInfo!: (newRelatedPeopleInfo) => void
 
     currentStep =0;
     currentPage =0;
@@ -385,66 +378,10 @@ export default class Creditors extends Vue {
         this.updated = 0;
         this.updatedOrg = 0;
         this.updatedCreditors = 0;
-        this.relativesList = this.getRelativesInfo();
+        this.relativesList = Vue.filter('getRelatedPeopleInfo')(this.step);
         Vue.nextTick(()=>this.surveyHasError());
         this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;        
-    }
-
-    public getRelativesInfo(){
-
-        const relatives = [];
-        let spouseList: spouseInfoType[] = [];
-        let childList: childDetailsDataInfoType[] = [];
-        if (this.step.result?.spouseSurvey?.data) {
-            spouseList = this.step.result.spouseSurvey.data;
-        } 
-
-        for (const spouse of spouseList){
-            relatives.push(spouse.spouseName);
-
-            if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'n' &&
-            spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianName?.length>0){
-
-                relatives.push(spouse.spouseGuardianName);
-            }
-
-            if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'y' &&
-                spouse.spouseIsCompetent == 'n' && spouse.spouseHasNominee == 'y' && spouse.spouseNomineeName?.length>0){
-                relatives.push(spouse.spouseNomineeName);
-            }
-
-            if(spouse.spouseIsAlive == 'n' && spouse.spouseDied5DaysAfter == 'y' &&
-            spouse.spouseHasPersonalRep == 'y' && spouse.spousePersonalRepName?.length>0){
-                relatives.push(spouse.spousePersonalRepName);
-            }
-        }
-
-        if (this.step.result?.childrenSurvey?.data) {
-            childList = this.step.result.childrenSurvey.data;
-        } 
-
-        for (const child of childList){
-            relatives.push(child.childName);
-
-            if(child.childIsAlive == 'y' && child.childIsAdult == 'n' &&
-                child.childHasGuardian == 'y' && child.childGuardianName?.length>0){
-
-                relatives.push(child.childGuardianName);
-            }
-
-            if(child.childIsAlive == 'y' && child.childIsAdult == 'y' &&
-                child.childIsCompetent == 'n' && child.childHasNominee == 'y' && child.childNomineeName?.length>0){
-                relatives.push(child.childNomineeName);
-            }
-
-            if(child.childIsAlive == 'n' && child.childDiedAfter == 'y' &&
-                child.childHasPersonalRep == 'y' && child.childPersonalRepName?.length>0){
-                relatives.push(child.childPersonalRepName);
-            }
-        }
-        this.UpdateRelatedPeopleInfo(relatives);
-        return relatives;
     }
 
     public surveyHasError(){

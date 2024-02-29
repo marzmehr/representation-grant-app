@@ -223,7 +223,7 @@
                 <div>Required Spouse information is missing. Click the "Edit button <div class="d-inline fa fa-edit"></div> " to fix it. </div>
             </b-card> 
 
-            <b-card v-else-if="spouseExists== 'Yes' && !incompleteError && showTable" class="my-4" :key="updated+2">  
+            <b-card v-else-if="spouseExists== 'Yes' && !incompleteError && showTable && spouseData.length>0" class="my-4" :key="updated+2">  
                 <b-row no-body class="info-box">
                     <b-col cols="1" class="m-0" style="padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>

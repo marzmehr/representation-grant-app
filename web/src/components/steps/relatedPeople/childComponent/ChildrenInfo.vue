@@ -318,7 +318,19 @@
                     </b-row> 
                 </b-card>
 
-
+                <b-card v-if="childCompleted == 'Yes'" class="my-4" :key="updatedChildren+1">  
+                    <b-row no-body class="info-box">
+                        <b-col cols="1" class="m-0" style="padding-right: 0;">
+                            <b-icon-exclamation-circle-fill class="text-primary"/>
+                        </b-col>
+                        <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                            <p>
+                                Next, this service will ask if {{deceasedName | getFullName}} owed 
+                                anyone more than $10,000.
+                            </p>
+                        </b-col>
+                    </b-row>
+                </b-card>
 
             </b-card> 
         </div>

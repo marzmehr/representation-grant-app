@@ -6,7 +6,7 @@
                 <button type="button" class="btn btn-secondary" @click="goBack()">Cancel</button>
             </div>
             <div class="col-6">
-                <button type="button" class="btn btn-success" @click="saveSpouse()">Save</button>
+                <button type="button" class="btn btn-success" @click="saveCitor()">Save</button>
             </div>
         </div>
         <br />
@@ -24,11 +24,12 @@ import "@/store/modules/application";
 const applicationState = namespace("Application");
 
 import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
-import { spouseInfoType } from '@/types/Application/Spouse';
+
 import { nameInfoType } from '@/types/Common';
+import { applicantCitorInfoType } from '@/types/Application/Applicant';
 
 @Component
-export default class SpouseSurvey extends Vue {
+export default class CitorSurvey extends Vue {
     
     @Prop({required: true})
     editRowProp!: Object;   
@@ -36,13 +37,13 @@ export default class SpouseSurvey extends Vue {
     @Prop({required: true})
     deceasedName!: nameInfoType;
 
-    @applicationState.State
-    public deceasedDateOfDeathPlus4!: string;
+    @Prop({required: true})
+    applicantName!: string;
 
     @applicationState.State
     public stPgNo!: stepsAndPagesNumberInfoType;
     
-    spouse = {} as spouseInfoType;
+    applicantCitor = {} as applicantCitorInfoType;
 
     survey = new SurveyVue.Model(surveyJson);
     currentStep =0;
@@ -70,12 +71,12 @@ export default class SpouseSurvey extends Vue {
     public addSurveyListener(){
         //TODO: Vue.filter('surveyChanged')('replyFlm')        
         this.survey.onComplete.add((sender, options) => {
-            this.populateSpouseModel(sender.data);
+            this.populateCitorModel(sender.data);
             let id = sender.getVariable("id");
             if (id === null || id === undefined) {
-                this.$emit("surveyData", this.spouse);
+                this.$emit("surveyData", this.applicantCitor);
             } else {
-                this.$emit("editedData", { ...this.spouse, id });
+                this.$emit("editedData", { ...this.applicantCitor, id });
                 id = null;
             }
         });
@@ -95,7 +96,7 @@ export default class SpouseSurvey extends Vue {
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         this.$store.commit("Application/setPageProgress", { currentStep: this.currentStep, currentPage:this.currentPage, progress:progress })   
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));    
-        this.survey.setVariable("deceasedDateOfDeathPlus4", this.deceasedDateOfDeathPlus4);     
+        this.survey.setVariable("applicantName", this.applicantName);   
    
     }
   
@@ -103,119 +104,119 @@ export default class SpouseSurvey extends Vue {
         this.$emit("showTable", true);
     }
     
-    public saveSpouse() {
+    public saveCitor() {
         
         this.survey.completeLastPage();
     }
 
-    public populateSpouseModel(spouseData) {
-        if(spouseData){
-            this.spouse.spouseName = spouseData.spouseName;       
-            this.spouse.spouseIsAlive = spouseData.spouseIsAlive;
-            this.spouse.spouseIsAdult = spouseData.spouseIsAdult;
-            this.spouse.spouseIsAdultNoExplanation = spouseData.spouseIsAdultNoExplanation;
-            this.spouse.spouseIsAdultNoDOB = spouseData.spouseIsAdultNoDOB;
-            this.spouse.spouseIsAdultNoResidentialAddress = spouseData.spouseIsAdultNoResidentialAddress;
-            this.spouse.spouseIsAdultNoResidentialReceiveMail = spouseData.spouseIsAdultNoResidentialReceiveMail;
-            this.spouse.spouseIsAdultNoHasMailingAddress = spouseData.spouseIsAdultNoHasMailingAddress;
-            this.spouse.spouseIsAdultNoMailingAddress = spouseData.spouseIsAdultNoMailingAddress;
-            this.spouse.spouseIsAdultNoEmail = spouseData.spouseIsAdultNoEmail;
-            this.spouse.spouseIsAdultNoEmailAddress = spouseData.spouseIsAdultNoEmailAddress;
-            this.spouse.spouseIsAdultNoFax = spouseData.spouseIsAdultNoFax;
-            this.spouse.spouseIsAdultNoFaxNumber = spouseData.spouseIsAdultNoFaxNumber;
-            this.spouse.spouseHasGuardian = spouseData.spouseHasGuardian;   
-            this.spouse.spouseGuardianName = spouseData.spouseGuardianName;
-            this.spouse.spouseGuardianResidentialAddress = spouseData.spouseGuardianResidentialAddress;
-            this.spouse.spouseGuardianResidentialReceiveMail = spouseData.spouseGuardianResidentialReceiveMail;
-            this.spouse.spouseGuardianHasMailingAddress = spouseData.spouseGuardianHasMailingAddress;
-            this.spouse.spouseGuardianMailingAddress = spouseData.spouseGuardianMailingAddress;
-            this.spouse.spouseGuardianEmail = spouseData.spouseGuardianEmail;
-            this.spouse.spouseGuardianEmailAddress = spouseData.spouseGuardianEmailAddress;
-            this.spouse.spouseGuardianFax = spouseData.spouseGuardianFax;
-            this.spouse.spouseGuardianFaxNumber = spouseData.spouseGuardianFaxNumber;
-            this.spouse.spouseIsCompetent = spouseData.spouseIsCompetent;
-            this.spouse.spouseIsCompetentNoExplanation = spouseData.spouseIsCompetentNoExplanation;
-            this.spouse.spouseIsCompetentNoDOB = spouseData.spouseIsCompetentNoDOB;
-            this.spouse.spouseIsCompetentNoResidentialAddress = spouseData.spouseIsCompetentNoResidentialAddress;
-            this.spouse.spouseIsCompetentNoResidentialReceiveMail = spouseData.spouseIsCompetentNoResidentialReceiveMail;
-            this.spouse.spouseIsCompetentNoHasMailingAddress = spouseData.spouseIsCompetentNoHasMailingAddress;
-            this.spouse.spouseIsCompetentNoMailingAddress = spouseData.spouseIsCompetentNoMailingAddress;
-            this.spouse.spouseIsCompetentNoEmail = spouseData.spouseIsCompetentNoEmail;
-            this.spouse.spouseIsCompetentNoEmailAddress = spouseData.spouseIsCompetentNoEmailAddress;
-            this.spouse.spouseIsCompetentNoFax = spouseData.spouseIsCompetentNoFax;
-            this.spouse.spouseIsCompetentNoFaxNumber = spouseData.spouseIsCompetentNoFaxNumber;
-            this.spouse.spouseHasNominee = spouseData.spouseHasNominee;
-            this.spouse.spouseNomineeName = spouseData.spouseNomineeName;
-            this.spouse.spouseNomineeFormal = spouseData.spouseNomineeFormal;
-            this.spouse.spouseNomineeFormalNoExplanation = spouseData.spouseNomineeFormalNoExplanation;
-            this.spouse.spouseNomineeFormalYesExplanation = spouseData.spouseNomineeFormalYesExplanation;
-            this.spouse.spouseNomineeResidentialAddress = spouseData.spouseNomineeResidentialAddress;
-            this.spouse.spouseNomineeResidentialReceiveMail = spouseData.spouseNomineeResidentialReceiveMail;
-            this.spouse.spouseNomineeHasMailingAddress = spouseData.spouseNomineeHasMailingAddress;
-            this.spouse.spouseNomineeMailingAddress = spouseData.spouseNomineeMailingAddress;
-            this.spouse.spouseNomineeEmail = spouseData.spouseNomineeEmail;
-            this.spouse.spouseNomineeEmailAddress = spouseData.spouseNomineeEmailAddress;
-            this.spouse.spouseNomineeFax = spouseData.spouseNomineeFax;
-            this.spouse.spouseNomineeFaxNumber = spouseData.spouseNomineeFaxNumber;
-            this.spouse.spouseDied5DaysAfter = spouseData.spouseDied5DaysAfter;
-            this.spouse.spouseHasPersonalRep = spouseData.spouseHasPersonalRep;
-            this.spouse.spousePersonalRepName = spouseData.spousePersonalRepName;
+    public populateCitorModel(applicantCitorData) {
+        if(applicantCitorData){
+            this.applicantCitor.applicantCitorName = applicantCitorData.applicantCitorName;       
+            this.applicantCitor.applicantCitorIsAlive = applicantCitorData.applicantCitorIsAlive;
+            this.applicantCitor.applicantCitorIsAdult = applicantCitorData.applicantCitorIsAdult;
+            this.applicantCitor.applicantCitorIsAdultNoExplanation = applicantCitorData.applicantCitorIsAdultNoExplanation;
+            this.applicantCitor.applicantCitorIsAdultNoDOB = applicantCitorData.applicantCitorIsAdultNoDOB;
+            this.applicantCitor.applicantCitorIsAdultNoResidentialAddress = applicantCitorData.applicantCitorIsAdultNoResidentialAddress;
+            this.applicantCitor.applicantCitorIsAdultNoResidentialReceiveMail = applicantCitorData.applicantCitorIsAdultNoResidentialReceiveMail;
+            this.applicantCitor.applicantCitorIsAdultNoHasMailingAddress = applicantCitorData.applicantCitorIsAdultNoHasMailingAddress;
+            this.applicantCitor.applicantCitorIsAdultNoMailingAddress = applicantCitorData.applicantCitorIsAdultNoMailingAddress;
+            this.applicantCitor.applicantCitorIsAdultNoEmail = applicantCitorData.applicantCitorIsAdultNoEmail;
+            this.applicantCitor.applicantCitorIsAdultNoEmailAddress = applicantCitorData.applicantCitorIsAdultNoEmailAddress;
+            this.applicantCitor.applicantCitorIsAdultNoFax = applicantCitorData.applicantCitorIsAdultNoFax;
+            this.applicantCitor.applicantCitorIsAdultNoFaxNumber = applicantCitorData.applicantCitorIsAdultNoFaxNumber;
+            this.applicantCitor.applicantCitorHasGuardian = applicantCitorData.applicantCitorHasGuardian;   
+            this.applicantCitor.applicantCitorGuardianName = applicantCitorData.applicantCitorGuardianName;
+            this.applicantCitor.applicantCitorGuardianResidentialAddress = applicantCitorData.applicantCitorGuardianResidentialAddress;
+            this.applicantCitor.applicantCitorGuardianResidentialReceiveMail = applicantCitorData.applicantCitorGuardianResidentialReceiveMail;
+            this.applicantCitor.applicantCitorGuardianHasMailingAddress = applicantCitorData.applicantCitorGuardianHasMailingAddress;
+            this.applicantCitor.applicantCitorGuardianMailingAddress = applicantCitorData.applicantCitorGuardianMailingAddress;
+            this.applicantCitor.applicantCitorGuardianEmail = applicantCitorData.applicantCitorGuardianEmail;
+            this.applicantCitor.applicantCitorGuardianEmailAddress = applicantCitorData.applicantCitorGuardianEmailAddress;
+            this.applicantCitor.applicantCitorGuardianFax = applicantCitorData.applicantCitorGuardianFax;
+            this.applicantCitor.applicantCitorGuardianFaxNumber = applicantCitorData.applicantCitorGuardianFaxNumber;
+            this.applicantCitor.applicantCitorIsCompetent = applicantCitorData.applicantCitorIsCompetent;
+            this.applicantCitor.applicantCitorIsCompetentNoExplanation = applicantCitorData.applicantCitorIsCompetentNoExplanation;
+            this.applicantCitor.applicantCitorIsCompetentNoDOB = applicantCitorData.applicantCitorIsCompetentNoDOB;
+            this.applicantCitor.applicantCitorIsCompetentNoResidentialAddress = applicantCitorData.applicantCitorIsCompetentNoResidentialAddress;
+            this.applicantCitor.applicantCitorIsCompetentNoResidentialReceiveMail = applicantCitorData.applicantCitorIsCompetentNoResidentialReceiveMail;
+            this.applicantCitor.applicantCitorIsCompetentNoHasMailingAddress = applicantCitorData.applicantCitorIsCompetentNoHasMailingAddress;
+            this.applicantCitor.applicantCitorIsCompetentNoMailingAddress = applicantCitorData.applicantCitorIsCompetentNoMailingAddress;
+            this.applicantCitor.applicantCitorIsCompetentNoEmail = applicantCitorData.applicantCitorIsCompetentNoEmail;
+            this.applicantCitor.applicantCitorIsCompetentNoEmailAddress = applicantCitorData.applicantCitorIsCompetentNoEmailAddress;
+            this.applicantCitor.applicantCitorIsCompetentNoFax = applicantCitorData.applicantCitorIsCompetentNoFax;
+            this.applicantCitor.applicantCitorIsCompetentNoFaxNumber = applicantCitorData.applicantCitorIsCompetentNoFaxNumber;
+            this.applicantCitor.applicantCitorHasNominee = applicantCitorData.applicantCitorHasNominee;
+            this.applicantCitor.applicantCitorNomineeName = applicantCitorData.applicantCitorNomineeName;
+            this.applicantCitor.applicantCitorNomineeFormal = applicantCitorData.applicantCitorNomineeFormal;
+            this.applicantCitor.applicantCitorNomineeFormalNoExplanation = applicantCitorData.applicantCitorNomineeFormalNoExplanation;
+            this.applicantCitor.applicantCitorNomineeFormalYesExplanation = applicantCitorData.applicantCitorNomineeFormalYesExplanation;
+            this.applicantCitor.applicantCitorNomineeResidentialAddress = applicantCitorData.applicantCitorNomineeResidentialAddress;
+            this.applicantCitor.applicantCitorNomineeResidentialReceiveMail = applicantCitorData.applicantCitorNomineeResidentialReceiveMail;
+            this.applicantCitor.applicantCitorNomineeHasMailingAddress = applicantCitorData.applicantCitorNomineeHasMailingAddress;
+            this.applicantCitor.applicantCitorNomineeMailingAddress = applicantCitorData.applicantCitorNomineeMailingAddress;
+            this.applicantCitor.applicantCitorNomineeEmail = applicantCitorData.applicantCitorNomineeEmail;
+            this.applicantCitor.applicantCitorNomineeEmailAddress = applicantCitorData.applicantCitorNomineeEmailAddress;
+            this.applicantCitor.applicantCitorNomineeFax = applicantCitorData.applicantCitorNomineeFax;
+            this.applicantCitor.applicantCitorNomineeFaxNumber = applicantCitorData.applicantCitorNomineeFaxNumber;
+            this.applicantCitor.applicantCitorIsDeadExplanation = applicantCitorData.applicantCitorIsDeadExplanation;
+            this.applicantCitor.applicantCitorHasPersonalRep = applicantCitorData.applicantCitorHasPersonalRep;
+            this.applicantCitor.applicantCitorPersonalRepName = applicantCitorData.applicantCitorPersonalRepName;
         }
     }
 
     public populateFormWithPreExistingValues(editRowProp, survey) {
         survey.data = {
-            spouseName: editRowProp.spouseName
+            applicantCitorName: editRowProp.applicantCitorName
         };
-        survey.setValue("spouseIsAlive", editRowProp.spouseIsAlive);
-        survey.setValue("spouseIsAdult", editRowProp.spouseIsAdult);
-        survey.setValue("spouseIsAdultNoExplanation", editRowProp.spouseIsAdultNoExplanation);
-        survey.setValue("spouseIsAdultNoDOB", editRowProp.spouseIsAdultNoDOB);
-        survey.setValue("spouseIsAdultNoResidentialAddress", editRowProp.spouseIsAdultNoResidentialAddress);
-        survey.setValue("spouseIsAdultNoResidentialReceiveMail", editRowProp.spouseIsAdultNoResidentialReceiveMail);
-        survey.setValue("spouseIsAdultNoHasMailingAddress", editRowProp.spouseIsAdultNoHasMailingAddress);
-        survey.setValue("spouseIsAdultNoMailingAddress", editRowProp.spouseIsAdultNoMailingAddress);
-        survey.setValue("spouseIsAdultNoEmail", editRowProp.spouseIsAdultNoEmail);
-        survey.setValue("spouseIsAdultNoEmailAddress", editRowProp.spouseIsAdultNoEmailAddress);
-        survey.setValue("spouseIsAdultNoFax", editRowProp.spouseIsAdultNoFax);
-        survey.setValue("spouseIsAdultNoFaxNumber", editRowProp.spouseIsAdultNoFaxNumber);
-        survey.setValue("spouseHasGuardian", editRowProp.spouseHasGuardian);   
-        survey.setValue("spouseGuardianName", editRowProp.spouseGuardianName);
-        survey.setValue("spouseGuardianResidentialAddress", editRowProp.spouseGuardianResidentialAddress);
-        survey.setValue("spouseGuardianResidentialReceiveMail", editRowProp.spouseGuardianResidentialReceiveMail);
-        survey.setValue("spouseGuardianHasMailingAddress", editRowProp.spouseGuardianHasMailingAddress);
-        survey.setValue("spouseGuardianMailingAddress", editRowProp.spouseGuardianMailingAddress);
-        survey.setValue("spouseGuardianEmail", editRowProp.spouseGuardianEmail);
-        survey.setValue("spouseGuardianEmailAddress", editRowProp.spouseGuardianEmailAddress);
-        survey.setValue("spouseGuardianFax", editRowProp.spouseGuardianFax);
-        survey.setValue("spouseGuardianFaxNumber", editRowProp.spouseGuardianFaxNumber);
-        survey.setValue("spouseIsCompetent", editRowProp.spouseIsCompetent);
-        survey.setValue("spouseIsCompetentNoExplanation", editRowProp.spouseIsCompetentNoExplanation);
-        survey.setValue("spouseIsCompetentNoDOB", editRowProp.spouseIsCompetentNoDOB);
-        survey.setValue("spouseIsCompetentNoResidentialAddress", editRowProp.spouseIsCompetentNoResidentialAddress);
-        survey.setValue("spouseIsCompetentNoResidentialReceiveMail", editRowProp.spouseIsCompetentNoResidentialReceiveMail);
-        survey.setValue("spouseIsCompetentNoHasMailingAddress", editRowProp.spouseIsCompetentNoHasMailingAddress);
-        survey.setValue("spouseIsCompetentNoMailingAddress", editRowProp.spouseIsCompetentNoMailingAddress);
-        survey.setValue("spouseIsCompetentNoEmail", editRowProp.spouseIsCompetentNoEmail);
-        survey.setValue("spouseIsCompetentNoEmailAddress", editRowProp.spouseIsCompetentNoEmailAddress);
-        survey.setValue("spouseIsCompetentNoFax", editRowProp.spouseIsCompetentNoFax);
-        survey.setValue("spouseIsCompetentNoFaxNumber", editRowProp.spouseIsCompetentNoFaxNumber);
-        survey.setValue("spouseHasNominee", editRowProp.spouseHasNominee);
-        survey.setValue("spouseNomineeName", editRowProp.spouseNomineeName);
-        survey.setValue("spouseNomineeFormal", editRowProp.spouseNomineeFormal);
-        survey.setValue("spouseNomineeFormalNoExplanation", editRowProp.spouseNomineeFormalNoExplanation);
-        survey.setValue("spouseNomineeFormalYesExplanation", editRowProp.spouseNomineeFormalYesExplanation);
-        survey.setValue("spouseNomineeResidentialAddress", editRowProp.spouseNomineeResidentialAddress);
-        survey.setValue("spouseNomineeResidentialReceiveMail", editRowProp.spouseNomineeResidentialReceiveMail);
-        survey.setValue("spouseNomineeHasMailingAddress", editRowProp.spouseNomineeHasMailingAddress);
-        survey.setValue("spouseNomineeMailingAddress", editRowProp.spouseNomineeMailingAddress);
-        survey.setValue("spouseNomineeEmail", editRowProp.spouseNomineeEmail);
-        survey.setValue("spouseNomineeEmailAddress", editRowProp.spouseNomineeEmailAddress);
-        survey.setValue("spouseNomineeFax", editRowProp.spouseNomineeFax);
-        survey.setValue("spouseNomineeFaxNumber", editRowProp.spouseNomineeFaxNumber);
-        survey.setValue("spouseDied5DaysAfter", editRowProp.spouseDied5DaysAfter);
-        survey.setValue("spouseHasPersonalRep", editRowProp.spouseHasPersonalRep);
-        survey.setValue("spousePersonalRepName", editRowProp.spousePersonalRepName);
+        survey.setValue("applicantCitorIsAlive", editRowProp.applicantCitorIsAlive);
+        survey.setValue("applicantCitorIsAdult", editRowProp.applicantCitorIsAdult);
+        survey.setValue("applicantCitorIsAdultNoExplanation", editRowProp.applicantCitorIsAdultNoExplanation);
+        survey.setValue("applicantCitorIsAdultNoDOB", editRowProp.applicantCitorIsAdultNoDOB);
+        survey.setValue("applicantCitorIsAdultNoResidentialAddress", editRowProp.applicantCitorIsAdultNoResidentialAddress);
+        survey.setValue("applicantCitorIsAdultNoResidentialReceiveMail", editRowProp.applicantCitorIsAdultNoResidentialReceiveMail);
+        survey.setValue("applicantCitorIsAdultNoHasMailingAddress", editRowProp.applicantCitorIsAdultNoHasMailingAddress);
+        survey.setValue("applicantCitorIsAdultNoMailingAddress", editRowProp.applicantCitorIsAdultNoMailingAddress);
+        survey.setValue("applicantCitorIsAdultNoEmail", editRowProp.applicantCitorIsAdultNoEmail);
+        survey.setValue("applicantCitorIsAdultNoEmailAddress", editRowProp.applicantCitorIsAdultNoEmailAddress);
+        survey.setValue("applicantCitorIsAdultNoFax", editRowProp.applicantCitorIsAdultNoFax);
+        survey.setValue("applicantCitorIsAdultNoFaxNumber", editRowProp.applicantCitorIsAdultNoFaxNumber);
+        survey.setValue("applicantCitorHasGuardian", editRowProp.applicantCitorHasGuardian);   
+        survey.setValue("applicantCitorGuardianName", editRowProp.applicantCitorGuardianName);
+        survey.setValue("applicantCitorGuardianResidentialAddress", editRowProp.applicantCitorGuardianResidentialAddress);
+        survey.setValue("applicantCitorGuardianResidentialReceiveMail", editRowProp.applicantCitorGuardianResidentialReceiveMail);
+        survey.setValue("applicantCitorGuardianHasMailingAddress", editRowProp.applicantCitorGuardianHasMailingAddress);
+        survey.setValue("applicantCitorGuardianMailingAddress", editRowProp.applicantCitorGuardianMailingAddress);
+        survey.setValue("applicantCitorGuardianEmail", editRowProp.applicantCitorGuardianEmail);
+        survey.setValue("applicantCitorGuardianEmailAddress", editRowProp.applicantCitorGuardianEmailAddress);
+        survey.setValue("applicantCitorGuardianFax", editRowProp.applicantCitorGuardianFax);
+        survey.setValue("applicantCitorGuardianFaxNumber", editRowProp.applicantCitorGuardianFaxNumber);
+        survey.setValue("applicantCitorIsCompetent", editRowProp.applicantCitorIsCompetent);
+        survey.setValue("applicantCitorIsCompetentNoExplanation", editRowProp.applicantCitorIsCompetentNoExplanation);
+        survey.setValue("applicantCitorIsCompetentNoDOB", editRowProp.applicantCitorIsCompetentNoDOB);
+        survey.setValue("applicantCitorIsCompetentNoResidentialAddress", editRowProp.applicantCitorIsCompetentNoResidentialAddress);
+        survey.setValue("applicantCitorIsCompetentNoResidentialReceiveMail", editRowProp.applicantCitorIsCompetentNoResidentialReceiveMail);
+        survey.setValue("applicantCitorIsCompetentNoHasMailingAddress", editRowProp.applicantCitorIsCompetentNoHasMailingAddress);
+        survey.setValue("applicantCitorIsCompetentNoMailingAddress", editRowProp.applicantCitorIsCompetentNoMailingAddress);
+        survey.setValue("applicantCitorIsCompetentNoEmail", editRowProp.applicantCitorIsCompetentNoEmail);
+        survey.setValue("applicantCitorIsCompetentNoEmailAddress", editRowProp.applicantCitorIsCompetentNoEmailAddress);
+        survey.setValue("applicantCitorIsCompetentNoFax", editRowProp.applicantCitorIsCompetentNoFax);
+        survey.setValue("applicantCitorIsCompetentNoFaxNumber", editRowProp.applicantCitorIsCompetentNoFaxNumber);
+        survey.setValue("applicantCitorHasNominee", editRowProp.applicantCitorHasNominee);
+        survey.setValue("applicantCitorNomineeName", editRowProp.applicantCitorNomineeName);
+        survey.setValue("applicantCitorNomineeFormal", editRowProp.applicantCitorNomineeFormal);
+        survey.setValue("applicantCitorNomineeFormalNoExplanation", editRowProp.applicantCitorNomineeFormalNoExplanation);
+        survey.setValue("applicantCitorNomineeFormalYesExplanation", editRowProp.applicantCitorNomineeFormalYesExplanation);
+        survey.setValue("applicantCitorNomineeResidentialAddress", editRowProp.applicantCitorNomineeResidentialAddress);
+        survey.setValue("applicantCitorNomineeResidentialReceiveMail", editRowProp.applicantCitorNomineeResidentialReceiveMail);
+        survey.setValue("applicantCitorNomineeHasMailingAddress", editRowProp.applicantCitorNomineeHasMailingAddress);
+        survey.setValue("applicantCitorNomineeMailingAddress", editRowProp.applicantCitorNomineeMailingAddress);
+        survey.setValue("applicantCitorNomineeEmail", editRowProp.applicantCitorNomineeEmail);
+        survey.setValue("applicantCitorNomineeEmailAddress", editRowProp.applicantCitorNomineeEmailAddress);
+        survey.setValue("applicantCitorNomineeFax", editRowProp.applicantCitorNomineeFax);
+        survey.setValue("applicantCitorNomineeFaxNumber", editRowProp.applicantCitorNomineeFaxNumber);
+        survey.setValue("applicantCitorIsDeadExplanation", editRowProp.applicantCitorIsDeadExplanation);
+        survey.setValue("applicantCitorHasPersonalRep", editRowProp.applicantCitorHasPersonalRep);
+        survey.setValue("applicantCitorPersonalRepName", editRowProp.applicantCitorPersonalRepName);
         survey.setVariable("id", editRowProp.id);
     }
 
