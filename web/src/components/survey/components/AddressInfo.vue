@@ -3,12 +3,12 @@
     <div class="row survey-address-line" v-if="selOptions.length">
       <div class="col-sm-6 form-inline">
         <label class="survey-sublabel">Copy from:</label>
-        <select class="form-control ml-2" ref="copyFrom">
+        <select class="form-control ml-2"  @change="changeAddress">
           <option value="">(Select Address)</option>
           <option
             v-for="(opt,inx) in selOptions"
             :key="inx"
-            :value="opt.value"
+            :value="opt.inx"
             >{{ opt.label }}</option
           >
         </select>
@@ -178,6 +178,7 @@ export default {
       const addrs = [];
       const seen = {};
       let otherQVal;
+      let inx = 1;
       for (const page of survey.pages) {
         for (const otherQ of page.questions) {
           if (
@@ -200,6 +201,7 @@ export default {
               seen[lbl] = 1;
               addrs.push({
                 name: otherQ.name,
+                inx: inx++,
                 label: lbl, // otherQ.referLabel,
                 value: Object.assign({}, otherQ.value),
               });
@@ -220,6 +222,15 @@ export default {
         }
       }
       this.question.value = null;
+    },
+    changeAddress(e){
+      const inx = Number(e.target.value)
+      if(inx>0){
+        const selectedAddress = this.selOptions.find(opt => opt.inx==inx);
+        const pending = this.loadValue(selectedAddress.value);
+        this.pendingValue = pending; 
+        this.updateValue();
+      }
     },
     loadValue(val) {
       val = val || {};

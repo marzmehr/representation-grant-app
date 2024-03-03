@@ -1,21 +1,22 @@
 <template>
-    <page-base v-bind:hideNavButtons="!showTable || !showOrgTable" v-bind:disableNext="isDisableNext()" v-on:onPrev="onPrev()" v-on:onNext="onNext()" >
+    <page-base v-bind:hideNavButtons="!showOrgTable" v-bind:disableNext="isDisableNext()" v-on:onPrev="onPrev()" v-on:onNext="onNext()" >
         <div class="home-content">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>{{deceasedName | getFullName}}'s Creditor</h1>
+                    <h2 class="page-header">{{deceasedName | getFullName}}'s Creditor</h2>
 
                     <b-card class="mt-4">  
                         <b-row no-body class="info-box">
-                            <b-col cols="1" class="m-0" style="padding-right: 0;">
+                            <div style="width:1%;"/>
+                            <div class="m-0" style="width:3%; padding-right: 0;">
                                 <b-icon-exclamation-circle-fill class="text-primary"/>
-                            </b-col>
-                            <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                            </div>
+                            <div style="width:96%; padding-left: 0 !important; margin-left: 0 !important;">
                                 <p>
-                                    Because {{deceasedName | getFullName}} did not make a <tooltip class="ml-1" size="xl" :index="0" title='Will'/>,  
+                                    Because {{deceasedName | getFullName}} did not make a <tooltip class="ml-1" size="lg" :index="0" title='Will'/>,  
                                     if {{deceasedName | getFullName}} owed more than $10,000 to a single 
                                     person or single organization, they need know that you are applying for a 
-                                    <tooltip class="ml-1" size="xl" :index="0" title='Representation Grant'/>.                                    
+                                    <tooltip class="ml-1" size="lg" :index="0" title='Representation Grant'/>.                                    
                                 </p>
                                 <p>
                                     If any of these people or organizations don't think you should manage 
@@ -25,16 +26,17 @@
                                 <p>
                                     This step will start by asking about persons first, followed by organizations.                            
                                 </p>
-                            </b-col>
+                            </div>
                         </b-row> 
                     </b-card>
 <!-- relatives info -->
-                    <b-card class="mt-4" >  
+                    <b-card style="margin-top:2rem">  
                         <b-row no-body class="info-box">
-                            <b-col cols="1" class="m-0" style="padding-right: 0;">
+                            <div style="width:1%;"/>
+                            <div class="m-0" style="width:3%; padding-right: 0;">
                                 <b-icon-exclamation-circle-fill class="text-primary"/>
-                            </b-col>
-                            <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                            </div>
+                            <div style="width:96%; padding-left: 0 !important; margin-left: 0 !important;">
                                 
                                 <p v-if="relativesList.length<=0">
                                     In past steps, you have not yet identified anyone who needs to know that 
@@ -42,19 +44,19 @@
                                 </p>
                                 <p v-else>
                                     In past steps, you have already identified the following people:
-                                    <ul>
-                                        <li v-for="relative, ind of relativesList" :key="ind">
-                                            {{ relative }}
+                                    <ul class="mt-2 mb-4">
+                                        <li v-for="relative, ind of relativesList" class="text-primary" :key="ind">
+                                            <b>{{ relative }}</b>
                                         </li>
                                     </ul> 
                                     Because you are already letting these people know that you are applying for a Representation Grant, 
                                     do not identify them again in this step.                            
                                 </p>                               
-                            </b-col>
+                            </div>
                         </b-row> 
                     </b-card>
 
-                    <b-card class="mt-5">
+                    <b-card style="margin-top:2rem">
                         <b-form-group>
                             <div style="color:#556077; font-size:1.40em; font-weight:bold;" v-if="relativesList.length<=0">                                
                                 Did {{deceasedName | getFullName}} owe more than $10,000 to any one person?
@@ -62,10 +64,10 @@
                             <div style="color:#556077; font-size:1.40em; font-weight:bold;" v-else>
                                Not including the people already identified in the list above, 
                                did {{deceasedName | getFullName}} owe more than $10,000 to any one person?                            
-                            </div>                        
+                            </div>                       
                             <b-form-radio-group
                                 v-model="creditorPersonExists"
-                                @change="updated+1"
+                                @change="updated=updated+1"
                                 class="mt-2 ml-3 survey-yesno-vue"
                                 style="font-size:1.40em; display: inline-block;">
                                 <b-form-radio class="mr-5" value="Yes"><div style="transform:translate(5px,-5px);">Yes</div></b-form-radio>
@@ -74,7 +76,7 @@
                         </b-form-group>                       
 
                         <div>
-                            <div class="my-4 text-primary" @click="showLessMoneyInfo= !showLessMoneyInfo" style="border-bottom:1px solid; width: 33.5rem;">
+                            <div class="my-4 text-primary" @click="showLessMoneyInfo= !showLessMoneyInfo" style="border-bottom:1px solid; width: 33.5rem; cursor:pointer;">
                                 <span style="font-size:1.2rem;" class="fa fa-question-circle" /> 
                                 What if the deceased owed less than $10,000 to a single person?                                      
                                 <span v-if="showLessMoneyInfo" class='ml-2 fa fa-chevron-up'/>
@@ -112,10 +114,11 @@
                     </b-card>
 
                     <creditor-info 
-                        class="mt-5" 
+                        style="margin-top:2rem"
                         v-if="creditorPersonExists == 'Yes'" 
                         :key="updated"
                         :step="step"
+                        @creditorChange="creditorChange($event,'person')"
                         :creditorData="creditorData"/>
 
                 </div>                            
@@ -155,37 +158,38 @@
                         v-if="creditorOrgExists == 'Yes'" 
                         :key="updatedOrg"
                         :step="step"
+                        @creditorChange="creditorChange($event,'org')"
                         :creditorOrgData="creditorOrgData"/>                    
                 </div>               
 
             </div>
 
-            <b-card v-if="(creditorPersonExists== 'Yes' && creditorData && (creditorData.length > 0) && !incompleteError && showTable) || 
+            <b-card v-if="(creditorPersonExists== 'Yes' && creditorData && (creditorData.length > 0) && !incompleteError) || 
                 (creditorOrgExists== 'Yes' && creditorOrgData && (creditorOrgData.length > 0) && !incompleteOrgError && showOrgTable)" 
                 class="my-4" :key="updated+2+updatedOrg">  
                 <b-row no-body class="info-box">
-                    <b-col cols="1" class="m-0" style="padding-right: 0;">
+                    <div style="width:1%;"/>
+                    <div class="m-0" style="width:3%; padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>
-                    </b-col>
-                    <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                    </div>
+                    <div style="width:96%; padding-left: 0 !important; margin-left: 0 !important;">
                         <p>
                             In this step, you have identified that {{deceasedName | getFullName}} may have owed more than $10,000 to
                              
                         </p>
-                        <p v-if="creditorPersonExists = 'Yes' && creditorData && (creditorData.length > 0)"> 
+                        <p v-if="creditorPersonExists == 'Yes' && creditorData && (creditorData.length > 0)"> 
                             each of the following people:                                      
-                            <ul>
-                                <li v-for="creditor in creditorData" :key="creditor.id">
-                                    {{ creditor.creditorPersonName }}
+                            <ul class="mt-2 mb-4">
+                                <li v-for="creditor in creditorData" class="text-primary" :key="creditor.id">
+                                    <b>{{ creditor.creditorPersonName }}</b>
                                 </li>
                             </ul>                       
                         </p>
-                        <p v-if="creditorOrgExists = 'Yes' && creditorOrgData && (creditorOrgData.length > 0)">
-                            each of the following organizations:                            
-                                                  
-                            <ul>
-                                <li v-for="creditor in creditorOrgData" :key="creditor.id">
-                                    {{ creditor.creditorOrganizationName }}
+                        <p v-if="creditorOrgExists == 'Yes' && creditorOrgData && (creditorOrgData.length > 0)">
+                            each of the following organizations: 
+                            <ul class="mt-2 mb-4">
+                                <li v-for="creditor in creditorOrgData" class="text-primary" :key="creditor.id">
+                                    <b>{{ creditor.creditorOrganizationName }}</b>
                                 </li>
                             </ul>                       
                         </p>
@@ -199,16 +203,17 @@
                             If you are someone who {{deceasedName | getFullName}} owed more than $10,000, but you haven't 
                             included yourself yet, please add information about yourself.
                         </p>
-                    </b-col>
+                    </div>
                 </b-row>
             </b-card>
     
             <b-card v-else-if="creditorPersonExists== 'No' && creditorOrgExists== 'No'" class="mt-4" :key="updated+3+updatedOrg">  
                 <b-row no-body class="info-box">
-                    <b-col cols="1" class="m-0" style="padding-right: 0;">
+                    <div style="width:1%;"/>
+                    <div class="m-0" style="width:3%; padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>
-                    </b-col>
-                    <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                    </div>
+                    <div style="width:96%; padding-left: 0 !important; margin-left: 0 !important;">
                         <p>
                             In this step you have identified that {{deceasedName | getFullName}} did not owed more than $10,000 to a single person 
                             or single organization at the time {{deceasedName | getFullName}}
@@ -224,11 +229,11 @@
                             If you are someone who {{deceasedName | getFullName}} owed more than $10,000, but you haven't 
                             included yourself yet, please add information about yourself.
                         </p>
-                    </b-col>
+                    </div>
                 </b-row>
             </b-card> 
 
-            <b-card v-if="creditorPersonExists!= null && showTable && creditorOrgExists!= null && showOrgTable" no-body class="my-4">  
+            <b-card v-if="creditorPersonExists!= null && creditorOrgExists!= null && showOrgTable" no-body class="my-4">  
                 <b-row class="mx-4 mt-4">
                     <b-form-group>
                         <div style="color:#556077; font-size:1.40em; font-weight:bold;">
@@ -301,6 +306,7 @@ const applicationState = namespace("Application");
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
 import { stepsAndPagesNumberInfoType } from "@/types/Application/StepsAndPages";
 import { nameInfoType } from '@/types/Common';
+import { creditorPersonInfoType } from '@/types/Application/Creditor';
 
 @Component({
     components:{
@@ -329,7 +335,7 @@ export default class Creditors extends Vue {
 
     currentStep =0;
     currentPage =0;
-    showTable = true;
+
     showOrgTable = true;
     creditorData = [];
     creditorOrgData = [];
@@ -360,10 +366,11 @@ export default class Creditors extends Vue {
             this.creditorPersonExists = this.step.result.creditorPersonExists;
         }
 
-        if (this.step.result?.creditorSurvey?.data) {
-            this.creditorData = this.step.result.creditorSurvey.data.creditorPersons;
-            this.creditorOrgData = this.step.result.creditorSurvey.data.creditorOrgs;
-        }  
+        if (this.step.result?.creditorSurvey?.data)
+            this.creditorData = this.step.result.creditorSurvey.data;
+
+        if (this.step.result?.creditorOrgSurvey?.data)
+            this.creditorOrgData = this.step.result.creditorOrgSurvey.data;
         
         if (this.step.result?.creditorOrgExists) {
             this.creditorOrgExists = this.step.result.creditorOrgExists;
@@ -385,7 +392,7 @@ export default class Creditors extends Vue {
     }
 
     public surveyHasError(){
-        let progress = (this.creditorData.length==0 && this.creditorOrgData.length==0)? 50 : 100;
+        let progress = (this.creditorData?.length==0 && this.creditorOrgData?.length==0)? 50 : 100;
         
         if(this.creditorPersonExists == 'No' && this.creditorOrgExists == 'No' && this.creditorCompleted == 'Yes') progress =100;
 
@@ -395,20 +402,33 @@ export default class Creditors extends Vue {
     }
     
     public isDisableNext() {
-        return (this.creditorPersonExists == null || (this.creditorPersonExists == 'Yes' && this.creditorData.length <= 0 ) || 
+        return (this.creditorPersonExists == null || (this.creditorPersonExists == 'Yes' && this.creditorData?.length <= 0 ) || 
             !this.creditorCompleted || this.creditorCompleted == 'No' ||
-            this.creditorOrgExists == null || (this.creditorOrgExists == 'Yes' && this.creditorOrgData.length <= 0 ));
+            this.creditorOrgExists == null || (this.creditorOrgExists == 'Yes' && this.creditorOrgData?.length <= 0 ));
+    }
+
+    public creditorChange(creditorList,type){               
+        if(type=='org') this.creditorOrgData = creditorList;
+        else this.creditorData = creditorList;
     }
 
     beforeDestroy() {
         this.surveyHasError();  
         
-        let creditorInfo = this.getCreditorResults();        
-       
-        if(this.creditorPersonExists == 'No')
-            creditorInfo = null
+        let creditorInfo = this.getCreditorResults();               
+        if(this.creditorPersonExists == 'No')  creditorInfo = null
 
-        this.UpdateStepResultData({step:this.step, data: {creditorPersonExists: this.creditorPersonExists, creditorOrgExists: this.creditorOrgExists, creditorSurvey: creditorInfo, creditorCompleted: this.creditorCompleted}})       
+        let creditorOrgInfo = this.getCreditorOrgResults();               
+        if(this.creditorOrgExists == 'No')  creditorOrgInfo = null
+
+
+        this.UpdateStepResultData({step:this.step, data: {
+            creditorPersonExists: this.creditorPersonExists, 
+            creditorOrgExists: this.creditorOrgExists, 
+            creditorSurvey: creditorInfo,
+            creditorOrgSurvey: creditorOrgInfo,
+            creditorCompleted: this.creditorCompleted}
+        })       
     }
 
     public getCreditorResults(){
@@ -416,20 +436,29 @@ export default class Creditors extends Vue {
         for(const creditor of this.creditorData)
         {
             questionResults.push({name:'creditorSurvey', value: this.getCreditorInfo(creditor), title:'Creditor '+creditor.id +' Information', inputType:''})
-        }
+        }        
+        
+        return {data: this.creditorData, questions:questionResults, pageName:'Creditor Information', currentStep: this.currentStep, currentPage:this.currentPage}
+    }
+
+    public getCreditorOrgResults(){
+        const questionResults: {name:string; value: any; title:string; inputType:string}[] =[];        
 
         for(const creditor of this.creditorOrgData)
         {
             questionResults.push({name:'creditorOrgSurvey', value: this.getCreditorOrgInfo(creditor), title:'Creditor Organization '+creditor.id +' Information', inputType:''})
         }
         
-        return {data: {creditorPersons: this.creditorData, creditorOrgs: this.creditorOrgData}, questions:questionResults, pageName:'Creditor Information', currentStep: this.currentStep, currentPage:this.currentPage}
+        return {data: this.creditorOrgData, questions:questionResults, pageName:'Creditor Organization Information', currentStep: this.currentStep, currentPage:this.currentPage}
     }
 
     public getCreditorInfo(creditor){
         const resultString = [];
 
-        resultString.push(Vue.filter('styleTitle')("Name: ")+creditor.creditorPersonName);        
+        resultString.push(Vue.filter('styleTitle')("Name: ")+creditor.creditorPersonName);       
+        resultString.push(Vue.filter('styleTitle')("Alive: ")+(creditor.creditorPersonIsAlive=='y'?'Yes':'No'));
+        if(creditor.creditorPersonIsAlive=='y' && creditor.creditorPersonIsAdult)
+            resultString.push(Vue.filter('styleTitle')("Adult: ")+(creditor.creditorPersonIsAdult=='y'?'Yes':'No'));      
         
         return resultString;
     }  
@@ -471,11 +500,24 @@ export default class Creditors extends Vue {
 
 <style scoped lang="scss">
 @import "src/styles/common";
+
 .home-content {
     padding-bottom: 20px;
-    padding-top: 2rem;
-    max-width: 950px;
-    color: black;
+    padding-top: 1.5rem;
+    color: #494949;
+}
+
+.card {
+    border-radius: 8px;
+    border: 1px solid #ccc;    
+}
+
+.card-body{
+    padding: 0.75rem 1.75rem 2rem 1.75rem;
+}
+
+.page-header {
+    font-size: 1.6em
 }
 
 .info-box {

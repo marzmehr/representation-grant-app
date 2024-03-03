@@ -1,8 +1,8 @@
 <template>
     <b-card>        
-        <b-card class="my-2 mx-2 border-white">
+        <b-card class="mt-n3 border-white">
             
-            <h1>Creditors Details</h1>
+            <h2 class="text-primary">Creditors Details</h2>
             <p class="mt-2">
                 You have indicated the deceased has creditor(s).
             </p>
@@ -16,17 +16,23 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                            <th scope="col">Creditor's name</th>                                       
-                            <th scope="col"></th>
+                                <th class="border-right-0" scope="col">Creditor's name</th>                                       
+                                <th class="border-right-0 border-left-0">Alive</th>
+                                <th class="border-right-0 border-left-0">Adult</th>                                        
+                                <th class="border-left-0" scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <div></div>
-                            
-                            <tr v-for="creditor in creditorPersonList" :key="creditor.id">
-                            <td>{{creditor.creditorPersonName}}</td>                                        
-                            <td><a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(creditor.id)"><i class="fa fa-trash"></i></a> &nbsp;&nbsp; 
-                            <a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Edit" @click="openForm(creditor)"><i class="fa fa-edit"></i></a></td>
+
+                            <tr class="border" v-for="creditor in creditorPersonList" :key="creditor.id">
+                                <td class="border-0">{{creditor.creditorPersonName}}</td>
+                                <td class="border-0"><b-icon-check2 v-if="creditor.creditorPersonIsAlive=='y'"/> </td> 
+                                <td class="border-0"><b-icon-check2 v-if="creditor.creditorPersonIsAlive=='y' && creditor.creditorPersonIsAdult=='y'"/> </td>
+                                <td class="float-right border-0">
+                                    <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(creditor.id)"><i style="font-size:15pt" class="fa fa-trash"></i></b-button> &nbsp;&nbsp; 
+                                    <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Edit"  @click="openForm(creditor)"><i style="font-size:15pt" class="fa fa-edit"></i></b-button>
+                                </td>
                             </tr>
                             <tr class="clickableRow" @click="openForm()">
                             <td colspan = "7">
@@ -40,7 +46,7 @@
             </div>
         </b-card> 
 
-        <b-card class="mx-2 border-white" v-if="!showTable" id="creditor-info-survey">
+        <b-card class="m-0" v-if="!showTable" id="creditor-info-survey">
             <creditor-survey 
                 :step="step" 
                 v-on:showTable="creditorComponentData" 
@@ -98,7 +104,7 @@ export default class CreditorInfo extends Vue {
 
     mounted(){
         this.updated = 0;      
-        this.creditorPersonList = this.creditorData;
+        this.creditorPersonList = JSON.parse(JSON.stringify(this.creditorData));
         Vue.nextTick(()=>this.surveyHasError());
     }   
     
@@ -127,8 +133,8 @@ export default class CreditorInfo extends Vue {
         const newCreditor = { ...creditorValue, id };
         this.creditorPersonList = [...this.creditorPersonList, newCreditor];
         this.updated++;
-        //TODO: emit to main page
 
+        this.$emit("creditorChange",this.creditorPersonList);
         this.showTable = true; 
     }
 
@@ -137,7 +143,7 @@ export default class CreditorInfo extends Vue {
         this.creditorPersonList = this.creditorPersonList.filter(data => {
             return data.id !== rowToBeDeleted;
         }); 
-        
+        this.$emit("creditorChange",this.creditorPersonList);
         this.surveyHasError();
     }  
 
@@ -146,6 +152,7 @@ export default class CreditorInfo extends Vue {
             return data.id === this.editId ? editedRow : data;
         });
         this.showTable = true;
+        this.$emit("creditorChange",this.creditorPersonList);
         this.surveyHasError();
     }    
 
@@ -170,6 +177,12 @@ export default class CreditorInfo extends Vue {
     max-width: 950px;
     color: black;
 }
+
+.card {
+    border-radius: 8px;
+    border: 1px solid #ccc;    
+}
+
 .creditorSection {
     border: 2px solid rgba($gov-pale-grey, 0.7);
     border-radius: 18px;

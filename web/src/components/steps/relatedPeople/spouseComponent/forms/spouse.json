@@ -8,24 +8,25 @@
                     "type": "text",
                     "name": "spouseName",
                     "title": "What is the full name of {deceasedName}'s spouse?",
-                    "description": "Use the name as it appears on their primary identification (if you can get it).<br><br>This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
-                    "defaultValue": "(the person who died's spouse)",
-                    "correctAnswer": "(the person who died's spouse)",
-                    "isRequired": true,
-                    "defaultSubstitution": "(the person who died's spouse)"
+                    "description": "Use the name as it appears on their primary identification (if you can get it).<br><br>This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",                    
+                    "isRequired": true                    
                 },
                 {
                     "type": "yesno",
                     "name": "spouseIsAlive",
                     "title": "Is {spouseName} alive?",
-                    "isRequired": true
+                    "isRequired": true,
+                    "visible": false,
+                    "visibleIf": "{spouseName} notempty"
                 },
                 {
                     "type": "helptext",
                     "name": "spouseIsAliveFAQ1",
                     "title": "What if the spouse is on life support?",
                     "titleLocation": "hidden",
-                    "body": "The spouse is considered alive."
+                    "body": "The spouse is considered alive.",
+                    "visible": false,
+                    "visibleIf": "{spouseName} notempty"
                 },
                 {
                     "type": "yesno",
@@ -230,15 +231,17 @@
                     "visibleIf": "{spouseIsAlive} = 'y' and {spouseIsAdult} = 'n' and {spouseIsAdultNoExplanation} > 0"
                 },
                 {
+                    "type": "yesno",
+                    "name": "spouseIsCompetent",                            
+                    "title": "Is {spouseName} `mentally competent`?",
+                    "isRequired": true,
+                    "visible": false,
+                    "visibleIf": "{spouseIsAlive} = 'y' and {spouseIsAdult} = 'y'"
+                },
+                {
                     "type": "panel",
                     "name": "SpouseAliveAdultPanel",
-                    "elements": [
-                        {
-                            "type": "yesno",
-                            "name": "spouseIsCompetent",                            
-                            "title": "Is {spouseName} `mentally competent`?",
-                            "isRequired": true
-                        },
+                    "elements": [                        
                         {
                             "type": "infotext",
                             "name": "spouseIsCompetentNoExplanation",

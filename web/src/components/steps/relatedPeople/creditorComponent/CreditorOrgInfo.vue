@@ -1,8 +1,8 @@
 <template>
     <b-card>        
-        <b-card class="my-2 mx-2 border-white">
+        <b-card class="mt-n3 border-white">
            
-            <h1>Creditor Organizations Details</h1>
+            <h2 class="text-primary">Creditor Organizations Details</h2>
             <p class="mt-2">
                 You have indicated the deceased has organization creditor(s).
             </p>
@@ -16,18 +16,20 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                            <th scope="col">Creditor organization's name</th>                                       
-                            <th scope="col"></th>
+                            <th class="border-right-0" scope="col">Creditor organization's name</th>                                       
+                            <th class="border-left-0" scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <div></div>
                             
-                            <tr v-for="creditor in creditorOrgList" :key="creditor.id">
-                            <td>{{creditor.creditorOrganizationName}}</td>                                        
-                            <td><a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteOrgRow(creditor.id)"><i class="fa fa-trash"></i></a> &nbsp;&nbsp; 
-                            <a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Edit" @click="openOrgForm(creditor)"><i class="fa fa-edit"></i></a></td>
-                            </tr>
+                            <tr class="border" v-for="creditor in creditorOrgList" :key="creditor.id">
+                                <td class="border-0">{{creditor.creditorOrganizationName}}</td>                                        
+                                <td class="float-right border-0">
+                                    <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteOrgRow(creditor.id)"><i style="font-size:15pt" class="fa fa-trash"></i></b-button> &nbsp;&nbsp; 
+                                    <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Edit"  @click="openOrgForm(creditor)"><i style="font-size:15pt" class="fa fa-edit"></i></b-button>
+                                </td>
+                            </tr>                            
                             <tr class="clickableRow" @click="openOrgForm()">
                             <td colspan = "7">
                                 <a :class="(creditorOrgList.length == 0)?'text-danger h4 my-2':'h4 my-2'" style="cursor: pointer;"
@@ -41,7 +43,7 @@
             
         </b-card>
 
-        <b-card class="mx-2 border-white" v-if="!showOrgTable" id="creditor-org-info-survey">
+        <b-card class="m-0" v-if="!showOrgTable" id="creditor-org-info-survey">
             <creditor-org-survey
                 :step="step" 
                 v-on:showTable="creditorOrgComponentData" 
@@ -100,7 +102,7 @@ export default class CreditorOrgInfo extends Vue {
     
     mounted(){
         this.updatedOrg = 0;
-        this.creditorOrgList = this.creditorOrgData;
+        this.creditorOrgList = JSON.parse(JSON.stringify(this.creditorOrgData));
         Vue.nextTick(()=>this.surveyHasError());
     }    
     
@@ -130,8 +132,8 @@ export default class CreditorOrgInfo extends Vue {
         const newCreditor = { ...creditorValue, id };
         this.creditorOrgList = [...this.creditorOrgList, newCreditor];
         this.updatedOrg++;
-        //TODO: emit to main page
-
+        
+        this.$emit("creditorChange",this.creditorOrgList);
         this.showOrgTable = true; 
        
     }   
@@ -142,7 +144,7 @@ export default class CreditorOrgInfo extends Vue {
            return data.id !== rowToBeDeleted;
        }); 
        this.updatedOrg++;
-      
+      this.$emit("creditorChange",this.creditorOrgList);
        this.surveyHasError();
     }
 
@@ -151,6 +153,7 @@ export default class CreditorOrgInfo extends Vue {
             return data.id === this.editOrgId ? editedRow : data;
         });
         this.updatedOrg++;
+        this.$emit("creditorChange",this.creditorOrgList);
         this.showOrgTable = true;
         this.surveyHasError();
     }  
@@ -178,6 +181,12 @@ export default class CreditorOrgInfo extends Vue {
     max-width: 950px;
     color: black;
 }
+
+.card {
+    border-radius: 8px;
+    border: 1px solid #ccc;    
+}
+
 .creditorSection {
     border: 2px solid rgba($gov-pale-grey, 0.7);
     border-radius: 18px;

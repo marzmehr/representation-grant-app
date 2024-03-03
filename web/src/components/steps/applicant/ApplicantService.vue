@@ -119,8 +119,10 @@ export default class ApplicantService extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
                         
-            if(this.survey.data?.applicantHasLawyer && this.survey.data?.applicantHasLawyer == 'y'){
+            if(this.survey?.data?.applicantHasLawyer == 'y'){
                 this.disableNextButton = true;
+            }else if(this.survey?.data?.applicantHasLawyer == 'n'){
+                this.disableNextButton = false;
             }
             
         })   
@@ -149,10 +151,8 @@ export default class ApplicantService extends Vue {
     }
 
     beforeDestroy() {
-
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
-        this.UpdateStepResultData({step:this.step, data: {applicantServiceSurvey: Vue.filter('getSurveyResults')(this.survey, this.step, this.currentPage)}});
-
+        this.UpdateStepResultData({step:this.step, data: {applicantServiceSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}});
     }
 };
 </script>

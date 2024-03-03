@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div >
-                        <h1>Citor Details</h1>
+                        <h2 class="page-header">Citor Details</h2>
                         <p>
                             You have indicated the applicant has citor(s).
                         </p>
@@ -18,17 +18,23 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                        <th scope="col">Applicant Citor's name</th>                                       
-                                        <th scope="col"></th>
+                                        <th class="border-right-0" scope="col">Applicant Citor's name</th>                                       
+                                        <th class="border-right-0 border-left-0">Alive</th>
+                                        <th class="border-right-0 border-left-0">Adult</th>                                        
+                                        <th class="border-left-0" scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <div></div>
+                                        <div></div>                                        
                                         
-                                        <tr v-for="citor in citorData" :key="citor.id">
-                                        <td>{{citor.applicantCitorName}}</td>                                        
-                                        <td><a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(citor.id)"><i class="fa fa-trash"></i></a> &nbsp;&nbsp; 
-                                        <a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Edit" @click="openForm(citor)"><i class="fa fa-edit"></i></a></td>
+                                        <tr class="border" v-for="citor in citorData" :key="citor.id">
+                                            <td class="border-0">{{citor.applicantCitorName}}</td>
+                                            <td class="border-0"><b-icon-check2 v-if="citor.applicantCitorIsAlive=='y'"/> </td> 
+                                            <td class="border-0"><b-icon-check2 v-if="citor.applicantCitorIsAlive=='y' && citor.applicantCitorIsAdult=='y'"/> </td>
+                                            <td class="float-right border-0">
+                                                <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(citor.id)"><i style="font-size:15pt" class="fa fa-trash"></i></b-button> &nbsp;&nbsp; 
+                                                <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Edit" @click="openForm(citor)"><i style="font-size:15pt" class="fa fa-edit"></i></b-button>
+                                            </td>
                                         </tr>
                                         <tr class="clickableRow" @click="openForm()">
                                         <td colspan = "7">
@@ -44,7 +50,7 @@
 
                 </div>
 
-                <div class="col-md-12" v-if="!showTable" id="citor-info-survey">
+                <b-card class="w-100" v-if="!showTable" id="citor-info-survey">
                     <citor-survey 
                         :step="step" 
                         v-on:showTable="citorComponentData" 
@@ -53,7 +59,7 @@
                         :editRowProp="anyRowToBeEdited" 
                         :deceasedName="deceasedName"
                         :applicantName="applicantName" />
-                </div>               
+                </b-card>               
             </div>
        
             <b-card v-if="incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body :key="updated">
@@ -322,12 +328,26 @@ export default class ApplicantCitor extends Vue {
 
 <style scoped lang="scss">
 @import "src/styles/common";
+
 .home-content {
     padding-bottom: 20px;
-    padding-top: 2rem;
-    max-width: 950px;
-    color: black;
+    padding-top: 1.5rem;
+    color: #494949;
 }
+
+.card {
+    border-radius: 8px;
+    border: 1px solid #ccc;    
+}
+
+.card-body{
+    padding: 0.75rem 1.75rem 2rem 1.75rem;
+}
+
+.page-header {
+    font-size: 1.6em
+}
+
 .citorSection {
     border: 2px solid rgba($gov-pale-grey, 0.7);
     border-radius: 18px;

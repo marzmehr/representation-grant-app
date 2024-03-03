@@ -91,7 +91,9 @@ export default class ApplicantInfo extends Vue {
     public adjustSurveyForRelatedPeople(){
 
         this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
-        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));     
+        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
+        
+        //TODO Depends on the Survey
         this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"]=this.relatedPeopleInfo;    
     }
     
@@ -137,9 +139,8 @@ export default class ApplicantInfo extends Vue {
     }
 
     beforeDestroy() {
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
-        this.UpdateStepResultData({step:this.step, data: {applicantInfoSurvey: Vue.filter('getSurveyResults')(this.survey, this.step, this.currentPage)}});
-
+        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);        
+        this.UpdateStepResultData({step:this.step, data: {applicantInfoSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}});
     }
 };
 </script>

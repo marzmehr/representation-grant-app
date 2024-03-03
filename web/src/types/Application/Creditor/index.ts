@@ -58,14 +58,17 @@ export interface creditorPersonInfoType {
     creditorOrganizationName?: string;
     id?: number;
   }
-
-  export interface creditorsType {
-    creditorPersons?: creditorPersonInfoType[];
-    creditorOrgs?: creditorOrgInfoType[];
-  }
   
   export interface creditorsSurveyInfoType {
-    data?: creditorsType;
+    data?: creditorPersonInfoType[];
+    questions?: questionInfoType[];
+    pageName?: string;
+    currentStep?: number | string;
+    currentPage?: number | string;
+  }
+
+  export interface creditorOrgsSurveyInfoType {
+    data?: creditorOrgInfoType[];
     questions?: questionInfoType[];
     pageName?: string;
     currentStep?: number | string;

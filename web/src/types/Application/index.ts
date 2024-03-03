@@ -3,7 +3,7 @@ import { childCommonSurveyInfoType } from "./Children";
 import { deceasedInfoSurveyInfoType } from "./DeceasedInfo";
 import { deceasedWillSurveyInfoType } from "./DeceasedWill";
 import { spouseInfoSurveyInfoType } from "./Spouse";
-import { creditorsSurveyInfoType } from "./Creditor";
+import { creditorOrgsSurveyInfoType, creditorsSurveyInfoType } from "./Creditor";
 
 export interface applicationInfoType {   
     id?: string;
@@ -80,6 +80,7 @@ export interface stepInfoType {
     creditorPersonExists?: string;
     creditorOrgExists?: string;
     creditorSurvey?: creditorsSurveyInfoType;
+    creditorOrgSurvey?: creditorOrgsSurveyInfoType;
     creditorCompleted?: string;
 
     parentsSurvey?: any;

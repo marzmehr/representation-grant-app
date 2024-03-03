@@ -15,7 +15,7 @@
                 {
                     "type": "yesno",
                     "name": "creditorPersonIsAlive",
-                    "title": "Is {creditorPersonName} alive?",
+                    "title": "Is {creditorPersonName} alive?",                    
                     "visible": false,
                     "visibleIf": "({creditorPersonName} notempty)",
                     "isRequired": true
@@ -533,8 +533,7 @@
                     "titleLocation": "hidden",                
                     "messageStyle": "error"
                 }
-            ],
-            "title": "Creditor's Information"
+            ]            
         }
     ],
     "showQuestionNumbers": "off",
