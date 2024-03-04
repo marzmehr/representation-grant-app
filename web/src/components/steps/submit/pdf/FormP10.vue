@@ -317,8 +317,8 @@ export default class FormP10 extends Vue {
 
             if (this.steps[3] && this.steps[3].result && this.steps[3].result["applicantInfoSurvey"] && this.steps[3].result["applicantInfoSurvey"].data) {
                 const applicantInfoSurvey = this.steps[3].result["applicantInfoSurvey"].data;
-                if (applicantInfoSurvey.applicant.length > 0) {
-                    for (const applicant of applicantInfoSurvey.applicant) {
+                if (applicantInfoSurvey.applicantName.length > 0) {
+                    for (const applicant of applicantInfoSurvey.applicantName) {
                         const index = applicant.charAt(14)
 
                         const applicantSurvey = this.relatedPeopleInfo[index];
@@ -360,7 +360,8 @@ export default class FormP10 extends Vue {
                         this.applicantList.push(applicantInfo);                        
                     }
                 }
-                this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;               
+                //TODO: temporarily commenting out until we get the types setup
+                // this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;               
             }
         }
 

@@ -1,8 +1,10 @@
 <template>
     <step-base v-bind:step="step">
-        <debt-confirmation v-bind:step="step" v-if="step.currentPage == 0"></debt-confirmation>
-        <review-p1 v-bind:step="step" v-if="step.currentPage == 1"></review-p1>
-        <notify v-bind:step="step" v-if="step.currentPage == 2"></notify>
+        <review-your-answers v-bind:step="step" v-if="step.currentPage == stPgNo.NOTIFY.ReviewYourAnswers"></review-your-answers>
+        <tell-people v-bind:step="step" v-if="step.currentPage == stPgNo.NOTIFY.TellPeople"></tell-people>
+        <preview-p1 v-bind:step="step" v-if="step.currentPage == stPgNo.NOTIFY.PreviewP1"></preview-p1>
+        <notify v-bind:step="step" v-if="step.currentPage == stPgNo.NOTIFY.NotifyPeople"></notify>
+        <preview-p9 v-bind:step="step" v-if="step.currentPage == stPgNo.NOTIFY.PreviewP9"></preview-p9>
     </step-base>
 </template>
 
@@ -12,16 +14,24 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import StepBase from "../StepBase.vue";
 import { stepInfoType } from "@/types/Application";
 import Notify from "./Notify.vue";
-import DebtConfirmation from "./DebtConfirmation.vue";
-import ReviewP1 from "./ReviewP1.vue";
+import ReviewYourAnswers from "./ReviewYourAnswers.vue";
+import PreviewP1 from "./PreviewP1.vue";
+import PreviewP9 from "./PreviewP1.vue";
+import TellPeople from "./TellPeople.vue";
 
+import { namespace } from "vuex-class";   
+import "@/store/modules/application";
+import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
+const applicationState = namespace("Application");
 
 @Component({
     components:{
         StepBase,        
         Notify,
-        DebtConfirmation,
-        ReviewP1
+        ReviewYourAnswers,
+        PreviewP1,
+        PreviewP9,
+        TellPeople
     }
 })
 
@@ -29,6 +39,9 @@ export default class NotifyStep extends Vue {
     
     @Prop({required: true})
     step!: stepInfoType;
+
+    @applicationState.State
+    public stPgNo!: stepsAndPagesNumberInfoType;
     
 };
 </script>

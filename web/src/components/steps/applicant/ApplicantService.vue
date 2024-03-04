@@ -8,7 +8,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';    
 
 import * as SurveyVue from "survey-vue";
-import surveyJson from "./forms/applicant-info.json";
+import surveyJson from "./forms/applicant-service.json";
 import * as surveyEnv from "@/components/survey/survey-glossary"
 
 import PageBase from "../PageBase.vue";
@@ -18,22 +18,25 @@ import { namespace } from "vuex-class";
 import "@/store/modules/application";
 const applicationState = namespace("Application");
 
+import "@/store/modules/common";
 import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
-import { togglePages } from '@/components/utils/TogglePages';
-
+const commonState = namespace("Common");
 
 @Component({
     components:{
         PageBase
     }
 })
-export default class ApplicantInfo extends Vue {
+export default class ApplicantService extends Vue {
         
     @Prop({required: true})
     step!: stepInfoType;
 
     @applicationState.State
     public stPgNo!: stepsAndPagesNumberInfoType;
+
+    @commonState.State
+    public locationsInfo!: any[];
 
     @applicationState.State
     public steps!: stepInfoType[];    
@@ -51,7 +54,7 @@ export default class ApplicantInfo extends Vue {
     surveyJsonCopy; 
     disableNextButton = false;   
     currentStep =0;
-    currentPage =0;
+    currentPage =0;   
     relatedPeopleInfo: string[]=[];
 
     @Watch('pageIndex')
@@ -67,20 +70,21 @@ export default class ApplicantInfo extends Vue {
     }
 
     created() {
-        this.disableNextButton = false;
-        if (this.step.result?.applicantInfoSurvey) { 
+        this.disableNextButton = false
+        if (this.step.result?.applicantServiceSurvey) { 
             this.disableNextButton = false;
         }
     }
 
-    mounted(){ 
+    mounted(){        
+        
         this.initializeSurvey();
         this.addSurveyListener();
         this.reloadPageInformation();
     }
 
-    public initializeSurvey(){
-        this.adjustSurveyForRelatedPeople();       
+    public initializeSurvey(){        
+        this.adjustSurveyForLocations();
         this.survey = new SurveyVue.Model(this.surveyJsonCopy);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
@@ -88,48 +92,53 @@ export default class ApplicantInfo extends Vue {
         surveyEnv.setGlossaryMarkdown(this.survey);
     } 
     
-    public adjustSurveyForRelatedPeople(){
+    // public adjustSurveyForRelatedPeople(){
 
-        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
-        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
+    //     this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.step);
+    //     this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
+     
+    //     this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"]=[];      
         
-        //TODO Depends on the Survey
-        this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"]=this.relatedPeopleInfo;    
+    //     for(const relatedPerson of this.relatedPeopleInfo){
+    //         this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"].push(relatedPerson)
+    //     }        
+       
+    // }
+
+    public adjustSurveyForLocations(){ 
+
+        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson));
+        
+        this.surveyJsonCopy.pages[0].elements[8]["choices"] = [];
+        
+        for(const location of this.locationsInfo){            
+            this.surveyJsonCopy.pages[0].elements[8]["choices"].push({value:location["name"]+" ("+location["id"]+")", text: location["name"]})
+        }
     }
     
     public addSurveyListener(){
-        this.survey.onValueChanged.add((sender, options) => {             
-
-            const p = this.stPgNo.APPLICANT;           
-            togglePages([p.ApplicantCitor], (this.survey.data.applicantCited == "y" && this.survey.data.applicantCitorNewExists == "y"), this.stPgNo.APPLICANT._StepNo);
-            togglePages([p.ApplicantService], (this.survey.data.applicantCited && this.survey.data.applicantName), this.stPgNo.APPLICANT._StepNo);
-                
-            if(options.name=="applicantName") {
-                this.$store.commit("Application/setApplicantName", this.survey.data["applicantName"]);
-            }    
+        this.survey.onValueChanged.add((sender, options) => {
+                        
+            if(this.survey?.data?.applicantHasLawyer == 'y'){
+                this.disableNextButton = true;
+            }else if(this.survey?.data?.applicantHasLawyer == 'n'){
+                this.disableNextButton = false;
+            }
+            
         })   
     }
 
     public reloadPageInformation() {
         
-        if (this.step.result?.applicantInfoSurvey?.data){
-            this.survey.data = this.step.result.applicantInfoSurvey.data;
-        }
-
-        let relatedPeopleList = "<ul>"
-
-        for (const person of this.relatedPeopleInfo){           
-            relatedPeopleList = relatedPeopleList + "<li>" + person + "</li>";            
-        }
-
-        relatedPeopleList = relatedPeopleList + "</ul>"
+        if (this.step.result?.applicantServiceSurvey?.data){
+            this.survey.data = this.step.result.applicantServiceSurvey.data;
+        }        
         
         this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);        
-        this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));  
-        this.survey.setVariable("relatedPeopleExist", this.relatedPeopleInfo.length>0);
-        this.survey.setVariable("relatedPeopleInfo", relatedPeopleList);     
+        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
+        
+        this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));       
     }
 
     public onPrev() {
@@ -142,8 +151,8 @@ export default class ApplicantInfo extends Vue {
     }
 
     beforeDestroy() {
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);        
-        this.UpdateStepResultData({step:this.step, data: {applicantInfoSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}});
+        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);
+        this.UpdateStepResultData({step:this.step, data: {applicantServiceSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}});
     }
 };
 </script>

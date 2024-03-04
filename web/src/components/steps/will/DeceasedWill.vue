@@ -119,7 +119,7 @@ export default class DeceasedWill extends Vue {
             toggleAllSteps([this.stPgNo.DECEASED._StepNo, this.stPgNo.WILL._StepNo], false)
         } else {
             this.disableNextButton = false;
-            toggleSteps([this.stPgNo.RELATIONS._StepNo,this.stPgNo.REVIEW._StepNo], true)
+            toggleSteps([this.stPgNo.RELATIONS._StepNo,this.stPgNo.APPLICANT._StepNo, this.stPgNo.NOTIFY._StepNo], true)
         }      
     }
 

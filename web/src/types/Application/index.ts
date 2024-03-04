@@ -1,9 +1,9 @@
-import { applicantSurveyInfoType } from "./Applicant";
+import { applicantCitorSurveyInfoType, applicantInfoSurveyInfoType, applicantServiceSurveyInfoType } from "./Applicant";
 import { childCommonSurveyInfoType } from "./Children";
 import { deceasedInfoSurveyInfoType } from "./DeceasedInfo";
 import { deceasedWillSurveyInfoType } from "./DeceasedWill";
 import { spouseInfoSurveyInfoType } from "./Spouse";
-import { creditorInfoSurveyInfoType } from "./Creditor";
+import { creditorOrgsSurveyInfoType, creditorsSurveyInfoType } from "./Creditor";
 
 export interface applicationInfoType {   
     id?: string;
@@ -79,7 +79,8 @@ export interface stepInfoType {
     childCompleted?: string;
     creditorPersonExists?: string;
     creditorOrgExists?: string;
-    creditorSurvey?: creditorInfoSurveyInfoType;
+    creditorSurvey?: creditorsSurveyInfoType;
+    creditorOrgSurvey?: creditorOrgsSurveyInfoType;
     creditorCompleted?: string;
 
     parentsSurvey?: any;
@@ -88,12 +89,18 @@ export interface stepInfoType {
    
 
     //__Step 3 APPLICANT
-    informationAboutApplicantSurvey?: applicantSurveyInfoType;
+    applicantInfoSurvey?: applicantInfoSurveyInfoType;
+    citorCompleted?: string;
+    applicantCitorSurvey?: applicantCitorSurveyInfoType;
+    applicantServiceSurvey?: applicantServiceSurveyInfoType;
+
 
     //__Step 4 NOTIFY
-    confirmDebtSurvey?: any;
     reviewSurvey?: any;
+    tellPeopleSurvey?: any;
+    previewP1Survey?: any;
     notifyPeopleSurvey?: any;
+    previewP9Survey?: any;
 
     //__Step 5 BELONGINGS
     LandBuildingsSurvey?: any;

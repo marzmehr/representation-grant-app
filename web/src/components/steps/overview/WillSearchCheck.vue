@@ -142,9 +142,9 @@ export default class WillSearchCheck extends Vue {
     public determinePrimaryApplicant() {
         if (this.steps[3].result && this.steps[3].result["applicantInfoSurvey"] && this.steps[3].result["applicantInfoSurvey"].data) {
             const applicantInfoSurvey = this.steps[3].result["applicantInfoSurvey"].data;
-            if (applicantInfoSurvey.applicant){
-                if (applicantInfoSurvey.applicant.length == 1) {
-                    const index = applicantInfoSurvey.applicant[0][14];                   
+            if (applicantInfoSurvey.applicantName){
+                if (applicantInfoSurvey.applicantName.length == 1) {
+                    const index = applicantInfoSurvey.applicantName[0][14];                   
                     this.survey.setVariable("primaryApplicantName", Vue.filter('getFullName')(this.relatedPeopleInfo[index].name));
                 }
             }

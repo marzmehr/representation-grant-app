@@ -1,14 +1,10 @@
 <template>
     <div>
         <survey v-bind:survey="survey"></survey>
-        <div class="row">
-            <div class="col-6">
-                <button type="button" class="btn btn-secondary" @click="goBack()">Cancel</button>
-            </div>
-            <div class="col-6">
-                <button type="button" class="btn btn-success" @click="saveChild()">Save</button>
-            </div>
-        </div>
+        <b-row class="mt-5 mb-n4">            
+            <b-button type="button" class="ml-4 px-5 btn btn-secondary" @click="goBack()">Cancel</b-button>            
+            <b-button type="button" class="mr-4 px-5 ml-auto btn btn-success" @click="saveChild()">Save</b-button>            
+        </b-row>       
         <br />
     </div>
 </template>

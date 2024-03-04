@@ -1,14 +1,10 @@
 <template>
     <div>
         <survey v-bind:survey="survey"></survey>
-        <div class="row">
-            <div class="col-6">
-                <button type="button" class="btn btn-secondary" @click="goBack()">Cancel</button>
-            </div>
-            <div class="col-6">
-                <button type="button" class="btn btn-success" @click="saveCreditor()">Save</button>
-            </div>
-        </div>
+        <b-row class="mt-5 mb-n4">            
+            <b-button type="button" class="ml-4 px-5 btn btn-secondary" @click="goBack()">Cancel</b-button>            
+            <b-button type="button" class="mr-4 px-5 ml-auto btn btn-success" @click="saveCreditor()">Save</b-button>            
+        </b-row>        
         <br />
     </div>
 </template>
@@ -19,11 +15,6 @@ import * as SurveyVue from "survey-vue";
 import surveyJson from "./forms/creditors.json";
 import * as surveyEnv from "@/components/survey/survey-glossary";
 
-import { namespace } from "vuex-class";   
-import "@/store/modules/application";
-const applicationState = namespace("Application");
-
-import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
 import { nameInfoType } from '@/types/Common';
 import { creditorPersonInfoType } from '@/types/Application/Creditor';
 
@@ -34,10 +25,7 @@ export default class CreditorSurvey extends Vue {
     editRowProp!: Object;   
     
     @Prop({required: true})
-    deceasedName!: nameInfoType;   
-
-    @applicationState.State
-    public stPgNo!: stepsAndPagesNumberInfoType;
+    deceasedName!: nameInfoType;     
     
     creditor = {} as creditorPersonInfoType;
 

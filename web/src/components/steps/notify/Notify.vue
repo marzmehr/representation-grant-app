@@ -1,21 +1,23 @@
 <template>
-    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
+    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()">
         <survey v-bind:survey="survey"></survey>
     </page-base>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';    
+import { Component, Vue, Prop } from 'vue-property-decorator';    
 
 import * as SurveyVue from "survey-vue";
 import surveyJson from "./forms/notify.json";
-import * as surveyEnv from "@/components/survey/survey-glossary"
+import * as surveyEnv from "@/components/survey/survey-glossary";
+import {notifyPanel} from "./forms/notify-panel";
 
 import PageBase from "../PageBase.vue";
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
+import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
 const applicationState = namespace("Application");
 
 @Component({
@@ -30,6 +32,9 @@ export default class Notify extends Vue {
     step!: stepInfoType;
 
     @applicationState.State
+    public stPgNo!: stepsAndPagesNumberInfoType;
+
+    @applicationState.State
     public steps!: stepInfoType[];
 
     @applicationState.State
@@ -39,57 +44,16 @@ export default class Notify extends Vue {
     public deceasedName!: string;
 
     @applicationState.State
-    public relatedPeopleInfo!: any;
-
-    @applicationState.State
-    public noWillNotifyStepRequired!: boolean;
-
-    @applicationState.State
-    public landCompleted!: boolean;
-
-    @applicationState.State
-    public vehiclesCompleted!: boolean;
-
-    @applicationState.State
-    public bankAccountsCompleted!: boolean;
-
-    @applicationState.State
-    public pensionCompleted!: boolean;
-
-    @applicationState.State
-    public personalItemsCompleted!: boolean;
-
-    @applicationState.Action
-    public UpdateNoWillNotifyStepRequired!: (newNoWillNotifyStepRequired: boolean) => void
-
-    @applicationState.Action
-    public UpdateGotoPrevStepPage!: () => void
-
-    @applicationState.Action
-    public UpdateGotoNextStepPage!: () => void
+    public applicantName!: string;
 
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
 
-    @applicationState.Action
-    public UpdateStepActive!: (newStepActive) => void
-
-    @applicationState.Action
-    public UpdatePageActive!: (newPageActive) => void
-
-    @applicationState.Action
-    public UpdateAllCompleted!: (newAllCompleted) => void
-
     survey = new SurveyVue.Model(surveyJson);
+    surveyJsonCopy; 
     disableNextButton = false;   
     currentPage=0;
-    thisStep=0;
-
-    @Watch('pageIndex')
-    pageIndexChange(newVal) 
-    {
-        this.survey.currentPageNo = newVal;        
-    }
+    relatedPeopleInfo: string[]=[];
 
     beforeCreate() {
         const Survey = SurveyVue;
@@ -106,54 +70,36 @@ export default class Notify extends Vue {
     }
 
     public initializeSurvey(){
-        this.survey = new SurveyVue.Model(surveyJson);
+        this.adjustSurveyForRelatedPeople();       
+        this.survey = new SurveyVue.Model(this.surveyJsonCopy);
         this.survey.commentPrefix = "Comment";
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
         surveyEnv.setGlossaryMarkdown(this.survey);
-    }    
+    } 
+    
+    public adjustSurveyForRelatedPeople(){
+
+        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
+
+        const listOfNotify = this.relatedPeopleInfo.filter(related => related != this.applicantName)
+        this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
+        notifyPanel.elements[2]["choices"].push({"value":this.applicantName, "text":this.applicantName});
+        console.log(notifyPanel)
+        //TODO Depends on the Survey
+        this.surveyJsonCopy.pages[0].elements.push(notifyPanel)
+        // this.surveyJsonCopy.pages[0].elements[0].elements[2]["choices"]=[this.applicantName];    
+    }   
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
             console.log(this.survey.data);            
-            this.determineRequiredNotice(); 
-            this.determineNotifyCompleted();          
+            // this.determineRequiredNotice(); 
+            // this.determineNotifyCompleted();          
         })   
     }
 
-    public determineNotifyCompleted(){
-        
-        if (this.steps[4].result['reviewP1Survey'] && 
-            this.steps[4].result['reviewP1Survey'].data && 
-            this.steps[4].result['reviewP1Survey'].data.p1ReviewInfoCorrect) {            
-            this.survey.setVariable("notifyCompleted", true);
-            this.toggleSteps([5, 8], true);
-
-            if (this.landCompleted && 
-                this.vehiclesCompleted && 
-                this.bankAccountsCompleted &&
-                this.pensionCompleted &&
-                this.personalItemsCompleted &&
-                this.noWillNotifyStepRequired) {
-                    this.toggleSteps([6], true);            
-            } else if (!this.noWillNotifyStepRequired) {
-                    this.toggleSteps([6], false); 
-            }
-        } else {
-            this.survey.setVariable("notifyCompleted", false);            
-            this.toggleSteps([5, 6, 7, 8], false);
-        }        
-        
-    }
-
-    public determineRequiredNotice(){
-
-        if (this.relatedPeopleInfo.length>1){
-            this.survey.setVariable("noticeRequired", true);
-        } else {
-            this.survey.setVariable("noticeRequired", false);
-        }    
-    }
+    
 
     public reloadPageInformation() {
         //console.log(this.step.result)
@@ -161,58 +107,64 @@ export default class Notify extends Vue {
             this.survey.data = this.step.result["notifySurvey"].data;
         } 
         
-        this.thisStep = this.currentStep;
-        
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
-        this.determineRequiredNotice(); 
-        this.determineNotifyCompleted();      
-   }
-
-    public activateStep(stepActive) {
-        this.UpdateStepActive( {
-            currentStep: 0,
-            active: stepActive
-        });
-    }    
-
-    public toggleSteps(stepArr, active) {
-        for (let i = 0; i < stepArr.length; i++) {
-            this.UpdateStepActive({
-                currentStep: stepArr[i],
-                active: active
-            });
-        }        
+        // this.determineRequiredNotice(); 
+        // this.determineNotifyCompleted();      
     }
    
     public onPrev() {
-        this.UpdateGotoPrevStepPage()
+        Vue.prototype.$UpdateGotoPrevStepPage()
     }
 
     public onNext() {
         if(!this.survey.isCurrentPageHasErrors) {
-            this.UpdateGotoNextStepPage()
+            Vue.prototype.$UpdateGotoNextStepPage()
         }
     }
-    
-    public onComplete() {
-        this.UpdateAllCompleted(true);
-    }
-
-    public isDisableNext() {
-        // demo
-        return Object.keys(this.survey.data).length == 0;
-    }       
 
     beforeDestroy() {
-
-        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
-       
-        this.UpdateStepResultData({step:this.step, data: {notifySurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
-
+        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);       
+        this.UpdateStepResultData({step:this.step, data: {notifySurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}});
     }
+
+    // public determineNotifyCompleted(){
+        
+    //     if (this.steps[4].result['reviewP1Survey'] && 
+    //         this.steps[4].result['reviewP1Survey'].data && 
+    //         this.steps[4].result['reviewP1Survey'].data.p1ReviewInfoCorrect) {            
+    //         this.survey.setVariable("notifyCompleted", true);
+    //         this.toggleSteps([5, 8], true);
+
+    //         if (this.landCompleted && 
+    //             this.vehiclesCompleted && 
+    //             this.bankAccountsCompleted &&
+    //             this.pensionCompleted &&
+    //             this.personalItemsCompleted &&
+    //             this.noWillNotifyStepRequired) {
+    //                 this.toggleSteps([6], true);            
+    //         } else if (!this.noWillNotifyStepRequired) {
+    //                 this.toggleSteps([6], false); 
+    //         }
+    //     } else {
+    //         this.survey.setVariable("notifyCompleted", false);            
+    //         this.toggleSteps([5, 6, 7, 8], false);
+    //     }        
+        
+    // }
+
+    // public determineRequiredNotice(){
+
+    //     if (this.relatedPeopleInfo.length>1){
+    //         this.survey.setVariable("noticeRequired", true);
+    //     } else {
+    //         this.survey.setVariable("noticeRequired", false);
+    //     }    
+    // }
+
+
 };
 </script>
 

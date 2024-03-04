@@ -1,0 +1,122 @@
+{
+    "pages": [
+        {
+            "name": "applicantServicePage",
+            "elements": [
+                {
+                    "type": "infotext",
+                    "name": "applicantServiceAddressIntroExplanation",
+                    "title": "The last part of this step is to decide how and where the the Court should contact you about your `application`.",
+                    "titleLocation": "hidden"
+                },
+                {
+                    "type": "yesno",
+                    "name": "applicantHasLawyer",                    
+                    "title": "Do you have a lawyer?",
+                    "description": "If you have a lawyer, this service will assume that you want the Court to contact your lawyer instead of you.\n<br><br>\nIf you have a lawyer, but you would prefer the Court to contact you directly, select \"NO\".",
+                    "isRequired": true
+                },
+                {
+                    "type": "infotext",
+                    "name": "applicantHasLawyerYesError",
+                    "visible": false,
+                    "visibleIf": "{applicantHasLawyer} = 'y'",
+                    "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`.",
+                    "titleLocation": "hidden",
+                    "requiredErrorText": "Please press Continue",
+                    "messageStyle": "error"
+                },
+                {
+                    "type": "address",
+                    "name": "applicantServiceAddress",
+                    "visible": false,
+                    "visibleIf": "{applicantHasLawyer} = 'n'",
+                    "title": "Where do you want the Court to send you documents if they need to?",
+                    "description": "(also know as an Address for Service)",
+                    "isRequired": true
+                },
+                {
+                    "type": "text",
+                    "name": "applicantServicePhone",
+                    "visible": false,
+                    "visibleIf": "{applicantHasLawyer} = 'n'",
+                    "title": "What number do you want the Court to call if they have questions?",
+                    "description": "(also know as a Service Phone Number)\n<br><br>\nThe Court will only call during business hours.",
+                    "isRequired": true
+                },
+                {
+                    "type": "text",
+                    "name": "applicantServiceEmail",
+                    "visible": false,
+                    "visibleIf": "{applicantHasLawyer} = 'n'",
+                    "title": "What email address do you want the Court to use if they have questions?",
+                    "description": "(also know as an Email for Service)",
+                    "isRequired": true
+                },
+                {
+                    "type": "yesno",
+                    "name": "applicantHasFax",
+                    "visible": false,
+                    "visibleIf": "{applicantHasLawyer} = 'n'",
+                    "title": "Do you have a fax number if the Court needs to send you documents?",
+                    "description": "(also know as a Fax Number for Service)",
+                    "isRequired": true
+                },
+                {
+                    "type": "text",
+                    "name": "applicantServiceFax",
+                    "visible": false,
+                    "visibleIf": "{applicantHasLawyer} = 'n' and {applicantHasFax} = 'y'",
+                    "title": "What number do you want the Court to fax if they have documents to send you?",
+                    "description": "(also know as a Fax Number for Service)",
+                    "isRequired": true
+                },
+                {
+                    "type": "dropdown",
+                    "name": "applicantCourthouse",
+                    "visible": false,
+                    "visibleIf": "{applicantHasLawyer} = 'n'",
+                    "title": "Which Supreme Court location do you want to file your documents?",
+                    "isRequired": true,
+                    "choices": [
+                        {
+                            "value": "item1",
+                            "text": "Vancouver"
+                        },
+                        {
+                            "value": "item2",
+                            "text": "Victoria"
+                        },
+                        {
+                            "value": "item3",
+                            "text": "New Westminster"
+                        }
+                    ],
+                    "choicesByUrl": {
+                        "url": "./api/v1/efiling/locations",
+                        "valueName": "id",
+                        "titleName": "name"
+                    }
+                },
+                {
+                    "type": "panel",
+                    "name": "applicantExitPanel",
+                    "elements": [
+                        {
+                            "type": "infotext",
+                            "name": "applicantExitSpouseOnly",
+                            "title": "Next, this service will help you formally tell people you are applying for a Representation Grant for {deceasedName}.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "{applicantHasLawyer} = 'n' and ({applicantCourthouse} notempty)"
+                }
+            ],
+            "title": "The Applicant(s) Service"
+        }
+    ],
+    "showQuestionNumbers": "off",
+    "requiredText": ""
+}

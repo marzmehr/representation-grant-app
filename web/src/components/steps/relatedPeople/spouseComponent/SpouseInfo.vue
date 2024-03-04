@@ -1,16 +1,17 @@
 <template>
-    <page-base v-bind:hideNavButtons="!showTable" v-bind:disableNext="isDisableNext()" v-on:onPrev="onPrev()" v-on:onNext="onNext()" >
+    <page-base class="" v-bind:hideNavButtons="!showTable" v-bind:disableNext="isDisableNext()" v-on:onPrev="onPrev()" v-on:onNext="onNext()" >
         <div class="home-content">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>{{deceasedName | getFullName}}'s Spouse</h1>
+                    <h2 class="page-header">{{deceasedName | getFullName}}'s Spouse</h2>
 
                     <b-card class="mt-4">  
                         <b-row no-body class="info-box">
-                            <b-col cols="1" class="m-0" style="padding-right: 0;">
+                            <div style="width:1%;"/>
+                            <div class="m-0" style="width:3%; padding-right: 0;">
                                 <b-icon-exclamation-circle-fill class="text-primary"/>
-                            </b-col>
-                            <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                            </div>
+                            <div style="width:96%; padding-left: 0 !important; margin-left: 0 !important;">
                                 <p>
                                     The next step is to identify the people in {{deceasedName | getFullName}}'s life who need to 
                                     know that you are applying for a <tooltip :index="0" title='Representation Grant' size="lg"/>.
@@ -23,12 +24,11 @@
                                     This service will start by asking if {{deceasedName | getFullName}} had a <tooltip :index="0" title='spouse' size="lg"/>.
                                     If you are {{deceasedName | getFullName}}'s spouse, make sure to include yourself.
                                 </p>
-
-                            </b-col>
+                            </div>
                         </b-row> 
                     </b-card>
 
-                    <b-card class="mt-5">
+                    <b-card style="margin-top:2rem">
                         <b-form-group>
                             <div style="color:#556077; font-size:1.40em; font-weight:bold;">
                                 Did {{deceasedName | getFullName}} have a spouse when they died?
@@ -39,7 +39,7 @@
                             </p>
                             <b-form-radio-group
                                 v-model="spouseExists"
-                                @change="updated+1"
+                                @change="updated = updated+1"
                                 class="mt-2 ml-3 survey-yesno-vue"
                                 style="font-size:1.40em; display: inline-block;">
                                 <b-form-radio class="mr-5" value="Yes"><div style="transform:translate(5px,-5px);">Yes</div></b-form-radio>
@@ -173,8 +173,8 @@
 
                     </b-card>
 
-                    <div class="mt-5" v-if="spouseExists == 'Yes'" :key="updated">
-                        <h1>Spouse Details</h1>
+                    <b-card style="margin-top:2rem" v-if="spouseExists == 'Yes'" :key="updated">
+                        <h2 class="text-primary">Spouse Details</h2>
                         <p>
                             You have indicated the deceased has spouse(s).
                         </p>
@@ -188,17 +188,23 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                        <th scope="col">Spouse's name</th>                                       
-                                        <th scope="col"></th>
+                                            <th class="border-right-0" scope="col">Spouse's name</th>
+                                            <th class="border-right-0 border-left-0">Alive</th>
+                                            <th class="border-right-0 border-left-0">Adult</th>                                        
+                                            <th class="border-left-0" scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <div></div>
                                         
-                                        <tr v-for="spouse in spouseData" :key="spouse.id">
-                                        <td>{{spouse.spouseName}}</td>                                        
-                                        <td><a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(spouse.id)"><i class="fa fa-trash"></i></a> &nbsp;&nbsp; 
-                                        <a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Edit" @click="openForm(spouse)"><i class="fa fa-edit"></i></a></td>
+                                        <tr class="border" v-for="spouse in spouseData" :key="spouse.id">
+                                            <td class="border-0">{{spouse.spouseName}}</td>
+                                            <td class="border-0"><b-icon-check2 v-if="spouse.spouseIsAlive=='y'"/> </td> 
+                                            <td class="border-0"><b-icon-check2 v-if="spouse.spouseIsAlive=='y' && spouse.spouseIsAdult=='y'"/> </td>
+                                            <td class="float-right border-0">
+                                                <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(spouse.id)"><i style="font-size:15pt" class="fa fa-trash"></i></b-button> &nbsp;&nbsp; 
+                                                <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Edit"  @click="openForm(spouse)"><i style="font-size:15pt" class="fa fa-edit"></i></b-button>
+                                            </td>
                                         </tr>
                                         <tr class="clickableRow" @click="openForm()">
                                         <td colspan = "7">
@@ -210,30 +216,32 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                        <b-card class="p-0" v-if="!showTable" id="spouse-info-survey">
+                            <spouse-survey :step="step" v-on:showTable="spouseComponentData" v-on:surveyData="populateSurveyData" v-on:editedData="editRow" :editRowProp="anyRowToBeEdited" :deceasedName="deceasedName" />
+                        </b-card>   
+                    </b-card>
 
                 </div>
 
-                <div class="col-md-12" v-if="!showTable" id="spouse-info-survey">
-                    <spouse-survey :step="step" v-on:showTable="spouseComponentData" v-on:surveyData="populateSurveyData" v-on:editedData="editRow" :editRowProp="anyRowToBeEdited" :deceasedName="deceasedName" />
-                </div>               
+                            
             </div>
        
-            <b-card v-if="spouseExists== 'Yes' && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body :key="updated+1">
+            <b-card style="margin-top:2rem" v-if="spouseExists== 'Yes' && incompleteError && showTable" name="incomplete-error" class="alert-danger p-3 my-4 " no-body :key="updated+1">
                 <div>Required Spouse information is missing. Click the "Edit button <div class="d-inline fa fa-edit"></div> " to fix it. </div>
             </b-card> 
 
-            <b-card v-else-if="spouseExists== 'Yes' && !incompleteError && showTable" class="my-4" :key="updated+2">  
+            <b-card style="margin-top:2rem" v-else-if="spouseExists== 'Yes' && !incompleteError && showTable && spouseData.length>0" class="my-4" :key="updated+2">  
                 <b-row no-body class="info-box">
-                    <b-col cols="1" class="m-0" style="padding-right: 0;">
+                    <div style="width:1%;"/>
+                    <div class="m-0" style="width:3%; padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>
-                    </b-col>
-                    <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                    </div>
+                    <div style="width:96%; padding-left: 0 !important; margin-left: 0 !important;">
                         <p>
                             In this step you have identified that, {{deceasedName | getFullName}}'s spouses may include:                       
-                            <ul>
-                                <li v-for="spouse in spouseData" :key="spouse.id">
-                                    {{ spouse.spouseName }}
+                            <ul class="mt-2 mb-4">
+                                <li v-for="spouse in spouseData" class="text-primary" :key="spouse.id">
+                                    <b>{{ spouse.spouseName }}</b>
                                 </li>
                             </ul>                       
                         </p>
@@ -246,11 +254,11 @@
                             If you are {{deceasedName | getFullName}}'s spouse but you haven't included yourself yet, 
                             please add information about yourself.
                         </p>
-                    </b-col>
+                    </div>
                 </b-row>
             </b-card>
     
-            <b-card v-else-if="spouseExists== 'No'" class="mt-4" :key="updated+3">  
+            <b-card style="margin-top:2rem" v-else-if="spouseExists== 'No'"  :key="updated+3">  
                 <b-row no-body class="info-box">
                     <b-col cols="1" class="m-0" style="padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>
@@ -273,7 +281,7 @@
                 </b-row>
             </b-card> 
 
-            <b-card v-if="spouseExists!= null" no-body class="my-4" :key="updated+4">  
+            <b-card style="margin-top:2rem" v-if="spouseExists!= null" no-body class="mb-4" :key="updated+4">  
                 <b-row class="mx-4 mt-4">
                     <b-form-group>
                         <div style="color:#556077; font-size:1.40em; font-weight:bold;">
@@ -281,7 +289,7 @@
                         </div>
                         <b-form-radio-group
                             v-model="spouseCompleted"
-                            @change="updatedSpouse+1"
+                            @change="updatedSpouse = updatedSpouse+1"
                             class="mt-2 ml-3 survey-yesno-vue"
                             style="font-size:1.40em; display: inline-block;">
                             <b-form-radio class="mr-5" value="Yes"><div style="transform:translate(5px,-5px);">Yes</div></b-form-radio>
@@ -481,7 +489,11 @@ export default class SpouseInfo extends Vue {
 
         if (this.step.result?.spouseSurvey?.data) {
             this.spouseData = this.step.result.spouseSurvey.data;
-        }           
+        }       
+        
+        if (this.step.result?.spouseCompleted) {
+            this.spouseCompleted = this.step.result.spouseCompleted;
+        }            
     }
 
     mounted(){
@@ -520,7 +532,7 @@ export default class SpouseInfo extends Vue {
         if(this.spouseExists == 'No')
             spouseInfo = null
 
-        this.UpdateStepResultData({step:this.step, data: {spouseExists: this.spouseExists, spouseSurvey: spouseInfo}})       
+        this.UpdateStepResultData({step:this.step, data: {spouseExists: this.spouseExists, spouseSurvey: spouseInfo, spouseCompleted: this.spouseCompleted}})       
     }
 
     public getSpouseResults(){
@@ -537,6 +549,9 @@ export default class SpouseInfo extends Vue {
 
         const resultString = [];
         resultString.push(Vue.filter('styleTitle')("Name: ")+spouse.spouseName);        
+        resultString.push(Vue.filter('styleTitle')("Alive: ")+(spouse.spouseIsAlive=='y'?'Yes':'No'));
+        if(spouse.spouseIsAlive=='y' && spouse.spouseIsAdult)
+            resultString.push(Vue.filter('styleTitle')("Adult: ")+(spouse.spouseIsAdult=='y'?'Yes':'No'));
         
         return resultString;
     }  
@@ -570,12 +585,26 @@ export default class SpouseInfo extends Vue {
 
 <style scoped lang="scss">
 @import "src/styles/common";
+
 .home-content {
     padding-bottom: 20px;
-    padding-top: 2rem;
-    max-width: 950px;
-    color: black;
+    padding-top: 1.5rem;
+    color: #494949;
 }
+
+.card {
+    border-radius: 8px;
+    border: 1px solid #ccc;    
+}
+
+.card-body{
+    padding: 0.75rem 1.75rem 2rem 1.75rem;
+}
+
+.page-header {
+    font-size: 1.6em
+}
+
 .spouseSection {
     border: 2px solid rgba($gov-pale-grey, 0.7);
     border-radius: 18px;

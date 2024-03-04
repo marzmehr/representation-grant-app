@@ -2,7 +2,7 @@
   <step-base v-bind:step="step">    
     <spouse-info v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Spouse"></spouse-info>
     <child-info v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Children"></child-info>
-    <creditor-info v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Creditors"></creditor-info>
+    <creditors v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Creditors"></creditors>
     <parents v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.Parents"></parents>
     <grand-children v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.GrandChildren"></grand-children>
     <great-grand-children v-bind:step="step" v-if="step.currentPage == stPgNo.RELATIONS.GreatGrandChildren"></great-grand-children>
@@ -17,7 +17,7 @@ import StepBase from "../StepBase.vue";
 import Executors from "./Executors.vue";
 import SpouseInfo from "./spouseComponent/SpouseInfo.vue";
 import ChildInfo from "./childComponent/ChildrenInfo.vue";
-import CreditorInfo from "./creditorComponent/CreditorInfo.vue";
+import Creditors from "./creditorComponent/Creditors.vue";
 import Parents from "./Parents.vue";
 import GrandChildren from "./GrandChildren.vue";
 import GreatGrandChildren from "./GreatGrandChildren.vue";
@@ -41,7 +41,7 @@ const applicationState = namespace("Application");
         GrandChildren,
         GreatGrandChildren,
         Beneficiaries,
-        CreditorInfo
+        Creditors
     }
 })
 

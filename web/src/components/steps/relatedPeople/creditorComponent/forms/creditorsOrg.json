@@ -10,8 +10,7 @@
                     "title": "Name of Organization",
                     "isRequired": true
                 }
-            ],
-            "title": "Creditor Organization's Information"
+            ]            
         }
     ],
     "showQuestionNumbers": "off",

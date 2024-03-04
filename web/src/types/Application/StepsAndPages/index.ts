@@ -40,14 +40,18 @@ export interface RELATIONSstPgTypes{
 
 export interface APPLICANTstPgTypes{
     _StepNo: number;
-    InformationAboutApplicant: number;
+    ApplicantInfo: number;
+    ApplicantCitor: number;
+    ApplicantService: number;
 }
 
 export interface NOTIFYstPgTypes{
     _StepNo: number;
-    ConfirmDebt: number;
-    Review: number;
+    ReviewYourAnswers: number;
+    TellPeople: number;
+    PreviewP1: number;
     NotifyPeople: number;
+    PreviewP9: number;
 }
 
 export interface BELONGINGSstPgTypes{

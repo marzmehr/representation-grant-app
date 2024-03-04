@@ -9,10 +9,7 @@
                     "name": "childName",
                     "title": "What is the full name of {deceasedName}'s child?",
                     "description": "Use the name as it appears on their primary identification (if you can get it).\n<br><br>\nThis name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
-                    "isRequired": true,
-                    "defaultValue": "(the person who died's child)",
-                    "correctAnswer": "(the person who died's child)",
-                    "defaultSubstitution": "(the person who died's child)"
+                    "isRequired": true                    
                 }, 
                 {
                     "type": "yesno",
@@ -20,7 +17,7 @@
                     "title": "Is {childName} alive?",
                     "isRequired": true,
                     "visible": false,
-                    "visibleIf": "{childName} notempty"
+                    "visibleIf": "{childName} notempty"                    
                 },
                 {
                     "type": "helptext",
@@ -230,15 +227,17 @@
                     "visibleIf": "({childName} notempty) and {childIsAlive} = 'y' and {childIsAdult} = 'n' and {childIsAdultNoExplanation} > 0"
                 },
                 {
+                    "type": "yesno",
+                    "name": "childIsCompetent",                            
+                    "title": "Is {childName} `mentally competent`?",
+                    "isRequired": true,
+                    "visible": false,
+                    "visibleIf": "({childName} notempty) and {childIsAlive} = 'y' and {childIsAdult} = 'y'"
+                },
+                {
                     "type": "panel",
                     "name": "ChildAliveAdultPanel",
-                    "elements": [
-                        {
-                            "type": "yesno",
-                            "name": "childIsCompetent",                            
-                            "title": "Is {childName} `mentally competent`?",
-                            "isRequired": true
-                        },
+                    "elements": [                        
                         {
                             "type": "infotext",
                             "name": "childIsCompetentNoExplanation",
@@ -572,7 +571,7 @@
                         {
                             "type": "radiogroup",
                             "name": "childHasPersonalRep",                            
-                            "title": "Do you know if {childName} has a `personal representative`?",
+                            "title": "Do you know if {childName} has a personal representative?",
                             "description": "If {childName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {childName}. \n<br><br>\nIf someone is planning on becoming {childName}'s personal representative but hasn't done so yet, it is safer for you to include them as {childName}'s personal representative.",
                             "isRequired": true,
                             "choices": [
@@ -632,8 +631,8 @@
                     "visibleIf": "({childName} notempty) and {childIsAlive} = 'n' and {childDiedAfter} = 'y' and {childDiedAfterYesExplanation} > 0"
                 }      
                 
-           ],
-           "title": "Child's Information"
+           ]
+           
       }
    ],
    "showQuestionNumbers": "off",

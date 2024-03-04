@@ -1,6 +1,8 @@
 <template>
     <step-base v-bind:step="step">
-        <applicant-info v-bind:step="step" v-if="step.currentPage == 0"></applicant-info>
+        <applicant-info v-bind:step="step" v-if="step.currentPage == stPgNo.APPLICANT.ApplicantInfo"></applicant-info>
+        <applicant-citor v-bind:step="step" v-if="step.currentPage == stPgNo.APPLICANT.ApplicantCitor"></applicant-citor>
+        <applicant-service v-bind:step="step" v-if="step.currentPage == stPgNo.APPLICANT.ApplicantService"></applicant-service>
     </step-base>
 </template>
 
@@ -10,12 +12,20 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import StepBase from "../StepBase.vue";
 import { stepInfoType } from "@/types/Application";
 import ApplicantInfo from "./ApplicantInfo.vue";
+import ApplicantCitor from "./citorComponent/ApplicantCitor.vue";
+import ApplicantService from "./ApplicantService.vue";
+import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
 
+import { namespace } from "vuex-class";   
+import "@/store/modules/application";
+const applicationState = namespace("Application");
 
 @Component({
     components:{
         StepBase,        
-        ApplicantInfo
+        ApplicantInfo,
+        ApplicantCitor,
+        ApplicantService
     }
 })
 
@@ -23,6 +33,9 @@ export default class ApplicantInfoStep extends Vue {
     
     @Prop({required: true})
     step!: stepInfoType;
+
+    @applicationState.State
+    public stPgNo!: stepsAndPagesNumberInfoType;
     
 };
 </script>

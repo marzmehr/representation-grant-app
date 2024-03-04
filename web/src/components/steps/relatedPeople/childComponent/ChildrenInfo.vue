@@ -3,22 +3,23 @@
         <div class="home-content">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>{{deceasedName | getFullName}}'s Children</h1>
+                    <h2 class="page-header">{{deceasedName | getFullName}}'s Children</h2>
 
                     <b-card class="mt-4">  
                         <b-row no-body class="info-box">
-                            <b-col cols="1" class="m-0" style="padding-right: 0;">
+                            <div style="width:1%;"/>
+                            <div class="m-0" style="width:3%; padding-right: 0;">
                                 <b-icon-exclamation-circle-fill class="text-primary"/>
-                            </b-col>
-                            <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                            </div>
+                            <div style="width:96%; padding-left: 0 !important; margin-left: 0 !important;">
                                 <p>
                                     This page is to identify if {{deceasedName | getFullName}} had any children.
                                 </p>
-                            </b-col>
+                            </div>
                         </b-row> 
                     </b-card>
 
-                    <b-card class="mt-5">
+                    <b-card style="margin-top:2rem">
                         <b-form-group>
                             <div style="color:#556077; font-size:1.40em; font-weight:bold;">
                                 Did {{deceasedName | getFullName}} have any children when they died?
@@ -166,8 +167,8 @@
 
                     </b-card>
 
-                    <div class="mt-5" v-if="childExists == 'Yes'" :key="updated">
-                        <h1>Children Details</h1>
+                    <b-card style="margin-top:2rem" v-if="childExists == 'Yes'" :key="updated">
+                        <h2 class="text-primary">Children Details</h2>
                         <p>
                             You have indicated the deceased has child(ren).
                         </p>
@@ -180,18 +181,24 @@
                             <div class="childAlign">
                                 <table class="table table-hover">
                                     <thead>
-                                        <tr>
-                                        <th scope="col">Child's name</th>                                       
-                                        <th scope="col"></th>
+                                        <tr>                                        
+                                        <th class="border-right-0" scope="col">Child's name</th>
+                                        <th class="border-right-0 border-left-0">Alive</th>
+                                        <th class="border-right-0 border-left-0">Adult</th>                                        
+                                        <th class="border-left-0" scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <div></div>
                                         
-                                        <tr v-for="child in childData" :key="child.id">
-                                        <td>{{child.childName}}</td>                                        
-                                        <td><a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(child.id)"><i class="fa fa-trash"></i></a> &nbsp;&nbsp; 
-                                        <a class="btn btn-light" v-b-tooltip.hover.noninteractive title="Edit" @click="openForm(child)"><i class="fa fa-edit"></i></a></td>
+                                        <tr class="border" v-for="child in childData" :key="child.id">
+                                            <td class="border-0">{{child.childName}}</td>
+                                            <td class="border-0"><b-icon-check2 v-if="child.childIsAlive=='y'"/> </td> 
+                                            <td class="border-0"><b-icon-check2 v-if="child.childIsAlive=='y' && child.childIsAdult=='y'"/> </td>
+                                            <td class="float-right border-0">
+                                                <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Delete" @click="deleteRow(child.id)"><i style="font-size:15pt" class="fa fa-trash"></i></b-button> &nbsp;&nbsp; 
+                                                <b-button variant="transparant" v-b-tooltip.hover.noninteractive title="Edit" @click="openForm(child)"><i style="font-size:15pt" class="fa fa-edit"></i></b-button>
+                                            </td>
                                         </tr>
                                         <tr class="clickableRow" @click="openForm()">
                                         <td colspan = "7">
@@ -203,13 +210,14 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                        <b-card class="p-0" v-if="!showTable" id="child-info-survey">
+                            <child-survey :step="step" v-on:showTable="childComponentData" v-on:surveyData="populateSurveyData" v-on:editedData="editRow" :editRowProp="anyRowToBeEdited" :deceasedName="deceasedName" />
+                        </b-card>  
+                    </b-card>
 
                 </div>
 
-                <div class="col-md-12" v-if="!showTable" id="child-info-survey">
-                    <child-survey :step="step" v-on:showTable="childComponentData" v-on:surveyData="populateSurveyData" v-on:editedData="editRow" :editRowProp="anyRowToBeEdited" :deceasedName="deceasedName" />
-                </div>               
+                             
             </div>
         
        
@@ -219,15 +227,16 @@
 
             <b-card v-else-if="childExists== 'Yes' && (childData.length > 0) && !incompleteError && showTable" class="my-4" :key="updated+2">  
                 <b-row no-body class="info-box">
-                    <b-col cols="1" class="m-0" style="padding-right: 0;">
+                    <div style="width:1%;"/>
+                    <div class="m-0" style="width:3%; padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>
-                    </b-col>
-                    <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                    </div>
+                    <div style="width:96%;padding-left: 0 !important; margin-left: 0 !important;">
                         <p>
                             In this step you have identified that, {{deceasedName | getFullName}}'s children may include:                       
-                            <ul>
-                                <li v-for="child in childData" :key="child.id">
-                                    {{ child.childName }}
+                            <ul class="mt-2 mb-4">
+                                <li v-for="child in childData"  class="text-primary" :key="child.id">
+                                    <b>{{ child.childName }}</b>
                                 </li>
                             </ul>                       
                         </p>
@@ -240,16 +249,17 @@
                             If you are {{deceasedName | getFullName}}'s child but you haven't included yourself yet, 
                             please add information about yourself.
                         </p>
-                    </b-col>
+                    </div>
                 </b-row>
             </b-card>
     
             <b-card v-else-if="childExists== 'No'" class="mt-4" :key="updated+3">  
                 <b-row no-body class="info-box">
-                    <b-col cols="1" class="m-0" style="padding-right: 0;">
+                    <div style="width:1%;"/>
+                    <div class="m-0" style="width:3%; padding-right: 0;">
                         <b-icon-exclamation-circle-fill class="text-primary"/>
-                    </b-col>
-                    <b-col cols="11" style="padding-left: 0 !important; margin-left: 0 !important;">
+                    </div>
+                    <div style="width:96%;padding-left: 0 !important; margin-left: 0 !important;">
                         <p>
                             In this step, you have identified that there is no one who would be considered 
                             {{deceasedName | getFullName}}'s child at the time {{deceasedName | getFullName}} died.
@@ -264,7 +274,7 @@
                             If you are {{deceasedName | getFullName}}'s child but you haven't included yourself yet, 
                             please add information about yourself.
                         </p>
-                    </b-col>
+                    </div>
                 </b-row>
             </b-card> 
 
@@ -285,8 +295,8 @@
                     </b-form-group>                   
 
                 </b-row>
-
-                <b-card v-if="childCompleted == 'No'" no-body class="error-box my-4 mx-4" :key="updatedChildren">  
+            
+                <b-card v-if="childExists!= null && showTable && childCompleted == 'No'" no-body class="error-box my-4 mx-4" :key="updatedChildren">  
                     <b-row>
                         <b-col cols="1" class="m-0" style="padding-right: 0;">
                             <b-icon-slash-circle-fill class="text-danger"/>
@@ -317,10 +327,22 @@
                         </b-col>
                     </b-row> 
                 </b-card>
+            </b-card>
 
-
-
-            </b-card> 
+            <b-card v-if="childExists!= null && showTable && childCompleted == 'Yes'" class="my-4" :key="updatedChildren+1">  
+                <b-row no-body class="info-box">
+                    <div style="width:1%;"/>
+                    <div class="m-0" style="width:3%; padding-right: 0;">
+                        <b-icon-exclamation-circle-fill class="text-primary"/>
+                    </div>
+                    <div style="width:96%;padding-left: 0 !important; margin-left: 0 !important;">
+                        <p>
+                            Next, this service will ask if {{deceasedName | getFullName}} owed 
+                            anyone more than $10,000.
+                        </p>
+                    </div>
+                </b-row>
+            </b-card>
         </div>
 
     </page-base>
@@ -447,7 +469,11 @@ export default class ChildrenInfo extends Vue {
 
         if (this.step.result?.childrenSurvey?.data) {
             this.childData = this.step.result.childrenSurvey.data;
-        }           
+        }       
+        
+        if (this.step.result?.childCompleted) {
+            this.childCompleted = this.step.result.childCompleted;
+        }  
     }
 
     mounted(){
@@ -486,7 +512,7 @@ export default class ChildrenInfo extends Vue {
         if(this.childExists == 'No')
             childInfo = null
 
-        this.UpdateStepResultData({step:this.step, data: {childExists: this.childExists, childrenSurvey: childInfo}})       
+        this.UpdateStepResultData({step:this.step, data: {childExists: this.childExists, childrenSurvey: childInfo, childCompleted: this.childCompleted}})       
     }
 
     public getChildrenResults(){
@@ -502,7 +528,11 @@ export default class ChildrenInfo extends Vue {
     public getChildrenInfo(child){
         const resultString = [];
 
-        resultString.push(Vue.filter('styleTitle')("Name: ")+child.childName);        
+        resultString.push(Vue.filter('styleTitle')("Name: ")+child.childName);                
+        resultString.push(Vue.filter('styleTitle')("Alive: ")+(child.childIsAlive=='y'?'Yes':'No'));
+        if(child.childIsAlive=='y' && child.childIsAdult)
+            resultString.push(Vue.filter('styleTitle')("Adult: ")+(child.childIsAdult=='y'?'Yes':'No'));
+        
         
         return resultString;
     }  
@@ -536,11 +566,24 @@ export default class ChildrenInfo extends Vue {
 
 <style scoped lang="scss">
 @import "src/styles/common";
+
 .home-content {
     padding-bottom: 20px;
-    padding-top: 2rem;
-    max-width: 950px;
-    color: black;
+    padding-top: 1.5rem;
+    color: #494949;
+}
+
+.card {
+    border-radius: 8px;
+    border: 1px solid #ccc;    
+}
+
+.card-body{
+    padding: 0.75rem 1.75rem 2rem 1.75rem;
+}
+
+.page-header {
+    font-size: 1.6em
 }
 .childSection {
     border: 2px solid rgba($gov-pale-grey, 0.7);

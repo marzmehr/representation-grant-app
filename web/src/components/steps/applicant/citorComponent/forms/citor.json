@@ -1,0 +1,559 @@
+{
+    "title": "Citor(s) Information",
+    "pages": [
+        {
+            "name": "citorPage",
+            "elements": [
+                {
+                    "type": "text",
+                    "name": "applicantCitorName",
+                    "title": "What is the name of the person who gave {applicantName} a `citation`?",
+                    "description": "Use the name as it appears on the citation.",
+                    "isRequired": true
+                },
+                {
+                    "type": "yesno",
+                    "name": "applicantCitorIsAlive",
+                    "title": "Is {applicantCitorName} alive?",
+                    "isRequired": true,
+                    "visible": false,
+                    "visibleIf": "{applicantCitorName} notempty"
+                },
+                {
+                    "type": "helptext",
+                    "name": "applicantCitorIsAliveFAQ1",
+                    "title": "What if the citor is on life support?",
+                    "titleLocation": "hidden",
+                    "body": "The citor is considered alive.",
+                    "visible": false,
+                    "visibleIf": "{applicantCitorName} notempty"
+                },
+                {
+                    "type": "yesno",
+                    "name": "applicantCitorIsAdult",
+                    "visible": false,
+                    "visibleIf": "({applicantCitorIsAlive} = 'y') and ({applicantCitorName} notempty)",
+                    "title": "Is {applicantCitorName} 19 or older?",
+                    "isRequired": true
+                },
+                {
+                    "type": "infotext",
+                    "name": "applicantCitorIsAdultNoExplanation",
+                    "visible": false,
+                    "visibleIf": "({applicantCitorIsAlive} = 'y') and ({applicantCitorName} notempty) and {applicantCitorIsAdult} = 'n'",
+                    "title": "Because {applicantCitorName} is under the age of 19, {applicantCitorName}'s parent or guardian needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                    "titleLocation": "hidden",
+                    "isRequired": true,
+                    "requiredErrorText": "Please press Continue"
+                },
+                {
+                    "type": "panel",
+                    "name": "ApplicantCitorAliveMinorPanel",
+                    "elements": [
+                        {
+                            "type": "text",
+                            "inputType": "date",
+                            "name": "applicantCitorIsAdultNoDOB",                            
+                            "title": "When was {applicantCitorName} born?",
+                            "isRequired": true,
+                            "dateYearsBehind": 19,
+                            "dateYearsAhead": 0
+                        },
+                        {
+                            "type": "address",
+                            "name": "applicantCitorIsAdultNoResidentialAddress",                            
+                            "title": "Where does {applicantCitorName} live?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "homelessAddressFAQ1",
+                            "title": "What if {applicantCitorName} was homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If {applicantCitorName} was homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                        }, 
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorIsAdultNoResidentialReceiveMail",                            
+                            "title": "Does {applicantCitorName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorIsAdultNoHasMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsAdultNoResidentialReceiveMail} = 'n'",
+                            "title": "Does {applicantCitorName} have a different address where they receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "applicantCitorIsAdultNoMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsAdultNoResidentialReceiveMail} = 'n' and {applicantCitorIsAdultNoHasMailingAddress} = 'y'",
+                            "title": "Where does {applicantCitorName} receive mail?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorIsAdultNoEmail",                            
+                            "title": "Does {applicantCitorName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "applicantCitorIsAdultNoEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsAdultNoEmail} = 'y'",
+                            "title": "What is {applicantCitorName}'s email address?",
+                            "isRequired": true,
+                            "inputType": "email"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorIsAdultNoFax",                            
+                            "title": "Does {applicantCitorName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "applicantCitorIsAdultNoFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsAdultNoFax} = 'y'",
+                            "title": "What is {applicantCitorName}'s fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorHasGuardian",                           
+                            "title": "Does {applicantCitorName} have a parent (who is alive) or a legal guardian (who is alive)?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "applicantCitorHasGuardianNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorHasGuardian} = 'n'",
+                            "title": "Because {applicantCitorName} is under the age of 19, but they do not have a parent or guardian, you need to let {applicantCitorName} know directly that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden"
+                        },
+                        {
+                            "type": "text",
+                            "name": "applicantCitorGuardianName",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorHasGuardian} = 'y'",
+                            "title": "Please enter the full name of a parent or guardian (who is currently alive) for {applicantCitorName}:",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "panel",
+                            "name": "ApplicantCitorHasGuardianPanel",
+                            "elements":[
+                                {
+                                    "type": "address",
+                                    "name": "applicantCitorGuardianResidentialAddress",                                    
+                                    "title": "Where does {applicantCitorGuardianName} live?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "guardianAddressFAQ1",
+                                    "title": "What if {applicantCitorGuardianName} was homeless?",
+                                    "titleLocation": "hidden",
+                                    "body": "If {applicantCitorGuardianName} was homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "applicantCitorGuardianResidentialReceiveMail",                                    
+                                    "title": "Does {applicantCitorGuardianName} receive mail at this address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "applicantCitorGuardianHasMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "{applicantCitorGuardianResidentialReceiveMail} = 'n'",
+                                    "title": "Does {applicantCitorGuardianName} have a different address where they receive mail?"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "applicantCitorGuardianMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "{applicantCitorGuardianResidentialReceiveMail} = 'n' and {applicantCitorGuardianHasMailingAddress} = 'y'",
+                                    "title": "Where does {applicantCitorGuardianName} receive mail?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "applicantCitorGuardianEmail",                                   
+                                    "title": "Does {applicantCitorGuardianName} have an email address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "applicantCitorGuardianEmailAddress",
+                                    "visible": false,
+                                    "visibleIf": "{applicantCitorGuardianEmail} = 'y'",
+                                    "title": "What is {applicantCitorGuardianName}'s email address?",
+                                    "isRequired": true,
+                                    "inputType": "email"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "applicantCitorGuardianFax",                                    
+                                    "title": "Does {applicantCitorGuardianName} have a fax number?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "applicantCitorGuardianFaxNumber",
+                                    "visible": false,
+                                    "visibleIf": "{applicantCitorGuardianFax} = 'y'",
+                                    "title": "What is {applicantCitorGuardianName}'s fax number?",
+                                    "isRequired": true
+                                }
+                            ],
+                            "visible": false,
+                            "visibleIf": "({applicantCitorGuardianName} notempty) and {applicantCitorHasGuardian} = 'y'"
+                        }
+                    ],
+                    "visible": false,
+                    "visibleIf": "({applicantCitorName} notempty) and {applicantCitorIsAlive} = 'y' and {applicantCitorIsAdult} = 'n' and {applicantCitorIsAdultNoExplanation} > 0"
+                },
+                {
+                    "type": "panel",
+                    "name": "ApplicantCitorAliveAdultPanel",
+                    "elements": [
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorIsCompetent",                            
+                            "title": "Is {applicantCitorName} `mentally competent`?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "applicantCitorIsCompetentNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n'",
+                            "title": "Because {applicantCitorName} is not mentally competent, {applicantCitorName}'s `nominee` (if they have one) needs to know that you are applying for a `Representation Grant`.\n<br><br>\nThe Public Guardian and Trustee (PGT) of British Columbia also needs to know that you are applying for a Representation Grant.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "isRequired": true,
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "text",
+                            "inputType": "date",
+                            "name": "applicantCitorIsCompetentNoDOB",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoExplanation} > 0",
+                            "title": "When was {applicantCitorName} born?",
+                            "isRequired": true,
+                            "dateYearsBehind": 150,
+                            "dateYearsAhead": 0
+                        },
+                        {
+                            "type": "address",
+                            "name": "applicantCitorIsCompetentNoResidentialAddress",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoExplanation} > 0",
+                            "title": "Where does {applicantCitorName} live?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "helptext",
+                            "name": "applicantCitorIsCompetentNoResidentialAddressFAQ1",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoExplanation} > 0",
+                            "title": "What if {applicantCitorName} is homeless?",
+                            "titleLocation": "hidden",
+                            "body": "If {applicantCitorName} was homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorIsCompetentNoResidentialReceiveMail",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoExplanation} > 0",
+                            "title": "Does {applicantCitorName} receive mail at this address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorIsCompetentNoHasMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoResidentialReceiveMail} = 'n'",
+                            "title": "Does {applicantCitorName} have a different address where they receive mail?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "address",
+                            "name": "applicantCitorIsCompetentNoMailingAddress",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoResidentialReceiveMail} = 'n' and {applicantCitorIsCompetentNoHasMailingAddress} = 'y'",
+                            "title": "Where does {applicantCitorName} receive mail?",
+                            "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorIsCompetentNoEmail",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoExplanation} > 0",
+                            "title": "Does {applicantCitorName} have an email address?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "applicantCitorIsCompetentNoEmailAddress",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoEmail} = 'y'",
+                            "title": "What is {applicantCitorName}'s email address?",
+                            "isRequired": true,
+                            "inputType": "email"
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorIsCompetentNoFax",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoExplanation} > 0",
+                            "title": "Does {applicantCitorName} have a fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "text",
+                            "name": "applicantCitorIsCompetentNoFaxNumber",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoFax} = 'y'",
+                            "title": "What is {applicantCitorName}'s fax number?",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "yesno",
+                            "name": "applicantCitorHasNominee",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorIsCompetentNoExplanation} > 0",
+                            "title": "Is there someone who helps {applicantCitorName} manage their money and legal decisions?",
+                            "description": "This person would be considered {applicantCitorName}'s Nominee. If {applicantCitorName}'s Nominee is not alive anymore, select \"NO\".",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "applicantCitorHasNomineeNoExplanation",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorHasNominee} = 'n'",
+                            "title": "Because {applicantCitorName} is not mentally competent, but they do not have a nominee, you need to let {applicantCitorName} know directly that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "text",
+                            "name": "applicantCitorNomineeName",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorIsCompetent} = 'n' and {applicantCitorHasNominee} = 'y'",
+                            "title": "What is the name of the person who helps {applicantCitorName} manage their money and legal decisions?",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "panel",
+                            "name": "ApplicantCitorHasNomineePanel",
+                            "elements":[
+                                {
+                                    "type": "yesno",
+                                    "name": "applicantCitorNomineeFormal",                                    
+                                    "title": "Was {applicantCitorNomineeName} formally appointed to help {applicantCitorName} manage their money and legal decisions?",
+                                    "description": "These are the ways someone can be formally appointed.\n<ul>\n<li>\n{applicantCitorName} could have signed a document that gave someone else the power of attorney using the Power of Attorney Act,\n</li>\n<li>\n{applicantCitorName} could have signed a document that appointed someone as a representative using the Representation Agreement Act, or\n</li>\n<li>\na person can be appointed by the Court using the Patients Property Act,\n</li>\n<li>\na person could have been appointed either the Minister of Aboriginal Affairs and Northern Development or by the Court using the Indian Act\n</li>\n</ul>",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "applicantCitorNomineeFormalYesExplanation",
+                                    "visible": false,
+                                    "visibleIf": "{applicantCitorNomineeFormal} = 'y'",
+                                    "title": "The Public Guardian and Trustee (PGT) will need a copy of the legal document that proves that {applicantCitorNomineeName} was formally appointed as {applicantCitorName}'s nominee. \n<br><br>\nYou can get a head start by asking {applicantCitorNomineeName} for that document now, or, you can wait for this service to remind you in a later step.",
+                                    "titleLocation": "hidden",
+                                    "isRequired": true,
+                                    "requiredErrorText": "Please press Continue"
+                                },
+                                {
+                                    "type": "infotext",
+                                    "name": "applicantCitorNomineeFormalNoExplanation",
+                                    "visible": false,
+                                    "visibleIf": "{applicantCitorNomineeFormal} = 'n'",
+                                    "title": "Even if {applicantCitorNomineeName} was not formally appointed to help {applicantCitorName}, it is still best to let both {applicantCitorNomineeName} and {applicantCitorName} know that you are applying for a `Representation Grant`.\n<br><br>\nThis service will tell you how to let them know in a later step.",
+                                    "titleLocation": "hidden",
+                                    "isRequired": true,
+                                    "requiredErrorText": "Please press Continue"
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "applicantCitorNomineeResidentialAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({applicantCitorNomineeFormal} = 'n' and {applicantCitorNomineeFormalNoExplanation} > 0) or ({applicantCitorNomineeFormal} = 'y' and {applicantCitorNomineeFormalYesExplanation} > 0))",
+                                    "title": "Where does {applicantCitorNomineeName} live?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "helptext",
+                                    "name": "applicantCitorNomineeResidentialAddressFAQ1",
+                                    "visible": false,
+                                    "visibleIf": "(({applicantCitorNomineeFormal} = 'n' and {applicantCitorNomineeFormalNoExplanation} > 0) or ({applicantCitorNomineeFormal} = 'y' and {applicantCitorNomineeFormalYesExplanation} > 0))",
+                                    "title": "What if {applicantCitorNomineeName} is homeless?",
+                                    "titleLocation": "hidden",
+                                    "body": "If {applicantCitorNomineeName} was homeless,<ul><li>Write \"no fixed address\" for the street number and street name.</li><li>Write the City/Town, Province, and Country where they lived.</li><li>Write \"n/a\" for their Postal Code.</li></ul>"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "applicantCitorNomineeResidentialReceiveMail",
+                                    "visible": false,
+                                    "visibleIf": "(({applicantCitorNomineeFormal} = 'n' and {applicantCitorNomineeFormalNoExplanation} > 0) or ({applicantCitorNomineeFormal} = 'y' and {applicantCitorNomineeFormalYesExplanation} > 0))",
+                                    "title": "Does {applicantCitorNomineeName} receive mail at this address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "applicantCitorNomineeHasMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({applicantCitorNomineeFormal} = 'n' and {applicantCitorNomineeFormalNoExplanation} > 0) or ({applicantCitorNomineeFormal} = 'y' and {applicantCitorNomineeFormalYesExplanation} > 0)) and {applicantCitorNomineeResidentialReceiveMail} = 'n'",
+                                    "title": "Does {applicantCitorNomineeName} have a different address where they receive mail?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "address",
+                                    "name": "applicantCitorNomineeMailingAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({applicantCitorNomineeFormal} = 'n' and {applicantCitorNomineeFormalNoExplanation} > 0) or ({applicantCitorNomineeFormal} = 'y' and {applicantCitorNomineeFormalYesExplanation} > 0)) and {applicantCitorNomineeResidentialReceiveMail} = 'n' and {applicantCitorNomineeHasMailingAddress} = 'y'",
+                                    "title": "Where does {applicantCitorNomineeName} receive mail?",
+                                    "description": "This address will be given to the Public Guardian and Trustee (PGT) of British Columbia.",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "applicantCitorNomineeEmail",
+                                    "visible": false,
+                                    "visibleIf": "(({applicantCitorNomineeFormal} = 'n' and {applicantCitorNomineeFormalNoExplanation} > 0) or ({applicantCitorNomineeFormal} = 'y' and {applicantCitorNomineeFormalYesExplanation} > 0))",
+                                    "title": "Does {applicantCitorNomineeName} have an email address?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "applicantCitorNomineeEmailAddress",
+                                    "visible": false,
+                                    "visibleIf": "(({applicantCitorNomineeFormal} = 'n' and {applicantCitorNomineeFormalNoExplanation} > 0) or ({applicantCitorNomineeFormal} = 'y' and {applicantCitorNomineeFormalYesExplanation} > 0)) and {applicantCitorNomineeEmail} = 'y'",
+                                    "title": "What is {applicantCitorNomineeName}'s email address?",
+                                    "isRequired": true,
+                                    "inputType": "email"
+                                },
+                                {
+                                    "type": "yesno",
+                                    "name": "applicantCitorNomineeFax",
+                                    "visible": false,
+                                    "visibleIf": "(({applicantCitorNomineeFormal} = 'n' and {applicantCitorNomineeFormalNoExplanation} > 0) or ({applicantCitorNomineeFormal} = 'y' and {applicantCitorNomineeFormalYesExplanation} > 0))",
+                                    "title": "Does {applicantCitorNomineeName} have a fax number?",
+                                    "isRequired": true
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "applicantCitorNomineeFaxNumber",
+                                    "visible": false,
+                                    "visibleIf": "(({applicantCitorNomineeFormal} = 'n' and {applicantCitorNomineeFormalNoExplanation} > 0) or ({applicantCitorNomineeFormal} = 'y' and {applicantCitorNomineeFormalYesExplanation} > 0)) and {applicantCitorNomineeFax} = 'y'",
+                                    "title": "What is {applicantCitorNomineeName}'s fax number?",
+                                    "isRequired": true
+                                }
+                            ],
+                            "visible": false,
+                            "visibleIf": "({applicantCitorNomineeName} notempty) and {applicantCitorIsCompetent} = 'n' and {applicantCitorHasNominee} = 'y'"
+                        }
+
+                    ],
+                    "visible": false,
+                    "visibleIf": "({applicantCitorName} notempty) and {applicantCitorIsAlive} = 'y' and {applicantCitorIsAdult} = 'y'"
+                },
+                {
+                    "type": "infotext",
+                    "name": "applicantCitorIsDeadExplanation",
+                    "visible": false,
+                    "visibleIf": "({applicantCitorName} notempty) and {applicantCitorIsAlive} = 'n'",
+                    "title": "Because {applicantCitorName} has died, {applicantCitorName}'s `personal representative` needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nIt is your responsibility to check with {applicantCitorName}'s family and friends to find out who is {applicantCitorName}'s personal representative.\n<br><br>\nIf you find out that {applicantCitorName} does not have a personal representative, this service will help you tell that to The Court.",
+                    "titleLocation": "hidden",
+                    "isRequired": true,
+                    "requiredErrorText": "Please press Continue"
+                },
+                {
+                    "type": "panel",
+                    "name": "ApplicantCitorIsDeadPanel",
+                    "elements":[
+                        {
+                            "type": "radiogroup",
+                            "name": "applicantCitorHasPersonalRep",                            
+                            "title": "Do you know if {applicantCitorName} has a personal representative?",
+                            "description": "If {applicantCitorName}'s personal representative is not alive anymore, contact that person's personal representative to find out who is now representing {applicantCitorName}. \n<br><br>\nIf someone is planning on becoming {applicantCitorName}'s personal representative but hasn't done so yet, it is safer for you to include them as {applicantCitorName}'s personal representative.",
+                            "isRequired": true,
+                            "choices": [
+                                {
+                                    "value": "y",
+                                    "text": "I know {applicantCitorName} <b>has</b> a personal representative"
+                                },
+                                {
+                                    "value": "n",
+                                    "text": "I know {applicantCitorName} <b>does NOT have</b> a personal representative"
+                                },
+                                {
+                                    "value": "dk",
+                                    "text": "I <b>don't know</b> if {applicantCitorName} has a personal representative"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "text",
+                            "name": "applicantCitorPersonalRepName",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorHasPersonalRep} = 'y'",
+                            "title": "What is the name of {applicantCitorName}'s personal representative?",
+                            "description": "This name should be written using the Roman alphabet. English and French are examples of languages that use the Roman alphabet.",
+                            "isRequired": true
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "applicantCitorHasPersonalRepYesExplanation",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorHasPersonalRep} = 'y'  and {applicantCitorPersonalRepName} notempty",
+                            "title": "Because {applicantCitorName} has died, {applicantCitorPersonalRepName} needs to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThis service will tell you how to let {applicantCitorPersonalRepName} know in a later step.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "applicantCitorHasPersonalRepNoTempError",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorHasPersonalRep} = 'n'",
+                            "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`.",
+                            "titleLocation": "hidden",
+                            "requiredErrorText": "Please press Continue",
+                            "messageStyle": "error"
+                        },
+                        {
+                            "type": "infotext",
+                            "name": "applicantCitorHasPersonalRepDKExplanation",
+                            "visible": false,
+                            "visibleIf": "{applicantCitorHasPersonalRep} = 'dk'",
+                            "title": "Because you are not sure if {applicantCitorName} has a personal representative, you may want to check with as many of {applicantCitorName}'s family and friends as you can find.<br><br>If {applicantCitorName}'s family or friends do not know if {applicantCitorName} has a personal representative, one option may be hiring a professional investigator to try and find out for sure.<br><br>Examples of professional investigators include private investigators, heir tracers and other similar services.<br><br>For transparency of your application, you want to show the court all efforts made to find out whether {applicantCitorName} has a personal representative. The Court will ultimately decide whether sufficient effort has been made to find this information.",
+                            "titleLocation": "hidden",                
+                            "messageStyle": "error"
+                        } 
+                    ],
+                    "visible": false,
+                    "visibleIf": "({applicantCitorName} notempty) and {applicantCitorIsAlive} = 'n' and {applicantCitorIsDeadExplanation} > 0 "
+                }                
+            ]
+        }
+    ],
+    "showQuestionNumbers": "off",
+    "requiredText": ""
+}
