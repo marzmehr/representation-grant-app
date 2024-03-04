@@ -242,24 +242,40 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "0";
-        p.name = "ConfirmDebt";
-        p.label = "Confirm Debt";        
+        p.name = "ReviewYourAnswers";
+        p.label = "Review Your Answers";        
         p.active = true;
         p.progress = 0;
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "1";
-        p.name = "Review";
-        p.label = "Review";        
+        p.name = "TellPeople";
+        p.label = "Tell People You Are Applying";        
         p.active = false;
         p.progress = 0;
         s.pages.push(p);
 
         p = {} as pageInfoType;
         p.key = "2";
+        p.name = "PreviewP1";
+        p.label = "Preview P1";        
+        p.active = false;
+        p.progress = 0;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "3";
         p.name = "NotifyPeople";
         p.label = "Notify People";       
+        p.active = false;
+        p.progress = 0;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "4";
+        p.name = "PreviewP9";
+        p.label = "Preview P9";        
         p.active = false;
         p.progress = 0;
         s.pages.push(p);

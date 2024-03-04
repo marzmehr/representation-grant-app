@@ -103,7 +103,10 @@ export default class ApplicantInfo extends Vue {
             const p = this.stPgNo.APPLICANT;           
             togglePages([p.ApplicantCitor], (this.survey.data.applicantCited == "y" && this.survey.data.applicantCitorNewExists == "y"), this.stPgNo.APPLICANT._StepNo);
             togglePages([p.ApplicantService], (this.survey.data.applicantCited && this.survey.data.applicantName), this.stPgNo.APPLICANT._StepNo);
-        
+                
+            if(options.name=="applicantName") {
+                this.$store.commit("Application/setApplicantName", this.survey.data["applicantName"]);
+            }    
         })   
     }
 

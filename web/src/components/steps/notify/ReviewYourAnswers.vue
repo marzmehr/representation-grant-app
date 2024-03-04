@@ -1,5 +1,5 @@
 <template>
-    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
+    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()">
         <h2 class="mt-4">Review Your Answers</h2>
         <b-card bg-variant="primary" border-variant="primary" text-variant="white">
             <b-icon-exclamation-circle-fill variant="info" scale="1.5" class="mr-2"></b-icon-exclamation-circle-fill>
@@ -51,8 +51,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { togglePages } from '@/components/utils/TogglePages';
 import * as _ from 'underscore';
 
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
@@ -102,6 +102,15 @@ export default class ReviewYourAnswers extends Vue {
     reviewed = false;
     errorQuestionNames = [];
     bankNamesIndex: Number[] = [];
+    
+    @Watch('pageHasError')
+    nextPageChange(newVal) 
+    {
+        togglePages([this.stPgNo.NOTIFY.PreviewP1, this.stPgNo.NOTIFY.TellPeople], !this.pageHasError, this.currentStep);       
+        Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.PreviewP1,  0, false);
+        Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.TellPeople,  50, false);
+        Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, this.pageHasError? 50: 100, false);
+    }
 
     mounted(){  
 
@@ -251,9 +260,13 @@ export default class ReviewYourAnswers extends Vue {
 
     public reloadPageInformation() {
         this.reviewed = false;
-        this.pageHasError = false;        
+        this.pageHasError = false;
+        const excludedSteps = ['NOTIFY'];
+
         for(const [appStepKey, appStepValue] of Object.entries(this.stPgNo)){
-            // if(i==4)continue;//step is "notify" 
+            
+            if( excludedSteps.includes(appStepKey)) continue;
+
             const step = this.$store.state.Application.steps[appStepValue._StepNo]
             const stepResult = step.result
             // console.log(step)
@@ -306,7 +319,8 @@ export default class ReviewYourAnswers extends Vue {
 
         this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
-        Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, this.pageHasError? 50: 100, false);
+        // Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, this.pageHasError? 50: 100, false);
+        this.nextPageChange(null)
         //this.$store.commit("Application/setPageProgress", { currentStep: this.currentStep, currentPage:this.currentPage, progress:progress })
         // this.togglePages([0,1], true);
     }
@@ -363,29 +377,14 @@ export default class ReviewYourAnswers extends Vue {
         }
         return ""
     }
-
-    public togglePages(pageArr, activeIndicator) {
-        //this.activateStep(activeIndicator);
-        for (let i = 0; i < pageArr.length; i++) {
-            this.$store.commit("Application/setPageActive", {
-                currentStep: this.step.id,
-                currentPage: pageArr[i],
-                active: activeIndicator
-            });
-        }
-    }
     
     public onPrev() {
         this.UpdateGotoPrevStepPage()
     }
 
     public onNext() {
-       //// console.log(this.pageHasError)
+        console.log(this.pageHasError)
         this.UpdateGotoNextStepPage()       
-    }
-
-    public onComplete() {
-        this.$store.commit("Application/setAllCompleted", true);
     }
 
     public getStepId(stepIndex) {

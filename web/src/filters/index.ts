@@ -9,7 +9,7 @@ Vue.filter('get-current-version', function(){
 	//___________________________
     //___________________________
     //___________________________NEW VERSION goes here _________________
-    const CURRENT_VERSION = "1.0";
+    const CURRENT_VERSION = "1.1";
     //__________________________
     //___________________________
     //___________________________
@@ -336,7 +336,8 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 			`ol li.listnumber{counter-increment: list-counter;}`+
 			`ol li.listnumber:before {content:counter(list-counter) ". ";font-weight: bold;}`+
 			`ol li.bracketalpha{text-indent: -20px;margin:0.75rem 0;counter-increment: alpha;}`+
-			`ol li.bracketalpha:before {content:"(" counter(alpha, lower-alpha)") ";}`+			
+			`ol li.bracketalpha:before {content:"(" counter(alpha, lower-alpha)") ";}`+
+			`.answer{color: #000; display:inline; font-size:11pt;}`+			
 			`
 			body{				
 				font-family: BCSans;

@@ -96,9 +96,11 @@ export interface stepInfoType {
 
 
     //__Step 4 NOTIFY
-    confirmDebtSurvey?: any;
     reviewSurvey?: any;
+    tellPeopleSurvey?: any;
+    previewP1Survey?: any;
     notifyPeopleSurvey?: any;
+    previewP9Survey?: any;
 
     //__Step 5 BELONGINGS
     LandBuildingsSurvey?: any;

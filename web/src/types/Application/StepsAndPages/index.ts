@@ -47,9 +47,11 @@ export interface APPLICANTstPgTypes{
 
 export interface NOTIFYstPgTypes{
     _StepNo: number;
-    ConfirmDebt: number;
-    Review: number;
+    ReviewYourAnswers: number;
+    TellPeople: number;
+    PreviewP1: number;
     NotifyPeople: number;
+    PreviewP9: number;
 }
 
 export interface BELONGINGSstPgTypes{

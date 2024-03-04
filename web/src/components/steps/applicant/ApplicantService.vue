@@ -112,7 +112,7 @@ export default class ApplicantService extends Vue {
         this.surveyJsonCopy.pages[0].elements[8]["choices"] = [];
         
         for(const location of this.locationsInfo){            
-            this.surveyJsonCopy.pages[0].elements[8]["choices"].push({value:location["name"], text: location["name"]})
+            this.surveyJsonCopy.pages[0].elements[8]["choices"].push({value:location["name"]+" ("+location["id"]+")", text: location["name"]})
         }
     }
     
