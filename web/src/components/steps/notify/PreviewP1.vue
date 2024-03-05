@@ -130,8 +130,9 @@ export default class PreviewP1 extends Vue {
 
     public EnableNext(){
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, 100, false);
-        Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.NotifyPeople, 50, false);       
-        togglePages([this.stPgNo.NOTIFY.NotifyPeople], true, this.currentStep)        
+        // Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.NotifyPeople, 50, false);       
+        togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], true, this.currentStep)
+
         this.disableNext=false;        
     }
 

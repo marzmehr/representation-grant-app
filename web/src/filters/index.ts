@@ -2,8 +2,14 @@ import Vue from 'vue'
 import moment from 'moment-timezone';
 import store from '@/store';
 import {customCss} from './bootstrapCSS'
-import { childDetailsDataInfoType } from '@/types/Application/Children';
-import { spouseInfoType } from '@/types/Application/Spouse';
+// import { childDetailsDataInfoType } from '@/types/Application/Children';
+// import { spouseInfoType } from '@/types/Application/Spouse';
+import { 
+	getRelatedSpouses, 
+	getRelatedChildren,
+	getRelatedCreditor,
+	getRelatedCreditorOrg 
+} from './relatedPeople';
 
 Vue.filter('get-current-version', function(){	
 	//___________________________
@@ -208,59 +214,13 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 })
 
 
-Vue.filter('getRelatedPeopleInfo', function(step){
-	const relatives = [];
-    let spouseList: spouseInfoType[] = [];
-    let childList: childDetailsDataInfoType[] = [];
-    if (step.result?.spouseSurvey?.data) {
-        spouseList = step.result.spouseSurvey.data;
-    } 
-
-    for (const spouse of spouseList){
-        relatives.push(spouse.spouseName);
-
-        if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'n' &&
-        spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianName?.length>0){
-
-            relatives.push(spouse.spouseGuardianName);
-        }
-
-        if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'y' &&
-            spouse.spouseIsCompetent == 'n' && spouse.spouseHasNominee == 'y' && spouse.spouseNomineeName?.length>0){
-            relatives.push(spouse.spouseNomineeName);
-        }
-
-        if(spouse.spouseIsAlive == 'n' && spouse.spouseDied5DaysAfter == 'y' &&
-        spouse.spouseHasPersonalRep == 'y' && spouse.spousePersonalRepName?.length>0){
-            relatives.push(spouse.spousePersonalRepName);
-        }
-    }
-
-    if (step.result?.childrenSurvey?.data) {
-        childList = step.result.childrenSurvey.data;
-    } 
-
-    for (const child of childList){
-        relatives.push(child.childName);
-
-        if(child.childIsAlive == 'y' && child.childIsAdult == 'n' &&
-            child.childHasGuardian == 'y' && child.childGuardianName?.length>0){
-
-            relatives.push(child.childGuardianName);
-        }
-
-        if(child.childIsAlive == 'y' && child.childIsAdult == 'y' &&
-            child.childIsCompetent == 'n' && child.childHasNominee == 'y' && child.childNomineeName?.length>0){
-            relatives.push(child.childNomineeName);
-        }
-
-        if(child.childIsAlive == 'n' && child.childDiedAfter == 'y' &&
-            child.childHasPersonalRep == 'y' && child.childPersonalRepName?.length>0){
-            relatives.push(child.childPersonalRepName);
-        }
-    }
-    
-    return relatives;
+Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg){
+	const related = [];
+	related.push(...getRelatedSpouses(step))
+	related.push(...getRelatedChildren(step))
+	if(addCreditor)	related.push(...getRelatedCreditor(step))
+    if(addCreditorOrg)	related.push(...getRelatedCreditorOrg(step))
+    return related;
 })
 
 

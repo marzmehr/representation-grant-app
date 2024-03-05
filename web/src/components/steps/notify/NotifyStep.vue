@@ -16,7 +16,7 @@ import { stepInfoType } from "@/types/Application";
 import Notify from "./Notify.vue";
 import ReviewYourAnswers from "./ReviewYourAnswers.vue";
 import PreviewP1 from "./PreviewP1.vue";
-import PreviewP9 from "./PreviewP1.vue";
+import PreviewP9 from "./PreviewP9.vue";
 import TellPeople from "./TellPeople.vue";
 
 import { namespace } from "vuex-class";   

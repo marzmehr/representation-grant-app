@@ -90,7 +90,7 @@ export default class ApplicantInfo extends Vue {
     
     public adjustSurveyForRelatedPeople(){
 
-        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
+        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true);
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
         
         //TODO Depends on the Survey

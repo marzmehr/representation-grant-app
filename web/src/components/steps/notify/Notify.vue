@@ -53,7 +53,8 @@ export default class Notify extends Vue {
     surveyJsonCopy; 
     disableNextButton = false;   
     currentPage=0;
-    relatedPeopleInfo: string[]=[];
+    // relatedPeopleInfo: string[]=[];
+    listOfNotifyingPeople: string[]=[];
 
     beforeCreate() {
         const Survey = SurveyVue;
@@ -80,15 +81,17 @@ export default class Notify extends Vue {
     
     public adjustSurveyForRelatedPeople(){
 
-        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, false);
 
-        const listOfNotify = this.relatedPeopleInfo.filter(related => related != this.applicantName)
+        this.listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName)
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
-        notifyPanel.elements[2]["choices"].push({"value":this.applicantName, "text":this.applicantName});
-        console.log(notifyPanel)
-        //TODO Depends on the Survey
-        this.surveyJsonCopy.pages[0].elements.push(notifyPanel)
-        // this.surveyJsonCopy.pages[0].elements[0].elements[2]["choices"]=[this.applicantName];    
+        for(const inx in this.listOfNotifyingPeople){            
+            // console.log(notifyingPerson)            
+            const notifyPanelCopy = JSON.parse(JSON.stringify(notifyPanel).replace(/\[0\]/g,`[${inx}]`));            
+            notifyPanelCopy.elements[3]["choices"].push({"value":this.applicantName, "text":this.applicantName});
+            // console.log(notifyPanelCopy)            
+            this.surveyJsonCopy.pages[0].elements.push(notifyPanelCopy)
+        }  
     }   
     
     public addSurveyListener(){
@@ -97,22 +100,37 @@ export default class Notify extends Vue {
             // this.determineRequiredNotice(); 
             // this.determineNotifyCompleted();          
         })   
-    }
-
-    
+    }   
 
     public reloadPageInformation() {
-        //console.log(this.step.result)
-        if (this.step.result && this.step.result["notifySurvey"]){
+        //console.log(this.step.result) 
+
+        if (this.step?.result?.["notifySurvey"]?.data && 
+            this.isRelatedPeopleSame(this.step?.result?.["notifySurvey"]?.data)
+        ){
             this.survey.data = this.step.result["notifySurvey"].data;
         } 
         
-        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
-        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
+        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;        
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+        for(const inx in this.listOfNotifyingPeople){
+            const notifyingPerson = this.listOfNotifyingPeople[inx]
+            this.survey.setValue(`recipientName[${inx}]`, notifyingPerson)
+        } 
+        
+        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         // this.determineRequiredNotice(); 
-        // this.determineNotifyCompleted();      
+        // this.determineNotifyCompleted(); 
+        // console.log(this.survey.isCurrentPageHasErrors)     
+    }
+
+    isRelatedPeopleSame(surveyData){
+        for(const inx in this.listOfNotifyingPeople){
+            const notifyingPerson = this.listOfNotifyingPeople[inx]
+            if(surveyData[`recipientName[${inx}]`] != notifyingPerson) return false
+        }
+        return true
     }
    
     public onPrev() {
@@ -168,7 +186,6 @@ export default class Notify extends Vue {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import "../../../styles/survey";
 </style>

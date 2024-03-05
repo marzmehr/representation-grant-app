@@ -385,7 +385,7 @@ export default class Creditors extends Vue {
         this.updated = 0;
         this.updatedOrg = 0;
         this.updatedCreditors = 0;
-        this.relativesList = Vue.filter('getRelatedPeopleInfo')(this.step);
+        this.relativesList = Vue.filter('getRelatedPeopleInfo')(this.step, false, false);
         Vue.nextTick(()=>this.surveyHasError());
         this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;        
