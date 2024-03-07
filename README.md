@@ -9,23 +9,23 @@ A Vue client application which serves out the SurveyJS based questionnaire.
 This library is of interest (uses survey-vue and survey-creator): https://github.com/surveyjs/survey-library
 
 #### Important commands for the web folder:
-`npm run-script serve` # Serve web under hot reloading  
-`npm run-script build` # Build production web package  
+`npm run-script serve` # Serve web under hot reloading
+`npm run-script build` # Build production web package
 
 ###	REST API (api)
 A Django based REST API which provides the heavy lifting.  The API includes a Swagger interface containing API documentation and UI that allows you to interact with the various APIs manually.
 
 #### Important commands for the api folder (May require environment variables set, check settings.py):
-`python manage.py migrate`  
-`python manage.py makemigrations`    
-`python manage.py runserver 8081`    
+`python manage.py migrate`
+`python manage.py makemigrations`
+`python manage.py runserver 8081`
 
 #### Required Environment Variable keys (check settings.py):
-`DATABASE_SERVICE_NAME, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_ENGINE, LOCAL_SERVICE_HOST, LOCAL_SERVICE_PORT`  
+`DATABASE_SERVICE_NAME, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_ENGINE, LOCAL_SERVICE_HOST, LOCAL_SERVICE_PORT`
 
 ### PDF Microservice (pdf)
-An html to PDF microservice used to generate reports. 
-This can be started up by `./manage start pdf` under the docker folder (refer to Running on Docker). 
+An html to PDF microservice used to generate reports.
+This can be started up by `./manage start pdf` under the docker folder (refer to Running on Docker).
 
 ###	Database (db)
 A PostgreSQL database for storage.
@@ -37,14 +37,15 @@ To deploy using a local instance of OpenShift, refer to [Running on OpenShift](.
 ## Running on Docker
 The project can also be run locally using Docker and Docker Compose.  Refer to [Running with Docker Compose](./docker/README.md) for instructions.
 
-## Containerization diagram
-![Representation Grant (1)](https://user-images.githubusercontent.com/3484109/147691536-3cc5ed0c-6695-476a-80c5-626a2183494a.png)
+## High Level Architecture
+
+![Representation Grant Application](./doc/diagrams/RepGrant.drawio.svg)
 
 ## Code of Conduct
-Please refer to the [Code of Conduct](./CODE_OF_CONDUCT.md) 
+Please refer to the [Code of Conduct](./CODE_OF_CONDUCT.md)
 
 ## Contributing
 For information on how to contribute, refer to [Contributing](CONTRIBUTING.md)
 
 ## License
-Code released under the [Apache License, Version 2.0](./LICENSE). 
+Code released under the [Apache License, Version 2.0](./LICENSE).
