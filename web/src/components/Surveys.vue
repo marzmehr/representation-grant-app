@@ -12,7 +12,7 @@
             <overview-step v-if="getCurrentStepIndex() == 7" v-bind:step="getStep(7)"></overview-step>
             <review v-if="getCurrentStepIndex() == 8" v-bind:step="getStep(8)"></review>           
             <submit v-if="getCurrentStepIndex() == 9" v-bind:step="getStep(9)"></submit>
-    
+            <next-step v-if="getCurrentStepIndex() == 10" v-bind:step="getStep(10)"></next-step>
         </main>
     </div>
 </template>
@@ -38,6 +38,7 @@ import NoWillNotifyStep from "./steps/noWillNotify/NoWillNotifyStep.vue";
 import OverviewStep from "./steps/overview/OverviewStep.vue";
 import Review from "./steps/review/ReviewStep.vue"
 import Submit from "./steps/submit/StepSubmit.vue";
+import NextStep from "./steps/nextSteps/NextStep.vue"
 
 import * as surveyEnv from "@/components/survey/survey-glossary"
 import { stepInfoType } from '@/types/Application';
@@ -54,7 +55,8 @@ import { stepInfoType } from '@/types/Application';
         NoWillNotifyStep,
         OverviewStep,
         Review,
-        Submit        
+        Submit,
+        NextStep       
     }
 })
 

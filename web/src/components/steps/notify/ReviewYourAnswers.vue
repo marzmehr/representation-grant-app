@@ -37,8 +37,8 @@
                         <template v-slot:cell(value)="data" >
                             <div 
                                 style="white-space: pre-line;" 
-                                :class="beautifyResponse(data.value, data.item)!='REQUIRED'?'':'bg-danger text-white px-2'"
-                                v-html="beautifyResponse(data.value, data.item)"
+                                :class="beautifyResponse(data.value, data.item, section.data)!='REQUIRED'?'':'bg-danger text-white px-2'"
+                                v-html="beautifyResponse(data.value, data.item, section.data)"
                             ></div>
                         </template>
                         <template v-slot:cell(edit)="data" > 
@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-import { togglePages } from '@/components/utils/TogglePages';
+import { togglePages, toggleStep } from '@/components/utils/TogglePages';
 import * as _ from 'underscore';
 
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
@@ -106,12 +106,14 @@ export default class ReviewYourAnswers extends Vue {
     @Watch('pageHasError')
     nextPageChange(newVal) 
     {
-        togglePages([this.stPgNo.NOTIFY.PreviewP1, this.stPgNo.NOTIFY.TellPeople], !this.pageHasError, this.currentStep);       
+        togglePages([this.stPgNo.NOTIFY.PreviewP1, this.stPgNo.NOTIFY.TellPeople], !this.pageHasError, this.currentStep);     
         if(this.pageHasError){
             Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.PreviewP9,     0, false);
             Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.NotifyPeople,  0, false);
             Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.PreviewP1,     0, false);
-            Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.TellPeople,   50, false);        
+            Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.TellPeople,   50, false);
+            togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9 ], !this.pageHasError, this.currentStep);       
+            toggleStep([this.stPgNo.NEXT._StepNo],false)
         }
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, this.pageHasError? 50: 100, false);
     }
@@ -136,7 +138,7 @@ export default class ReviewYourAnswers extends Vue {
         return adjQuestion
     }
 
-    public beautifyResponse(value, dataItem){
+    public beautifyResponse(value, dataItem, sectionData){
         // console.log(value)
         // console.log(dataItem)
         const inputType = dataItem?dataItem['inputType']:""
@@ -180,6 +182,20 @@ export default class ReviewYourAnswers extends Vue {
             return Vue.filter('getFullContactInfo')(value)
         else if(inputType=="date")
             return Vue.filter('beautify-date')(value)
+        else if(typeof value ==='string' && value !== ''){
+            if(value == 'other' && sectionData[dataItem.name+'Comment']){                
+                return Vue.filter('styleTitle')("Selected: ")+value+"\n"+Vue.filter('styleTitle')("Comment: ")+sectionData[dataItem.name+'Comment']
+            }
+
+            const m = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})T(\d{2}):(\d{2}):(\d{2})$/);
+            if(m) {                
+                return ""+Vue.filter('convert-time24to12')(m[4]+":"+m[5])+"<b> on </b>"+ Vue.filter('beautify-date')(value) 
+            }
+
+            let keyBeauty = value.charAt(0).toUpperCase() + value.slice(1);
+            keyBeauty =  keyBeauty.replace(/([a-z0-9])([A-Z])/g, '$1 $2')  
+            return keyBeauty;    
+        }
         else 
             return value;    
     }
@@ -265,7 +281,7 @@ export default class ReviewYourAnswers extends Vue {
     public reloadPageInformation() {
         this.reviewed = false;
         this.pageHasError = false;
-        const excludedSteps = ['NOTIFY'];
+        const excludedSteps = ['NOTIFY','NEXT'];
 
         for(const [appStepKey, appStepValue] of Object.entries(this.stPgNo)){
             

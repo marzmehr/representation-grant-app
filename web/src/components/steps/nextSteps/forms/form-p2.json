@@ -1,0 +1,182 @@
+{
+   "pages": [
+      {
+         "name": "p2Page",
+         "elements": [
+          {
+           "type": "panel",
+           "name": "p2IntroPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "p2IntroExplanation",
+             "title": "This step will help you fill out the Form P2. The Form P2 is a summary that explains your application to The Court.<br><br><a href=\"https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/probate/p2.pdf?forcedownload=true\">Click here to download a blank \"Form P2 - Submission for Estate Grant.\"</a> (This link will download a PDF to your computer)<br><br>To open the PDF, you may need Adobe Reader (free to download) or other similar software. <br><br><a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)<br><br>Click \"Continue\" to get some tips on how to fill out the Form P12 based on the information you've already provided in this service.",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            }
+           ]
+          },
+          {
+           "type": "panel",
+           "name": "p2TipPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "p2Tip1",
+             "title": "<b>1) Submission for estate grant submitted by/on behalf of (name(s) of applicant(s))</b><br><br>Add applicant names: <b>{applicantName}</b><br>Add Name of lawyer for applicant(s) (if any): <b>leave blank</b><br>How many signature lines are required for this document? <b>1</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip2",
+             "title": "<b>2) Number of Certified copies required</b><br><br>Certified copies are copies with The Court's seal on them. They are not regular photocopies. Each certified copy costs <b>$40</b> from The Court. <br><br><br><i>This option is for the Representation Grant itself. Ask the organizations who are holding {deceasedName}'s `assets` if they need a certified copy or if a regular photo copy will be good enough.</i><br><br><ul>I/we request ☐ [number of copies] certified copy(ies) of the estate grant.</ul><br><br><i>This is the court document that forces organizations to give you information about {deceasedName}'s assets they are holding. If they give you all the information you need to fill out the Form P10, you do not need this document.</i><br><br><ul>I/we request ☐ [number of copies] certified copy(ies) of the estate authorization to obtain estate information.</ul><br><br><i>This is talking about the Form P10. Ask the organizations who are holding {deceasedName}'s `assets` if they need a certified copy or if a regular photo copy will be good enough.</i><br><br><ul>I/we request ☐ [number of copies] certified copy(ies) of the Affidavit of Assets and Liabilities for Domiciled Estate Grant.</ul><br><br><i>Based on your answers, do <b>NOT</b> choose this option:</i><br><br><ul>I/we request [number of copies] certified copy(ies) of the Affidavit of Assets and Liabilities for Non-Domiciled Estate Grant.</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip3",
+             "title": "<b>3) Grant Option</b><br><br>Grant options: <b>Grant of administration without will annexed</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip4",
+             "title": "<b>4) Contact Information for the Applicant(s)</b><br><br>Street address: <b>{applicantServiceAddress.street}, {applicantServiceAddress.city}, {applicantServiceAddress.state}, {applicantServiceAddress.postcode}, {applicantServiceAddress.country}</b><br>Fax number (if any): <b>{applicantServiceFax}</b> <br>E-mail (if any): <b>{applicantServiceEmail}</b><br>Phone number: <b>{applicantServicePhone}</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip5",
+             "title": "<b>5) File Information</b><br><br>Registry Name: <b>{applicantCourthouse}</b><br>File Number: <b>leave blank</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip6",
+             "title": "<b>6) Submission for Estate Grant</b><br><br><i>This option is for the Representation Grant itself. If you were able to fill out the Form P10 with all information, including account numbers and dollar amounts, you can pick this option:</i><br><br><ul>&#9746; I am/We are submitting with this submission for estate grant an affidavit of assets and liabilities inForm P10 or P11 and therefore do not require an authorization to obtain estate information.</ul><br><i>This is the court document that forces organizations to give you information about {deceasedName}'s assets they are holding. If you are <b>NOT</b> able to fill out the Form P10, for example if the asset organization will not give you account numbers or dollar amounts, choose this option:</i><br><br><ul>&#9746; I am/We are seeking an authorization to obtain estate information so that I/we can secure theinformation necessary to prepare and submit an affidavit of assets and liabilities for estate grant.</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip7",
+             "title": "<b>7) Information about the Deceased</b><br><br>First Name | Middle Names | Last Name<br><b>{deceasedName}</b><br>Date of Death: <b>{deceasedDateOfDeath}</b><br><br>Alias name: <b>Copy all the the different spellings and versions of {deceasedName}'s name you wrote down for the Form P10. </b><br><br><ul>For example, if the person who died's name is spelled as <b>Alex Bowie Clark</b> on their primary ID, but spelled as <b>Alex B. Clark</b> for a bank account, then each of these spellings should be written down.</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip8",
+             "title": "<b>8) Last residential address of the deceased</b><br><br>&#9746; Street number and street name:<br>Street number and name: <b>{deceasedAddress.street}</b><br>City/town: <b>{deceasedAddress.city}</b><br>Province/state: <b>{deceasedAddress.state}</b><br>Country: <b>{deceasedAddress.country}</b><br>Postal Code/Zip Code: <b>{deceasedAddress.postcode}</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip9",
+             "title": "<b>9) First Nations information</b><br>{deceasedFirstNationsComment}",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip10",
+             "title": "<b>10) Documents Filed with this Submission for Estate Grant</b><br>&#9746; There is one applicant to this submission for estate grant and a <b>P5</b> affidavit is filedwith this submission for estate grant.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip11",
+             "title": "<b>11) Affidavits for Delivery filed with this submission for estate grant</b><br><i>If you needed to give someone a Form P1, choose this option:</i><br><ul>&#9746; Filed with this submission for estate grant is/are the following Affidavit(s) of Delivery in Form P9<br><br>Affidavit of (name): <b>{applicantName}</b><br>Sworn Date: <b>leave blank;</b> fill in the date <b>after</b> the P9 is affirmed / sworn</ul><br><i>If you did NOT need to give someone a Form P1, choose this option:</i><br><ul>&#9746; No affidavit of delivery is attached. In accordance with Rule 25-2, no one, other than the applicant(s), is entitled to notice.</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip12",
+             "title": "<b>12) Application Information</b><br><br>&#9746; This application is for a grant of administration <b>without</b> will annexed.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip13",
+             "title": "<b>13) Information about the will referred to in section 4</b><br><br>&#9746; This application is for a grant of administration <b>without</b> will annexed or an ancillary grant of administration without will annexed.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip14",
+             "title": "<b>14) Documents referred to in the Will</b><br><br>&#9746; This application is for a grant of administration <b>without</b> will annexed or an ancillary grant of administration without will annexed.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip15",
+             "title": "<b>15) Additional estate grant documents</b><br><br>&#9746; No documents other than those described elsewhere in this submission for estate grant are filedwith this submission for estate grant.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip16",
+             "title": "<b>16) Language of documents</b><br><br>&#9746; All documents filed with this submission for estate grant are written in the English language.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip17",
+             "title": "<b>17) Part 4 - Schedules</b><br><br>&#9746; Attached to this submission for estate grant is a Schedule for Grant of Administration <b>without</b> WillAnnexed.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2Tip17b",
+             "title": "<b>17b) SCHEDULE FOR GRANT OF ADMINISTRATION WITHOUT WILL ANNEXED</b><br><br>(a) spouse, if any, of the deceased<br>{spouseInfo}(b) child(ren), if any, of the deceased<br>{childrenInfo}(c) each person, if any, not named in paragraph (a) or (b), who is entitled to receive all or part of the estate of a person who dies without a will<br><b>no other intestate successors</b><br><br>(d) each creditor of the deceased, if any, not named in paragraph (a), (b) or (c) whose claim exceeds $10,000:<br>{creditorInfo}(e) each citor, if any, not named in paragraph (a), (b), (c) or (d):<br>{citorInfo}",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p2TipPrint",
+             "title": "<b>Save the document</b><br><br>Save the information you entered into the Form P2.<br><br>Press <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P2.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            }
+           ],
+           "visible": false,
+           "visibleIf": "{p2IntroExplanation} > 0"
+          },
+          {
+           "type": "panel",
+           "name": "p2TipFilingPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "p2TipFiling",
+             "title": "<b>Filing Instructions</b><br><br>Now that you have completed all your forms, you need to file them at the {applicantCourthouse} Registry. <br><br><a href=\"https://www2.gov.bc.ca/gov/content/justice/courthouse-services/courthouse-locations\" target=\"_blank\">Click here to find the address of {applicantCourthouse} from the list of Courthouse Locations in B.C.</a><br><br>Remember to bring your:<ul><li>Form P2</li><li>Form P5</li><li>Form P9 (which already has a P1 attached)</li><li>2 copies of the Will Search Notice</li><ul><li>Form P10 (If you were able to get all the information you need)</li></ul></ul><ul>If you would like your own stamped copy of the forms, bring an extra set of copies for yourself.</ul><br>You will need to bring cash, cheque or bank draft for:<ul><li>$200 filing fee if the `estate` is worth more than $25,000</li><li>$40 for each `affidavit` you need to affirm / swear (Form P5 & Form P9) </ul><br>You do not need to have your `Probate Fee` ready right away. The Court will review your application and confirm how much is owed for Probate Fees.<br><br><hr><br>If you have any feedback about this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            }
+           ],
+           "visible": false,
+           "visibleIf": "{p2IntroExplanation} > 0"
+          }
+         ],         
+         "title": "Fill out a Form P2"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}

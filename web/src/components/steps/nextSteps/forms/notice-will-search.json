@@ -1,0 +1,69 @@
+{
+   "pages": [
+      {
+         "name": "willSearchPageTemp",
+         "elements": [
+          {
+           "type": "panel",
+           "name": "willSearchDownloadIntroPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "willSearchDownloadExplanation",
+             "title": "This step will help you fill out the \"Application for Search of Wills Notice\". You need to do this step even if {deceasedName} did not make a `Will` so that The Court sees extra evidence that there is no Will. \n<br><br>\nIf you have already applied for a Search of Wills Notice, ensure that it was done with all of the names you identified in the Form P10. \n<br><br>\nIf there are different spellings or versions of {deceasedName}'s name on the Form P10 that aren't in your original Search of Wills Notice, you will need to do another \"Application for Search of Wills Notice\" with the extra names.\n<br><br>\n<a href=\"https://www2.gov.bc.ca/assets/gov/health/forms/vital-statistics/vsa532_fill.pdf\" target=\"blank\">Click here to download a blank \"Application for Search of Wills Notice\"</a>. (This link opens in a new tab)\n<br><br>\nTo open the PDF, you may need Adobe Reader (free to download) or other similar software. \n<br><br>\n<a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)\n<br><br>\nClick \"Continue\" to get some tips on how to fill out the Form P10 based on the information you've already provided in this service.\n",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            }
+           ]
+          },
+          {
+           "type": "panel",
+           "name": "willSearchTipsPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "willSearchTip1",
+             "title": "<b>Applicant's Information</b>\n<br><br>\n\"RELATIONSHIP TO THE SUBJECT OF THE WILL SEARCH\" means your relationship to {deceasedName}. This should be either spouse or child.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "willSearchTipA",
+             "title": "<b>SECTION A - APPLICATION FOR WILLS SEARCH</b>\n<br><br>\nMake sure you have a photo copy of the `Certificate of Death` included when you send your \"Application fo Search of Wills Notice.\"",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "willSearchTipB",
+             "title": "<b>SECTION B - SOLICITORS OR NOTARIES ONLY</b>\n<br><br>\nLeave this section blank.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "willSearchTipC",
+             "title": "<b>SECTION C - SEARCH REQUEST DETAILS</b>\n<br><br>\n\n\"SURNAME\" also means Last Name or Family name.\n<br>\n\"Given Name\" also means First Name and Middle Names.\n<br><br>\nWhen you fill out the names, start with the Surname, and then add the given names. \n<ul>For example, with Alex Bowie Clark, the Surname is Clark and the given names are Alex Bowie. For this form, write the name in as Clark, Alex Bowie.</ul>\nMake sure to include all the the different spellings and versions of {deceasedName}'s name you wrote down for the Form P10. \n",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "willSearchTipPrint",
+             "title": "<b>Save the document</b>\n<br><br>\nSave and Print the information you entered into the Application for Search of Wills Notice.\n<br><br>\nSend the Application for Search of Wills Notice to Vital Statistics Agency using the contact information on Page 2. This form does not go to The Court. \n<br><br>\nVital Statistics Agency will send you a document called \"Search of Wills Notice\" when they are done with their search. <b>You will need to include 2 copies of the \"Search of Wills Notice\"in your application to The Court.</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            }
+           ],
+           "visible": false,
+           "visibleIf": "{willSearchDownloadExplanation} > 0"
+          }
+         ],      
+         "title": "How to fill out a Notice of Will Search"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}

@@ -67,7 +67,7 @@ export default class Notify extends Vue {
         this.addSurveyListener();
         this.reloadPageInformation();
 
-        console.log(this.step)
+        // console.log(this.step)
     }
 
     public initializeSurvey(){
@@ -96,7 +96,7 @@ export default class Notify extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
-            console.log(this.survey.data);            
+            // console.log(this.survey.data);            
             // this.determineRequiredNotice(); 
             // this.determineNotifyCompleted();          
         })   

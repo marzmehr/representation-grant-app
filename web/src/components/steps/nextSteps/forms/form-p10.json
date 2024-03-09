@@ -1,0 +1,167 @@
+{
+   "pages": [
+      {
+         "name": "p10Page",
+         "elements": [
+          {
+           "type": "panel",
+           "name": "p10IntroPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "p10DownloadExplanation",
+             "title": "This step will help you fill out the Form P10. The Form P10 is a list of {deceasedName}'s `assets`. You need to take your time<br><br><a href=\"https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/probate/p10.pdf?forcedownload=true\">Click here to download a blank \"Form P10 - Affidavit of Assets and Liabilities for Domiciled Estate Grant.\"</a> (This link will download a PDF to your computer)<br><br>To open the PDF, you may need Adobe Reader (free to download) or other similar software. <br><br><a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)<br><br>Click \"Continue\" to get some tips on how to fill out the Form P10 based on the information you've already provided in this service.",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            }
+           ]
+          },
+          {
+           "type": "panel",
+           "name": "p10TipPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "p10Tip1",
+             "title": "<b>1) Affidavit Information</b><br><br>Number: <b>3rd</b><br>Name of person swearing affidavit: <b>{applicantName}</b><br>Date: <b>Leave Blank</b><br>Location: <b>{applicantCourthouse}</b> ",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip2",
+             "title": "<b>2) File Information</b><br><br>Registry Name: <b>{applicantCourthouse}</b><br>File Number: <b>Leave Blank</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip3",
+             "title": "<b>3) Information about the Applicant</b><br><br>Name: <b>{applicantName}</b><br>Address: <b>{applicantOrdinaryAddress.street}, {applicantOrdinaryAddress.city}, {applicantOrdinaryAddress.state}, {applicantOrdinaryAddress.postcode}, {applicantOrdinaryAddress.country}</b><br>Occupation: <b>{applicantOccupation}</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip4",
+             "title": "<b>4) Information about the Deceased</b><br><br>First Name | Middle Names | Last Name<br><b>{deceasedName}</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip5",
+             "title": "<b>5) Grant option</b><br><br>Select: <b>a grant of administration without will annexed</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip6",
+             "title": "<b>6) Additional information</b><br><br>This section is optional. You can use this space to add extra information ahead of time about one or more of {deceasedName}'s `assets` if you think The Court will have questions about them.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip7",
+             "title": "<b>7) Grant option</b><br><br><i>If {deceasedName} owned land or other physical belongings that are registered outside of B.C., choose this option:</i><br><br><ul>&#9746; Attached to this affidavit as Exhibit B is a Statement of Real and Tangible Property Outside of BritishColumbia that discloses<ul>(a) the real property and tangible personal property outside of British Columbia that passes to theapplicant in the applicant’s capacity as the deceased’s personal representative,<br>(b) the value of that property, and<br>(c) the liabilities that charge or encumber that property.</ul></ul><br><i>If {deceasedName} did <b>NOT</b> owned land or other physical belongings that are registered outside of B.C., choose this option:</i><br><br><ul>&#9746; There is no real property or tangible personal property outside of British Columbia that passes to theapplicant in the applicant’s capacity as the deceased’s personal representative.</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip8",
+             "title": "<b>8) Affidavit Information for Exhibit A</b><br><br>Affidavit of: <b>{applicantName}</b><br>Date: <b>leave blank</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tips9",
+             "title": "<b>9) Other names in which the deceased held or may have held an interest in property (inside BC)</b><br><br>This part is very important and it is easy to get wrong. Getting it wrong will not stop your application but it may cost you time and money if you need to redo some forms.<br><br>You need to identify any small difference in spelling that {deceasedName} may have used for different documents.<br><br>For example, if the person who died's name is spelled as <b>Alex Bowie Clark</b> on their primary ID, but spelled as <b>Alex B. Clark</b> for a bank account, then each of these spellings should be written down.<br><br>Go through {deceasedName}'s documents to find all the different spellings or versions of their name in which they hold `assets` that you now need to manage. Write all of the other spellings or versions of their names here.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip10",
+             "title": "<b>10) Real property within British Columbia</b><br><br>Write down information here for any of {deceasedName}'s houses, condominiums or other types of land <b>inside of B.C.</b> that you need a `Representation Grant` to manage.<br><br>If there is nothing here to mention, type in <b>none</b>.<br><br>There are some houses, condominiums or land that you do not need to include here. <br><br>For example, if {deceasedName} owned an house in Joint Tenancy and the other Joint Tenant is alive, you do not need to include that house here because the house automatically passes to the other Joint Tenant.<br><br>Look at the land title documents and talk to the <a href=\"https://ltsa.ca/\" target=\"_blank\">Land Title and Survey Authority of BC if you are not sure if you need to include a property or not.</a> (This link opens in a new tab)<br><br><ul>If you need information for this Form P10 and the organizations holding the `asset` are <b>NOT</b> giving it to you, you can apply for a court document that forces those organizations give you information. There will be a section on the Form P2 to ask for this court document. Get as much information as you can for now and know that there is a path forward.</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip11",
+             "title": "<b>11) Tangible Personal property within British Columbia</b><br><br>Write down information here for any of {deceasedName}'s physical belongings <b>inside of B.C.</b> that you need a `Representation Grant` to manage. <br><br>Examples include cash, cars, jewelry, furniture, shoe collection, etc.<br><br>If there is nothing here to mention, type in <b>none</b>.<br><br><ul>If you need information for this Form P10 and the organizations holding the `asset` are <b>NOT</b> giving it to you, you can apply for a court document that forces those organizations give you information. There will be a section on the Form P2 to ask for this court document. Get as much information as you can for now and know that there is a path forward.</i>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip12",
+             "title": "<b>12) Intangible Personal property within British Columbia</b><br><br>Write down information here for any of {deceasedName}'s non-physical belongings <b>anywhere in the world</b> that you need a `Representation Grant` to manage. <br><br>Examples include bank accounts and investment accounts.<br><br>If there is nothing here to mention, type in <b>none</b>.<br><br><ul>If you need information for this Form P10 and the organizations holding the `asset` are <b>NOT</b> giving it to you, you can apply for a court document that forces those organizations give you information. There will be a section on the Form P2 to ask for this court document. Get as much information as you can for now and know that there is a path forward.</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip13",
+             "title": "<b>13) Gross value of assets less secured debts (inside bc)</b><br><br>Add up the totals in section 10, 11 and 12. This is the amount that will be used to calculate the Probate Fee.<br><br>The `Probate Fee` is part of the cost for confirming that you are the appropriate person to manage the belongings that a person left behind after they died. <br><br>The first $25,000 will not be charged a Probate Fee. For any amount over $25,000, the Probate Fee will be less than 1.4% of the amount. <br><br><a href=\"https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/00_99004_01#section2\" target=\"_blank\">Click here to read more about the Probate Fee from the Probate Fee Act.</a> (This link opens in a new tab)",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip14",
+             "title": "<b>14) Affidavit Information for Exhibit B</b><br><br>Affidavit of: <b>{applicantName}</b><br>Date: <b>leave blank</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip15",
+             "title": "<b>15) Other names in which the deceased held or may have held an interest in property (outside BC)</b><br><br>This part is the same as section 9 but for a different page.<br><br>This part is very important and it is easy to get wrong. Getting it wrong will not stop your application but it may cost you time and money if you need to redo some forms.<br><br>You need to identify any small difference in spelling that {deceasedName} may have used for different documents.<br><br>For example, if the person who died's name is spelled as <b>Alex Bowie Clark</b> on their primary ID, but spelled as <b>Alex B. Clark</b> for a bank account, then each of these spellings should be written down.<br><br>Go through {deceasedName}'s documents to find all the different spellings or versions of their name in which they hold `assets` that you now need to manage. Write all of the other spellings or versions of their names here.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip16",
+             "title": "<b>16) Real property outside British Columbia</b><br><br>Write down information here for any of {deceasedName}'s houses, condominiums or other types of land <b>outside of B.C.</b> that you need a `Representation Grant` to manage.<br><br>If there is nothing here to mention, type in <b>none</b>.<br><br>The items listed here will not be used to calculate the `Probate Fee`.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip17",
+             "title": "<b>17) Tangible Personal property outside British Columbia</b><br><br>Write down information here for any of {deceasedName}'s physical belongings <b>outside of B.C.</b> that you need a `Representation Grant` to manage. <br><br>Examples include cash, cars, jewelry, furniture, shoe collection, etc.<br><br>If there is nothing here to mention, type in <b>none</b>The items listed here will not be used to calculate the `Probate Fee`.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10Tip18",
+             "title": "<b>18) Gross value of assets less secured debts (outside BC)</b> <br><br>Add up the totals in section 16 and 17.<br><br>This is required by law but that amount will <b>NOT</b> be used to calculate the `Probate Fee`.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p10TipPrint",
+             "title": "<b>Save the document</b><br><br>Save the information you entered into the Form P10.<br><br>Press <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P10. <br><br>If you have any feedback about the Form P10 tips in this step, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            }
+           ],
+           "visible": false,
+           "visibleIf": "{p10DownloadExplanation} > 0"
+          }
+         ],         
+         "title": "Fill out a Form P10"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}

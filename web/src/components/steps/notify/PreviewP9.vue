@@ -11,6 +11,7 @@
 import { Component, Prop, Vue} from 'vue-property-decorator';
 import FormP9 from  "./pdf/FormP9.vue"
 import PageBase from "@/components/steps/PageBase.vue";
+import _ from 'underscore';
 
 import * as SurveyVue from "survey-vue";
 import surveyJson from "./forms/preview-p9.json";
@@ -22,6 +23,7 @@ const applicationState = namespace("Application");
 
 import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
 import { stepInfoType } from '@/types/Application';
+import { toggleStep } from '@/components/utils/TogglePages';
 
 @Component({
     components:{
@@ -96,6 +98,7 @@ export default class PreviewP9 extends Vue {
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.survey.setValue("buttonSpinner",false)
+        this.checkErrorOnPages()
     }
 
     public onPrint(body, openDownload?) {
@@ -129,7 +132,28 @@ export default class PreviewP9 extends Vue {
 
     public EnableNext(){
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, 100, false);
+        toggleStep([this.stPgNo.NEXT._StepNo],true)
         this.disableNext=false;        
+    }
+
+    public checkErrorOnPages(){
+        const stepsArr = _.range(0, Object.keys(this.stPgNo).length)    
+        const optionalStepNames = ["NEXT"] 
+        const optionalPageNames = ["PreviewP9"]
+        for(const stepIndex of stepsArr){
+            const step = this.$store.state.Application.steps[stepIndex]
+            if(step.active && optionalStepNames.indexOf(step.name) == -1){
+                for(const page of step.pages){
+                    if(page.active && page.progress!=100 && optionalPageNames.indexOf(page.name) == -1){
+                        console.log(page.name)
+                        this.$store.commit("Application/setCurrentStep", step.id);
+                        this.$store.commit("Application/setCurrentStepPage", {currentStep: step.id, currentPage: page.key });                        
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;        
     }
 
     public onPrev() {

@@ -15,7 +15,7 @@ Vue.filter('get-current-version', function(){
 	//___________________________
     //___________________________
     //___________________________NEW VERSION goes here _________________
-    const CURRENT_VERSION = "1.1";
+    const CURRENT_VERSION = "1.2";
     //__________________________
     //___________________________
     //___________________________
@@ -43,6 +43,16 @@ Vue.filter('beautify-date-weekday', function(date){
 		return	moment(date).format('ddd MMM DD, YYYY HH:mm');
 	else
 		return ''
+})
+
+Vue.filter('convert-time24to12', function(time) {
+    const time12 = (Number(time.substr(0,2)) % 12 || 12 ) + time.substr(2,3)
+    
+    if (Number(time.substr(0,2))<12) {
+      return time12 +' AM'
+    } else {
+      return time12 +' PM'
+    }  
 })
 
 Vue.filter('scrollToLocation', function(locationName){

@@ -34,3 +34,12 @@ export interface addressInfoType {
     country: string;
     postcode: string;
 }
+
+export interface courtLocationInfoType {
+    address: string;
+    city: string;
+    id: string;
+    name: string;
+    postalCode: string;
+    province: string;
+}

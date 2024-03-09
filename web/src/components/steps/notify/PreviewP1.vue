@@ -11,6 +11,7 @@
 import { Component, Prop, Vue} from 'vue-property-decorator';
 import FormP1 from  "./pdf/FormP1.vue"
 import PageBase from "@/components/steps/PageBase.vue";
+import _ from 'underscore';
 
 import * as SurveyVue from "survey-vue";
 import surveyJson from "./forms/preview-p1.json";
@@ -22,7 +23,7 @@ const applicationState = namespace("Application");
 
 import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
 import { stepInfoType } from '@/types/Application';
-import { togglePages } from '@/components/utils/TogglePages';
+import { togglePages, toggleStep } from '@/components/utils/TogglePages';
 
 @Component({
     components:{
@@ -36,8 +37,14 @@ export default class PreviewP1 extends Vue {
     step!: stepInfoType;
 
     @applicationState.State
+    public steps!: stepInfoType[];
+
+    @applicationState.State
     public stPgNo!: stepsAndPagesNumberInfoType;
     
+    @applicationState.State
+    public applicantName!: string;
+
     @applicationState.State
     public deceasedName!: string;
         
@@ -97,6 +104,7 @@ export default class PreviewP1 extends Vue {
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.survey.setValue("buttonSpinner",false)
+        this.checkErrorOnPages()
     }
 
     public onPrint(body, openDownload?) {
@@ -131,9 +139,34 @@ export default class PreviewP1 extends Vue {
     public EnableNext(){
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, 100, false);
         // Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.NotifyPeople, 50, false);       
-        togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], true, this.currentStep)
-
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, false);
+        const listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName)
+        console.log(listOfNotifyingPeople)
+        togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], listOfNotifyingPeople.length>0, this.currentStep)
+        if(listOfNotifyingPeople?.length==0)
+            toggleStep([this.stPgNo.NEXT._StepNo],false)
         this.disableNext=false;        
+    }
+
+
+    public checkErrorOnPages(){
+        const stepsArr = _.range(0, Object.keys(this.stPgNo).length)    
+        const optionalStepNames = ["NEXT"] 
+        const optionalPageNames = ["NotifyPeople", "PreviewP1", "PreviewP9"]
+        for(const stepIndex of stepsArr){
+            const step = this.$store.state.Application.steps[stepIndex]
+            if(step.active && optionalStepNames.indexOf(step.name) == -1){
+                for(const page of step.pages){
+                    if(page.active && page.progress!=100 && optionalPageNames.indexOf(page.name) == -1){
+                        console.log(page.name)
+                        this.$store.commit("Application/setCurrentStep", step.id);
+                        this.$store.commit("Application/setCurrentStepPage", {currentStep: step.id, currentPage: page.key });                        
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;        
     }
 
 
