@@ -48,6 +48,9 @@ export default class ApplicantService extends Vue {
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
 
     @applicationState.Action
+    UpdateApplicationLocation!: (newApplicationLocation) => void
+
+    @applicationState.Action
     public UpdateGeneratedForms!: (newGeneratedForms) => void
 
     survey = new SurveyVue.Model(surveyJson);
@@ -124,7 +127,11 @@ export default class ApplicantService extends Vue {
             }else if(this.survey?.data?.applicantHasLawyer == 'n'){
                 this.disableNextButton = false;
             }
-            
+
+            if(options.name=='applicantCourthouse'){                                
+                const courtLocation = this.locationsInfo.find(location => location["name"]+" ("+location["id"]+")" == options.value);                
+                this.UpdateApplicationLocation(courtLocation)
+            }            
         })   
     }
 

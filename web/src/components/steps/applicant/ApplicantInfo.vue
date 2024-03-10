@@ -90,7 +90,7 @@ export default class ApplicantInfo extends Vue {
     
     public adjustSurveyForRelatedPeople(){
 
-        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
+        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true);
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
         
         //TODO Depends on the Survey
@@ -105,7 +105,9 @@ export default class ApplicantInfo extends Vue {
             togglePages([p.ApplicantService], (this.survey.data.applicantCited && this.survey.data.applicantName), this.stPgNo.APPLICANT._StepNo);
                 
             if(options.name=="applicantName") {
-                this.$store.commit("Application/setApplicantName", this.survey.data["applicantName"]);
+                const applicantNameStr = options.value=="other"? "applicantNameComment": "applicantName";
+                // console.log(this.survey.data[applicantNameStr])
+                this.$store.commit("Application/setApplicantName", this.survey.data[applicantNameStr]);
             }    
         })   
     }

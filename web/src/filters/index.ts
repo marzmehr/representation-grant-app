@@ -2,14 +2,20 @@ import Vue from 'vue'
 import moment from 'moment-timezone';
 import store from '@/store';
 import {customCss} from './bootstrapCSS'
-import { childDetailsDataInfoType } from '@/types/Application/Children';
-import { spouseInfoType } from '@/types/Application/Spouse';
+// import { childDetailsDataInfoType } from '@/types/Application/Children';
+// import { spouseInfoType } from '@/types/Application/Spouse';
+import { 
+	getRelatedSpouses, 
+	getRelatedChildren,
+	getRelatedCreditor,
+	getRelatedCreditorOrg 
+} from './relatedPeople';
 
 Vue.filter('get-current-version', function(){	
 	//___________________________
     //___________________________
     //___________________________NEW VERSION goes here _________________
-    const CURRENT_VERSION = "1.1";
+    const CURRENT_VERSION = "1.2";
     //__________________________
     //___________________________
     //___________________________
@@ -37,6 +43,16 @@ Vue.filter('beautify-date-weekday', function(date){
 		return	moment(date).format('ddd MMM DD, YYYY HH:mm');
 	else
 		return ''
+})
+
+Vue.filter('convert-time24to12', function(time) {
+    const time12 = (Number(time.substr(0,2)) % 12 || 12 ) + time.substr(2,3)
+    
+    if (Number(time.substr(0,2))<12) {
+      return time12 +' AM'
+    } else {
+      return time12 +' PM'
+    }  
 })
 
 Vue.filter('scrollToLocation', function(locationName){
@@ -81,8 +97,8 @@ Vue.filter('getFullAddress',function(nameObject){
 		return 	(nameObject.street?(nameObject.street +", "):'') +
 				(nameObject.city?(nameObject.city +", "):'') +
 				(nameObject.state?(nameObject.state +", "):'') +
-				(nameObject.country?(nameObject.country +", "):'') +
-				(nameObject.postcode?(nameObject.postcode ):' ');
+				(nameObject.postcode?(nameObject.postcode +", "):'') +
+				(nameObject.country?(nameObject.country ):' ');
 	} else{
 		return " "
 	}
@@ -208,59 +224,13 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 })
 
 
-Vue.filter('getRelatedPeopleInfo', function(step){
-	const relatives = [];
-    let spouseList: spouseInfoType[] = [];
-    let childList: childDetailsDataInfoType[] = [];
-    if (step.result?.spouseSurvey?.data) {
-        spouseList = step.result.spouseSurvey.data;
-    } 
-
-    for (const spouse of spouseList){
-        relatives.push(spouse.spouseName);
-
-        if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'n' &&
-        spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianName?.length>0){
-
-            relatives.push(spouse.spouseGuardianName);
-        }
-
-        if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'y' &&
-            spouse.spouseIsCompetent == 'n' && spouse.spouseHasNominee == 'y' && spouse.spouseNomineeName?.length>0){
-            relatives.push(spouse.spouseNomineeName);
-        }
-
-        if(spouse.spouseIsAlive == 'n' && spouse.spouseDied5DaysAfter == 'y' &&
-        spouse.spouseHasPersonalRep == 'y' && spouse.spousePersonalRepName?.length>0){
-            relatives.push(spouse.spousePersonalRepName);
-        }
-    }
-
-    if (step.result?.childrenSurvey?.data) {
-        childList = step.result.childrenSurvey.data;
-    } 
-
-    for (const child of childList){
-        relatives.push(child.childName);
-
-        if(child.childIsAlive == 'y' && child.childIsAdult == 'n' &&
-            child.childHasGuardian == 'y' && child.childGuardianName?.length>0){
-
-            relatives.push(child.childGuardianName);
-        }
-
-        if(child.childIsAlive == 'y' && child.childIsAdult == 'y' &&
-            child.childIsCompetent == 'n' && child.childHasNominee == 'y' && child.childNomineeName?.length>0){
-            relatives.push(child.childNomineeName);
-        }
-
-        if(child.childIsAlive == 'n' && child.childDiedAfter == 'y' &&
-            child.childHasPersonalRep == 'y' && child.childPersonalRepName?.length>0){
-            relatives.push(child.childPersonalRepName);
-        }
-    }
-    
-    return relatives;
+Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg){
+	const related = [];
+	related.push(...getRelatedSpouses(step))
+	related.push(...getRelatedChildren(step))
+	if(addCreditor)	related.push(...getRelatedCreditor(step))
+    if(addCreditorOrg)	related.push(...getRelatedCreditorOrg(step))
+    return related;
 })
 
 
@@ -290,16 +260,15 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 				margin: .7in 0.7in 0.9in 0.7in !important;
 				font-size: 10pt !important;			
 				@bottom-left {
-					content:`+ pageFooterLeft +
+					content:`+ pageFooterLeft +`;`+
 					`white-space: pre;
-					font-size: 8pt;
-					font-family: BCSans !important;
+					font-size: 7pt;
 					color: #606060;
 				}
 				@bottom-right {
 					content:`+pageFooterRight+` " Page " counter(page) " of " counter(pages);
-					font-size: 8pt;
-					font-family: BCSans !important;
+					white-space: pre;
+					font-size: 7pt;
 					color: #606060;
 				}
 			}`+
@@ -330,7 +299,7 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 			`section:before {font-weight: bolder; content:counter(question-counter) ".";}`+
 			`section.resetquestion{counter-reset: question-counter;}`+
 			`ol.resetcounter{list-style: none;counter-reset: bracket-counter;}`+
-			`ol li.bracketnumber{text-indent: -35px;text-align: justify;text-justify: inter-word;margin:1rem 0;counter-increment: bracket-counter;}`+
+			`ol li.bracketnumber{text-indent: -20px;text-align: justify;text-justify: inter-word;margin:1rem 0;counter-increment: bracket-counter;}`+
 			`ol li.bracketnumber:before {content:"(" counter(bracket-counter) ") ";font-weight: bold;}`+
 			`ol.resetlist {list-style: none;counter-reset: list-counter;margin-left:-3.5rem;}`+
 			`ol li.listnumber{counter-increment: list-counter;}`+

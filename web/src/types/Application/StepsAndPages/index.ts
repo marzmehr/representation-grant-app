@@ -16,6 +16,7 @@ export interface stepsAndPagesNumberInfoType{
     OVERVIEW: OVERVIEWstPgTypes;
     REVIEW: REVIEWstPgTypes;
     SUBMIT: SUBMITstPgTypes;
+    NEXT: NEXTstPgTypes;
 }
  
 export interface DECEASEDstPgTypes{
@@ -86,4 +87,12 @@ export interface SUBMITstPgTypes{
     ReviewAndSave: number;
     ReviewAndSubmit: number;  
     NextSteps: number;    
+}
+
+export interface NEXTstPgTypes{
+    _StepNo: number;
+    FormP5: number;
+    FormP10: number;
+    NoticeWillSearch: number;
+    FormP2: number;    
 }

@@ -473,10 +473,58 @@ class Application extends VuexModule {
         s.pages.push(p);
 
         this.steps.push(s);
+       
+        //Submit STOP
+        //NextSteps START
+        s = {} as stepInfoType;
+        
+        s.active = false;
+        s.id = "10";
+        s.name = "NEXT";
+        s.label = "Next Steps";
+        s.icon = "file-circle-check";
+        s.lastUpdate = null;
+        s.type = "next";
+        s.pages = new Array<pageInfoType>();
+        s.currentPage = 0;
+
+        p = {} as pageInfoType;
+        p.key = "0";
+        p.name = "FormP5";
+        p.label = "Fill out a Form P5";        
+        p.active = true;
+        p.progress = 0;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "1";
+        p.name = "FormP10";
+        p.label = "Fill out a Form P10";        
+        p.active = true;
+        p.progress = 0;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "2";
+        p.name = "NoticeWillSearch";
+        p.label = "How to fill out a Notice of Will Search";        
+        p.active = true;
+        p.progress = 0;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "3";
+        p.name = "FormP2";
+        p.label = "Fill out a Form P2";        
+        p.active = true;
+        p.progress = 0;
+        s.pages.push(p);
+
+        this.steps.push(s);
+
+        //NextSteps STOP 
 
         //console.log(this.steps)
-        //Submit STOP
-
     }
     @Action
     public UpdateInit(newVersion: string) {
@@ -546,7 +594,7 @@ class Application extends VuexModule {
     @Action
     public UpdateStPgNo(newStPgNo) {
         const stepsAndPagesNumber = {DECEASED: {}, WILL:{}, RELATIONS: {}, APPLICANT: {}, NOTIFY: {}, 
-            BELONGINGS: {}, NOWILL: {}, OVERVIEW: {}, REVIEW: {}, SUBMIT: {}
+            BELONGINGS: {}, NOWILL: {}, OVERVIEW: {}, REVIEW: {}, SUBMIT: {}, NEXT: {}
         } as stepsAndPagesNumberInfoType;
         const steps = this.steps
         for(const step of steps){

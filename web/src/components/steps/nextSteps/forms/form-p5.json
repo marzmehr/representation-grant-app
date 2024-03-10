@@ -1,0 +1,127 @@
+{
+   "pages": [
+      {
+         "name": "p5Page",
+         "elements": [
+          {
+           "type": "panel",
+           "name": "p5IntroPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "p5IntroExplanation",
+             "title": "The next few steps will tell you where to download the remaining forms you need to finish your application.<br><br>Based on your answers so far, you will need to finish the following forms:<ul><li>Form P5,</li><li>Form P10,</li><li>Application for Search of Wills Notice (if you haven't finished one already), and </li><li>Form P2</li></ul>This step will tell you where to download the Form P5 and help explain some of its complicated questions. ",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            }
+           ]
+          },
+          {
+           "type": "panel",
+           "name": "p5InfoPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "p5DownloadExplanation",
+             "title": "<a href=\"https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/probate/p5.pdf?forcedownload=true\">Click here to download a blank \"Form P5 - Affidavit of Applicant for Grant of Administration Without Will Annexed\"</a> (This link will download a PDF to your computer)<br><br>To open the PDF, you may need Adobe Reader (free to download) or other similar software. <br><br><a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)<br><br>Click \"Continue\" to get some tips on how to fill out the Form P5 based on the information you've already provided in this service.",
+             "titleLocation": "hidden",
+             "isRequired": true,
+             "requiredErrorText": "Please press Continue"
+            }
+           ],
+           "visible": false,
+           "visibleIf": "{p5IntroExplanation} > 0"
+          },
+          {
+           "type": "panel",
+           "name": "p5TipPanel",
+           "elements": [
+            {
+             "type": "infotext",
+             "name": "p5Tip1",
+             "title": "<b>1) Affidavit Information</b><br><br>Number: <b>2nd</b><br>Name of person swearing affidavit: <b>{applicantName}</b><br>Date: <b>leave blank</b><br>Location: <b>{applicantCourthouse}</b> ",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5Tip2",
+             "title": "<b>2) File Information</b><br><br>Registry Name: <b>{applicantCourthouse}</b><br>File Number: <b>leave blank</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5Tip3",
+             "title": "<b>3) Information about the Applicant</b><br><br>Name: <b>{applicantName}</b><br>Address: <b>{applicantOrdinaryAddress.street}, {applicantOrdinaryAddress.city}, {applicantOrdinaryAddress.state}, {applicantOrdinaryAddress.postcode}, {applicantOrdinaryAddress.country}</b><br>Occupation: <b>{applicantOccupation}</b><br>I am: <b>the applicant</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5Tip4",
+             "title": "<b>4) Information about the Deceased</b><br><br>First Name | Middle Names | Last Name<br><b>{deceasedName}</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5Tip5",
+             "title": "<b>5) Additional Information about the Applicant</b><br><br>☒ I am an individual and ordinarily live at the following location:<br><br>City/town: <b>{applicantOrdinaryAddress.city}</b><br>Province / State: <b>{applicantOrdinaryAddress.state}</b><br>Country: <b>{applicantOrdinaryAddress.country}</b>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5Tip6",
+             "title": "<b>6) Priority of Applicants in an intestate estate</b><br><br><i>If <b>you are {deceasedName}'s spouse</b>, choose this option:</i><br><ul>☒ I a person referred to in paragraph <b>(a)</b> of section 130 of the Wills, Estates andSuccession Act.</ul><br><i>If <b>you are {deceasedName}'s child and {deceasedName}'s spouse wants you to apply</b>, choose this option:</i><br><ul>☒ I am a person nominated under paragraph<b>(a)</b> of section 130 of the Wills, Estates and Succession  Act.</ul><br><i>If you are {deceasedName}'s child and <b>{deceasedName}'s spouse has died or is still living but does NOT want you to apply</b> but most of <b>your siblings want you to apply</b>, choose this option:</i><br><ul>☒ I am a person referred to in paragraph <b>(b)</b> of section 130 of the Wills, Estates andSuccession Act.</ul><br><i>If you are {deceasedName}'s child and <b>{deceasedName}'s spouse has died or is still living but does NOT want you to apply</b> and most of <b>your siblings do NOT want you to apply</b>, choose this option:</i><br><ul>☒ I am a person referred to in paragraph <b>(d)</b> of section 130 of the Wills, Estates andSuccession Act.</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5Tip7",
+             "title": "<b>7) Delivery</b><br><br><i>If you did NOT need to give a Form P1 to the Public Guardian and Trustee (PGT), choose this option:</i><br><br><ul>☒ I am not obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to thePublic Guardian and Trustee.</ul><br><i>If you needed to give a Form P1 to the Public Guardian and Trustee (PGT), choose this option:</i><br><br><ul>☒ I am obliged under Rule 25-3 (11) to deliver a filed copy of this submission for estate grant to thePublic Guardian and Trustee.</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5Tip8",
+             "title": "<b>8) Testamentary Document</b><br><br><i>If {deceasedName} did not make a `Will` at all, choose this option:</i><br><br><ul>☒ no testamentary document of the deceased has been found.</ul><br><i>If {deceasedName} did tried to make a `Will` but you do NOT think the Will is valid, choose this option and describe why. Also remember to photocopy the invalid will and bring it with you to affirm / swear this Form P5.</i><br><br><ul>☒ one or more testamentary documents have been found. A copy of the testamentary document(s) is/are attached as an exhibit to the affidavit. I believe that the testamentary document(s) is/are invalid or otherwise not relevant to this application for the following reasons:</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5Tip9",
+             "title": "<b>9) Information about the Grant</b><br><br><i>Based on your answers from past steps, choose this option:</i><br><br><ul>☒ I am not aware of there being any application for a grant of probate or administration, or any grant ofprobate or administration, or equivalent, having been issued, in relation to the deceased, in BritishColumbia or in any other jurisdiction.</ul><br><i>This service has not asked you this next question yet so you will have to fill it out yourself. This question is asking if you know anyone else, who is NOT working together with you, applying for their own `Representation Grant` for {deceasedName}.</i><br><br><ul>The following person(s) has/have also applied for a grant of probate or administration:<br><br>If there is no one else applying for their own Representation Grant, write in \"<b>no one else has/have applied</b>.\"</ul>",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5Tip10",
+             "title": "<b>10) Additional information</b><br><br>This section is optional. You can use this space to add extra information about why you think The Court should give you a `Representation Grant` for {deceasedName}. The Court may be interested in information about your relationship with {deceasedName} that would make you more trust worthy when managing their belongings.",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            },
+            {
+             "type": "infotext",
+             "name": "p5TipPrint",
+             "title": "<b>Save the document</b><br><br>Save the information you entered into the Form P5.<br><br>Press <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P5. <br><br>If you have any feedback about the Form P5 tips in this step, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+             "titleLocation": "hidden",
+             "requiredErrorText": "Please press Continue"
+            }
+           ],
+           "visible": false,
+           "visibleIf": "{p5DownloadExplanation} > 0"
+          }
+         ],
+         "title": "Fill out a Form P5"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}

@@ -226,15 +226,17 @@
                     "visibleIf": "({applicantCitorName} notempty) and {applicantCitorIsAlive} = 'y' and {applicantCitorIsAdult} = 'n' and {applicantCitorIsAdultNoExplanation} > 0"
                 },
                 {
+                    "type": "yesno",
+                    "name": "applicantCitorIsCompetent",                            
+                    "title": "Is {applicantCitorName} `mentally competent`?",
+                    "isRequired": true,
+                    "visible": false,
+                    "visibleIf": "({applicantCitorName} notempty) and {applicantCitorIsAlive} = 'y' and {applicantCitorIsAdult} = 'y'"
+                },
+                {
                     "type": "panel",
                     "name": "ApplicantCitorAliveAdultPanel",
-                    "elements": [
-                        {
-                            "type": "yesno",
-                            "name": "applicantCitorIsCompetent",                            
-                            "title": "Is {applicantCitorName} `mentally competent`?",
-                            "isRequired": true
-                        },
+                    "elements": [                        
                         {
                             "type": "infotext",
                             "name": "applicantCitorIsCompetentNoExplanation",

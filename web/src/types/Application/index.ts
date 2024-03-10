@@ -103,27 +103,32 @@ export interface stepInfoType {
     previewP9Survey?: any;
 
     //__Step 5 BELONGINGS
-    LandBuildingsSurvey?: any;
-    VehiclesSurvey?: any;
-    BankAccountsSurvey?: any;
-    PensionsInsuranceSurvey?: any;
-    PersonalItemsSurvey?: any;
+    landBuildingsSurvey?: any;
+    vehiclesSurvey?: any;
+    bankAccountsSurvey?: any;
+    pensionsInsuranceSurvey?: any;
+    personalItemsSurvey?: any;
 
     //__Step 6 NOWILL
-    NoWillNotificationSurvey?: any;
+    noWillNotificationSurvey?: any;
 
     //__Step 7 OVERVIEW
-    WillSearchCheckSurvey?: any;
-    FinalizeAssetValuesSurvey?: any;
+    willSearchCheckSurvey?: any;
+    finalizeAssetValuesSurvey?: any;
 
     //__Step 8 REVIEW
-    ReviewYourAnswersSurvey?: any;
+    reviewYourAnswersSurvey?: any;
 
     //__Step 9 SUBMIT
-    FilingOptionsSurvey?: any;
-    ReviewAndPrintSurvey?: any;
-    ReviewAndSaveSurvey?: any;
-    ReviewAndSubmitSurvey?: any; 
-    NextStepsSurvey?: any;
+    filingOptionsSurvey?: any;
+    reviewAndPrintSurvey?: any;
+    reviewAndSaveSurvey?: any;
+    reviewAndSubmitSurvey?: any; 
+    nextStepsSurvey?: any;
 
+    //__Step 10 SUBMIT
+    formP5Survey?: any;
+    formP10Survey?: any;
+    noticeWillSearchSurvey?: any;
+    formP2Survey?: any;
   }

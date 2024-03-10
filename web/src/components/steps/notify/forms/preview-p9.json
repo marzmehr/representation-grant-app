@@ -4,47 +4,45 @@
          "name": "tellPeople",
          "elements": [
             {
-
                "type": "panel",
-               "name": "notifyDownloadP1Panel",
+               "name": "notifyP9DownloadPanel",
                "elements": [
                   {
-                  "type": "infotext",
-                  "name": "notifyP1DownloadExplanation",
-                  "title": "This service will now create Form P1 for you based on the information you have confirmed. \n<br><br>\nYou will give the Form P1 to people who need to know you are applying to manage {deceasedName}'s belongings.\n<br><br>\nThe P1 has instructions about how someone can tell the Court if they don't think you should manage {deceasedName}'s belongings.",
-                  "titleLocation": "hidden",
-                  "description": "[when read-only-answers get enabled] Next, download Form P1.",
-                  "requiredErrorText": "Please press Continue"
+                     "type": "infotext",
+                     "name": "notifyP9DownloadIntro",
+                     "title": "This service will now create the Form P9. \n<br><br>\nThe Form P9 is an `affidavit` to show the Court the details of how and when you gave people a Form P1. ",
+                     "titleLocation": "hidden",
+                     "requiredErrorText": "Please press Continue"
                   },
                   {
-                  "type": "formdownloadbutton",
-                  "name": "notifyP1DownloadButton",
-                  "title": " ",
-                  "description": "It may take a few seconds for the service to create your Form P1.",
-                  "buttonText": "Download Form P1 PDF",
-                  "textClass":"my-4",
-                  "variant":"primary",
-                  "buttonType":"print",
-                  "formName": "FormP1"
+                     "type": "formdownloadbutton",
+                     "name": "notifyP9DownloadButton",
+                     "title": " ",
+                     "description": "It may take a few seconds for the service to create your Form P9.",
+                     "buttonText": "Download Form P9 PDF",
+                     "textClass":"my-4",
+                     "variant":"primary",
+                     "buttonType":"print",
+                     "formName": "FormP9"
                   },
                   {
-                  "type": "helptext",
-                  "name": "notifyDownloadP1FAQ1",
-                  "title": "How do I use a PDF?",
-                  "titleLocation": "hidden",
-                  "body": "A PDF stands for Portable Document Format. It is a type of file that can be saved onto your computer. To open the PDF, you may need Adobe Reader (free to download) or other similar software. \n<br><br>\n<a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)"
+                     "type": "helptext",
+                     "name": "notifyDownloadP1FAQ1",
+                     "title": "How do I use a PDF?",
+                     "titleLocation": "hidden",
+                     "body": "A PDF stands for Portable Document Format. It is a type of file that can be saved onto your computer. To open the PDF, you may need Adobe Reader (free to download) or other similar software. \n<br><br>\n<a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)"
                   },
                   {
-                  "type": "infotext",
-                  "name": "notifyP1InstructionsExplanation",
-                  "title": "Now that you have downloaded the Form P1, you will need to give it to people who need to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThere are many ways you can give someone a Form P1:\n<ul>\n<li>In person (print the Form P1)</li>\n<li>Physical mail (print the Form P1)</li> \n<ul>\n<li>(do NOT send it by Registered Mail)</li>\n</ul>\n<li>Electronically (e-mail, fax, direct/private messages, etc)</li>\n<ul>\n<li>If you give someone a Form P1 electronically, you need to ask them to write back to tell you they got it.</li>\n<li>Their response could be as simple as  \"thanks\" or \"I have received your email\".</li>\n</ul>\n</ul>\n<br>\nBelow is a list of people (you identified in earlier steps) who you need to give a Form P1. You will be asked about when and how you gave those people a Form P1.\n<br><br>\nIf you choose to give a Form P1 to people not on this list, you do not need to keep track of them in this service.\n",
-                  "titleLocation": "hidden",
-                  "requiredErrorText": "Please press Continue"
-                  }                 
+                     "type": "infotext",
+                     "name": "notifyP9DownloadExit",
+                     "title": "You will need swear or affirm the Form P9 `affidavit`.\n<br><br>\nYou can choose to do this right away, or wait until this service creates all the other documents you will need so that you can take everything to the courthouse at the same time.\n<br><br>\nTo swear or affirm an affidavit, you can go to a variety of service providers including:\n<ul>\n<li>a lawyer</li>\n<li>a notary</li>\n<li>a commissioner for taking affidavits (available at courthouses)</li>\n</ul>",
+                     "titleLocation": "hidden",
+                     "requiredErrorText": "Please press Continue"
+                  }               
                ]               
             }
          ],
-         "title": "Preview and Download Form P1"
+         "title": "Preview and Download Form P9"
       }
    ],
    "showQuestionNumbers": "off",
