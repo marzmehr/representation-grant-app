@@ -56,7 +56,7 @@
                                 </b-row>
                                 <div class="row justify-content-center">                       
                                     <a class="btn btn-primary text-white btn-lg register-button" style="padding-left: 4.5rem; padding-right: 4.5rem;" @click="navigate('new')">
-                                        Lets get started
+                                        Let's get started
                                     </a>                        
                                 </div>
                             </b-col>
@@ -183,7 +183,7 @@ export default class LandingPage extends Vue {
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        opacity: 0.9;
+        opacity: 0.75;
     }
 
     .wrap:before {

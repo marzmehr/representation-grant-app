@@ -76,14 +76,28 @@ export default class PreQualification extends Vue {
 
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => { 
-            console.log(this.survey.data) 
-            console.log(options)        
-            if (this.survey.data.willExists == 'n' && this.survey.data.qualifyingDiedAfterWESA == 'y' && this.survey.data.qualifyingTerms > 0 ) 
-            {
-                this.displayButton = true;
-            } else {
-                this.displayButton = false;
-            }          
+            console.log(this.survey.data)
+            const surveyData = this.survey.data;
+            this.displayButton = false;
+
+            if(surveyData){
+                const qualify = (surveyData.qualifyingTerms>0) &&             
+                (surveyData.qualifyingDiedAfterWESA == 'y') && 
+                (surveyData.willExists == 'n') && 
+                (
+                    (surveyData.registeredIndian == 'y' && surveyData.registeredIndianReferredToBC == 'y') || 
+                    (surveyData.registeredIndian == 'n' && surveyData.registeredIndianEntitled == 'y' && surveyData.registeredIndianReferredToBC == 'y') || 
+                    (surveyData.registeredIndian == 'n' && surveyData.registeredIndianEntitled == 'n')
+                ) && 
+                (
+                    (surveyData.needGrant == 'y') || (surveyData.needGrant == 'n' && surveyData.stillNeedGrant == 'y')
+                ) && 
+                (surveyData.qualifyingTempScope == 'y') && 
+                (surveyData.qualifyingIntroExplanation > 0)
+
+                this.displayButton = qualify;
+
+            }     
         })
     } 
 
