@@ -105,10 +105,10 @@ export default class Notify extends Vue {
     public reloadPageInformation() {
         //console.log(this.step.result) 
 
-        if (this.step?.result?.["notifySurvey"]?.data && 
-            this.isRelatedPeopleSame(this.step?.result?.["notifySurvey"]?.data)
+        if (this.step?.result?.notifyPeopleSurvey?.data && 
+            this.isRelatedPeopleSame(this.step?.result?.notifyPeopleSurvey?.data)
         ){
-            this.survey.data = this.step.result["notifySurvey"].data;
+            this.survey.data = this.step.result.notifyPeopleSurvey.data;
         } 
         
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;        
@@ -118,7 +118,7 @@ export default class Notify extends Vue {
             const notifyingPerson = this.listOfNotifyingPeople[inx]
             this.survey.setValue(`recipientName[${inx}]`, notifyingPerson)
         } 
-        
+        this.survey.setValue("totalRecipients",this.listOfNotifyingPeople.length)
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         // this.determineRequiredNotice(); 
         // this.determineNotifyCompleted(); 
@@ -145,7 +145,7 @@ export default class Notify extends Vue {
 
     beforeDestroy() {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);       
-        this.UpdateStepResultData({step:this.step, data: {notifySurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}});
+        this.UpdateStepResultData({step:this.step, data: {notifyPeopleSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}});
     }
 
     // public determineNotifyCompleted(){

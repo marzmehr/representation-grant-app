@@ -97,8 +97,8 @@ Vue.filter('getFullAddress',function(nameObject){
 		return 	(nameObject.street?(nameObject.street +", "):'') +
 				(nameObject.city?(nameObject.city +", "):'') +
 				(nameObject.state?(nameObject.state +", "):'') +
-				(nameObject.country?(nameObject.country +", "):'') +
-				(nameObject.postcode?(nameObject.postcode ):' ');
+				(nameObject.postcode?(nameObject.postcode +", "):'') +
+				(nameObject.country?(nameObject.country ):' ');
 	} else{
 		return " "
 	}
@@ -260,16 +260,15 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 				margin: .7in 0.7in 0.9in 0.7in !important;
 				font-size: 10pt !important;			
 				@bottom-left {
-					content:`+ pageFooterLeft +
+					content:`+ pageFooterLeft +`;`+
 					`white-space: pre;
-					font-size: 8pt;
-					font-family: BCSans !important;
+					font-size: 7pt;
 					color: #606060;
 				}
 				@bottom-right {
 					content:`+pageFooterRight+` " Page " counter(page) " of " counter(pages);
-					font-size: 8pt;
-					font-family: BCSans !important;
+					white-space: pre;
+					font-size: 7pt;
 					color: #606060;
 				}
 			}`+
@@ -300,7 +299,7 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 			`section:before {font-weight: bolder; content:counter(question-counter) ".";}`+
 			`section.resetquestion{counter-reset: question-counter;}`+
 			`ol.resetcounter{list-style: none;counter-reset: bracket-counter;}`+
-			`ol li.bracketnumber{text-indent: -35px;text-align: justify;text-justify: inter-word;margin:1rem 0;counter-increment: bracket-counter;}`+
+			`ol li.bracketnumber{text-indent: -20px;text-align: justify;text-justify: inter-word;margin:1rem 0;counter-increment: bracket-counter;}`+
 			`ol li.bracketnumber:before {content:"(" counter(bracket-counter) ") ";font-weight: bold;}`+
 			`ol.resetlist {list-style: none;counter-reset: list-counter;margin-left:-3.5rem;}`+
 			`ol li.listnumber{counter-increment: list-counter;}`+
