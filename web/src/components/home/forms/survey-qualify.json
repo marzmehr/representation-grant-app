@@ -127,14 +127,14 @@
                             "name": "registeredIndianReferredToBC",
                             "visible": false,
                             "visibleIf": "{registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y')",
-                            "title": "Have you contacted an estate officer at Indigenous Services Canada?"
+                            "title": "Have you contacted an estate officer at Indigenous Services Canada (ISC) and were told to go to the Supreme Court of British Columbia to get a Representation Grant for the deceased?"
                         },
                         {
                             "type": "infotext",
                             "name": "registeredIndianYesExplanation",
                             "visible": false,
-                            "visibleIf": "({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y')) and {registeredIndianReferredToBC} = 'n'",
-                            "title": "According to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of a Registered Indian who has died.<br><br>An Estate Officer at Indigenous Services Canada can assist you with this. For more information, <a href='file:///home/marzieh/Desktop/Court-Services/repgrant/REPGRANT-415/click%20here%20to%20access%20Indigenous%20Relations%20Canada' target='_blank'>click here to access Indigenous Relations Canada</a>. (This link opens in a new tab)<br><br>For more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)",
+                            "visibleIf": "{registeredIndian} = 'y' and {registeredIndianReferredToBC} = 'n'",
+                            "title": "If the deceased was a Registered Indian and Indigenous Services Canada (ISC) did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a Representation Grant.<br><br>According to the Government of Canada's Indian Act, Indigenous Services Canada (ISC) is in charge of choosing who will manage the property of a Registered Indian who has died.<br><br>An Estate Officer at Indigenous Services Canada can assist you with this. For more information, <a href='https://www.sac-isc.gc.ca/eng/1100100032357/1581866877231' target='_blank'>click here to access Indigenous Relations Canada</a>. (This link opens in a new tab)<br><br>For more information, <a href='https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252' target='_blank'>click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)<br><br>Please Note: The Indian Act is federal legislation. The Government of Canada is separate and independent from the Government of British Columbia. All inquiries about the Indian Act should be directed to the Government of Canada.",
                             "titleLocation": "hidden",
                             "requiredErrorText": "Please press Continue",
                             "messageStyle": "error"
@@ -144,7 +144,7 @@
                             "name": "registeredIndianEntitledNoExplanation",
                             "visible": false,
                             "visibleIf": "{registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'n'",
-                            "title": "If the deceased was entitled to register under the Government of Canada's Indian Act and Canada's Minister of Indigenous Services did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a Representation Grant.<br><br>According to the Government of Canada's Indian Act, Canada's Minister of Indigenous Services is the person in charge of choosing who will manage the belongings of someone who was entitled to register under the Government of Canada's Indian Act.<br><br>For more information, <a href=\"https://www.laws-lois.justice.gc.ca/eng/acts/i-5/page-4.html#h-332252\" target=\"_blank\">click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)<br><br>Please Note: The name of the Indian Act and its policies are not under the control of the Government of British Columbia. The Government of Canada's laws overpower the Government of British Columbia's laws and the Supreme Court of British Columbia's orders. This service apologizes for the restrictions placed on you by the Indian Act.",
+                            "title": "If the deceased was entitled to register under the Government of Canada's Indian Act and Indigenous Services Canada (ISC) did NOT tell you to go to the Supreme Court of British Columbia to get a Representation Grant, this service cannot help you apply for a Representation Grant.<br><br>According to the Government of Canada's Indian Act, Indigenous Services Canada (ISC) is in charge of choosing who will manage the property of someone who was entitled to register under the Government of Canada's Indian Act. An Estate Officer at Indigenous Services Canada can assist you with this.  For more information, <a href='https://www.sac-isc.gc.ca/eng/1100100032357/1581866877231' target='_blank'>click here to access Indigenous Relations Canada</a>. (This link opens in a new tab)<br><br>For more information, <a href='https://www.sac-isc.gc.ca/eng/1100100032357/1581866877231' target='_blank'>click here to read Sections 42 to 45 about Descent of Property in the Indian Act.</a> (This link opens in a new tab)<br><br>Please Note: The Indian Act is federal legislation. The Government of Canada is separate and independent from the Government of British Columbia. All inquiries about the Indian Act should be directed to the Government of Canada.",
                             "titleLocation": "hidden",
                             "requiredErrorText": "Please press Continue",
                             "messageStyle": "error"
@@ -174,7 +174,7 @@
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or {registeredIndian} = 'n')  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0)"
+                    "visibleIf": "(({registeredIndian} = 'y' and {registeredIndianReferredToBC} = 'y') or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or (({registeredIndian} = 'n' and {registeredIndianEntitled} = 'n'))  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0)"
                 },
                 {
                     "type": "panel",
@@ -197,7 +197,7 @@
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "({willExists} = 'n') and (({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or {registeredIndian} = 'n')  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0))"
+                    "visibleIf": "({willExists} = 'n') and (({registeredIndian} = 'y' and {registeredIndianReferredToBC} = 'y') or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or (({registeredIndian} = 'n' and {registeredIndianEntitled} = 'n'))  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0)"
                 },
                 {
                     "type": "panel",
@@ -213,7 +213,7 @@
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "({qualifyingDiedAfterWESA} = 'y') and (({willExists} = 'n') and (({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or {registeredIndian} = 'n')  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0)))"
+                    "visibleIf": "({qualifyingDiedAfterWESA} = 'y') and ({willExists} = 'n') and (({registeredIndian} = 'y' and {registeredIndianReferredToBC} = 'y') or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or (({registeredIndian} = 'n' and {registeredIndianEntitled} = 'n'))  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0)"
                 },
                 {
                     "type": "panel",
@@ -224,17 +224,10 @@
                             "title": "The next step is to create an account so that you can save your progress as you work through this service.",
                             "titleLocation": "hidden",
                             "type": "infotext"
-                        },
-                        {
-                            "name": "qualifyingComplicationsExplanationFutureScope",
-                            "title": "This service can help you apply for a `Representation Grant` whether the `deceased` made a `Will` or not. \n<br><br>\nAt this point in time, this service has been developed for the most common situations.\n<br><br>\nIf your situation is unusual, this service may still be able to help you. You will be able to ask the developer of this service if they can include your specific situation.\n<br><br>\nThe next step is to create an account so that you can save your progress as you work through this service.",
-                            "titleLocation": "hidden",
-                            "type": "infotext",
-                            "visible": false
                         }
                     ],
                     "visible": false,
-                    "visibleIf": "({qualifyingTerms}>0) and (({qualifyingDiedAfterWESA} = 'y') and (({willExists} = 'n') and (({registeredIndian} = 'y' or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or {registeredIndian} = 'n')  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0))))"
+                    "visibleIf": "({qualifyingTerms}>0) and (({qualifyingDiedAfterWESA} = 'y') and ({willExists} = 'n') and (({registeredIndian} = 'y' and {registeredIndianReferredToBC} = 'y') or ({registeredIndian} = 'n' and {registeredIndianEntitled} = 'y' and {registeredIndianReferredToBC} = 'y') or (({registeredIndian} = 'n' and {registeredIndianEntitled} = 'n'))  and (({needGrant} = 'y') or ({needGrant} = 'n' and {stillNeedGrant} = 'y')) and ({qualifyingTempScope} = 'y') and ({qualifyingIntroExplanation} > 0))"
                 }
             ],
             "title": "What is a Representation Grant?"

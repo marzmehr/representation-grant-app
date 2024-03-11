@@ -22,7 +22,7 @@
                         {
                             "type": "radiogroup",
                             "name": "applicantName",
-                            "title": "Who is applying to represent  and manage {deceasedName}'s property, money and belongings?",
+                            "title": "Who is applying to represent and manage {deceasedName}'s property, money and belongings?",
                             "description": "Here is a list of the people you have identified so far in this service.\n<br><br>\nIf you have already included yourself in previous steps, you will still need to identify if you are applying for a `Representation Grant` for {deceasedName}  in this step.",
                             "hasOther": true,
                             "choices": [
@@ -99,7 +99,7 @@
                             "name": "applicantCitedReviewCheckRelationsExist",
                             "visible": false,
                             "visibleIf": "{applicantCited} = 'y' and ({relatedPeopleExist})",
-                            "title": "In past steps, you have already identified the following people:\n{relatedPeopleInfo}\nBecause you are already letting these people know that you are applying for a Representation Grant, you do not need to identify them again even if they gave you a citation.",
+                            "title": "In past steps, you have already identified the following people:\n{relatedPeopleInfo}\nYou do not need to identify them again even if they gave you a citation.",
                             "titleLocation": "hidden"
                         },
                         {

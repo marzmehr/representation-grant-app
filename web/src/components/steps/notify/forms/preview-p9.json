@@ -35,7 +35,7 @@
                   {
                      "type": "infotext",
                      "name": "notifyP9DownloadExit",
-                     "title": "You will need swear or affirm the Form P9 `affidavit`.\n<br><br>\nYou can choose to do this right away, or wait until this service creates all the other documents you will need so that you can take everything to the courthouse at the same time.\n<br><br>\nTo swear or affirm an affidavit, you can go to a variety of service providers including:\n<ul>\n<li>a lawyer</li>\n<li>a notary</li>\n<li>a commissioner for taking affidavits (available at courthouses)</li>\n</ul>",
+                     "title": "You will need to swear or affirm the Form P9 `affidavit`.<br><br>Please Note: You should not sign and date the affidavits in advance. Documents will be signed in the presence of the person swearing or affirming them.<br><br>You can choose to do this right away, or wait until this service creates all the other documents you will need so that you can take everything to the courthouse at the same time.\n<br><br>\nTo swear or affirm an affidavit, you can go to a variety of service providers including:\n<ul>\n<li>a lawyer</li>\n<li>a notary</li>\n<li>a commissioner for taking affidavits (available at courthouses)</li>\n</ul>",
                      "titleLocation": "hidden",
                      "requiredErrorText": "Please press Continue"
                   }               

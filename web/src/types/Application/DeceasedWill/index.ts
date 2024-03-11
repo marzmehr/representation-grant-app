@@ -18,8 +18,8 @@ export interface deceasedWillSurveyInfoType {
 }
 
 export interface willOtherDocRecognizeNoReasonsInfoDataType {
-    'Column 1'?: string;
-    'Column 3'?: string;
+    identifier?: string;
+    type?: string;
     reason?: string;
     reasonComment?: string;
     id?: number;
