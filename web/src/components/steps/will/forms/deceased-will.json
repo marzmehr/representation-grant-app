@@ -152,67 +152,77 @@
               "messageStyle": "error"
             },            
             {
-              "type": "matrixdynamic",
-              "name": "willOtherDocRecognizeNoReasons",
-              "visible": false,
-              "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\"",
-              "title": "Explain why you think each of {deceasedName}'s `other testamentary documents` are not valid or not relevant:\nTrello: Add Other for Pulldown or Radio\n<br>\nField2: reason: radio with other. radio options: cannot find the will to which codicil relates; does not reflect deceased's final intention; working draft/draft document; unwitnessed draft;\n[Reminder] A copy of the testamentary document(s) is attached as an exhibit to the affidavit.",
-              "titleLocation": "hidden",
-              "columns": [
-                {
-                  "name": "Column 1",
+                "type": "matrixdynamic",
+                "name": "willOtherDocRecognizeNoReasons",
+                "visible": false,
+                "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\"",
+                "title": "willOtherDocRecognizeNoReasons",
+                "titleLocation": "hidden",
+                "columns": [
+                 {
+                  "name": "type",
                   "title": "Type of Document",
                   "cellType": "dropdown",
                   "choices": [
-                    "invalid will  ",
-                    "codicil  ",
-                    "memorandum  ",
-                    "other\t"
+                   "invalid will  ",
+                   "codicil  ",
+                   "memorandum  ",
+                   "other\t"
                   ]
-                },
-                {
-                  "name": "Column 3",
+                 },
+                 {
+                  "name": "identifier",
                   "title": "Date (or other identifier)",
                   "cellType": "text"
-                },
-                {
-                    "name": "reason",
-                    "title": "Reason",
-                    "cellType": "checkbox",
-                    "choices": [
-                     {
-                      "value": "lackOfCapacity",
-                      "text": "Lack of Capacity"
-                     },
-                     {
-                      "value": "undueInfluence",
-                      "text": "Undue Influence"
-                     },
-                     {
-                      "value": "willNotBCProperty",
-                      "text": "The Will does not deal with Property in B.C."
-                     }
-                    ],
-                    "hasOther": true
-                }
-              ],              
-              "rowCount": 1,
-              "minRowCount": 1,
-              "addRowText": "Add other testamentary document",
-              "removeRowText": "Delete this document"
+                 },
+                 {
+                  "name": "reason",
+                  "title": "Reason",
+                  "cellType": "checkbox",
+                  "choices": [
+                   {
+                    "value": "lackOfCapacity",
+                    "text": "Lack of Capacity"
+                   },
+                   {
+                    "value": "undueInfluence",
+                    "text": "Undue Influence"
+                   },
+                   {
+                    "value": "willNotBCProperty",
+                    "text": "The Will does not deal with Property in B.C."
+                   }
+                  ],
+                  "hasOther": true
+                 }
+                ],
+                "choices": [
+                 "lack of capacity",
+                 "undue influence",
+                 "will does not deal with property in BC",
+                 {
+                  "value": "other",
+                  "text": "other (specify)"
+                 }
+                ],
+                "cellType": "radiogroup",
+                "rowCount": 1,
+                "minRowCount": 1,
+                "addRowText": "Add other testamentary document",
+                "removeRowText": "Delete this document"
             },
             {
                 "type": "yesno",
                 "name": "willOtherDocRecognizeNoReasonsFinished",
                 "visible": false,
-                "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\" and {willOtherDocRecognizeNoReasons[0].Column 3} notempty",
-                "title": "Have you finished listing all of {deceasedName}'s `other testamentary documents`"
+                "visibleIf": "{willExists} = 'n' and {willOtherDocExists} = 'y' and {willOtherDocRecognize} = 'n' and {willOtherDocRecognizeNoReasons[0].type} notempty",
+                "title": "Have you finished listing all of {deceasedName}'s other testamentary documents?"
             },
             {
                 "type": "infotext",
                 "name": "willOtherDocRecognizeNoReasonsFinishedNoError",
                 "visible": false,
-                "visibleIf": "{willExists} = \"n\" and {willOtherDocExists} = \"y\" and {willOtherDocRecognize} = \"n\" and {willOtherDocRecognizeNoReasons[0].Column 3} notempty and {willOtherDocRecognizeNoReasonsFinished} = \"n\"",
+                "visibleIf": "{willExists} = 'n' and {willOtherDocExists} = 'y' and {willOtherDocRecognize} = 'n' and {willOtherDocRecognizeNoReasons[0].type} notempty and {willOtherDocRecognizeNoReasonsFinished} = 'n'",
                 "title": "Keep listing `other testamentary documents` until you are finished and then select \"Yes\". Click on \"Add other testamentary document\" to list another document.",
                 "titleLocation": "hidden",
                 "requiredErrorText": "Please press Continue",

@@ -127,14 +127,14 @@ export default class ReviewYourAnswers extends Vue {
     }
 
     public beautifyQuestion(question){
-        //// console.log(question)        
+        // console.log(question)        
         let adjQuestion = question
         adjQuestion = adjQuestion.replace(/{applicantName}/g, (this.$store.state.Application.applicantName));
         adjQuestion = adjQuestion.replace(/{deceasedName}/g, Vue.filter('getFullName')(this.$store.state.Application.deceasedName));
         adjQuestion = adjQuestion.replace(/<br>/g,'');
         adjQuestion = adjQuestion.replace(/`/g,'');
         adjQuestion = adjQuestion.replace(/<br\/>/g,'');
-        //adjQuestion = adjQuestion.replace("{panel.bankName}", this.tempBankName);
+        adjQuestion = adjQuestion.replace("willOtherDocRecognizeNoReasons", "Provide details on other testamentary documents:");        
         return adjQuestion
     }
 
@@ -162,6 +162,8 @@ export default class ReviewYourAnswers extends Vue {
             if(value[0].spouseName)return this.getSpouseInfo(value)
             if(value[0].childName)return this.getChildrenInfo(value)
             if(value[0].accountType)return this.getBankAccountInfo(value)
+            if(value[0].identifier && value[0].reason && value[0].type)return this.getTestamentaryDocInfo(value)
+            //testimony docs
             if(typeof value[0] === 'string' || value[0] instanceof String)
                 return value.join(", \n ");
             else{
@@ -249,6 +251,34 @@ export default class ReviewYourAnswers extends Vue {
             const name = relatedPeopleNames[relatedPerson.match(/\d/g)]
             if(name) resultString +=name +"\n";            
         } 
+        return resultString;
+    }
+
+    public getTestamentaryDocInfo(testamentaryDocs){
+        let resultString = "";
+        for(const doc of testamentaryDocs ){            
+            resultString +="Type: " + doc.type +"\n";
+            resultString +="Date (or other identifier): " + doc.identifier +"\n";
+            let reasons = "";
+            if(doc.reason?.length>0){
+                reasons +="<ul>"
+
+                for(const reason of doc.reason ){
+                    if (reason == 'lackOfCapacity')
+                        reasons +="<li>Lack of Capacity</li>"; 
+                    else if (reason == 'willNotBCProperty')
+                        reasons +="<li>The Will does not deal with Property in B.C.</li>"; 
+                    else if (reason == 'undueInfluence')
+                        reasons +="<li>Undue Influence</li>"; 
+                    else
+                        reasons +="<li>"+reason +"</li>"; 
+
+                }
+                reasons +="</ul>"
+
+            }
+            resultString +="Reason(s): " + reasons +"\n\n";            
+        }
         return resultString;
     }
 

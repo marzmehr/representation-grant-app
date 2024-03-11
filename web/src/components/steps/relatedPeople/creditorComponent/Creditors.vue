@@ -48,9 +48,8 @@
                                         <li v-for="relative, ind of relativesList" class="text-primary" :key="ind">
                                             <b>{{ relative }}</b>
                                         </li>
-                                    </ul> 
-                                    Because you are already letting these people know that you are applying for a Representation Grant, 
-                                    do not identify them again in this step.                            
+                                    </ul>                                     
+                                    Do not identify them again in this step.                            
                                 </p>                               
                             </div>
                         </b-row> 
