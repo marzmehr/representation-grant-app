@@ -90,7 +90,7 @@ export default class ApplicantInfo extends Vue {
     
     public adjustSurveyForRelatedPeople(){
 
-        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true);
+        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, true);
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
         
         //TODO Depends on the Survey
@@ -118,9 +118,12 @@ export default class ApplicantInfo extends Vue {
             this.survey.data = this.step.result.applicantInfoSurvey.data;
         }
 
+        let relatedPeopleForCitation = [];
+        relatedPeopleForCitation = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, true, false);
+
         let relatedPeopleList = "<ul>"
 
-        for (const person of this.relatedPeopleInfo){           
+        for (const person of relatedPeopleForCitation){           
             relatedPeopleList = relatedPeopleList + "<li>" + person + "</li>";            
         }
 
@@ -130,7 +133,7 @@ export default class ApplicantInfo extends Vue {
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);        
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));  
-        this.survey.setVariable("relatedPeopleExist", this.relatedPeopleInfo.length>0);
+        this.survey.setVariable("relatedPeopleExist", relatedPeopleForCitation.length>0);
         this.survey.setVariable("relatedPeopleInfo", relatedPeopleList);     
     }
 

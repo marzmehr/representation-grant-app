@@ -224,11 +224,11 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 })
 
 
-Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg){
+Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg, includePrinciple, includeDescription){
 	const related = [];
-	related.push(...getRelatedSpouses(step))
-	related.push(...getRelatedChildren(step))
-	if(addCreditor)	related.push(...getRelatedCreditor(step))
+	related.push(...getRelatedSpouses(step, includePrinciple, includeDescription))
+	related.push(...getRelatedChildren(step, includePrinciple, includeDescription))
+	if(addCreditor)	related.push(...getRelatedCreditor(step, includePrinciple, includeDescription))
     if(addCreditorOrg)	related.push(...getRelatedCreditorOrg(step))
     return related;
 })
