@@ -12,6 +12,7 @@ import { Component, Prop, Vue} from 'vue-property-decorator';
 import FormP9 from  "./pdf/FormP9.vue"
 import PageBase from "@/components/steps/PageBase.vue";
 import _ from 'underscore';
+import moment from 'moment-timezone';
 
 import * as SurveyVue from "survey-vue";
 import surveyJson from "./forms/preview-p9.json";
@@ -35,6 +36,9 @@ export default class PreviewP9 extends Vue {
 
     @Prop({required: true})
     step!: stepInfoType;
+
+    @applicationState.State
+    public steps!: stepInfoType[]; 
 
     @applicationState.State
     public stPgNo!: stepsAndPagesNumberInfoType;
@@ -95,6 +99,8 @@ export default class PreviewP9 extends Vue {
 
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
+
+        this.calculateNoticeDeadline();
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.survey.setValue("buttonSpinner",false)
@@ -128,6 +134,24 @@ export default class PreviewP9 extends Vue {
         },err => {
             console.error(err);        
         });
+    }
+
+    public calculateNoticeDeadline(){
+
+        const notifyDates = [];
+
+        const notifyInfo = this.steps[this.stPgNo.NOTIFY._StepNo].result?.notifyPeopleSurvey?.data
+        if(notifyInfo?.totalRecipients>0){
+            for(let inx=0;inx<notifyInfo?.totalRecipients; inx++){                
+                const notifyDate = notifyInfo?.[`notifyP1DeliveryDate[${inx}]`];                
+                const notifyDatePlus21 = moment(notifyDate).add(22, 'days');               
+                notifyDates.push(notifyDatePlus21);               
+            }
+        }        
+        const earliestFilingDate = moment.max(notifyDates);        
+
+        this.survey.setVariable("earliestSubmissionDate", moment(earliestFilingDate).format("MMMM DD, YYYY"));
+
     }
 
     public EnableNext(){
