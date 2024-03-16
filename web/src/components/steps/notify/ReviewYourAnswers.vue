@@ -113,7 +113,7 @@ export default class ReviewYourAnswers extends Vue {
         
         togglePages([this.stPgNo.NOTIFY.TellPeople], !this.pageHasError, this.currentStep);
         togglePages([this.stPgNo.NOTIFY.PreviewP1, this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], (!this.pageHasError && !onlyRelationSpouse), this.currentStep);
-        // toggleStep([this.stPgNo.NEXT._StepNo],!onlyRelationSpouse)
+        toggleStep([this.stPgNo.NEXT._StepNo],!onlyRelationSpouse)
             
         if(this.pageHasError){
             Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.PreviewP9,     0, false);
