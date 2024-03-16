@@ -1,5 +1,5 @@
 <template>
-    <page-base :disableNext="disableNextButton" v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
+    <page-base :disableNext="disableNextButton" v-on:onPrev="onPrev()" v-on:onNext="onNext()">
         <survey v-bind:survey="survey"></survey>
     </page-base>
 </template>
@@ -9,13 +9,15 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import moment from 'moment-timezone';
 import * as SurveyVue from "survey-vue";
 import surveyJson from "./forms/deceased-info.json";
-import * as surveyEnv from "@/components/survey/survey-glossary.ts"
+import * as surveyEnv from "@/components/survey/survey-glossary"
 
 import PageBase from "../PageBase.vue";
 import { stepInfoType, stepResultInfoType } from "@/types/Application";
+import { toggleStep } from '@/components/utils/TogglePages';
 
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
+import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
 const applicationState = namespace("Application");
 
 @Component({
@@ -30,31 +32,16 @@ export default class DeceasedInfo extends Vue {
     step!: stepInfoType;
 
     @applicationState.State
-    public steps!: stepInfoType[];
+    public stPgNo!: stepsAndPagesNumberInfoType;
 
     @applicationState.State
-    public currentStep!: number;
+    public steps!: stepInfoType[];
 
     @applicationState.State
     public deceasedName!: string;
 
     @applicationState.Action
-    public UpdateGotoPrevStepPage!: () => void
-
-    @applicationState.Action
-    public UpdateGotoNextStepPage!: () => void
-
-    @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
-
-    @applicationState.Action
-    public UpdateStepActive!: (newStepActive) => void
-
-    @applicationState.Action
-    public UpdatePageActive!: (newPageActive) => void
-
-    @applicationState.Action
-    public UpdateAllCompleted!: (newAllCompleted) => void
 
     @applicationState.Action
     public UpdateDeceasedName!: (newDeceasedName) => void
@@ -63,17 +50,18 @@ export default class DeceasedInfo extends Vue {
     public UpdateDeceasedDateOfDeath!: (newDeceasedDateOfDeath) => void
 
     @applicationState.Action
-    public UpdateDeceasedDateOfDeathPlus4!: (newDeceasedDateOfDeathPlus4) => void
+    public UpdatedeceasedDateOfDeathPlus4!: (newdeceasedDateOfDeathPlus4) => void
 
     @applicationState.Action
     public UpdateGeneratedForms!: (newGeneratedForms) => void
 
     survey = new SurveyVue.Model(surveyJson);
+    currentStep =0;
+    currentPage =0;
+
     disableNextButton = false;   
-    currentPage=0;
     earliestDeathDate = "";
     today = "";
-    thisStep = 0;
 
     @Watch('pageIndex')
     pageIndexChange(newVal) 
@@ -85,13 +73,6 @@ export default class DeceasedInfo extends Vue {
         const Survey = SurveyVue;
         surveyEnv.setCss(Survey);
         surveyEnv.loadGlossary();
-    }
-
-    created() {
-        this.disableNextButton = false;
-        if (this.step.result && this.step.result['deceasedInfoSurvey']) { 
-            this.disableNextButton = false;           
-        }
     }
 
     mounted(){
@@ -110,8 +91,12 @@ export default class DeceasedInfo extends Vue {
     
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {
+            
+            if(this.survey.data.deceasedIntroExplanation == true){
+                toggleStep(this.stPgNo.WILL._StepNo, true)
+            }
 
-            console.log(options)
+            // console.log(options)
             //console.log(this.steps[4].result['reviewP1Survey'].data.p1ReviewInfoCorrect)
             this.UpdateGeneratedForms([]);
 
@@ -120,13 +105,12 @@ export default class DeceasedInfo extends Vue {
             }
 
             if(options.name == "deceasedDateOfDeath") {
-                if (this.earliestDeathDate < options.value && this.today > options.value) {
 
+                if (this.earliestDeathDate < options.value && this.today > options.value) {
                     this.survey.setVariable("invalidDateOfDeathError", false);
                     this.disableNextButton = false;
 
                 } else {
-
                     this.disableNextButton = true;
                     this.survey.setVariable("invalidDateOfDeathError", true);
 
@@ -140,7 +124,7 @@ export default class DeceasedInfo extends Vue {
                 this.UpdateDeceasedDateOfDeath(options.value);
                 const deceasedDateOfDeathPlus4 = moment(options.value, "YYYY-MM-DD").add(4, 'days').format();
                 console.log(deceasedDateOfDeathPlus4)
-                this.UpdateDeceasedDateOfDeathPlus4(Vue.filter('beautify-full-date')(deceasedDateOfDeathPlus4));
+                this.UpdatedeceasedDateOfDeathPlus4(Vue.filter('beautify-full-date')(deceasedDateOfDeathPlus4));
             }            
             
         })   
@@ -148,82 +132,36 @@ export default class DeceasedInfo extends Vue {
 
     public reloadPageInformation() {
         //console.log(this.step.result)
+        this.currentStep = this.$store.state.Application.currentStep;        
+        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
+
         this.earliestDeathDate = moment("2014-03-30").format();
         this.today = moment().format();
 
-        if (this.step.result && this.step.result["deceasedInfoSurvey"]){
-            this.survey.data = this.step.result["deceasedInfoSurvey"].data;
+        if (this.step.result?.informationAboutDeceasedSurvey){
+            this.survey.data = this.step.result.informationAboutDeceasedSurvey.data;
+            Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);
         }
         
-        this.thisStep = this.currentStep;
-        
-        this.currentPage = this.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);        
-        
-   }
-
-    public activateStep(stepActive) {
-        this.UpdateStepActive( {
-            currentStep: 0,
-            active: stepActive
-        });
-    }
-
-
-    public togglePages(pageArr, activeIndicator) {
-        this.activateStep(activeIndicator);
-        for (let i = 0; i < pageArr.length; i++) {
-            this.UpdatePageActive({
-                currentStep: 0,
-                currentPage: pageArr[i],
-                active: activeIndicator
-            });
-        }
-    }
-
-    public toggleStep(step, active) {
-        this.UpdateStepActive({
-            currentStep: step,
-            active: active
-        });
     }
 
     public onPrev() {
-        this.UpdateGotoPrevStepPage()
+        Vue.prototype.$UpdateGotoPrevStepPage()
     }
 
     public onNext() {
-        //if(!this.survey.isCurrentPageHasErrors) {
-        if(this.survey.data.deceasedIntroExplanation == true)    
-            this.UpdateGotoNextStepPage()
-        //}
+        if(!this.survey.isCurrentPageHasErrors)    
+            Vue.prototype.$UpdateGotoNextStepPage()
     }
-    
-    public onComplete() {
-        this.UpdateAllCompleted(true);
-    }
-
-    public isDisableNext() {
-        // demo
-        return Object.keys(this.survey.data).length == 0;
-    }
-
-    public getDisableNextText() {
-        // demo
-        return "You will need to answer the question above to continue";
-    }    
 
     beforeDestroy() {
-
-        Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
-       
-        this.UpdateStepResultData({step:this.step, data: {deceasedInfoSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}});
-
+        Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, true);       
+        this.UpdateStepResultData({step:this.step, data: {informationAboutDeceasedSurvey: Vue.filter('getSurveyResults')(this.survey, this.currentStep, this.currentPage)}});
     }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import "../../../styles/survey";
 </style>

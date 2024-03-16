@@ -4,35 +4,6 @@
         <b-button v-if="displayButton" @click="onSubmit" variant="success">
             <b-icon-check-circle-fill/> Next
         </b-button>
-
-        <b-modal size="xl" v-model="showDisclaimer" header-class="bg-white" no-close-on-backdrop hide-header-close>
-            <template v-slot:modal-title>
-                <h1 class="mb-0 text-primary">Terms and Conditions</h1> 
-            </template>
-
-            <p>"Apply to Represent Someone Who Died" is a service provided by the Government of British Columbia.</p>
-            <p>The Government of British Columbia has the right to change this service at any time.</p>
-            <ul>
-                <li>Learn more about the disclaimer and liability 
-                    <a target="_blank" href="https://www2.gov.bc.ca/gov/content/home/disclaimer">here
-                    </a>.
-                </li>
-                <li>Learn more about privacy and security 
-                    <a target="_blank" href="https://www2.gov.bc.ca/gov/content/home/privacy">here
-                    </a>.
-                </li>                
-            </ul>
-
-            
-            <p>The Supreme Court of British Columbia will review your <tooltip :index="0" title='application'/>. 
-                The Court will decide to give you a <tooltip :index="0" title='Representation Grant'/>or not.
-            </p>
-            
-            
-            <template v-slot:modal-footer>
-                <b-button variant="primary" style="font-size:22px;font-weight:bold;" size="lg" @click="showDisclaimer=false">Accept</b-button>
-            </template>
-        </b-modal>
        
     </b-container>
 </template>
@@ -41,7 +12,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 import * as SurveyVue from "survey-vue";
-import * as surveyEnv from "@/components/survey/survey-glossary.ts";
+import * as surveyEnv from "@/components/survey/survey-glossary";
 import surveyJson from "./forms/survey-qualify.json";
 import Tooltip from "@/components/survey/Tooltip.vue";
 
@@ -62,7 +33,6 @@ export default class PreQualification extends Vue {
     error = "";
     applicationId = 0;
     displayButton = false;
-    showDisclaimer = false;
     survey = new SurveyVue.Model(surveyJson);  
 
     beforeCreate() {
@@ -71,8 +41,7 @@ export default class PreQualification extends Vue {
         surveyEnv.loadGlossary();    
     }
 
-    mounted(){
-        this.showDisclaimer = false;
+    mounted(){        
         this.displayButton = false;       
         this.initializeSurvey();
         this.addSurveyListener();
@@ -84,14 +53,14 @@ export default class PreQualification extends Vue {
         this.survey.showQuestionNumbers = "off";
         this.survey.showNavigationButtons = false;
         surveyEnv.setGlossaryMarkdown(this.survey);
-    }
+    }  
   
     public onSubmit(evt) {
         evt.preventDefault();      
 
         if(!this.survey.isCurrentPageHasErrors) 
         {
-            if (this.survey.data.qualifyingWillExists == 'n' && this.survey.data.qualifyingDiedAfterWESA == 'y' && this.survey.data.qualifyingTerms > 0 ) 
+            if (this.survey.data.willExists == 'n' && this.survey.data.qualifyingDiedAfterWESA == 'y' && this.survey.data.qualifyingTerms > 0 ) 
             {
                 if(this.userId !== ""){
                     this.$router.push({ name: "surveys" });
@@ -107,14 +76,28 @@ export default class PreQualification extends Vue {
 
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => { 
-            console.log(this.survey.data) 
-            console.log(options)        
-            if (this.survey.data.qualifyingWillExists == 'n' && this.survey.data.qualifyingDiedAfterWESA == 'y' && this.survey.data.qualifyingTerms > 0 ) 
-            {
-                this.displayButton = true;
-            } else {
-                this.displayButton = false;
-            }          
+            console.log(this.survey.data)
+            const surveyData = this.survey.data;
+            this.displayButton = false;
+
+            if(surveyData){
+                const qualify = (surveyData.qualifyingTerms>0) &&             
+                (surveyData.qualifyingDiedAfterWESA == 'y') && 
+                (surveyData.willExists == 'n') && 
+                (
+                    (surveyData.registeredIndian == 'y' && surveyData.registeredIndianReferredToBC == 'y') || 
+                    (surveyData.registeredIndian == 'n' && surveyData.registeredIndianEntitled == 'y' && surveyData.registeredIndianReferredToBC == 'y') || 
+                    (surveyData.registeredIndian == 'n' && surveyData.registeredIndianEntitled == 'n')
+                ) && 
+                (
+                    (surveyData.needGrant == 'y') || (surveyData.needGrant == 'n' && surveyData.stillNeedGrant == 'y')
+                ) && 
+                (surveyData.qualifyingTempScope == 'y') && 
+                (surveyData.qualifyingIntroExplanation > 0)
+
+                this.displayButton = qualify;
+
+            }     
         })
     } 
 

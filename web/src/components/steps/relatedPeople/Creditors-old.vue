@@ -8,7 +8,7 @@
 import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
 
 import * as SurveyVue from "survey-vue";
-import * as surveyEnv from "@/components/survey/survey-glossary.ts";
+import * as surveyEnv from "@/components/survey/survey-glossary";
 import surveyJson from "./forms/creditors.json";
 
 import PageBase from "../PageBase.vue";
@@ -92,14 +92,14 @@ export default class Creditors extends Vue {
     
     public reloadPageInformation() {
         //console.log(this.step.result)
-        if (this.step.result && this.step.result['creditorsSurvey']) {
-            this.survey.data = this.step.result['creditorsSurvey'].data;
+        if (this.step.result && this.step.result['creditorSurvey']) {
+            this.survey.data = this.step.result['creditorSurvey'].data;
             Vue.filter('scrollToLocation')(this.$store.state.Application.scrollToLocationName);            
         }
 
         this.thisStep = this.currentStep;
       
-        this.currentPage = this.steps[this.currentStep].currentPage;
+        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
@@ -124,7 +124,7 @@ export default class Creditors extends Vue {
     beforeDestroy() {
         Vue.filter('setSurveyProgress')(this.survey, this.thisStep, this.currentPage, 50, true);
         
-        this.UpdateStepResultData({step:this.step, data: {creditorsSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
+        this.UpdateStepResultData({step:this.step, data: {creditorSurvey: Vue.filter('getSurveyResults')(this.survey, this.thisStep, this.currentPage)}})
 
     }
 }

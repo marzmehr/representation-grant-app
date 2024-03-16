@@ -48,6 +48,7 @@ class ApplicationView(APIView):
                 "deceasedName": application.deceased_name,
                 "deceasedDateOfDeath": application.deceased_date_of_death,
                 "dateOfWill": application.date_of_will,
+                "version": application.version,
                 "applicationLocation": application.application_location}
         return Response(data)
 
@@ -77,6 +78,7 @@ class ApplicationView(APIView):
             deceased_date_of_death=body.get("deceasedDateOfDeath"),
             date_of_will=body.get("dateOfWill"),
             application_location=body.get("applicationLocation"),
+            version=body.get("version"),
             user_id=uid)
 
         db_app.save()
@@ -105,6 +107,7 @@ class ApplicationView(APIView):
         app.deceased_date_of_death = body.get("deceasedDateOfDeath")
         app.date_of_will = body.get("dateOfWill")
         app.application_location = body.get("applicationLocation")
+        app.version = body.get("version")
         app.save()
         return Response("success")
 

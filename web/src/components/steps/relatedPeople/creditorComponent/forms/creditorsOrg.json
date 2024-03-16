@@ -1,0 +1,18 @@
+{
+    "title": "Creditor Organization's Information",
+    "pages": [
+        {
+            "name": "creditorOrgsPage",
+            "elements": [
+                {
+                    "type": "text",
+                    "name": "creditorOrganizationName",
+                    "title": "Name of Organization",
+                    "isRequired": true
+                }
+            ]            
+        }
+    ],
+    "showQuestionNumbers": "off",
+    "requiredText": ""
+}

@@ -45,17 +45,17 @@
             <div>
                 <div v-if="applicantList.length>1" style="display:inline-block; text-indent: 5px; margin-right:0.5rem;"> We,</div>
                 <div v-else style="display:inline-block; text-indent: 5px; margin-right:0.5rem;"> I, </div>
-                <div style="display:inline-block; margin:0.5rem 0;" v-for="(applicant,i) in applicantList" :key="i+50">
+                <div style="display:inline-block; margin:0.5rem 0 0 0;" v-for="(applicant,i) in applicantList" :key="i+50">
                     <div v-if="i>0" style="display:inline-block; width:1.9rem;"></div>
                     <underline-form textwidth="17rem" beforetext="" hint="" :text="applicant.fullName"/>
                     <underline-form textwidth="11rem" beforetext=", of" hint="" :text="applicant.address.city + ', ' + applicant.address.state + ', ' + applicant.address.country"/>
                     <underline-form textwidth="9.55rem" beforetext=", " hint="" :text="applicant.occupation"/>
-                    
+                    <div style="display:inline-block;"> ,</div>
                 </div>
             </div>
 
-            <div v-if="applicantList.length>1" style="margin:0.5rem 0 1rem 0rem;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
-            <div v-else style="margin:0.5rem 0 1rem 0rem;"> SWEAR (OR AFFIRM) THAT:</div>
+            <div v-if="applicantList.length>1" style="margin:0 0 1rem 0rem;"> SWEAR (OR AFFIRM) JOINTLY THAT:</div>
+            <div v-else style="margin:0 0 1rem 0rem;"> SWEAR (OR AFFIRM) THAT:</div>
         
             <ol style="margin:0rem 0 0 -1.5rem;">
                 <!-- <1> -->
@@ -148,11 +148,11 @@
                     <underline-form style="margin:0.75rem 0 ;" textwidth="19rem" beforetext="on" hint="Swear/Affirm Date" text=""/>
                     <underline-form style="margin:0.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="A commissioner for taking affidavits for British Columbia" text=""/>
                     <underline-form style="margin:.5rem 0 ;" textwidth="20.5rem" beforetext="" hint="[print name or affix stamp of commissioner]" text=""/>
-
+                    
                 </div>
                 <div class="col-5" style="border-left:1px solid #313132">
                     <div  v-for="(applicant,i) in applicantList" :key="i+250">                        
-                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :italicHint="false" :hint="'Signature of '+applicant.fullName" text=""/>                         
+                        <underline-form :style="{marginTop:getSignatureMargin()}" textwidth="19rem" beforetext="" :italicHint="false" hintFontSize="10pt" :hint="'Signature of '+applicant.fullName" text=""/>                         
                     </div>
                 </div>
             </div>
@@ -238,8 +238,8 @@ export default class FormP5 extends Vue {
 
             if (this.steps[3] && this.steps[3].result && this.steps[3].result["applicantInfoSurvey"] && this.steps[3].result["applicantInfoSurvey"].data) {
                 const applicantInfoSurvey = this.steps[3].result["applicantInfoSurvey"].data;
-                if (applicantInfoSurvey.applicant.length > 0) {
-                    for (const applicant of applicantInfoSurvey.applicant) {
+                if (applicantInfoSurvey.applicantName.length > 0) {
+                    for (const applicant of applicantInfoSurvey.applicantName) {
                         const index = applicant.charAt(14)
 
                         const applicantSurvey = this.relatedPeopleInfo[index];
@@ -276,17 +276,17 @@ export default class FormP5 extends Vue {
                         this.applicantList.push(applicantInfo);                        
                     }
                 }                
-               
-                this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;
-                this.serviceContact = {
-                    address:applicantInfoSurvey.applicantServiceAddress.street + ', ' 
-                        + applicantInfoSurvey.applicantServiceAddress.city +', '
-                        + applicantInfoSurvey.applicantServiceAddress.state +', '
-                        + applicantInfoSurvey.applicantServiceAddress.country +', ' 
-                        + applicantInfoSurvey.applicantServiceAddress.postcode,
-                    phone:applicantInfoSurvey.applicantServiceEmail,                    
-                    email:applicantInfoSurvey.applicantServicePhone
-                }
+               //TODO: temporarily commenting out until we get the types setup
+                // this.applicantCourtHouse = applicantInfoSurvey.applicantCourthouse;
+                // this.serviceContact = {
+                //     address:applicantInfoSurvey.applicantServiceAddress.street + ', ' 
+                //         + applicantInfoSurvey.applicantServiceAddress.city +', '
+                //         + applicantInfoSurvey.applicantServiceAddress.state +', '
+                //         + applicantInfoSurvey.applicantServiceAddress.country +', ' 
+                //         + applicantInfoSurvey.applicantServiceAddress.postcode,
+                //     phone:applicantInfoSurvey.applicantServiceEmail,                    
+                //     email:applicantInfoSurvey.applicantServicePhone
+                // }
             }
         }
 

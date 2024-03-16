@@ -8,7 +8,7 @@
 import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
 
 import * as SurveyVue from "survey-vue";
-import * as surveyEnv from "@/components/survey/survey-glossary.ts";
+import * as surveyEnv from "@/components/survey/survey-glossary";
 import surveyJson from "./forms/willSearchCheck.json";
 
 import PageBase from "../PageBase.vue";
@@ -131,7 +131,7 @@ export default class WillSearchCheck extends Vue {
 
         this.thisStep = this.currentStep;
       
-        this.currentPage = this.steps[this.currentStep].currentPage;
+        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
@@ -142,9 +142,9 @@ export default class WillSearchCheck extends Vue {
     public determinePrimaryApplicant() {
         if (this.steps[3].result && this.steps[3].result["applicantInfoSurvey"] && this.steps[3].result["applicantInfoSurvey"].data) {
             const applicantInfoSurvey = this.steps[3].result["applicantInfoSurvey"].data;
-            if (applicantInfoSurvey.applicant){
-                if (applicantInfoSurvey.applicant.length == 1) {
-                    const index = applicantInfoSurvey.applicant[0][14];                   
+            if (applicantInfoSurvey.applicantName){
+                if (applicantInfoSurvey.applicantName.length == 1) {
+                    const index = applicantInfoSurvey.applicantName[0][14];                   
                     this.survey.setVariable("primaryApplicantName", Vue.filter('getFullName')(this.relatedPeopleInfo[index].name));
                 }
             }

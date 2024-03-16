@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance } from "axios";
+import Axios from "axios";
 import Vue from "vue";
 
 export const SessionManager = {
@@ -42,3 +42,28 @@ export const SessionManager = {
         }
     }
 }
+
+export const getBCEIDUrl = () => {
+    switch (getSurveyEnvironment()) {
+      default:
+      case "DEV":
+        return "https://www.development.bceid.ca/register/basic/account_details.aspx?type=regular&serviceId=2041&eServiceType=all";
+      case "TEST":
+        return "https://www.test.bceid.ca/register/basic/account_details.aspx?type=regular&serviceId=2041&eServiceType=all";
+      case "PROD":
+        return "https://www.bceid.ca/register/basic/account_details.aspx?type=regular&serviceId=7493&eServiceType=all";
+    }
+};
+
+export const getSurveyEnvironment = () => {
+    const host = window.location.host;
+    const DEV = ["0.0.0.0", "localhost", "dev."];
+    const TEST = ["test."];
+    if (DEV.some(s => host.includes(s))) {
+      return "DEV";
+    } else if (TEST.some(s => host.includes(s))) {
+      return "TEST";
+    } else {
+      return "PROD";
+    }
+};

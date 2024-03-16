@@ -1,5 +1,5 @@
 <template>
-    <header class="app-header">
+    <header name="navigation-topbar" class="app-header">
         <nav class="navbar navbar-expand-lg navbar-dark">        
 
             <div class="container-fluid">
@@ -21,7 +21,7 @@
                     />
                 </a>
                 <div class="navbar-brand navbar-text">
-                    Apply to Represent Someone Who Died (also know as Probate)
+                    Represent Someone Who Died <span style="font-size:10pt;">(also know as Probate)</span>
                     <span class="navbar-tag">BETA</span>
                 </div>
 
@@ -38,8 +38,9 @@
                                 <template #button-content style="background-color: #003366">
                                     <span class="fa fa-user"></span> {{ userName }}
                                 </template>
-                                <b-dropdown-item @click="runsurvey()">SurveyJS Editor</b-dropdown-item>
-                                <b-dropdown-item @click="logout(false)">Logout</b-dropdown-item>
+                                <b-dropdown-item v-if="isDevEnv()" @click="runsurvey()">SurveyJS Editor</b-dropdown-item>
+                                <b-dropdown-item-button @click="viewStatus()"><b-icon-card-list class="mr-2"/>Previous Applications </b-dropdown-item-button>
+                                <b-dropdown-item-button @click="logout(false)"><b-icon-box-arrow-left class="mr-2"/>Logout </b-dropdown-item-button>
                             </b-dropdown>
                         </div>
                     </div>
@@ -53,7 +54,6 @@
 <script lang="ts">
 import { Component, Vue} from 'vue-property-decorator';
 import { SessionManager } from "@/components/utils/utils";
-import moment from "moment-timezone";
 import { namespace } from "vuex-class";   
 
 import "@/store/modules/common";
@@ -76,26 +76,7 @@ export default class NavigationTopbar extends Vue {
         const emptyApplicationRoutes = ["/", "/status", "/serviceLocator"];
 
         if (emptyApplicationRoutes.indexOf(this.$route.fullPath) == -1) {
-            const lastUpdated = moment().format();
-            this.$store.commit("Application/setLastUpdated", lastUpdated);
-            const application = this.$store.state.Application;
-            const applicationId = application.id;
-
-            const header = {
-                responseType: "json",
-                headers: {
-                "Content-Type": "application/json",
-                }
-            }
-
-            this.$http.put("/app/" + applicationId + "/", application, header)
-            .then(res => {
-                //console.log(res.data);
-                this.error = "";
-            }, err => {
-                console.error(err);
-                this.error = err;
-            });
+            Vue.prototype.$saveChanges();
         }
         Vue.nextTick().then(() => {
             if (isQuickExit){
@@ -109,6 +90,18 @@ export default class NavigationTopbar extends Vue {
     public runsurvey(){
         this.UpdateHideHeaderFooter(true)
         this.$router.push({name: "surveyeditor"})
+    }
+
+    public viewStatus() {
+        if(this.$route.name != "applicant-status")
+            this.$router.push({ name: "applicant-status" });
+    }
+
+    public isDevEnv(){
+        const host = window.location.host;
+        const DEV = ['0.0.0.0', 'localhost', 'dev.'];   
+
+        return (DEV.some(s=>host.indexOf(s) > -1))
     }
 
 };

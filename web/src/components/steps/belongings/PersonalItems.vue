@@ -8,7 +8,7 @@
 import { Component, Vue, Prop, Watch} from 'vue-property-decorator';
 
 import * as SurveyVue from "survey-vue";
-import * as surveyEnv from "@/components/survey/survey-glossary.ts";
+import * as surveyEnv from "@/components/survey/survey-glossary";
 import surveyJson from "./forms/personalItems.json";
 
 import PageBase from "../PageBase.vue";
@@ -155,7 +155,7 @@ export default class PersonalItems extends Vue {
 
         this.thisStep = this.currentStep;
       
-        this.currentPage = this.steps[this.currentStep].currentPage;
+        this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
     
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));

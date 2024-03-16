@@ -6,6 +6,7 @@ import CustomDate from "./components/CustomDate.vue";
 import HelpText from "./components/HelpText.vue";
 import InfoText from "./components/InfoText.vue";
 import PersonName from "./components/PersonName.vue";
+import FormDownloadButton from "./components/FormDownloadButton.vue";
 import YesNo from "./components/YesNo.vue";
 
 function fixCheckboxes(Survey: any) {
@@ -362,6 +363,40 @@ function initCustomDate(Survey: any) {
   Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "property");
 }
 
+function initFormDownloadButton(Survey: any) {
+  const widget = {
+    name: "FormDownloadButton",
+    title: "Form Download Button",
+    iconName: "icon-multipletext",
+    widgetIsLoaded: function() {
+      return true;
+    },
+    isFit: function(question: any) {
+      return question.getType() === "formdownloadbutton";
+    },
+    activatedByChanged: function(activatedBy: any) {
+      Survey.JsonObject.metaData.addClass("formdownloadbutton",[],null,"empty");    
+      Survey.JsonObject.metaData.addProperties("formdownloadbutton", [
+        {
+          name: "textClass:text"
+        },     
+        {
+          name: "buttonText:text"
+        },
+        {
+          name: "variant:text"
+        },
+        {
+          name: "buttonType:text"
+        }        
+      ]);
+    },
+  };
+
+  Vue.component("FormDownloadButton", FormDownloadButton);
+  Survey.CustomWidgetCollection.Instance.addCustomWidget(widget, "type");
+}
+
 // Returns 'y' or 'n', or 'u' for undefined and 'e' for error
 function isChild(params: any) {
   if (!params && !params.length) return "u";
@@ -411,6 +446,7 @@ export function addQuestionTypes(Survey: any) {
   initAddressBlock(Survey);
   initContactInfoBlock(Survey);
   initCustomDate(Survey);
+  initFormDownloadButton(Survey);
   Survey.FunctionFactory.Instance.register("isChild", isChild);
 }
 
@@ -475,6 +511,18 @@ export function addToolboxOptions(editor: any) {
     iconName: "icon-multipletext",
     json: {
       type: "contactinfo"
+    }
+  });
+
+  editor.toolbox.addItem({
+    name: "formdownloadbutton",
+    title: "Form Download Button",
+    category: "Custom",
+    isCopied: true,
+    iconName: "icon-panel",
+    json: {
+      type: "formdownloadbutton",
+      titleLocation: "hidden"
     }
   });
 }

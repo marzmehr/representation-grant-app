@@ -1,0 +1,84 @@
+{
+   "pages": [
+      {
+         "name": "tellPeople",
+         "elements": [
+            {
+                "type": "panel",
+                "name": "notify21DayCountdownPanel",
+                "elements": [
+                    {
+                        "type": "infotext",
+                        "name": "notifyEarliestSubmissionDate",                        
+                        "title": "Now that you have given the Form P1 to all the people who need to know you are applying for a Representation Grant, the earliest date you can file your application is <b> {earliestSubmissionDate}.</b>\n<br><br>\nThis date gives people time to tell the Court if they don't think you should manage {deceasedName}'s belongings.",
+                        "titleLocation": "hidden",
+                        "isRequired": true,
+                        "requiredErrorText": "Please press Continue"
+                    },
+                    {
+                        "type": "helptext",
+                        "name": "notifyEarliestSubmissionDateFAQ1",                        
+                        "title": "How was this date calculated?",
+                        "titleLocation": "hidden",
+                        "visible": false,
+                        "visibleIf": "{notifyEarliestSubmissionDate}>0",
+                        "body": "This service added 21 days to the last date you gave a Form P1. The same calculation is used even if you sent a Form P1 by physical mail and do not know when the person received it."
+                    },
+                    {
+                        "type": "helptext",
+                        "name": "notifyEarliestSubmissionDateFAQ2",                        
+                        "title": "What if I got a Notice of Dispute (Form P29) after I delivered the Form P1?",
+                        "titleLocation": "hidden",
+                        "visible": false,
+                        "visibleIf": "{notifyEarliestSubmissionDate}>0",
+                        "body": "A Notice of Dispute (Form P29) is the way someone can tell the Court that they don't think you should manage {deceasedName}'s belongings. <br><br>You can continue to use this service to complete and file your `application`, but the Court will not give you a Representation Grant until the Notice of Dispute (Form P29) is resolved.<br><br>To resolve a Notice of Dispute (Form P29), you can:<ul><li>wait for a year until the Notice of Dispute (Form P29) expires (and is not renewed), or</li><li>talk things through with the disputant and see if they will withdraw it using the Form P30, or</li><li>make an application to the Court to obtain an Order for Removal of Notice of Dispute (P31), if you believe the reason for the dispute is not valid.</li></ul>"
+                    }
+                ]
+            },
+            {
+               "type": "panel",
+               "name": "notifyP9DownloadPanel",
+               "elements": [
+                  {
+                     "type": "infotext",
+                     "name": "notifyP9DownloadIntro",
+                     "title": "This service will now create the Form P9.<br><br>The Form P9 is an `affidavit` to show the Court the details of how and when you gave people a Form P1. ",
+                     "titleLocation": "hidden",
+                     "requiredErrorText": "Please press Continue"
+                  },
+                  {
+                     "type": "formdownloadbutton",
+                     "name": "notifyP9DownloadButton",
+                     "title": " ",
+                     "description": "It may take a few seconds for the service to create your Form P9.",
+                     "buttonText": "Download Form P9 PDF",
+                     "textClass":"my-4",
+                     "variant":"primary",
+                     "buttonType":"print",
+                     "formName": "FormP9"
+                  },
+                  {
+                     "type": "helptext",
+                     "name": "notifyDownloadP1FAQ1",
+                     "title": "How do I use a PDF?",
+                     "titleLocation": "hidden",
+                     "body": "A PDF stands for Portable Document Format. It is a type of file that can be saved onto your computer. To open the PDF, you may need Adobe Reader (free to download) or other similar software. \n<br><br>\n<a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)"
+                  },
+                  {
+                     "type": "infotext",
+                     "name": "notifyP9DownloadExit",
+                     "title": "You will need to swear or affirm the Form P9 `affidavit`.<br><br>Please Note: You should not sign and date the affidavits in advance. Documents will be signed in the presence of the person swearing or affirming them.<br><br>You can choose to do this right away, or wait until this service creates all the other documents you will need so that you can take everything to the courthouse at the same time.\n<br><br>\nTo swear or affirm an affidavit, you can go to a variety of service providers including:\n<ul>\n<li>a lawyer</li>\n<li>a notary</li>\n<li>a commissioner for taking affidavits (available at courthouses)</li>\n</ul>",
+                     "titleLocation": "hidden",
+                     "requiredErrorText": "Please press Continue"
+                  }               
+               ],
+               "visible": false,
+               "visibleIf": "{notifyEarliestSubmissionDate}>0"               
+            }
+         ],
+         "title": "Preview and Download Form P9"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}

@@ -2,6 +2,25 @@ import Vue from 'vue'
 import moment from 'moment-timezone';
 import store from '@/store';
 import {customCss} from './bootstrapCSS'
+// import { childDetailsDataInfoType } from '@/types/Application/Children';
+// import { spouseInfoType } from '@/types/Application/Spouse';
+import { 
+	getRelatedSpouses, 
+	getRelatedChildren,
+	getRelatedCreditor,
+	getRelatedCreditorOrg 
+} from './relatedPeople';
+
+Vue.filter('get-current-version', function(){	
+	//___________________________
+    //___________________________
+    //___________________________NEW VERSION goes here _________________
+    const CURRENT_VERSION = "1.2";
+    //__________________________
+    //___________________________
+    //___________________________
+	return CURRENT_VERSION
+})
 
 Vue.filter('beautify-date', function(date){
 	enum MonthList {'Jan' = 1, 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'}
@@ -26,6 +45,16 @@ Vue.filter('beautify-date-weekday', function(date){
 		return ''
 })
 
+Vue.filter('convert-time24to12', function(time) {
+    const time12 = (Number(time.substr(0,2)) % 12 || 12 ) + time.substr(2,3)
+    
+    if (Number(time.substr(0,2))<12) {
+      return time12 +' AM'
+    } else {
+      return time12 +' PM'
+    }  
+})
+
 Vue.filter('scrollToLocation', function(locationName){
 	//console.log(locationName)
 	//console.log(locationName.slice(1).indexOf('_'))
@@ -46,6 +75,10 @@ Vue.filter('scrollToLocation', function(locationName){
 	}
 })
 
+Vue.filter('styleTitle',function(title){
+	return "<div style='display:inline; color:#29877c'>" + title + "</div>"
+})
+
 Vue.filter('getFullName',function(nameObject){
 	if (nameObject) {
 		return nameObject.first +
@@ -59,29 +92,29 @@ Vue.filter('getFullName',function(nameObject){
 })
 
 Vue.filter('getFullAddress',function(nameObject){
-	if (nameObject) {
-		return nameObject.street +
-			", " +
-			nameObject.city +
-			", " +
-			nameObject.state+
-			", " +
-			nameObject.country+
-			", " +
-			nameObject.postcode;
+
+	if (nameObject && Object.keys(nameObject).length) {
+		return 	(nameObject.street?(nameObject.street +", "):'') +
+				(nameObject.city?(nameObject.city +", "):'') +
+				(nameObject.state?(nameObject.state +", "):'') +
+				(nameObject.postcode?(nameObject.postcode +", "):'') +
+				(nameObject.country?(nameObject.country ):' ');
 	} else{
 		return " "
 	}
 })
 
 Vue.filter('getFullContactInfo',function(nameObject){
-	if (nameObject) {
-		return "Phone: " +
-			nameObject.phone +
-			", Email: " +
-			nameObject.email +
-			", Fax: " +
-			nameObject.fax;
+
+    const pre = "<div style='display:inline; color:#10669c'>"
+	const post = "</div>"
+	if (nameObject && Object.keys(nameObject).length) {
+		return pre+"Phone: "+post+
+			(nameObject.phone? nameObject.phone:' - ') +
+			" "+pre+"Email: "+post+
+			(nameObject.email? nameObject.email:' - ') +
+			" "+pre+"fax: "+post+
+			(nameObject.fax? nameObject.fax:' - ');			
 	} else{
 		return " "
 	}
@@ -109,17 +142,22 @@ Vue.filter('setSurveyProgress', function(survey, currentStep: number, currentPag
 	
 	if(survey && store.state.Application.steps[currentStep].pages[currentPage].progress)
 		progress = survey.isCurrentPageHasErrors? 50 : 100;
-	//console.log(store.state.Application.steps[currentStep].pages[currentPage].progress)
+
 	store.commit("Application/setPageProgress", { currentStep: currentStep, currentPage:currentPage, progress:progress });
 	
-	const reviewProgress = store.state.Application.steps[8].pages[0].progress
-	if(currentStep < 8 && reviewProgress){
-		console.log('review required')
-		console.log(currentStep)
-		store.commit("Application/setPageProgress", { currentStep: 8, currentPage:0, progress:50 });
-	}
+	// const reviewProgress = store.state.Application.steps[8].pages[0].progress
+	// if(currentStep < 8 && reviewProgress){
+	// 	console.log('review required')
+	// 	console.log(currentStep)
+	// 	store.commit("Application/setPageProgress", { currentStep: 8, currentPage:0, progress:50 });
+	// }
 })
 
+Vue.filter('setProgressForPages', function(currentStep: number, pageNumbers: number[], progress: number){
+	for (const page of pageNumbers)
+		if(store.state.Application.steps[currentStep].pages[page].progress)
+			store.commit("Application/setPageProgress", { currentStep: currentStep, currentPage:page, progress:progress });
+})
 
 Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage: number){
 	//____________________________________________________________________
@@ -186,6 +224,16 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 })
 
 
+Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg, includePrinciple, includeDescription){
+	const related = [];
+	related.push(...getRelatedSpouses(step, includePrinciple, includeDescription))
+	related.push(...getRelatedChildren(step, includePrinciple, includeDescription))
+	if(addCreditor)	related.push(...getRelatedCreditor(step, includePrinciple, includeDescription))
+    if(addCreditorOrg)	related.push(...getRelatedCreditorOrg(step))
+    return related;
+})
+
+
 Vue.filter('extractRequiredDocuments', function(questions){
 	//console.log(questions)
 	const requiredDocuments = [];
@@ -212,16 +260,15 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 				margin: .7in 0.7in 0.9in 0.7in !important;
 				font-size: 10pt !important;			
 				@bottom-left {
-					content:`+ pageFooterLeft +
+					content:`+ pageFooterLeft +`;`+
 					`white-space: pre;
-					font-size: 8pt;
-					font-family: BCSans !important;
+					font-size: 7pt;
 					color: #606060;
 				}
 				@bottom-right {
 					content:`+pageFooterRight+` " Page " counter(page) " of " counter(pages);
-					font-size: 8pt;
-					font-family: BCSans !important;
+					white-space: pre;
+					font-size: 7pt;
 					color: #606060;
 				}
 			}`+
@@ -252,13 +299,14 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 			`section:before {font-weight: bolder; content:counter(question-counter) ".";}`+
 			`section.resetquestion{counter-reset: question-counter;}`+
 			`ol.resetcounter{list-style: none;counter-reset: bracket-counter;}`+
-			`ol li.bracketnumber{text-indent: -35px;text-align: justify;text-justify: inter-word;margin:1rem 0;counter-increment: bracket-counter;}`+
+			`ol li.bracketnumber{text-indent: -20px;text-align: justify;text-justify: inter-word;margin:1rem 0;counter-increment: bracket-counter;}`+
 			`ol li.bracketnumber:before {content:"(" counter(bracket-counter) ") ";font-weight: bold;}`+
 			`ol.resetlist {list-style: none;counter-reset: list-counter;margin-left:-3.5rem;}`+
 			`ol li.listnumber{counter-increment: list-counter;}`+
 			`ol li.listnumber:before {content:counter(list-counter) ". ";font-weight: bold;}`+
 			`ol li.bracketalpha{text-indent: -20px;margin:0.75rem 0;counter-increment: alpha;}`+
-			`ol li.bracketalpha:before {content:"(" counter(alpha, lower-alpha)") ";}`+			
+			`ol li.bracketalpha:before {content:"(" counter(alpha, lower-alpha)") ";}`+
+			`.answer{color: #000; display:inline; font-size:11pt;}`+			
 			`
 			body{				
 				font-family: BCSans;

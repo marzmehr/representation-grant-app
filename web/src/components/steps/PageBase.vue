@@ -37,55 +37,33 @@ export default class PageBase extends Vue {
 
     @Prop({required: false})
     disableNextText!: String;
-
-    @applicationState.Action
-    public UpdateGotoPrevStepPage!: () => void
-
-    @applicationState.Action
-    public UpdateGotoNextStepPage!: () => void
     
     error: ""
  
-    public onPrev(event) {
-        Vue.nextTick().then(()=>{this.saveChanges();});      
+    public onPrev() {     
         if (this.$listeners && this.$listeners.onPrev) {
             this.$emit('onPrev');
         } else {
-            this.UpdateGotoPrevStepPage()
+            Vue.prototype.$UpdateGotoPrevStepPage()
         }
-        //window.scrollTo(0, 0);
     }
 
-    public onNext(event) {
+    public onNext() {
         if (!this.isDisableNext()) {
-            Vue.nextTick().then(()=>{this.saveChanges();});
             if (this.$listeners && this.$listeners.onNext) {  
                 this.$emit('onNext');
             } else {
-                this.UpdateGotoNextStepPage()
+                Vue.prototype.$UpdateGotoNextStepPage()
             }
         }
-        //window.scrollTo(0, 0);
     }
 
-
-    public onComplete(event) {
-        if (this.$listeners && this.$listeners.onComplete) {  
-            this.$emit('onComplete');
-        } else {
-            //console.log("PageBase.onComplete default action.");
-            this.$store.commit("Application/setAllCompleted", true);
-        }
-    }
 
     public hasPrevStepPage() {
-        //console.log("has previous")
         return this.$store.getters["Application/getPrevStepPage"] != null;
     }
 
-    public hasNextStepPage() {
-        
-        //console.log("has next")
+    public hasNextStepPage() {        
         return this.$store.getters["Application/getNextStepPage"] != null;
        
     }
@@ -96,29 +74,6 @@ export default class PageBase extends Vue {
 
     public isDisableNext() {
         return this.disableNext;
-    }
-
-    public saveChanges() {
-        const lastUpdated = moment().format();
-        this.$store.commit("Application/setLastUpdated", lastUpdated); 
-        const application = this.$store.state.Application;
-        const applicationId = application.id;
-
-        const header = {
-            responseType: "json",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }
-
-        this.$http.put("/app/"+ applicationId + "/", application, header)
-        .then(res => {
-            //console.log(res.data);
-            this.error = "";
-        }, err => {
-            console.error(err);
-            this.error = err;
-        });    
     }
   
 };

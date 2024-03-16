@@ -1,5 +1,5 @@
 <template>
-    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()" v-on:onComplete="onComplete()">
+    <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()">
         
         <h2 class="mt-4">Review and Submit</h2>
         <b-card style="borde:1px solid; border-radius:10px;" bg-variant="white" class="mt-4 mb-3">

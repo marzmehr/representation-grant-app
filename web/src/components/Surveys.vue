@@ -2,16 +2,17 @@
     <div v-if="surveyInitiated" class="fill-body" id="surveys">
         <main class="app-content">
             <navigation-sidebar />
-            <deceased-info-step v-if="getCurrentStepIndex() == 0" v-bind:step="getStep(0)"></deceased-info-step>
+            <deceased-step v-if="getCurrentStepIndex() == 0" v-bind:step="getStep(0)"></deceased-step>
             <deceased-will-step v-if="getCurrentStepIndex() == 1" v-bind:step="getStep(1)"></deceased-will-step>
             <related-people-step v-if="getCurrentStepIndex() == 2" v-bind:step="getStep(2)"></related-people-step>
             <applicant-info-step v-if="getCurrentStepIndex() == 3" v-bind:step="getStep(3)"></applicant-info-step>
             <notify-step v-if="getCurrentStepIndex() == 4" v-bind:step="getStep(4)"></notify-step>           
             <belongings-step v-if="getCurrentStepIndex() == 5" v-bind:step="getStep(5)"></belongings-step>
             <no-will-notify-step v-if="getCurrentStepIndex() == 6" v-bind:step="getStep(6)"></no-will-notify-step>
-            <overview-step v-if="getCurrentStepIndex() == 7" v-bind:step="getStep(7)"></overview-step>           
-            <submit v-if="getCurrentStepIndex() == 8" v-bind:step="getStep(8)"></submit>
-    
+            <overview-step v-if="getCurrentStepIndex() == 7" v-bind:step="getStep(7)"></overview-step>
+            <review v-if="getCurrentStepIndex() == 8" v-bind:step="getStep(8)"></review>           
+            <submit v-if="getCurrentStepIndex() == 9" v-bind:step="getStep(9)"></submit>
+            <next-step v-if="getCurrentStepIndex() == 10" v-bind:step="getStep(10)"></next-step>
         </main>
     </div>
 </template>
@@ -27,7 +28,7 @@ import "@/store/modules/common";
 const commonState = namespace("Common");
 
 import NavigationSidebar from "./NavigationSidebar.vue";
-import DeceasedInfoStep from "./steps/deceased/DeceasedInfoStep.vue";
+import DeceasedStep from "./steps/deceased/DeceasedStep.vue";
 import DeceasedWillStep from "./steps/will/DeceasedWillStep.vue";
 import RelatedPeopleStep from "./steps/relatedPeople/RelatedPeopleStep.vue";
 import ApplicantInfoStep from "./steps/applicant/ApplicantInfoStep.vue";
@@ -35,15 +36,17 @@ import NotifyStep from "./steps/notify/NotifyStep.vue";
 import BelongingsStep from "./steps/belongings/BelongingsStep.vue";
 import NoWillNotifyStep from "./steps/noWillNotify/NoWillNotifyStep.vue";
 import OverviewStep from "./steps/overview/OverviewStep.vue";
+import Review from "./steps/review/ReviewStep.vue"
 import Submit from "./steps/submit/StepSubmit.vue";
+import NextStep from "./steps/nextSteps/NextStep.vue"
 
-import * as surveyEnv from "@/components/survey/survey-glossary.ts"
+import * as surveyEnv from "@/components/survey/survey-glossary"
 import { stepInfoType } from '@/types/Application';
 
 @Component({
     components: {
         NavigationSidebar,
-        DeceasedInfoStep,
+        DeceasedStep,
         DeceasedWillStep,
         RelatedPeopleStep,
         ApplicantInfoStep,
@@ -51,7 +54,9 @@ import { stepInfoType } from '@/types/Application';
         BelongingsStep,
         NoWillNotifyStep,
         OverviewStep,
-        Submit        
+        Review,
+        Submit,
+        NextStep       
     }
 })
 
@@ -80,7 +85,7 @@ export default class Surveys extends Vue {
   
     beforeCreate() {    
         surveyEnv.loadGlossary();
-        console.log('here in survey')
+        // console.log('here in survey')
     }
 
     mounted() {
@@ -99,8 +104,8 @@ export default class Surveys extends Vue {
 
     public getStep(stepIndex) {
         const step = this.steps[stepIndex];
-        console.log(stepIndex);
-        console.log(step)
+        // console.log(stepIndex);
+        // console.log(step)
         return step;
     }
 
