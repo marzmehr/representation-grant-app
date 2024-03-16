@@ -183,7 +183,7 @@ export default class LandingPage extends Vue {
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        opacity: 0.75;
+        opacity: 0.85;
     }
 
     .wrap:before {
@@ -207,7 +207,7 @@ export default class LandingPage extends Vue {
         border: 2px solid rgba($gov-pale-grey, 0.8);
         border-radius: 18px;
         margin-top: 0.5rem;
-        background-color: rgba($gov-pale-grey, 0.5);
+        background-color: rgba($gov-pale-grey, 0.75);
         color: black;
     }
 

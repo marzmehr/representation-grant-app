@@ -10,6 +10,8 @@ import {
 	getRelatedCreditor,
 	getRelatedCreditorOrg 
 } from './relatedPeople';
+import { stepInfoType } from '@/types/Application';
+import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
 
 Vue.filter('get-current-version', function(){	
 	//___________________________
@@ -231,6 +233,34 @@ Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg, i
 	if(addCreditor)	related.push(...getRelatedCreditor(step, includePrinciple, includeDescription))
     if(addCreditorOrg)	related.push(...getRelatedCreditorOrg(step))
     return related;
+})
+
+Vue.filter('onlyRelationSpouse', function(steps: stepInfoType[], stPgNo: stepsAndPagesNumberInfoType){
+
+	let onlyRelationSpouse = false;
+    if(steps[stPgNo.RELATIONS._StepNo].result){
+        const relationsStepResults = steps[stPgNo.RELATIONS._StepNo].result;
+        const childExists = relationsStepResults.childExists == "Yes";
+        const spouseExists = relationsStepResults.spouseExists == "Yes";
+        let numberOfSpouse = 0;
+
+        if(spouseExists){
+            numberOfSpouse = relationsStepResults.spouseSurvey?.data?relationsStepResults.spouseSurvey.data.length:0;
+        }
+
+        const creditorPersonExists = relationsStepResults.creditorPersonExists == "Yes";
+        const creditorOrgExists = relationsStepResults.creditorOrgExists == "Yes";
+        
+        if(!childExists && (numberOfSpouse == 1) && !creditorOrgExists && !creditorPersonExists &&
+              steps[stPgNo.APPLICANT._StepNo].result){
+                const applicantStepResults = steps[stPgNo.APPLICANT._StepNo].result;
+                const applicantName = applicantStepResults.applicantInfoSurvey.data.applicantName;
+                const spouseName = relationsStepResults.spouseSurvey.data[0].spouseName;
+                onlyRelationSpouse = applicantName == spouseName;
+        }
+
+    }
+    return onlyRelationSpouse;
 })
 
 

@@ -11,12 +11,22 @@
                      "type": "infotext",
                      "name": "notifyIntroExplanation",
                      "title": "This step will help you formally tell the people who need to know you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nBased on how you answered the questions, the type of Representation Grant you are applying for is called a: <b>Grant of Administration Without Will Annexed.</b><ul><li>You do not need to remember this term. It will automatically be written onto your court documents.</li></ul><br>This step will create 2 PDF court documents for you:<ul><li>You will give people the <b>Form P1</b> to formally let them know you are applying for a Representation Grant.</li><li>You will then `swear or affirm` a <b>Form P9</b> `affidavit` to confirm that you have actually given the P1 to people who should get it.</li></ul>",
-                     "titleLocation": "hidden"
-                  }
+                     "titleLocation": "hidden",
+                     "visible": false,
+                     "visibleIf": "!({onlyRelationSpouse})"
+                  },
+                  {
+                    "type": "infotext",
+                    "name": "notifyIntroExplanationNotRequired",
+                    "title": "This step will help you formally tell the people who need to know you are applying for a `Representation Grant` for {deceasedName}.<br><br>Based on how you answered the questions, the type of Representation Grant you are applying for is called a: <b>Grant of Administration Without Will Annexed.</b><ul><li>You do not need to remember this term. It will automatically be written onto your court documents.</li></ul><br>In previous steps, you have identified that there is no one, other than the applicant(s), entitled to notice in accordance to Rule 25-2.<br><br>Before moving on to the next step, please make sure that you have identified everyone who may be entitled to notice.<br><br>Sometimes people forget to include themselves while using this service. If you haven't included yourself yet, please go back and add information about yourself.",
+                    "titleLocation": "hidden",
+                    "visible": false,
+                    "visibleIf": "({onlyRelationSpouse})"
+                 }
                ]
             }
          ],
-         "title": "Tell People You Are Applying1111"
+         "title": "Tell People You Are Applying"
       }
    ],
    "showQuestionNumbers": "off",
