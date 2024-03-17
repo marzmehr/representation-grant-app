@@ -25,6 +25,7 @@
                             "title": "Who is applying to represent and manage {deceasedName}'s property, money and belongings?",
                             "description": "Here is a list of the people you have identified so far in this service.\n<br><br>\nIf you have already included yourself in previous steps, you will still need to identify if you are applying for a `Representation Grant` for {deceasedName}  in this step.",
                             "hasOther": true,
+                            "isRequired": true,
                             "choices": [
                                 {
                                     "value": "relatedPerson",
