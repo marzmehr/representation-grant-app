@@ -80,6 +80,9 @@ export default class ReviewYourAnswers extends Vue {
     @applicationState.State
     public steps!: stepInfoType[]; 
 
+    @applicationState.State
+    public applicantName!: string;
+
     @applicationState.Action
     public UpdateGotoPrevStepPage!: () => void
 
@@ -105,6 +108,7 @@ export default class ReviewYourAnswers extends Vue {
     reviewed = false;
     errorQuestionNames = [];
     bankNamesIndex: Number[] = [];
+    listOfNotifyingPeople = []
     
     @Watch('pageHasError')
     nextPageChange(newVal) 
@@ -112,7 +116,7 @@ export default class ReviewYourAnswers extends Vue {
         const onlyRelationSpouse = Vue.filter('onlyRelationSpouse')(this.steps, this.stPgNo);         
         
         togglePages([this.stPgNo.NOTIFY.TellPeople], !this.pageHasError, this.currentStep);
-        togglePages([this.stPgNo.NOTIFY.PreviewP1, this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], (!this.pageHasError && !onlyRelationSpouse), this.currentStep);
+        togglePages([this.stPgNo.NOTIFY.PreviewP1], (!this.pageHasError && !onlyRelationSpouse), this.currentStep);
         toggleStep([this.stPgNo.NEXT._StepNo],!onlyRelationSpouse)
             
         if(this.pageHasError){
@@ -122,12 +126,20 @@ export default class ReviewYourAnswers extends Vue {
             Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.TellPeople,   50, false);
             togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9 ], !this.pageHasError, this.currentStep);       
             toggleStep([this.stPgNo.NEXT._StepNo],false)
+        }else{
+        
+            togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], this.listOfNotifyingPeople.length>0 && !onlyRelationSpouse, this.currentStep)
+            if(this.listOfNotifyingPeople?.length==0 || onlyRelationSpouse)
+                toggleStep([this.stPgNo.NEXT._StepNo],false)
         }
+
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, this.pageHasError? 50: 100, false);
     }
 
-    mounted(){  
-
+    mounted(){
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, false);  
+        this.listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName);
+        
         this.reloadPageInformation();
         this.determineHiddenErrors();
         window.scrollTo(0, 0);
