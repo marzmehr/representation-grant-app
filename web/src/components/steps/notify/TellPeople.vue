@@ -6,17 +6,18 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';    
+import { namespace } from "vuex-class";   
+
+import "@/store/modules/application";
+const applicationState = namespace("Application");
 
 import * as SurveyVue from "survey-vue";
 import surveyJson from "./forms/tell-people.json";
-import * as surveyEnv from "@/components/survey/survey-glossary"
+import * as surveyEnv from "@/components/survey/survey-glossary";
 
 import PageBase from "../PageBase.vue";
 import { stepInfoType } from "@/types/Application";
-
-import { namespace } from "vuex-class";   
-import "@/store/modules/application";
-const applicationState = namespace("Application");
+import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
 
 @Component({
     components:{
@@ -30,12 +31,16 @@ export default class TellPeople extends Vue {
     step!: stepInfoType;
 
     @applicationState.State
+    public steps!: stepInfoType[]; 
+
+    @applicationState.State
+    public stPgNo!: stepsAndPagesNumberInfoType;
+
+    @applicationState.State
     public currentStep!: number;
 
     @applicationState.State
-    public deceasedName!: string;
-
-  
+    public deceasedName!: string;  
 
     survey = new SurveyVue.Model(surveyJson);
     disableNextButton = false;   
@@ -64,7 +69,9 @@ export default class TellPeople extends Vue {
 
 
     public reloadPageInformation() {
-        //console.log(this.step.result)
+
+        const onlyRelationSpouse = Vue.filter('onlyRelationSpouse')(this.steps, this.stPgNo);        
+
         if (this.step.result && this.step.result["notifySurvey"]){
             this.survey.data = this.step.result["notifySurvey"].data;
         } 
@@ -73,6 +80,7 @@ export default class TellPeople extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
+        this.survey.setVariable("onlyRelationSpouse", onlyRelationSpouse);
     }
 
     public onPrev() {
