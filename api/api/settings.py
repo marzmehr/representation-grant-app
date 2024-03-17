@@ -145,7 +145,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-DEFAULT_BASE_URL = "/representation-grant/"
+DEFAULT_BASE_URL = os.getenv("DEFAULT_BASE_URL","/represent-someone-who-died/")
 
 STATIC_URL = os.getenv("WEB_BASE_HREF", DEFAULT_BASE_URL)  + "/api/static/"
 

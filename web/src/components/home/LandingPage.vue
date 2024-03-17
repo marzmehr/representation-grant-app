@@ -1,5 +1,5 @@
 <template>
-    <b-card v-if="pageReady" id="landing-page" class="background fill-body" border-variant="white">
+    <b-card v-if="pageReady" id="landing-page" class="wrap fill-body" border-variant="white">
        
         <b-row class="mt-3">
             <b-col>
@@ -177,15 +177,6 @@ export default class LandingPage extends Vue {
         position: relative;
     }
 
-    .background {
-        background-image: url('../../../public/images/legislature-dome.jpg');
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        opacity: 0.85;
-    }
-
     .wrap:before {
         content: ' ';
         display: block;
@@ -194,7 +185,7 @@ export default class LandingPage extends Vue {
         top: 0;
         width: 100%;
         height: 100%;
-        opacity: 0.5;
+        opacity: 0.7;
         background-image: url('../../../public/images/legislature-dome.jpg');
         background-size: cover;
     }
