@@ -19,7 +19,7 @@ export const notifyPanel = {
          "name": "notifyP1DeliveredNoErrorTemp[0]",
          "visible": false,
          "visibleIf": "{notifyP1Delivered[0]} = 'n'",
-         "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`. \n<br><br>\nIf you would like to be notified when new features are added to this service, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+         "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`.",
          "titleLocation": "hidden",
          "requiredErrorText": "Please press Continue",
          "messageStyle": "error"

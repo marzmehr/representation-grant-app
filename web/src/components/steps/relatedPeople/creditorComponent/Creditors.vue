@@ -101,7 +101,7 @@
                                 </p>
                                
                                 <p>
-                                    <a href='https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/168_2009_03_1#part25' 
+                                    <a href='https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/168_2009_03_1#subrule_d1e33580' 
                                         target='_blank'>
                                         Click here to go to the <i>Supreme Court Civil Rules</i> for more information about who 
                                         should know you are applying for a Representation Grant.
@@ -275,7 +275,7 @@
                             </p>
                            
                             <p>
-                                <a href='https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/168_2009_03_1#part25' target='_blank'>
+                                <a href='https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/168_2009_03_1#subrule_d1e33580' target='_blank'>
                                     Click here to go to the <i>Supreme Court Civil Rules</i> for more information about who should know 
                                     you are applying for a Representation Grant.
                                 </a> Scroll down to Rule 25-2, Subrule (2) (b) (ii). (This link opens in a new tab)                            

@@ -63,10 +63,16 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
 
                 if(spouse.spouseHasPersonalRep == 'y' && spouse.spousePersonalRepName?.length>0){
 
+                    if(includePrinciple){
+                        related.push(spouse.spouseName);
+                    }           
+
                     if(includeDescription)
                         related.push(spouse.spousePersonalRepName + ' ('+ spouse.spouseName + "'s Personal Representative)");
                     else
                         related.push(spouse.spousePersonalRepName);
+                } else {
+                    related.push(spouse.spouseName);
                 }
 
             } else if(spouse.spouseDied5DaysAfter == 'n' && includePrinciple){
@@ -138,10 +144,16 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
 
                 if(child.childHasPersonalRep == 'y' && child.childPersonalRepName?.length>0){
 
+                    if(includePrinciple){
+                        related.push(child.childName);
+                    } 
+
                     if(includeDescription)
                         related.push(child.childPersonalRepName + ' ('+ child.childName + "'s Personal Representative)");
                     else
                         related.push(child.childPersonalRepName);
+                } else {
+                    related.push(child.childName);
                 }
 
             } else if(child.childDiedAfter == 'n' && includePrinciple){
@@ -210,7 +222,10 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
         if(creditorPerson.creditorPersonIsAlive == 'n'){
            
             if(creditorPerson.creditorPersonHasPersonalRep == 'y' && creditorPerson.creditorPersonPersonalRepName?.length>0){
-
+                
+                if(includePrinciple)
+                    related.push(creditorPerson.creditorPersonName);
+                
                 if(includeDescription)
                     related.push(creditorPerson.creditorPersonPersonalRepName + ' ('+ creditorPerson.creditorPersonName + "'s Personal Representative)");
                 else
