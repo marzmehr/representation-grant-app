@@ -1,3 +1,4 @@
+import { applicantCitorInfoType } from "@/types/Application/Applicant";
 import { childDetailsDataInfoType } from "@/types/Application/Children";
 import { creditorOrgInfoType, creditorPersonInfoType } from "@/types/Application/Creditor";
 import { spouseInfoType } from "@/types/Application/Spouse";
@@ -248,5 +249,63 @@ export function getRelatedCreditorOrg(step){
         related.push(creditorOrg.creditorOrganizationName);
     }
 
+    return related;
+}
+
+export function getRelatedCitor(step){
+   
+    const related = [];
+    let citorList: applicantCitorInfoType[] = [];
+    if (step.result?.applicantCitorSurvey?.data) {
+        citorList = step.result.applicantCitorSurvey.data;
+    }
+
+    for (const citor of citorList){
+
+        // Alive and adult and competent
+
+        if(citor.applicantCitorIsAlive == 'y' && citor.applicantCitorIsAdult == 'y' && citor.applicantCitorIsCompetent == 'y'){
+            related.push(citor.applicantCitorName);
+        }
+        
+        // Alive and minor
+
+        if(citor.applicantCitorIsAlive == 'y' && citor.applicantCitorIsAdult == 'n'){
+
+            if(citor.applicantCitorHasGuardian == 'y' && citor.applicantCitorGuardianName?.length>0){
+
+                related.push(citor.applicantCitorGuardianName);               
+            } else {
+                related.push(citor.applicantCitorName);
+            }
+        }        
+
+        //Alive and adult and incompetent
+
+        if(citor.applicantCitorIsAlive == 'y' && citor.applicantCitorIsAdult == 'y' && citor.applicantCitorIsCompetent == 'n'){
+
+            if(citor.applicantCitorHasNominee == 'y' && citor.applicantCitorNomineeName?.length>0){
+                
+                related.push(citor.applicantCitorNomineeName);
+
+                if(citor.applicantCitorNomineeFormal == 'n'){
+                    related.push(citor.applicantCitorName);
+                }
+                
+            } else if(citor.applicantCitorHasNominee == 'n'){
+                related.push(citor.applicantCitorName);
+            }
+        } 
+        //Deceased
+
+        if(citor.applicantCitorIsAlive == 'n'){
+           
+            if(citor.applicantCitorHasPersonalRep == 'y' && citor.applicantCitorPersonalRepName?.length>0){             
+                
+                related.push(citor.applicantCitorPersonalRepName);
+            }                 
+        }
+
+    }
     return related;
 }
