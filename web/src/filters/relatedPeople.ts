@@ -1,3 +1,4 @@
+import { applicantCitorInfoType } from "@/types/Application/Applicant";
 import { childDetailsDataInfoType } from "@/types/Application/Children";
 import { creditorOrgInfoType, creditorPersonInfoType } from "@/types/Application/Creditor";
 import { spouseInfoType } from "@/types/Application/Spouse";
@@ -63,10 +64,16 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
 
                 if(spouse.spouseHasPersonalRep == 'y' && spouse.spousePersonalRepName?.length>0){
 
+                    if(includePrinciple){
+                        related.push(spouse.spouseName);
+                    }           
+
                     if(includeDescription)
                         related.push(spouse.spousePersonalRepName + ' ('+ spouse.spouseName + "'s Personal Representative)");
                     else
                         related.push(spouse.spousePersonalRepName);
+                } else {
+                    related.push(spouse.spouseName);
                 }
 
             } else if(spouse.spouseDied5DaysAfter == 'n' && includePrinciple){
@@ -138,10 +145,16 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
 
                 if(child.childHasPersonalRep == 'y' && child.childPersonalRepName?.length>0){
 
+                    if(includePrinciple){
+                        related.push(child.childName);
+                    } 
+
                     if(includeDescription)
                         related.push(child.childPersonalRepName + ' ('+ child.childName + "'s Personal Representative)");
                     else
                         related.push(child.childPersonalRepName);
+                } else {
+                    related.push(child.childName);
                 }
 
             } else if(child.childDiedAfter == 'n' && includePrinciple){
@@ -210,7 +223,10 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
         if(creditorPerson.creditorPersonIsAlive == 'n'){
            
             if(creditorPerson.creditorPersonHasPersonalRep == 'y' && creditorPerson.creditorPersonPersonalRepName?.length>0){
-
+                
+                if(includePrinciple)
+                    related.push(creditorPerson.creditorPersonName);
+                
                 if(includeDescription)
                     related.push(creditorPerson.creditorPersonPersonalRepName + ' ('+ creditorPerson.creditorPersonName + "'s Personal Representative)");
                 else
@@ -233,5 +249,63 @@ export function getRelatedCreditorOrg(step){
         related.push(creditorOrg.creditorOrganizationName);
     }
 
+    return related;
+}
+
+export function getRelatedCitor(step){
+   
+    const related = [];
+    let citorList: applicantCitorInfoType[] = [];
+    if (step.result?.applicantCitorSurvey?.data) {
+        citorList = step.result.applicantCitorSurvey.data;
+    }
+
+    for (const citor of citorList){
+
+        // Alive and adult and competent
+
+        if(citor.applicantCitorIsAlive == 'y' && citor.applicantCitorIsAdult == 'y' && citor.applicantCitorIsCompetent == 'y'){
+            related.push(citor.applicantCitorName);
+        }
+        
+        // Alive and minor
+
+        if(citor.applicantCitorIsAlive == 'y' && citor.applicantCitorIsAdult == 'n'){
+
+            if(citor.applicantCitorHasGuardian == 'y' && citor.applicantCitorGuardianName?.length>0){
+
+                related.push(citor.applicantCitorGuardianName);               
+            } else {
+                related.push(citor.applicantCitorName);
+            }
+        }        
+
+        //Alive and adult and incompetent
+
+        if(citor.applicantCitorIsAlive == 'y' && citor.applicantCitorIsAdult == 'y' && citor.applicantCitorIsCompetent == 'n'){
+
+            if(citor.applicantCitorHasNominee == 'y' && citor.applicantCitorNomineeName?.length>0){
+                
+                related.push(citor.applicantCitorNomineeName);
+
+                if(citor.applicantCitorNomineeFormal == 'n'){
+                    related.push(citor.applicantCitorName);
+                }
+                
+            } else if(citor.applicantCitorHasNominee == 'n'){
+                related.push(citor.applicantCitorName);
+            }
+        } 
+        //Deceased
+
+        if(citor.applicantCitorIsAlive == 'n'){
+           
+            if(citor.applicantCitorHasPersonalRep == 'y' && citor.applicantCitorPersonalRepName?.length>0){             
+                
+                related.push(citor.applicantCitorPersonalRepName);
+            }                 
+        }
+
+    }
     return related;
 }

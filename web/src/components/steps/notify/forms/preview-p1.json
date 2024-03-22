@@ -36,9 +36,15 @@
                   {
                   "type": "infotext",
                   "name": "notifyP1InstructionsExplanation",
-                  "title": "Now that you have downloaded the Form P1, you will need to give it to people who need to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThere are many ways you can give someone a Form P1:\n<ul>\n<li>In person (print the Form P1)</li>\n<li>Physical mail (print the Form P1)</li> \n<ul>\n<li>(do NOT send it by Registered Mail)</li>\n</ul>\n<li>Electronically (e-mail, fax, direct/private messages, etc)</li>\n<ul>\n<li>If you give someone a Form P1 electronically, you need to ask them to write back to tell you they got it.</li>\n<li>Their response could be as simple as  \"thanks\" or \"I have received your email\".</li>\n</ul>\n</ul>\n<br>Below is a list of people (you identified in earlier steps) who you need to give a Form P1. You must serve all the people identified in one of the above ways in order to proceed. You will click ‘Yes’ to indicate they have been served, and when and how you gave those people a Form P1. Then you can advance to further steps.<br><br>If you choose to give a From P1 to people not on this list, you do not need to keep track of them in this service.\n",
+                  "title": "Now that you have downloaded the Form P1, you will need to give it to people who need to know that you are applying for a `Representation Grant` for {deceasedName}.\n<br><br>\nThere are many ways you can give someone a Form P1:\n<ul>\n<li>In person (print the Form P1)</li>\n<li>Physical mail (print the Form P1)</li> \n<ul>\n<li>(do NOT send it by Registered Mail)</li>\n</ul>\n<li>Electronically (e-mail, fax, direct/private messages, etc)</li>\n<ul>\n<li>If you give someone a Form P1 electronically, you need to ask them to write back to tell you they got it.</li>\n<li>Their response could be as simple as  \"thanks\" or \"I have received your email\".</li>\n</ul>\n</ul>\n<br>The next step lists out people and/or organizations identified earlier that you need to give a Form P1 to. You will click ‘Yes’ to indicate they have been served, and when and how you gave those people a Form P1. Then you can advance to further steps.<br><br>If you choose to give a Form P1 to people not on this list, you do not need to keep track of them in this service.",
                   "titleLocation": "hidden"
-                  }                
+                  },
+                  {
+                  "type": "html",
+                  "name": "notifyP1WarningExplanation",
+                  "html": "<div class='alert alert-danger'>You must serve all the people identified in one of the above ways in order to proceed. If you are unable to serve all persons identified, this service cannot help you apply for a Representation Grant."                  
+                  } 
+
                ]               
             }
          ],

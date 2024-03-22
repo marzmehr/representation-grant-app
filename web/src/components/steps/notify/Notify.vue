@@ -81,7 +81,7 @@ export default class Notify extends Vue {
     
     public adjustSurveyForRelatedPeople(){
 
-        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, false);
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true);
 
         this.listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName)
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 

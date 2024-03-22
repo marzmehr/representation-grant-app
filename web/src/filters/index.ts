@@ -8,7 +8,8 @@ import {
 	getRelatedSpouses, 
 	getRelatedChildren,
 	getRelatedCreditor,
-	getRelatedCreditorOrg 
+	getRelatedCreditorOrg, 
+    getRelatedCitor
 } from './relatedPeople';
 import { stepInfoType } from '@/types/Application';
 import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
@@ -226,12 +227,17 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 })
 
 
-Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg, includePrinciple, includeDescription){
+Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg, includePrinciple, includeDescription, addCitor){
 	const related = [];
 	related.push(...getRelatedSpouses(step, includePrinciple, includeDescription))
 	related.push(...getRelatedChildren(step, includePrinciple, includeDescription))
 	if(addCreditor)	related.push(...getRelatedCreditor(step, includePrinciple, includeDescription))
     if(addCreditorOrg)	related.push(...getRelatedCreditorOrg(step))
+    if(addCitor){
+        const applicantStepNumber = store.state.Application.stPgNo.APPLICANT._StepNo
+        const applicantStep = store.state.Application.steps[applicantStepNumber]
+        related.push(...getRelatedCitor(applicantStep))
+    }	
     return related;
 })
 

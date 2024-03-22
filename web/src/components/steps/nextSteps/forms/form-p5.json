@@ -41,7 +41,7 @@
             {
              "type": "infotext",
              "name": "p5Tip1",
-             "title": "<b>1) Affidavit Information</b><br><br>Number: <b>2nd</b><br>Name of person swearing affidavit: <b>{applicantName}</b><br>Date: <b>leave blank</b><br>Location: <b>{applicantCourthouse}</b> ",
+             "title": "<b>1) Affidavit Information</b><br><br><b>Note</b>: If there was no one, other than the applicant(s), entitled to notice in accordance to Rule 25-2, this will be the 1st affidavit and should be indicated as Number: 1st<br><br>Number: <b>2nd</b><br>Name of person swearing affidavit: <b>{applicantName}</b><br>Date: <b>leave blank</b><br>Location: <b>{applicantCourthouse}</b> ",
              "titleLocation": "hidden",
              "requiredErrorText": "Please press Continue"
             },
@@ -111,7 +111,7 @@
             {
              "type": "infotext",
              "name": "p5TipPrint",
-             "title": "<b>Save the document</b><br><br>Save the information you entered into the Form P5.<br><br>Press <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P5. <br><br>If you have any feedback about the Form P5 tips in this step, <a href=\"mailto:product.owner.represent.some.who.died@gov.bc.ca\">click here to send an email to the Product Owner for this service (\"Represent Someone Who Died\").</a> ",
+             "title": "<b>Save the document</b><br><br>Save the information you entered into the Form P5.<br><br>Press <b>Click Here to PRINT form</b> at the bottom of the PDF to review the completed Form P5.",
              "titleLocation": "hidden",
              "requiredErrorText": "Please press Continue"
             }
