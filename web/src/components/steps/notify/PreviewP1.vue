@@ -141,10 +141,8 @@ export default class PreviewP1 extends Vue {
         // Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.NotifyPeople, 50, false);       
         const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true);
         const listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName)
-        console.log(listOfNotifyingPeople)
+        
         togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], listOfNotifyingPeople.length>0, this.currentStep)
-        if(listOfNotifyingPeople?.length==0)
-            toggleStep([this.stPgNo.NEXT._StepNo],false)
         this.disableNext=false;        
     }
 
@@ -157,8 +155,7 @@ export default class PreviewP1 extends Vue {
             const step = this.$store.state.Application.steps[stepIndex]
             if(step.active && optionalStepNames.indexOf(step.name) == -1){
                 for(const page of step.pages){
-                    if(page.active && page.progress!=100 && optionalPageNames.indexOf(page.name) == -1){
-                        console.log(page.name)
+                    if(page.active && page.progress!=100 && optionalPageNames.indexOf(page.name) == -1){                       
                         this.$store.commit("Application/setCurrentStep", step.id);
                         this.$store.commit("Application/setCurrentStepPage", {currentStep: step.id, currentPage: page.key });                        
                         return false;

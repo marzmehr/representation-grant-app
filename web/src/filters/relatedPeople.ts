@@ -8,9 +8,12 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
     const related = [];
     let spouseList: spouseInfoType[] = [];
     
-    if (step.result?.spouseSurvey?.data) {
-        spouseList = step.result.spouseSurvey.data;
-    } 
+    if (step.result){
+        const resultInfo = step.result;
+        if(resultInfo.spouseExists && resultInfo.spouseExists == 'Yes'){
+            spouseList = step.result.spouseSurvey?.data?step.result.spouseSurvey.data:[];
+        }
+    }       
 
     for (const spouse of spouseList){
 
@@ -89,9 +92,13 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
 export function getRelatedChildren(step, includePrinciple, includeDescription){
     const related = [];
     let childList: childDetailsDataInfoType[] = [];
-    if (step.result?.childrenSurvey?.data) {
-        childList = step.result.childrenSurvey.data;
-    } 
+
+    if (step.result){
+        const resultInfo = step.result;
+        if(resultInfo.childExists && resultInfo.childExists == 'Yes'){
+            childList = step.result.childrenSurvey?.data?step.result.childrenSurvey.data:[];
+        }
+    }
 
     for (const child of childList){
 
@@ -170,9 +177,13 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
 export function getRelatedCreditor(step, includePrinciple, includeDescription){
     const related = [];
     let creditorPersonList: creditorPersonInfoType[] = [];
-    if (step.result?.creditorSurvey?.data) {
-        creditorPersonList = step.result.creditorSurvey.data;
-    } 
+
+    if (step.result){
+        const resultInfo = step.result;
+        if(resultInfo.creditorPersonExists && resultInfo.creditorPersonExists == 'Yes'){
+            creditorPersonList = step.result.creditorSurvey?.data?step.result.creditorSurvey.data:[];
+        }
+    }
 
     for (const creditorPerson of creditorPersonList){
 
@@ -241,8 +252,12 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
 export function getRelatedCreditorOrg(step){
     const related = [];
     let creditorOrgList: creditorOrgInfoType[] = [];
-    if (step.result?.creditorOrgSurvey?.data) {
-        creditorOrgList = step.result.creditorOrgSurvey.data;
+
+    if (step.result){
+        const resultInfo = step.result;
+        if(resultInfo.creditorOrgExists && resultInfo.creditorOrgExists == 'Yes'){
+            creditorOrgList = step.result.creditorOrgSurvey?.data?step.result.creditorOrgSurvey.data:[];
+        }
     }
 
     for (const creditorOrg of creditorOrgList){
@@ -256,9 +271,14 @@ export function getRelatedCitor(step){
    
     const related = [];
     let citorList: applicantCitorInfoType[] = [];
-    if (step.result?.applicantCitorSurvey?.data) {
-        citorList = step.result.applicantCitorSurvey.data;
-    }
+   
+    if (step.result?.applicantInfoSurvey?.data){
+        const resultInfo = step.result.applicantInfoSurvey.data;
+        if(resultInfo.applicantCited && resultInfo.applicantCited  == 'y' &&
+            resultInfo.applicantCitorNewExists && resultInfo.applicantCitorNewExists == 'y'){
+            citorList = step.result.applicantCitorSurvey?.data?step.result.applicantCitorSurvey.data:[];
+        }
+    }   
 
     for (const citor of citorList){
 

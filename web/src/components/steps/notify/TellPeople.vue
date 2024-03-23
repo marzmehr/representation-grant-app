@@ -42,6 +42,9 @@ export default class TellPeople extends Vue {
     @applicationState.State
     public deceasedName!: string;  
 
+    @applicationState.State
+    public applicantName!: string;
+
     survey = new SurveyVue.Model(surveyJson);
     disableNextButton = false;   
     currentPage=0;
@@ -55,8 +58,6 @@ export default class TellPeople extends Vue {
     mounted(){
         this.initializeSurvey();
         this.reloadPageInformation();
-
-        console.log(this.step)
     }
 
     public initializeSurvey(){
@@ -67,10 +68,10 @@ export default class TellPeople extends Vue {
         surveyEnv.setGlossaryMarkdown(this.survey);
     }    
 
-
     public reloadPageInformation() {
 
-        const onlyRelationSpouse = Vue.filter('onlyRelationSpouse')(this.steps, this.stPgNo);        
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true);  
+        const listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName);       
 
         if (this.step.result && this.step.result["notifySurvey"]){
             this.survey.data = this.step.result["notifySurvey"].data;
@@ -80,7 +81,7 @@ export default class TellPeople extends Vue {
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
-        this.survey.setVariable("onlyRelationSpouse", onlyRelationSpouse);
+        this.survey.setVariable("onlyRelationSpouse", listOfNotifyingPeople.length == 0);
     }
 
     public onPrev() {

@@ -66,6 +66,8 @@ export default class NoticeWillSearch extends Vue {
         if (this.step.result?.noticeWillSearchSurvey?.data){
             this.survey.data = this.step.result.noticeWillSearchSurvey.data;
         }        
+
+        this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         
         // this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
