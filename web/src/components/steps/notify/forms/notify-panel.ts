@@ -9,6 +9,22 @@ export const notifyPanel = {
          "visible": false     
       },
       {
+         "type": "infotext",
+         "name": "notifyP1PGTContact",
+         "visible": false,
+         "visibleIf": "{recipientName[0]} = 'The Public Guardian and Trustee (PGT)'",
+         "title": "Here is how you can give the letter to the Public Guardian and Trustee (PGT).<br><br><b>In-person or Physical mail</b>:<ul><li>GARS<br>#700-808 W. Hastings Street<br>Vancouver BC<br>V6C 3L3</li></ul><b>Email:</b><ul><li>GARS@trustee.bc.ca</li><li>Use the subject title: \"Re: Representation Grant Application\"</ul><b>Fax:</b><ul><li>604-775-2429</li><li>Use the subject title: “GARS”</li></ul><br>The PGT will start their review when they receive the Form P1 and the letter explaining your application even if they don't get the $315.00 fee right away.<br><br>You can choose to:<ul><li>give the documents and the $315.00 fee together in-person or by physical mail,</li>or,<li> give them the documents by email or fax now and give them the $315.00 fee later.</li></ul>To do their review, someone from the PGT will be contacting you to ask for more information.<br><br>After the PGT does their review, they will send a document called \"PGT Comments\" to your mailing address. You will get the PGT Comments after the PGT receives the $315.00 fee.<br><br> This service will remind you to file the original signed copy of the PGT Comments at {applicantCourthouse} in a later step.",
+         "titleLocation": "hidden",
+      },
+      {
+         "type": "infotext",
+         "name": "notifyP1FirstNationsExplanation",
+         "visible": false,
+         "visibleIf": "{isfirstNation[0]}",         
+         "title": "{firstNationInfo}",
+         "titleLocation": "hidden",
+      },
+      {
          "type": "yesno",
          "name": "notifyP1Delivered[0]",
          "title": "Was someone able to give {recipientName[0]} a Form P1?",
@@ -79,7 +95,7 @@ export const notifyPanel = {
          "name": "notifyP1DeliveryElectronicReceiptNoError[0]",
          "visible": false,
          "visibleIf": "{notifyP1DeliveryMethod[0]} = 'electronic' and {notifyP1DeliveryElectronicReceipt[0]} = 'n' and {notifyP1Delivered[0]} = 'y'",
-         "title": "You need to make sure {recipientName[0]} writes a response confirming they received a Form P1.\n<br><br>\nIf {recipientName[0]} will not write a response, consider giving them a Form P1 in person or in the mail. These methods do not require a written response.\n<br><br>\nIf you choose a new method of delivering the Form P1 to {recipientName[0]}, remember to update the relevant information about who gave it to them and when.",
+         "title": "You need to make sure {recipientName[0]} writes a response confirming they received a Form P1.<br><br>If {recipientName[0]} will not write a response, consider giving them a Form P1 in person or in the mail. These methods do not require a written response.<br><br>If you choose a new method of delivering the Form P1 to {recipientName[0]}, remember to update the relevant information about who gave it to them and when.",
          "titleLocation": "hidden",
          "requiredErrorText": "Please press Continue",
          "messageStyle": "error"

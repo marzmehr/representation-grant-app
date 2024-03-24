@@ -30,7 +30,7 @@ export interface spouseInfoType {
     spouseIsCompetentNoResidentialAddress?: addressInfoType;
     spouseIsCompetentNoResidentialReceiveMail?: string;
     spouseIsCompetentNoHasMailingAddress?: string;
-    spouseIsCompetentNoMailingAddress?: string;
+    spouseIsCompetentNoMailingAddress?: addressInfoType;
     spouseIsCompetentNoEmail?: string;
     spouseIsCompetentNoEmailAddress?: string;
     spouseIsCompetentNoFax?: string;

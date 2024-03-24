@@ -30,7 +30,7 @@ export interface creditorPersonInfoType {
     creditorPersonIsCompetentNoResidentialAddress?: addressInfoType;
     creditorPersonIsCompetentNoResidentialReceiveMail?: string;
     creditorPersonIsCompetentNoHasMailingAddress?: string;
-    creditorPersonIsCompetentNoMailingAddress?: string;
+    creditorPersonIsCompetentNoMailingAddress?: addressInfoType;
     creditorPersonIsCompetentNoEmail?: string;
     creditorPersonIsCompetentNoEmailAddress?: string;
     creditorPersonIsCompetentNoFax?: string;

@@ -6,11 +6,18 @@ import { spouseInfoType } from "@/types/Application/Spouse";
 
 export function getRelatedSpouses(step, includePrinciple, includeDescription){
     const related = [];
+    const minor = [];
+    const incapable = [];
+    const minorAll = [];
+    const incapableAll = [];
     let spouseList: spouseInfoType[] = [];
     
-    if (step.result?.spouseSurvey?.data) {
-        spouseList = step.result.spouseSurvey.data;
-    } 
+    if (step.result){
+        const resultInfo = step.result;
+        if(resultInfo.spouseExists && resultInfo.spouseExists == 'Yes'){
+            spouseList = step.result.spouseSurvey?.data?step.result.spouseSurvey.data:[];
+        }
+    }       
 
     for (const spouse of spouseList){
 
@@ -23,25 +30,27 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
         // Alive and minor
 
         if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'n'){
-
+            minorAll.push(spouse.spouseName);
             if(spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianName?.length>0){
 
                 if(includeDescription)
                     related.push(spouse.spouseGuardianName + ' ('+ spouse.spouseName + "'s Guardian)");
                 else
                     related.push(spouse.spouseGuardianName);
+                    
                 if(includePrinciple){
                     related.push(spouse.spouseName);
                 }
             } else {
                 related.push(spouse.spouseName);
+                minor.push(spouse.spouseName);
             }
         }        
 
         //Alive and adult and incompetent
 
         if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'y' && spouse.spouseIsCompetent == 'n'){
-
+            incapableAll.push(spouse.spouseName);
             if(spouse.spouseHasNominee == 'y' && spouse.spouseNomineeName?.length>0){
 
                 if(includeDescription)
@@ -52,6 +61,9 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
                 if(spouse.spouseNomineeFormal == 'n' || (spouse.spouseNomineeFormal == 'y' && includePrinciple)){
                     related.push(spouse.spouseName);
                 }
+
+                incapable.push(spouse.spouseName)
+
             } else if(spouse.spouseHasNominee == 'n'){
                 related.push(spouse.spouseName);
             }
@@ -82,16 +94,24 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
         }
 
     }
-    return related;
+    return {related, minor, incapable, minorAll, incapableAll}
 }
 
 
 export function getRelatedChildren(step, includePrinciple, includeDescription){
     const related = [];
+    const minor = [];
+    const incapable = [];
+    const minorAll = [];
+    const incapableAll = [];
     let childList: childDetailsDataInfoType[] = [];
-    if (step.result?.childrenSurvey?.data) {
-        childList = step.result.childrenSurvey.data;
-    } 
+
+    if (step.result){
+        const resultInfo = step.result;
+        if(resultInfo.childExists && resultInfo.childExists == 'Yes'){
+            childList = step.result.childrenSurvey?.data?step.result.childrenSurvey.data:[];
+        }
+    }
 
     for (const child of childList){
 
@@ -104,7 +124,7 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
         // Alive and minor
 
         if(child.childIsAlive == 'y' && child.childIsAdult == 'n'){
-
+            minorAll.push(child.childName);
             if(child.childHasGuardian == 'y' && child.childGuardianName?.length>0){
 
                 if(includeDescription)
@@ -116,13 +136,14 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
                 }
             } else {
                 related.push(child.childName);
+                minor.push(child.childName);
             }
         } 
 
         //Alive and adult and incompetent
 
         if(child.childIsAlive == 'y' && child.childIsAdult == 'y' && child.childIsCompetent == 'n'){
-
+            incapableAll.push(child.childName);
             if(child.childHasNominee == 'y' && child.childNomineeName?.length>0){
 
                 if(includeDescription)
@@ -133,6 +154,9 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
                 if(child.childNomineeFormal == 'n' || (child.childNomineeFormal == 'y' && includePrinciple)){
                     related.push(child.childName);
                 }
+
+                incapable.push(child.childName)
+
             } else if(child.childHasNominee == 'n'){
                 related.push(child.childName);
             }
@@ -163,16 +187,24 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
         }
        
     }
-    return related;
+    return {related, minor, incapable, minorAll, incapableAll}
 }
 
 
 export function getRelatedCreditor(step, includePrinciple, includeDescription){
     const related = [];
+    const minor = [];
+    const incapable = [];
+    const minorAll = [];
+    const incapableAll = [];
     let creditorPersonList: creditorPersonInfoType[] = [];
-    if (step.result?.creditorSurvey?.data) {
-        creditorPersonList = step.result.creditorSurvey.data;
-    } 
+
+    if (step.result){
+        const resultInfo = step.result;
+        if(resultInfo.creditorPersonExists && resultInfo.creditorPersonExists == 'Yes'){
+            creditorPersonList = step.result.creditorSurvey?.data?step.result.creditorSurvey.data:[];
+        }
+    }
 
     for (const creditorPerson of creditorPersonList){
 
@@ -185,7 +217,7 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
         // Alive and minor
 
         if(creditorPerson.creditorPersonIsAlive == 'y' && creditorPerson.creditorPersonIsAdult == 'n'){
-
+            minorAll.push(creditorPerson.creditorPersonName);
             if(creditorPerson.creditorPersonHasGuardian == 'y' && creditorPerson.creditorPersonGuardianName?.length>0){
 
                 if(includeDescription)
@@ -197,13 +229,14 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
                 }
             } else {
                 related.push(creditorPerson.creditorPersonName);
+                minor.push(creditorPerson.creditorPersonName);
             }
         }        
 
         //Alive and adult and incompetent
 
         if(creditorPerson.creditorPersonIsAlive == 'y' && creditorPerson.creditorPersonIsAdult == 'y' && creditorPerson.creditorPersonIsCompetent == 'n'){
-
+            incapableAll.push(creditorPerson.creditorPersonName);
             if(creditorPerson.creditorPersonHasNominee == 'y' && creditorPerson.creditorPersonNomineeName?.length>0){
 
                 if(includeDescription)
@@ -214,6 +247,9 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
                 if(creditorPerson.creditorPersonNomineeFormal == 'n' || (creditorPerson.creditorPersonNomineeFormal == 'y' && includePrinciple)){
                     related.push(creditorPerson.creditorPersonName);
                 }
+
+                incapable.push(creditorPerson.creditorPersonName);
+
             } else if(creditorPerson.creditorPersonHasNominee == 'n'){
                 related.push(creditorPerson.creditorPersonName);
             }
@@ -235,14 +271,18 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
         }
 
     }
-    return related;
+    return {related, minor, incapable, minorAll, incapableAll}
 }
 
 export function getRelatedCreditorOrg(step){
     const related = [];
     let creditorOrgList: creditorOrgInfoType[] = [];
-    if (step.result?.creditorOrgSurvey?.data) {
-        creditorOrgList = step.result.creditorOrgSurvey.data;
+
+    if (step.result){
+        const resultInfo = step.result;
+        if(resultInfo.creditorOrgExists && resultInfo.creditorOrgExists == 'Yes'){
+            creditorOrgList = step.result.creditorOrgSurvey?.data?step.result.creditorOrgSurvey.data:[];
+        }
     }
 
     for (const creditorOrg of creditorOrgList){
@@ -256,9 +296,14 @@ export function getRelatedCitor(step){
    
     const related = [];
     let citorList: applicantCitorInfoType[] = [];
-    if (step.result?.applicantCitorSurvey?.data) {
-        citorList = step.result.applicantCitorSurvey.data;
-    }
+   
+    if (step.result?.applicantInfoSurvey?.data){
+        const resultInfo = step.result.applicantInfoSurvey.data;
+        if(resultInfo.applicantCited && resultInfo.applicantCited  == 'y' &&
+            resultInfo.applicantCitorNewExists && resultInfo.applicantCitorNewExists == 'y'){
+            citorList = step.result.applicantCitorSurvey?.data?step.result.applicantCitorSurvey.data:[];
+        }
+    }   
 
     for (const citor of citorList){
 

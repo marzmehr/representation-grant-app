@@ -51,6 +51,7 @@ export interface NOTIFYstPgTypes{
     ReviewYourAnswers: number;
     TellPeople: number;
     PreviewP1: number;
+    PreviewPGT: number;
     NotifyPeople: number;
     PreviewP9: number;
 }

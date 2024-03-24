@@ -90,7 +90,7 @@ export default class ApplicantInfo extends Vue {
     
     public adjustSurveyForRelatedPeople(){
 
-        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, true);
+        this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, true, false);
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
         
         //TODO Depends on the Survey
@@ -119,7 +119,7 @@ export default class ApplicantInfo extends Vue {
         }
 
         let relatedPeopleForCitation = [];
-        relatedPeopleForCitation = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, true, false);
+        relatedPeopleForCitation = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, true, false, false);
 
         let relatedPeopleList = "<ul>"
 

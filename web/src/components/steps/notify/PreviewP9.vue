@@ -24,7 +24,7 @@ const applicationState = namespace("Application");
 
 import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
 import { stepInfoType } from '@/types/Application';
-import { toggleStep } from '@/components/utils/TogglePages';
+import { togglePages, toggleStep } from '@/components/utils/TogglePages';
 
 @Component({
     components:{
@@ -157,6 +157,7 @@ export default class PreviewP9 extends Vue {
     public EnableNext(){
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, 100, false);
         toggleStep([this.stPgNo.NEXT._StepNo],true)
+        togglePages([this.stPgNo.NEXT.FormP5], true, this.stPgNo.NEXT._StepNo);
         this.disableNext=false;        
     }
 
@@ -168,8 +169,7 @@ export default class PreviewP9 extends Vue {
             const step = this.$store.state.Application.steps[stepIndex]
             if(step.active && optionalStepNames.indexOf(step.name) == -1){
                 for(const page of step.pages){
-                    if(page.active && page.progress!=100 && optionalPageNames.indexOf(page.name) == -1){
-                        console.log(page.name)
+                    if(page.active && page.progress!=100 && optionalPageNames.indexOf(page.name) == -1){                       
                         this.$store.commit("Application/setCurrentStep", step.id);
                         this.$store.commit("Application/setCurrentStepPage", {currentStep: step.id, currentPage: page.key });                        
                         return false;

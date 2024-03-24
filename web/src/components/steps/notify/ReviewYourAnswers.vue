@@ -61,6 +61,7 @@ import PageBase from "../PageBase.vue";
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
 import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
+import { minorIncapableInfoType } from '@/types/Application/MinorIncapable';
 const applicationState = namespace("Application");
 
 @Component({
@@ -108,17 +109,16 @@ export default class ReviewYourAnswers extends Vue {
     reviewed = false;
     errorQuestionNames = [];
     bankNamesIndex: Number[] = [];
-    listOfNotifyingPeople = []
+    listOfNotifyingPeople = [];
+    minorAndIncapableInfo = {} as minorIncapableInfoType;
     
     @Watch('pageHasError')
     nextPageChange(newVal) 
-    {
-        const onlyRelationSpouse = Vue.filter('onlyRelationSpouse')(this.steps, this.stPgNo);         
-        
+    {        
         togglePages([this.stPgNo.NOTIFY.TellPeople], !this.pageHasError, this.currentStep);
-        togglePages([this.stPgNo.NOTIFY.PreviewP1], (!this.pageHasError && !onlyRelationSpouse), this.currentStep);
-        toggleStep([this.stPgNo.NEXT._StepNo],!onlyRelationSpouse)
-            
+        togglePages([this.stPgNo.NOTIFY.PreviewP1], (!this.pageHasError && this.listOfNotifyingPeople.length>0), this.currentStep);
+        togglePages([this.stPgNo.NOTIFY.PreviewPGT], (!this.pageHasError && this.minorAndIncapableInfo?.hasMinorOrIncapable) , this.currentStep);
+
         if(this.pageHasError){
             Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.PreviewP9,     0, false);
             Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.NotifyPeople,  0, false);
@@ -128,18 +128,21 @@ export default class ReviewYourAnswers extends Vue {
             toggleStep([this.stPgNo.NEXT._StepNo],false)
         }else{
         
-            togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], this.listOfNotifyingPeople.length>0 && !onlyRelationSpouse, this.currentStep)
-            if(this.listOfNotifyingPeople?.length==0 || onlyRelationSpouse)
-                toggleStep([this.stPgNo.NEXT._StepNo],false)
+            togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], this.listOfNotifyingPeople.length>0, this.currentStep)
+            if(this.listOfNotifyingPeople?.length==0){
+                toggleStep([this.stPgNo.NEXT._StepNo],true);
+                togglePages([this.stPgNo.NEXT.FormP5], false, this.stPgNo.NEXT._StepNo);
+            }
+                
         }
 
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, this.pageHasError? 50: 100, false);
     }
 
     mounted(){
-        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true);  
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true, false);  
         this.listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName);
-        
+        this.minorAndIncapableInfo = Vue.filter('getMinorAndIncapableInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
         this.reloadPageInformation();
         this.determineHiddenErrors();
         window.scrollTo(0, 0);

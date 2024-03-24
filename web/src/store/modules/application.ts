@@ -266,6 +266,14 @@ class Application extends VuexModule {
 
         p = {} as pageInfoType;
         p.key = "3";
+        p.name = "PreviewPGT";
+        p.label = "Preview PGT";        
+        p.active = false;
+        p.progress = 0;
+        s.pages.push(p);
+
+        p = {} as pageInfoType;
+        p.key = "4";
         p.name = "NotifyPeople";
         p.label = "Notify People";       
         p.active = false;
@@ -273,7 +281,7 @@ class Application extends VuexModule {
         s.pages.push(p);
 
         p = {} as pageInfoType;
-        p.key = "4";
+        p.key = "5";
         p.name = "PreviewP9";
         p.label = "Preview P9";        
         p.active = false;
@@ -707,8 +715,8 @@ class Application extends VuexModule {
     @Action
     public UpdateStepResultData({ step, data }) {
         this.context.commit("setScrollToLocationName", "");
-        console.log(step) //TODO REMOVE
-        console.log(data) //TODO REMOVE
+        // console.log(step) //TODO REMOVE
+        // console.log(data) //TODO REMOVE
         this.context.commit("setStepResultData", { step, data });
     }
 
@@ -1003,7 +1011,7 @@ class Application extends VuexModule {
         }
         this.dateOfWill = application.dateOfWill;
         // console.log(this.steps[1]);
-        console.log(this.steps[2]); 
+        // console.log(this.steps[2]); 
 
         this.applicationLocation = application.applicationLocation;
         this.version = application.version;

@@ -2,19 +2,19 @@
     <div v-if="dataReady" >
         <page-base :disableNext="disableNext" v-on:onPrev="onPrev()" v-on:onNext="onNext()" >
              <survey v-if="pdfBodyReady" v-bind:survey="survey"></survey>
-            <form-p1 @onPrint="onPrint"/>
+            <form-pgt @onPrint="onPrint"/>
         </page-base>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue} from 'vue-property-decorator';
-import FormP1 from  "./pdf/FormP1.vue"
+import FormPgt from  "./pdf/FormPgt.vue";
 import PageBase from "@/components/steps/PageBase.vue";
 import _ from 'underscore';
 
 import * as SurveyVue from "survey-vue";
-import surveyJson from "./forms/preview-p1.json";
+import surveyJson from "./forms/preview-pgt.json";
 import * as surveyEnv from "@/components/survey/survey-glossary"
 
 import { namespace } from "vuex-class";   
@@ -27,11 +27,11 @@ import { togglePages, toggleStep } from '@/components/utils/TogglePages';
 
 @Component({
     components:{
-        FormP1,
+        FormPgt,
         PageBase
     }
 })
-export default class PreviewP1 extends Vue {
+export default class PreviewPgt extends Vue {
 
     @Prop({required: true})
     step!: stepInfoType;
@@ -86,7 +86,7 @@ export default class PreviewP1 extends Vue {
     public addSurveyListener(){
         this.survey.onValueChanged.add((sender, options) => {            
             
-            if(options.name == 'notifyP1DownloadButton'){  
+            if(options.name == 'notifyPGTDownloadButton'){  
                 this.survey.setValue("buttonSpinner",true);
                 this.onPrint(this.pdfBody, true)
             }           
@@ -124,7 +124,7 @@ export default class PreviewP1 extends Vue {
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
                 document.body.appendChild(link);
-                link.download = "FormP1.pdf";
+                link.download = "FormPGT.pdf";
                 link.click();
                 setTimeout(() => URL.revokeObjectURL(link.href), 1000);
                 this.survey.setValue("buttonSpinner",false);

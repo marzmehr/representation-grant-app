@@ -18,6 +18,7 @@ import { stepInfoType, stepResultInfoType } from "@/types/Application";
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
 import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
+import { courtLocationInfoType } from '@/types/Common';
 const applicationState = namespace("Application");
 
 @Component({
@@ -45,6 +46,9 @@ export default class Notify extends Vue {
 
     @applicationState.State
     public applicantName!: string;
+
+    @applicationState.State
+    public applicationLocation!: courtLocationInfoType;
 
     @applicationState.Action
     public UpdateStepResultData!: (newStepResultData: stepResultInfoType) => void
@@ -81,14 +85,18 @@ export default class Notify extends Vue {
     
     public adjustSurveyForRelatedPeople(){
 
-        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true);
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true, true);
+
+        const firstNationsName = this.getFirstNationName();
+        if(firstNationsName) relatedPeopleInfo.push(firstNationsName);
 
         this.listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName)
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
         for(const inx in this.listOfNotifyingPeople){            
-            // console.log(notifyingPerson)            
-            const notifyPanelCopy = JSON.parse(JSON.stringify(notifyPanel).replace(/\[0\]/g,`[${inx}]`));            
-            notifyPanelCopy.elements[3]["choices"].push({"value":this.applicantName, "text":this.applicantName});
+            // console.log(notifyingPerson)
+            const isFirstNation = this.isFirstNationName(this.listOfNotifyingPeople[inx])            
+            const notifyPanelCopy = JSON.parse(JSON.stringify(notifyPanel).replace(/\[0\]/g,`[${inx}]`).replace(`{isfirstNation[${inx}]}`,String(isFirstNation)))
+            notifyPanelCopy.elements[5]["choices"].push({"value":this.applicantName, "text":this.applicantName});
             // console.log(notifyPanelCopy)            
             this.surveyJsonCopy.pages[0].elements.push(notifyPanelCopy)
         }  
@@ -113,6 +121,10 @@ export default class Notify extends Vue {
         
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;        
         
+        const firstNationsName = this.getFirstNationName()
+        if(firstNationsName) this.survey.setVariable("firstNationInfo", this.getFirstNationInfo(firstNationsName));
+
+        this.survey.setVariable("applicantCourthouse",this.applicationLocation.name??'');
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         for(const inx in this.listOfNotifyingPeople){
             const notifyingPerson = this.listOfNotifyingPeople[inx]
@@ -123,6 +135,50 @@ export default class Notify extends Vue {
         // this.determineRequiredNotice(); 
         // this.determineNotifyCompleted(); 
         // console.log(this.survey.isCurrentPageHasErrors)     
+    }
+
+    isFirstNationName(name){
+        const firstNationNames = [
+            "Huu-ay-aht First Nations",
+            "Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht)",
+            "Nisg̱a'a Nation",
+            "Tla'amin Nation",
+            "Toquaht Nation",
+            "Tsawwassen First Nation",
+            "Uchucklesaht Tribe",
+            "Yuułuʔiłʔatḥ First Nation (Ucluelet)"
+        ]
+        return firstNationNames.includes(name)
+    }
+
+    getFirstNationName(){
+        //___Deceased        
+        const deceasedInfo = this.steps[this.stPgNo.DECEASED._StepNo].result?.informationAboutDeceasedSurvey?.data;
+        const isFirstNation = deceasedInfo.deceasedFirstNations =='y';
+        return (isFirstNation? deceasedInfo.deceasedFirstNationsName: '');
+    }
+
+    getFirstNationInfo(deceasedFirstNationsName){                       
+        let firstNationInfo = `You will need to give ${deceasedFirstNationsName} a Form P1. <br><br>`
+        if(deceasedFirstNationsName == "Huu-ay-aht First Nations"){        
+           firstNationInfo+= `<b>In-person or physical mail, choose one of the following:</b><br><ul><li>Anacla Government Office<br>170 Nookemus Road<br>Anacla, BC<br>V0R 1B0</li></ul><ul><li>Port Alberni Government Office<br>4644 Adelaide Street<br>Port Alberni, BC<br>V9Y 6N4</li></ul><b>Email:</b><ul><li>communications@huuayaht.org</li><li>Use the subject title: \"Re: Representation Grant Application\"</li></ul>`
+        }
+        else if(deceasedFirstNationsName == "Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht)"){
+            firstNationInfo+= `For information on how to contact the the Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht), <a href=\"https://kyuquotbc.ca/\" target=\"_blank\">click here to go to their website</a> (This link opens in a new tab))`
+        }else if(deceasedFirstNationsName == "Nisg̱a'a Nation"){
+            firstNationInfo+= `<b>In-person or physical mail:</b><br><ul><li>Nisg̱a'a Lisims Government<br>PO Box 231, 2000 Lisims Drive<br>Gitlaxt'aamiks (formerly New Aiyansh), BC<br>V0J 1A0</li></ul><b>Email:</b><ul><li>info@nisgaa.net</li><li>Use the subject title: \"Re: Representation Grant Application\"</li></ul>)`
+        }else if(deceasedFirstNationsName == "Tla'amin Nation"){
+            firstNationInfo+= `<b>In-person or physical mail:</b><br><ul><li>Tla'amin Nation<br>4779 Klahanie Rd<br>Powell River, BC<br>V8A 0C4</li></ul><b>Email:</b><ul><li>reception@tn-bc.ca</li><li>Use the subject title: \"Re: Representation Grant Application\"</li></ul>)`
+        }else if(deceasedFirstNationsName == "Toquaht Nation"){
+            firstNationInfo+= `<b>In-person or physical mail:</b><br><ul><li>Toquaht Nation Government Administration<br>PO Box 759<br>1971 Peninsula Rd<br>Ucluelet, BC<br>V0R 3A0</li></ul><b>Email:</b><ul><li>general@toquaht.ca</li><li>Use the subject title: \"Re: Representation Grant Application\"</li></ul>)`
+        }else if(deceasedFirstNationsName == "Tsawwassen First Nation"){
+            firstNationInfo+= `<b>In-person or physical mail:</b><br><ul><li>“Attention: General Counsel”<br>Tsawwassen First Nation<br>1926 Tsawwassen Drive<br>Tsawwassen, BC<br>V4M 4G2</li></ul><b>Email:</b><ul><li>info@tsawwassenfirstnation.com</li><li>Use the subject title: \"Attention: General Counsel Re: Representation Grant Application\"</li></ul>)`
+        }else if(deceasedFirstNationsName == "Uchucklesaht Tribe"){
+            firstNationInfo+= `<b>In-person or physical mail:</b><br><ul><li>“Attention: Director of Operations”<br>Uchucklesaht Tribe<br>Suite A – 5251 Argyle Street<br>Port Alberni, BC<br>V9Y 1V1</li></ul><b>Email:</b><ul><li>Carla.Halvorsen@uchucklesaht.ca</li><li>Use the subject title: \"Attention: Director of Operations Re: Representation Grant Application\"</li></ul>)`
+        }else if(deceasedFirstNationsName == "Yuułuʔiłʔatḥ First Nation (Ucluelet)"){
+            firstNationInfo+= `<b>In-person:</b><br><ul><li>Yuułuʔiłʔatḥ Government – Ucluelet First Nation<br>Cixʷatin Centre<br>700 Wya Road<br>Hitacu, BC<br>V0R 3A0</li></ul><b>Physical mail:</b><br><ul><li>Yuułuʔiłʔatḥ Government – Ucluelet First Nation<br>Cixʷatin Centre<br>PO Box 699 <br>Ucluelet, BC<br>V0R 3A0</li></ul><b>Email:</b><ul><li>communications@ufn.ca</li><li>Use the subject title: \"Re: Representation Grant Application\"</li></ul>)`
+        }
+        return firstNationInfo
     }
 
     isRelatedPeopleSame(surveyData){
