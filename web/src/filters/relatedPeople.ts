@@ -6,6 +6,10 @@ import { spouseInfoType } from "@/types/Application/Spouse";
 
 export function getRelatedSpouses(step, includePrinciple, includeDescription){
     const related = [];
+    const minor = [];
+    const incapable = [];
+    const minorAll = [];
+    const incapableAll = [];
     let spouseList: spouseInfoType[] = [];
     
     if (step.result){
@@ -26,25 +30,27 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
         // Alive and minor
 
         if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'n'){
-
+            minorAll.push(spouse.spouseName);
             if(spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianName?.length>0){
 
                 if(includeDescription)
                     related.push(spouse.spouseGuardianName + ' ('+ spouse.spouseName + "'s Guardian)");
                 else
                     related.push(spouse.spouseGuardianName);
+                    
                 if(includePrinciple){
                     related.push(spouse.spouseName);
                 }
             } else {
                 related.push(spouse.spouseName);
+                minor.push(spouse.spouseName);
             }
         }        
 
         //Alive and adult and incompetent
 
         if(spouse.spouseIsAlive == 'y' && spouse.spouseIsAdult == 'y' && spouse.spouseIsCompetent == 'n'){
-
+            incapableAll.push(spouse.spouseName);
             if(spouse.spouseHasNominee == 'y' && spouse.spouseNomineeName?.length>0){
 
                 if(includeDescription)
@@ -55,6 +61,9 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
                 if(spouse.spouseNomineeFormal == 'n' || (spouse.spouseNomineeFormal == 'y' && includePrinciple)){
                     related.push(spouse.spouseName);
                 }
+
+                incapable.push(spouse.spouseName)
+
             } else if(spouse.spouseHasNominee == 'n'){
                 related.push(spouse.spouseName);
             }
@@ -85,12 +94,16 @@ export function getRelatedSpouses(step, includePrinciple, includeDescription){
         }
 
     }
-    return related;
+    return {related, minor, incapable, minorAll, incapableAll}
 }
 
 
 export function getRelatedChildren(step, includePrinciple, includeDescription){
     const related = [];
+    const minor = [];
+    const incapable = [];
+    const minorAll = [];
+    const incapableAll = [];
     let childList: childDetailsDataInfoType[] = [];
 
     if (step.result){
@@ -111,7 +124,7 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
         // Alive and minor
 
         if(child.childIsAlive == 'y' && child.childIsAdult == 'n'){
-
+            minorAll.push(child.childName);
             if(child.childHasGuardian == 'y' && child.childGuardianName?.length>0){
 
                 if(includeDescription)
@@ -123,13 +136,14 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
                 }
             } else {
                 related.push(child.childName);
+                minor.push(child.childName);
             }
         } 
 
         //Alive and adult and incompetent
 
         if(child.childIsAlive == 'y' && child.childIsAdult == 'y' && child.childIsCompetent == 'n'){
-
+            incapableAll.push(child.childName);
             if(child.childHasNominee == 'y' && child.childNomineeName?.length>0){
 
                 if(includeDescription)
@@ -140,6 +154,9 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
                 if(child.childNomineeFormal == 'n' || (child.childNomineeFormal == 'y' && includePrinciple)){
                     related.push(child.childName);
                 }
+
+                incapable.push(child.childName)
+
             } else if(child.childHasNominee == 'n'){
                 related.push(child.childName);
             }
@@ -170,12 +187,16 @@ export function getRelatedChildren(step, includePrinciple, includeDescription){
         }
        
     }
-    return related;
+    return {related, minor, incapable, minorAll, incapableAll}
 }
 
 
 export function getRelatedCreditor(step, includePrinciple, includeDescription){
     const related = [];
+    const minor = [];
+    const incapable = [];
+    const minorAll = [];
+    const incapableAll = [];
     let creditorPersonList: creditorPersonInfoType[] = [];
 
     if (step.result){
@@ -196,7 +217,7 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
         // Alive and minor
 
         if(creditorPerson.creditorPersonIsAlive == 'y' && creditorPerson.creditorPersonIsAdult == 'n'){
-
+            minorAll.push(creditorPerson.creditorPersonName);
             if(creditorPerson.creditorPersonHasGuardian == 'y' && creditorPerson.creditorPersonGuardianName?.length>0){
 
                 if(includeDescription)
@@ -208,13 +229,14 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
                 }
             } else {
                 related.push(creditorPerson.creditorPersonName);
+                minor.push(creditorPerson.creditorPersonName);
             }
         }        
 
         //Alive and adult and incompetent
 
         if(creditorPerson.creditorPersonIsAlive == 'y' && creditorPerson.creditorPersonIsAdult == 'y' && creditorPerson.creditorPersonIsCompetent == 'n'){
-
+            incapableAll.push(creditorPerson.creditorPersonName);
             if(creditorPerson.creditorPersonHasNominee == 'y' && creditorPerson.creditorPersonNomineeName?.length>0){
 
                 if(includeDescription)
@@ -225,6 +247,9 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
                 if(creditorPerson.creditorPersonNomineeFormal == 'n' || (creditorPerson.creditorPersonNomineeFormal == 'y' && includePrinciple)){
                     related.push(creditorPerson.creditorPersonName);
                 }
+
+                incapable.push(creditorPerson.creditorPersonName);
+
             } else if(creditorPerson.creditorPersonHasNominee == 'n'){
                 related.push(creditorPerson.creditorPersonName);
             }
@@ -246,7 +271,7 @@ export function getRelatedCreditor(step, includePrinciple, includeDescription){
         }
 
     }
-    return related;
+    return {related, minor, incapable, minorAll, incapableAll}
 }
 
 export function getRelatedCreditorOrg(step){

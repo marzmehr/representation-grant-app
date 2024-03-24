@@ -52,7 +52,8 @@
                     "name": "CreditorAliveMinorPanel",
                     "elements": [
                         {
-                            "type": "date",
+                            "type": "text",
+                            "inputType": "date",
                             "name": "creditorPersonIsAdultNoDOB",                            
                             "title": "When was {creditorPersonName} born?",
                             "isRequired": true,
@@ -250,7 +251,8 @@
                     "name": "CreditorAliveAdultPanel",
                     "elements": [                        
                         {
-                            "type": "date",
+                            "type": "text",
+                            "inputType": "date",
                             "name": "creditorPersonIsCompetentNoDOB",                            
                             "title": "When was {creditorPersonName} born?",
                             "isRequired": true,

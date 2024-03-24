@@ -61,6 +61,7 @@ import PageBase from "../PageBase.vue";
 import { namespace } from "vuex-class";   
 import "@/store/modules/application";
 import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
+import { minorIncapableInfoType } from '@/types/Application/MinorIncapable';
 const applicationState = namespace("Application");
 
 @Component({
@@ -108,13 +109,15 @@ export default class ReviewYourAnswers extends Vue {
     reviewed = false;
     errorQuestionNames = [];
     bankNamesIndex: Number[] = [];
-    listOfNotifyingPeople = []
+    listOfNotifyingPeople = [];
+    minorAndIncapableInfo = {} as minorIncapableInfoType;
     
     @Watch('pageHasError')
     nextPageChange(newVal) 
     {        
         togglePages([this.stPgNo.NOTIFY.TellPeople], !this.pageHasError, this.currentStep);
         togglePages([this.stPgNo.NOTIFY.PreviewP1], (!this.pageHasError && this.listOfNotifyingPeople.length>0), this.currentStep);
+        togglePages([this.stPgNo.NOTIFY.PreviewPGT], (!this.pageHasError && this.minorAndIncapableInfo?.hasMinorOrIncapable) , this.currentStep);
 
         if(this.pageHasError){
             Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.PreviewP9,     0, false);
@@ -137,9 +140,9 @@ export default class ReviewYourAnswers extends Vue {
     }
 
     mounted(){
-        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true);  
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true, false);  
         this.listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName);
-        
+        this.minorAndIncapableInfo = Vue.filter('getMinorAndIncapableInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
         this.reloadPageInformation();
         this.determineHiddenErrors();
         window.scrollTo(0, 0);

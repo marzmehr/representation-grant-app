@@ -13,12 +13,13 @@ import {
 } from './relatedPeople';
 import { stepInfoType } from '@/types/Application';
 import { stepsAndPagesNumberInfoType } from '@/types/Application/StepsAndPages';
+import { minorIncapableInfoType } from '@/types/Application/MinorIncapable';
 
 Vue.filter('get-current-version', function(){	
 	//___________________________
     //___________________________
     //___________________________NEW VERSION goes here _________________
-    const CURRENT_VERSION = "1.2";
+    const CURRENT_VERSION = "1.3";
     //__________________________
     //___________________________
     //___________________________
@@ -95,13 +96,14 @@ Vue.filter('getFullName',function(nameObject){
 })
 
 Vue.filter('getFullAddress',function(nameObject){
+	const country = nameObject?.country?.toUpperCase()=='CAN' ? 'Canada': nameObject?.country
 
 	if (nameObject && Object.keys(nameObject).length) {
 		return 	(nameObject.street?(nameObject.street +", "):'') +
 				(nameObject.city?(nameObject.city +", "):'') +
 				(nameObject.state?(nameObject.state +", "):'') +
 				(nameObject.postcode?(nameObject.postcode +", "):'') +
-				(nameObject.country?(nameObject.country ):' ');
+				(country?country:' ');
 	} else{
 		return " "
 	}
@@ -227,11 +229,19 @@ Vue.filter('getSurveyResults', function(survey, currentStep: number, currentPage
 })
 
 
-Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg, includePrinciple, includeDescription, addCitor){
+Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg, includePrinciple, includeDescription, addCitor, addPGT){
 	const related = [];
-	related.push(...getRelatedSpouses(step, includePrinciple, includeDescription))
-	related.push(...getRelatedChildren(step, includePrinciple, includeDescription))
-	if(addCreditor)	related.push(...getRelatedCreditor(step, includePrinciple, includeDescription))
+	const spouse = getRelatedSpouses(step, includePrinciple, includeDescription);
+	const children = getRelatedChildren(step, includePrinciple, includeDescription);
+	const creditor = getRelatedCreditor(step, includePrinciple, includeDescription);
+	if((spouse.minor?.length>0 || spouse.incapable?.length>0 ||
+		children.minor?.length>0 || children.incapable?.length>0 ||
+		creditor.minor?.length>0 || creditor.incapable?.length>0) && addPGT){
+		related.push("The Public Guardian and Trustee (PGT)")
+	}
+	related.push(...spouse.related)
+	related.push(...children.related)
+	if(addCreditor)	related.push(...creditor.related)
     if(addCreditorOrg)	related.push(...getRelatedCreditorOrg(step))
     if(addCitor){
         const applicantStepNumber = store.state.Application.stPgNo.APPLICANT._StepNo
@@ -240,6 +250,39 @@ Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg, i
     }	
     return related;
 })
+
+Vue.filter('getMinorAndIncapableInfo', function(step){
+	const minorsIncapables: minorIncapableInfoType = { hasMinorOrIncapable: false , hasSpouse: false, hasChildren:false, hasCreditor:false, spouse: null, children: null, creditor:null };
+	const spouse = getRelatedSpouses(step, true, false);
+	const children = getRelatedChildren(step, true, false);
+	const creditor = getRelatedCreditor(step, true, false);
+	minorsIncapables.spouse = spouse;
+	minorsIncapables.children = children;
+	minorsIncapables.creditor = creditor;
+
+	if( spouse.minor?.length>0 || spouse.incapable?.length>0 ||
+		children.minor?.length>0 || children.incapable?.length>0 ||
+		creditor.minor?.length>0 || creditor.incapable?.length>0){
+			minorsIncapables.hasMinorOrIncapable = true;
+	}
+
+	if(	spouse.minor?.length>0 || spouse.incapable?.length>0 ||
+		spouse.minorAll?.length>0 || spouse.incapableAll?.length>0){
+			minorsIncapables.hasSpouse = true;		
+	}
+
+	if(	children.minor?.length>0 || children.incapable?.length>0 ||
+		children.minorAll?.length>0 || children.incapableAll?.length>0){
+			minorsIncapables.hasChildren = true;		
+	}
+
+	if( creditor.minor?.length>0 || creditor.incapable?.length>0 ||
+		creditor.minorAll?.length>0 || creditor.incapableAll?.length>0){
+			minorsIncapables.hasCreditor = true;		
+	}
+
+	return minorsIncapables
+}) 
 
 Vue.filter('onlyRelationSpouse', function(steps: stepInfoType[], stPgNo: stepsAndPagesNumberInfoType){
 
@@ -281,8 +324,9 @@ Vue.filter('extractRequiredDocuments', function(questions){
 	return requiredDocuments;
 })
 
-Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
+Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight, pageHeaderRight?){
 
+	const pageHeader = pageHeaderRight?? ''
 	//console.log(customCss)
 	const body = [
 		`<!DOCTYPE html>
@@ -303,6 +347,12 @@ Vue.filter('printPdf', function(html, pageFooterLeft, pageFooterRight){
 				}
 				@bottom-right {
 					content:`+pageFooterRight+` " Page " counter(page) " of " counter(pages);
+					white-space: pre;
+					font-size: 7pt;
+					color: #606060;
+				}
+				@top-right {
+					content:`+pageHeader+` ;
 					white-space: pre;
 					font-size: 7pt;
 					color: #606060;

@@ -70,7 +70,7 @@ export default class TellPeople extends Vue {
 
     public reloadPageInformation() {
 
-        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true);  
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true, false);  
         const listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName);       
 
         if (this.step.result && this.step.result["notifySurvey"]){

@@ -1,0 +1,44 @@
+{
+   "pages": [
+      {
+         "name": "previewPGT",
+         "elements": [
+            {
+
+               "type": "panel",
+               "name": "notifyDownloadPGTPanel",
+               "elements": [
+                  {
+                  "type": "infotext",
+                  "name": "notifyPGTDownloadExplanation",
+                  "title": "Because your application involves a child under the age of 19 or an adult who is not `mentally competent`, you will need to let the Public Guardian and Trustee (PGT) know that you are applying for a `Representation Grant`.<br><br>The PGT will review to ensure the children and adults who are not mentally competent will be treated fairly. The legislated fee for the PGT's review is $315.00.<br><br><a href=\"https://www.trustee.bc.ca/services/Pages/Grant-Application-Review-Services-(GARS).aspx\" target=\"_blank\">For more information, click here to read about the PGT's role in your application.</a> (This link opens in a new tab)<br><br>You will need to give the PGT:<ul><li>a Form P1</li><li>a letter to explain your application<li>a cheque or bank draft for $315.00 payable to \"Public Guardian and Trustee\"</li></ul>This service will now create the letter that you need.",
+                  "titleLocation": "hidden",
+                  "description": "[when read-only-answers get enabled] Next, download Form P1."
+                  },
+                  {
+                  "type": "formdownloadbutton",
+                  "name": "notifyPGTDownloadButton",
+                  "title": " ",
+                  "description": "It may take a few seconds for the service to create your Form PGT.<br><br>This letter will also have the Form P1 already attached.",
+                  "buttonText": "Download the Letter to the Public Guardian and Trustee",
+                  "textClass":"my-4",
+                  "variant":"primary",
+                  "buttonType":"print",
+                  "formName": "FormPGT"
+                  },
+                  {
+                  "type": "helptext",
+                  "name": "notifyDownloadPGTFAQ1",
+                  "title": "How do I use a PDF?",
+                  "titleLocation": "hidden",
+                  "body": "A PDF stands for Portable Document Format. It is a type of file that can be saved onto your computer. To open the PDF, you may need Adobe Reader (free to download) or other similar software. <br><br><a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)"
+                  }
+               ]               
+            }
+         ],
+         "title": "Preview and Download the Public Guardian and Trustee (PGT) Letter"
+      }
+   ],
+   "showQuestionNumbers": "off",
+   "requiredText": ""
+}
