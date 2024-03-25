@@ -107,6 +107,7 @@ export default class ReviewYourAnswers extends Vue {
     currentPage=0;
     pageHasError = false;
     reviewed = false;
+    isFirstNation = false;
     errorQuestionNames = [];
     bankNamesIndex: Number[] = [];
     listOfNotifyingPeople = [];
@@ -116,7 +117,7 @@ export default class ReviewYourAnswers extends Vue {
     nextPageChange(newVal) 
     {        
         togglePages([this.stPgNo.NOTIFY.TellPeople], !this.pageHasError, this.currentStep);
-        togglePages([this.stPgNo.NOTIFY.PreviewP1], (!this.pageHasError && this.listOfNotifyingPeople.length>0), this.currentStep);
+        togglePages([this.stPgNo.NOTIFY.PreviewP1], (!this.pageHasError && (this.listOfNotifyingPeople.length>0 || this.isFirstNation)), this.currentStep);
         togglePages([this.stPgNo.NOTIFY.PreviewPGT], (!this.pageHasError && this.minorAndIncapableInfo?.hasMinorOrIncapable) , this.currentStep);
 
         if(this.pageHasError){
@@ -128,8 +129,8 @@ export default class ReviewYourAnswers extends Vue {
             toggleStep([this.stPgNo.NEXT._StepNo],false)
         }else{
         
-            togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], this.listOfNotifyingPeople.length>0, this.currentStep)
-            if(this.listOfNotifyingPeople?.length==0){
+            togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], (this.listOfNotifyingPeople.length>0 || this.isFirstNation), this.currentStep)
+            if(this.listOfNotifyingPeople?.length==0 && !this.isFirstNation){
                 toggleStep([this.stPgNo.NEXT._StepNo],true);
                 togglePages([this.stPgNo.NEXT.FormP5], false, this.stPgNo.NEXT._StepNo);
             }
@@ -140,6 +141,8 @@ export default class ReviewYourAnswers extends Vue {
     }
 
     mounted(){
+        const deceasedInfo = this.steps[this.stPgNo.DECEASED._StepNo].result?.informationAboutDeceasedSurvey?.data;
+        this.isFirstNation = deceasedInfo.deceasedFirstNations =='y';
         const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true, false);  
         this.listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName);
         this.minorAndIncapableInfo = Vue.filter('getMinorAndIncapableInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);

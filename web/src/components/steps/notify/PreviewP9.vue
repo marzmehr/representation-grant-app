@@ -169,7 +169,8 @@ export default class PreviewP9 extends Vue {
             const step = this.$store.state.Application.steps[stepIndex]
             if(step.active && optionalStepNames.indexOf(step.name) == -1){
                 for(const page of step.pages){
-                    if(page.active && page.progress!=100 && optionalPageNames.indexOf(page.name) == -1){                       
+                    if(page.active && page.progress!=100 && optionalPageNames.indexOf(page.name) == -1){ 
+                        toggleStep([this.stPgNo.NEXT._StepNo],false)                  
                         this.$store.commit("Application/setCurrentStep", step.id);
                         this.$store.commit("Application/setCurrentStepPage", {currentStep: step.id, currentPage: page.key });                        
                         return false;

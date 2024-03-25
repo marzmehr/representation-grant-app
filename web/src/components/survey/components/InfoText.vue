@@ -36,6 +36,7 @@
 
 <script>
 import { Question } from "survey-vue";
+import * as SurveyVue from "survey-vue";
 
 export default {
   props: {
@@ -75,6 +76,11 @@ export default {
     };
     q.valueChangedCallback = () => {
       this.value = q.value;
+    };
+    q.validateValueCallback = () => {
+      let error = null
+      if(q.messageStyle === 'error')  error = new SurveyVue.SurveyError("")
+      return error
     };
     this.updateContent();
   }
