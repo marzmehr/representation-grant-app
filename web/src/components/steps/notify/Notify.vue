@@ -164,7 +164,7 @@ export default class Notify extends Vue {
            firstNationInfo+= `<b>In-person or physical mail, choose one of the following:</b><br><ul><li>Anacla Government Office<br>170 Nookemus Road<br>Anacla, BC<br>V0R 1B0</li></ul><ul><li>Port Alberni Government Office<br>4644 Adelaide Street<br>Port Alberni, BC<br>V9Y 6N4</li></ul><b>Email:</b><ul><li>communications@huuayaht.org</li><li>Use the subject title: \"Re: Representation Grant Application\"</li></ul>`
         }
         else if(deceasedFirstNationsName == "Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht)"){
-            firstNationInfo+= `For information on how to contact the the Ka:'yu:'k't'h'/Chek'tles7et'h' First Nations (Kyuquot/Checleseht), <a href=\"https://kyuquotbc.ca/\" target=\"_blank\">click here to go to their website</a> (This link opens in a new tab)`
+            firstNationInfo+= `<b>Email:</b><ul><li>Cynthia Blackstone</li><li>cynthiab@kcfirstnations.com</li><li>Use the subject title: \"Re: Representation Grant Application\"</li></ul>`
         }else if(deceasedFirstNationsName == "Nisg̱a'a Nation"){
             firstNationInfo+= `<b>In-person or physical mail:</b><br><ul><li>Nisg̱a'a Lisims Government<br>PO Box 231, 2000 Lisims Drive<br>Gitlaxt'aamiks (formerly New Aiyansh), BC<br>V0J 1A0</li></ul><b>Email:</b><ul><li>info@nisgaa.net</li><li>Use the subject title: \"Re: Representation Grant Application\"</li></ul>`
         }else if(deceasedFirstNationsName == "Tla'amin Nation"){

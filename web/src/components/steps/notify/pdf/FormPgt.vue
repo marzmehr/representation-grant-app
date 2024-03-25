@@ -173,31 +173,50 @@ export default class FormPgt extends Vue {
         if(minorAndIncapableInfo.hasSpouse)
             spouseList.forEach(spouse => { 
                 if(minorAndIncapableInfo.spouse.minorAll.includes(spouse.spouseName)){
+                    let mailingAddress = spouse.spouseIsAdultNoResidentialAddress;                   
+                    if(spouse.spouseIsAdultNoResidentialReceiveMail == 'n' && spouse.spouseIsAdultNoHasMailingAddress == 'y'){
+                        mailingAddress = spouse.spouseIsAdultNoMailingAddress;
+                    }
+                    let guardianMailingAddress = spouse.spouseGuardianResidentialAddress;
+                    if(spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianResidentialReceiveMail == 'n' && spouse.spouseGuardianHasMailingAddress == 'y'){
+                        guardianMailingAddress = spouse.spouseGuardianMailingAddress;
+                    }
                     const minor: minorPdfType = {
                         name: spouse.spouseName,
                         relation: 'spouse',
                         dob: spouse.spouseIsAdultNoDOB,
                         residentialAddress: spouse.spouseIsAdultNoResidentialAddress,
-                        mailingAddress: spouse.spouseIsAdultNoMailingAddress,
+                        mailingAddress: mailingAddress,
                         email: spouse.spouseIsAdultNoEmailAddress,
                         fax: spouse.spouseIsAdultNoFaxNumber,
 
                         hasGuardian: spouse.spouseHasGuardian == 'y',    
                         guardianName: spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianName? spouse.spouseGuardianName: 'None', 
                         guardianResidentialAddress: spouse.spouseGuardianResidentialAddress,
-                        guardianMailingAddress: spouse.spouseGuardianMailingAddress,
+                        guardianMailingAddress: guardianMailingAddress,
                         guardianEmail: spouse.spouseGuardianEmailAddress,
                         guardianFax: spouse.spouseGuardianFaxNumber
                     }
                     this.minorsList.push(minor)
                 }
                 else if(minorAndIncapableInfo.spouse.incapableAll.includes(spouse.spouseName)){
+                    let mailingAddress = spouse.spouseIsCompetentNoResidentialAddress;                   
+                    if(spouse.spouseIsCompetentNoResidentialReceiveMail == 'n' && spouse.spouseIsCompetentNoHasMailingAddress == 'y'){
+                        mailingAddress = spouse.spouseIsCompetentNoMailingAddress;
+                    }
+
+                    let nomineeMailingAddress = spouse.spouseNomineeResidentialAddress;
+                    if(spouse.spouseIsCompetent == 'n' && spouse.spouseHasNominee == 'y' && 
+                        spouse.spouseNomineeResidentialReceiveMail == 'n' && spouse.spouseNomineeHasMailingAddress == 'y'){
+                            nomineeMailingAddress = spouse.spouseNomineeMailingAddress;
+                    }
+
                     const incapable: incapablePdfType = {
                         name: spouse.spouseName,
                         relation: 'spouse',
                         dob: spouse.spouseIsCompetentNoDOB,
                         residentialAddress: spouse.spouseIsCompetentNoResidentialAddress,
-                        mailingAddress: spouse.spouseIsCompetentNoMailingAddress,
+                        mailingAddress: mailingAddress,
                         email: spouse.spouseIsCompetentNoEmailAddress,
                         fax: spouse.spouseIsCompetentNoFaxNumber,
 
@@ -205,7 +224,7 @@ export default class FormPgt extends Vue {
                         nomineeName: spouse.spouseHasNominee == 'y' && spouse.spouseNomineeName? spouse.spouseNomineeName: 'None',
                         nomineeFormal: spouse.spouseNomineeFormal =='y',
                         nomineeResidentialAddress: spouse.spouseNomineeResidentialAddress,    
-                        nomineeMailingAddress: spouse.spouseNomineeMailingAddress,
+                        nomineeMailingAddress: nomineeMailingAddress,
                         nomineeEmail: spouse.spouseNomineeEmailAddress,
                         nomineeFax: spouse.spouseNomineeFaxNumber
                     }
@@ -216,31 +235,50 @@ export default class FormPgt extends Vue {
         if(minorAndIncapableInfo.hasChildren)
             childList.forEach(child => { 
                 if(minorAndIncapableInfo.children.minorAll.includes(child.childName)){
+                    let mailingAddress = child.childIsAdultNoResidentialAddress;                   
+                    if(child.childIsAdultNoResidentialReceiveMail == 'n' && child.childIsAdultNoHasMailingAddress == 'y'){
+                        mailingAddress = child.childIsAdultNoMailingAddress;
+                    }
+                    let guardianMailingAddress = child.childGuardianResidentialAddress;
+                    if(child.childHasGuardian == 'y' && child.childGuardianResidentialReceiveMail == 'n' && child.childGuardianHasMailingAddress == 'y'){
+                        guardianMailingAddress = child.childGuardianMailingAddress;
+                    }
                     const minor: minorPdfType = {
                         name: child.childName,
                         relation: 'child',
                         dob: child.childIsAdultNoDOB,
                         residentialAddress: child.childIsAdultNoResidentialAddress,
-                        mailingAddress: child.childIsAdultNoMailingAddress,
+                        mailingAddress: mailingAddress,
                         email: child.childIsAdultNoEmailAddress,
                         fax: child.childIsAdultNoFaxNumber,
 
                         hasGuardian: child.childHasGuardian == 'y',    
                         guardianName: child.childGuardianName && child.childHasGuardian == 'y'? child.childGuardianName:'None',
                         guardianResidentialAddress: child.childGuardianResidentialAddress,
-                        guardianMailingAddress: child.childGuardianMailingAddress,
+                        guardianMailingAddress: guardianMailingAddress,
                         guardianEmail: child.childGuardianEmailAddress,
                         guardianFax: child.childGuardianFaxNumber
                     }
                     this.minorsList.push(minor)
                 }
                 else if(minorAndIncapableInfo.children.incapableAll.includes(child.childName)){
+                    let mailingAddress = child.childIsCompetentNoResidentialAddress;                   
+                    if(child.childIsCompetentNoResidentialReceiveMail == 'n' && child.childIsCompetentNoHasMailingAddress == 'y'){
+                        mailingAddress = child.childIsCompetentNoMailingAddress;
+                    }
+
+                    let nomineeMailingAddress = child.childNomineeResidentialAddress;
+                    if(child.childIsCompetent == 'n' && child.childHasNominee == 'y' && 
+                        child.childNomineeResidentialReceiveMail == 'n' && child.childNomineeHasMailingAddress == 'y'){
+                            nomineeMailingAddress = child.childNomineeMailingAddress;
+                    }
+
                     const incapable: incapablePdfType = {
                         name: child.childName,
                         relation: 'child',
                         dob: child.childIsCompetentNoDOB,
                         residentialAddress: child.childIsCompetentNoResidentialAddress,
-                        mailingAddress: child.childIsCompetentNoMailingAddress,
+                        mailingAddress: mailingAddress,
                         email: child.childIsCompetentNoEmailAddress,
                         fax: child.childIsCompetentNoFaxNumber,
 
@@ -248,7 +286,7 @@ export default class FormPgt extends Vue {
                         nomineeName: child.childHasNominee=='y' && child.childNomineeName? child.childNomineeName: 'None',
                         nomineeFormal: child.childNomineeFormal =='y',
                         nomineeResidentialAddress: child.childNomineeResidentialAddress,
-                        nomineeMailingAddress: child.childNomineeMailingAddress,
+                        nomineeMailingAddress: nomineeMailingAddress,
                         nomineeEmail: child.childNomineeEmailAddress,
                         nomineeFax: child.childNomineeFaxNumber
                     }
@@ -259,31 +297,51 @@ export default class FormPgt extends Vue {
         if(minorAndIncapableInfo.hasCreditor)
             creditorList.forEach(creditor => { 
                 if(minorAndIncapableInfo.creditor.minorAll.includes(creditor.creditorPersonName)){
+                    let mailingAddress = creditor.creditorPersonIsAdultNoResidentialAddress;                   
+                    if(creditor.creditorPersonIsAdultNoResidentialReceiveMail == 'n' && creditor.creditorPersonIsAdultNoHasMailingAddress == 'y'){
+                        mailingAddress = creditor.creditorPersonIsAdultNoMailingAddress;
+                    }
+                    let guardianMailingAddress = creditor.creditorPersonGuardianResidentialAddress;
+                    if(creditor.creditorPersonHasGuardian == 'y' && creditor.creditorPersonGuardianResidentialReceiveMail == 'n' && creditor.creditorPersonGuardianHasMailingAddress == 'y'){
+                        guardianMailingAddress = creditor.creditorPersonGuardianMailingAddress;
+                    }
                     const minor: minorPdfType = {
                         name: creditor.creditorPersonName,
                         relation: 'creditor',
                         dob: creditor.creditorPersonIsAdultNoDOB,
                         residentialAddress: creditor.creditorPersonIsAdultNoResidentialAddress,
-                        mailingAddress: creditor.creditorPersonIsAdultNoMailingAddress,
+                        mailingAddress: mailingAddress,
                         email: creditor.creditorPersonIsAdultNoEmailAddress,
                         fax: creditor.creditorPersonIsAdultNoFaxNumber,
 
                         hasGuardian: creditor.creditorPersonHasGuardian == 'y',    
                         guardianName: creditor.creditorPersonHasGuardian == 'y' && creditor.creditorPersonGuardianName? creditor.creditorPersonGuardianName: 'None', 
                         guardianResidentialAddress: creditor.creditorPersonGuardianResidentialAddress,
-                        guardianMailingAddress: creditor.creditorPersonGuardianMailingAddress,
+                        guardianMailingAddress: guardianMailingAddress,
                         guardianEmail: creditor.creditorPersonGuardianEmailAddress,
                         guardianFax: creditor.creditorPersonGuardianFaxNumber
                     }
                     this.minorsList.push(minor)
                 }
                 else if(minorAndIncapableInfo.creditor.incapableAll.includes(creditor.creditorPersonName)){
+
+                    let mailingAddress = creditor.creditorPersonIsCompetentNoResidentialAddress;                   
+                    if(creditor.creditorPersonIsCompetentNoResidentialReceiveMail == 'n' && creditor.creditorPersonIsCompetentNoHasMailingAddress == 'y'){
+                        mailingAddress = creditor.creditorPersonIsCompetentNoMailingAddress;
+                    }
+
+                    let nomineeMailingAddress = creditor.creditorPersonNomineeResidentialAddress;
+                    if(creditor.creditorPersonIsCompetent == 'n' && creditor.creditorPersonHasNominee == 'y' && 
+                        creditor.creditorPersonNomineeResidentialReceiveMail == 'n' && creditor.creditorPersonNomineeHasMailingAddress == 'y'){
+                            nomineeMailingAddress = creditor.creditorPersonNomineeMailingAddress;
+                    }
+                    
                     const incapable: incapablePdfType = {
                         name: creditor.creditorPersonName,
                         relation: 'creditor',
                         dob: creditor.creditorPersonIsCompetentNoDOB,
                         residentialAddress: creditor.creditorPersonIsCompetentNoResidentialAddress,
-                        mailingAddress: creditor.creditorPersonIsCompetentNoMailingAddress,
+                        mailingAddress: mailingAddress,
                         email: creditor.creditorPersonIsCompetentNoEmailAddress,
                         fax: creditor.creditorPersonIsCompetentNoFaxNumber,
                         
@@ -291,7 +349,7 @@ export default class FormPgt extends Vue {
                         nomineeName: creditor.creditorPersonHasNominee == 'y' && creditor.creditorPersonNomineeName? creditor.creditorPersonNomineeName : 'None',
                         nomineeFormal: creditor.creditorPersonNomineeFormal == 'y',
                         nomineeResidentialAddress: creditor.creditorPersonNomineeResidentialAddress,
-                        nomineeMailingAddress: creditor.creditorPersonNomineeMailingAddress,
+                        nomineeMailingAddress: nomineeMailingAddress,
                         nomineeEmail: creditor.creditorPersonNomineeEmailAddress,
                         nomineeFax: creditor.creditorPersonNomineeFaxNumber
                     }
