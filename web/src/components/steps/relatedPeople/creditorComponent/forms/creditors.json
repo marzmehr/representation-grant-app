@@ -281,7 +281,9 @@
                         },
                         {
                             "type": "yesno",
-                            "name": "creditorPersonIsCompetentNoHasMailingAddress",                           
+                            "name": "creditorPersonIsCompetentNoHasMailingAddress",   
+                            "visible": false,
+                            "visibleIf": "{creditorPersonIsCompetentNoResidentialReceiveMail} = 'n'",                        
                             "title": "Does {creditorPersonName} have a different address where they receive mail?",
                             "isRequired": true
                         },
