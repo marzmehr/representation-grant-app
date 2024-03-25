@@ -36,8 +36,7 @@ export const notifyPanel = {
          "visible": false,
          "visibleIf": "{notifyP1Delivered[0]} = 'n'",
          "title": "For now, this service has only been developed for a limited number of situations. At this time, this service cannot help you apply for a `Representation Grant`.",
-         "titleLocation": "hidden",
-         "requiredErrorText": "Please press Continue",
+         "titleLocation": "hidden",         
          "messageStyle": "error"
       },
       {

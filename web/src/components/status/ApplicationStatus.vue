@@ -201,7 +201,7 @@ export default class ApplicationStatus extends Vue {
 
     mounted() {
         window.addEventListener('resize', this.getWindowHeight);
-        this.loadApplications();
+        this.extractFilingLocations();
         this.getWindowHeight();
     }
 
@@ -241,7 +241,7 @@ export default class ApplicationStatus extends Vue {
                 app.app_type = appJson.app_type;
                 this.previousApplications.push(app);
             }
-            this.extractFilingLocations();
+
             this.dataLoaded = true;
             //console.log(this.previousApplications)       
         },(err) => {            
@@ -280,7 +280,7 @@ export default class ApplicationStatus extends Vue {
             }
             // console.log(locations)
             this.UpdateLocationsInfo(locations);
-            
+            this.loadApplications();
             // if(response.data.length>0) {
             //     this.navigate("returning");
             // }else{
