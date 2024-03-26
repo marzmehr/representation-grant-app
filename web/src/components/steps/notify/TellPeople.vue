@@ -70,9 +70,13 @@ export default class TellPeople extends Vue {
 
     public reloadPageInformation() {
 
-        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true, false);  
-        const listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName);       
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true, false);
 
+        const firstNationsName = this.getFirstNationName();
+        if(firstNationsName) relatedPeopleInfo.push(firstNationsName);
+
+        const listOfNotifyingPeople = relatedPeopleInfo.filter(related => !this.applicantName.includes(related))
+        
         if (this.step.result && this.step.result["notifySurvey"]){
             this.survey.data = this.step.result["notifySurvey"].data;
         } 
@@ -82,6 +86,13 @@ export default class TellPeople extends Vue {
         
         this.survey.setVariable("deceasedName", Vue.filter('getFullName')(this.deceasedName));
         this.survey.setVariable("onlyRelationSpouse", listOfNotifyingPeople.length == 0);
+    }
+
+    getFirstNationName(){
+        //___Deceased        
+        const deceasedInfo = this.steps[this.stPgNo.DECEASED._StepNo].result?.informationAboutDeceasedSurvey?.data;
+        const isFirstNation = deceasedInfo.deceasedFirstNations =='y';
+        return (isFirstNation? deceasedInfo.deceasedFirstNationsName: '');
     }
 
     public onPrev() {

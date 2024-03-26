@@ -132,7 +132,7 @@ export default class ReviewYourAnswers extends Vue {
             togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], (this.listOfNotifyingPeople.length>0 || this.isFirstNation), this.currentStep)
             if(this.listOfNotifyingPeople?.length==0 && !this.isFirstNation){
                 toggleStep([this.stPgNo.NEXT._StepNo],true);
-                togglePages([this.stPgNo.NEXT.FormP5], false, this.stPgNo.NEXT._StepNo);
+                //togglePages([this.stPgNo.NEXT.FormP5], false, this.stPgNo.NEXT._StepNo);
             }
                 
         }

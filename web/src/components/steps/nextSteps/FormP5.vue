@@ -76,6 +76,14 @@ export default class FormP5 extends Vue {
     }  
     
     public reloadPageInformation() {
+
+        const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true, false);
+        
+        const firstNationsName = this.getFirstNationName();
+        if(firstNationsName) relatedPeopleInfo.push(firstNationsName);
+
+        const listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName);       
+        
         
         if (this.step.result?.formP5Survey?.data){
             this.survey.data = this.step.result.formP5Survey.data;
@@ -91,8 +99,15 @@ export default class FormP5 extends Vue {
         this.survey.setVariable("applicantCourthouse", this.applicationLocation.name);
         this.survey.setVariable("applicantOrdinaryAddress", applicantInfo?.applicantOrdinaryAddress??'');
         this.survey.setVariable("applicantOccupation", applicantInfo?.applicantOccupation??'');
+        this.survey.setVariable("onlyRelationSpouse", listOfNotifyingPeople.length == 0);
     }
 
+    getFirstNationName(){
+        //___Deceased        
+        const deceasedInfo = this.steps[this.stPgNo.DECEASED._StepNo].result?.informationAboutDeceasedSurvey?.data;
+        const isFirstNation = deceasedInfo.deceasedFirstNations =='y';
+        return (isFirstNation? deceasedInfo.deceasedFirstNationsName: '');
+    }
 
     public onPrev() {
         Vue.prototype.$UpdateGotoPrevStepPage()

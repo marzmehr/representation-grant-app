@@ -32,7 +32,18 @@
              "name": "p10Tip1",
              "title": "<b>1) Affidavit Information</b><br><br>Number: <b>3rd</b><br>Name of person swearing affidavit: <b>{applicantName}</b><br>Date: <b>Leave Blank</b><br>Location: <b>{applicantCourthouse}</b> ",
              "titleLocation": "hidden",
-             "requiredErrorText": "Please press Continue"
+             "requiredErrorText": "Please press Continue",
+             "visible": false,
+             "visibleIf": "!({onlyRelationSpouse})"
+            },
+            {
+                "type": "infotext",
+                "name": "p10Tip1",
+                "title": "<b>1) Affidavit Information</b><br><br><b>Note:</b> If there was no one, other than the applicant(s), entitled to notice in accordance to Rule 25-2, this will be the 2nd affidavit and should be indicated as Number: 2nd.<br><br>Number: <b>3rd</b><br>Name of person swearing affidavit: <b>{applicantName}</b><br>Date: <b>Leave Blank</b><br>Location: <b>{applicantCourthouse}</b> ",
+                "titleLocation": "hidden",
+                "requiredErrorText": "Please press Continue",
+                "visible": false,
+                "visibleIf": "({onlyRelationSpouse})"
             },
             {
              "type": "infotext",

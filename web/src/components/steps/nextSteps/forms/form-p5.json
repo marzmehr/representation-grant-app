@@ -39,11 +39,22 @@
            "name": "p5TipPanel",
            "elements": [
             {
+                "type": "infotext",
+                "name": "p5Tip1",
+                "title": "<b>1) Affidavit Information</b><br><br>Number: <b>2nd</b><br>Name of person swearing affidavit: <b>{applicantName}</b><br>Date: <b>leave blank</b><br>Location: <b>{applicantCourthouse}</b> ",
+                "titleLocation": "hidden",
+                "requiredErrorText": "Please press Continue",
+                "visible": false,
+                "visibleIf": "!({onlyRelationSpouse})"
+            },
+            {
              "type": "infotext",
              "name": "p5Tip1",
              "title": "<b>1) Affidavit Information</b><br><br><b>Note</b>: If there was no one, other than the applicant(s), entitled to notice in accordance to Rule 25-2, this will be the 1st affidavit and should be indicated as Number: 1st<br><br>Number: <b>2nd</b><br>Name of person swearing affidavit: <b>{applicantName}</b><br>Date: <b>leave blank</b><br>Location: <b>{applicantCourthouse}</b> ",
              "titleLocation": "hidden",
-             "requiredErrorText": "Please press Continue"
+             "requiredErrorText": "Please press Continue",
+             "visible": false,
+             "visibleIf": "({onlyRelationSpouse})"
             },
             {
              "type": "infotext",
