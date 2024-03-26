@@ -2,7 +2,7 @@ import logging
 
 from django.conf import settings
 from django.http import (
-    HttpResponse, HttpResponseNotFound
+    HttpResponse, HttpResponseNotFound, HttpResponseBadRequest 
 )
 from django.template.loader import get_template
 from django.utils import timezone
@@ -29,10 +29,12 @@ class SurveyPdfView(generics.GenericAPIView):
         pdf_content = render_pdf(html_content)
         return pdf_content
 
-    def get_pdf(self, pk):
+    def get_pdf(self, id, pdf_type, version):
         try:
-            pdf_id = Application.objects.values_list("prepared_pdf_id", flat=True).get(pk=pk)
-            pdf_result = PreparedPdf.objects.get(id=pdf_id)
+            pdf_result = PreparedPdf.objects.get(
+                application_id=id,                
+                pdf_type=pdf_type,
+                version=version)
             return pdf_result
         except (PreparedPdf.DoesNotExist, Application.DoesNotExist):
             LOGGER.debug("No record found")
@@ -46,12 +48,22 @@ class SurveyPdfView(generics.GenericAPIView):
             return HttpResponseNotFound("No record found")
 
         name = request.query_params.get("name")
+        pdf_type = request.query_params.get("pdf_type")
+        version = request.query_params.get("version")
+        if None in [name, pdf_type, version]:
+            return HttpResponseBadRequest("Missing parameters.")
+
         try:
-            pdf_result = self.get_pdf(pk)
+            pdf_result = self.get_pdf(pk, pdf_type, version)
             if not pdf_result:
                 pdf_content = self.generate_pdf(name, data)
                 (pdf_key_id, pdf_content_enc) = settings.ENCRYPTOR.encrypt(pdf_content)
-                pdf_response = PreparedPdf(data=pdf_content_enc, key_id=pdf_key_id)
+                pdf_response = PreparedPdf(
+                    data=pdf_content_enc, 
+                    key_id=pdf_key_id,
+                    pdf_type=pdf_type,
+                    version=version
+                )
                 pdf_response.save()
                 app.prepared_pdf_id = pdf_response.pk
             else:

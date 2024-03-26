@@ -90,7 +90,7 @@ export default class Notify extends Vue {
         const firstNationsName = this.getFirstNationName();
         if(firstNationsName) relatedPeopleInfo.push(firstNationsName);
 
-        this.listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName)
+        this.listOfNotifyingPeople = relatedPeopleInfo.filter(related => !this.applicantName.includes(related))
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
         for(const inx in this.listOfNotifyingPeople){            
             // console.log(notifyingPerson)

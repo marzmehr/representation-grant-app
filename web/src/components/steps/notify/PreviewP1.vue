@@ -111,7 +111,7 @@ export default class PreviewP1 extends Vue {
         this.pdfBody = body;
         this.pdfBodyReady = true;
         const applicationId = this.$store.state.Application.id;        
-        const url = '/survey-print/'+applicationId+'/?name=representation-grant'
+        const url = `/survey-print/${applicationId}/?name=formp1&pdf_type=formp1&version=1.0`
         const options = {
             responseType: "blob",
             headers: {

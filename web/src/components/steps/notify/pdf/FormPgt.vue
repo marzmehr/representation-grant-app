@@ -11,7 +11,7 @@
         </div>
         
         <div style="margin:1rem 0rem;">
-            I, <b class="answer">{{applicantName}}</b> ({{deceasedName | getFullName}}'s TODOrelationship), am requesting 
+            I, <b class="answer">{{applicantName}}</b> ({{deceasedName | getFullName}}'s {{applicantRelation}}), am requesting 
             you review my application for a Representation Grant for <b class="answer">{{deceasedName | getFullName}}</b>, 
             of <b class="answer">{{deceasedAddress | getFullAddress}}</b> who died on <b class="answer">{{deceasedDateOfDeath | beautify-full-date}}</b>.
         </div>
@@ -131,6 +131,7 @@ export default class FormPgt extends Vue {
     courtName = '';
     deceasedDateOfDeath ='';  
     deceasedAddress = {};
+    applicantRelation = '';
     applicantMailingAddress = {};
     applicantServiceAddress = {};
     applicantServiceEmail = '';
@@ -169,6 +170,7 @@ export default class FormPgt extends Vue {
         const spouseList = relatedStep.result.spouseSurvey?.data?? []
         const childList = relatedStep.result.childrenSurvey?.data?? []
         const creditorList = relatedStep.result.creditorSurvey?.data?? []
+        this.applicantRelation = Vue.filter('getApplicantRelation')(relatedStep, this.applicantName)
         console.log(minorAndIncapableInfo)
         if(minorAndIncapableInfo.hasSpouse)
             spouseList.forEach(spouse => { 
