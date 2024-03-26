@@ -140,12 +140,21 @@ export default class PreviewPgt extends Vue {
         Vue.filter('setSurveyProgress')(null, this.currentStep, this.currentPage, 100, false);
         // Vue.filter('setSurveyProgress')(null, this.currentStep, this.stPgNo.NOTIFY.NotifyPeople, 50, false);       
         const relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, false, true, false);
+        const firstNationsName = this.getFirstNationName();
+        if(firstNationsName) relatedPeopleInfo.push(firstNationsName);
+
         const listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName)
         
         togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], listOfNotifyingPeople.length>0, this.currentStep)
         this.disableNext=false;        
     }
 
+    getFirstNationName(){
+        //___Deceased        
+        const deceasedInfo = this.steps[this.stPgNo.DECEASED._StepNo].result?.informationAboutDeceasedSurvey?.data;
+        const isFirstNation = deceasedInfo.deceasedFirstNations =='y';
+        return (isFirstNation? deceasedInfo.deceasedFirstNationsName: '');
+    }
 
     public checkErrorOnPages(){
         const stepsArr = _.range(0, Object.keys(this.stPgNo).length)    
