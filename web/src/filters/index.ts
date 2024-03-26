@@ -282,7 +282,20 @@ Vue.filter('getMinorAndIncapableInfo', function(step){
 	}
 
 	return minorsIncapables
-}) 
+})
+
+Vue.filter('getApplicantRelation', function(step, applicant){
+	const applicantName = applicant?.split('(')[0]?.trim();
+	const spouse = getRelatedSpouses(step, true, false);
+	const children = getRelatedChildren(step, true, false);
+	const creditor = getRelatedCreditor(step, true, false);
+	const creditorOrg = getRelatedCreditorOrg(step)
+	if(spouse.related.includes(applicantName)) return 'spouse'
+	else if(children.related.includes(applicantName)) return 'child'
+	else if(creditor.related.includes(applicantName)) return 'creditor'
+	else if(creditorOrg.includes(applicantName)) return 'creditor organization'
+	else return'unknown'
+})
 
 Vue.filter('onlyRelationSpouse', function(steps: stepInfoType[], stPgNo: stepsAndPagesNumberInfoType){
 
