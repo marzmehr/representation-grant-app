@@ -109,7 +109,7 @@
                         {
                             "type": "yesno",
                             "name": "registeredIndian",
-                            "title": "Was the deceased a Registered Indian under the Government of Canada's Indian Act when they died?",
+                            "title": "Was the deceased registered as an Indian under the Government of Canada’s Indian Act when they died?",
                             "description": "If the deceased was a Nisga'a citizen or a member of a Treaty First Nation in British Columbia, select \"NO.\" This service will have more questions about this situation in a later step.",
                             "isRequired": true
                         },

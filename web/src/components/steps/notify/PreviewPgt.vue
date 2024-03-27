@@ -23,7 +23,7 @@ const applicationState = namespace("Application");
 
 import {stepsAndPagesNumberInfoType} from "@/types/Application/StepsAndPages"
 import { stepInfoType } from '@/types/Application';
-import { togglePages, toggleStep } from '@/components/utils/TogglePages';
+import { togglePages } from '@/components/utils/TogglePages';
 
 @Component({
     components:{
@@ -144,8 +144,9 @@ export default class PreviewPgt extends Vue {
         if(firstNationsName) relatedPeopleInfo.push(firstNationsName);
 
         const listOfNotifyingPeople = relatedPeopleInfo.filter(related => related != this.applicantName)
+        const minorAndIncapableInfo = Vue.filter('getMinorAndIncapableInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
         
-        togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], listOfNotifyingPeople.length>0, this.currentStep)
+        togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], (listOfNotifyingPeople.length>0 || minorAndIncapableInfo?.hasMinorOrIncapable), this.currentStep)
         this.disableNext=false;        
     }
 

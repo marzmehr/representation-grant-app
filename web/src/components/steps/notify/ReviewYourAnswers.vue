@@ -129,8 +129,8 @@ export default class ReviewYourAnswers extends Vue {
             toggleStep([this.stPgNo.NEXT._StepNo],false)
         }else{
         
-            togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], (this.listOfNotifyingPeople.length>0 || this.isFirstNation), this.currentStep)
-            if(this.listOfNotifyingPeople?.length==0 && !this.isFirstNation){
+            togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], (this.listOfNotifyingPeople.length>0 || this.isFirstNation || this.minorAndIncapableInfo?.hasMinorOrIncapable), this.currentStep)
+            if(this.listOfNotifyingPeople?.length==0 && !this.isFirstNation && !(this.minorAndIncapableInfo?.hasMinorOrIncapable)){
                 toggleStep([this.stPgNo.NEXT._StepNo],true);
                 //togglePages([this.stPgNo.NEXT.FormP5], false, this.stPgNo.NEXT._StepNo);
             }
