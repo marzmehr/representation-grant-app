@@ -16,10 +16,14 @@
             {
              "type": "infotext",
              "name": "p10DownloadExplanation",
-             "title": "This step will help you fill out the Form P10. The Form P10 is a list of {deceasedName}'s `assets`. You need to take your time<br><br><a href=\"https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/probate/p10.pdf?forcedownload=true\">Click here to download a blank \"Form P10 - Affidavit of Assets and Liabilities for Domiciled Estate Grant.\"</a> (This link will download a PDF to your computer)<br><br>To open the PDF, you may need Adobe Reader (free to download) or other similar software. <br><br><a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)<br><br>Click \"Continue\" to get some tips on how to fill out the Form P10 based on the information you've already provided in this service.",
-             "titleLocation": "hidden",
-             "isRequired": true,
-             "requiredErrorText": "Please press Continue"
+             "title": "This step will help you fill out the Form P10. The Form P10 is a list of {deceasedName}'s `assets`. You need to take your time<br><br><a href=\"https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/probate/p10.pdf?forcedownload=true\">Click here to download a blank \"Form P10 - Affidavit of Assets and Liabilities for Domiciled Estate Grant.\"</a> (This link will download a PDF to your computer)<br><br>To open the PDF, you may need Adobe Reader (free to download) or other similar software. <br><br><a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)",
+             "titleLocation": "hidden"
+            },
+            {
+                "type": "infotext",
+                "name": "p10IntroInstructions",
+                "title": "Below are some tips on how to fill out the Form P10 based on the information you've already provided.",
+                "titleLocation": "hidden"
             }
            ]
           },
@@ -171,9 +175,7 @@
              "titleLocation": "hidden",
              "requiredErrorText": "Please press Continue"
             }
-           ],
-           "visible": false,
-           "visibleIf": "{p10DownloadExplanation} > 0"
+           ]
           }
          ],         
          "title": "Fill out a Form P10"

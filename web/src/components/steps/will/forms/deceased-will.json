@@ -71,7 +71,7 @@
               "visible": false,
               "visibleIf": "{willGrantExistsIntro} > 0",
               "title": "Does a Representation Grant for {deceasedName} already exist?",
-              "description": "For example, someone might have gotten a Representation Grant for good other one in another province or another country. In this case, the document from another province or country may not be called a Representation Grant but it will have the same purpose."
+              "description": "For example, someone might have gotten a Representation Grant for {deceasedName} in another province or another country. In this case, the document from another province or country may not be called a Representation Grant but it will have the same purpose."
             },
             {
               "type": "helptext",
