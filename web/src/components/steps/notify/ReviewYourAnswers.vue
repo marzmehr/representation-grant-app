@@ -459,7 +459,7 @@ export default class ReviewYourAnswers extends Vue {
     }
 
     public onNext() {
-        console.log(this.pageHasError)
+        // console.log(this.pageHasError)
         this.UpdateGotoNextStepPage()       
     }
 

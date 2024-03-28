@@ -41,7 +41,7 @@
                     "visible": false,
                     "visibleIf": "{applicantHasLawyer} = 'n'",
                     "title": "What number do you want the Court to call if they have questions?",
-                    "description": "(also know as a Service Phone Number)\n<br><br>\nThe Court will only call during business hours.",
+                    "description": "(also know as a Service Phone Number)<br>The Court will only call during business hours.",
                     "isRequired": true
                 },
                 {
@@ -50,7 +50,7 @@
                     "visible": false,
                     "visibleIf": "{applicantHasLawyer} = 'n'",
                     "title": "What email address do you want the Court to use if they have questions?",
-                    "description": "(also know as an Email for Service)",
+                    "description": "(also know as an Email for Service)<br>If you do not have an email address, please write “No email address”.",
                     "isRequired": true
                 },
                 {
