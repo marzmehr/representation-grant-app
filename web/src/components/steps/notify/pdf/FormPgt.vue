@@ -171,7 +171,7 @@ export default class FormPgt extends Vue {
         const childList = relatedStep.result.childrenSurvey?.data?? []
         const creditorList = relatedStep.result.creditorSurvey?.data?? []
         this.applicantRelation = Vue.filter('getApplicantRelation')(relatedStep, this.applicantName)
-        console.log(minorAndIncapableInfo)
+        // sconsole.log(minorAndIncapableInfo)
         if(minorAndIncapableInfo.hasSpouse)
             spouseList.forEach(spouse => { 
                 if(minorAndIncapableInfo.spouse.minorAll.includes(spouse.spouseName)){

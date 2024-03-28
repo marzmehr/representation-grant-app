@@ -93,8 +93,19 @@ export default class ApplicantInfo extends Vue {
         this.relatedPeopleInfo = Vue.filter('getRelatedPeopleInfo')(this.steps[this.stPgNo.RELATIONS._StepNo], true, true, false, true, false);
         this.surveyJsonCopy = JSON.parse(JSON.stringify(surveyJson)); 
         
+        const relatedPeopleList = []
+        
+        this.relatedPeopleInfo.forEach(related => {
+            relatedPeopleList.push(
+                {
+                    "text":`<b>${related}</b>`,
+                    "value": related
+                }
+            )
+        })
+
         //TODO Depends on the Survey
-        this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"]=this.relatedPeopleInfo;    
+        this.surveyJsonCopy.pages[0].elements[1].elements[0]["choices"]=relatedPeopleList;    
     }
     
     public addSurveyListener(){

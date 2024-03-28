@@ -234,9 +234,9 @@ Vue.filter('getRelatedPeopleInfo', function(step, addCreditor, addCreditorOrg, i
 	const spouse = getRelatedSpouses(step, includePrinciple, includeDescription);
 	const children = getRelatedChildren(step, includePrinciple, includeDescription);
 	const creditor = getRelatedCreditor(step, includePrinciple, includeDescription);
-	if((spouse.minor?.length>0 || spouse.incapable?.length>0 ||
-		children.minor?.length>0 || children.incapable?.length>0 ||
-		creditor.minor?.length>0 || creditor.incapable?.length>0) && addPGT){
+	if((spouse.minorAll?.length>0 || spouse.incapableAll?.length>0 ||
+		children.minorAll?.length>0 || children.incapableAll?.length>0 ||
+		creditor.minorAll?.length>0 || creditor.incapableAll?.length>0) && addPGT){
 		related.push("The Public Guardian and Trustee (PGT)")
 	}
 	related.push(...spouse.related)
@@ -260,9 +260,9 @@ Vue.filter('getMinorAndIncapableInfo', function(step){
 	minorsIncapables.children = children;
 	minorsIncapables.creditor = creditor;
 
-	if( spouse.minor?.length>0 || spouse.incapable?.length>0 ||
-		children.minor?.length>0 || children.incapable?.length>0 ||
-		creditor.minor?.length>0 || creditor.incapable?.length>0){
+	if( spouse.minorAll?.length>0 || spouse.incapableAll?.length>0 ||
+		children.minorAll?.length>0 || children.incapableAll?.length>0 ||
+		creditor.minorAll?.length>0 || creditor.incapableAll?.length>0){
 			minorsIncapables.hasMinorOrIncapable = true;
 	}
 

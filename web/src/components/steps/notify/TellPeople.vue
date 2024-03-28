@@ -37,9 +37,6 @@ export default class TellPeople extends Vue {
     public stPgNo!: stepsAndPagesNumberInfoType;
 
     @applicationState.State
-    public currentStep!: number;
-
-    @applicationState.State
     public deceasedName!: string;  
 
     @applicationState.State
@@ -48,6 +45,7 @@ export default class TellPeople extends Vue {
     survey = new SurveyVue.Model(surveyJson);
     disableNextButton = false;   
     currentPage=0;
+    currentStep=0;
 
     beforeCreate() {
         const Survey = SurveyVue;
@@ -75,12 +73,16 @@ export default class TellPeople extends Vue {
         const firstNationsName = this.getFirstNationName();
         if(firstNationsName) relatedPeopleInfo.push(firstNationsName);
 
+        const minorAndIncapableInfo = Vue.filter('getMinorAndIncapableInfo')(this.steps[this.stPgNo.RELATIONS._StepNo]);
+        if(minorAndIncapableInfo?.hasMinorOrIncapable) relatedPeopleInfo.push('The Public Guardian and Trustee (PGT)')
+
         const listOfNotifyingPeople = relatedPeopleInfo.filter(related => !this.applicantName.includes(related))
         
         if (this.step.result && this.step.result["notifySurvey"]){
             this.survey.data = this.step.result["notifySurvey"].data;
         } 
         
+        this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         
