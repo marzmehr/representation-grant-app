@@ -189,15 +189,15 @@ export default class FormPgt extends Vue {
                         dob: spouse.spouseIsAdultNoDOB,
                         residentialAddress: spouse.spouseIsAdultNoResidentialAddress,
                         mailingAddress: mailingAddress,
-                        email: spouse.spouseIsAdultNoEmailAddress,
-                        fax: spouse.spouseIsAdultNoFaxNumber,
+                        email: spouse.spouseIsAdultNoEmailAddress?spouse.spouseIsAdultNoEmailAddress: 'None',
+                        fax: spouse.spouseIsAdultNoFaxNumber?spouse.spouseIsAdultNoFaxNumber: 'None',
 
                         hasGuardian: spouse.spouseHasGuardian == 'y',    
                         guardianName: spouse.spouseHasGuardian == 'y' && spouse.spouseGuardianName? spouse.spouseGuardianName: 'None', 
                         guardianResidentialAddress: spouse.spouseGuardianResidentialAddress,
                         guardianMailingAddress: guardianMailingAddress,
-                        guardianEmail: spouse.spouseGuardianEmailAddress,
-                        guardianFax: spouse.spouseGuardianFaxNumber
+                        guardianEmail: spouse.spouseGuardianEmailAddress?spouse.spouseGuardianEmailAddress: 'None',
+                        guardianFax: spouse.spouseGuardianFaxNumber?spouse.spouseGuardianFaxNumber: 'None'
                     }
                     this.minorsList.push(minor)
                 }
@@ -219,16 +219,16 @@ export default class FormPgt extends Vue {
                         dob: spouse.spouseIsCompetentNoDOB,
                         residentialAddress: spouse.spouseIsCompetentNoResidentialAddress,
                         mailingAddress: mailingAddress,
-                        email: spouse.spouseIsCompetentNoEmailAddress,
-                        fax: spouse.spouseIsCompetentNoFaxNumber,
+                        email: spouse.spouseIsCompetentNoEmailAddress?spouse.spouseIsCompetentNoEmailAddress: 'None',
+                        fax: spouse.spouseIsCompetentNoFaxNumber?spouse.spouseIsCompetentNoFaxNumber: 'None',
 
                         hasNominee: spouse.spouseHasNominee == 'y',
                         nomineeName: spouse.spouseHasNominee == 'y' && spouse.spouseNomineeName? spouse.spouseNomineeName: 'None',
                         nomineeFormal: spouse.spouseNomineeFormal =='y',
                         nomineeResidentialAddress: spouse.spouseNomineeResidentialAddress,    
                         nomineeMailingAddress: nomineeMailingAddress,
-                        nomineeEmail: spouse.spouseNomineeEmailAddress,
-                        nomineeFax: spouse.spouseNomineeFaxNumber
+                        nomineeEmail: spouse.spouseNomineeEmailAddress?spouse.spouseNomineeEmailAddress: 'None',
+                        nomineeFax: spouse.spouseNomineeFaxNumber?spouse.spouseNomineeFaxNumber: 'None'
                     }
                     this.incapablesList.push(incapable)
                 }
@@ -251,15 +251,15 @@ export default class FormPgt extends Vue {
                         dob: child.childIsAdultNoDOB,
                         residentialAddress: child.childIsAdultNoResidentialAddress,
                         mailingAddress: mailingAddress,
-                        email: child.childIsAdultNoEmailAddress,
-                        fax: child.childIsAdultNoFaxNumber,
+                        email: child.childIsAdultNoEmailAddress?child.childIsAdultNoEmailAddress:'None',
+                        fax: child.childIsAdultNoFaxNumber?child.childIsAdultNoFaxNumber:'None',
 
                         hasGuardian: child.childHasGuardian == 'y',    
                         guardianName: child.childGuardianName && child.childHasGuardian == 'y'? child.childGuardianName:'None',
                         guardianResidentialAddress: child.childGuardianResidentialAddress,
                         guardianMailingAddress: guardianMailingAddress,
-                        guardianEmail: child.childGuardianEmailAddress,
-                        guardianFax: child.childGuardianFaxNumber
+                        guardianEmail: child.childGuardianEmailAddress?child.childGuardianEmailAddress:'None',
+                        guardianFax: child.childGuardianFaxNumber?child.childGuardianFaxNumber:'None'
                     }
                     this.minorsList.push(minor)
                 }
@@ -281,16 +281,16 @@ export default class FormPgt extends Vue {
                         dob: child.childIsCompetentNoDOB,
                         residentialAddress: child.childIsCompetentNoResidentialAddress,
                         mailingAddress: mailingAddress,
-                        email: child.childIsCompetentNoEmailAddress,
-                        fax: child.childIsCompetentNoFaxNumber,
+                        email: child.childIsCompetentNoEmailAddress?child.childIsCompetentNoEmailAddress: 'None',
+                        fax: child.childIsCompetentNoFaxNumber?child.childIsCompetentNoFaxNumber: 'None',
 
                         hasNominee: child.childHasNominee=='y',
                         nomineeName: child.childHasNominee=='y' && child.childNomineeName? child.childNomineeName: 'None',
                         nomineeFormal: child.childNomineeFormal =='y',
                         nomineeResidentialAddress: child.childNomineeResidentialAddress,
                         nomineeMailingAddress: nomineeMailingAddress,
-                        nomineeEmail: child.childNomineeEmailAddress,
-                        nomineeFax: child.childNomineeFaxNumber
+                        nomineeEmail: child.childNomineeEmailAddress?child.childNomineeEmailAddress: 'None',
+                        nomineeFax: child.childNomineeFaxNumber?child.childNomineeFaxNumber: 'None'
                     }
                     this.incapablesList.push(incapable)
                 }
@@ -313,15 +313,15 @@ export default class FormPgt extends Vue {
                         dob: creditor.creditorPersonIsAdultNoDOB,
                         residentialAddress: creditor.creditorPersonIsAdultNoResidentialAddress,
                         mailingAddress: mailingAddress,
-                        email: creditor.creditorPersonIsAdultNoEmailAddress,
-                        fax: creditor.creditorPersonIsAdultNoFaxNumber,
+                        email: creditor.creditorPersonIsAdultNoEmailAddress?creditor.creditorPersonIsAdultNoEmailAddress: 'None',
+                        fax: creditor.creditorPersonIsAdultNoFaxNumber?creditor.creditorPersonIsAdultNoFaxNumber: 'None',
 
                         hasGuardian: creditor.creditorPersonHasGuardian == 'y',    
                         guardianName: creditor.creditorPersonHasGuardian == 'y' && creditor.creditorPersonGuardianName? creditor.creditorPersonGuardianName: 'None', 
                         guardianResidentialAddress: creditor.creditorPersonGuardianResidentialAddress,
                         guardianMailingAddress: guardianMailingAddress,
-                        guardianEmail: creditor.creditorPersonGuardianEmailAddress,
-                        guardianFax: creditor.creditorPersonGuardianFaxNumber
+                        guardianEmail: creditor.creditorPersonGuardianEmailAddress?creditor.creditorPersonGuardianEmailAddress: 'None',
+                        guardianFax: creditor.creditorPersonGuardianFaxNumber?creditor.creditorPersonGuardianFaxNumber: 'None' 
                     }
                     this.minorsList.push(minor)
                 }
@@ -344,16 +344,16 @@ export default class FormPgt extends Vue {
                         dob: creditor.creditorPersonIsCompetentNoDOB,
                         residentialAddress: creditor.creditorPersonIsCompetentNoResidentialAddress,
                         mailingAddress: mailingAddress,
-                        email: creditor.creditorPersonIsCompetentNoEmailAddress,
-                        fax: creditor.creditorPersonIsCompetentNoFaxNumber,
+                        email: creditor.creditorPersonIsCompetentNoEmailAddress?creditor.creditorPersonIsCompetentNoEmailAddress : 'None',
+                        fax: creditor.creditorPersonIsCompetentNoFaxNumber?creditor.creditorPersonIsCompetentNoFaxNumber : 'None',
                         
                         hasNominee: creditor.creditorPersonHasNominee == 'y',
                         nomineeName: creditor.creditorPersonHasNominee == 'y' && creditor.creditorPersonNomineeName? creditor.creditorPersonNomineeName : 'None',
                         nomineeFormal: creditor.creditorPersonNomineeFormal == 'y',
                         nomineeResidentialAddress: creditor.creditorPersonNomineeResidentialAddress,
                         nomineeMailingAddress: nomineeMailingAddress,
-                        nomineeEmail: creditor.creditorPersonNomineeEmailAddress,
-                        nomineeFax: creditor.creditorPersonNomineeFaxNumber
+                        nomineeEmail: creditor.creditorPersonNomineeEmailAddress?creditor.creditorPersonNomineeEmailAddress : 'None',
+                        nomineeFax: creditor.creditorPersonNomineeFaxNumber?creditor.creditorPersonNomineeFaxNumber : 'None'
                     }
                     this.incapablesList.push(incapable)
                 }

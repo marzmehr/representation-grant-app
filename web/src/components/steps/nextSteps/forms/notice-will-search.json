@@ -18,6 +18,18 @@
            ]
           },
           {
+            "type": "panel",
+            "name": "willSearchInstrPanel",
+            "elements": [
+            {
+                "type": "infotext",
+                "name": "willSearchTipsInstructions",
+                "title": "<b>Below are some tips on how to fill out the Application for Search of Wills Notice.</b>",
+                "titleLocation": "hidden"
+            }
+           ]
+          },
+          {
            "type": "panel",
            "name": "willSearchTipsPanel",
            "elements": [
