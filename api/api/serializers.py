@@ -35,7 +35,8 @@ class ApplicationListSerializer(serializers.ModelSerializer):
             "id",
             "app_type",
             "last_updated",
-            "last_filed"
+            "last_filed",
+            "deceased_name"
         ]
 
 

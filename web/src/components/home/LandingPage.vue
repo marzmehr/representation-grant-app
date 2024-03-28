@@ -77,6 +77,38 @@
             </b-col>
         </b-row>
 
+        <b-modal size="xl" v-model="openInfoModal" header-class="bg-primary text-white">
+            <template v-slot:modal-title>
+                <h1 class="mb-0">Pre-qualifying Information</h1>
+            </template>
+            <div class="m-3">
+                This service has only been developed for situations where:
+                <ul class="mt-3">    
+                    <li>Only a single person is applying for the Representation Grant.</li>
+                    <li>You are one of the following:</li>
+                    <ul>
+                        <li>a <b>spouse</b> of the deceased,</li>
+                        <li>a child of the deceased,</li>
+                        <li>someone who the deceased owed more than $10,000, or</li>
+                        <li>you can also be a <b>legal guardian, nominee</b> or <b>personal representative</b> for someone listed above.</li>
+                    </ul>
+                    <li>Even if you are one of the people listed above, this service can <b>NOT</b> help you if one of the deceased’s children has died before them and that child has children of their own.</li>
+                </ul>
+                <b>Note:</b> If there is no surviving spouse, descendant or creditor identified, other than yourself, at this time, this service cannot help you apply for a Representation Grant. For more information on who may need to be notified, refer to <a href="https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/168_2009_03_1#subrule_d1e33580" target="_blank" >Supreme Court Civil Rule 25-2(2)</a>
+            </div>
+            <template v-slot:modal-footer>
+                <b-button variant="secondary" @click="openInfoModal = false">Close</b-button>
+                <b-button variant="primary" @click="confirmLogin()">Continue</b-button>
+            </template>
+            <template v-slot:modal-header-close>
+                <b-button
+                    variant="primary"
+                    class="closeButton"
+                    @click="openInfoModal = false">&times;
+                </b-button>
+            </template>
+        </b-modal>
+
     </b-card>
 </template>
 
@@ -93,15 +125,16 @@ import Tooltip from "@/components/survey/Tooltip.vue"
 export default class LandingPage extends Vue {
     
     isLoggedIn= false;
-    pageReady = false;   
+    pageReady = false;
+    openInfoModal = false;
       
     async mounted() {
         this.pageReady = false;
-       
+        this.openInfoModal = false;
         await SessionManager.getUserInfo(this.$store);
         if(this.$store.state.Common.userId !== ""){
             this.isLoggedIn = true;
-            this.navigate("returning");
+            this.confirmLogin();
             // this.determineUserType();
             
         }else{
@@ -113,10 +146,15 @@ export default class LandingPage extends Vue {
     public navigate(userType) {
         
         if (userType === "new") {
-              this.$router.push({ name: "pre-qualification" });
+            this.$router.push({ name: "pre-qualification" });
         } else if (userType === "returning") {
-              this.$router.push({ name: "applicant-status" });
+            this.openInfoModal = true  
         }  
+    }
+
+    public confirmLogin(){
+        this.openInfoModal = false;
+        this.$router.push({ name: "applicant-status" });
     }
     
     public determineUserType () {
@@ -124,7 +162,7 @@ export default class LandingPage extends Vue {
         this.$http.get('/app-list/')
         .then((response) => {
             if(response.data.length>0) {
-                this.navigate("returning");
+                this.confirmLogin();
             }else{
                 this.navigate("new");
             }        
@@ -214,6 +252,16 @@ export default class LandingPage extends Vue {
         p {
             margin: 0 0 0 0;
         }
+    }
+
+    .closeButton {
+        background-color: transparent !important;
+        color: white;
+        border: white;
+        font-weight: 700;
+        font-size: 2rem;
+        padding-top: 0;
+        margin-top: 0;
     }
 
 </style>

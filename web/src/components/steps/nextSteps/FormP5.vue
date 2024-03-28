@@ -38,9 +38,6 @@ export default class FormP5 extends Vue {
     public stPgNo!: stepsAndPagesNumberInfoType;
 
     @applicationState.State
-    public currentStep!: number;
-
-    @applicationState.State
     public deceasedName!: string;
 
     @applicationState.State
@@ -55,6 +52,7 @@ export default class FormP5 extends Vue {
     survey = new SurveyVue.Model(surveyJson);
     disableNextButton = false;   
     currentPage=0;
+    currentStep=0;
 
     beforeCreate() {
         const Survey = SurveyVue;
@@ -89,7 +87,7 @@ export default class FormP5 extends Vue {
             this.survey.data = this.step.result.formP5Survey.data;
         }        
         
-        // this.currentStep = this.$store.state.Application.currentStep;
+        this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
         const applicantInfo = this.steps[this.stPgNo.APPLICANT._StepNo].result?.applicantInfoSurvey?.data

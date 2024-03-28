@@ -64,8 +64,8 @@
                                 <span class="fa fa-paper-plane btn-icon-left text-info"/>                    
                             </b-button>
                         </template>
-                        <template v-slot:cell(app_type)="row">                  
-                            <span>{{row.item.app_type}}</span>
+                        <template v-slot:cell(deceased_name)="row">                  
+                            <span>{{row.value | getFullName}} </span>
                         </template>
                         <template v-slot:cell(lastUpdated)="row">                  
                             <span>{{ row.item.lastUpdatedDate | beautify-date-weekday}}</span>
@@ -176,7 +176,7 @@ export default class ApplicationStatus extends Vue {
 
     previousApplications = []
     previousApplicationFields = [
-        { key: 'app_type',    label: 'Application Type', sortable:true,  tdClass: 'border-top', thStyle:'font-size:11pt; width:20%;'},
+        { key: 'deceased_name',label: 'Application',     sortable:true,  tdClass: 'border-top', thStyle:'font-size:11pt; width:20%;'},
         { key: 'lastUpdated', label: 'Last Updated',     sortable:true,  tdClass: 'border-top', thStyle:'font-size:11pt; width:20%;'},
         { key: 'lastFiled',   label: 'Last Filed',       sortable:true,  tdClass: 'border-top', thStyle:'font-size:11pt; width:20%;'},
         { key: 'status',      label: 'Status',           sortable:true,  tdClass: 'border-top', thStyle:'font-size:10pt; width:15%;'},
@@ -232,13 +232,14 @@ export default class ApplicationStatus extends Vue {
         this.$http.get('/app-list/')
         .then((response) => {
             for (const appJson of response.data) {
-                const app = {lastUpdated:0, lastUpdatedDate:'', id:0, app_type:'', lastFiled:0, lastFiledDate:''};
+                const app = {deceased_name: '', lastUpdated:0, lastUpdatedDate:'', id:0, app_type:'', lastFiled:0, lastFiledDate:''};
                 app.lastUpdated = appJson.last_updated?moment(appJson.last_updated).tz("America/Vancouver").diff('2000-01-01','minutes'):0;
                 app.lastUpdatedDate = appJson.last_updated?moment(appJson.last_updated).tz("America/Vancouver").format():'';                
                 app.lastFiled = appJson.last_filed?moment(appJson.last_filed).tz("America/Vancouver").diff('2000-01-01','minutes'):0;
                 app.lastFiledDate = appJson.last_filed?moment(appJson.last_filed).tz("America/Vancouver").format():'';                
                 app.id = appJson.id;
                 app.app_type = appJson.app_type;
+                app.deceased_name = appJson.deceased_name;
                 this.previousApplications.push(app);
             }
 

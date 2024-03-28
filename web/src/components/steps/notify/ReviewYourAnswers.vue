@@ -117,7 +117,7 @@ export default class ReviewYourAnswers extends Vue {
     nextPageChange(newVal) 
     {        
         togglePages([this.stPgNo.NOTIFY.TellPeople], !this.pageHasError, this.currentStep);
-        togglePages([this.stPgNo.NOTIFY.PreviewP1], (!this.pageHasError && (this.listOfNotifyingPeople.length>0 || this.isFirstNation)), this.currentStep);
+        togglePages([this.stPgNo.NOTIFY.PreviewP1], (!this.pageHasError && (this.listOfNotifyingPeople.length>0 || this.minorAndIncapableInfo?.hasMinorOrIncapable || this.isFirstNation)), this.currentStep);
         togglePages([this.stPgNo.NOTIFY.PreviewPGT], (!this.pageHasError && this.minorAndIncapableInfo?.hasMinorOrIncapable) , this.currentStep);
 
         if(this.pageHasError){
@@ -130,7 +130,7 @@ export default class ReviewYourAnswers extends Vue {
         }else{
         
             togglePages([this.stPgNo.NOTIFY.NotifyPeople, this.stPgNo.NOTIFY.PreviewP9], (this.listOfNotifyingPeople.length>0 || this.isFirstNation || this.minorAndIncapableInfo?.hasMinorOrIncapable), this.currentStep)
-            if(this.listOfNotifyingPeople?.length==0 && !this.isFirstNation && !(this.minorAndIncapableInfo?.hasMinorOrIncapable)){
+            if(this.listOfNotifyingPeople?.length==0 && !this.isFirstNation){
                 toggleStep([this.stPgNo.NEXT._StepNo],true);
                 //togglePages([this.stPgNo.NEXT.FormP5], false, this.stPgNo.NEXT._StepNo);
             }

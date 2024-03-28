@@ -27,11 +27,19 @@
              "name": "p5DownloadExplanation",
              "title": "<a href=\"https://www2.gov.bc.ca/assets/gov/law-crime-and-justice/courthouse-services/court-files-records/court-forms/probate/p5.pdf?forcedownload=true\">Click here to download a blank \"Form P5 - Affidavit of Applicant for Grant of Administration Without Will Annexed\"</a> (This link will download a PDF to your computer)<br><br>To open the PDF, you may need Adobe Reader (free to download) or other similar software. <br><br><a href=\"https://get.adobe.com/reader/\" target=\"_blank\">Click here to down Adobe Reader for free.</a> (This link opens in a new tab)",
              "titleLocation": "hidden"
-            },
+            }
+           ],
+           "visible": false,
+           "visibleIf": "{p5IntroExplanation} > 0"
+          },
+          {
+            "type": "panel",
+            "name": "p5InstrPanel",
+            "elements": [
             {
                 "type": "infotext",
                 "name": "p5IntroInstructions",
-                "title": "Below are some tips on how to fill out the Form P5 based on the information you've already provided.",
+                "title": "<b>Below are some tips on how to fill out the Form P5 based on the information you've already provided.</b>",
                 "titleLocation": "hidden"
             }
            ],

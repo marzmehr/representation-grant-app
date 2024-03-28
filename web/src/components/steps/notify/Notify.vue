@@ -39,9 +39,6 @@ export default class Notify extends Vue {
     public steps!: stepInfoType[];
 
     @applicationState.State
-    public currentStep!: number;
-
-    @applicationState.State
     public deceasedName!: string;
 
     @applicationState.State
@@ -57,6 +54,7 @@ export default class Notify extends Vue {
     surveyJsonCopy; 
     disableNextButton = false;   
     currentPage=0;
+    currentStep=0;
     // relatedPeopleInfo: string[]=[];
     listOfNotifyingPeople: string[]=[];
 
@@ -119,6 +117,7 @@ export default class Notify extends Vue {
             this.survey.data = this.step.result.notifyPeopleSurvey.data;
         } 
         
+        this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;        
         
         const firstNationsName = this.getFirstNationName()

@@ -49,7 +49,7 @@ const router = new VueRouter({
     }
 });
 
-// Redirect to /family-law-act/
+// Redirect to /BASE_URL
 history.pushState({page: "home"}, "", process.env.BASE_URL)
 
 SessionManager.redirectIfQuickExitCookie();

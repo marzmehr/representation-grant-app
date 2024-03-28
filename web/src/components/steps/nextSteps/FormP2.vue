@@ -1,6 +1,7 @@
 <template>
     <page-base v-on:onPrev="onPrev()" v-on:onNext="onNext()">
         <survey v-bind:survey="survey"></survey>
+        <b-button class="float-right" size="lg" @click="viewStatus()" variant="primary">Application complete <br> Return to Previous Applications</b-button>
     </page-base>
 </template>
 
@@ -38,9 +39,6 @@ export default class FormP2 extends Vue {
     public stPgNo!: stepsAndPagesNumberInfoType;
     
     @applicationState.State
-    public currentStep!: number;
-
-    @applicationState.State
     public deceasedName!: string;
 
     @applicationState.State
@@ -57,6 +55,7 @@ export default class FormP2 extends Vue {
     survey = new SurveyVue.Model(surveyJson);
     disableNextButton = false;   
     currentPage=0;
+    currentStep=0;
 
     beforeCreate() {
         const Survey = SurveyVue;
@@ -83,7 +82,7 @@ export default class FormP2 extends Vue {
             this.survey.data = this.step.result.formP2Survey.data;
         }        
         
-        // this.currentStep = this.$store.state.Application.currentStep;
+        this.currentStep = this.$store.state.Application.currentStep;
         this.currentPage = this.$store.state.Application.steps[this.currentStep].currentPage;
         Vue.filter('setSurveyProgress')(this.survey, this.currentStep, this.currentPage, 50, false);
  
@@ -171,6 +170,11 @@ export default class FormP2 extends Vue {
         if(!this.survey.isCurrentPageHasErrors) {
             Vue.prototype.$UpdateGotoNextStepPage()
         }
+    } 
+    
+    public viewStatus() {
+        if(this.$route.name != "applicant-status")
+            this.$router.push({ name: "applicant-status" });
     }
 
     beforeDestroy() {
