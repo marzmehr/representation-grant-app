@@ -1,11 +1,10 @@
-# Family-Protection-Order
-Family Law Act Form
+# Representation Grant 
+Representation Grant Application
 
 ## Structure
 
 ## Dev environment
-Currently it needs npm 5.8, node 9.4, e2s installed. 
-running on Docker is recommended
+Currently it requires: Npm 6.14.14, Node 12, Python 3.8/3.9/3.10. Running on Docker is recommended.
 
 ### Client Application (web)
 An AngularJS client application which serves out the SurveyJS based questionnaire.
@@ -13,18 +12,19 @@ An AngularJS client application which serves out the SurveyJS based questionnair
 ###	REST API (api)
 A Django based REST API which provides the heavy lifting.  The API includes a Swagger interface containing API documentation and UI that allows you to interact with the various APIs manually.
 
+#### Important commands for the api folder (May require environment variables set, check settings.py):
+`python manage.py migrate`
+`python manage.py makemigrations`
+`python manage.py runserver 8081`
+
+#### Required Environment Variable keys (check settings.py):
+`DATABASE_SERVICE_NAME, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_ENGINE, DB_SERVICE_HOST, DB_SERVICE_PORT`
+
 ### PDF Microservice (pdf)
 An html to PDF microservice used to generate reports.
 
 ###	Database (db)
 A PostgreSQL database for storage, complete with a SchemaSpy instance for documentation.
-
-## Development Instances
-
-Development instances of the application can be found here;
-* Client Application - https://583dbf-dev.apps.silver.devops.gov.bc.ca/
-* REST API - https://django-583dbf-dev.apps.silver.devops.gov.bc.ca/api/v1/
-* SchemaSpy Database Documentation - http://schema-spy-schema-spy-583dbf-dev.apps.silver.devops.gov.bc.ca/
 
 ## Running on OpenShift
 
